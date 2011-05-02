@@ -1,0 +1,31 @@
+@charset "UTF-8";
+#tree_admin {
+	width: 100%;
+}
+#tree_admin div{
+	float: left;
+	width: 400px;
+}
+div#tree_control label.input{
+	width: 20%;
+	float: left;
+	text-align: right;
+	display: block;
+}
+div#tree_control input.input{
+	width: 75%;
+}
+#tree_view p{
+	margin: 0px ;
+	padding: 2px;
+}
+.even{
+	background-color: Cornsilk ;
+}
+.odd{
+	background-color: Gainsboro;
+}
+.hide{
+
+    visibility: hidden;
+}

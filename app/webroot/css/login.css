@@ -1,0 +1,28 @@
+/* 
+    Document   : forgot
+    Created on : Feb 28, 2011, 10:04:08 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/*form#forgot, form#login {*/
+form.float_form {
+   margin: 50px 100px;
+   width: 50%;
+}
+
+/*form#forgot h1, form#login h1 {*/
+form.float_form h1{
+    font-size: 24px;
+}
+
+/*form#forgot p, form#login p {*/
+form.float_form p{
+    padding: 0px 0px 10px 0px;
+}

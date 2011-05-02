@@ -1,0 +1,63 @@
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+var beruitclamshell_jpg_data = jQuery.parseJSON(
+{
+    "FILE":{
+        "FileName":"beruitclamshell.jpg",
+        "FileDateTime":1303267851,
+        "FileSize":453075,
+        "FileType":2,
+        "MimeType":"image\/jpeg",
+        "SectionsFound":"ANY_TAG, IFD0, THUMBNAIL, EXIF"
+    },
+    "COMPUTED":{
+        "html":"width=\"2935\" height=\"1977\"",
+        "Height":1977,
+        "Width":2935,
+        "IsColor":1,
+        "ByteOrderMotorola":0,
+        "ApertureFNumber":"f\/7.1",
+        "Thumbnail.FileType":2,
+        "Thumbnail.MimeType":"image\/jpeg"
+    },
+    "IFD0":{
+        "Make":"Canon",
+        "Model":"Canon PowerShot G6",
+        "Orientation":1,
+        "XResolution":"2400000\/10000",
+        "YResolution":"2400000\/10000",
+        "ResolutionUnit":2,
+        "Software":"Adobe Photoshop CS4 Macintosh",
+        "DateTime":"2009:09:16 22:28:12",
+        "Exif_IFD_Pointer":216
+    },
+    "THUMBNAIL":{
+        "Compression":6,
+        "XResolution":"72\/1",
+        "YResolution":"72\/1",
+        "ResolutionUnit":2,
+        "JPEGInterchangeFormat":618,
+        "JPEGInterchangeFormatLength":2451
+    },
+    "EXIF":{
+        "DateTimeOriginal":"2009:09:13 10:00:30",
+        "ExposureTime":"1\/20",
+        "FNumber":"71\/10",
+        "ExposureProgram":1,
+        "ISOSpeedRatings":50,
+        "ExifVersion":"0221",
+        "DateTimeDigitized":"2009:09:13 10:00:30",
+        "ShutterSpeedValue":"4321928\/1000000",
+        "ApertureValue":"5655638\/1000000",
+        "ExposureBiasValue":"0\/1",
+        "MaxApertureValue":"259375\/100000",
+        "MeteringMode":2,"Flash":0,
+        "FocalLength":"158\/10",
+        "ColorSpace":65535,
+        "ExifImageWidth":2935,
+        "ExifImageLength":1977
+    }
+});

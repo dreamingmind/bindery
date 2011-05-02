@@ -1,0 +1,110 @@
+<?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
+class ArosController extends AppController {
+
+	var $name = 'Aros';
+        
+        var $components = array(
+            'TreeCrud' => array(
+                'displayField' => 'Aro.alias'
+                )
+            );
+        var $helpers = array(
+            'TreeCrud'
+        );
+
+//    function beforeFilter() {
+//        parent::beforeFilter();
+//        $this->{$this->modelClass}->virtualFields = array ('indexed_name' => 'CONCAT(Aro.id, ": ", Aro.alias)');
+//        debug($this->{$this->modelClass}->_schema);
+//        //$modelObj->virtualFields = array ('name' => "CONCAT($modelObj->primaryKey, \": \", $modelObj->displayField)");
+//        //$this->Aro->virtualFields = array ('indexed_name' => 'CONCAT(Aro.id, ": ", Aro.alias)');
+//    }
+
+        function index() {
+		$this->Aro->recursive = 0;
+		$this->set('aros', $this->paginate());
+	}
+
+	function view($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'aro'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->set('aro', $this->Aro->read(null, $id));
+	}
+
+	function add() {
+		if (!empty($this->data)) {
+			$this->Aro->create();
+			if ($this->Aro->save($this->data)) {
+				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'aro'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'aro'));
+			}
+		}
+		//$parentAros = $this->Aro->ParentAro->find('list');
+		$acos = $this->Aro->Aco->find('list');
+		//$this->set(compact('parentAros', 'acos'));
+		$this->set('acos');
+	}
+
+	function edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'aro'));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->Aro->save($this->data)) {
+				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'aro'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'aro'));
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->Aro->read(null, $id);
+		}
+		//$parentAros = $this->Aro->ParentAro->find('list');
+		$acos = $this->Aro->Aco->find('list');
+		//$this->set(compact('parentAros', 'acos'));
+		$this->set('acos');
+	}
+
+	function delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(sprintf(__('Invalid id for %s', true), 'aro'));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->Aro->delete($id)) {
+			$this->Session->setFlash(sprintf(__('%s deleted', true), 'Aro'));
+			$this->redirect(array('action'=>'index'));
+		}
+		$this->Session->setFlash(sprintf(__('%s was not deleted', true), 'Aro'));
+		$this->redirect(array('action' => 'index'));
+	}
+
+            /**
+             * 
+             */
+	function manage_tree($id=null) {
+
+                $this->TreeCrud->tree_crud();
+        }
+
+        function fix() {
+            $this->Aro->recover('tree');
+            $this->redirect(array('controller'=>'aros', 'action'=>'manage_tree'));
+        }
+
+
+}
+?>

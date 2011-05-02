@@ -1,0 +1,91 @@
+<?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.helper
+ */
+/* /app/views/helpers/gal_nav.php */
+class GalNavHelper extends HtmlHelper {
+
+    var $helpers = array('Paginator');
+
+	function pictureListItem() {
+	//<li%s><p><span class='number'>%s</span><a href='%s'><br/><img src='%s' title='Example%s' alt='Example %s' /></a></p></li>\n
+            echo String::insert(
+                "<li :liClass><p><span class='number'>:number</span><a href=:url><br/><img src=:imgUrl title='Example:number' alt=:alt /></a></p></li>\n", 
+                array(
+                    'liClass' => '', 
+                    'number' => $count, 
+                    'url' => array('id'=>$record['Dispatch']['id']),
+                    'imgUrl' => DS.'bindery'.DS.'img'.DS.'exhibits'.DS.'thumb'.DS.'x75y56'.DS.$record['Dispatch']['image'],
+                    'alt' => $record['Dispatch']['alt']
+                )
+            );
+        }
+
+    /**
+     * Create and return the gallery thumbnail page
+     *
+     * Makes an UL list of numbered thumbnail images that link to specific gallery pages
+     * The numbers are so I can have direct discussion with customers on the phone
+     * "go to Journals, then to page 2, then click item 12"
+     * 
+     * @param array $productExhibits Records for the current page of gallery thumbnails
+     * @return string HTML of current gallery thumbnail page in a DIV
+     */
+    function productGalleryThumbnails($productExhibits) {
+        $page = $this->Paginator->counter('%page%');
+        $c = $this->Paginator->counter('%start%');
+        $controller = explode(DS, $this->params['url']['url']);
+        $product = (isset($this->params['pname']) && $this->params['pname'] != null) ? $this->params['pname'] . DS : null;
+        $block = "";
+        $cumm = '';
+
+        $block = "<div class='gaWrapper'>
+            <div class='galNav'>
+              <ul>";
+              //debug(IMAGES);
+
+    foreach($productExhibits as $record) {
+        $cumm .= String::insert(
+            "<li :liClass><p><span class='number'>:number</span><a href=:url><br/><img src=:imgUrl title=':heading' alt=:alt /></a></p></li>\n",
+            //"<li :liClass><p><span class='number'>:number</span><a href=:url><img src=:imgUrl title=':heading' alt=:alt /></a></p></li>\n",
+            array(
+                'liClass' => '',
+                'number' => $c++,
+                'url' => DS.'bindery'.DS.$controller['0'].DS.$product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
+                'imgUrl' => DS.'bindery'.DS.'img'.DS.'exhibits'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
+                'alt' => $record['Exhibit']['alt'],
+                'heading' => $record['Exhibit']['heading']
+            )
+        );
+    }
+    $block .= $cumm . "</ul>\n\t\t</div> <!-- end of galNav -->\n\t</div> <!-- end of galWrapper -->";
+
+    return $block;
+    }
+
+    /**
+     * Produce and return the set of prev/page/next links for Product pages
+     *
+     * This does some housekeeping on the URL before building the links
+     * because the action is completely hidden in the url and the
+     * native tools make wrong guesses about link construction
+     */
+    function productPageLinks() {
+        if (isset($this->params['pname'])) {
+            $this->Paginator->options['url'] = array('action'=>$this->params['pname']);
+            $controls = "{$this->Paginator->prev('Previous')} | {$this->Paginator->numbers()} | {$this->Paginator->next()} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->";
+        } else {
+            $controls = str_replace('view/', '', "{$this->Paginator->prev('Previous')} | {$this->Paginator->numbers()} | {$this->Paginator->next()} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->");
+        }
+
+        return"<div id='pagenav'>
+            $controls
+            </div>";
+    }
+
+}
