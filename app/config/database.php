@@ -106,7 +106,7 @@ class DATABASE_CONFIG {
 		'port' => '/private/tmp/mysql.sock',
 		'login' => 'root',
 		'password' => 'Up?4worDs',
-		'database' => 'bindery',
+		'database' => 'test-bindery',
 		'prefix' => '',
 	);
 }
