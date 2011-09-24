@@ -3,6 +3,7 @@ App::import('Behavior', array('MeioUpload'));
 App::import('Core', array('File', 'Folder'));
 
 //debug(array_flip(get_included_files()));
+//http://amparchive.dreamingmind.com/help/index.php?title=DMCakeSite:Upload_Extension
 
  class UploadBehavior extends MeioUploadBehavior {
 
