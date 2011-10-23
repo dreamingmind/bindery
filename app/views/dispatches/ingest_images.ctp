@@ -1,4 +1,4 @@
-<?php debug($this->validationErrors); ?>
+<?php //debug($this->validationErrors); ?>
 <h2>Disallowed files</h2>
 <table>
     <?php

@@ -6,6 +6,7 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
 		echo $this->Form->input('route');
+		echo $this->Form->input('route_type');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

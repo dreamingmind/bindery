@@ -8,27 +8,32 @@
  * @subpackage    bindery.model
  */
 class Dispatch extends AppModel {
-	var $name = 'Dispatch';
-	var $hasAndBelongsToMany = array(
-		'Gallery' =>
-			array (
-				'className'=>'Gallery',
-				'joinTable'=>'dispatch_galleries',
-				'foreignKey'=>'dispatch_id',
-				'associationForeignKey'=>'gallery_id',
-				'unique'=>true,
-				'conditions'=>'',
-				'fields'=>'',
-				'order'=>'',
-				'limit'=>'',
-				'offset'=>'',
-//				'finderQuery'=>'SELECT d.id, d.image FROM dispatches AS d JOIN dispatch_galleries AS dg WHERE dg.gallery_id = '5' AND dg.dispatch_id = d.id',
-				'deletQuery'=>'',
-				'insertQuery'=>''
-			)
-	);
-        var $actsAs = array(
-    'Upload' => array(
+    var $name = 'Dispatch';
+    var $hasAndBelongsToMany = array(
+        'Gallery' => array (
+            'className'=>'Gallery',
+            'joinTable'=>'dispatch_galleries',
+            'foreignKey'=>'dispatch_id',
+            'associationForeignKey'=>'gallery_id',
+            'unique'=>true,
+            'conditions'=>'',
+            'fields'=>'',
+            'order'=>'',
+            'limit'=>'',
+            'offset'=>'',
+//		'finderQuery'=>'SELECT d.id, d.image FROM dispatches AS d JOIN dispatch_galleries AS dg WHERE dg.gallery_id = '5' AND dg.dispatch_id = d.id',
+            'deletQuery'=>'',
+            'insertQuery'=>''
+        )
+    );
+    var $hasOne = array(
+        'Image' => array(
+            'className'=>'Image',
+            'foreignKey'=>'id'
+        )
+    );
+    var $actsAs = array(
+        'Upload' => array(
             'img_file' => array(
                 'dir' => 'img/dispatches',
                 'create_directory' => false,
@@ -47,8 +52,6 @@ class Dispatch extends AppModel {
                     'x800y600' => array ('width' => 800, 'height' => 600),
                     'x1000y750' => array ('width' => 1000, 'height' => 750)
                 ),
-
-                //'default' => 'default.jpg'
             )
         )
     );

@@ -38,5 +38,12 @@
  */
 class AppModel extends Model {
     var $actsAs = Array('Containable');
+    
+    function __construct($id = false, $table = null, $ds = null) {
+        if ($_SERVER['HTTP_HOST'] != 'localhost' ) {
+            $this->useDbConfig = 'hosted';
+        }
+        parent::__construct($id, $table, $ds);
+    }
 }
 ?>

@@ -11,6 +11,7 @@
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('route');?></th>
+			<th><?php echo $this->Paginator->sort('route_type');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th class="actions"><?php __('Actions');?></th>
@@ -27,6 +28,7 @@
 		<td><?php echo $navline['Navline']['id']; ?>&nbsp;</td>
 		<td><?php echo $navline['Navline']['name']; ?>&nbsp;</td>
 		<td><?php echo $navline['Navline']['route']; ?>&nbsp;</td>
+		<td><?php echo $navline['Navline']['route_type']; ?>&nbsp;</td>
 		<td><?php echo $navline['Navline']['created']; ?>&nbsp;</td>
 		<td><?php echo $navline['Navline']['modified']; ?>&nbsp;</td>
 		<td class="actions">
