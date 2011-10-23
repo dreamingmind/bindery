@@ -48,5 +48,5 @@ class GroupTreeBehavior extends TreeBehavior {
 		//return $results;
 	}
 	
-}
+        }
 ?>

@@ -1,4 +1,4 @@
-<?php debug($params);?>
+<?php //debug($params);?>
 <div id="detail">
   <table cool width="523" height="236" border="0" cellpadding="0" cellspacing="0" gridx="16" showgridx usegridx gridy="16" showgridy usegridy>
     <tr height="235">

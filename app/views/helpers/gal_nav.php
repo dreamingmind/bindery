@@ -6,6 +6,8 @@
  * @link          http://dreamingmind.com
  * @package       bindery
  * @subpackage    bindery.helper
+ * 
+ * @property    HtmlHelper
  */
 /* /app/views/helpers/gal_nav.php */
 class GalNavHelper extends HtmlHelper {
@@ -48,21 +50,37 @@ class GalNavHelper extends HtmlHelper {
             <div class='galNav'>
               <ul>";
               //debug(IMAGES);
+        
+        foreach($productExhibits as $record) {
+            $l = $this->link(
+                $this->image(
+                    'exhibits'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
+                    array(
+                        'alt'=>$record['Exhibit']['alt'],
+                        'heading'=>$record['Exhibit']['heading']
+                    )),
+                $product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
+                array('escape'=> FALSE));
+            $liClass = '';
+            $number = $c++;
+            $cumm .= "<li $liClass><p><span class='number'>$number</span>$l</p></li>\n";
 
-    foreach($productExhibits as $record) {
-        $cumm .= String::insert(
-            "<li :liClass><p><span class='number'>:number</span><a href=:url><br/><img src=:imgUrl title=':heading' alt=:alt /></a></p></li>\n",
-            //"<li :liClass><p><span class='number'>:number</span><a href=:url><img src=:imgUrl title=':heading' alt=:alt /></a></p></li>\n",
-            array(
-                'liClass' => '',
-                'number' => $c++,
-                'url' => DS.'bindery'.DS.$controller['0'].DS.$product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
-                'imgUrl' => DS.'bindery'.DS.'img'.DS.'exhibits'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
-                'alt' => $record['Exhibit']['alt'],
-                'heading' => $record['Exhibit']['heading']
-            )
-        );
-    }
+        }
+
+//    foreach($productExhibits as $record) {
+//        $cumm .= String::insert(
+//            "<li :liClass><p><span class='number'>:number</span><a href=:url><br/><img src=:imgUrl title=':heading' alt=:alt /></a></p></li>\n",
+//            array(
+//                'liClass' => '',
+//                'number' => $c++,
+//                'url' => APP_PATH.DS.$controller['0'].DS.$product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
+//                'imgUrl' => APP_PATH.DS.'img'.DS.'exhibits'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
+//                'alt' => $record['Exhibit']['alt'],
+//                'heading' => $record['Exhibit']['heading']
+//            )//                //'url' => DS.'bindery'.DS.$controller['0'].DS.$product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
+
+//        );
+//    }
     $block .= $cumm . "</ul>\n\t\t</div> <!-- end of galNav -->\n\t</div> <!-- end of galWrapper -->";
 
     return $block;
@@ -78,11 +96,11 @@ class GalNavHelper extends HtmlHelper {
     function productPageLinks() {
         if (isset($this->params['pname'])) {
             $this->Paginator->options['url'] = array('action'=>$this->params['pname']);
-            $controls = "{$this->Paginator->prev('Previous')} | {$this->Paginator->numbers()} | {$this->Paginator->next()} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->";
+            $controls = "{$this->Paginator->prev('Previous', null, null, array('class'=>'disabled'))} | {$this->Paginator->numbers()} | {$this->Paginator->next('Next', null, null, array('class'=>'disabled'))} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->";
         } else {
-            $controls = str_replace('view/', '', "{$this->Paginator->prev('Previous')} | {$this->Paginator->numbers()} | {$this->Paginator->next()} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->");
+            $controls = str_replace('view/', '', "{$this->Paginator->prev('Previous', null, null, array('class'=>'disabled'))} | {$this->Paginator->numbers()} | {$this->Paginator->next('Next', null, null, array('class'=>'disabled'))} <!-- THUMBNAIL PAGE SET NAVIGATION LINKS? -->");
         }
-
+        
         return"<div id='pagenav'>
             $controls
             </div>";

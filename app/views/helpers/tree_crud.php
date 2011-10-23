@@ -12,6 +12,14 @@
  * @subpackage    bindery.helper
  */
 
+/**
+ * TreeCrudHelper creates the form components to edit trees
+ * 
+ * This builds up all the select drop down data
+ * and the various kinds of inputs that are needed
+ * the packages them in fieldset collections for each 
+ * tree editing function
+ */
 class TreeCrudHelper extends AppHelper {
     var $helpers = array('Html', 'Form', 'Session');
 
@@ -24,6 +32,8 @@ class TreeCrudHelper extends AppHelper {
 
 /**
  * Return a select input element for the tree_crud form
+ * 
+ * This is the generic select, drop-down generator
  *
  * @param string $label The input label to prompt the user
  * @param array $options modelName, fieldName and selectList to override defaults
@@ -38,6 +48,18 @@ class TreeCrudHelper extends AppHelper {
        ));
     }
 
+    /**
+     * Generate a drop-down select input of distinct node names
+     * 
+     * For situtuations when a new node name is an option
+     * this provides a list of existing names to choose from
+     * in case User wants to re-use a name
+     * 
+     * @param type $link
+     * @param type $list
+     * @param type $label
+     * @return string Html for a select input element 
+     */
     function distinct_select($link=null, $list='distinct', $label="Available names") {
         if ($link) {
             $model = $this->data['primaryModel'];

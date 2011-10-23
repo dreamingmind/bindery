@@ -88,16 +88,16 @@ class DATABASE_CONFIG {
 		'database' => 'bindery',
 		'prefix' => '',
 	);
-//	var $default = array(
-//		'driver' => 'mysql',
-//		'persistent' => false,
-//		'host' => 'bindery.e.dreamingmind.com',
+	var $hosted = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => 'bindery.e.dreamingmind.com',
 //		'port' => '/private/tmp/mysql.sock',
-//		'login' => 'dreamingmind',
-//		'password' => 'amphistory',
-//		'database' => 'bindery',
-//		'prefix' => '',
-//	);
+		'login' => 'dreamingmind',
+		'password' => 'amphistory',
+		'database' => 'bindery',
+		'prefix' => '',
+	);
 
 	var $test = array(
 		'driver' => 'mysql',

@@ -37,11 +37,12 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
-$staticPages = array(
+
+    $staticPages = array(
         'contact',
         'intern',
         'policies'
-);
+    );
 
 $staticList = implode('|', $staticPages);
 
