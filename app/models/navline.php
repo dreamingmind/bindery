@@ -9,7 +9,8 @@
  */
 class Navline extends AppModel {
 	var $name = 'Navline';
-        var $actsAs = array('Acl' => array('type' => 'controlled'));
+        //var $actsAs = array('Acl' => array('type' => 'controlled'));
+        //var $virtualFields = array('nameData' => "CONCAT(Navline.name, ' (', Navline.route_type, ')')");
 
 	var $validate = array(
 		'name' => array(
