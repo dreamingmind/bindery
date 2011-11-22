@@ -24,8 +24,8 @@
 /** General Style Info **/
 body {
 	/*background: #003d4c;
-	font-size:90%;*/
-	color: #fff;
+	font-size:90%;
+	color: #fff;*/
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	margin: 0;
 }
@@ -130,7 +130,7 @@ div.actions h3 {
 	padding-top:0;
 	color:#777;
 }
-div#accountTool, div#siteSearch {
+/*div#accountTool, div#siteSearch {
     margin: 5px 10px 10px 10px;
 }
 div#accountTool {
@@ -138,8 +138,8 @@ div#accountTool {
 }
 div#siteSearch {
     float: right;
-}
-div#headerTools {
+}*/
+/*div#headerTools {
     height: 35px;
     width: 350px;
     border-bottom-width: 2px;
@@ -150,10 +150,10 @@ div#headerTools {
 /** Container content details **/
     /** div#accountTool **/
     
-div#accountTool p, div#siteSearch {
+/*div#accountTool p, div#siteSearch {
     font-size: 85%;
     padding: 3px 0px;
-}
+}*/
 div#siteSearch label {
     display: inline;
 }
