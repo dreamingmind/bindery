@@ -119,7 +119,7 @@ class UsersController extends AppController {
 
     function logout() {
         if($this->Session->read('Message.flash.message') == null) {
-            $this->Session->setFlash('Good-Bye');
+            $this->Session->setFlash('You are logged out. Thanks for visiting.');
         }
         $this->redirect($this->Auth->logout());
     }
@@ -134,7 +134,7 @@ class UsersController extends AppController {
             $this->Auth->logoutRedirect=array('action'=>'forgot');
             $this->redirect(array('action'=>'logout'));
         }
-       $this->Auth->logoutRedirect(array('controller' => 'users', 'action'=>'login'));
+       $this->Auth->redirect(array('controller' => 'users', 'action'=>'login'));
        $mode = $this->params['pass'][0];
        $this->set('mode', $mode);
        if (!empty($this->data)) {
@@ -212,6 +212,7 @@ class UsersController extends AppController {
             if ($this->User->validates(array('fieldList' =>
                 array('username', 'email', 'eMatch', 'repeat_password', 'pMatch')))) {
                 //echo 'validate ok\n';
+               $this->User->validate = false; // validaton will fail the second time for some reason. Off then.
                if ($this->User->save()) {
                    $this->Auth->login($this->data);
                    $this->redirect('/');
@@ -307,38 +308,6 @@ class UsersController extends AppController {
 
         }
 
-        function show_aco() {
-            $aco =& $this->Acl->Aco;
-            $aco_data = $aco->find("all");
-            debug($aco_data);
-            $aro =& $this->Acl->Aro;
-            $aro_data = $aro->find('all');
-            debug($aro_data);
-            $ul = $this->User->find('list');
-            debug($ul);
-        }
-
-        function initDB() {
-	    $group =& $this->User->Group;
-	    //Allow admins to everything
-	    $group->id = 1;     
-	    $this->Acl->allow($group, 'controllers');
-
-	    //allow managers to posts and widgets
-	    $group->id = 2;
-	    $this->Acl->deny($group, 'controllers');
-	    $this->Acl->allow($group, 'controllers/Posts');
-	    $this->Acl->allow($group, 'controllers/Widgets');
-
-	    //allow users to only add and edit on posts and widgets
-	    $group->id = 3;
-	    $this->Acl->deny($group, 'controllers');        
-	    $this->Acl->allow($group, 'controllers/Posts/add');
-	    $this->Acl->allow($group, 'controllers/Posts/edit');        
-	    $this->Acl->allow($group, 'controllers/Widgets/add');
-	    $this->Acl->allow($group, 'controllers/Widgets/edit');
-	}
-/*	*/
 	
 }
 ?>

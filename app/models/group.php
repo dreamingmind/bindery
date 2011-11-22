@@ -14,7 +14,10 @@ class Group extends AppModel {
 	var $validate = array(
 		'name' => array('notempty')
 	);
-	var $actsAs = array('Acl' => array('type' => 'requester'));
+	var $actsAs = array(
+            'Acl' => array('type' => 'requester')//,
+//            'Acl' => array('type' => 'controlled')
+            );
 
 	function parentNode() {
 		return null;

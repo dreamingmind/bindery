@@ -77,7 +77,4 @@ Router::connect('/:static', array(
         Router::connect('/kandinsky',
                 array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
 
-        Router::connect('/admin',
-                array('controller' => 'pages', 'action' => 'display', 'admin'));
-
 ?>

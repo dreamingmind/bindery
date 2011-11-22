@@ -46,8 +46,7 @@ class AppController extends Controller {
                 ),
             'logoutRedirect' => array(
                 'plugin' => null,
-                'controller' => 'users',
-                'action' => 'login'
+                'controller' => '/'
                 ),
             'loginRedirect' => array(
                 'plugin' => null,
@@ -55,7 +54,7 @@ class AppController extends Controller {
                 ),
             'loginError' => "This message shows up when the wrong credentials are used",
             'authError' => "This error shows up with the user tries to access a part of the website that is protected.",
-            //'authorize' => 'controller',
+            'authorize' => 'controller',
             //'authorize' => 'actions',
             //'authorize' => 'crud',
             'allowedActions' => array('display')
@@ -100,7 +99,7 @@ class AppController extends Controller {
     /**
      * @var array map account 'group' values to thier group name
      */
-    var $groupnames = array('0' => 'Guest', '1'=>'administrators', '2'=>'managers', '3'=>'users' );
+    var $groupnames = array('0' => 'Guest', '1'=>'administrator', '2'=>'manager', '3'=>'user' );
 
     function beforeFilter() {
 
@@ -111,7 +110,7 @@ class AppController extends Controller {
         $this->splashContent = $this->pullSplash();
         
         //debug();
-
+        
     // Time to see if this user can see the requested page
     }
 

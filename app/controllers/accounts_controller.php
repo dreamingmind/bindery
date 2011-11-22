@@ -61,8 +61,6 @@ class AccountsController extends AppController {
             $this->User->contain('OptinUser.Optin.label');
             $this->data = $this->User->find('first', array('conditions'=>'User.id='.$this->Auth->user('id'), 'recursive'=>2));
             $this->data['User']['password'] = 'Encrypted for security';
-            $this->Acl->allow("{$this->usergroup}/{$this->username}::{$this->userid}",
-                    "UserRecord/{$this->username}::{$this->userid}",'*');           
 	}
 
         /**
