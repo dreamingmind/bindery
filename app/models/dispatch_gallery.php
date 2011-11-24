@@ -9,6 +9,5 @@
  */
 class DispatchGallery extends AppModel {
 	var $name = 'DispatchGallery';
-//	var $hasOne = array('Dispatch','Gallery');
 }
 ?>

@@ -1,34 +1,54 @@
-<div class="galleries view">
-<h2><?php  __('Gallery');?></h2>
+<div class="images view">
+<h2><?php  __('Image');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Img File'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['name']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Label'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['label']; ?>
+			<?php echo $image['Image']['img_file']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['id']; ?>
+			<?php echo $image['Image']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Height Val'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['created']; ?>
+			<?php echo $image['Image']['height_val']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Width Val'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $image['Image']['width_val']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['modified']; ?>
+			<?php echo $image['Image']['modified']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Description'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $gallery['Gallery']['description']; ?>
+			<?php echo $image['Image']['created']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Mimetype'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $image['Image']['mimetype']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Filesize'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $image['Image']['filesize']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Width'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $image['Image']['width']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Height'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $image['Image']['height']; ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -36,10 +56,10 @@
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Gallery', true), array('action' => 'edit', $gallery['Gallery']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Gallery', true), array('action' => 'delete', $gallery['Gallery']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $gallery['Gallery']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Galleries', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Gallery', true), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Image', true), array('action' => 'edit', $image['Image']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Delete Image', true), array('action' => 'delete', $image['Image']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $image['Image']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('List Images', true), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Image', true), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Dispatches', true), array('controller' => 'dispatches', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Dispatch', true), array('controller' => 'dispatches', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Exhibits', true), array('controller' => 'exhibits', 'action' => 'index')); ?> </li>
@@ -48,7 +68,7 @@
 </div>
 <div class="related">
 	<h3><?php __('Related Dispatches');?></h3>
-	<?php if (!empty($gallery['Dispatch'])):?>
+	<?php if (!empty($image['Dispatch'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
@@ -65,7 +85,7 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($gallery['Dispatch'] as $dispatch):
+		foreach ($image['Dispatch'] as $dispatch):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
@@ -100,7 +120,7 @@
 </div>
 <div class="related">
 	<h3><?php __('Related Exhibits');?></h3>
-	<?php if (!empty($gallery['Exhibit'])):?>
+	<?php if (!empty($image['Exhibit'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Img File'); ?></th>
@@ -126,7 +146,7 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($gallery['Exhibit'] as $exhibit):
+		foreach ($image['Exhibit'] as $exhibit):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';

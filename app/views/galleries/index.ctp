@@ -2,12 +2,12 @@
 	<h2><?php __('Galleries');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('label');?></th>
-			<th><?php echo $this->Paginator->sort('description');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
-			<th><?php echo $this->Paginator->sort('created');?><br />
-			<?php echo $this->Paginator->sort('modified');?></th>
+			<th><?php echo $this->Paginator->sort('label');?></th>
+			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th><?php echo $this->Paginator->sort('created');?></th>
+			<th><?php echo $this->Paginator->sort('modified');?></th>
+			<th><?php echo $this->Paginator->sort('description');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -19,12 +19,12 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $gallery['Gallery']['id']; ?>&nbsp;</td>
-		<td><?php echo $gallery['Gallery']['label']; ?>&nbsp;</td>
-		<td><?php echo $gallery['Gallery']['description']; ?>&nbsp;</td>
 		<td><?php echo $gallery['Gallery']['name']; ?>&nbsp;</td>
-                <td><?php echo date('n/j/y--g:i', strtotime($gallery['Gallery']['created'])); ?>&nbsp;<br />
-		<?php echo date('n/j/y--g:i', strtotime($gallery['Gallery']['modified'])); ?>&nbsp;</td>
+		<td><?php echo $gallery['Gallery']['label']; ?>&nbsp;</td>
+		<td><?php echo $gallery['Gallery']['id']; ?>&nbsp;</td>
+		<td><?php echo $gallery['Gallery']['created']; ?>&nbsp;</td>
+		<td><?php echo $gallery['Gallery']['modified']; ?>&nbsp;</td>
+		<td><?php echo $gallery['Gallery']['description']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $gallery['Gallery']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $gallery['Gallery']['id'])); ?>
@@ -51,7 +51,9 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Gallery', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Dispatches', true), array('controller' => 'dispatches', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Dispatch', true), array('controller' => 'dispatches', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Exhibits', true), array('controller' => 'exhibits', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Exhibit', true), array('controller' => 'exhibits', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
