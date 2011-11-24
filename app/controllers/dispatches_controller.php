@@ -9,8 +9,12 @@
  */
 class DispatchesController extends AppController {
 	var $name = 'Dispatches';
-	var $scaffold;
+//	var $scaffold;
 	var $uses = array('Dispatch', 'DispatchGallery', 'Gallery');
+        var $paginate = array(
+            'limit'=> 30,
+            'recursive'=>1
+        );
 /*	function beforeFilter () {
 		parent::beforeFilter();
 		$this->menus[] = array(
@@ -20,6 +24,75 @@ class DispatchesController extends AppController {
 	}
 */
         
+	function index() {
+		$this->Dispatch->recursive = 0;
+		$this->set('dispatches', $this->paginate());
+                //debug($this->Dispatch->find('all',array('recursive'=>1)));die;
+                //debug($this->viewVars['dispatches']);die;
+	}
+
+	function view($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid dispatch', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->set('dispatch', $this->Dispatch->read(null, $id));
+	}
+
+	function add() {
+		if (!empty($this->data)) {
+			$this->Dispatch->create();
+			if ($this->Dispatch->save($this->data)) {
+				$this->Session->setFlash(__('The dispatch has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The dispatch could not be saved. Please, try again.', true));
+			}
+		}
+		$galleries = $this->Dispatch->Gallery->find('list');
+		$this->set(compact('galleries'));
+                $images = $this->Dispatch->Image->find('list');
+                $this->set(compact('images'));
+                //debug($this->viewVars); die;
+	}
+
+	function edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid dispatch', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->Dispatch->save($this->data)) {
+				$this->Session->setFlash(__('The dispatch has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The dispatch could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->Dispatch->read(null, $id);
+		}
+		$galleries = $this->Dispatch->Gallery->find('list');
+		$this->set(compact('galleries'));
+                $images = $this->Dispatch->Image->find('list');
+                $this->set(compact('images'));
+                //debug($this->viewVars);die;
+                $this->set('neighbors',$this->Dispatch->find('neighbors', array('field' => 'id', 'value' =>  $id)));
+                //debug($neighbors);die;
+	}
+
+	function delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for dispatch', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->Dispatch->delete($id)) {
+			$this->Session->setFlash(__('Dispatch deleted', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		$this->Session->setFlash(__('Dispatch was not deleted', true));
+		$this->redirect(array('action' => 'index'));
+	}
     /**
      * Action:on_the_bench is the main visitor landing page for news feeds
      * 
