@@ -3,14 +3,17 @@
 	<fieldset>
  		<legend><?php __('Edit Image'); ?></legend>
 	<?php
-		echo $this->Form->input('img_file');
-		echo $this->Form->input('id');
-		echo $this->Form->input('height_val');
-		echo $this->Form->input('width_val');
-		echo $this->Form->input('mimetype');
-		echo $this->Form->input('filesize');
-		echo $this->Form->input('width');
-		echo $this->Form->input('height');
+            echo date('r', intval($this->data['Image']['picture_datetime']));
+            echo $this->data['Image']['picture_datetime'];
+            echo $this->Form->input('img_file');
+            echo $this->Form->input('id');
+            echo $this->Form->input('alt');
+            echo $this->Form->input('gallery');
+            echo $this->Form->input('picture_datetime');
+            echo $this->Form->input('mimetype');
+            echo $this->Form->input('filesize');
+            echo $this->Form->input('width');
+            echo $this->Form->input('height');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

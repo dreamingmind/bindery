@@ -11,14 +11,14 @@
 			<?php echo $image['Image']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Height Val'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Picture DateTime'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $image['Image']['height_val']; ?>
+			<?php echo $image['Image']['picture_datetime']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Width Val'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Gallery'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $image['Image']['width_val']; ?>
+			<?php echo $image['Image']['gallery']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>

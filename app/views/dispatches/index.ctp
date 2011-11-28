@@ -8,9 +8,8 @@
 			<th><?php echo $this->Paginator->sort('gallery');?></th>
 			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('alt');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('date');?></th>
+			<th><?php echo $this->Paginator->sort('image_id');?></th>
 			<th><?php echo $this->Paginator->sort('image_id');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
@@ -29,13 +28,12 @@
 		<td><?php echo $dispatch['Dispatch']['gallery']; ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['publish']; ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['alt']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['modified']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['created']; ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['date']; ?>&nbsp;</td>
+		<td><?php echo $this->Html->image('dispatches'.DS.'thumb'.DS.'x160y120'.DS.$dispatch['Image']['img_file']); ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['image_id']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $dispatch['Dispatch']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $dispatch['Dispatch']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $dispatch['Dispatch']['id'])); ?> <br />
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $dispatch['Dispatch']['id'])); ?> <br />
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $dispatch['Dispatch']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $dispatch['Dispatch']['id'])); ?>
 		</td>
 	</tr>

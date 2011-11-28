@@ -13,31 +13,31 @@ if(isset($this->data[0]['Dispatch'])){
 <fieldset id ="<?php echo $base; ?>">
 <div class="input textarea">
     <label for="news_text">News Text</label>
-    <textarea id="news_text" rows="6" cols="30" name="data[news_text][]"><?php echo $news_text ?></textarea>
+    <textarea id="news_text" rows="6" cols="30" name="data[Dispatch][news_text][]"><?php echo $news_text ?></textarea>
 </div>
 <div class="input text">
     <label for="alt">Alt</label>
-    <input id="alt" type="text" name="data[alt][]" value="<?php echo $alt ?>">
+    <input id="alt" type="text" name="data[Dispatch][alt][]" value="<?php echo $alt ?>" />
 </div>
 <div class="input textarea">
     <label for="publish">Publish</label>
-    <select id="publish" name="data[publish][]" value="<?php echo $publish ?>" selected=1>
+    <select id="publish" name="data[Dispatch][publish][]" value="<?php echo $publish ?>" selected=1>
         <option value="0">0</option>
         <option value="1">1</option>
     </select>
 </div>
 <div class="input hidden">
-    <input type="text" class="name" name="data[img_file][name][]" value="<?php echo $this->params['pass'][0] ?>">
-    <input type="text" class="type" name="data[img_file][type][]" value="">
-    <input type="text" class="tmp_name" name="data[img_file][tmp_name][]" value="<?php echo $img_file ?>">
-    <input type="text" class="error" name="data[img_file][error][]" value="0">
-    <input type="text" class="size" name="data[img_file][size][]" value="">
-    <input type="text" class="id" name="data[img_file][id][]" value="<?php echo $id ?>">
-    <input type="text" class="batch" name="data[img_file][batch][]" value=1>
-    <input type="text" class="image_created" name="data[img_file][image_created][]" value="">
-    <input type="text" class="height" name="data[img_file][height][]" value="">
-    <input type="text" class="width" name="data[img_file][width][]" value="">
-    <input type="text" class="html_size" name="data[img_file][html_size][]" value="">
+    <input type="text" class="name" name="data[Image][img_file][name][]" value="<?php echo $this->params['pass'][0] ?>" />
+    <input type="text" class="type" name="data[Image][img_file][type][]" value="">
+    <input type="text" class="tmp_name" name="data[Image][img_file][tmp_name][]" value="<?php echo $img_file ?>" />
+    <input type="text" class="error" name="data[Image][img_file][error][]" value="0" />
+    <input type="text" class="size" name="data[Image][img_file][size][]" value="" />
+    <input type="text" class="id" name="data[Image][id][]" value="<?php echo $id ?>" />
+    <input type="text" class="batch" name="data[Image][batch][]" value=1 />
+    <input type="text" class="image_created" name="data[Image][image_created][]" value="" />
+    <input type="text" class="height" name="data[Image][height][]" value="" />
+    <input type="text" class="width" name="data[Image][width][]" value="" />
+    <input type="text" class="html_size" name="data[Image][html_size][]" value="" />
 </div>
 </fieldset>
 <?php

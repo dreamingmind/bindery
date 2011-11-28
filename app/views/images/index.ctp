@@ -4,8 +4,9 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('img_file');?></th>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('height_val');?></th>
-			<th><?php echo $this->Paginator->sort('width_val');?></th>
+			<th><?php echo $this->Paginator->sort('picture_datetime');?></th>
+			<th><?php echo $this->Paginator->sort('gallery');?></th>
+			<th><?php echo $this->Paginator->sort('alt');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('mimetype');?></th>
@@ -25,8 +26,9 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $image['Image']['img_file']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['id']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['height_val']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['width_val']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['picture_datetime']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['gallery']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['alt']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['modified']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['created']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['mimetype']; ?>&nbsp;</td>
