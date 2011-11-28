@@ -3,15 +3,23 @@
 	<fieldset>
  		<legend><?php __('Add Image'); ?></legend>
 	<?php
-		echo $this->Form->input('img_file');
-		echo $this->Form->input('height_val');
-		echo $this->Form->input('width_val');
+		echo $this->Form->input('img_file',array('type' => 'file'));
+		echo $this->Form->input('alt');
+		echo $this->Form->input('picture_datetime');
 		echo $this->Form->input('mimetype');
 		echo $this->Form->input('filesize');
 		echo $this->Form->input('width');
 		echo $this->Form->input('height');
+                echo $this->Form->input('gallery', array(
+                    'type'=>'radio', 'value'=>'dispatches', 'options'=> array(
+                        'dispatches'=>'Dispatch', 'exhibits'=>'Exhibit' 
+                    )
+                ));
+		echo $this->Form->input('created');
+		echo $this->Form->input('modified');
 	?>
 	</fieldset>
+ 
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">

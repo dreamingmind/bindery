@@ -10,10 +10,11 @@
 class DispatchesController extends AppController {
 	var $name = 'Dispatches';
 //	var $scaffold;
-	var $uses = array('Dispatch', 'DispatchGallery', 'Gallery');
+	var $uses = array('Dispatch');
         var $paginate = array(
             'limit'=> 30,
-            'recursive'=>1
+            //'recursive'=>1,
+            'contain' => array ('Image.img_file', 'Image.id')
         );
 /*	function beforeFilter () {
 		parent::beforeFilter();
@@ -27,8 +28,10 @@ class DispatchesController extends AppController {
 	function index() {
 		$this->Dispatch->recursive = 0;
 		$this->set('dispatches', $this->paginate());
-                //debug($this->Dispatch->find('all',array('recursive'=>1)));die;
-                //debug($this->viewVars['dispatches']);die;
+//                $this->Dispatch->Image->actsAs['Upload']['img_file']['dir'] = 'img/exhibits';
+//                debug($this->Dispatch->Image->actsAs['Upload']['img_file']['dir']);
+//                debug($this->Dispatch->Image);die;
+//                debug($this->viewVars['dispatches']);die;
 	}
 
 	function view($id = null) {
@@ -347,6 +350,7 @@ class DispatchesController extends AppController {
                 $this->data = $this->Dispatch->find('all', array('conditions'=>array('Dispatch.img_file'=> $this->params['pass'][0])));
                 $this->render('new_image_record', 'ajax');
             } else {
+                debug($this->data); die;
                 $fields = array_keys($this->data);
                 $img_file = array_keys($this->data['img_file']);
                 $i =0;
@@ -367,10 +371,11 @@ class DispatchesController extends AppController {
                         }
                     }
                 }
-                //debug($data);die;
+                debug($data);die;
 //                foreach($data as $dispatch){
 //                    debug($dispatch); die;
-//                    $this->Dispatch->create();
+                    $this->Dispatch->create($data);
+//                    debug($this->Dispatch); die;
                     $this->Dispatch->saveAll($data['Dispatch']); //undefined variable 'data'
                     //$this->Session->setFlash('Save failed');
                     //debug($this->Dispatch->validationErrors);
@@ -390,4 +395,5 @@ class DispatchesController extends AppController {
             return Inflector::slug($string);
         }
 }
+
 ?>
