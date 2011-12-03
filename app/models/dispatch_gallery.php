@@ -9,5 +9,7 @@
  */
 class DispatchGallery extends AppModel {
 	var $name = 'DispatchGallery';
+        
+        var $belongsTo = array('Dispatch', 'Gallery');
 }
 ?>
