@@ -46,6 +46,10 @@
                     'name'=>"data[$count][Image][modified]",
                     'id' => "{$count}ImageImgModified",
                     'value'=>time()));
+		echo $this->Form->hidden('batch',array(
+                    'name'=>"data[$count][Image][batch]",
+                    'id' => "{$count}ImageImgBatch",
+                    'value'=>1));
 	?>
 	</fieldset>
  

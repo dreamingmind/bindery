@@ -39,6 +39,11 @@ class ImagesController extends AppController {
             }
         }
     }
+    
+    /**
+     * Create a layout to upload several images at once
+     * @param type $count 
+     */
     function multi_add($count=null) {
         if (!empty($this->data)) {
             //read exif data and set exif fields
@@ -46,9 +51,12 @@ class ImagesController extends AppController {
             $message = null;
             foreach ($this->data as $val) {
                 if (!$val['Image']['img_file']['name']==null) {
+                    // set the target directory
+                    //debug($val); die;
+                    $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/'.$val['Image']['gallery']);
                     $this->Image->create();
                     if ($this->Image->save($val)) {
-                        $message .= 'Saved ' . $this->Image->id . $val['Image']['img_file']['name'] . '. ';
+                        $message .= '<p>Saved ' . $this->Image->id . $val['Image']['img_file']['name'] . '.</p>';
                         $success && TRUE;
                     } else {
                         $message .= 'Failed ' . $val['Image']['img_file']['name'] . '. ';
