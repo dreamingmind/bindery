@@ -163,6 +163,9 @@ App::import('Core', array('File', 'Folder'));
 			if (!empty($options['thumbsizes']) && !empty($options['allowedExt']) && in_array($data[$model->alias][$fieldName]['type'], $this->_imageTypes)) {
                             copy($options['dir'].DS.'upload'.DS.$data[$model->alias][$fieldName]['name'], $saveAs);
                             $this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
+                            $data[$model->alias]['mimetype'] = $data[$model->alias][$fieldName]['type'];
+                            $data[$model->alias]['filesize'] = $data[$model->alias][$fieldName]['size'];
+                            $data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
 			}
 
 			// Update model data
