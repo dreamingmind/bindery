@@ -293,6 +293,19 @@ App::import('Core', array('File', 'Folder'));
 		return true;
 	}
         
+        /**
+         * Change the target directory for thumbnails
+         * I have both Exhibit->Image and Dispatch->Image,
+         * and I want the pictures for each to store in different directories
+         * but Image has this behavior and can only have one target
+         * The reaches in and changes the protected property
+         * 
+         * example: setImageDirectory('Image', 'img_file', 'img/dispatches');
+         *
+         * @param type $model The name of the model that needs this configuration tweak
+         * @param type $field The file name field for this model
+         * @param type $directory The desired storarg directory
+         */
         function setImageDirectory($model, $field, $directory) {
 //        debug($this->Behaviors->Upload->__fields[$this->name][$this->Behaviors->Upload->fieldname]['dir']);
         $this->__fields[$model][$field]['dir'] = $directory;

@@ -70,15 +70,5 @@ class Image extends AppModel {
         )
     );
 
-    /*
-     * Change the target directory for uploaded images
-     */
-    function setImageDirectory($directory) {
-//        debug($this->Behaviors->Upload->__fields[$this->name][$this->Behaviors->Upload->fieldname]['dir']);
-        $this->Behaviors->Upload->__fields[$this->name][$this->Behaviors->Upload->fieldname]['dir'] = $directory;
-        $this->actsAs['Upload']['img_file']['dir'] = $directory;
-        $this->Behaviors->Upload->options['dir'] = $directory;
-//        debug($this); die;
-    }
 }
 ?>
