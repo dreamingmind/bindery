@@ -3,13 +3,14 @@
 	<fieldset>
  		<legend><?php __('Edit Image'); ?></legend>
 	<?php
-            echo date('r', intval($this->data['Image']['picture_datetime']));
-            echo $this->data['Image']['picture_datetime'];
+            echo date('r', intval($this->data['Image']['date']));
+            echo $this->data['Image']['date'];
             echo $this->Form->input('img_file');
             echo $this->Form->input('id');
             echo $this->Form->input('alt');
-            echo $this->Form->input('gallery');
-            echo $this->Form->input('picture_datetime');
+            echo $this->Form->input('title');
+            echo $this->Form->input('category');
+            echo $this->Form->input('date');
             echo $this->Form->input('mimetype');
             echo $this->Form->input('filesize');
             echo $this->Form->input('width');

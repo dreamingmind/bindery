@@ -3,12 +3,12 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('img_file');?></th>
-			<th><?php echo $this->Paginator->sort('news_text');?></th>
-			<th><?php echo $this->Paginator->sort('gallery');?></th>
+			<th><?php //echo $this->Paginator->sort('img_file');?></th>
+			<th><?php echo $this->Paginator->sort('text');?></th>
+			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('alt');?></th>
-			<th><?php echo $this->Paginator->sort('date');?></th>
+			<th><?php //echo $this->Paginator->sort('date');?></th>
 			<th><?php echo $this->Paginator->sort('image_id');?></th>
 			<th><?php echo $this->Paginator->sort('image_id');?></th>
 			<th class="actions"><?php __('Actions');?></th>
@@ -23,12 +23,12 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $dispatch['Dispatch']['id']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['img_file']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['news_text']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['gallery']; ?>&nbsp;</td>
+		<td><?php //echo $dispatch['Dispatch']['img_file']; ?>&nbsp;</td>
+		<td><?php echo $dispatch['Dispatch']['text']; ?>&nbsp;</td>
+		<td><?php echo $dispatch['Dispatch']['title']; ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['publish']; ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['alt']; ?>&nbsp;</td>
-		<td><?php echo $dispatch['Dispatch']['date']; ?>&nbsp;</td>
+		<td><?php //echo $dispatch['Dispatch']['date']; ?>&nbsp;</td>
 		<td><?php echo $this->Html->image('dispatches'.DS.'thumb'.DS.'x160y120'.DS.$dispatch['Image']['img_file']); ?>&nbsp;</td>
 		<td><?php echo $dispatch['Dispatch']['image_id']; ?>&nbsp;</td>
 		<td class="actions">

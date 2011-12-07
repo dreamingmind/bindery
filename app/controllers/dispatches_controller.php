@@ -39,9 +39,23 @@ class DispatchesController extends AppController {
 			$this->Session->setFlash(__('Invalid dispatch', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('dispatch', $this->Dispatch->read(null, $id));
-	}
+                $this->set('neighbors',$this->Dispatch->find('neighbors', array(
+                    'field' => 'id', 'value' =>  $id)));
+		$this->set('dispatch', $this->Dispatch->read(null, $id, array(
+                    'contain'=> array(
+                        'Image',
+                        'DispatchGallery'=>array(
+                            'fields'=>array('dispatch_id','gallery_id'),
+                            'Gallery'=>array(
+                                'fields'=>array('id','role'))
+                        ))
+                )));
+        $this->set('galleryMemberships',$this->Dispatch->galleryMemebership($this->viewVars['dispatch']['Dispatch']['image_id'], TRUE));
+        
+        debug($this->viewVars);die;
 
+        }
+        
 	function add() {
 		if (!empty($this->data)) {
 			$this->Dispatch->create();
@@ -75,7 +89,7 @@ class DispatchesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Dispatch->read(null, $id);
 		}
-		$galleries = $this->Dispatch->Gallery->find('list');
+		$galleries = $this->Dispatch->DispatchGallery->Gallery->find('list');
 		$this->set(compact('galleries'));
                 $images = $this->Dispatch->Image->find('list');
                 $this->set(compact('images'));
@@ -134,24 +148,26 @@ class DispatchesController extends AppController {
          * Those will be made by HTMLHelper in the view and ajax-infused
          */
         function ingest_images() {
-            $this->Dispatch->ingest_images();
-//            debug($this->Dispatch->Behaviors->Upload->new); die;
+            $this->Dispatch->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/dispatches');
+            $this->Dispatch->Image->ingest_images();
+//            debug($this->Dispatch->Image->Behaviors->Upload); die;
             App::import('Helper','Html');
             $this->html = new HtmlHelper();
 
-            $dis_table = $this->assem_dis_table($this->Dispatch->Behaviors->Upload->disallowed);
+            $dis_table = $this->assem_dis_table($this->Dispatch->Image->Behaviors->Upload->disallowed);
             $dis_table = (!$dis_table) ? "" : $dis_table;
             $this->set("dis_table",$dis_table);
             
-            $dup_table = $this->assem_dup_table($this->Dispatch->Behaviors->Upload->dup);
+            $dup_table = $this->assem_dup_table($this->Dispatch->Image->Behaviors->Upload->dup);
             $dup_table = (!$dup_table) ? "" : $dup_table;
             $this->set('dup_table',$dup_table);
 
-            $new_table = $this->assem_new_table($this->Dispatch->Behaviors->Upload->new);
+            $new_table = $this->assem_new_table($this->Dispatch->Image->Behaviors->Upload->new);
             $new_table = (!$new_table) ? "" : $new_table;
             $this->set('new_table',$new_table);
+            //debug($this->Dispatch->Image);
         }
-
+        
         /**
          * Make an array to display as a table of new files
          * 
@@ -165,6 +181,7 @@ class DispatchesController extends AppController {
                 return false;
             }
             $exifAssignments = ""; // this will hold all the json assignments of exif data
+            $count = 0;
             foreach($new as $file){
                 $base = $this->js_safe($file->info['basename']);
                 //$exifAssignments .= (($exifAssignments==='')?'var exifData = ':',') . '{"' . $base . '":' . json_encode($file->exif) . '}'."\n";
@@ -178,6 +195,7 @@ class DispatchesController extends AppController {
                         'class'=>'newRecordButton',
                         'name' => $file->info['basename'],
                         'base' => $base,
+                        'number' => $count++
                     )) . '<br />' . "<div id = '$base' class='newRecordForm'></div>",
 
                     $this->html->link('Process '.$file->info['basename'],array('action'=>'process', $file->info['basename'])) . "<br />" .
@@ -285,7 +303,7 @@ class DispatchesController extends AppController {
             if (isset($this->data)){
                 if(!$this->data['Dispatch']['img_file']['error']){
                     $file = new File($this->data['Dispatch']['img_file']['tmp_name']);
-                    $file->copy(WWW_ROOT.'img'.DS.'uploads'.DS.'dispatches'.DS.$this->data['Dispatch']['img_file']['name'], true);
+                    $file->copy(IMAGE_URL.'dispatches'.DS.'upload'.DS.$this->data['Dispatch']['img_file']['name'], true);
                     $file->delete();
                     $this->Session->setFlash("Alternate file uploaded ({$this->data['Dispatch']['img_file']['name']}:{$this->data['Dispatch']['img_file']['tmp_name']})");
                     $this->redirect(array('action'=>'ingest_images/#'));
@@ -313,7 +331,7 @@ class DispatchesController extends AppController {
             if($this->params['pass'][0] == 'destination'){
                 $path = WWW_ROOT.'img'.DS.'dispatches'.DS.'native'.DS;
             } else {
-                $path = WWW_ROOT.'img'.DS.'uploads'.DS.'dispatches'.DS;
+                $path = WWW_ROOT.'img'.DS.'dispatches'.DS.'upload'.DS;
             }
             $file = new File($path.$this->params['pass'][1]);
             if($file->delete()){
@@ -332,61 +350,23 @@ class DispatchesController extends AppController {
          * Return of input form fragment via Ajax to allow data entry for a new image or save the data
          * 
          * If data is empty, return a form for the user to enter data
-         * Otherwise:
-         * Restructure the data so it can be saved.
-         * Multiple record requests come in as
-         *   [field_name1]
-         *       [record1 data]
-         *       [record2 data]
-         *   [field_name2]
-         *       [record1 data]
-         *       [record2 data]
-         * The loop turns this into a normal Cake data array
-         */
+                  */
         function new_image_record(){
+            $this->Dispatch->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/dispatches');
             if(!isset($this->data)){
                 $this->layout = '';
-                $this->set('path', WWW_ROOT.'img'.DS.'uploads'.DS.'dispatches'.DS);
-                $this->data = $this->Dispatch->find('all', array('conditions'=>array('Dispatch.img_file'=> $this->params['pass'][0])));
+                $this->set('path', IMAGES_URL.'dispatches'.DS.'upload'.DS);
+                $this->data = $this->Dispatch->find('all', array('conditions'=>array('Image.img_file'=> $this->params['pass'][0])));
                 $this->render('new_image_record', 'ajax');
             } else {
-                debug($this->data); die;
-                $fields = array_keys($this->data);
-                $img_file = array_keys($this->data['img_file']);
-                $i =0;
-                for($i; $i < count($this->data['news_text']); $i++) {
-                    foreach($fields as $field){
-                        if ($field === 'img_file'){
-                            $file = new File($this->data[$field]['tmp_name'][$i]);
-                            if ($file->copy("img/dispatches/native".DS.$file->name, true)) {
-                                $this->data[$field]['error'][$i]=0;
-                            } else {
-                                $this->data[$field]['error'][$i] = 1;
-                            }
-                            foreach($img_file as $sub_key){
-                                $data['Image'][$i]['img_file'][$sub_key] = $this->data[$field][$sub_key][$i];
-                            }
-                        } else {
-                        $data['Dispatch'][$i][$field] = $this->data[$field][$i];
-                        }
-                    }
-                }
-                debug($data);die;
-//                foreach($data as $dispatch){
-//                    debug($dispatch); die;
-                    $this->Dispatch->create($data);
+                    $this->Dispatch->Image->create($this->data);
 //                    debug($this->Dispatch); die;
-                    $this->Dispatch->saveAll($data['Dispatch']); //undefined variable 'data'
-                    //$this->Session->setFlash('Save failed');
-                    //debug($this->Dispatch->validationErrors);
-                //}
-//                $what = $this->Dispatch->save($data);
-//                if (!$what){
-//                    $this->Session->setFlash('Save failed');
-//                    debug($this->Dispatch->validationErrors);
-//                }
-//                debug($data);
-                $this->redirect(array('action'=>'ingest_images/#'));
+                    if ($this->Dispatch->Image->saveAll($this->data)) {
+                        $this->Session->setFlash('good');
+                    } else {
+                        $this->Session->setFlash('bad');//undefined variable 'data'
+                    }
+                $this->redirect(array('action'=>'ingest_images'));
             }
         }
 

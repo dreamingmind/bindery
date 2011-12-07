@@ -9,6 +9,18 @@
  */
 class DispatchGalleriesController extends AppController {
 	var $name = 'DispatchGalleries';
-	var $scaffold;
+	//var $scaffold;
+        
+        function add() {
+            if (!empty($this->data)) {
+//                debug($this->data); die;
+                if ($this->DispatchGallery->saveAll($this->data)) {
+                    $this->Session->setFlash('successful');
+                } else {
+                    $this->Session->setFlash('failure');
+                }
+            }
+        }
+        
 	}
 ?>

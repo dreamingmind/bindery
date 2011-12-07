@@ -53,6 +53,7 @@ function upload_alt() {
 function new_image_record() {
     var base = $(this).attr('base');
     var name = $(this).attr('name');
+    var number = $(this).attr('number');
 //    alert(exifData[base].FILE.FileName);
 //    alert(exifData[base].FILE.MimeType);
     var divid = '#'+base;
@@ -60,7 +61,7 @@ function new_image_record() {
     var pictarget = $(divid+'image');
     //indicator_show(base+'indicator');
     $.ajax({
-        url: '/bindery/dispatches/new_image_record/'+name,
+        url: '/bindery/dispatches/new_image_record/'+name+'/'+number,
         dataType: 'html',
         update: $(divid).html(),
         success: function(data,textStatus) {
@@ -76,7 +77,7 @@ function new_image_record() {
                 $('.width',$('#'+base)).val(exifData[base].COMPUTED.Width);
                 $('.html_size',$('#'+base)).val(exifData[base].COMPUTED.html);
 
-                pictarget.attr('src', '/bindery/img/uploads/dispatches/'+name);
+                pictarget.attr('src', '/bindery/img/dispatches/upload/'+name);
                 $(pictarget).show();
             } else {
                 $(divid).prev().prev().html('New record data');

@@ -64,5 +64,22 @@ class AppHelper extends Helper {
         //FormHelper::input('search', array('Label'=>'Search', 'size'=>'50px'));
         return $tool . "</div>";
     }
+    
+    function neighborRecords($model, $neighbors) {
+        //print_r($neighbors);        print_r($model);
+        $tools = '';
+        if(isset($neighbors['prev'][$model]['id'])) { 
+            $tools .= HtmlHelper::link(__('Previous',true), array($neighbors['prev']['Dispatch']['id'])); 
+        }
+        if (isset($neighbors['prev'][$model]['id']) && isset($neighbors['next']['Dispatch']['id'])) {
+            $tools .= '&nbsp;|&nbsp;';
+        }
+        if(isset($neighbors['next'][$model]['id'])) {
+            $tools .= HtmlHelper::link(__('Next',true), array($neighbors['next']['Dispatch']['id']));
+        }
+        $tools = ($tools == '') ? 'nothing' : $tools;
+        return $tools;
+    }
+    
 }
 ?>
