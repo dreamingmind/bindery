@@ -15,23 +15,25 @@ class Gallery extends AppModel {
 //	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+        var $hasMany = array('DispatchGallery');
+        
 	var $hasAndBelongsToMany = array(
-		'Dispatch' =>
-			array (
-				'className'=>'Dispatch',
-				'joinTable'=>'dispatch_galleries',
-				'foreignKey'=>'gallery_id',
-				'associationForeignKey'=>'dispatch_id',
-				'unique'=>true,
-				'conditions'=>'',
-				'fields'=>'',
-				'order'=>'',
-				'limit'=>'',
-				'offset'=>'',
-				'finderQuery'=>'',
-				'deletQuery'=>'',
-				'insertQuery'=>'',
-			),
+//		'Dispatch' =>
+//			array (
+//				'className'=>'Dispatch',
+//				'joinTable'=>'dispatch_galleries',
+//				'foreignKey'=>'gallery_id',
+//				'associationForeignKey'=>'dispatch_id',
+//				'unique'=>true,
+//				'conditions'=>'',
+//				'fields'=>'',
+//				'order'=>'',
+//				'limit'=>'',
+//				'offset'=>'',
+//				'finderQuery'=>'',
+//				'deletQuery'=>'',
+//				'insertQuery'=>'',
+//			),
                 'Exhibit' =>
 			array (
 				'className'=>'Exhibit',
@@ -49,7 +51,7 @@ class Gallery extends AppModel {
 				'insertQuery'=>'',
 			)
 	);
-        var $displayField = 'label';
+        var $displayField = 'role';
 
 }
 ?>

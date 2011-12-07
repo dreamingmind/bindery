@@ -1,40 +1,23 @@
 <div class="dispatches form">
 <?php echo $this->Form->create('Dispatch');?>
 <?php 
-if(isset($neighbors['prev']['Dispatch']['id'])) { 
-    echo $this->Html->link(__('Previous',true), array('conroller'=>'dispatches','action'=>'edit',$neighbors['prev']['Dispatch']['id'])); 
-}
-if (isset($neighbors['prev']['Dispatch']['id']) && isset($neighbors['next']['Dispatch']['id'])) {
-    echo '&nbsp;|&nbsp;';
-}
-if(isset($neighbors['next']['Dispatch']['id'])) {
-    echo $this->Html->link(__('Next',true), array('controller'=>'dispatches','action'=>'edit',$neighbors['next']['Dispatch']['id']));
-}
+    echo $html->neighborRecords($this->model, $neighbors);
 ?>
     <fieldset>
  		<legend><?php __('Edit Dispatch'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('img_file');
-		echo $this->Form->input('news_text');
-		echo $this->Form->input('gallery');
+		echo $this->Form->input('text');
+		//echo $this->Form->input('gallery');
 		echo $this->Form->input('publish');
 		echo $this->Form->input('alt');
-		echo $this->Form->input('date');
+		echo $this->Form->input('title');
 		echo $this->Form->input('image_id');
 		echo $this->Form->input('Gallery');
 	?>
 	</fieldset>
 <?php 
-if(isset($neighbors['prev']['Dispatch']['id'])) { 
-    echo $this->Html->link(__('Previous',true), array('conroller'=>'dispatches','action'=>'edit',$neighbors['prev']['Dispatch']['id'])); 
-}
-if (isset($neighbors['prev']['Dispatch']['id']) && isset($neighbors['next']['Dispatch']['id'])) {
-    echo '&nbsp;|&nbsp;';
-}
-if(isset($neighbors['next']['Dispatch']['id'])) {
-    echo $this->Html->link(__('Next',true), array('controller'=>'dispatches','action'=>'edit',$neighbors['next']['Dispatch']['id']));
-}
+    echo $html->neighborRecords($this->model, $neighbors);
     echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">

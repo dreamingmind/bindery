@@ -1,4 +1,5 @@
 <div class="dispatches view">
+    <?php echo $html->neighborRecords('Dispatch', $neighbors); ?>
 <h2><?php  __('Dispatch');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
@@ -6,19 +7,19 @@
 			<?php echo $dispatch['Dispatch']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Img File'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Heading'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $dispatch['Dispatch']['img_file']; ?>
+			<?php echo $dispatch['Dispatch']['heading']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('News Text'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Text'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $dispatch['Dispatch']['news_text']; ?>
+			<?php echo $dispatch['Dispatch']['text']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Gallery'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Title'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $dispatch['Dispatch']['gallery']; ?>
+			<?php echo $dispatch['Dispatch']['title']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Publish'); ?></dt>
@@ -41,17 +42,13 @@
 			<?php echo $dispatch['Dispatch']['created']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Date'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $dispatch['Dispatch']['date']; ?>
-			&nbsp;
-		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Image Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $dispatch['Dispatch']['image_id']; ?>
 			&nbsp;
 		</dd>
 	</dl>
+    <?php     echo $html->neighborRecords($this->model, $neighbors); ?>
 </div>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
@@ -78,14 +75,6 @@
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 	<?php echo $dispatch['Image']['id'];?>
 &nbsp;</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Height Val');?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-	<?php echo $dispatch['Image']['height_val'];?>
-&nbsp;</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Width Val');?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-	<?php echo $dispatch['Image']['width_val'];?>
-&nbsp;</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified');?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 	<?php echo $dispatch['Image']['modified'];?>
@@ -93,6 +82,10 @@
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created');?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 	<?php echo $dispatch['Image']['created'];?>
+&nbsp;</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Date');?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+	<?php echo $dispatch['Image']['date'];?>
 &nbsp;</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Mimetype');?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
@@ -120,15 +113,15 @@
 	</div>
 	<div class="related">
 	<h3><?php __('Related Galleries');?></h3>
-	<?php if (!empty($dispatch['Gallery'])):?>
+	<?php if (!empty($dispatch['DispatchGallery']['Gallery'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Name'); ?></th>
-		<th><?php __('Label'); ?></th>
+		<th><?php __('Role'); ?></th>
+		<th><?php __('Heading'); ?></th>
+		<th><?php __('Text'); ?></th>
 		<th><?php __('Id'); ?></th>
 		<th><?php __('Created'); ?></th>
 		<th><?php __('Modified'); ?></th>
-		<th><?php __('Description'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php

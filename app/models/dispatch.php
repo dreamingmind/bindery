@@ -9,29 +9,34 @@
  */
 class Dispatch extends AppModel {
     var $name = 'Dispatch';
-    var $hasAndBelongsToMany = array(
-        'Gallery' => array (
-            'className'=>'Gallery',
-            'joinTable'=>'dispatch_galleries',
-            'foreignKey'=>'dispatch_id',
-            'associationForeignKey'=>'gallery_id',
-            'unique'=>true,
-            'conditions'=>'',
-            'fields'=>'',
-            'order'=>'',
-            'limit'=>'',
-            'offset'=>'',
-//		'finderQuery'=>'SELECT d.id, d.image FROM dispatches AS d JOIN dispatch_galleries AS dg WHERE dg.gallery_id = '5' AND dg.dispatch_id = d.id',
-            'deletQuery'=>'',
-            'insertQuery'=>''
-        )
-    );
+    
+//    var $hasAndBelongsToMany = array(
+//        'Gallery' => array (
+//            'className'=>'Gallery',
+//            'joinTable'=>'dispatch_galleries',
+//            'foreignKey'=>'dispatch_id',
+//            'associationForeignKey'=>'gallery_id',
+//            'unique'=>true,
+//            'conditions'=>'',
+//            'fields'=>'',
+//            'order'=>'',
+//            'limit'=>'',
+//            'offset'=>'',
+////		'finderQuery'=>'SELECT d.id, d.image FROM dispatches AS d JOIN dispatch_galleries AS dg WHERE dg.gallery_id = '5' AND dg.dispatch_id = d.id',
+//            'deletQuery'=>'',
+//            'insertQuery'=>''
+//        )
+//    );
+    
+    var $hasMany = array('DispatchGallery');
+    
     var $belongsTo = array(
         'Image' => array(
             'className'=>'Image',
             'foreignKey'=>'image_id'
         )
     );
+//    
 //    var $actsAs = array(
 //        'Upload' => array(
 //            'img_file' => array(
@@ -60,5 +65,57 @@ class Dispatch extends AppModel {
 		'conditions'=>array('DispatchGallery.dispatch_id' => $this->id)),
 		);
 */
+    
+    /**
+     * Return all gallery membership for the Image linked to this Dispatch
+     * 
+     * Returns an array of the Gallery records indexed by
+     * the id of the Dispatch records that describe the Image
+     * 
+     * Array (
+     *    [181] => Array ( 
+     *       [0] => Array( gallery fields )
+     *    )
+     *    [143] => Array (
+     *       [0] => Array ( gallery fields )
+     *    )
+     *       [1] => Array ( gallery fields )
+     *    )
+     * )
+     * 
+     * @param int $image_id The id of the image to discover memberships for
+     * @param bool $meta include fringe data like created/modified
+     * @return array The gallery records indexed by Dispatch id
+     */
+    function galleryMemebership($image_id = null, $meta = false) {
+            
+            $membership = array();
+            
+            $result = $this->find('all', array(
+                'fields'=>array('id'),
+                'conditions'=>array('Dispatch.image_id = '=> $image_id),
+                'contain'=>array(
+                    'DispatchGallery'=> array(
+                        'fields'=>array('id'),
+                        'Gallery'//=>array('fields'=>array('id','role'))
+                        ))
+            )); 
+
+            foreach ($result as $dispatch => $data) {
+                foreach ($data['DispatchGallery'] as $index => $gallery) {
+                    if (!empty ($gallery['Gallery'])) {
+                        if (!$meta) {
+                            unset ($gallery['Gallery']['created']);
+                            unset ($gallery['Gallery']['modified']);
+                        }
+                        $membership[$data['Dispatch']['id']][$index] = $gallery['Gallery'];
+                    }
+                }
+            }
+
+            return $membership;
+
+        }
+
 }
 ?>

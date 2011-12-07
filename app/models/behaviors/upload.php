@@ -77,9 +77,17 @@ App::import('Core', array('File', 'Folder'));
         function ingest_images(&$model) {
 
             $className = $model->name;
-            $folderName = Inflector::tableize($className);
-            $this->sourcePath = "img".DS."uploads".DS.$folderName;
-            $this->destPath = "img/$folderName/native";
+//            debug($className);
+//            debug($this->__fields[$model->name][$this->fieldname]['dir']);
+//            debug($this);die;
+            $folderName = $this->__fields[$model->name][$this->fieldname]['dir'];
+            $this->sourcePath = $folderName.DS."upload";
+            $this->destPath = "$folderName/native";
+//            debug($this->sourcePath);
+//            debug($this->destPath); //die;
+            //$folderName = Inflector::tableize($className);
+//            $this->sourcePath = "img".DS."uploads".DS.$folderName;
+//            $this->destPath = "img/$folderName/native";
 
 
             $saved = array();
@@ -136,7 +144,7 @@ App::import('Core', array('File', 'Folder'));
 						$data[$model->alias][$fieldName] = null;
 					}
 				}
-
+//                         debug($options); debug($this); die;
                                 $saveAs = $options['dir'] . DS . 'native' . DS . $data[$model->alias][$fieldName]['name'];
 			}
                   //debug($data);debug($data[$model->alias]['batch']); die;
@@ -153,14 +161,15 @@ App::import('Core', array('File', 'Folder'));
 
 			// If the file is an image, try to make the thumbnails
 			if (!empty($options['thumbsizes']) && !empty($options['allowedExt']) && in_array($data[$model->alias][$fieldName]['type'], $this->_imageTypes)) {
-				$this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
+                            copy($options['dir'].DS.'upload'.DS.$data[$model->alias][$fieldName]['name'], $saveAs);
+                            $this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
 			}
 
 			// Update model data
-			$data[$model->alias][$options['fields']['dir']] = $options['dir'];
-			$data[$model->alias][$options['fields']['mimetype']] = $data[$model->alias][$fieldName]['type'];
-			$data[$model->alias][$options['fields']['filesize']] = $data[$model->alias][$fieldName]['size'];
-			$data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
+//			$data[$model->alias][$options['fields']['dir']] = $options['dir'];
+//			$data[$model->alias][$options['fields']['mimetype']] = $data[$model->alias][$fieldName]['type'];
+//			$data[$model->alias][$options['fields']['filesize']] = $data[$model->alias][$fieldName]['size'];
+//			$data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
 
 			$return[$fieldName] = array('return' => true);
 			continue;
@@ -283,6 +292,12 @@ App::import('Core', array('File', 'Folder'));
 		}
 		return true;
 	}
+        
+        function setImageDirectory($model, $field, $directory) {
+//        debug($this->Behaviors->Upload->__fields[$this->name][$this->Behaviors->Upload->fieldname]['dir']);
+        $this->__fields[$model][$field]['dir'] = $directory;
+//        debug($this);
+    }
 
 }
 ?>
