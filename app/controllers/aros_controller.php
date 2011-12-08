@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * ArosController
+ * Provides basic crud and tree management of the Aros Model
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class ArosController extends AppController {
 
 	var $name = 'Aros';

@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * AcosController
+ * Provide basic crud and tree management of the Acos Model
+ * @package       bindery
+ * @subpackage    bindery.controller
+*/
 class AcosController extends AppController {
 
 	var $name = 'Acos';

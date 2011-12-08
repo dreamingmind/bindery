@@ -7,6 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * DispatchGalleriesController
+ * 
+ * System that links Dispatches to their organizing Galleries
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class DispatchGalleriesController extends AppController {
 	var $name = 'DispatchGalleries';
 	//var $scaffold;

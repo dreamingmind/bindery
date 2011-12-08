@@ -1,3 +1,16 @@
+/**
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
+ */
+/**
+ * ExhibitGalleriesController
+ * 
+ * Connection between Exhibits and their organizing Galleries 
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
+ */
 <?php
 class ExhibitGalleriesController extends AppController {
 

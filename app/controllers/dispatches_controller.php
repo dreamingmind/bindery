@@ -1,11 +1,22 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- *
+ * DispatchController
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.publishing.news_feed
+ */
+/**
+ * DispatchController
+ * 
+ * Dispatches are the basic publishing unit for News Feeds
+ * A Dispatch is a pointer to a picture and the text for that picture.
+ * News Feeds are a series of Dispatches in reverse chronological order 
+ * and tell the story of daily bindery activities.
+ * Any Dispatch can belong to any number of Galleries and in this
+ * way, different stories can be told. 
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
  */
 class DispatchesController extends AppController {
 	var $name = 'Dispatches';

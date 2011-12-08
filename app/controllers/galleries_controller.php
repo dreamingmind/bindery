@@ -1,4 +1,26 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
+/**
+ * GalleriesController
+ * Galleries are the named groupings used to collect images for presentation.
+ * They may be product groups like:
+ *  - Journals
+ *  - Boxes
+ *  - Notebooks
+ * They may also be customer names or the names of art projects. Potentially the
+ * gallery system may collect pictures and their text captions into articles.
+ * 
+ * Simple unedited bake
+ * @package     bindery
+ * @subpackage  bindery.controller
+ */
 class GalleriesController extends AppController {
 
 	var $name = 'Galleries';
