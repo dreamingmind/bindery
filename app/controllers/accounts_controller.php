@@ -7,6 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * AccountsController
+ * 
+ * Categories for Users that establish permission levels
+ * @package       bindery
+ * @subpackage    bindery.controller
+*/
 class AccountsController extends AppController {
 
 	var $name = 'Accounts';

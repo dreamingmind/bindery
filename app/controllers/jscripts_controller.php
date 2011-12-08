@@ -7,6 +7,9 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * JscriptsController
+ */
 class JscriptsController extends AppController {
 
 	var $name = 'Jscripts';

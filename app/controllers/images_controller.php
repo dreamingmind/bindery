@@ -1,9 +1,21 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
+/**
+ * ImagesController
+ */
 class ImagesController extends AppController {
 
 	var $name = 'Images';
 
 	function index() {
+            $this->paginate = array('order'=>array('Image.id'=> 'desc'));
 		$this->Image->recursive = 0;
 		$this->set('images', $this->paginate());
 	}
@@ -20,11 +32,8 @@ class ImagesController extends AppController {
         if (!empty($this->data)) {
             //debug($this->data); die;
             //read exif data and set exif fields
-            $file = new File($this->data['Image']['img_file']['tmp_name']);
-            $exif_data = exif_read_data($file->path);
-            $this->data['Image']['height'] = $exif_data['COMPUTED']['Height'];
-            $this->data['Image']['width'] = $exif_data['COMPUTED']['Width'];
-            $this->data['Image']['picture_datetime'] = strtotime($exif_data['DateTime']);
+            
+            $this->get_exif($this->data);
             
             //Target the selected Upload directory
 //            $this->Image->setImageDirectory($this->data['Image']['gallery']);
@@ -128,5 +137,33 @@ class ImagesController extends AppController {
             $data = $this->Image->find('all', array('contain'=>false));
             $this->set('chunk', array_chunk($data, $column+1));
         }
+        
+        /**
+         * Populate an Image records exif fields
+         * If the record is a has a type=file format with uploaded
+         * image data in the Image.img_file array, the uploading
+         * file will be operated on. Providing a path will override
+         * that or get data for a non-upload-style record
+         * 
+         * @todo Get some error trapping in here!
+         * @param array &$record A standard one record data array
+         * @param string $path Path to the image including the file name
+         */
+        function get_exif(&$record, $path=null) {
+            
+            if ($path == null) {
+                $path = $record['Image']['img_file']['tmp_name'];
+            }
+            
+            $file = new File($path);            
+            $exif_data = exif_read_data($file->path);
+//            debug($exif_data);die;
+            $record['Image']['height'] = $exif_data['COMPUTED']['Height'];
+            $record['Image']['width'] = $exif_data['COMPUTED']['Width'];
+            $record['Image']['date'] = strtotime($exif_data['DateTime']);
+            $record['Image']['mymetype'] = $exif_data['MimeType'];
+            $record['Image']['size'] = $exif_data['FileSize'];
+        }
+        
 }
 ?>
