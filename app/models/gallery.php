@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Gallery Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 class Gallery extends AppModel {
 	var $name = 'Gallery';
 //	var $validate = array(

@@ -15,6 +15,8 @@
  * for the actual menus will be found in the Menu Controller. Also, Navline contains
  * the display text for the navigator entries because the specific displayed text
  * may appear more than once in the generated menu
+ * @package       bindery
+ * @subpackage    bindery.Navigation
  */
 class NavigatorsController extends AppController {
 

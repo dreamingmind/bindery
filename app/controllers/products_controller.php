@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Products Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class ProductsController extends AppController {
 	var $name = 'Products';
         var $uses = array('ExhibitGallery');

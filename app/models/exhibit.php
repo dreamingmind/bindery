@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * Exhibit Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class Exhibit extends AppModel {
 	var $name = 'Exhibit';
 //	var $hasOne = array('Dispatch','Gallery');

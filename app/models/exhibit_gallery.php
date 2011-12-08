@@ -7,6 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * ExhibitGallery Model
+ * 
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class ExhibitGallery extends AppModel {
     var $name = 'ExhibitGallery';
     var $belongsTo = array(

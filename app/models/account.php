@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * Account Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model 
+ */
 class Account extends AppModel {
     var $name = 'Account';
     var $useTable = 'users';

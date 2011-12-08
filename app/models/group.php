@@ -7,7 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
-
+/**
+ * Group Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ * 
+ */
 class Group extends AppModel {
 
 	var $name = 'Group';

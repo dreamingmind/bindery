@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Aco Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 class Aco extends AppModel {
 	var $name = 'Aco';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

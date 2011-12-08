@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Users Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class UsersController extends AppController {
 
 	var $name = 'Users';

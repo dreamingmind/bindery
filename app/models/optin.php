@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Optin Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 class Optin extends AppModel {
 	var $name = 'Optin';
         //var $displayField = 'Optin.name';

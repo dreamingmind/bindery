@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * Menu Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class Menu extends AppModel {
 var $name = 'Menu';
 var $useTable = false;

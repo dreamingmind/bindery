@@ -8,7 +8,7 @@
  * @subpackage    bindery.controller
  */
 /**
- * GalleriesController
+ * Galleries Controller
  * Galleries are the named groupings used to collect images for presentation.
  * They may be product groups like:
  *  - Journals

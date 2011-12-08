@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * Navline Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class Navline extends AppModel {
 	var $name = 'Navline';
         //var $actsAs = array('Acl' => array('type' => 'controlled'));

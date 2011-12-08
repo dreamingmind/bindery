@@ -8,7 +8,10 @@
  * @subpackage    bindery.controller
  */
 /**
- * ImagesController
+ * Images Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
  */
 class ImagesController extends AppController {
 

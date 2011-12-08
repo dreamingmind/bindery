@@ -7,6 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * DispatchGallery Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ * 
+ */
 class DispatchGallery extends AppModel {
 	var $name = 'DispatchGallery';
         

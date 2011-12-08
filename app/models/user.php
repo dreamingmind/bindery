@@ -8,8 +8,11 @@
  * @subpackage    bindery.model
  */
 /**
+ * User Model
  * Table of register users, customers and site administrators
  * 
+ * @package       bindery
+ * @subpackage    bindery.model
  */
 class User extends AppModel {
 

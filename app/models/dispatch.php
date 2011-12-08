@@ -5,7 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.publishing.news_feed
+ */
+/**
+ * DispatchModel
+ * 
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
  */
 class Dispatch extends AppModel {
     var $name = 'Dispatch';
