@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * ToDo Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class Todo extends AppModel {
 
 	var $name = 'Todo';

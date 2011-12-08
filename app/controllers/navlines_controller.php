@@ -7,6 +7,13 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Navlines Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+
+ */
 class NavlinesController extends AppController {
 
 

@@ -15,6 +15,8 @@
  * of entry error or non valid input
  * 
  * @author dondrake
+ * @package       bindery
+ * @subpackage    bindery.component
  */
 class UserRecordFormComponent extends Object {
 

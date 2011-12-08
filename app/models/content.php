@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Content Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 class Content extends AppModel {
 	var $name = 'Content';
 	var $validate = array(

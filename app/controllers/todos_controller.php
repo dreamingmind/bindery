@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Todos Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class TodosController extends AppController {
 
 	var $name = 'Todos';

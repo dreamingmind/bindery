@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Groups Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class GroupsController extends AppController {
 
 	var $name = 'Groups';

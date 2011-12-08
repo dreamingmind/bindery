@@ -1,4 +1,18 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.behavior
+ */
+/**
+ * Sluggable Behavior
+ * 
+ * An output packaging method for trees
+ * 
+ * @package       bindery
+ * @subpackage    bindery.behavior
+*/
 class SluggableBehavior extends ModelBehavior {
 	/**
 	 * Translation table

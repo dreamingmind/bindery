@@ -1,4 +1,18 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
+/**
+ * UploadBehavior
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 App::import('Behavior', array('MeioUpload'));
 App::import('Core', array('File', 'Folder'));
 
@@ -167,12 +181,6 @@ App::import('Core', array('File', 'Folder'));
                             $data[$model->alias]['filesize'] = $data[$model->alias][$fieldName]['size'];
                             $data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
 			}
-
-			// Update model data
-//			$data[$model->alias][$options['fields']['dir']] = $options['dir'];
-//			$data[$model->alias][$options['fields']['mimetype']] = $data[$model->alias][$fieldName]['type'];
-//			$data[$model->alias][$options['fields']['filesize']] = $data[$model->alias][$fieldName]['size'];
-//			$data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
 
 			$return[$fieldName] = array('return' => true);
 			continue;

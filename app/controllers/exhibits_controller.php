@@ -1,4 +1,16 @@
 <?php
+/**
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
+ */
+/**
+ * Exhibit Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.publishing.news_feed
+ */
 class ExhibitsController extends AppController {
 
 	var $name = 'Exhibits';

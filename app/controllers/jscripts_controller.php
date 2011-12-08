@@ -9,6 +9,9 @@
  */
 /**
  * JscriptsController
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
  */
 class JscriptsController extends AppController {
 

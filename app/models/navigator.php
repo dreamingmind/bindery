@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.model
  */
+/**
+ * Navigator Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
 class Navigator extends AppModel {
 
 	var $name = 'Navigator';

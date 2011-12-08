@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Aro Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 //class Aro extends AppModel {
 //	var $name = 'Aro';
 //        var $displayField = 'Aro.alias';

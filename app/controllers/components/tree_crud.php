@@ -7,6 +7,14 @@
  * @package       bindery
  * @subpackage    bindery.component
  */
+/**
+ * TreeCrud Component
+ * 
+ * Handle tasks to impliment an editing system for tree data
+ * 
+ * @package       bindery
+ * @subpackage    bindery.component
+ */
 class TreeCrudComponent extends Object {
 
     var $components = array('Session');

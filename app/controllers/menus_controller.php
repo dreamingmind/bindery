@@ -7,6 +7,12 @@
  * @package       bindery
  * @subpackage    bindery.controller
  */
+/**
+ * Menus Controller
+ * 
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
 class MenusController extends AppController {
     var $name = 'Menus';
     //var $scaffold;

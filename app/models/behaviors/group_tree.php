@@ -5,6 +5,14 @@
  * @package       bindery
  * @subpackage    bindery.behavior
  */
+/**
+ * GroupTree Behavior
+ * 
+ * An output packaging method for trees
+ * 
+ * @package       bindery
+ * @subpackage    bindery.behavior
+*/
 class GroupTreeBehavior extends TreeBehavior {
 	function generatetreegrouped(&$Model, $conditions = null, $keyPath = null, $valuePath = null, $groupPath = null, $recursive = null) {
 		$overrideRecursive = $recursive;

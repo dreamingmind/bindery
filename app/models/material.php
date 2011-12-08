@@ -1,4 +1,16 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Material
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+*/
 class Material extends AppModel {
 	var $name = 'Material';
 	var $primaryKey = 'id';
