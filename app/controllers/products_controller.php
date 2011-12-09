@@ -68,7 +68,7 @@ class ProductsController extends AppController {
          *
          */
 	function view() {
-            $this->productExhibits = $this->paginate('ExhibitGallery', array('Gallery.label like'=> "%{$this->product}%"));
+            $this->productExhibits = $this->paginate('ExhibitGallery', array('Gallery.heading like'=> "%{$this->product}%"));
             $this->set('productExhibits', $this->productExhibits);
 //debug($this->ExhibitGallery->getAssociated ());
 //debug($this->ExhibitGallery->getColumnTypes());
