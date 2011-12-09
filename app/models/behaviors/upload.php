@@ -123,113 +123,135 @@ App::import('Core', array('File', 'Folder'));
  * @return array
  * @access protected
  */
-	function _uploadFile(&$model) {
-		$data =& $model->data;
-		$return = array();
-		foreach ($this->__fields[$model->alias] as $fieldName => $options) {
-			if (!empty($data[$model->alias][$fieldName]['remove'])) {
-				if (!empty($data[$model->alias][$model->primaryKey])) {
-					$this->_setFileToRemove($model, $fieldName);
-				}
-				$this->_cleanFields($model, $fieldName);
-				$return[$fieldName] = array('return' => true);
-				continue;
-			}
-			// If no file was selected we do not need to proceed
-			if (empty($data[$model->alias][$fieldName]['name'])) {
-				unset($data[$model->alias][$fieldName]);
-				$return[$fieldName] = array('return' => true);
-				continue;
-			}
-			list(, $ext) = $this->_splitFilenameAndExt($data[$model->alias][$fieldName]['name']);
+    function _uploadFile(&$model) {
+        $data =& $model->data;
+        $return = array();
+        foreach ($this->__fields[$model->alias] as $fieldName => $options) {
+            if (!empty($data[$model->alias][$fieldName]['remove'])) {
+                if (!empty($data[$model->alias][$model->primaryKey])) {
+                    $this->_setFileToRemove($model, $fieldName);
+                }
+                $this->_cleanFields($model, $fieldName);
+                $return[$fieldName] = array('return' => true);
+                continue;
+            }
+            // If no file was selected we do not need to proceed
+            if (empty($data[$model->alias][$fieldName]['name'])) {
+                unset($data[$model->alias][$fieldName]);
+                $return[$fieldName] = array('return' => true);
+                continue;
+            }
+            list(, $ext) = $this->_splitFilenameAndExt($data[$model->alias][$fieldName]['name']);
 
-			// Check whether or not the behavior is in useTable mode
-			if ($options['useTable'] === false) {
-				$pos = strrpos($data[$model->alias][$fieldName]['type'], '/');
-				$sub = substr($data[$model->alias][$fieldName]['type'], $pos + 1);
-				$this->_fixName($model, $fieldName, false);
-				$saveAs = $options['dir'] . DS . $sub;
-			} else {
-				// If no file has been upload, then unset the field to avoid overwriting existant file
-				if (!isset($data[$model->alias][$fieldName]) || !is_array($data[$model->alias][$fieldName]) || empty($data[$model->alias][$fieldName]['name'])) {
-					if (!empty($data[$model->alias][$model->primaryKey])) {
-						unset($data[$model->alias][$fieldName]);
-					} else {
-						$data[$model->alias][$fieldName] = null;
-					}
-				}
-//                         debug($options); debug($this); die;
-                                $saveAs = $options['dir'] . DS . 'native' . DS . $data[$model->alias][$fieldName]['name'];
-			}
-                  //debug($data);debug($data[$model->alias]['batch']); die;
-                      
-                        if (!isset($data[$model->alias]['batch'])) {
-                            // batch processing isn't uploaded, we're looping on a folder
-                            // Attempt to move uploaded file
-                            $copyResults = $this->_copyFileFromTemp($data[$model->alias][$fieldName]['tmp_name'], $saveAs);
-                            if ($copyResults !== true) {
-                                    $return[$fieldName] = array('return' => false, 'reason' => 'validation', 'error' => $copyResults);
-                                    continue;
-                            }
-                        }
+            // Check whether or not the behavior is in useTable mode
+            if ($options['useTable'] === false) {
+                $pos = strrpos($data[$model->alias][$fieldName]['type'], '/');
+                $sub = substr($data[$model->alias][$fieldName]['type'], $pos + 1);
+                $this->_fixName($model, $fieldName, false);
+                $saveAs = $options['dir'] . DS . $sub;
+            } else {
+                // If no file has been upload, then unset the field to avoid overwriting existant file
+                if (!isset($data[$model->alias][$fieldName]) || !is_array($data[$model->alias][$fieldName]) || empty($data[$model->alias][$fieldName]['name'])) {
+                    if (!empty($data[$model->alias][$model->primaryKey])) {
+                        unset($data[$model->alias][$fieldName]);
+                    } else {
+                        $data[$model->alias][$fieldName] = null;
+                    }
+                }
+                // debug($options); debug($this); die;
+            $saveAs = $options['dir'] . DS . 'native' . DS . $data[$model->alias][$fieldName]['name'];
+            }
+            //debug($data);debug($data[$model->alias]['batch']); die;
 
-			// If the file is an image, try to make the thumbnails
-			if (!empty($options['thumbsizes']) && !empty($options['allowedExt']) && in_array($data[$model->alias][$fieldName]['type'], $this->_imageTypes)) {
-                            copy($options['dir'].DS.'upload'.DS.$data[$model->alias][$fieldName]['name'], $saveAs);
-                            $this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
-                            $data[$model->alias]['mimetype'] = $data[$model->alias][$fieldName]['type'];
-                            $data[$model->alias]['filesize'] = $data[$model->alias][$fieldName]['size'];
-                            $data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
-			}
+            /**
+             * If the field 'batch' is not set, this is a real, user interactive upload 
+             * which may come from any location. This is the native meioupload procedure
+             */
+            if (!isset($data[$model->alias]['batch'])) {
+                // Attempt to move uploaded file
+                $copyResults = $this->_copyFileFromTemp($data[$model->alias][$fieldName]['tmp_name'], $saveAs);
+                if ($copyResults !== true) {
+                        $return[$fieldName] = array('return' => false, 'reason' => 'validation', 'error' => $copyResults);
+                        continue;
+                }
 
-			$return[$fieldName] = array('return' => true);
-			continue;
-		}
-		return $return;
-	}
+                // If the file is an image, try to make the thumbnails
+                if (!empty($options['thumbsizes']) && !empty($options['allowedExt']) && in_array($data[$model->alias][$fieldName]['type'], $this->_imageTypes)) {
+                        $this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
+                }
 
-/**
- * Function to create Thumbnail images
- *
- * @param object $model
- * @param string $source Source file name (without path)
- * @param string $target Target file name (without path)
- * @param string $fieldName Path to source and destination (no trailing DS)
- * @param array $params
- * @return void
- * @access protected
- */
-	function _createThumbnail(&$model, $source, $target, $fieldName, $params = array()) {
-		$params = array_merge(
-			array(
-				'thumbnailQuality' => $this->__fields[$model->alias][$fieldName]['thumbnailQuality'],
-				'zoomCrop' => $this->__fields[$model->alias][$fieldName]['zoomCrop']
-			),
-			$params);
+                // Update model data
+                $data[$model->alias][$options['fields']['dir']] = $options['dir'];
+                $data[$model->alias][$options['fields']['mimetype']] = $data[$model->alias][$fieldName]['type'];
+                $data[$model->alias][$options['fields']['filesize']] = $data[$model->alias][$fieldName]['size'];
+                $data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
 
-		// Import phpThumb class
-		App::import('Vendor', 'phpthumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
+                $return[$fieldName] = array('return' => true);
+                continue;
+            } else {
+                /**
+                 * On the other hand, if the field 'batch' is set, we are dealing with algorithmically
+                 * generated upload forms. They won't validate in the orginal code, so we'll 
+                 * take care of a few processes manually. The processed folder is hardcoded 
+                 * to be the {modelname}/upload folder.
+                 */
+                // If the file is an image, try to make the thumbnails
+                if (!empty($options['thumbsizes']) && !empty($options['allowedExt']) && in_array($data[$model->alias][$fieldName]['type'], $this->_imageTypes)) {
+                    copy($options['dir'].DS.'upload'.DS.$data[$model->alias][$fieldName]['name'], $saveAs);
+                    $this->_createThumbnails($model, $fieldName, $saveAs, $ext, $options);
+                    $data[$model->alias]['mimetype'] = $data[$model->alias][$fieldName]['type'];
+                    $data[$model->alias]['filesize'] = $data[$model->alias][$fieldName]['size'];
+                    $data[$model->alias][$fieldName] = $data[$model->alias][$fieldName]['name'];
+                }
+                $return[$fieldName] = array('return' => true);
+                continue;
+            }
+        }
+        return $return;
+    }
 
-		// Configuring thumbnail settings
-		$phpThumb = new phpthumb;
-		$phpThumb->setSourceFilename($source);
+    /**
+    * Function to create Thumbnail images
+    *
+    * @param object $model
+    * @param string $source Source file name (without path)
+    * @param string $target Target file name (without path)
+    * @param string $fieldName Path to source and destination (no trailing DS)
+    * @param array $params
+    * @return void
+    * @access protected
+    */
+        function _createThumbnail(&$model, $source, $target, $fieldName, $params = array()) {
+                $params = array_merge(
+                        array(
+                                'thumbnailQuality' => $this->__fields[$model->alias][$fieldName]['thumbnailQuality'],
+                                'zoomCrop' => $this->__fields[$model->alias][$fieldName]['zoomCrop']
+                        ),
+                        $params);
 
-		$w = isset($params['width']);
-		$h = isset($params['height']);
-		if ($w && $h) {
-			$phpThumb->w = $params['width'];
-			$phpThumb->h = $params['height'];
-		} elseif ($w && !$h) {
-			$phpThumb->w = $params['width'];
-		} elseif ($h && !$w) {
-			$phpThumb->h = $params['height'];
-		} else {
-			trigger_error(__d('meio_upload', 'Width and Height of thumbs not specified.', true), E_USER_WARNING);
-			return;
-		}
+                // Import phpThumb class
+                App::import('Vendor', 'phpthumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
 
-		$phpThumb->setParameter('zc', $params['zoomCrop']);
-		$phpThumb->q = $params['thumbnailQuality'];
+                // Configuring thumbnail settings
+                $phpThumb = new phpthumb;
+                $phpThumb->setSourceFilename($source);
+
+                $w = isset($params['width']);
+                $h = isset($params['height']);
+                if ($w && $h) {
+                        $phpThumb->w = $params['width'];
+                        $phpThumb->h = $params['height'];
+                } elseif ($w && !$h) {
+                        $phpThumb->w = $params['width'];
+                } elseif ($h && !$w) {
+                        $phpThumb->h = $params['height'];
+                } else {
+                        trigger_error(__d('meio_upload', 'Width and Height of thumbs not specified.', true), E_USER_WARNING);
+                        return;
+                }
+
+                $phpThumb->setParameter('zc', $params['zoomCrop']);
+                $phpThumb->q = $params['thumbnailQuality'];
                 // ++++++++++++ my addition to pass in more parameters
                 // this allows the additon of other phpthumb settings
                 // however, only the set before fltr work in a this environment
@@ -240,20 +262,20 @@ App::import('Core', array('File', 'Folder'));
                 }
                 // ++++++++++++++++ end of my addition
 
-		list(, $phpThumb->config_output_format) = explode('.', $source, 2);
-		$phpThumb->config_prefer_imagemagick = $this->__fields[$model->alias][$fieldName]['useImageMagick'];
-		$phpThumb->config_imagemagick_path = $this->__fields[$model->alias][$fieldName]['imageMagickPath'];
+                list(, $phpThumb->config_output_format) = explode('.', $source, 2);
+                $phpThumb->config_prefer_imagemagick = $this->__fields[$model->alias][$fieldName]['useImageMagick'];
+                $phpThumb->config_imagemagick_path = $this->__fields[$model->alias][$fieldName]['imageMagickPath'];
 
-		// Setting whether to die upon error
-		$phpThumb->config_error_die_on_error = true;
-		// Creating thumbnail
-		if ($phpThumb->GenerateThumbnail()) {
-			if (!$phpThumb->RenderToFile($target)) {
-				trigger_error(sprintf(__d('meio_upload', 'Could not render image to: %s', true), $target), E_USER_WARNING);
-			}
-//                debug($phpThumb->getimagesizeinfo);die;
-		}
-	}
+                // Setting whether to die upon error
+                $phpThumb->config_error_die_on_error = true;
+                // Creating thumbnail
+                if ($phpThumb->GenerateThumbnail()) {
+                        if (!$phpThumb->RenderToFile($target)) {
+                                trigger_error(sprintf(__d('meio_upload', 'Could not render image to: %s', true), $target), E_USER_WARNING);
+                        }
+    //                debug($phpThumb->getimagesizeinfo);die;
+                }
+        }
 
 
 /**

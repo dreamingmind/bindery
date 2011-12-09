@@ -1,3 +1,27 @@
+<?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
+ * @package       bindery
+ * @subpackage    bindery.controller
+ */
+/**
+ * Images view
+ * 
+ * the first url parameter sets the number of upload forms to create
+ * If there no second parameter, the system will allow uploads from any directory
+ * If there is a second parameter it must be 'upload'. That will trigger the inclusion
+ * of the hidden field 'batch=1' and that will directly handle files from the Upload folder
+ * 
+ * @todo make the upload folder examination process actually work. right now it's just a proof of concept using the upload parameter
+ * @package       bindery
+ * @subpackage    bindery.controller
+ * @param int params[pass][0] the number of upload forms to generate
+ * @param string params[pass][1] the string 'upload'
+ */
+?>
 <div class="images form">
 <?php echo $this->Form->create('Image',array(
     'type' => 'file',
@@ -46,10 +70,12 @@
                     'name'=>"data[$count][Image][modified]",
                     'id' => "{$count}ImageImgModified",
                     'value'=>time()));
+                    if (isset($this->params['pass'][1])) { 
 		echo $this->Form->hidden('batch',array(
                     'name'=>"data[$count][Image][batch]",
                     'id' => "{$count}ImageImgBatch",
-                    'value'=>1));
+                    'value'=>1));                        
+                    }
 	?>
 	</fieldset>
  
