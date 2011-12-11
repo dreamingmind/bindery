@@ -12,6 +12,7 @@
  * 
  * @package       bindery
  * @subpackage    bindery.controller
+ * @todo write populator that reads the current image collection and writes records for images that don't have them
  */
 class ImagesController extends AppController {
 

@@ -6,8 +6,8 @@ do {
     echo "<tr>";
     foreach($chunk[$i] as $val) {
         echo "<td>";
-        echo $this->Html->image("dispatches/thumb/$size/".$val['Image']['img_file']);
-        echo "</td>";
+        echo $this->Html->image("images/thumb/$size/".$val['Image']['img_file']);
+        echo "{$val['Image']['id']}</td>";
     }
     echo "</tr>";
     $i++;

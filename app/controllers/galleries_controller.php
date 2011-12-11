@@ -20,6 +20,8 @@
  * Simple unedited bake
  * @package     bindery
  * @subpackage  bindery.controller
+ * @todo get this translated into a collections table and re-linked.
+ * @todo build up the category system here so we can tell dispatches from exhibits, etc.
  */
 class GalleriesController extends AppController {
 

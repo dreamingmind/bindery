@@ -22,7 +22,7 @@ class GalNavHelper extends HtmlHelper {
                     'liClass' => '', 
                     'number' => $count, 
                     'url' => array('id'=>$record['Dispatch']['id']),
-                    'imgUrl' => DS.'bindery'.DS.'img'.DS.'exhibits'.DS.'thumb'.DS.'x75y56'.DS.$record['Dispatch']['image'],
+                    'imgUrl' => DS.'bindery'.DS.'img'.DS.'images'.DS.'thumb'.DS.'x75y56'.DS.$record['Dispatch']['image'],
                     'alt' => $record['Dispatch']['alt']
                 )
             );
@@ -54,7 +54,7 @@ class GalNavHelper extends HtmlHelper {
         foreach($productExhibits as $record) {
             $l = $this->link(
                 $this->image(
-                    'exhibits'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
+                    'images'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
                     array(
                         'alt'=>$record['Exhibit']['alt'],
                         'heading'=>$record['Exhibit']['heading']

@@ -1,6 +1,6 @@
 <!-- <h1><?php echo $this->params['pname'] ?> gallery</h1> -->
 <div id="detail">
-<?php echo $this->Html->image('exhibits/thumb/x640y480/' . $record['Exhibit']['img_file'],
+<?php echo $this->Html->image('images/thumb/x640y480/' . $record['Exhibit']['img_file'],
         array('alt'=>$record['Exhibit']['alt'])); ?>
 
 <style type='text/css' media='screen'><!--

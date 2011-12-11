@@ -107,7 +107,7 @@ class ProductsController extends AppController {
          * @param integer $id id of the exhibit to render
          */
         function gallery(){
-            $this->set('productExhibits', $this->paginate('ExhibitGallery', array('Gallery.label like'=> "%{$this->product}%")));
+            $this->set('productExhibits', $this->paginate('ExhibitGallery', array('Gallery.heading like'=> "%{$this->product}%")));
 
             if (!$this->id) {
                 $this->id = $this->selectExhibit();
