@@ -34,7 +34,22 @@ class Content extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+            'Image' => array(
+                'className' => 'Image',
+                'foreignKey' => 'image_id'
+            )
 	);
+        
+        var $hasOne = array(
+//            'Dispatch' => array(
+//                'className' => 'Dispatch',
+//                'foreignKey' => 'dispatch_id'
+//            ),
+//            'Exhibit' => array(
+//                'className' => 'Exhibit',
+//                'foreignKey' => 'exhibit_id'
+//            )
+        );
 }
 ?>

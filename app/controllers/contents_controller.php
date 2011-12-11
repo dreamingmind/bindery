@@ -13,11 +13,71 @@
  * Handles splash page content
  * @package       bindery
  * @subpackage    bindery.controller
+ * @todo translate dispatch collections (was gallery) links
+ * @todo translate exhibit collections (was gallery) links
+ * @todo at least temporarily, mark each content record to indicate it's origin. otherwise we won't know where they came from because some may not be properly linked to collections yet.
+ * @todo oh, and get something that can list the content records that belong to no collection
+ * @todo search all occurances of dispatch in code and fix
+ * @todo search all occurances of exhibit in code and fix
 */
 class ContentsController extends AppController {
 
 	var $name = 'Contents';
                 
+        function load_dispatch() {
+            $dispatch = $this->Content->Dispatch->find('all', array('contain'=>FALSE));
+            $this->set('dispatch' ,$dispatch);
+            //publish, alt, image_id, title, heading, text/content
+            $this->data = array();
+            foreach ($dispatch as $index => $record) {
+                foreach($record['Dispatch'] as $key => $value) {
+                    if ($key == 'id') {
+                        $this->data[$index]['Content']['dispatch_id'] = $value;
+                        continue;
+                    }
+                    if ($key == 'text') {
+                        $this->data[$index]['Content']['content'] = $value . ' ';
+                        continue;
+                    }
+                $this->data[$index]['Content'][$key] = $value;
+                }
+            }
+            // $this->Content->saveAll($this->data);
+            $this->set('content', $this->data);
+        }
+        
+        function load_exhibit() {
+            $exhibit = $this->Content->Exhibit->find('all', array(
+                'fields' => array (
+                    'heading',
+                    'prose_t',
+                    'alt',
+                    'id',
+                    'image_id',
+                    'created',
+                    'modified'
+                ),
+                'contain'=>FALSE));
+            $this->set('exhibit' ,$exhibit);
+            //debug($exhibit); die;
+            $this->data = array();
+            foreach ($exhibit as $index => $record) {
+                foreach($record['Exhibit'] as $key => $value) {
+                    if ($key == 'id') {
+                        $this->data[$index]['Content']['exhibit_id'] = $value;
+                        continue;
+                    }
+                    if ($key == 'prose_t') {
+                        $this->data[$index]['Content']['content'] = $value . ' ';
+                        continue;
+                    }
+                $this->data[$index]['Content'][$key] = $value;
+                }
+            }
+            $this->Content->saveAll($this->data);
+            $this->set('content', $this->data);
+        }
+        
         function beforeFilter() {
             parent::beforeFilter();
             $this->set('navline', $this->Content->Navline->find('list',
@@ -29,6 +89,7 @@ class ContentsController extends AppController {
 	function index() {
 		$this->Content->recursive = 0;
 		$this->set('contents', $this->paginate());
+//                debug($this->viewVars['contents']);die;
 	}
 
 	function view($id = null) {
