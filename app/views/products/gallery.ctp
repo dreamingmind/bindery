@@ -7,8 +7,8 @@
     #proseblock {
         position: absolute;
         z-index: 5;
-        top: <?php echo ($record['Exhibit']['top_val']-65); ?>px;
-        left: <?php echo ($record['Exhibit']['left_val']-155); ?>px;
+        top: <?php echo ($record['Exhibit']['top_val']); ?>px;
+        left: <?php echo ($record['Exhibit']['left_val']); ?>px;
         width: <?php echo $record['Exhibit']['width_val']; ?>px;
         height: <?php echo $record['Exhibit']['height_val']; ?>px;
     }/n--></style>
