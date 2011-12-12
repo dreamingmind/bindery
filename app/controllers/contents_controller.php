@@ -13,10 +13,7 @@
  * Handles splash page content
  * @package       bindery
  * @subpackage    bindery.controller
- * @todo translate dispatch collections (was gallery) links
- * @todo translate exhibit collections (was gallery) links
- * @todo at least temporarily, mark each content record to indicate it's origin. otherwise we won't know where they came from because some may not be properly linked to collections yet.
- * @todo oh, and get something that can list the content records that belong to no collection
+ * @todo get something that can list the content records that belong to no collection
  * @todo search all occurances of dispatch in code and fix
  * @todo search all occurances of exhibit in code and fix
 */
