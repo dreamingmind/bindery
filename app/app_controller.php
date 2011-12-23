@@ -177,6 +177,7 @@ class AppController extends Controller {
      * Negative indicators:
      *  page controller
      *  named or passed params
+     * @todo this is non-functional and being obsoleted in the 12/11 restructure. Delete when complete
      */
     function pullSplash() {
         // look for splash page content

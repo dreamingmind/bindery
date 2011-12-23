@@ -17,6 +17,12 @@
 class ImagesController extends AppController {
 
 	var $name = 'Images';
+        
+        /**
+         * The search results
+         * @var array $searchRecords
+         */
+        var $searchRecords = array();
 
 	function index() {
             $this->paginate = array('order'=>array('Image.id'=> 'desc'));
@@ -116,16 +122,41 @@ class ImagesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
         
+        function search() {
+            $this->searchRecords = $this->Image->find('all', array(
+                'conditions'=>array('Image.alt LIKE'=> "%{$this->data['Image']['searchInput']}%")
+            ));
+            /**
+             * make the search value available for inclusion in the
+             * image grid columns/sizes form so requesting a re-layout 
+             * doesn't loose the found set
+             */
+            $this->set('searchInput',$this->data['Image']['searchInput']);
+//            debug($this->searchRecords); die;
+            $this->image_grid();
+            $this->render('image_grid');
+        }
+        
         function image_grid(){
 
+            $this->layout = 'noThumbnailPage';
             // form data or default?
-            if(isset($this->data)){
+            if(isset($this->data)&&isset($this->data['Image']['columns'])){
                 $column = $this->data['Image']['columns'];
                 $size = $this->data['Image']['sizes'];
             } else {
-                $column = 10;
+                $column = 8;
                 $size = 'x75y56';
             }
+            /**
+             * the layout settings need to be prepared for inclusion
+             * in the layout search box as hidden fields so searches
+             * won't keep jumping back to the default grid
+             */
+            $this->set('hidden', array(
+                'columns'=>array('value'=>$column),
+                'sizes'=>array('value'=>$size))
+                );
 
             // make form drop-down lists
             $sizes = array();
@@ -138,8 +169,10 @@ class ImagesController extends AppController {
             $this->set('sizes',$sizes);
 
             // get the pictures
-            $data = $this->Image->find('all', array('contain'=>false));
-            $this->set('chunk', array_chunk($data, $column+1));
+            if ($this->searchRecords==null) {
+                $this->searchRecords = $this->Image->find('all', array('contain'=>false));
+            }
+            $this->set('chunk', array_chunk($this->searchRecords, $column+1));
         }
         
         /**

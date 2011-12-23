@@ -5,6 +5,8 @@
  * @package       bindery
  * @subpackage    bindery.behavior
  */
+App::import('Behavior', array('Tree'));
+
 /**
  * GroupTree Behavior
  * 

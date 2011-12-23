@@ -10,6 +10,9 @@
  * 
  * @package       bindery
  * @subpackage    bindery.model
+ * 
+ * @property Image $Image
+ * @property ExhibitSupliment $ExhibitSupliment
 */
 class Content extends AppModel {
 	var $name = 'Content';
@@ -28,28 +31,29 @@ class Content extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-		'Navline' => array(
-			'className' => 'Navline',
-			'foreignKey' => 'navline_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+            'Navline' => array(
+                    'className' => 'Navline',
+                    'foreignKey' => 'navline_id',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => ''
+            ),
             'Image' => array(
                 'className' => 'Image',
                 'foreignKey' => 'image_id'
-            )
-	);
+            )	);
         
         var $hasOne = array(
-//            'Dispatch' => array(
-//                'className' => 'Dispatch',
-//                'foreignKey' => 'dispatch_id'
-//            ),
-//            'Exhibit' => array(
-//                'className' => 'Exhibit',
-//                'foreignKey' => 'exhibit_id'
-//            )
-        );
+            'ExhibitSupliment',
+            'ContentCollection' => array(
+                'className' => 'ContentCollection',
+                'foreignKey' => 'content_id'
+            )
+
+        );    
+        
+        function dummy($what, $the, $hell) {
+            
+}
 }
 ?>
