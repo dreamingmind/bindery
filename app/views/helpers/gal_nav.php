@@ -35,6 +35,7 @@ class GalNavHelper extends HtmlHelper {
      * The numbers are so I can have direct discussion with customers on the phone
      * "go to Journals, then to page 2, then click item 12"
      * 
+     * @todo This version has been modified in preoductGalleryThumbnails_x to change the divs for the new layout (12/11). When that version is properly re-writen and the changeoer is done, this should be deleted.
      * @param array $productExhibits Records for the current page of gallery thumbnails
      * @return string HTML of current gallery thumbnail page in a DIV
      */
@@ -104,6 +105,48 @@ class GalNavHelper extends HtmlHelper {
         return"<div id='pagenav'>
             $controls
             </div>";
+    }
+    /**
+     * Updated version 12/11
+     * Create and return the gallery thumbnail page
+     *
+     * Makes an UL list of numbered thumbnail images that link to specific gallery pages
+     * The numbers are so I can have direct discussion with customers on the phone
+     * "go to Journals, then to page 2, then click item 12"
+     * 
+     * @param array $productExhibits Records for the current page of gallery thumbnails
+     * @return string HTML of current gallery thumbnail page in a DIV
+     */
+    function productGalleryThumbnails_x($productExhibits) {
+        $page = $this->Paginator->counter('%page%');
+        $c = $this->Paginator->counter('%start%');
+        $controller = explode(DS, $this->params['url']['url']);
+        $product = (isset($this->params['pname']) && $this->params['pname'] != null) ? $this->params['pname'] . DS : null;
+        $block = "";
+        $cumm = '';
+
+        $block = "<nav class='galNav'>
+              <ul>";
+              //debug(IMAGES);
+        
+        foreach($productExhibits as $record) {
+            $l = $this->link(
+                $this->image(
+                    'images'.DS.'thumb'.DS.'x54y54'.DS.$record['Exhibit']['img_file'],
+                    array(
+                        'alt'=>$record['Exhibit']['alt'],
+                        'heading'=>$record['Exhibit']['heading']
+                    )),
+                $product.'gallery'.DS.$record['Exhibit']['id'].DS.'page:'.$page,
+                array('escape'=> FALSE));
+            $liClass = '';
+            $number = $c++;
+            $cumm .= "<li $liClass><p><span class='number'>$number</span>$l</p></li>\n";
+
+        }
+    $block .= $cumm . "</ul>\n\t\t</nav> <!-- end of galNav -->\n";
+
+    return $block;
     }
 
 }

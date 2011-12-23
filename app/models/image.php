@@ -12,6 +12,7 @@
  * 
  * @package       bindery
  * @subpackage    bindery.controller
+ * @property Content $Content
  */
 class Image extends AppModel {
     var $name = 'Image';
@@ -46,6 +47,7 @@ class Image extends AppModel {
                     'counterQuery' => ''
             )
     );
+    var $hasOne = 'Content';
 
     /*
      * Modified version of Meio Upload Behavior
@@ -84,5 +86,8 @@ class Image extends AppModel {
         )
     );
 
+    function act(){
+        
+    }
 }
 ?>

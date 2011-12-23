@@ -58,23 +58,48 @@ Router::connect('/:static', array(
 
 //        Router::connect('/products/ingest_images',
 //                array('controller' => 'products', 'action' => 'ingestImages'));
-        Router::connect('/products/:pname/gallery/:id/:page',
-                array('controller' => 'products', 'action' => 'gallery', 'page' => null),
-                array('pname' => '[A-Za-z]+'));
+//        Router::connect('/products/:pname/gallery/:id/:page',
+//                array('controller' => 'products', 'action' => 'gallery', 'page' => null),
+//                array('pname' => '[A-Za-z]+'));
+//
+//        Router::connect('/products/:pname/gallery/*',
+//                array('controller' => 'products', 'action' => 'gallery'),
+//                array('pname' => '[A-Za-z]+'));
+//
+//        Router::connect('/products/:pname/*',
+//                array('controller' => 'products', 'action' => 'view', 'pname' => null),
+//                array('pname' => '[A-Za-z]+'));
+//
+//        Router::connect('/art/*',
+//                array('controller' => 'products', 'action' => 'art'));
+//        Router::connect('/traveler',
+//                array('controller' => 'products', 'action' => 'view', 'pass' => array('traveler')));
+//        Router::connect('/kandinsky',
+//                array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
 
+
+        Router::connect('/products',
+                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
+        
         Router::connect('/products/:pname/gallery/*',
-                array('controller' => 'products', 'action' => 'gallery'),
-                array('pname' => '[A-Za-z]+'));
-
+                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
+        
+        Router::connect('/products/:pname/newsfeed/*',
+        array ('controller'=>'contents','action'=>'newsfeed','pname'=>null));
+                
         Router::connect('/products/:pname/*',
-                array('controller' => 'products', 'action' => 'view', 'pname' => null),
-                array('pname' => '[A-Za-z]+'));
-
+                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
+        
         Router::connect('/art/*',
-                array('controller' => 'products', 'action' => 'art'));
-        Router::connect('/traveler',
-                array('controller' => 'products', 'action' => 'view', 'pass' => array('traveler')));
-        Router::connect('/kandinsky',
-                array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
+                array ('controller'=>'contents','action'=>'gallery'));
+        
 
+        
+        Router::connect('/admin/:controller',
+                array('controller'=>':controller', 'action'=>'index'));
+        
+        Router::connect('/admin/:controller/:action/*',
+                array('controller'=>':controller', 'action'=>':action'));
+
+	Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
 ?>
