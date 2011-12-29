@@ -56,6 +56,8 @@
             <?php echo $html->accountTool_($userdata); // creates DIV id=accountTool ?>
             </p>
   	</div>
+      <?php echo $this->element('image_grid_nav');
+ ?>
   </div>
   <div id="menuNav">
 <?php 
@@ -106,26 +108,5 @@
     <?php
     echo $js->writeBuffer(); // Write cached scripts
     ?>
-<div id="search-form">
-
-<form method="post" name="search" id="form-search-submit" action="/search.htm">
-
-<label for="search-text" class="hide-fromsighted">Search USPS.com or Track Packages</label>
-<input type="text" 
-       rel="Search USPS.com or Track Packages" 
-       id="search-text" autocomplete="off" 
-       name="searchText" 
-       class="default hasDefault" 
-       value="Search USPS.com or Track Packages" 
-/>
-<input type="image" 
-       id="search-btn" 
-       src="/ContentTemplates/assets/images/global/blank.gif" 
-       alt="Process Search" 
-/>
-
-</form>
-
-</div>
 </body>
 </html>

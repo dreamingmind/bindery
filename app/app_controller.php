@@ -1,5 +1,4 @@
 <?php
-/* SVN FILE: $Id$ */
 /**
  * Short description for file.
  *
@@ -102,7 +101,7 @@ class AppController extends Controller {
     var $groupnames = array('0' => 'Guest', '1'=>'administrator', '2'=>'manager', '3'=>'user' );
 
     function beforeFilter() {
-
+        parent::beforeFilter();
         // These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array
         $this->initAccount(); //set all properties describing the logged in user (or not)

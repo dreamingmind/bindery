@@ -117,17 +117,11 @@ class AppHelper extends Helper {
                 'label'=>false,
                 'div'=>false
             ));
-        $tool .= "<input class='siteSearchButton' type='image' src='/bindery/img/magnify.p.png' value = 'Submit' alt='Submit' />";
-//            'type'=>'image',
-//            'src'=>'/bindery/img/magnify.p.png',
-//            'alt'=>'Submit',
-//            'label'=>false
-//            
-//        ));
+        $tool .= "<input class='siteSearchButton' type='image' 
+            src='/bindery/img/magnify.p.png' value = 'Submit' alt='Submit' />";
+
         $tool .= FormHelper::end();
-//        <INPUT TYPE="image" SRC="/dimages/submit.gif" 
-//               WIDTH="120"  HEIGHT="30" 
-//              BORDER="0" ALT="SUBMIT!">
+
         return "<div id='siteSearchBox'>$tool</div>";
     }
     

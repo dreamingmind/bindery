@@ -481,3 +481,6 @@ div.recordData {
     left: 10px;
     width: 70px;
 }
+div.uploadLinks{
+    z-index: 5;
+}

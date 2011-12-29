@@ -21,18 +21,38 @@
  * @param int params[pass][0] the number of upload forms to generate
  * @param string params[pass][1] the string 'upload'
  */
+if($disallowed && (!isset($this->params['pass'][0]))){
+    $countMax = count($disallowed);
+//    debug($disallowed);
+    current($disallowed);
+} else {
+    $countMax = $this->params['pass'][0];
+}
 ?>
 <div class="images form">
 <?php echo $this->Form->create('Image',array(
     'type' => 'file',
-    'url'=>(array ('action'=>'multi_add', $this->params['pass'][0])))) ;?>
+    'url'=>(array ('action'=>'multi_add', $countMax)))) ;?>
     
-    <?php for ($count = 0; $count < $this->params['pass'][0]; $count++) { ?>
+    <?php for ($count = 0; $count < $countMax; $count++) { ?>
      
  
 	<fieldset>
  		<legend><?php __('Add Image'); ?></legend>
 	<?php
+        if($disallowed && !isset($this->params['pass'][0])){
+            echo $this->Html->tag('h3',key($disallowed) . ' ('.current($disallowed)->reason.')');
+            next($disallowed);
+                echo $this->Form->input('Task', array(
+                    'name'=>"data[$count][Image][task]",
+                    'id' => "{$count}ImageImgTask",
+                    'value'=>'delete',
+                    'type'=>'radio', 'options'=> array(
+                        'delete'=>'Delete', 'maintain'=>'Maintain'
+                    )
+                ));
+           echo $this->Html->tag('h3','Upload an alternate.');
+        }
 		echo $this->Form->input('File',array(
                     'name'=>"data[$count][Image][img_file]",
                     'id' => "{$count}ImageImgFile",
@@ -87,9 +107,5 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Images', true), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List Dispatches', true), array('controller' => 'dispatches', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Dispatch', true), array('controller' => 'dispatches', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Exhibits', true), array('controller' => 'exhibits', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Exhibit', true), array('controller' => 'exhibits', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

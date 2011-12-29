@@ -13,16 +13,141 @@
  * @package       bindery
  * @subpackage    bindery.controller
  * @todo write populator that reads the current image collection and writes records for images that don't have them
+ * @property Image $Image
  */
 class ImagesController extends AppController {
 
 	var $name = 'Images';
         
         /**
-         * The search results
-         * @var array $searchRecords
+         * @var array $searchRecords The search results
          */
-        var $searchRecords = array();
+        var $searchRecords = false;
+        
+        /**
+         * @var false|array $duplicate Upload files that are duplicates
+         */
+        var $duplicate = false;
+
+        /**
+         * @var false|array $disallowed Upload files that are disallowed types
+         */
+        var $disallowed = false;
+
+        /**
+         * @var false|array $new Upload files that are new
+         */
+        var $new = false;
+
+        /**
+         * @var false|int $lastUpload the sequence number of the last upload set
+         */
+        var $lastUpload = false;
+
+        /**
+         * @var int $column The default number of columns for Image Grid display
+         */
+        var $column = 8;
+
+        /**
+         * @var string $size The default size for Image Grid display
+         */
+        var $size = 'x75y56';
+
+        /**
+         * @var int $columns The list of possible column counts
+         */
+        var $columns = array();
+
+        /**
+         * @var string $sizes The list of sizes for Image Grid display
+         */
+        var $sizes = array();
+
+        /**
+         * The Image context search params last used to draw the page
+         * @var string|array $searchInput String search param or action=>pass array
+         */
+        var $searchInput = false;
+
+        /**
+         * The orphan Image records
+         * @var array $orphans Image records that link to no Content record
+         */
+        var $orphans = false;
+
+        /**
+         * Take care of ImageController housekeeping
+         * 
+         * If this is a site manager:
+         *  Get the lastUpload value
+         *  Check the uplad folder and make the analyzed contents available
+         * 
+         * @todo Make the beforeFilter more Action specific. Some things aren't ALWAYS needed
+         * @todo search/1 then hit Admin/Image will f'up $this->searchInput. Other values work. Odd
+         */
+        function beforeFilter(){
+           parent::beforeFilter();
+           if($this->usergroupid < 3) { // managers or administrators
+               
+               // Set lastUpload property
+               $u = $this->Image->find('first',array(
+                    'order'=>'Image.upload DESC',
+                    'fields'=>'Image.upload',
+                    'contains'=>false));
+               $this->set('lastUpload', $this->lastUpload = ($u) ? $u['Image']['upload'] : false); 
+               
+               $this->orphans = $this->Image->query("SELECT * FROM `images` AS `Image` 
+                WHERE NOT EXISTS (SELECT Content.image_id FROM contents AS Content 
+                WHERE Content.image_id = Image.id); ");
+               $this->set('orphans', $this->orphans);
+
+               // Check the Upload folder and set upload realted properties
+               $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/images');
+               $this->Image->ingest_images(); //this is in Upload behavior which reads the upolad folder
+               
+               // these will be false or arrays of file data from the upload folder
+               $this->set('disallowed',$this->disallowed = $this->Image->Behaviors->Upload->disallowed);
+               $this->set('duplicate',  $this->duplicate = $this->Image->Behaviors->Upload->dup);
+               $this->set('new',  $this->new = $this->Image->Behaviors->Upload->new);
+              
+               // Save or read page-state values
+                if(isset($this->data['Image']['columns'])){
+                    $this->column = $this->data['Image']['columns'];
+                    $this->size = $this->data['Image']['sizes'];
+                } elseif ($this->Session->check('Image.columns')) {
+                    $this->column = $this->Session->read('Image.columns');
+                    $this->size = $this->Session->read('Image.sizes');
+                }
+                
+                // Remember any Image context searches
+                if(isset($this->data['Image']['searchInput']) || 
+                        ($this->params['action'] == 'search' && isset($this->params['pass'][0]))){
+                    $this->searchInput =  isset($this->data['Image']['searchInput'])
+                        ? $this->data['Image']['searchInput']
+                        : $this->params['pass'][0];
+                } elseif ($this->Session->check('Image.searchInput')) {
+                    $this->searchInput =  $this->Session->read('Image.searchInput');
+                } elseif (!$this->searchInput) {
+                    $this->searchInput =  $this->lastUpload;
+                }
+            }
+            
+            // default, last state or new state... we have values for the view now
+            $this->set('size', $this->size);
+            $this->set('column', $this->column);
+            $this->Session->write('Image.columns',$this->column);
+            $this->Session->write('Image.sizes',$this->size);
+            $this->Session->write('Image.searchInput',$this->searchInput);
+            
+            // values for form selects
+            $this->set('columns', $this->columns = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+            foreach($this->Image->actsAs['Upload']['img_file']['thumbsizes'] as $key=>$val) {
+                $this->sizes[$key] = $key;
+            }
+            $this->set('sizes',  $this->sizes);
+
+        }
 
 	function index() {
             $this->paginate = array('order'=>array('Image.id'=> 'desc'));
@@ -58,6 +183,89 @@ class ImagesController extends AppController {
             }
         }
     }
+    /**
+     * Handle duplicate images that have been placed in the Upload folder
+     */
+    function duplicate_uploads(){
+//        debug($this->data);
+//        debug($this->duplicate);die;
+        if(!is_array($this->duplicate)){
+            $this->Session->setFlash("Duplicates are all processed. There are no more duplicate images in the Upload folder.");
+            $this->redirect(array('action'=>'search'));
+        }
+        $delete = array();
+        if (isset($this->data)){
+            foreach($this->data as $index => $image){
+                // images marked for deletion
+                if($image['Image']['task']=='delete'
+                        && $image['Image']['img_file']==$image['Image']['oldName']){
+                    unlink($this->duplicate[$image['Image']['img_file']]->path);
+                    $delete[] = $index;
+                }
+                // images to rename
+                if($image['Image']['img_file']!=$image['Image']['oldName']
+                        && $image['Image']['task']!='delete'){
+                    rename($this->duplicate[$image['Image']['oldName']]->path,
+                        $this->duplicate[$image['Image']['oldName']]->Folder->path.'/'.$image['Image']['img_file']);
+                    $delete[] = $index;
+                }
+                // images with ambiguous requests
+                if($image['Image']['task']=='delete'
+                        && $image['Image']['img_file']!=$image['Image']['oldName']){
+                    $this->Session->setFlash('The name was changed and deletion was requested. Please clarify your request<br \\>',
+                            'default', null, $image['Image']['oldName']);
+                }
+            }
+            foreach($delete as $index){
+                unset($this->duplicate[$this->data[$index]['Image']['img_file']]);
+                unset($this->data[$index]);
+            }
+            $this->redirect(array('action'=>'duplicate_uploads'));
+        }
+        $this->layout = 'noThumbnailPage';
+    }
+    
+    /**
+     * Handle disallowed images that have been placed in the Upload folder
+     */
+    function disallowed_uploads(){
+        if(!is_array($this->disallowed)){
+            $this->Session->setFlash('The disallowed files have all been processed. There are no more disallowed files in the Upload folder.');
+            $this->redirect(array('action'=>'search'));
+        }
+        if (isset($this->data)){
+            debug($this->data);die;
+        }
+        $this->layout = 'noThumbnailPage';
+    }
+    
+    /**
+     * Handle new images that have been placed the Upload folder
+     */
+    function new_uploads(){
+        if(!is_array($this->new)){
+            $this->Session->setFlash("There are no valid new images in the Upload folder. You should only use an onscreen link to come to this page.<br \\>
+                \$this->new should have an array of upoload file info. <br \\>It has: <br \\>"
+                    . print_r($this->new, TRUE));
+            $this->set('new',false);
+        }
+        if(isset($this->data)){
+            // Look for deletion requests first
+            $delete = array();
+           foreach ($this->data as $count => $image){
+               if($image['Image']['task']=='delete'){
+                   $delete[]=$count;
+               }
+           }
+           foreach($delete as $index=>$pointer){
+                unlink($this->data[$pointer]['Image']['img_file']['tmp_file']);
+                unset($this->data[$pointer]);
+           }
+           $this->Image->saveAll($this->data);
+           $this->redirect(array('action'=>'search',  $this->lastUpload+1));
+        }
+        $this->layout = 'noThumbnailPage';
+    }
     
     /**
      * Create a layout to upload several images at once
@@ -65,6 +273,7 @@ class ImagesController extends AppController {
      */
     function multi_add($count=null) {
         if (!empty($this->data)) {
+//            debug($this->data);die;
             //read exif data and set exif fields
             $success = TRUE;
             $message = null;
@@ -89,6 +298,7 @@ class ImagesController extends AppController {
             }
                 $this->Session->setFlash(__($message, true));                    
         }
+        $this->layout = 'noThumbnailPage';
     }
 
 	function edit($id = null) {
@@ -123,56 +333,59 @@ class ImagesController extends AppController {
 	}
         
         function search() {
-            $this->searchRecords = $this->Image->find('all', array(
-                'conditions'=>array('Image.alt LIKE'=> "%{$this->data['Image']['searchInput']}%")
-            ));
-            /**
-             * make the search value available for inclusion in the
-             * image grid columns/sizes form so requesting a re-layout 
-             * doesn't loose the found set
-             */
-            $this->set('searchInput',$this->data['Image']['searchInput']);
-//            debug($this->searchRecords); die;
+            $upload = false;
+            // A numberic pass[0] is an Upload set number. Please show that set.
+            // And no search or pass[0] well default to the last Upload set
+            preg_match('/[0-9]+/',$this->searchInput,$match);
+            $uploadRequest = (isset($match[0])&&$match[0] > 0) ? $match[0] : false;
+                
+            if ($uploadRequest) {
+                if ($uploadRequest > 0 && $uploadRequest <= $this->lastUpload) {
+                    $upload = $uploadRequest;
+                } else {
+                    $this->Session->setFlash("Upload sets exist for values 1 - {$this->lastUpload}. Your request for set $uploadRequest can't be satisfied");
+                }
+            }
+            
+            if ($upload) {
+                // search param was integer; that's an upload set number
+                $this->searchRecords = $this->Image->find('all', array(
+                    'conditions'=>array('Image.upload'=> $upload)
+                ));
+            } elseif ($this->searchInput == 'orphan_images') {
+                // search param was a request to see orphan images
+                $this->searchRecords = $this->orphans;
+            } else {
+                // search param wasn't integer or orphan; that's means a field value search
+                $this->searchRecords = $this->Image->find('all', array(
+                'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%")
+                ));
+            }                
+
             $this->image_grid();
             $this->render('image_grid');
         }
         
+        /**
+         * Image grid interface for admins
+         * 
+         * This is the main image management and review layout.
+         * It allows image display in different sizes and grid counts
+         * and in concert with $this->search, allows selection of 
+         * Image sub-sets for editing and Collection creation
+         * 
+         * This layout also watches the Image Upload folder for 
+         * new pictures and provides tools to process those pictuers
+         */
         function image_grid(){
-
+        //debug($this->searchRecords);die;
+            
             $this->layout = 'noThumbnailPage';
-            // form data or default?
-            if(isset($this->data)&&isset($this->data['Image']['columns'])){
-                $column = $this->data['Image']['columns'];
-                $size = $this->data['Image']['sizes'];
+            if($this->searchRecords){
+                $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
             } else {
-                $column = 8;
-                $size = 'x75y56';
+                $this->set('chunk',false);
             }
-            /**
-             * the layout settings need to be prepared for inclusion
-             * in the layout search box as hidden fields so searches
-             * won't keep jumping back to the default grid
-             */
-            $this->set('hidden', array(
-                'columns'=>array('value'=>$column),
-                'sizes'=>array('value'=>$size))
-                );
-
-            // make form drop-down lists
-            $sizes = array();
-            foreach($this->Image->actsAs['Upload']['img_file']['thumbsizes'] as $key=>$val) {
-                $sizes[$key] = $key;
-            }
-            $this->set('size', $size);
-            $this->set('column', $column);
-            $this->set('columns', array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-            $this->set('sizes',$sizes);
-
-            // get the pictures
-            if ($this->searchRecords==null) {
-                $this->searchRecords = $this->Image->find('all', array('contain'=>false));
-            }
-            $this->set('chunk', array_chunk($this->searchRecords, $column+1));
         }
         
         /**
@@ -200,6 +413,28 @@ class ImagesController extends AppController {
             $record['Image']['date'] = strtotime($exif_data['DateTime']);
             $record['Image']['mymetype'] = $exif_data['MimeType'];
             $record['Image']['size'] = $exif_data['FileSize'];
+        }
+        
+    
+    /**
+     * Ingest images rountines copied in 
+     */
+        /**
+         * Build the starter arrays of table data for bulk image processing
+         *
+         * This build only the display data for the tables
+         * The tables will also include links to do things
+         * Those will be made by HTMLHelper in the view and ajax-infused
+         */
+        function ingest_images() {
+            $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/images');
+            $this->Image->ingest_images(); //this is in Upload behavior
+//            debug($this->Image->Behaviors->Upload); die;
+            debug($this->Image->Behaviors->Upload->disallowed);
+            debug($this->Image->Behaviors->Upload->dup);
+            debug($this->Image->Behaviors->Upload->new);
+            die;
+            App::import('Helper','Html');
         }
         
 }
