@@ -505,11 +505,10 @@ class TreeCrudComponent extends Object {
             $flashMessage .= ($this->data[$this->model->alias]['parent_id'] == -1  ? "Select a parent." : null);
             $flashMessage = ($this->data[$this->model->alias]['id'] == $this->data[$this->model->alias]['parent_id'] ?
                     "A node can't be its own parent" : $flashMessage);
-
             if (!$flashMessage) {
 		$this->model->id = $this->data[$this->model->alias]['id'];
 		if ($this->data[$this->model->alias]['parent_id']==0){
-                    unset($this->data[$this->model->alias]['parent_id']);
+                    $this->data[$this->model->alias]['parent_id'] = null;
                 }
 		$this->model->save($this->data);
             } else {

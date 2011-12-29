@@ -5,48 +5,49 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.model
  */
 /**
  * ImagesController
  * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.model
  * @property Content $Content
+ * @property Upload $Upload
  */
 class Image extends AppModel {
     var $name = 'Image';
     var $displayField = 'img_file';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    var $hasMany = array(
-            'Dispatch' => array(
-                    'className' => 'Dispatch',
-                    'foreignKey' => 'image_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => ''
-            ),
-            'Exhibit' => array(
-                    'className' => 'Exhibit',
-                    'foreignKey' => 'image_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => ''
-            )
-    );
+//    var $hasMany = array(
+//            'Dispatch' => array(
+//                    'className' => 'Dispatch',
+//                    'foreignKey' => 'image_id',
+//                    'dependent' => false,
+//                    'conditions' => '',
+//                    'fields' => '',
+//                    'order' => '',
+//                    'limit' => '',
+//                    'offset' => '',
+//                    'exclusive' => '',
+//                    'finderQuery' => '',
+//                    'counterQuery' => ''
+//            ),
+//            'Exhibit' => array(
+//                    'className' => 'Exhibit',
+//                    'foreignKey' => 'image_id',
+//                    'dependent' => false,
+//                    'conditions' => '',
+//                    'fields' => '',
+//                    'order' => '',
+//                    'limit' => '',
+//                    'offset' => '',
+//                    'exclusive' => '',
+//                    'finderQuery' => '',
+//                    'counterQuery' => ''
+//            )
+//    );
     var $hasOne = 'Content';
 
     /*
@@ -86,8 +87,5 @@ class Image extends AppModel {
         )
     );
 
-    function act(){
-        
-    }
 }
 ?>
