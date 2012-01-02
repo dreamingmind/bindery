@@ -48,7 +48,7 @@ class Image extends AppModel {
 //                    'counterQuery' => ''
 //            )
 //    );
-    var $hasOne = 'Content';
+    var $hasMany = 'Content';
 
     /*
      * Modified version of Meio Upload Behavior

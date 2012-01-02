@@ -75,6 +75,8 @@ class ImagesController extends AppController {
          * @var array $orphans Image records that link to no Content record
          */
         var $orphans = false;
+        
+        var $layout = 'noThumbnailPage';
 
         /**
          * Take care of ImageController housekeeping
@@ -378,8 +380,9 @@ class ImagesController extends AppController {
          * new pictures and provides tools to process those pictuers
          */
         function image_grid(){
-        //debug($this->searchRecords);die;
-            
+            if(isset($this->data)){
+                $this->Image->saveAll($this->data);
+            }
             $this->layout = 'noThumbnailPage';
             if($this->searchRecords){
                 $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));

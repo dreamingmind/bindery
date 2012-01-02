@@ -14,69 +14,33 @@ if($new) {
 
     $count = 0;
     
-    foreach($new as $file => $object) { ?>
+    foreach($new as $fileIndex => $object) { ?>
      
         
 	<fieldset>
- 		<legend><?php __("Add Image $file"); ?></legend>
+ 		<legend><?php __("Add Image $fileIndex"); ?></legend>
 	<?php
+$file = array(     //required
+    'name'=> $fileIndex,
+    'type'=> $object->exif['FILE']['MimeType'],
+    'tmp_file'=> $object->path,
+    'size'=> $object->exif['FILE']['FileSize']
+    );
                 echo $this->Html->image("images/upload/$file", array('style'=>'width:120px;'));
-		echo $this->Form->hidden('Name',array(
-                    'name'=>"data[$count][Image][img_file][name]",
-                    'id' => "{$count}ImageImgFileName",
-                    'value'=>$file));
-		echo $this->Form->hidden('Type',array(
-                    'name'=>"data[$count][Image][img_file][type]",
-                    'id' => "{$count}ImageImgFileType",
-                    'value'=>$object->exif['FILE']['MimeType']));
-		echo $this->Form->hidden('TmpFile',array(
-                    'name'=>"data[$count][Image][img_file][tmp_file]",
-                    'id' => "{$count}ImageImgFileTmpFile",
-                    'value'=>$object->path));
-		echo $this->Form->hidden('Error',array(
-                    'name'=>"data[$count][Image][img_file][error]",
-                    'id' => "{$count}ImageImgFileTmpFile",
-                    'value'=>0));
-		echo $this->Form->hidden('Size',array(
-                    'name'=>"data[$count][Image][img_file][size]",
-                    'id' => "{$count}ImageImgFileSize",
-                    'value'=>$object->exif['FILE']['FileSize']));
                     
-		echo $this->Form->input('Alt',array(
-                    'name'=>"data[$count][Image][alt]",
-                    'id' => "{$count}ImageImgAlt",
-                    'type'=>'textarea'));
-		echo $this->Form->input('Date',array(
-                    'name'=>"data[$count][Image][date]",
-                    'id' => "{$count}ImageImgDate",
-                    'value'=>strtotime($object->exif['EXIF']['DateTimeOriginal'])));
-		echo $this->Form->input('Mimetype',array(
-                    'name'=>"data[$count][Image][mimetype]",
-                    'id' => "{$count}ImageImgMimetype",
-                    'value'=>$object->exif['FILE']['MimeType']));
-		echo $this->Form->input('Filesize',array(
-                    'name'=>"data[$count][Image][filesize]",
-                    'id' => "{$count}ImageImgFilesize",
-                    'value'=>$object->exif['FILE']['FileSize']));
-		echo $this->Form->input('Width',array(
-                    'name'=>"data[$count][Image][width]",
-                    'id' => "{$count}ImageImgWidth",
-                    'value'=>$object->exif['COMPUTED']['Width']));
-		echo $this->Form->input('Height',array(
-                    'name'=>"data[$count][Image][height]",
-                    'id' => "{$count}ImageImgHeight",
-                    'value'=>$object->exif['COMPUTED']['Height']));
-		echo $this->Form->input('Upload',array(
-                    'name'=>"data[$count][Image][upload]",
-                    'id' => "{$count}ImageImgUpload",
-                    'value'=>$lastUpload+1));
-                echo $this->Form->input('Category', array(
-                    'name'=>"data[$count][Image][category]",
-                    'id' => "{$count}ImageImgCategory",
-                    'type'=>'radio', 'value'=>'dispatches', 'options'=> array(
-                        'dispatches'=>'Dispatch', 'exhibits'=>'Exhibit' 
-                    )
+                echo $this->element('imageForm_fileFields',array(
+                    'count'=>$count,
+                    'file'=>$file
                 ));
+                echo $this->element('imageForm_dataFields',array(
+                    'count'=>$count,
+                    'object'=>$object
+                ));
+                echo $this->element('imageForm_exifFields',array(
+                    'count'=>$count,
+                    'object'=>$object
+                ));
+
                 echo $this->Form->input('Task', array(
                     'name'=>"data[$count][Image][task]",
                     'id' => "{$count}ImageImgTask",
@@ -85,16 +49,6 @@ if($new) {
                         'delete'=>'Delete', 'upload'=>'Upload'
                     )
                 ));
-//		echo $this->Form->hidden('Modified',array(
-//                    'name'=>"data[$count][Image][modified]",
-//                    'id' => "{$count}ImageImgModified",
-//                    'value'=>time()));
-//                    if (isset($this->params['pass'][1])) { 
-		echo $this->Form->hidden('batch',array(
-                    'name'=>"data[$count][Image][batch]",
-                    'id' => "{$count}ImageImgBatch",
-                    'value'=>1));                        
-//                    }
 	?>
 	</fieldset>
  
