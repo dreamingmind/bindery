@@ -4,15 +4,17 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('img_file');?></th>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('date');?></th>
-			<th><?php echo $this->Paginator->sort('title');?></th>
-			<th><?php echo $this->Paginator->sort('alt');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
-			<th><?php echo $this->Paginator->sort('category');?></th>
+			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('mimetype');?></th>
 			<th><?php echo $this->Paginator->sort('filesize');?></th>
 			<th><?php echo $this->Paginator->sort('width');?></th>
 			<th><?php echo $this->Paginator->sort('height');?></th>
+			<th><?php echo $this->Paginator->sort('title');?></th>
+			<th><?php echo $this->Paginator->sort('category');?></th>
+			<th><?php echo $this->Paginator->sort('alt');?></th>
+			<th><?php echo $this->Paginator->sort('upload');?></th>
+			<th><?php echo $this->Paginator->sort('date');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -26,15 +28,17 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $image['Image']['img_file']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['id']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['date']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['title']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['alt']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['modified']; ?>&nbsp;</td>
-		<td><?php echo $image['Image']['category']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['created']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['mimetype']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['filesize']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['width']; ?>&nbsp;</td>
 		<td><?php echo $image['Image']['height']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['title']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['category']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['alt']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['upload']; ?>&nbsp;</td>
+		<td><?php echo $image['Image']['date']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $image['Image']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $image['Image']['id'])); ?>
@@ -61,9 +65,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Image', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Dispatches', true), array('controller' => 'dispatches', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Dispatch', true), array('controller' => 'dispatches', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Exhibits', true), array('controller' => 'exhibits', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Exhibit', true), array('controller' => 'exhibits', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Contents', true), array('controller' => 'contents', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

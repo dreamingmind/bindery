@@ -43,8 +43,8 @@ class Content extends AppModel {
                 'foreignKey' => 'image_id'
             )	);
         
-        var $hasOne = array(
-            'ExhibitSupliment',
+        var $hasOne = array('ExhibitSupliment');
+        var $hasMany = array(
             'ContentCollection' => array(
                 'className' => 'ContentCollection',
                 'foreignKey' => 'content_id'

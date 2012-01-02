@@ -1,11 +1,15 @@
 <div class="contents form">
 <?php echo $this->Form->create('Content');?>
 	<fieldset>
- 		<legend><?php printf(__('Add %s', true), __('Content', true)); ?></legend>
+ 		<legend><?php __('Add Content'); ?></legend>
 	<?php
-        //debug($navlines);
-                echo $this->Form->input('navline_id',array('options'=>$navline));
+		echo $this->Form->input('navline_id');
 		echo $this->Form->input('content');
+		echo $this->Form->input('image_id');
+		echo $this->Form->input('alt');
+		echo $this->Form->input('title');
+		echo $this->Form->input('heading');
+		echo $this->Form->input('publish');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
@@ -14,8 +18,14 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Contents', true)), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Navlines', true)), array('controller' => 'navlines', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Navline', true)), array('controller' => 'navlines', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Contents', true), array('action' => 'index'));?></li>
+		<li><?php echo $this->Html->link(__('List Navlines', true), array('controller' => 'navlines', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Navline', true), array('controller' => 'navlines', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Exhibit Supliments', true), array('controller' => 'exhibit_supliments', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Exhibit Supliment', true), array('controller' => 'exhibit_supliments', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

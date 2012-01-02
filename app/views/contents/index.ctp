@@ -1,18 +1,5 @@
 <div class="contents index">
 	<h2><?php __('Contents');?></h2>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-	));
-	?>	</p>
-
-	<div class="paging">
-		<?php echo $this->Paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
-	 | 	<?php echo $this->Paginator->numbers();?>
- |
-		<?php echo $this->Paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
-	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -20,6 +7,11 @@
 			<th><?php echo $this->Paginator->sort('content');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
+			<th><?php echo $this->Paginator->sort('image_id');?></th>
+			<th><?php echo $this->Paginator->sort('alt');?></th>
+			<th><?php echo $this->Paginator->sort('title');?></th>
+			<th><?php echo $this->Paginator->sort('heading');?></th>
+			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -32,10 +24,19 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $content['Content']['id']; ?>&nbsp;</td>
-		<td><?php echo $content['Content']['navline_id']; ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($content['Navline']['name'], array('controller' => 'navlines', 'action' => 'view', $content['Navline']['id'])); ?>
+		</td>
 		<td><?php echo $content['Content']['content']; ?>&nbsp;</td>
 		<td><?php echo $content['Content']['created']; ?>&nbsp;</td>
-		<td><?php echo "-{$content['Image']['img_file']}-"; echo $this->Html->image('images/thumb/x54y54/'. $content['Image']['img_file']); ?>&nbsp;</td>
+		<td><?php echo $content['Content']['modified']; ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($content['Image']['img_file'], array('controller' => 'images', 'action' => 'view', $content['Image']['id'])); ?>
+		</td>
+		<td><?php echo $content['Content']['alt']; ?>&nbsp;</td>
+		<td><?php echo $content['Content']['title']; ?>&nbsp;</td>
+		<td><?php echo $content['Content']['heading']; ?>&nbsp;</td>
+		<td><?php echo $content['Content']['publish']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $content['Content']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $content['Content']['id'])); ?>
@@ -52,17 +53,23 @@
 	?>	</p>
 
 	<div class="paging">
-		<?php echo $this->Paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
+		<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
 	 | 	<?php echo $this->Paginator->numbers();?>
  |
-		<?php echo $this->Paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
+		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Content', true)), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Navlines', true)), array('controller' => 'navlines', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Navline', true)), array('controller' => 'navlines', 'action' => 'add')); ?> </li>
-	</ul> 
+		<li><?php echo $this->Html->link(__('New Content', true), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('List Navlines', true), array('controller' => 'navlines', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Navline', true), array('controller' => 'navlines', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Exhibit Supliments', true), array('controller' => 'exhibit_supliments', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Exhibit Supliment', true), array('controller' => 'exhibit_supliments', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
+	</ul>
 </div>
