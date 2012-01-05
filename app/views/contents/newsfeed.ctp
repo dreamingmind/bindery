@@ -12,9 +12,9 @@
 //debug($previousPage);
 //debug($this);//</p>
 $h2 = null; // suppress repeated dispatch heading
-//$path = 'images/thumb/x500y375/';
+$path = 'images/thumb/x500y375/';
 //$path = 'images/thumb/x160y120/';
-$path = 'images/thumb/x800y600/';
+//$path = 'images/thumb/x800y600/';
 
 echo $this->Html->tag('h1',$content[0]['Collection']['heading']);
 echo $this->Html->tag('p',$content[0]['Collection']['text']);
@@ -74,28 +74,17 @@ foreach ($content as $index => $dispatch) {
             'style' =>'display: none;'
             )
         );
-    ?>
-<table>
-    <tbody> <?php 
-echo $this->Html->tableHeaders(
-        array($this->Html->para(null, 'Hide', array(
-            'onclick' => "showhide('fieldset{$dispatch['Content']['id']}', 'none'); return false",
-            'escape' => false
-        ))), '');
-echo "\t<tr>\r" . $this->Form->input('Content.id',$this->Html->formTRow(array('value'=>$dispatch['Content']['id']))) . "\t</tr>\r";
-echo "\t<tr>\r" . $this->Form->input('Content.alt',$this->Html->formTRow(array('value'=>$dispatch['Content']['alt']))) . "\t</tr>\r";
-echo "\t<tr>\r" . $this->Form->input('Content.title',$this->Html->formTRow(array('value'=>$dispatch['Content']['title']))) . "\t</tr>\r";
-echo "\t<tr>\r" . $this->Form->input('Content.heading',$this->Html->formTRow(array('value'=>$dispatch['Content']['heading']))) . "\t</tr>\r";
-echo "\t<tr>\r" . $this->Form->input('Content.content',$this->Html->formTRow(array('value'=>$dispatch['Content']['content']))) . "\t</tr>\r";
-echo "\t<tr>\r" . $this->Form->input('Content.publish',$this->Html->formTRow(array(
-    'type' => 'radio' ,
-    'value' => $dispatch['Content']['publish'],
-    'options' => array ('No', 'Yes')
-))) . "\t</tr>\r";
-    ?></tbody> 
-</table>
-<?php
-echo $this->Form->end('Submit');
+
+    echo $this->element('contentForm_metaFields', array(
+        'record' => $dispatch
+    ));
+    
+    echo $this->element('contentForm_dataFields', array(
+        'record' => $dispatch,
+        'display'=>'show'
+    ));
+    
+    echo $this->Form->end('Submit');
 }
 ?>
  <div class="dispatch">
