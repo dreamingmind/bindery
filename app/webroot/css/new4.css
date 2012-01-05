@@ -528,7 +528,19 @@ div.hideButtons{
     border: solid 1px #FFF;
 }
 .recordForm fieldset{
-    width:350px;
     padding:5px;
     background: #fff;
+    margin-right: 10px;
+}
+.recordForm fieldset legend{
+    width:100%;
+    background-color: #c0c0c0;
+}
+.recordForm form{
+    width:370px;
+    background-color: #666;
+    padding: 10px;
+}
+.toggleHide{
+    display: none;
 }

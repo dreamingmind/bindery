@@ -50,6 +50,8 @@ if($chunk) {
                 )
                 . $this->Form->create('Image',array('conroller'=>'images',
                     'action'=>'image_grid'))
+//                  . $this->Form->inputs($val['Image'])
+//                  . $this->Form->inputs($val['Content'][0])
                 . $this->Html->div('', $this->element('imageForm_metaFields', array(
                     'record'=>$val,
 //                    'count'=>$record
@@ -62,13 +64,13 @@ if($chunk) {
                     'record'=>$val,
 //                    'count'=>$record
                     )))
-                . $this->Html->div('', $this->element('contentFormMulti_metaFields', array(
+                . $this->Html->div('', $this->element('contentForm_metaFields', array(
                     'record'=>$val,
-//                    'count'=>$record++
+                  'linkNumber' => 0
                     )))
-                . $this->Html->div('', $this->element('contentFormMulti_dataFields', array(
+                . $this->Html->div('', $this->element('contentForm_dataFields', array(
                     'record'=>$val,
-//                    'count'=>$record++
+                  'linkNumber' => 0
                     )))
                 . $this->Form->end('Submit',true)
                 ,array('id'=>'recordForm'.$val['Image']['id'])

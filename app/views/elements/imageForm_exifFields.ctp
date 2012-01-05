@@ -33,71 +33,92 @@
  * 
  * I'm not 100% sure about the universality of $object indexing. Cross your fingers
  */
-$count = (isset($count)) ? $count : null; //multiple records?
-$index = ($count != null) ? "[$count]" : false; //data array index
-$label = ($count != null) ? "Record $count:" : ''; //legend
+//$count = (isset($count)) ? $count : null; //multiple records?
+//$index = ($count != null) ? "[$count]" : false; //data array index
+//$label = ($count != null) ? "Record $count:" : ''; //legend
 ?> 
-	<fieldset id="<?php echo "exifFields$count"; ?>" class="exifFields">
- 		<legend><?php __("$label Image exif fields"); ?></legend>
-	<?php                   
-		echo $this->Form->input('Date',array(
-                    'name'=>"data{$index}[Image][date]",
-                    'id' => "{$count}ImageDate",
-                    'class' => "ImageDate",
-                    'value'=>
-                        (isset($object) && is_object($object)) 
-                            ? strtotime($object->exif['EXIF']['DateTimeOriginal'])
-                            : ((isset($record['Image']['date']))
-                                ? $record['Image']['date']
-                                : '')
-                    ));
+<!--	<fieldset id="<?php echo "exifFields$count"; ?>" class="exifFields">
+ 		<legend><?php __("$label Image exif fields"); ?></legend>-->
+	<?php
                     
-		echo $this->Form->input('Mimetype',array(
-                    'name'=>"data{$index}[Image][mimetype]",
-                    'id' => "{$count}ImageMimetype",
-                    'class' => "ImageMimetype",
-                    'value'=>
-                        (isset($object) && is_object($object)) 
-                            ? $object->exif['FILE']['MimeType']
-                            : ((isset($record['Image']['mimetype']))
-                                ? $record['Image']['mimetype']
-                                : '')
-                    ));
-                    
-		echo $this->Form->input('Filesize',array(
-                    'name'=>"data{$index}[Image][filesize]",
-                    'id' => "{$count}ImageFilesize",
-                    'class' => "ImageFilesize",
-                    'value'=>
-                        (isset($object) && is_object($object)) 
-                            ? $object->exif['FILE']['FileSize']
-                            : ((isset($record['Image']['filesize']))
-                                ? $record['Image']['filesize']
-                                : '')
-                    ));
-                    
-		echo $this->Form->input('Width',array(
-                    'name'=>"data{$index}[Image][width]",
-                    'id' => "{$count}ImageWidth",
-                    'class' => "ImageWidth",
-                    'value'=>
-                        (isset($object) && is_object($object)) 
-                            ? $object->exif['COMPUTED']['Width']
-                            : ((isset($record['Image']['width']))
-                                ? $record['Image']['width']
-                                : '')
-                    ));
-                    
-		echo $this->Form->input('Height',array(
-                    'name'=>"data{$index}[Image][height]",
-                    'id' => "{$count}ImageHeight",
-                    'class' => "ImageHeight",
-                    'value'=>
-                        (isset($object) && is_object($object)) 
-                            ? $object->exif['COMPUTED']['Height']
-                            : ((isset($record['Image']['height']))
-                                ? $record['Image']['height']
-                                : '')
-                    ));
+if(is_object($record)){
+    $recordArray = array();
+    $recordArray['Image']['mimetype'] = $record->exif['FILE']['MimeType'];
+    $recordArray['Image']['filesize'] = $record->exif['FILE']['FileSize'];
+    $recordArray['Image']['width'] = $record->exif['COMPUTED']['Width'];
+    $recordArray['Image']['height'] = $record->exif['COMPUTED']['Height'];
+    $record = $recordArray;
+}
+
+$parameters = array(
+    'record'=> (isset($record))?$record:false,
+    'legend'=>'Image exif fields',
+    'prefix'=> (isset($prefix))?$prefix:false,
+    'model'=>'Image',
+    'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
+    'fields'=>array(
+        'mimetype',
+        'filesize',
+        'width',
+        'height',
+    )
+);
+
+echo $fieldset->fieldset($parameters);
+       
+       $this->Js->buffer(
+               "$('#{$fieldset->unique}').click(function() {
+  $('.{$fieldset->unique}').toggle(50, function() {
+    // Animation complete.
+  });
+});
+");
+//		echo $this->Form->input('Mimetype',array(
+//                    'name'=>"data{$index}[Image][mimetype]",
+//                    'id' => "{$count}ImageMimetype",
+//                    'class' => "ImageMimetype",
+//                    'value'=>
+//                        (isset($object) && is_object($object)) 
+//                            ? $object->exif['FILE']['MimeType']
+//                            : ((isset($record['Image']['mimetype']))
+//                                ? $record['Image']['mimetype']
+//                                : '')
+//                    ));
+//                    
+//		echo $this->Form->input('Filesize',array(
+//                    'name'=>"data{$index}[Image][filesize]",
+//                    'id' => "{$count}ImageFilesize",
+//                    'class' => "ImageFilesize",
+//                    'value'=>
+//                        (isset($object) && is_object($object)) 
+//                            ? $object->exif['FILE']['FileSize']
+//                            : ((isset($record['Image']['filesize']))
+//                                ? $record['Image']['filesize']
+//                                : '')
+//                    ));
+//                    
+//		echo $this->Form->input('Width',array(
+//                    'name'=>"data{$index}[Image][width]",
+//                    'id' => "{$count}ImageWidth",
+//                    'class' => "ImageWidth",
+//                    'value'=>
+//                        (isset($object) && is_object($object)) 
+//                            ? $object->exif['COMPUTED']['Width']
+//                            : ((isset($record['Image']['width']))
+//                                ? $record['Image']['width']
+//                                : '')
+//                    ));
+//                    
+//		echo $this->Form->input('Height',array(
+//                    'name'=>"data{$index}[Image][height]",
+//                    'id' => "{$count}ImageHeight",
+//                    'class' => "ImageHeight",
+//                    'value'=>
+//                        (isset($object) && is_object($object)) 
+//                            ? $object->exif['COMPUTED']['Height']
+//                            : ((isset($record['Image']['height']))
+//                                ? $record['Image']['height']
+//                                : '')
+//                    ));
 	?>
-	</fieldset>
+<!--	</fieldset>-->
