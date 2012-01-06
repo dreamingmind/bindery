@@ -380,15 +380,25 @@ class ImagesController extends AppController {
          * new pictures and provides tools to process those pictuers
          */
         function image_grid(){
+            $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
+            $this->set('allCollections', $allCollections);
+            $recentCollections = $this->Image->Content->ContentCollection->recentCollections();
+            $this->set('recentCollections', $recentCollections);
+            
             if(isset($this->data)){
                 $this->Image->saveAll($this->data);
             }
             $this->layout = 'noThumbnailPage';
             if($this->searchRecords){
+                foreach($this->searchRecords as $record){
+                    $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
+                }
+                $this->set('linkedContent',$linkedContent);
                 $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
             } else {
                 $this->set('chunk',false);
             }
+            
         }
         
         /**

@@ -52,8 +52,15 @@ class Content extends AppModel {
 
         );    
         
-        function dummy($what, $the, $hell) {
-            
-}
+    function linkedContent($id){
+        
+        $list = $this->find('list',array(
+            'fields'=>array('Content.id','Content.heading'),
+            'conditions'=>array('Content.image_id'=>$id)
+        ));
+        $list = array(0=>'Select Existing', 1=>'New')+$list;
+        return $list;
+    }
+
 }
 ?>

@@ -5,7 +5,7 @@
 $parameters = array(
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
-    'legend'=>'Content data fields',
+    'legend'=> (isset($legend))?$legend:'Content data fields',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model'=>'Content',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
