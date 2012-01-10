@@ -533,6 +533,7 @@ div.hideButtons{
     margin-right: 10px;
 }
 .recordForm fieldset legend{
+    font-size: 12px;
     width:100%;
     background-color: #c0c0c0;
 }
@@ -543,4 +544,20 @@ div.hideButtons{
 }
 .toggleHide{
     display: none;
+}
+.recordForm fieldset ul{
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+.recordForm fieldset li{
+    list-style-type: square;
+}
+/*==========================
+  Image Celanup Layout
+==========================*/
+div.cleanup{
+    margin: 0 0 10px 0;
+}
+div.cleanup p{
+    font-size: 10px;
 }

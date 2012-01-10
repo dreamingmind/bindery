@@ -60,18 +60,30 @@ if($chunk) {
                 
                 // accumulate the content records if there are any
                 $con_set = '';
-                if(count($val['Content'])>1){
+                if(isset($val['Content']) && count($val['Content'])>1){
                     foreach($val['Content'] as $index=>$entry){
-//                       debug($index);
-//                       debug($entry);die;
                         $con_set .= $this->Html->div('', $this->element('contentForm_metaFields', array(
                             'record'=>$val,
                             'linkNumber' => $index
                             )));
+                        
+                        // work out the memberships for this Content record
+                        if(isset($entry['ContentCollection'])){
+                            $memberships = null;
+                            foreach($entry['ContentCollection'] as $collections){
+                                $memberships .= (isset($collections['Collection']['heading']))
+                                    ?$this->Html->tag('li',$collections['Collection']['heading'])
+                                    :'';
+                            }
+                            $memberships = (!is_null($memberships))
+                                ? $this->Html->tag('ul',$memberships)
+                                : $memberships;
+                        }
                         $con_set .= $this->Html->div('', $this->element('contentForm_dataFields', array(
                             'record'=>$val,
                             'legend'=>$entry['heading'],
-                            'linkNumber' => $index
+                            'linkNumber' => $index,
+                            'pre_fields' => $memberships
                             )));
                     }
                 }

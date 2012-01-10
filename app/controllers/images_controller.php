@@ -83,7 +83,11 @@ class ImagesController extends AppController {
          * 
          * If this is a site manager:
          *  Get the lastUpload value
-         *  Check the uplad folder and make the analyzed contents available
+         *  Check the upload folder and make the analyzed contents available
+         * 
+         * There can be several forms on the page, so once the the page-controll forms are
+         * analyzed, $this->data must cleared to prevent false positives for 
+         * site data modification checks. unset causes auth error so = null
          * 
          * @todo Make the beforeFilter more Action specific. Some things aren't ALWAYS needed
          * @todo search/1 then hit Admin/Image will f'up $this->searchInput. Other values work. Odd
@@ -99,10 +103,7 @@ class ImagesController extends AppController {
                     'contains'=>false));
                $this->set('lastUpload', $this->lastUpload = ($u) ? $u['Image']['upload'] : false); 
                
-               $this->orphans = $this->Image->query("SELECT * FROM `images` AS `Image` 
-                WHERE NOT EXISTS (SELECT Content.image_id FROM contents AS Content 
-                WHERE Content.image_id = Image.id); ");
-               $this->set('orphans', $this->orphans);
+               $this->pull_orphans();
 
                // Check the Upload folder and set upload realted properties
                $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/images');
@@ -117,22 +118,33 @@ class ImagesController extends AppController {
                 if(isset($this->data['Image']['columns'])){
                     $this->column = $this->data['Image']['columns'];
                     $this->size = $this->data['Image']['sizes'];
+//                    unset($this->data['Image']);
+                    $this->data=null;
+//                    debug($this->data);die;
+
                 } elseif ($this->Session->check('Image.columns')) {
                     $this->column = $this->Session->read('Image.columns');
                     $this->size = $this->Session->read('Image.sizes');
                 }
                 
                 // Remember any Image context searches
-                if(isset($this->data['Image']['searchInput']) || 
-                        ($this->params['action'] == 'search' && isset($this->params['pass'][0]))){
+                if(isset($this->data['Image']['searchInput']) 
+                  ||($this->params['action'] == 'search' && isset($this->params['pass'][0]))){
                     $this->searchInput =  isset($this->data['Image']['searchInput'])
                         ? $this->data['Image']['searchInput']
                         : $this->params['pass'][0];
+                    if(isset($this->data['Image']['searchInput'])){
+                        $this->searchAction = (isset($this->data['Image']['action']))
+                                ? $this->data['Image']['action']
+                                : '';
+                        $this->data=null;
+                    }
                 } elseif ($this->Session->check('Image.searchInput')) {
                     $this->searchInput =  $this->Session->read('Image.searchInput');
                 } elseif (!$this->searchInput) {
                     $this->searchInput =  $this->lastUpload;
                 }
+//                debug($this->data);die;
             }
             
             // default, last state or new state... we have values for the view now
@@ -148,9 +160,16 @@ class ImagesController extends AppController {
                 $this->sizes[$key] = $key;
             }
             $this->set('sizes',  $this->sizes);
-
+            
         }
 
+    function pull_orphans(){
+       $this->orphans = $this->Image->query("SELECT * FROM `images` AS `Image` 
+        WHERE NOT EXISTS (SELECT Content.image_id FROM contents AS Content 
+        WHERE Content.image_id = Image.id); ");
+       $this->set('orphans', $this->orphans);
+    }
+    
 	function index() {
             $this->paginate = array('order'=>array('Image.id'=> 'desc'));
 		$this->Image->recursive = 0;
@@ -334,7 +353,67 @@ class ImagesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
         
+        /**
+         * Image record deletion management layout
+         * 
+         * Presents user's list (based on search) of image records and their linked
+         * records for potential deletion. If no search is requested, orphans is the 
+         * default list presented
+         * 
+         * Deletion of image will take down all dependents but ideally, 
+         * the linked records should be deletable bit-by-bit.
+         * 
+         * Image files will be deleted also
+         * 
+         * @todo image_grid properly retains a found set from here, but this layout doesn't use a found set from other contexts
+         */
+        function clean_up(){
+            $this->set('searchRecords',  $this->searchRecords);
+            $this->set('hidden',array('action'=>array('value'=>'clean_up')));
+            if(isset ($this->data)){
+                debug($this->data);die;
+                $count=0;
+                $id_list = "Image IDs: ";
+                $this->image_death = "Image files: ";
+                foreach($this->data as $id => $choice){
+                    if($choice['action']==1){
+                        $this->Image->delete($id);
+                        $count++;
+                        $id_list .= "$id ";
+                        if(!is_null($choice['name'])&&$choice['delete_file']==1) {
+                            $this->delete_image_files($choice['name']);
+                        }
+                    }
+                }
+            unset($this->data);
+            $this->Session->setFlash("$count Image records deleted<br />$id_list<br />$this->image_death",
+                'default', array('class'=>'cleanup'));
+            $this->redirect(array('action'=>'clean_up'));
+           }
+        }
+        
+        function delete_image_files($name){
+            $path = IMAGES."images/native/$name";
+            if(is_file($path)){
+                $this->image_death .= "$name ";
+                unlink($path);
+            }
+            foreach($this->sizes as $size => $size_again){
+                $path = IMAGES."images/thumb/$size/$name";
+                if(is_file($path)){
+                    unlink($path);
+                }
+            }                
+        }
+        
+        /**
+         * @todo Make this work for more than one action. possibly a case statement?
+         */
         function search() {
+//            debug($this->searchInput);
+//            debug($this->referer());
+//            
+//            die;
             $upload = false;
             // A numberic pass[0] is an Upload set number. Please show that set.
             // And no search or pass[0] well default to the last Upload set
@@ -360,13 +439,31 @@ class ImagesController extends AppController {
             } else {
                 // search param wasn't integer or orphan; that's means a field value search
                 $this->searchRecords = $this->Image->find('all', array(
-                'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%")
+                'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%"),
+                'contain'=>array(
+                    'Content'=>array(
+                        'ContentCollection'=>array(
+                            'fields'=> array('collection_id'),
+                            'Collection'=>array(
+                                'fields'=>array('heading')
+                            )
+                        )
+                    )
+                )
                 ));
-            }                
+            }
+            
+            switch($this->searchAction){
+                case 'clean_up':
+                    $this->clean_up();
+                    $this->render('clean_up');
+                default :
+                    $this->image_grid();
+                    $this->render('image_grid');
 
-            $this->image_grid();
-            $this->render('image_grid');
-        }
+            }
+
+                    }
         
         /**
          * Image grid interface for admins
@@ -378,6 +475,8 @@ class ImagesController extends AppController {
          * 
          * This layout also watches the Image Upload folder for 
          * new pictures and provides tools to process those pictuers
+         * 
+         * @todo the Content fieldsets that output don't have any Collection membership information showing. This might be very helpful though. Can the Content-Element/FieldsetHelper handle this?
          */
         function image_grid(){
             $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
