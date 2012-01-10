@@ -38,6 +38,10 @@ class FieldsetHelper extends AppHelper {
             unset( $params['record']);
         }
         
+        // arrbitrary content to insert before and after the fields
+        $this->pre_fields = (!isset($params['pre_fields']))?'':$params['pre_fields']; 
+        $this->post_fields = (!isset($params['post_fields']))?'':$params['post_fields'];
+        
         $this->display = (isset($params['display'])&& $params['display']=='show')
             ? 'toggleShow'
             : 'toggleHide';
@@ -99,7 +103,8 @@ class FieldsetHelper extends AppHelper {
         // for show/hide toggling
         $this->fieldset = $this->Html->tag('fieldset',
             $this->legendTag
-            . $this->Html->div($this->unique.' '.$this->display,implode('', $this->inputs))
+            . $this->Html->div($this->unique.' '.$this->display,
+            $this->pre_fields . implode('', $this->inputs) . $this->post_fields)
         );
         
         //return the assembled fieldset

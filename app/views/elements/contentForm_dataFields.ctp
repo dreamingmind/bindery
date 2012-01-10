@@ -3,6 +3,8 @@
 ?> 
 	<?php
 $parameters = array(
+    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
+    'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
     'legend'=> (isset($legend))?$legend:'Content data fields',
