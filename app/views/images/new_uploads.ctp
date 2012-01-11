@@ -13,7 +13,7 @@ if($new) {
     'url'=>(array ('action'=>'new_uploads', count($new))))) ;
 
     $count = 0;
-    
+//    debug($new);die;
     foreach($new as $fileIndex => $object) { ?>
      
         
@@ -26,19 +26,27 @@ $file = array(     //required
     'tmp_file'=> $object->path,
     'size'=> $object->exif['FILE']['FileSize']
     );
-                echo $this->Html->image("images/upload/$file", array('style'=>'width:120px;'));
+                echo $this->Html->image("images/upload/$fileIndex", array('style'=>'width:120px;'));
                     
                 echo $this->element('imageForm_fileFields',array(
                     'count'=>$count,
                     'file'=>$file
                 ));
+                echo $this->element('imageForm_metaFields',array(
+                    'prefix'=>array($count),
+                    'record'=>array(
+                        'Image'=>array(
+                            'upload'=>$lastUpload+1,
+                            'created'=>  date('Y-m-d H:i:s',time())
+                        )
+                    )
+                ));
                 echo $this->element('imageForm_dataFields',array(
-                    'count'=>$count,
-                    'object'=>$object
+                    'prefix'=>array($count)
                 ));
                 echo $this->element('imageForm_exifFields',array(
-                    'count'=>$count,
-                    'object'=>$object
+                    'prefix'=>array($count),
+                    'record'=>$object
                 ));
 
                 echo $this->Form->input('Task', array(
@@ -46,7 +54,7 @@ $file = array(     //required
                     'id' => "{$count}ImageImgTask",
                     'value'=>'upload',
                     'type'=>'radio', 'options'=> array(
-                        'delete'=>'Delete', 'upload'=>'Upload'
+                        'delete'=>'Delete', 'upload'=>'Upload', 'hold'=>'Hold'
                     )
                 ));
 	?>

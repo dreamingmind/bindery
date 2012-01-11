@@ -2,19 +2,19 @@
 /* @var $this ViewCC */ 
 ?> 
 <?php
-debug($searchRecords);
+//debug($searchRecords);
 //debug($orphans);
 $foundRecords = $orphans;
-$heading2 = 'Orphan';
+$heading2 = 'Orphan Images';
 if(isset($searchRecords[0]) && !is_null($searchRecords)){
     $foundRecords = $searchRecords;
-    $heading2 = $session->read('Image.searchInput');
+    $heading2 = "Search term: ".$session->read('Image.searchInput');
 }
 if(isset ($foundRecords)){
-    echo $this->Form->create('Image');
+    echo $this->Form->create('Image',array('action'=>'clean_up'));
 ?>
-<h2><?php echo $heading2; ?> Images</h2>
-<table>
+<h2><?php echo $heading2; ?></h2>
+<table style="width:1000px; background-color: #fff;">
 <?php
     $fields = array('id','img_file','title','alt','category','width','height',);
     $contentFields = array('id','heading','content','alt','title','publish','image_id');
@@ -27,7 +27,7 @@ if(isset ($foundRecords)){
         echo $this->Html->image("images/thumb/x160y120/{$foundRecord['Image']['img_file']}");
 ?> 
     </td><td>
-        <table>
+        <table style="width:750px; background-color: #fff;">
 <?php
         
         // assemble field display lines
@@ -72,30 +72,56 @@ if(isset ($foundRecords)){
                 // default deletion checkbox for content
                 $contentCheck = $this->Form->input('also_delete_this_content', array(
                     'type'=>'checkbox',
-                    'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']['also']}]",
+                    'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']}][also]",
                     'checked'=>'checked'
                 ));
 
                 // checkbox to request targeted deletion of this content record
                 $contentCheck .= $this->Form->input('delete_this_content', array(
                     'type'=>'checkbox',
-                    'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']['delete']}]"
+                    'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']}][delete]"
                 ));
 
                 // assemble display of field data for this content record
                 foreach($contentFields as $contentField){
                     $contentDisplay .= (!is_null($contentData[$contentField]))?"<p><em>$contentField:</em> {$contentData[$contentField]}</p>":'';
                 }
-                
+//                debug($contentData);
                 // in here there will have to be a deeper nest to put in the ContentController records
+                if(isset($contentData['ContentCollection'][0]) && !is_null($contentData['ContentCollection'])){
+                    
+                    $concolCheckCell = null;
+                    
+                    foreach($contentData['ContentCollection'] as $concolNumber => $concolData){
+                        
+                        $concolCheck = null;
+                        $concolDisplay = null;
+                        
+                        $concolCheck .= $this->Form->input('also_delete_this_ContentCollection_link', array(
+                            'type'=>'checkbox',
+                            'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']}][ContentCollection][{$concolData['id']}][also]",
+                            'checked'=>'checked'
+                        ));
+                            
+                        $concolCheck .= $this->Form->input('delete_this_ContentCollection_link', array(
+                            'type'=>'checkbox',
+                            'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']}][ContentCollection][{$concolData['id']}][delete]"
+                        ));
+                        
+                        $concolDisplay = "<p><em>content-collection id {$concolData['id']} links to:</em> {$concolData['Collection']['heading']}</p>";
+                        
+                        $concolCheckCell .= "<tr><td>$concolCheck</td></tr><tr><td style='padding-bottom:50px;'>$concolDisplay</td>";
+                    }
+                }
 
                 // Content record data field output
-                $contentCheckCell .= "<tr><td colspan='2'>$contentCheck</td></tr><tr><td>$contentDisplay</td><td></td></tr>";
+                $contentCheckCell .= "<tr><td colspan='2'>$contentCheck</td></tr><tr><td>$contentDisplay</td><td>";
+                $contentCheckCell .= (!is_null($concolCheckCell))?"<table style='width:250px; background-color: #fff;'>$concolCheckCell</table></td></tr>":'</td></tr>';
             }
         }
 ?> 
             <tr><td colspan="2"><?php echo $check . $file_check . $name; ?></td></tr>
-            <tr><td><?php echo $display; ?></td><td><table>
+            <tr><td><?php echo $display; ?></td><td><table style="width:500px; background-color: #fff;">
                     <?php
                     if(isset($contentCheckCell)){
                         echo $contentCheckCell;

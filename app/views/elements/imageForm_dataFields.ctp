@@ -9,8 +9,10 @@ $parameters = array(
     'model'=>'Image',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'img_file',
-        'alt',
+        //'img_file',
+        'alt'=>array(
+            'type'=>'textarea'
+        ),
         'title',
         'category'=>array(
             'type'=>'radio',
