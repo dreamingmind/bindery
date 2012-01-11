@@ -76,6 +76,13 @@ class ImagesController extends AppController {
          */
         var $orphans = false;
         
+        /**
+         * The action active when a user search was requested
+         * Stored as a hidden field in the search form. 
+         * @var array searchAction Action that is displaying the search field
+         */
+        var $searchAction = false;
+        
         var $layout = 'noThumbnailPage';
 
         /**
@@ -271,16 +278,22 @@ class ImagesController extends AppController {
             $this->set('new',false);
         }
         if(isset($this->data)){
-            // Look for deletion requests first
-            $delete = array();
+//            debug($this->data);die;
+            // Look for deletion  and hold requests first
+            $delete = $hold = array();
            foreach ($this->data as $count => $image){
                if($image['Image']['task']=='delete'){
                    $delete[]=$count;
+               } elseif ($image['Image']['task']=='hold'){
+                   $hold[]=$count;
                }
            }
            foreach($delete as $index=>$pointer){
                 unlink($this->data[$pointer]['Image']['img_file']['tmp_file']);
                 unset($this->data[$pointer]);
+           }
+           foreach($hold as $index=>$pointer){
+               unset($this->data[$pointer]);
            }
            $this->Image->saveAll($this->data);
            $this->redirect(array('action'=>'search',  $this->lastUpload+1));
@@ -371,7 +384,7 @@ class ImagesController extends AppController {
             $this->set('searchRecords',  $this->searchRecords);
             $this->set('hidden',array('action'=>array('value'=>'clean_up')));
             if(isset ($this->data)){
-                debug($this->data);die;
+//                debug($this->data);die;
                 $count=0;
                 $id_list = "Image IDs: ";
                 $this->image_death = "Image files: ";
@@ -443,7 +456,7 @@ class ImagesController extends AppController {
                 'contain'=>array(
                     'Content'=>array(
                         'ContentCollection'=>array(
-                            'fields'=> array('collection_id'),
+                            'fields'=> array('id','collection_id'),
                             'Collection'=>array(
                                 'fields'=>array('heading')
                             )

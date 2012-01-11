@@ -45,6 +45,7 @@ if(is_object($record)){
     $recordArray = array();
     $recordArray['Image']['mimetype'] = $record->exif['FILE']['MimeType'];
     $recordArray['Image']['filesize'] = $record->exif['FILE']['FileSize'];
+    $recordArray['Image']['date'] = strtotime($record->exif['EXIF']['DateTimeOriginal']);
     $recordArray['Image']['width'] = $record->exif['COMPUTED']['Width'];
     $recordArray['Image']['height'] = $record->exif['COMPUTED']['Height'];
     $record = $recordArray;
@@ -61,6 +62,7 @@ $parameters = array(
         'filesize',
         'width',
         'height',
+        'date'
     )
 );
 

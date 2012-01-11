@@ -12,7 +12,7 @@ $parameters = array(
         'id',
         'upload',
         'modified',
-        'created',
+        'created'
     )
 );
 
