@@ -1,7 +1,13 @@
 <?php
 /* @var $this ViewCC */ 
 ?> 
-	<?php
+<?php
+// make the grouped list into individual lists with a [0] element
+foreach($allCollections as $group => $list){
+    $options = array('')+$list;
+    $groups[$group] = array('options'=>$options, 'multiple'=>'multiple', 'default'=>0);
+}
+//debug($allCollections);die;
 $parameters = array(
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
@@ -11,20 +17,20 @@ $parameters = array(
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         'linked_content' => array(
-            'options'=>$linkedContent),
-        'new_collection',
+            'options'=>$linkedContent,
+            'value'=>0,
+            'before'=>'First, choose a Content record:'),
+        'new_collection'=>array(
+            'before'=>'Second, create or choose some Collection for it:'
+        ),
+        'new_collection_category'=>array(
+            'type'=>'radio',
+            'options'=>$collectionCategories
+        ),
         'recent_collections' => array(
-            'options'=> $recentCollections),
-        'all_collections' => array(
-            'options'=> $allCollections),
-//        'title',
-//        'publish'=> array(
-//            'type'=>'radio',
-//            'options'=> array(
-//                '1'=>'Publish', '0'=>'Hold' 
-//            )
-//         )
-    )
+            'options'=> $recentCollections,
+            'selected'=>0),
+    ) + $groups
 );
 
 echo $fieldset->fieldset($parameters);

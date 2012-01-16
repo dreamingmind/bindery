@@ -302,8 +302,14 @@ class ImagesController extends AppController {
     }
     
     /**
-     * Create a layout to upload several images at once
-     * @param type $count 
+     * Create a layout to upload several images at once or to upload replacements for invalid files
+     * 
+     * If data is presented, the layout will be drawn to present one
+     * form per invalid file (from the upload folder scan). This is
+     * called from the 'disallowed' clicker. An integer url param
+     * is the other mode to get empty file-selector forms
+     * 
+     * @param int $count The number of forms to present
      */
     function multi_add($count=null) {
         if (!empty($this->data)) {
@@ -367,6 +373,98 @@ class ImagesController extends AppController {
 	}
         
         /**
+         * Analyzes the array of deletion requests from clean_up
+         * 
+         * Examines both direct deletion requests and dependent records
+         * and compiles an array of all the record ids that need deleting
+         * The array contains Image, Content, and ContentCollection ids in separate levels
+         * 
+         * @todo I'm concerened about Detail records linked to ContentCollections. 
+         * 
+         * @return array $delete Array of record ids to delete
+         */
+        function processDeletions(){
+//            debug($this->data);
+            $contents = $ccs = $delete_cc = $contentLevel = $delete_image = $delete_file = $delete_content = array();
+
+            $images = array_keys($this->data); // image key set
+            
+            // locate Image record deletion requests and Content key set
+            foreach($images as $key){
+                if(isset($this->data[$key]['Content'])){
+                    $contentLevel = $contentLevel + $this->data[$key]['Content'];
+                    $contents = $contents + array_keys($this->data[$key]['Content']);
+                }
+                if($this->data[$key]['delete']==1){
+                    $delete_image[$key] = $key;
+                    if(!is_null($this->data[$key]['name']) && $this->data[$key]['delete_file']==1){
+                        $delete_file[$this->data[$key]['name']] = $this->data[$key]['name'];
+                    }
+                }
+            }
+            
+            // locate Content record deletion requests and ContentColletion key set
+            foreach($images as $key){
+                foreach($contents as $ckey){
+                    if(isset($this->data[$key]['Content'][$ckey]['ContentCollection'])){
+                        $ccs = $ccs + array_keys($this->data[$key]['Content'][$ckey]['ContentCollection']);
+                    }
+                    if(isset($this->data[$key]['Content']) && $this->data[$key]['Content'][$ckey]['delete']==1){
+                        $delete_content[$ckey] = $ckey;
+                    }
+                }
+            }
+            
+            // locate ContentCollection record deletion requests
+            foreach($images as $key){
+                foreach($contents as $ckey){
+                    foreach($ccs as $cckey){
+                        if(isset($this->data[$key]['Content'][$ckey]['ContentCollection'][$cckey]) 
+                                && $this->data[$key]['Content'][$ckey]['ContentCollection'][$cckey]['delete']==1){
+                            $delete_cc[$cckey] = $cckey;
+                        }
+                    }
+                }
+            }
+            
+            // locate meaningful 'also delete' requests for Content
+            foreach($delete_image as $key){
+                foreach($contents as $ckey){
+                    if(isset($this->data[$key]['Content'][$ckey]) 
+                            && $this->data[$key]['Content'][$ckey]['also']==1){
+                        $delete_content[$ckey] = $ckey;
+                    }
+                }
+            }
+            
+            // locate meaningful 'also delete' ContentColletion requests 
+            // using the specially constructed Content-level array.
+            // We may delete a Content without deleting Image and in
+            // this case, the dependent ContentCollection records
+            // should go also
+//            if(isset($delete_content)){
+                foreach($delete_content as $key){
+                    foreach($ccs as $cckey){
+                        if(isset($contentLevel[$key]['ContentCollection'][$cckey]) &&
+                                $contentLevel[$key]['ContentCollection'][$cckey]['also']==1){
+                            $delete_cc[$cckey] = $cckey;
+                        }
+                    }
+                }
+//            }
+            
+            return array('File'=>$delete_file,
+                    'Image'=>$delete_image,
+                'Content'=>$delete_content,
+                'ContentCollection'=>$delete_cc
+                );
+//            debug($delete_image);
+//            debug($delete_content);
+//            debug($delete_cc);
+//            die;
+        }
+        
+        /**
          * Image record deletion management layout
          * 
          * Presents user's list (based on search) of image records and their linked
@@ -378,37 +476,59 @@ class ImagesController extends AppController {
          * 
          * Image files will be deleted also
          * 
+         * @todo this fails to account for Details linked to ContentCollection
          * @todo image_grid properly retains a found set from here, but this layout doesn't use a found set from other contexts
          */
         function clean_up(){
             $this->set('searchRecords',  $this->searchRecords);
             $this->set('hidden',array('action'=>array('value'=>'clean_up')));
             if(isset ($this->data)){
-//                debug($this->data);die;
-                $count=0;
-                $id_list = "Image IDs: ";
-                $this->image_death = "Image files: ";
-                foreach($this->data as $id => $choice){
-                    if($choice['action']==1){
-                        $this->Image->delete($id);
-                        $count++;
-                        $id_list .= "$id ";
-                        if(!is_null($choice['name'])&&$choice['delete_file']==1) {
-                            $this->delete_image_files($choice['name']);
-                        }
+                $delete = $this->processDeletions();
+//                debug($delete);die;
+                
+                foreach($delete as $group => $set){
+                    switch ($group) {
+                        case 'File' :
+                            foreach($set as $name){
+                                $this->delete_image_files($name);
+                            }
+                            break;
+                        case 'Image':
+                            foreach($set as $id){
+                                $this->Image->delete($id);
+                            }
+                            break;
+                        case 'Content' :
+                            foreach($set as $id){
+                                $this->Image->Content->delete($id);
+                            }
+                            break;
+                        case 'ContentCollection' :
+                            foreach($set as $id){
+                                $this->Image->Content->ContentCollection->delete($id);
+                            }
+                            break;
+
+                        default:
+                            break;
                     }
+                    
                 }
+
             unset($this->data);
-            $this->Session->setFlash("$count Image records deleted<br />$id_list<br />$this->image_death",
-                'default', array('class'=>'cleanup'));
-            $this->redirect(array('action'=>'clean_up'));
+            $this->searchAction = 'clean_up';
+            $this->redirect(array('action'=>'search'));
            }
         }
         
+        /**
+         * Work through the standard Image file directories deleting versions of a file
+         * 
+         * @param string $name Name of the image file to delete
+         */
         function delete_image_files($name){
             $path = IMAGES."images/native/$name";
             if(is_file($path)){
-                $this->image_death .= "$name ";
                 unlink($path);
             }
             foreach($this->sizes as $size => $size_again){
@@ -416,11 +536,12 @@ class ImagesController extends AppController {
                 if(is_file($path)){
                     unlink($path);
                 }
-            }                
+            }
         }
         
         /**
          * @todo Make this work for more than one action. possibly a case statement?
+         * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
          */
         function search() {
 //            debug($this->searchInput);
@@ -440,11 +561,21 @@ class ImagesController extends AppController {
                     $this->Session->setFlash("Upload sets exist for values 1 - {$this->lastUpload}. Your request for set $uploadRequest can't be satisfied");
                 }
             }
-            
+
             if ($upload) {
                 // search param was integer; that's an upload set number
                 $this->searchRecords = $this->Image->find('all', array(
-                    'conditions'=>array('Image.upload'=> $upload)
+                    'conditions'=>array('Image.upload'=> $upload),
+                    'contain'=>array(
+                    'Content'=>array(
+                        'ContentCollection'=>array(
+                            'fields'=> array('id','collection_id'),
+                            'Collection'=>array(
+                                'fields'=>array('heading')
+                            )
+                        )
+                    )
+                )//$fields
                 ));
             } elseif ($this->searchInput == 'orphan_images') {
                 // search param was a request to see orphan images
@@ -462,7 +593,7 @@ class ImagesController extends AppController {
                             )
                         )
                     )
-                )
+                )//$fields
                 ));
             }
             
@@ -476,7 +607,7 @@ class ImagesController extends AppController {
 
             }
 
-                    }
+        }
         
         /**
          * Image grid interface for admins
@@ -489,6 +620,7 @@ class ImagesController extends AppController {
          * This layout also watches the Image Upload folder for 
          * new pictures and provides tools to process those pictuers
          * 
+         * @todo after editing a displayed record, the 
          * @todo the Content fieldsets that output don't have any Collection membership information showing. This might be very helpful though. Can the Content-Element/FieldsetHelper handle this?
          */
         function image_grid(){
@@ -496,10 +628,90 @@ class ImagesController extends AppController {
             $this->set('allCollections', $allCollections);
             $recentCollections = $this->Image->Content->ContentCollection->recentCollections();
             $this->set('recentCollections', $recentCollections);
+            $this->set('collectionCategories',$collectionCategories = $this->Image->Content->ContentCollection->Collection->getCategories());
             
             if(isset($this->data)){
-                $this->Image->saveAll($this->data);
-            }
+//                debug($this->data);die;
+                // save all updated data
+                $message = ($this->Image->saveAll($this->data))
+                    ? 'Image changes saved'
+                    : 'Image changes not saved';
+                if(isset($this->data['Content'][0])){
+                    foreach($this->data['Content'] as $recordNumber => $contentRecord){
+                        if(is_int($recordNumber)){
+                            $data=array('Content'=>$contentRecord);
+    //                        debug($data);die;
+                            $this->Image->Content->create($data);
+                            $message .= ($this->Image->Content->save())
+                                 ? "<br />Content record $recordNumber saved."
+                                 : "<br />Content record $recordNumber not saved.";
+                        }
+                    }
+                }
+                
+                $this->Session->setFlash($message);
+                
+                // probe the Collection Membership Assignment choices
+                
+                // first look for a content record selection
+                if($this->data['Content']['linked_content']!=0){
+                    // New or existing content was selected for membership. Get its ID
+                    if($this->data['Content']['linked_content']==1){
+                        $content['Content']['image_id'] = $this->data['Image']['id'];
+                        $content['Content']['heading'] = "New content for record {$this->data['Image']['id']}:: $this->data['Image']['title']";
+                        $content['Content']['content'] = $this->data['Image']['alt'];
+                        $content['Content']['created'] = date('Y-m-d h:i:s',time());
+                        $content['Content']['modified'] = date('Y-m-d h:i:s',time());
+                        $this->Image->Content->create($content);
+                        $this->Image->Content->save();
+                        $content_id = $this->Image->Content->id;
+                    } else {
+                        $content_id = $this->data['Content']['linked_content'];
+                    }
+                }
+                
+                // next look for a request to create a new Collection
+                if($this->data['Content']['new_collection']!=null){
+                    $collection['Collection']['heading'] = $this->data['Content']['new_collection'];
+                    $collection['Collection']['category'] = $this->data['Content']['new_collection_category'];
+                    $this->Image->Content->ContentCollection->Collection->create($collection);
+                    $this->Image->Content->ContentCollection->Collection->save();
+                    $collectionIDs[] = $this->Image->Content->ContentCollection->Collection->id;
+                }
+                // continue by gather other selected collection ids
+                if($this->data['Content']['recent_collections']!=0){
+                    $collectionIDs[] = $this->data['Content']['recent_collections'];
+                }
+                // and more selected collection ids
+                foreach($collectionCategories as $category){
+                    if(is_array($this->data['Content'][$category])){
+                        foreach($this->data['Content'][$category] as $choice){
+                            if($choice!=0){
+                                $collectionIDs[] = $choice;
+                            }
+                        }
+                    }
+                }
+                
+                // now assemble the data array for ContentCollection record creation
+                if(isset($content_id) && isset($collectionIDs)){
+                    //have to have both links of course!
+                    $cc_record_count = 0;
+                    foreach($collectionIDs as $collection_id){
+                        $content_collection['ContentCollection']['content_id'] = $content_id;
+                        $content_collection['ContentCollection']['collection_id'] = $collection_id;
+                     $this->Image->Content->ContentCollection->create($content_collection);
+                    $this->Image->Content->ContentCollection->save();
+                   }
+//                debug($collectionIDs);
+//                debug($content_id);
+//                debug($content_collection);die;
+                }
+            unset($this->data);
+            $this->searchAction = 'image_grid';
+            $this->redirect(array('action'=>'search'));
+          } // end of $this->data processing
+            
             $this->layout = 'noThumbnailPage';
             if($this->searchRecords){
                 foreach($this->searchRecords as $record){

@@ -23,3 +23,4 @@ function setupReveals(){
 
 setupReveals();
 
+function insureOneMemeberChange(){}

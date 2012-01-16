@@ -60,7 +60,9 @@ if($chunk) {
                 
                 // accumulate the content records if there are any
                 $con_set = '';
-                if(isset($val['Content']) && count($val['Content'])>1){
+//                debug($val['Content']);
+//                debug(count($val['Content']));
+                if(isset($val['Content']) && count($val['Content'])>=1){
                     foreach($val['Content'] as $index=>$entry){
                         $con_set .= $this->Html->div('', $this->element('contentForm_metaFields', array(
                             'record'=>$val,
@@ -83,7 +85,7 @@ if($chunk) {
                             'record'=>$val,
                             'legend'=>$entry['heading'],
                             'linkNumber' => $index,
-                            'pre_fields' => $memberships
+                            'pre_fields' => (isset($memberships))?$memberships:''
                             )));
                     }
                 }

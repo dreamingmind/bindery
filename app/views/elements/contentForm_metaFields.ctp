@@ -11,9 +11,9 @@ $parameters = array(
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         'id',
-        'image_id',
-        'modified',
-        'created',
+        'image_id'//,
+//        'modified',
+//        'created',
     )
 );
 
