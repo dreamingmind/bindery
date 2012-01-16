@@ -317,15 +317,33 @@ class ImagesController extends AppController {
             //read exif data and set exif fields
             $success = TRUE;
             $message = null;
+            $imageDirectory = 'img/images';
+            $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', $imageDirectory);
             foreach ($this->data as $val) {
                 if (!$val['Image']['img_file']['name']==null) {
                     // set the target directory
                     //debug($val); die;
-                    $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/'.$val['Image']['gallery']);
-                    $this->Image->create();
-                    if ($this->Image->save($val)) {
-                        $message .= '<p>Saved ' . $this->Image->id . $val['Image']['img_file']['name'] . '.</p>';
+                    $val['Image']['upload']=  $this->lastUpload+1;
+                    $this->Image->create($val);
+//                    debug($val);die;
+                    if ($this->Image->save()) {
+                        $message .= '<p>Saved ' . $this->Image->id . ' ' . $val['Image']['img_file']['name'] . ' but not the exif data.</p>';
                         $success && TRUE;
+//                        $created = $this->Image->id;
+                        $filePath = $imageDirectory . '/native/' . $val['Image']['img_file']['name'];
+                        $exifData = exif_read_data($filePath);
+//                        debug($exifData);die;
+                        $updateExif['Image'] = array(
+                            'id' => $this->Image->id,
+                            'height' => $exifData['COMPUTED']['Height'],
+                            'width' => $exifData['COMPUTED']['Width'],
+                            'date' => $exifData['FileDateTime']
+                        );
+
+                        if($this->Image->save($updateExif)){
+                            $message .= '<p>Saved ' . $this->Image->id . ' ' . $val['Image']['img_file']['name'] . ' exif data.</p>';
+                            $success && TRUE;
+                        }
                     } else {
                         $message .= 'Failed ' . $val['Image']['img_file']['name'] . '. ';
                         $success && FALSE;

@@ -3,6 +3,7 @@
 ?> 
 	<?php
 $parameters = array(
+    'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
     'legend'=>'Image data fields',
     'prefix'=> (isset($prefix))?$prefix:false,

@@ -88,15 +88,15 @@ class FieldsetHelper extends AppHelper {
         // but in the element they exist but may or may not get a value.
         // so if they didn't get a good value in the Element
         // we normalize make it look the same as a View call for simplicity
-        if ($params['prefix']===false){
+        if (isset($params['prefix']) && $params['prefix']===false){
             unset( $params['prefix']);
         }
 
-        if ($params['linkNumber']===false){
+        if (isset($params['linkNumber']) && $params['linkNumber']===false){
             unset( $params['linkNumber']);
         }
 
-        if ($params['record']===false){
+        if (isset($params['record']) && $params['record']===false){
             unset( $params['record']);
         }
         
