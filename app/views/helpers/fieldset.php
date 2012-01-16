@@ -16,9 +16,71 @@ class FieldsetHelper extends AppHelper {
     var $helpers = array('Html', 'Form', 'Session');
 
     /**
-     *
-     * @param type $params
-     * @return type 
+     * A general purpose fieldset output procedure
+     * 
+     * This can be called from a Veiw for a one-off fieldset, or create
+     * Elements that generate reusable and portable fieldsets. Here's a 
+     * sample Element:
+     * $parameters = array(
+     *     'display'=> (isset($display))?$display:'hide',
+     *     'record'=> (isset($record))?$record:false,
+     *     'legend'=>'Content meta fields',
+     *     'prefix'=> (isset($prefix))?$prefix:false,
+     *     'model'=>'Content',
+     *     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
+     *     'fields'=>array(
+     *         'id',
+     *         'image_id',
+     *         'modified',
+     *         'created',
+     *         'publish'=> array(
+     *             'type'=>'radio',
+     *             'options'=> array(
+     *                 '1'=>'Publish', '0'=>'Hold' 
+     *             )
+     *          )
+     *     )
+     * );
+
+     * The fieldset will toggle open/closed by clicking on the fieldset legend.
+     * Use 'display' set to 'show' or 'hide' to set the initial state
+     * 
+     * Providing data in 'record' will populate the inputs, otherwise
+     * they'll be empty
+     * 
+     * 'prefix', 'model' and 'linkNumber' are used to assemble the
+     * Html name attribute (which controls the returned data array).
+     * This can handle any Cake-style data array for models.
+     * 'prefix' is an array, the others are strings. All three components
+     * are combined to make the data array index pattern:
+     * data[Image][fieldName] (prefix=null,model='Image',linkNumber=null)
+     * data[Post][Content][3][fieldName] (prefix=array('Post'),model='Content',linkNumber=3)
+     * data[2][Post][Author][fieldName] (prefix=array('2','Post'),model='Author',linkNumber=null)
+     * 
+     * 'fields' is an array which controls what will be in the fieldset.
+     * If the element is a string, you'll get a default cake input for
+     * that field. If it's an array, the index will be the field name
+     * and array will be the options to pass to the cake input helper.
+     * 
+     * Controls:
+     * display
+     * legend
+     * record
+     * prefix
+     * model
+     * linkNumber
+     * fields
+     * 
+     * javascript/css hooks
+     * --------------------
+     * In addition to the standard structure Cake gives to inputs:
+     * Each fieldset gets a UUID id attribute
+     * Each field get UUID-fieldname id attribute
+     * The field inputs are wrapped in a div with class UUID
+     * Each input gets a class attribute set to the legend with spaces replaced with _
+     * 
+     * @param array $params The control-block to describe all aspects of the fieldset to be created
+     * @return string The complete fieldset HTML code 
      */
     function fieldset($params = array()){
         
@@ -140,7 +202,7 @@ class FieldsetHelper extends AppHelper {
         }
         $options = array(
             'name' => $name,
-            'id' => $id,
+            'id' => "$this->unique-$field",
             'class' => "input $this->legendSlug",
             'value' => $value
         ) + $options;
