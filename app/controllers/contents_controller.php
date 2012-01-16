@@ -80,11 +80,13 @@ class ContentsController extends AppController {
         }
 
 	function index() {
+                $this->layout = 'noThumbnailPage';
 		$this->Content->recursive = 0;
 		$this->set('contents', $this->paginate());
 	}
 
 	function view($id = null) {
+                $this->layout = 'noThumbnailPage';
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid content', true));
 			$this->redirect(array('action' => 'index'));
@@ -93,6 +95,7 @@ class ContentsController extends AppController {
 	}
 
 	function add() {
+                $this->layout = 'noThumbnailPage';
 		if (!empty($this->data)) {
 			$this->Content->create();
 			if ($this->Content->save($this->data)) {
@@ -108,6 +111,7 @@ class ContentsController extends AppController {
 	}
 
 	function edit($id = null) {
+                $this->layout = 'noThumbnailPage';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid content', true));
 			$this->redirect(array('action' => 'index'));
@@ -129,6 +133,7 @@ class ContentsController extends AppController {
 	}
 
 	function delete($id = null) {
+                $this->layout = 'noThumbnailPage';
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for content', true));
 			$this->redirect(array('action'=>'index'));

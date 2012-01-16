@@ -2,6 +2,7 @@
 class CollectionsController extends AppController {
 
 	var $name = 'Collections';
+        var $layout = 'noThumbnailPage';
 
 	function index() {
 		$this->Collection->recursive = 0;
@@ -26,8 +27,6 @@ class CollectionsController extends AppController {
 				$this->Session->setFlash(__('The collection could not be saved. Please, try again.', true));
 			}
 		}
-		$contents = $this->Collection->Content->find('list');
-		$this->set(compact('contents'));
 	}
 
 	function edit($id = null) {

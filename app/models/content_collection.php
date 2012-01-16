@@ -6,18 +6,29 @@ class ContentCollection extends AppModel {
 		'Content', 'Collection'
 		);
         
-        function recentCollections() {
-//            $categories = $this->find('all',array(
-//                'fields'=>array('DISTINCT Collection.category')
-//            ));
-//            debug($categories);die;
+        /**
+         * Return an array of the most recently used Collections
+         * 
+         * Default to returning the most recent 10 but passing param can change this.
+         * The array is indexed by Collection id and the list item shows
+         * Collection heading and category.
+         * Recentness is determined by the created date of ContentColletion records
+         * that link to the Collection.
+         *
+         * @return array A Cake list of the most recently used Collections
+         */
+        function recentCollections($limit=null) {
+            $limt = ($limit==null) ? 10 : $limit;
+            
             $recentCollections = $this->find('all',array(
                 'fields'=>array(
                     'Collection.id', 'Collection.heading', 'Collection.category'
                 ),
                 'order'=>'ContentCollection.created DESC',
-                'limit'=>10
+                'limit'=>$limit
             ));
+            
+            $this->recentCollections = array(' ');
                     
             foreach($recentCollections as $entry){
                 $this->recentCollections[$entry['Collection']['id']] = 

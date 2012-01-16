@@ -40,7 +40,7 @@ if(isset ($foundRecords)){
         // image record deletion choice -- checkbox
         $check = $this->Form->input('delete', array(
             'type'=>'checkbox',
-            'name'=>"data[{$foundRecord['Image']['id']}][action]",
+            'name'=>"data[{$foundRecord['Image']['id']}][delete]",
             'options'=>'delete'
         ));
             
@@ -68,6 +68,7 @@ if(isset ($foundRecords)){
                 
             $contentDisplay = null;
             $contentCheck = null;
+            $concolCheckCell = null;
 
                 // default deletion checkbox for content
                 $contentCheck = $this->Form->input('also_delete_this_content', array(
@@ -108,9 +109,11 @@ if(isset ($foundRecords)){
                             'name'=>"data[{$foundRecord['Image']['id']}][Content][{$contentData['id']}][ContentCollection][{$concolData['id']}][delete]"
                         ));
                         
-                        $concolDisplay = "<p><em>content-collection id {$concolData['id']} links to:</em> {$concolData['Collection']['heading']}</p>";
+                        $concolDisplay = "<p><em>content-collection id {$concolData['id']} links to:</em> {$concolData['Collection']['heading']}</p>
+                                            <p><em>content_id: </em>{$concolData['content_id']}</p>
+                                            <p><em>content_id: </em>{$concolData['collection_id']}</p>";
                         
-                        $concolCheckCell .= "<tr><td>$concolCheck</td></tr><tr><td style='padding-bottom:50px;'>$concolDisplay</td>";
+                        $concolCheckCell .= "<tr><td>$concolCheck</td></tr><tr><td style='padding-bottom:20px;'>$concolDisplay</td>";
                     }
                 }
 
