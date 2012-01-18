@@ -7,7 +7,7 @@ echo $this->Form->create('Collection');?>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('heading');
-		echo $this->Form->input('publish');
+		echo $this->Form->input('publish',array('type'=>'checkbox'));
 		echo $this->Form->input('text');
 		echo $this->Form->input('role');
 		echo $this->Form->input('category');
