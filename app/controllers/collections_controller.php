@@ -2,7 +2,6 @@
 class CollectionsController extends AppController {
 
 	var $name = 'Collections';
-        var $layout = 'noThumbnailPage';
 
 	function index() {
 		$this->Collection->recursive = 0;
@@ -30,6 +29,7 @@ class CollectionsController extends AppController {
 	}
 
 	function edit($id = null) {
+            debug($id);
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid collection', true));
 			$this->redirect(array('action' => 'index'));
@@ -43,10 +43,9 @@ class CollectionsController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
+                    $this->set('neighbors',  $this->Collection->find('neighbors',array('field'=>'id','value'=>$id)));
 			$this->data = $this->Collection->read(null, $id);
 		}
-		$contents = $this->Collection->Content->find('list');
-		$this->set(compact('contents'));
 	}
 
 	function delete($id = null) {
