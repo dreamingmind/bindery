@@ -49,9 +49,12 @@ class ContentCollectionsController extends AppController {
 			$this->data = $this->ContentCollection->read(null, $id);
 		}
 		$contents = $this->ContentCollection->Content->find('list');
-		$collections = $this->ContentCollection->Collection->find('list');
-		$this->set(compact('contents', 'collections'));
-                debug($this->viewVars);
+		$collections = $this->ContentCollection->Collection->find('list', array
+                        ('conditions' => array('Collection.category' =>  $this->data['Collection']['category'])));
+		$detail_collections = $this->ContentCollection->Collection->find('list', array
+                        ('conditions' => array('Collection.category' =>  $this->data['Collection']['category'].'_detail')));
+		$this->set(compact('contents', 'collections', 'detail_collections'));
+//                debug($this->data);
 	}
 
 	function delete($id = null) {
