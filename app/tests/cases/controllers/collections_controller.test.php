@@ -1,5 +1,5 @@
 <?php
-/* Collections Test cases generated on: 2011-12-11 21:48:02 : 1323668882*/
+/* Collections Test cases generated on: 2012-01-17 19:40:31 : 1326858031*/
 App::import('Controller', 'Collections');
 
 class TestCollectionsController extends CollectionsController {
@@ -11,7 +11,7 @@ class TestCollectionsController extends CollectionsController {
 }
 
 class CollectionsControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.collection', 'app.content', 'app.navline', 'app.navigator', 'app.image', 'app.dispatch', 'app.dispatch_gallery', 'app.gallery', 'app.exhibit', 'app.exhibit_gallery', 'app.content_collection', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
+	var $fixtures = array('app.collection', 'app.content_collection', 'app.content', 'app.navline', 'app.navigator', 'app.image', 'app.exhibit_supliment', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
 
 	function startTest() {
 		$this->Collections =& new TestCollectionsController();
@@ -40,10 +40,6 @@ class CollectionsControllerTestCase extends CakeTestCase {
 	}
 
 	function testDelete() {
-
-	}
-
-	function testAdditonalAction() {
 
 	}
 

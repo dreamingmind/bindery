@@ -6,6 +6,8 @@ class Collection extends AppModel {
 		'ContentCollection'
             );
         
+        var $displayField = 'heading';
+        
         /**
          * Return a Cake list array of all collection headings (indexed by id) grouped by category
          *

@@ -1,5 +1,5 @@
 <?php
-/* ContentCollections Test cases generated on: 2011-12-11 21:37:18 : 1323668238*/
+/* ContentCollections Test cases generated on: 2012-01-17 19:42:43 : 1326858163*/
 App::import('Controller', 'ContentCollections');
 
 class TestContentCollectionsController extends ContentCollectionsController {
@@ -11,7 +11,7 @@ class TestContentCollectionsController extends ContentCollectionsController {
 }
 
 class ContentCollectionsControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.content_collection', 'app.gallery', 'app.dispatch_gallery', 'app.dispatch', 'app.image', 'app.exhibit', 'app.exhibit_gallery', 'app.content', 'app.navline', 'app.navigator', 'app.collection', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
+	var $fixtures = array('app.content_collection', 'app.content', 'app.navline', 'app.navigator', 'app.image', 'app.exhibit_supliment', 'app.collection', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
 
 	function startTest() {
 		$this->ContentCollections =& new TestContentCollectionsController();

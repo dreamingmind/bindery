@@ -52,6 +52,8 @@ class Content extends AppModel {
 
         );    
         
+        var $displayField = 'heading';
+        
     function linkedContent($id){
         
         $list = $this->find('list',array(

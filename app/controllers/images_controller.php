@@ -100,6 +100,7 @@ class ImagesController extends AppController {
          * @todo search/1 then hit Admin/Image will f'up $this->searchInput. Other values work. Odd
          */
         function beforeFilter(){
+//            debug($this->data);die;
            parent::beforeFilter();
            if($this->usergroupid < 3) { // managers or administrators
                
