@@ -5,9 +5,29 @@ echo $this->Form->neighborRecords('ContentCollection',$neighbors);
 	<fieldset>
  		<legend><?php __('Edit Content Collection'); ?></legend>
 	<?php
+        $joinLabel = sprintf('Connecting <em>Content %s:</em> %s<br />To <em>Collection %s:</em> %s (%s)', 
+                $this->data['Content']['id'],
+                $this->data['Content']['heading'],
+                $this->data['Collection']['id'],
+                $this->data['Collection']['heading'],
+                $this->data['Collection']['category']);
+        
+            $detailLabel = (!is_null($this->data['ContentCollection']['sub_gallery']))
+                    ? sprintf('This record leads to detail collection %s: %s.', 
+                            $this->data['DetailCollection']['id'],
+                            $this->data['DetailCollection']['heading'])
+                    : null;
+            $detailLabel = (!is_null($detailLabel))
+                    ? $this->Html->para(null, $detailLabel)
+                    : '';
+        
+        echo $this->Html->para(null, $joinLabel).$detailLabel.'<br />';
+        
 		echo $this->Form->input('id');
 		echo $this->Form->input('visible',array('type'=>'checkbox'));
-		echo $this->Form->input('sub_gallery');
+		echo $this->Form->input('sub_gallery',array(
+                    'options'=>array($detail_collections),
+                    'type'=>'select'));
 		echo $this->Form->input('content_id');
 		echo $this->Form->input('collection_id');
 		echo $this->Form->input('seq');

@@ -3,9 +3,14 @@ class ContentCollection extends AppModel {
 	var $name = 'ContentCollection';
 
 	var $belongsTo = array(
-		'Content', 'Collection'
-		);
+		'Content', 
+                'Collection',
+                'DetailCollection'=>array(
+                    'className'=>'Collection',
+                    'foreignKey'=>'sub_gallery'
+                ));
         
+        var $displayField = 'Content.heading';
         /**
          * Return an array of the most recently used Collections
          * 
