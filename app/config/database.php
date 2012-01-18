@@ -84,8 +84,8 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'port' => '/private/tmp/mysql.sock',
 		'login' => 'root',
-		'password' => 'Up?4worDs',
-		'database' => 'bindery',
+		'password' => '',
+		'database' => 'bindery3',
 		'prefix' => '',
 	);
 	var $hosted = array(
