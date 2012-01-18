@@ -26,12 +26,9 @@ class ContentCollectionsController extends AppController {
 				$this->Session->setFlash(__('The content collection could not be saved. Please, try again.', true));
 			}
 		}
-		$galleries = $this->ContentCollection->Gallery->find('list');
-		$dispatches = $this->ContentCollection->Dispatch->find('list');
 		$contents = $this->ContentCollection->Content->find('list');
-		$exhibits = $this->ContentCollection->Exhibit->find('list');
 		$collections = $this->ContentCollection->Collection->find('list');
-		$this->set(compact('galleries', 'dispatches', 'contents', 'exhibits', 'collections'));
+		$this->set(compact('contents', 'collections'));
 	}
 
 	function edit($id = null) {
@@ -48,14 +45,13 @@ class ContentCollectionsController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
+                    $this->set('neighbors',  $this->ContentCollection->find('neighbors',array('field'=>'id','value'=>$id)));
 			$this->data = $this->ContentCollection->read(null, $id);
 		}
-		$galleries = $this->ContentCollection->Gallery->find('list');
-		$dispatches = $this->ContentCollection->Dispatch->find('list');
 		$contents = $this->ContentCollection->Content->find('list');
-		$exhibits = $this->ContentCollection->Exhibit->find('list');
 		$collections = $this->ContentCollection->Collection->find('list');
-		$this->set(compact('galleries', 'dispatches', 'contents', 'exhibits', 'collections'));
+		$this->set(compact('contents', 'collections'));
+                debug($this->viewVars);
 	}
 
 	function delete($id = null) {

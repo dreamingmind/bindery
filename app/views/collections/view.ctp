@@ -41,16 +41,6 @@
 			<?php echo $collection['Collection']['category']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id Dispatch'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $collection['Collection']['id_dispatch']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id Exhibit'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $collection['Collection']['id_exhibit']; ?>
-			&nbsp;
-		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -60,54 +50,46 @@
 		<li><?php echo $this->Html->link(__('Delete Collection', true), array('action' => 'delete', $collection['Collection']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $collection['Collection']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Collections', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Collection', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Contents', true), array('controller' => 'contents', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
-	<h3><?php __('Related Contents');?></h3>
-	<?php if (!empty($collection['Content'])):?>
+	<h3><?php __('Related Content Collections');?></h3>
+	<?php if (!empty($collection['ContentCollection'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
-		<th><?php __('Navline Id'); ?></th>
-		<th><?php __('Content'); ?></th>
 		<th><?php __('Created'); ?></th>
 		<th><?php __('Modified'); ?></th>
-		<th><?php __('Image Id'); ?></th>
-		<th><?php __('Publish'); ?></th>
-		<th><?php __('Alt'); ?></th>
-		<th><?php __('Title'); ?></th>
-		<th><?php __('Heading'); ?></th>
-		<th><?php __('Dispatch Id'); ?></th>
-		<th><?php __('Exhibit Id'); ?></th>
+		<th><?php __('Id'); ?></th>
+		<th><?php __('Visible'); ?></th>
+		<th><?php __('Sub Gallery'); ?></th>
+		<th><?php __('Content Id'); ?></th>
+		<th><?php __('Collection Id'); ?></th>
+		<th><?php __('Seq'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($collection['Content'] as $content):
+		foreach ($collection['ContentCollection'] as $contentCollection):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $content['id'];?></td>
-			<td><?php echo $content['navline_id'];?></td>
-			<td><?php echo $content['content'];?></td>
-			<td><?php echo $content['created'];?></td>
-			<td><?php echo $content['modified'];?></td>
-			<td><?php echo $content['image_id'];?></td>
-			<td><?php echo $content['publish'];?></td>
-			<td><?php echo $content['alt'];?></td>
-			<td><?php echo $content['title'];?></td>
-			<td><?php echo $content['heading'];?></td>
-			<td><?php echo $content['dispatch_id'];?></td>
-			<td><?php echo $content['exhibit_id'];?></td>
+			<td><?php echo $contentCollection['created'];?></td>
+			<td><?php echo $contentCollection['modified'];?></td>
+			<td><?php echo $contentCollection['id'];?></td>
+			<td><?php echo $contentCollection['visible'];?></td>
+			<td><?php echo $contentCollection['sub_gallery'];?></td>
+			<td><?php echo $contentCollection['content_id'];?></td>
+			<td><?php echo $contentCollection['collection_id'];?></td>
+			<td><?php echo $contentCollection['seq'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'contents', 'action' => 'view', $content['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'contents', 'action' => 'edit', $content['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'contents', 'action' => 'delete', $content['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $content['id'])); ?>
+				<?php echo $this->Html->link(__('View', true), array('controller' => 'content_collections', 'action' => 'view', $contentCollection['id'])); ?>
+				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'content_collections', 'action' => 'edit', $contentCollection['id'])); ?>
+				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'content_collections', 'action' => 'delete', $contentCollection['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $contentCollection['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -116,7 +98,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add'));?> </li>
 		</ul>
 	</div>
 </div>

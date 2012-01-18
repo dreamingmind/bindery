@@ -10,8 +10,6 @@
 			<th><?php echo $this->Paginator->sort('text');?></th>
 			<th><?php echo $this->Paginator->sort('role');?></th>
 			<th><?php echo $this->Paginator->sort('category');?></th>
-			<th><?php echo $this->Paginator->sort('id_dispatch');?></th>
-			<th><?php echo $this->Paginator->sort('id_exhibit');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -31,8 +29,6 @@
 		<td><?php echo $collection['Collection']['text']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['role']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['category']; ?>&nbsp;</td>
-		<td><?php echo $collection['Collection']['id_dispatch']; ?>&nbsp;</td>
-		<td><?php echo $collection['Collection']['id_exhibit']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $collection['Collection']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $collection['Collection']['id'])); ?>
@@ -59,7 +55,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Collection', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Contents', true), array('controller' => 'contents', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

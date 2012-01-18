@@ -23,7 +23,7 @@
  * @version       $Revision$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::import('Core', 'Helper', 'Session');
+App::import('Core', 'Helper', 'Session','Html');
 /**
  * This is a placeholder class.
  * Create the same file in app/app_helper.php
@@ -137,15 +137,17 @@ class AppHelper extends Helper {
      */
     function neighborRecords($model, $neighbors) {
         //print_r($neighbors);        print_r($model);
+        
+//        debug($this->Html);die;
         $tools = '';
         if(isset($neighbors['prev'][$model]['id'])) { 
-            $tools .= HtmlHelper::link(__('Previous',true), array($neighbors['prev'][$model]['id'])); 
+            $tools .= $this->Html->link(__('Previous',true), array($neighbors['prev'][$model]['id'])); 
         }
         if (isset($neighbors['prev'][$model]['id']) && isset($neighbors['next'][$model]['id'])) {
             $tools .= '&nbsp;|&nbsp;';
         }
         if(isset($neighbors['next'][$model]['id'])) {
-            $tools .= HtmlHelper::link(__('Next',true), array($neighbors['next'][$model]['id']));
+            $tools .= $this->Html->link(__('Next',true), array($neighbors['next'][$model]['id']));
         }
         $tools = ($tools == '') ? 'nothing' : $tools;
         return $tools;
