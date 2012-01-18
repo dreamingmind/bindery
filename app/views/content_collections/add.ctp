@@ -3,12 +3,9 @@
 	<fieldset>
  		<legend><?php __('Add Content Collection'); ?></legend>
 	<?php
-		echo $this->Form->input('gallery_id');
-		echo $this->Form->input('dispatch_id');
 		echo $this->Form->input('visible');
 		echo $this->Form->input('sub_gallery');
 		echo $this->Form->input('content_id');
-		echo $this->Form->input('exhibit_id');
 		echo $this->Form->input('collection_id');
 		echo $this->Form->input('seq');
 	?>
@@ -20,14 +17,8 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List Galleries', true), array('controller' => 'galleries', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Gallery', true), array('controller' => 'galleries', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Dispatches', true), array('controller' => 'dispatches', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Dispatch', true), array('controller' => 'dispatches', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Contents', true), array('controller' => 'contents', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Exhibits', true), array('controller' => 'exhibits', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Exhibit', true), array('controller' => 'exhibits', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Collections', true), array('controller' => 'collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Collection', true), array('controller' => 'collections', 'action' => 'add')); ?> </li>
 	</ul>
