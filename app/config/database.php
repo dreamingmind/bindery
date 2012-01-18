@@ -85,28 +85,28 @@ class DATABASE_CONFIG {
 		'port' => '/private/tmp/mysql.sock',
 		'login' => 'root',
 		'password' => 'Up?4worDs',
-		'database' => 'bindery',
+		'database' => 'bindery3',
 		'prefix' => '',
 	);
-	var $hosted = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'bindery.e.dreamingmind.com',
+//	var $hosted = array(
+//		'driver' => 'mysql',
+//		'persistent' => false,
+//		'host' => 'bindery.e.dreamingmind.com',
+////		'port' => '/private/tmp/mysql.sock',
+//		'login' => 'dreamingmind',
+//		'password' => 'amphistory',
+//		'database' => 'bindery3',
+//		'prefix' => '',
+//	);
+//
+//	var $test = array(
+//		'driver' => 'mysql',
+//		'persistent' => false,
+//		'host' => 'localhost',
 //		'port' => '/private/tmp/mysql.sock',
-		'login' => 'dreamingmind',
-		'password' => 'amphistory',
-		'database' => 'bindery',
-		'prefix' => '',
-	);
-
-	var $test = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'port' => '/private/tmp/mysql.sock',
-		'login' => 'root',
-		'password' => 'Up?4worDs',
-		'database' => 'test-bindery',
-		'prefix' => '',
-	);
+//		'login' => 'root',
+//		'password' => 'Up?4worDs',
+//		'database' => 'test-bindery',
+//		'prefix' => '',
+//	);
 }
