@@ -2,5 +2,9 @@ app/config/database.php #private stuff in here
 nbproject/
 app/.DS_Store
 .DS_Store
+<<<<<<< HEAD
 /.fseventsd/
 /.git-rewrite/
+=======
+/.fseventsd/
+>>>>>>> d551cba9743d047a292c7f909553ba2c8e84c517
