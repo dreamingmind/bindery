@@ -52,7 +52,6 @@
   <div id="headerTools">
   	<div id="accountTool">
             <p>
-            <?php if(isset($_GET['a'])) { ?><a href="/dispatch/unpublished">3 Unpub'd</a> | <a href="/dispatch/upload">Upload New</a> | <?php } ?>
             <?php echo $html->accountTool_($userdata); // creates DIV id=accountTool ?>
             </p>
   	</div>

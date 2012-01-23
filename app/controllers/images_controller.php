@@ -83,6 +83,36 @@ class ImagesController extends AppController {
          */
         var $searchAction = false;
         
+        /**
+         * The action/param pairs for pre-configured link-base searches
+         * 
+         * Some search can be entered with pre-configured searchs via a link
+         * for example 'last upload' link will be action=image_grid pass[0]=lastUploadValue
+         * or action=multi-add pass[0]=disallowed
+         * This array is the place to create regex patterns that will identify 
+         * the allowable combinations
+         * @var array actionParamPairs Allowed pre-built searchs for actions
+         */
+        var $actionParamPairs = array(
+            '/image_grid:[0-9]+/',
+            '/multi_add:disallowed/',
+            '/image_grid:orphan_images/'
+        );
+        
+        /**
+         *
+         * @var array $contains The fields to contain in a typical Image search
+         */
+        var $contain = array(
+                    'Content'=>array(
+                        'ContentCollection'=>array(
+                            'fields'=> array('id','collection_id'),
+                            'Collection'=>array(
+                                'fields'=>array('heading')
+                            )
+                        )
+                    ));
+        
         var $layout = 'noThumbnailPage';
 
         /**
@@ -126,7 +156,6 @@ class ImagesController extends AppController {
                 if(isset($this->data['Image']['columns'])){
                     $this->column = $this->data['Image']['columns'];
                     $this->size = $this->data['Image']['sizes'];
-//                    unset($this->data['Image']);
                     $this->data=null;
 //                    debug($this->data);die;
 
@@ -136,21 +165,37 @@ class ImagesController extends AppController {
                 }
                 
                 // Remember any Image context searches
-                if(isset($this->data['Image']['searchInput']) 
-                  ||($this->params['action'] == 'search' && isset($this->params['pass'][0]))){
-                    $this->searchInput =  isset($this->data['Image']['searchInput'])
-                        ? $this->data['Image']['searchInput']
-                        : $this->params['pass'][0];
-                    if(isset($this->data['Image']['searchInput'])){
-                        $this->searchAction = (isset($this->data['Image']['action']))
-                                ? $this->data['Image']['action']
-                                : '';
-                        $this->data=null;
+//                if(isset($this->data['Image']['searchInput']) 
+//                  ||($this->params['action'] == 'search' && isset($this->params['pass'][0]))){
+//                    $this->searchInput =  isset($this->data['Image']['searchInput'])
+//                        ? $this->data['Image']['searchInput']
+//                        : $this->params['pass'][0];
+//                    if(isset($this->data['Image']['searchInput'])){
+//                        $this->searchAction = (isset($this->data['Image']['action']))
+//                                ? $this->data['Image']['action']
+//                                : '';
+//                        $this->data=null;
+//                    }
+//                } elseif ($this->Session->check('Image.searchInput')) {
+//                    $this->searchInput =  $this->Session->read('Image.searchInput');
+//                } elseif (!$this->searchInput) {
+//                    // at this point
+//                    $this->searchInput =  $this->lastUpload;
+//                }
+                
+                // revised searchInput
+                if(isset($this->data['Image']['searchInput'])){
+                    // user requested search
+                    $this->searchInput = $this->data['Image']['searchInput'];
+                    $this->searchAction = $this->action = $this->data['Image']['action'];
+                    $this->data = null;
+                } elseif(isset($this->params['pass'][0])){
+                    //Some actions might have param base search request
+                    if($this->checkLinkPatterns($this->action . ':' . $this->params['pass'][0])){
+                        $this->searchInput = $this->params['pass'][0];
                     }
-                } elseif ($this->Session->check('Image.searchInput')) {
-                    $this->searchInput =  $this->Session->read('Image.searchInput');
-                } elseif (!$this->searchInput) {
-                    $this->searchInput =  $this->lastUpload;
+                } elseif($this->Session->check('Image.searchInput')){
+                    $this->searchInput = $this->Session->read('Image.searchInput');
                 }
 //                debug($this->data);die;
             }
@@ -168,8 +213,18 @@ class ImagesController extends AppController {
                 $this->sizes[$key] = $key;
             }
             $this->set('sizes',  $this->sizes);
+            $this->set('hidden', array('action'=>array('value'=>  $this->action)));
             
         }
+        
+    function checkLinkPatterns($action_param){
+        foreach($this->actionParamPairs as $pattern){
+            if(preg_match($pattern, $action_param)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     function pull_orphans(){
        $this->orphans = $this->Image->query("SELECT * FROM `images` AS `Image` 
@@ -178,19 +233,19 @@ class ImagesController extends AppController {
        $this->set('orphans', $this->orphans);
     }
     
-	function index() {
-            $this->paginate = array('order'=>array('Image.id'=> 'desc'));
-		$this->Image->recursive = 0;
+    function index() {
+                $this->paginate = array('order'=>array('Image.id'=> 'desc'));
+                $this->Image->recursive = 0;
 		$this->set('images', $this->paginate());
-	}
+            }
 
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid image', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('image', $this->Image->read(null, $id));
-	}
+    function view($id = null) {
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid image', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->set('image', $this->Image->read(null, $id));
+    }
 
     function add() {
         if (!empty($this->data)) {
@@ -499,8 +554,7 @@ class ImagesController extends AppController {
          * @todo image_grid properly retains a found set from here, but this layout doesn't use a found set from other contexts
          */
         function clean_up(){
-            $this->set('searchRecords',  $this->searchRecords);
-            $this->set('hidden',array('action'=>array('value'=>'clean_up')));
+//            $this->set('hidden',array('action'=>array('value'=>'clean_up')));
             if(isset ($this->data)){
                 $delete = $this->processDeletions();
 //                debug($delete);die;
@@ -534,10 +588,20 @@ class ImagesController extends AppController {
                     
                 }
 
-            unset($this->data);
-            $this->searchAction = 'clean_up';
-            $this->redirect(array('action'=>'search'));
+//            unset($this->data);
+//            $this->searchAction = 'clean_up';
+//            $this->redirect(array('action'=>'search'));
            }
+            $this->layout = 'noThumbnailPage';
+            
+            if(!$this->searchInput){
+                $this->searchInput = 'orphan_images';
+            }
+            $this->doSearch();
+            if($this->searchRecords == array()){
+                $this->Session->setFlash('No records found for search '.$this->searchInput);
+            }
+            $this->set('searchRecords',  $this->searchRecords);
         }
         
         /**
@@ -558,15 +622,10 @@ class ImagesController extends AppController {
             }
         }
         
-        /**
-         * @todo Make this work for more than one action. possibly a case statement?
-         * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
-         */
-        function search() {
-//            debug($this->searchInput);
-//            debug($this->referer());
-//            
-//            die;
+        
+        function doSearch(){
+            // int = upload set
+            // orphan_images
             $upload = false;
             // A numberic pass[0] is an Upload set number. Please show that set.
             // And no search or pass[0] well default to the last Upload set
@@ -580,21 +639,16 @@ class ImagesController extends AppController {
                     $this->Session->setFlash("Upload sets exist for values 1 - {$this->lastUpload}. Your request for set $uploadRequest can't be satisfied");
                 }
             }
+            
+            if ($this->searchInput == 'last upload' || $this->searchInput == 'last_upload'){
+                $upload = $this->lastUpload;
+            }
 
             if ($upload) {
                 // search param was integer; that's an upload set number
                 $this->searchRecords = $this->Image->find('all', array(
                     'conditions'=>array('Image.upload'=> $upload),
-                    'contain'=>array(
-                    'Content'=>array(
-                        'ContentCollection'=>array(
-                            'fields'=> array('id','collection_id'),
-                            'Collection'=>array(
-                                'fields'=>array('heading')
-                            )
-                        )
-                    )
-                )//$fields
+                    'contain'=>$this->contain//$fields
                 ));
             } elseif ($this->searchInput == 'orphan_images') {
                 // search param was a request to see orphan images
@@ -603,29 +657,29 @@ class ImagesController extends AppController {
                 // search param wasn't integer or orphan; that's means a field value search
                 $this->searchRecords = $this->Image->find('all', array(
                 'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%"),
-                'contain'=>array(
-                    'Content'=>array(
-                        'ContentCollection'=>array(
-                            'fields'=> array('id','collection_id'),
-                            'Collection'=>array(
-                                'fields'=>array('heading')
-                            )
-                        )
-                    )
-                )//$fields
+                'contain'=>$this->contain//$fields
                 ));
             }
-            
+        }
+        
+        /**
+         * @todo Make this work for more than one action. possibly a case statement?
+         * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
+         */
+        function search() {
             switch($this->searchAction){
                 case 'clean_up':
                     $this->clean_up();
+                    debug($this->searchInput);die;
                     $this->render('clean_up');
+                    break;
                 default :
                     $this->image_grid();
                     $this->render('image_grid');
-
+                    break;
             }
-
+            $this->render($this->searchAction);
+//
         }
         
         /**
@@ -726,12 +780,16 @@ class ImagesController extends AppController {
 //                debug($content_id);
 //                debug($content_collection);die;
                 }
-            unset($this->data);
-            $this->searchAction = 'image_grid';
-            $this->redirect(array('action'=>'search'));
-          } // end of $this->data processing
-            
+//            unset($this->data);
+//            $this->searchAction = 'image_grid';
+//            $this->redirect(array('action'=>'search'));
+            } // end of $this->data processing
+
             $this->layout = 'noThumbnailPage';
+            if(!$this->searchInput){
+                $this->searchInput = 'last_upload';
+            }
+            $this->doSearch();
             if($this->searchRecords){
                 foreach($this->searchRecords as $record){
                     $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
@@ -740,8 +798,9 @@ class ImagesController extends AppController {
                 $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
             } else {
                 $this->set('chunk',false);
+                $this->Session->setFlash('No records found for search '.$this->searchInput);
             }
-            
+
         }
         
         /**

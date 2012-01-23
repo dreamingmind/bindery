@@ -4,12 +4,12 @@ if ($this->params['controller']=='images'){
 // Assemble the Upload process links
 $lastUploadLink = ($lastUpload)
     ? $this->Html->link('Last Upload Set', 
-        array('controller'=>'images', 'action'=>'search', $lastUpload))
+        array('controller'=>'images', 'action'=>'image_grid', $lastUpload))
     : "Last Upload Unavailable";
 
 $orphansLink = ($orphans)
     ? ' | '. $this->Html->link(count($orphans). ' Orphan images', 
-        array('controller'=>'images', 'action'=> 'search', 'orphan_images'))
+        array('controller'=>'images', 'action'=> 'image_grid', 'orphan_images'))
     : null;
 
 $duplicateLink = ($duplicate)
@@ -19,7 +19,7 @@ $duplicateLink = ($duplicate)
 
 $disallowedLink = ($disallowed)
     ? ' | ' . $this->Html->link(count($disallowed)." Disallowed", 
-        array('controller'=>'images', 'action'=>'multi_add'))
+        array('controller'=>'images', 'action'=>'multi_add', 'disallowed'))
     :null;
 
 $newLink = ($new)

@@ -4,7 +4,7 @@
 <?php
 //debug($searchRecords);
 //debug($orphans);
-$foundRecords = $orphans;
+//$foundRecords = $orphans;
 $heading2 = 'Orphan Images';
 if(isset($searchRecords[0]) && !is_null($searchRecords)){
     $foundRecords = $searchRecords;
