@@ -98,6 +98,7 @@ class AppHelper extends Helper {
             $searchController = $this->params('controller');
         }
         $tool = FormHelper::create($searchController, array(
+//            'url'=> array('controller'=>$searchController,'action'=>$this->action)
             'url'=> array('controller'=>$searchController,'action'=>'search')
         ));
         

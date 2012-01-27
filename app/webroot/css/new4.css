@@ -448,8 +448,12 @@ li.thumbButton:hover > a img {
 #headerTools {
 	text-align: right;
 	font-size:10px;
-	float: right;
+/*	float: right;*/
 	padding: 0px 35px 0px 0px;
+        position: absolute;
+        top: 5px;
+        left: 300px;
+        width: 600px;
 }
 .drksubhead     {
 	color: #9a3614;

@@ -284,13 +284,13 @@ fieldset legend {
 	background:#fff;
         padding: 0px 5px;
 	color: #a32;
-	font-size: 160%;
+	font-size: 100%;
 	font-weight: bold;
 	margin-top: 0px;
 	margin-bottom: 00px;
 }
 fieldset fieldset legend {
-	font-size: 120%;
+	font-size: 90%;
 	font-weight: normal;
 }
 fieldset fieldset div {
@@ -324,27 +324,27 @@ form div.submit {
 }
 label {
 	display: block;
-	font-size: 90%;
+	font-size: 70%;
 	/*margin-bottom:3px;*/
 }
 input, textarea {
 	clear: both;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-	font-size: 100%;
+	font-size: 80%;
 	/*padding: 1%;
         margin-bottom: 8px;*/
 	width:98%;
 }
 select {
 	clear: both;
-	font-size: 90%;
+	font-size: 80%;
 	vertical-align: text-bottom;
 }
 select[multiple=multiple] {
 	width: 100%;
 }
 option {
-	font-size: 120%;
+	font-size: 90%;
 	padding: 0 3px;
 }
 input[type=checkbox] {
@@ -366,7 +366,7 @@ div.radio label {
 }
 input[type=submit] {
 	display: inline;
-	font-size: 110%;
+	font-size: 100%;
 	width: auto;
 }
 form .submit input[type=submit] {
