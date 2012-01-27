@@ -70,9 +70,8 @@ $record = array();
         }
         // This is the control to keep or delete the disallowed file
         // Either can happen whether or not a replacement file is uploaded
-        if($disallowed){
+        if($searchInput == 'disallowed'){
             echo $this->Html->tag('h3',key($disallowed) . ' ('.current($disallowed)->reason.')');
-            next($disallowed);
                 echo $this->Form->input('Task', array(
                     'name'=>"data[$count][Image][task]",
                     'id' => "{$count}ImageImgTask",
@@ -81,7 +80,13 @@ $record = array();
                         'delete'=>'Delete', 'maintain'=>'Maintain'
                     )
                 ));
+                echo $this->Form->input('disallowed_file', array(
+                    'type'=>'hidden',
+                    'name'=>"data[$count][Image][disallowed_file]",
+                    'value'=> key($disallowed)
+                ));
            echo $this->Html->tag('h3','Upload an alternate.');
+           next($disallowed);
         }
         
         $params = array(

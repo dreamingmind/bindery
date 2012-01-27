@@ -377,6 +377,9 @@ class ImagesController extends AppController {
             $imageDirectory = 'img/images';
             $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', $imageDirectory);
             foreach ($this->data as $val) {
+                if($val['Image']['task']=='delete'){
+                    unlink($imageDirectory . '/upload/' . $val['Image']['disallowed_file']);
+                }
                 if (!$val['Image']['img_file']['name']==null) {
                     // set the target directory
                     //debug($val); die;
@@ -419,10 +422,11 @@ class ImagesController extends AppController {
 //        debug($this->searchInput);
         $this->searchRecords = array();
 //            debug($this->searchInput);
-//            $this->out(422);
             $this->doSearch();
-        if($this->searchInput){
+//            $this->out(422);
+        if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
+            $this->Session->setFlash($this->uploadCount . ' Records were found');
             // now, if disallowed is true, we're showing those and uploadCount has how many
             // if searchRecords is true, we're showing that (possibly empty) set
             // if both are false, we're showing uploadCount empty forms 
@@ -434,7 +438,9 @@ class ImagesController extends AppController {
                 ($this->disallowed || $this->searchRecords || $this->uploadCount)
                 ? $this->uploadCount : 1);
         $this->set('searchRecords',  $this->searchRecords);
-//            $this->out(436);die;
+        $this->set('disallowed',  $this->disallowed);
+        $this->set('searchInput', $this->searchInput);
+//            $this->out(436);
    }
 
     function out($line){
@@ -668,7 +674,7 @@ class ImagesController extends AppController {
         $uploadRequest = (
                 isset($match[0])
                 &&$match[0] > 0 
-                && $this->searchAction != 'multi_add') 
+                && ($this->searchAction != 'multi_add' && $this->action != 'multi_add')) 
                     ? $match[0] : false;
         $this->uploadCount = (
                 isset($match[0])
@@ -691,10 +697,12 @@ class ImagesController extends AppController {
         // processing for multi_add requests
         if ($this->searchAction == 'multi_add' || $this->action == 'multi_add'){
             if($this->uploadCount){
+                $this->searchRecords = false;
+//                $this->disallowed = false;
                 return; // had integer searchInput
             }
             if($this->searchInput != 'disallowed' || $param0 != 'disallowed') {
-                 $this->disallowed = false; 
+//                 $this->disallowed = false; 
             } else {
                 $this->uploadCount = count($this->disallowed);
                 return; // had disallowed search or link
