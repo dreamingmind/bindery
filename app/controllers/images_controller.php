@@ -431,7 +431,7 @@ class ImagesController extends AppController {
 //            $this->out(422);
         if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
-            $this->Session->setFlash($this->uploadCount . ' Records were found');
+            $this->Session->setFlash("$this->uploadCount Records were found for '$this->searchInput'");
             // now, if disallowed is true, we're showing those and uploadCount has how many
             // if searchRecords is true, we're showing that (possibly empty) set
             // if both are false, we're showing uploadCount empty forms 
@@ -445,7 +445,7 @@ class ImagesController extends AppController {
         $this->set('searchRecords',  $this->searchRecords);
         $this->set('disallowed',  $this->disallowed);
         $this->set('searchInput', $this->searchInput);
-//            $this->out(436);
+//        $this->out(436);
    }
 
     function out($line){
@@ -453,7 +453,12 @@ class ImagesController extends AppController {
         debug(($this->uploadCount) ? 'uploadCount ' . $this->uploadCount : 'uploadCount false');
         debug(($this->searchInput) ? 'searchInput ' . $this->searchInput : 'searchInput false');
         debug(($this->searchAction) ? 'searchAction ' . $this->searchAction : 'searchAction false');
-        debug(($this->searchRecords) ? 'searchRecords ' . $this->searchRecords : 'searchRecords false');
+        if ($this->searchRecords){
+            debug($this->searchRecords);
+        }else{
+            'searchRecords false';
+        }
+//        debug(($this->searchRecords) ? 'searchRecords ' . $this->searchRecords : 'searchRecords false');
         debug(($this->disallowed) ? 'disallowed ' . $this->disallowed : 'disallowed false');
     }
     
@@ -708,6 +713,7 @@ class ImagesController extends AppController {
                 return; // had integer searchInput
             }
             if($this->searchInput != 'disallowed' || $param0 != 'disallowed') {
+                
 //                 $this->disallowed = false; 
             } else {
                 $this->uploadCount = count($this->disallowed);
@@ -761,7 +767,7 @@ class ImagesController extends AppController {
                 break;
         }
 
-        $this->render($this->searchAction);
+//        $this->render($this->searchAction);
 //
     }
 

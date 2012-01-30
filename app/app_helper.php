@@ -215,12 +215,24 @@ foreach($collection as $entry) {
                 'id:'.$entry['Content']['id'],
                 array('escape'=>false,'class'=>'thumb')
         );
+    } elseif ($this->params['action']=='art') {
+        debug($this->params);
+        $link = HtmlHelper::link($number++ . '<br />' . $image,
+            array(
+//                'controller'=>$this->params['controller'],
+                'action'=>$this->params['action'],
+                'pass'=>$this->params['pass'],
+                'page'=>$paginator->params['paging']['ContentCollection']['page'],
+                'id'=>$entry['Content']['id']),
+                array('escape'=>false,'class'=>'thumb')
+        );
     } elseif ($this->params['action']=='newsfeed') {
         $link = HtmlHelper::link($number++ . '<br />' . $image,
                 '#dispatch'.$entry['Content']['id'],
                 array('escape'=>false,'class'=>'thumb')
         );
     }
+
     // this sets the 'active' styling
     if ($paginator->params['named']['id'] == $entry['Content']['id']) {
         $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));

@@ -71,7 +71,7 @@ class ContentsController extends AppController {
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed');
+        $this->Auth->allow('gallery', 'newsfeed', 'art');
         //This was used when Content was a Splash-page system
 //        $this->set('navline', $this->Content->Navline->find('list',
 //            array('order'=>'route', 'fields'=> array(
@@ -175,6 +175,13 @@ class ContentsController extends AppController {
 
     function search() {
         debug($this->data); die;
+    }
+    
+    function art(){
+//        debug($this->params['pass'][count($this->params['pass'])-1]);
+        $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
+        $this->gallery();
+        $this->render('gallery');
     }
 
     /**

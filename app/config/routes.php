@@ -91,7 +91,7 @@ Router::connect('/:static', array(
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));
         
         Router::connect('/art/*',
-                array ('controller'=>'contents','action'=>'gallery'));
+                array ('controller'=>'contents','action'=>'art'));
         
 
         
