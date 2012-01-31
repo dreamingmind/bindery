@@ -216,7 +216,7 @@ foreach($collection as $entry) {
                 array('escape'=>false,'class'=>'thumb')
         );
     } elseif ($this->params['action']=='art') {
-        debug($this->params);
+//        debug($this->params);
         $link = HtmlHelper::link($number++ . '<br />' . $image,
             array(
 //                'controller'=>$this->params['controller'],
