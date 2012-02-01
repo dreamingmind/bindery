@@ -25,7 +25,7 @@ $record = array();
     // One form encloses all records
     echo $this->Form->create('Image',array(
     'type' => 'file',
-    'url'=>(array ('action'=>'multi_add', $countMax)))) ;?>
+    'url'=>(array ('action'=>'multi_add')))) ;?>
     
     <?php 
     
@@ -37,11 +37,17 @@ $record = array();
 
     ?>
      
-    <h2><?php echo (!$searchRecords)?'Add an image':'Replace an image'; ?></h2> 
+    <h2><?php echo (!$searchRecords)?'Add an image':'Replace an image: '.$searchRecords[$count]['Image']['img_file']; ?></h2> 
     
 	<?php
         if($searchRecords){
             echo $this->Html->image("images/thumb/x160y120/".$searchRecords[$count]['Image']['img_file']);
+//            echo $this->Html->para(null,'Current image: '.$searchRecords[$count]['Image']['img_file']);
+            echo $this->Form->input('current_image',array(
+                'name'=>"data[$count][Image][current_image]",
+                'type'=>'hidden',
+                'value'=>$searchRecords[$count]['Image']['img_file']
+            ));
         }
         // This is the control to keep or delete the disallowed file
         // Either can happen whether or not a replacement file is uploaded
@@ -74,6 +80,9 @@ $record = array();
         echo $this->element('imageForm_metaFields',$params);
 
         $params['legend']='File to upload';
+        if(isset($fileError[$count])){
+            $params['legend'].="<br />$fileError[$count]";
+        }
         $params['display'] = 'show';
         echo $this->Fieldset->fieldset($params+array(
             'fields' => array ('img_file'=>array(

@@ -121,6 +121,12 @@ class ImagesController extends AppController {
         ));
 
     var $layout = 'noThumbnailPage';
+    
+    /**
+     *
+     * @var array $fileError array of messages about upload files of the wrong type
+     */
+    var $fileError = False;
 
     /**
      * Take care of ImageController housekeeping
@@ -360,44 +366,56 @@ class ImagesController extends AppController {
     }
     
     /**
-     * Create a layout to upload several images at once or to upload replacements for invalid files
+     * Create a layout to upload several images at once or to upload replacements files
      * 
+     * Replacement image files can displace existing image
+     * or disallowed files from the upload folder.
      * If data is presented, the layout will be drawn to present one
-     * form per invalid file (from the upload folder scan). This is
-     * called from the 'disallowed' clicker. An integer url param
-     * is the other mode to get empty file-selector forms
+     * form per found or disallowed file (called from the 'disallowed' clicker).
+     * An integer in the search box will give empty forms
+     * 
      * 
      * @param int $count The number of forms to present
      */
     function multi_add($count=null) {
-            if (!empty($this->data)) {
-//            debug($this->data);die;
-            //read exif data and set exif fields
+        if (!empty($this->data)) {
+//            debug($this->data);
+//            debug($this->Image->actsAs['Upload']['img_file']['allowed_mime']);//die;
             $success = TRUE;
             $message = null;
+            
+            // set the target directory
             $imageDirectory = 'img/images';
             $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', $imageDirectory);
-            foreach ($this->data as $val) {
+            foreach ($this->data as $index => $val) {
                 
                 // Handle deletion request of old image
-                if($val['Image']['task']=='delete'){
+                if(isset($val['Image']['task'])&&$val['Image']['task']=='delete'){
                     unlink($imageDirectory . '/upload/' . $val['Image']['disallowed_file']);
                 }
                 
                 // Handle incoming image
                 if (!$val['Image']['img_file']['name']==null) {
-                    // set the target directory
-                    //debug($val); die;
-                    $val['Image']['upload']=  $this->lastUpload+1;
+                    
+                    // verify upload file type
+                    if((array_search($val['Image']['img_file']['type'], $this->Image->actsAs['Upload']['img_file']['allowed_mime']))===FALSE){
+                        $this->fileError[$index]="Wrong file type {$val['Image']['img_file']['type']}";
+                        continue;
+                    } elseif(isset($val['Image']['current_image'])){
+//                        debug($val['Image']['current_image']);die;
+                        // if we have a good upload file and it's replacing a current image
+                        $this->delete_image_files($val['Image']['current_image']);
+                    }
+                    
+                    $val['Image']['upload'] = ($val['Image']['upload'] == null) ? $this->lastUpload+1 : $val['Image']['upload'];
                     $this->Image->create($val);
-//                    debug($val);die;
                     if ($this->Image->save()) {
                         $message .= '<p>Saved ' . $this->Image->id . ' ' . $val['Image']['img_file']['name'] . ' but not the exif data.</p>';
                         $success && TRUE;
-//                        $created = $this->Image->id;
+                        
+                        //read exif data and set exif fields
                         $filePath = $imageDirectory . '/native/' . $val['Image']['img_file']['name'];
                         $exifData = exif_read_data($filePath);
-//                        debug($exifData);die;
                         $updateExif['Image'] = array(
                             'id' => $this->Image->id,
                             'height' => $exifData['COMPUTED']['Height'],
@@ -415,37 +433,44 @@ class ImagesController extends AppController {
                     }
                 }
             } // End of this->data loop
-            if ($success) {
-                $this->Session->setFlash(__($message, true));                    
-                $this->redirect(array('action' => 'index'));                    
-            }
-                $this->Session->setFlash(__($message, true));                    
-        }
+            
+            $this->Session->setFlash(__($message, true)); 
+            
+        } //end of posted data processing
+        
         $this->layout = 'noThumbnailPage';
         $this->setSearchAction('multi_add');
-        
-//        debug($this->searchInput);
         $this->searchRecords = array();
-//            debug($this->searchInput);
+        
+        // if there were bad upload files, we'll keep those for reprocessing
+        // in all other cases, including no data, we'll do standard search
+        if($this->fileError){
+            foreach($this->fileError as $index => $message){
+                $this->searchRecords[]=$this->data[$index];
+                $error[] = $message;
+                $this->fileError = $error;
+            }
+            $this->set('fileError',$this->fileError);
+//            $this->data=null;
+            
+        } else {
             $this->doSearch();
-//            $this->out(422);
+        }
+        
         if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
             $this->Session->setFlash("$this->uploadCount Records were found for '$this->searchInput'");
-            // now, if disallowed is true, we're showing those and uploadCount has how many
-            // if searchRecords is true, we're showing that (possibly empty) set
-            // if both are false, we're showing uploadCount empty forms 
             if($this->searchRecords == array()){
                 $this->Session->setFlash('No records found for search '.$this->searchInput);
             }
         }
+        
         $this->set('countMax', 
                 ($this->disallowed || $this->searchRecords || $this->uploadCount)
                 ? $this->uploadCount : 1);
         $this->set('searchRecords',  $this->searchRecords);
         $this->set('disallowed',  $this->disallowed);
         $this->set('searchInput', $this->searchInput);
-//        $this->out(436);
    }
 
     function out($line){
@@ -660,7 +685,7 @@ class ImagesController extends AppController {
         $path = IMAGES."images/native/$name";
         if(is_file($path)){
             unlink($path);
-        }
+            }
         foreach($this->sizes as $size => $size_again){
             $path = IMAGES."images/thumb/$size/$name";
             if(is_file($path)){
