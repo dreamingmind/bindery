@@ -11,6 +11,7 @@ class ContentCollection extends AppModel {
                 ));
         
         var $displayField = 'Content.heading';
+        
         /**
          * Return an array of the most recently used Collections
          * 
@@ -23,7 +24,7 @@ class ContentCollection extends AppModel {
          * @return array A Cake list of the most recently used Collections
          */
         function recentCollections($limit=null) {
-            $limt = ($limit==null) ? 10 : $limit;
+            $limit = ($limit==null) ? 10 : $limit;
             
             $recentCollections = $this->find('all',array(
                 'fields'=>array(
