@@ -53,7 +53,13 @@ class Content extends AppModel {
         );    
         
         var $displayField = 'heading';
-        
+    
+    /**
+     * Pull the list of Content linked to an Image record
+     *
+     * @param integer $id The id of the Image record 
+     * @return array The list of Content linked to an Image (id => heading)
+     */
     function linkedContent($id){
         
         $list = $this->find('list',array(

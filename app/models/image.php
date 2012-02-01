@@ -18,36 +18,7 @@
 class Image extends AppModel {
     var $name = 'Image';
     var $displayField = 'img_file';
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-//    var $hasMany = array(
-//            'Dispatch' => array(
-//                    'className' => 'Dispatch',
-//                    'foreignKey' => 'image_id',
-//                    'dependent' => false,
-//                    'conditions' => '',
-//                    'fields' => '',
-//                    'order' => '',
-//                    'limit' => '',
-//                    'offset' => '',
-//                    'exclusive' => '',
-//                    'finderQuery' => '',
-//                    'counterQuery' => ''
-//            ),
-//            'Exhibit' => array(
-//                    'className' => 'Exhibit',
-//                    'foreignKey' => 'image_id',
-//                    'dependent' => false,
-//                    'conditions' => '',
-//                    'fields' => '',
-//                    'order' => '',
-//                    'limit' => '',
-//                    'offset' => '',
-//                    'exclusive' => '',
-//                    'finderQuery' => '',
-//                    'counterQuery' => ''
-//            )
-//    );
     var $hasMany = 'Content';
 
     /*
@@ -86,6 +57,46 @@ class Image extends AppModel {
             )
         )
     );
+    
+    function __construct() {
+        parent::__construct();
+        $this->recentTitles();
+        $this->allTitles();
+    }
+
+        /**
+     * sets $recentTitles to an array of the most recently used Image.titles
+     * 
+     * Default to returning the most recent 10 but passing param can change this.
+     * The array is number indexed and contains titles
+     * Recentness is determined by the created date of Image records.
+     *     */
+    function recentTitles($limit=null) {
+        $limit = ($limit==null) ? 10 : $limit;
+        
+        $q = "SELECT DISTINCT title from images AS Image WHERE title IS NOT NULL AND title != '' ORDER BY created DESC LIMIT $limit";
+        $titles = $this->query($q);
+
+        $this->recentTitles[] = '';
+        foreach($titles as $title){
+            $this->recentTitles[] = $title['Image']['title'];
+        }
+    }
+
+        /**
+     * Sets $allTitles to an array of the all Image.titles
+     * 
+     * @return array An array of all Image.titles
+     */
+    function allTitles($limit=null) {
+        $q = "SELECT DISTINCT title from images AS Image WHERE title IS NOT NULL AND title != '' ORDER BY category, title ASC";
+        $titles = $this->query($q);
+
+        $this->allTitles[] = '';
+        foreach($titles as $title){
+            $this->allTitles[] = $title['Image']['title'];
+        }
+    }
 
 }
 ?>
