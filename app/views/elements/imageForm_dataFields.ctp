@@ -1,7 +1,15 @@
 <?php
 /* @var $this ViewCC */ 
 ?> 
-	<?php
+<?php
+// This has been modified so it requires $record
+// but $record does not need to carry the field data
+// which still remains optional. But the calling
+// view needs to add 'options'=>'recent_title'
+// (an array of... duh, recent titles).
+// This could/should be expanded to include
+// 'options'=>'category' so the category radio list
+// will be dynamic too.
 $parameters = array(
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
@@ -15,6 +23,9 @@ $parameters = array(
             'type'=>'textarea'
         ),
         'title',
+        'recent_titles'=>array(
+            'options'=>$record['options']['recent_titles']
+        ),
         'category'=>array(
             'type'=>'radio',
             'options'=> array(

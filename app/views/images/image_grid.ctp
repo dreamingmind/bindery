@@ -47,6 +47,7 @@ if($chunk) {
                 . $this->Html->tag('pre',  print_r($val,TRUE)),array('id'=>'recordData'.$val['Image']['id'])
             );
             
+            $val['options']['recent_titles']=$recentTitles;
             // Buld the various fieldsets
                 $im_meta = $this->Html->div('', $this->element('imageForm_metaFields', array(
                     'record'=>$val,

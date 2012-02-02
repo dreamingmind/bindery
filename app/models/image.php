@@ -77,9 +77,9 @@ class Image extends AppModel {
         $q = "SELECT DISTINCT title from images AS Image WHERE title IS NOT NULL AND title != '' ORDER BY created DESC LIMIT $limit";
         $titles = $this->query($q);
 
-        $this->recentTitles[] = '';
+        $this->recentTitles[0] = '';
         foreach($titles as $title){
-            $this->recentTitles[] = $title['Image']['title'];
+            $this->recentTitles[$title['Image']['title']] = $title['Image']['title'];
         }
     }
 
