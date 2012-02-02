@@ -366,6 +366,15 @@ class ImagesController extends AppController {
     }
     
     /**
+     * 
+     */
+    function scanListChoices(&$data){
+        // May have chosen Image.title from list rather then typing it
+        if ($data['Image']['recent_titles']){
+            $data['Image']['title'] = $data['Image']['recent_titles'];
+        }
+    }
+    /**
      * Create a layout to upload several images at once or to upload replacements files
      * 
      * Replacement image files can displace existing image
@@ -379,7 +388,7 @@ class ImagesController extends AppController {
      */
     function multi_add($count=null) {
         if (!empty($this->data)) {
-//            debug($this->data);
+//            debug($this->data);die;
 //            debug($this->Image->actsAs['Upload']['img_file']['allowed_mime']);//die;
             $success = TRUE;
             $message = null;
@@ -389,6 +398,9 @@ class ImagesController extends AppController {
             $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', $imageDirectory);
             foreach ($this->data as $index => $val) {
                 
+                // May have chosen Image.title from list rather then typing it
+                $this->scanListChoices($val);
+
                 // Handle deletion request of old image
                 if(isset($val['Image']['task'])&&$val['Image']['task']=='delete'){
                     unlink($imageDirectory . '/upload/' . $val['Image']['disallowed_file']);
@@ -471,6 +483,7 @@ class ImagesController extends AppController {
         $this->set('searchRecords',  $this->searchRecords);
         $this->set('disallowed',  $this->disallowed);
         $this->set('searchInput', $this->searchInput);
+        $this->set('recentTitles',  $this->Image->recentTitles);
    }
 
     function out($line){
@@ -811,17 +824,22 @@ class ImagesController extends AppController {
      * @todo the Content fieldsets that output don't have any Collection membership information showing. This might be very helpful though. Can the Content-Element/FieldsetHelper handle this?
      */
     function image_grid(){
-
+//        debug($this->Image->recentTitles);
+//        debug($this->Image->allTitles);
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
+        $this->set('recentTitles',  $this->Image->recentTitles);
         $this->set('allCollections', $allCollections);
         $recentCollections = $this->Image->Content->ContentCollection->recentCollections();
         $this->set('recentCollections', $recentCollections);
         $this->set('collectionCategories',$collectionCategories = $this->Image->Content->ContentCollection->Collection->getCategories());
 
         if(isset($this->data)){
-//                debug($this->data);die;
+            
+            // May have chosen Image.title from list rather then typing it
+            $this->scanListChoices($this->data);
+
             // save all updated data
-            $message = ($this->Image->saveAll($this->data))
+            $message = ($this->Image->save($this->data))
                 ? 'Image changes saved'
                 : 'Image changes not saved';
             if(isset($this->data['Content'][0])){
@@ -846,11 +864,12 @@ class ImagesController extends AppController {
                 // New or existing content was selected for membership. Get its ID
                 if($this->data['Content']['linked_content']==1){
                     $content['Content']['image_id'] = $this->data['Image']['id'];
-                    $content['Content']['heading'] = "New content for record {$this->data['Image']['id']}:: $this->data['Image']['title']";
+                    $content['Content']['heading'] = "New content for record {$this->data['Image']['id']}:: {$this->data['Image']['title']}";
                     $content['Content']['content'] = $this->data['Image']['alt'];
                     $content['Content']['created'] = date('Y-m-d h:i:s',time());
                     $content['Content']['modified'] = date('Y-m-d h:i:s',time());
                     $this->Image->Content->create($content);
+                    debug('linked content save');
                     $this->Image->Content->save();
                     $content_id = $this->Image->Content->id;
                 } else {
@@ -863,6 +882,7 @@ class ImagesController extends AppController {
                 $collection['Collection']['heading'] = $this->data['Content']['new_collection'];
                 $collection['Collection']['category'] = $this->data['Content']['new_collection_category'];
                 $this->Image->Content->ContentCollection->Collection->create($collection);
+                debug('new collection save');
                 $this->Image->Content->ContentCollection->Collection->save();
                 $collectionIDs[] = $this->Image->Content->ContentCollection->Collection->id;
             }
@@ -889,6 +909,7 @@ class ImagesController extends AppController {
                     $content_collection['ContentCollection']['content_id'] = $content_id;
                     $content_collection['ContentCollection']['collection_id'] = $collection_id;
                  $this->Image->Content->ContentCollection->create($content_collection);
+                 debug('content_collection save');
                 $this->Image->Content->ContentCollection->save();
                }
 //                debug($collectionIDs);
