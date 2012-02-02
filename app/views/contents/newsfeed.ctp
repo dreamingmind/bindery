@@ -60,9 +60,13 @@ foreach ($content as $index => $dispatch) {
     // image zoom tool
     $m = '<menu class="zoom"><a>-</a> <a>+</a></menu>';
     // image nav block, the categories for this image
+    $collection_list = '';
+    foreach($dispatch['collections'] as $collection_id => $collection_heading){
+        $collection_list .= $this->Html->tag('li', $collection_heading);
+    }
     $in = $this->Html->div('imgNav',
             $this->Html->div('tools',
-                    $this->Html->tag('p','Tags'). "<ul class='categories'><li>link</li></ul>".
+                    $this->Html->tag('p','Tags'). "<ul class='categories'>$collection_list</ul>".
                     $this->Html->tag('p',date('M j, Y', time())).$e));
     
     echo $this->Html->div('dispatch', $m."\r".$a."\r".$in."\r".$i."\r".$p."\r");

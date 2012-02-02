@@ -54,6 +54,16 @@ class Content extends AppModel {
         
         var $displayField = 'heading';
     
+        /**
+         * An array of arrays showing collections containing an image
+         * $imageCollections[image_id] = array(
+         *      'id' => collection name
+         * )
+         *
+         * @var array $imageCollection The collections containing an image
+         */
+        var $imageCollections = array();
+        
     /**
      * Pull the list of Content linked to an Image record
      *
@@ -70,5 +80,33 @@ class Content extends AppModel {
         return $list;
     }
 
+    function linkedCollections($id){
+        $list = $this->find('all', array(
+            'conditions'=>array('Content.image_id'=>$id),
+            'contain' => array(
+                'ContentCollection'=>array(
+                    'fields'=>array(
+                        'ContentCollection.collection_id'
+                    ),
+                    'Collection'=>array(
+                        'fields'=>array(
+                            'Collection.heading'
+                        )
+                    )
+                )
+            )
+        ));
+        
+        if ($list){
+            foreach($list[0]['ContentCollection'] as $collection){
+                if(isset($collection['Collection']['heading'])){
+                    $collections[$collection['collection_id']] = $collection['Collection']['heading'];
+                }
+            }
+        }
+        $this->imageCollections[$list[0]['Content']['image_id']][$collection['collection_id']] = $collections;
+        return $collections;
+    }
+    
 }
 ?>

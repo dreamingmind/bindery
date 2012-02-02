@@ -111,7 +111,7 @@ if(isset ($foundRecords)){
                         
                         $concolDisplay = "<p><em>content-collection id {$concolData['id']} links to:</em> {$concolData['Collection']['heading']}</p>
                                             <p><em>content_id: </em>{$concolData['content_id']}</p>
-                                            <p><em>content_id: </em>{$concolData['collection_id']}</p>";
+                                            <p><em>collection_id: </em>{$concolData['collection_id']}</p>";
                         
                         $concolCheckCell .= "<tr><td>$concolCheck</td></tr><tr><td style='padding-bottom:20px;'>$concolDisplay</td>";
                     }

@@ -238,8 +238,8 @@ class ContentsController extends AppController {
                         'Image.img_file',
                         'Image.alt',
                         'Image.title'
-                    )
-                )
+                                )
+                            )
             ),
             'Collection' => array(
                 'fields' => array(
@@ -388,7 +388,7 @@ class ContentsController extends AppController {
         } else {
             $this->newsfeedPublic($pname);
         }
-
+        
         $this->pageOrder = array(
             'Content.publish' => 'desc',
             'ContentCollection.seq' => 'asc'
@@ -400,13 +400,21 @@ class ContentsController extends AppController {
             'seq','visible'                
         );       
         
-        $this->set('neighbors', $this->filmstripNeighbors());
-        $this->set('filmStrip',$this->pullFilmStrip($page));
+        $neighbors = $this->filmstripNeighbors();
+//        debug($neighbors);
+        $filmStrip = $this->pullFilmStrip($page);
+        
+        foreach($filmStrip as $index => $targetImage){
+            $filmStrip[$index]['collections'] = $this->Content->linkedCollections($targetImage['Content']['image_id']);
+        }
 
          if (!$id) {
-            $this->newsfeedIntroduction();
+            $this->newsfeedIntroduction($neighbors);
         }
-        $this->newsfeedDispatches($this->viewVars['filmStrip']);
+
+        $this->set('neighbors', $neighbors);
+        $this->set('filmStrip',$filmStrip);
+        $this->newsfeedDispatches($filmStrip);
     }
     
     function dispatch_edit() {
@@ -436,7 +444,7 @@ class ContentsController extends AppController {
         $this->pageContains = array(
             'Content' => array(
                 'Image',
-            ),
+                ),
             'Collection'
             );
     }
@@ -471,7 +479,7 @@ class ContentsController extends AppController {
                         'Image.alt',
                         'Image.title',
                         'Image.date'
-                    )
+                                )
                 )//,
 //                'Sibling' => array(
 //                    'fields' => array(
@@ -497,8 +505,8 @@ class ContentsController extends AppController {
      * @todo this may break if filmstripNeighbors() gets re-written
      * @return null
      */
-    function newsfeedIntroduction() {
-        foreach ($this->viewVars['neighbors'] as $id => $info) {
+    function newsfeedIntroduction($neighbors) {
+        foreach ($neighbors as $id => $info) {
             $this->params['named']['id'] = $id;
             //debug($this->params); debug($this->paginator); die;
             continue;

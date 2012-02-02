@@ -42,6 +42,6 @@ class ContentCollection extends AppModel {
             }
             return $this->recentCollections;
         }
-        
+                
         }
 ?>
