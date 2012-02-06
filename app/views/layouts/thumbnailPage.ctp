@@ -56,7 +56,10 @@
             </p>
   	</div>
   	<div id="jumpBox">
-            <label class="inputBox" for="j">Showing #5 of 14 </label><input type="text" name="j" id="jumpInput" class="jump_input inputBox" onfocus="if(this.value=='Jump to #'){ this.value=''; }" onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
+            <label class="inputBox" for="j">Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <?php echo $this->Paginator->counter(array('format'=>'%count%')) ?> </label>
+            <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
+                   onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
+                   onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
   	</div>
   </div>
     <?php echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors?>

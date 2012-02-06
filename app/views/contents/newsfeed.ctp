@@ -62,7 +62,10 @@ foreach ($content as $index => $dispatch) {
     // image nav block, the categories for this image
     $collection_list = '';
     foreach($dispatch['collections'] as $collection_id => $collection_heading){
-        $collection_list .= $this->Html->tag('li', $collection_heading);
+        $collection_list .= $this->Html->tag('li', 
+                $this->Html->link($collection_heading, array(
+                    'action'=>'newsfeed',
+                    'pname'=>$collection_heading)));
     }
     $in = $this->Html->div('imgNav',
             $this->Html->div('tools',
@@ -91,32 +94,3 @@ foreach ($content as $index => $dispatch) {
     echo $this->Form->end('Submit');
 }
 ?>
- <div class="dispatch">
-    <menu class="zoom"><a>-</a> <a>+</a></menu>
-    <a class="dispatchAnchor" name='1'></a>
-
-  <div class="imgNav">
-    <div class="tools">
-        <p>Tags</p>
-      <ul class="categories">         <li><a href="/dispatch/news_feed/on_the_Bench">On the Bench</a></li>
-        <li><a href="/dispatch/news_feed/mike_ward">Mike Ward</a></li>
-        <li><a href="/dispatch/news_feed/alligator">Alligator</a></li>
-
-      </ul>
-      <p>Sept 13, 2009</p>
-        <ul class="adminMenu">
-            <li><a href="#1" name="CRW_7904" onclick="showhide(this.name, 'block'); return false">Edit</a></li>
-        </ul>    </div>
-  </div>
-  <img src="img/CRW_7904.jpg" />
-
-  <form id="CRW_7904" action="/dispatch/edit" method="post">
-  <table><tr>
-    <td><label for="text" onclick="showhide('CRW_7904', 'none'); return false">text</label></td>
-      <td><textarea name="text" id="text">Cigarette cases aren't common objects to see these days. This sterling silver version was certainly a surprise when it came in this studio. And seriously, how often does someone ask to have sterling covered up? An exotic leather like American alligator is a logical choice though. The black and silver make a classic pairing.</textarea></td>
-    </tr></table>
-  </form>  <p class="dispatchText">Cigarette cases aren't common objects to see these days. This sterling silver version was certainly a surprise when it came in this studio. And seriously, how often does someone ask to have sterling covered up? An exotic leather like American alligator is a logical choice though. The black and silver make a classic pairing.</p>
-  <p class="dispatchText">This is a second paragraph to test first-of-type/last-of-type.</p>
-
-  <p class="dispatchText">And this final paragraph should verify that a first, middle and last paragraph can all receive appropriate and different formatting. </p>
-</div>

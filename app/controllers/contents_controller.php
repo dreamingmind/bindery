@@ -78,6 +78,12 @@ class ContentsController extends AppController {
 //                'Navline.id','Navline.route'
 //            ))));
         }
+        
+    function afterFilter() {
+        parent::afterFilter();
+//        debug($this->viewVars);
+//        die;
+    }
 
 	function index() {
                 $this->layout = 'noThumbnailPage';
@@ -252,27 +258,30 @@ class ContentsController extends AppController {
                 'Collection.category' => 'exhibit'
             );
 
-        $collection = $this->Content->ContentCollection->find('all',
-                array(
-                    'fields'=>array('Content.id'),
-                    'conditions'=>  $this->pageConditions,
-                    'order'=>  $this->pageOrder));
-        
-        $max = count($collection)-1;
-        
-        foreach ($collection as $index => $locus) {
-            if ($index == 0) {
-                $neighbors[$locus['Content']['id']]['previous'] = $collection[$max]['Content']['id'];
-            } else {
-                $neighbors[$locus['Content']['id']]['previous'] = $collection[$index-1]['Content']['id'];
-            }
-            if ($index == $max) {
-                $neighbors[$locus['Content']['id']]['next'] = $collection[0]['Content']['id'];
-            } else {
-                $neighbors[$locus['Content']['id']]['next'] = $collection[$index+1]['Content']['id'];
-            }
-            $neighbors[$locus['Content']['id']]['page'] = intval(($index/9)+1);
-        }
+        $neighbors = $this->filmstripNeighbors();
+//        $collection = $this->Content->ContentCollection->find('all',
+//                array(
+//                    'fields'=>array('Content.id'),
+//                    'conditions'=>  $this->pageConditions,
+//                    'order'=>  $this->pageOrder));
+//        
+//        $max = count($collection)-1;
+//        
+//        foreach ($collection as $index => $locus) {
+//            $neighbors[$locus['Content']['id']]['count'] = $index;
+//
+//            if ($index == 0) {
+//                $neighbors[$locus['Content']['id']]['previous'] = $collection[$max]['Content']['id'];
+//            } else {
+//                $neighbors[$locus['Content']['id']]['previous'] = $collection[$index-1]['Content']['id'];
+//            }
+//            if ($index == $max) {
+//                $neighbors[$locus['Content']['id']]['next'] = $collection[0]['Content']['id'];
+//            } else {
+//                $neighbors[$locus['Content']['id']]['next'] = $collection[$index+1]['Content']['id'];
+//            }
+//            $neighbors[$locus['Content']['id']]['page'] = intval(($index/9)+1);
+//        }
         $this->set('neighbors', $neighbors);
         $this->set('filmStrip',$this->pullFilmStrip($page));
         
@@ -415,6 +424,7 @@ class ContentsController extends AppController {
         $this->set('neighbors', $neighbors);
         $this->set('filmStrip',$filmStrip);
         $this->newsfeedDispatches($filmStrip);
+//        debug($this->Content->imageCollections);die;
     }
     
     function dispatch_edit() {
@@ -561,6 +571,7 @@ class ContentsController extends AppController {
 
             // this is overkill
             foreach ($collection as $index => $locus) {
+                $neighbors[$locus['Content']['id']]['count'] = $index+1;
                 if ($index == 0) {
                     $neighbors[$locus['Content']['id']]['previous'] = $collection[$max]['Content']['id'];
                 } else {

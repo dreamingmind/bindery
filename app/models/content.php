@@ -104,7 +104,9 @@ class Content extends AppModel {
                 }
             }
         }
-        $this->imageCollections[$list[0]['Content']['image_id']][$collection['collection_id']] = $collections;
+        if($collections){
+            $this->imageCollections[$list[0]['Content']['image_id']][$collection['collection_id']] = $collections;
+        }
         return $collections;
     }
     
