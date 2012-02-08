@@ -98,15 +98,23 @@ class Content extends AppModel {
         ));
         
         if ($list){
-            foreach($list[0]['ContentCollection'] as $collection){
-                if(isset($collection['Collection']['heading'])){
-                    $collections[$collection['collection_id']] = $collection['Collection']['heading'];
+            foreach($list as $index => $content){
+//                    debug($content);
+                foreach($content['ContentCollection'] as $collection){
+//                    debug($collection);
+                    if(isset($collection['Collection']['heading'])){
+                        $collections[$collection['collection_id']] = $collection['Collection']['heading'];
+                    }
                 }
+//                debug($collections);
+                $this->imageCollections[$content['image_id']] = $collections;
             }
         }
-        if($collections){
-            $this->imageCollections[$list[0]['Content']['image_id']][$collection['collection_id']] = $collections;
-        }
+//        debug($list);
+//        if($collections){
+//            $this->imageCollections[$list[0]['Content']['image_id']][$collection['collection_id']] = $collections;
+//        }
+//        debug($collections);
         return $collections;
     }
     

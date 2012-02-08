@@ -69,7 +69,7 @@ foreach ($content as $index => $dispatch) {
     }
     $in = $this->Html->div('imgNav',
             $this->Html->div('tools',
-                    $this->Html->tag('p','Tags'). "<ul class='categories'>$collection_list</ul>".
+                    $this->Html->tag('p','Collections'). "<ul class='categories'>$collection_list</ul>".
                     $this->Html->tag('p',date('M j, Y', time())).$e));
     
     echo $this->Html->div('dispatch', $m."\r".$a."\r".$in."\r".$i."\r".$p."\r");
