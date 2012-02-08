@@ -718,6 +718,14 @@ class ImagesController extends AppController {
         $param0 = (isset($this->params['pass'][0])) 
                 ? $this->params['pass'][0] : false; //simplify booleans later
 
+        preg_match('/id=[0-9]+|id between [0-9]+ and [0-9]+|id in \([0-9]+(,[0-9]+)*\)/i', $this->searchInput,$match);
+        if(isset($match[0])){
+            $this->searchRecords = $this->Image->find('all', array(
+                'conditions'=>$match[0],
+                'contain'=>$this->contain//$fields
+            ));
+            return;
+        }
         // Handle interger search input
         preg_match('/[0-9]+/',$this->searchInput,$match);
         $uploadRequest = (
@@ -777,6 +785,28 @@ class ImagesController extends AppController {
                 'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%"),
                 'contain'=>$this->contain//$fields
                 ));
+                
+                foreach($this->searchRecords as $record){
+                    $idList[$record['Image']['id']] = true;
+                }
+                
+                $title = $this->Image->find('all', array(
+                'conditions'=>array('Image.title LIKE'=> "%{$this->searchInput}%"),
+                'contain'=>$this->contain//$fields
+                ));
+
+                foreach($title as $index => $record){
+                    if(isset($idList[$record['Image']['id']])){
+                        $killList[] = $index;
+                    }
+                }
+                foreach($killList as $index){
+                    unset($title[$index]);
+                }
+                $this->searchRecords = array_merge($this->searchRecords, $title);
+                
+//                debug($title);
+//                die;
             }
         }
         
