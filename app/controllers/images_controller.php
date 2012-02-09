@@ -432,7 +432,7 @@ class ImagesController extends AppController {
                             'id' => $this->Image->id,
                             'height' => $exifData['COMPUTED']['Height'],
                             'width' => $exifData['COMPUTED']['Width'],
-                            'date' => $exifData['FileDateTime']
+                            'date' => strtotime($exifData['DateTime'])
                         );
 
                         if($this->Image->save($updateExif)){
@@ -996,6 +996,7 @@ class ImagesController extends AppController {
         $record['Image']['date'] = strtotime($exif_data['DateTime']);
         $record['Image']['mymetype'] = $exif_data['MimeType'];
         $record['Image']['size'] = $exif_data['FileSize'];
+        debug($exif_data);die;
     }
 
     /**

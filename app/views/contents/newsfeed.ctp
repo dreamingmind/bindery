@@ -49,7 +49,7 @@ foreach ($content as $index => $dispatch) {
     $e=null;
     if (isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     $e = "<ul class='adminMenu'>\r<li>".
-        $this->Html->link('Edit', '#', array(
+        $this->Html->link("Edit<br />im-id:{$dispatch['Content']['image_id']}", '#', array(
         'name' => 'fieldset'.$dispatch['Content']['id'],
         'onclick'=> 'showhide(this.name, \'block\'); return false',
         'escape' => false
@@ -58,7 +58,7 @@ foreach ($content as $index => $dispatch) {
     }
 
     // image zoom tool
-    $m = '<menu class="zoom"><a>-</a> <a>+</a></menu>';
+    $m = "<menu class='zoom'><a>-</a> <a>+</a></menu>";
     // image nav block, the categories for this image
     $collection_list = '';
     foreach($dispatch['collections'] as $collection_id => $collection_heading){
@@ -70,7 +70,7 @@ foreach ($content as $index => $dispatch) {
     $in = $this->Html->div('imgNav',
             $this->Html->div('tools',
                     $this->Html->tag('p','Collections'). "<ul class='categories'>$collection_list</ul>".
-                    $this->Html->tag('p',date('M j, Y', time())).$e));
+                    $this->Html->tag('p',date('M j, Y', $dispatch['Content']['Image']['date'])).$e));
     
     echo $this->Html->div('dispatch', $m."\r".$a."\r".$in."\r".$i."\r".$p."\r");
     echo $this->Form->create('Content', array(
