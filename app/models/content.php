@@ -64,6 +64,33 @@ class Content extends AppModel {
          */
         var $imageCollections = array();
         
+        /**
+         * An array of all content records and linked data for a collection
+         * [0] => Array
+         *        (
+         *            [content_id] => 474
+         *            [content_collection_id] => 303
+         *            [image_id] => 887
+         *            [date] => 1326395478
+         *            [img_file] => DSC01055.JPG
+         *            [collections] => Array
+         *                (
+         *                    [60] => Boxes
+         *                    [61] => portfolios
+         *                    [78] => PhotoCentral
+         *                )
+         *
+         *        )
+         * @var array $collection
+         */
+        var $collection = array();
+        
+        /**
+         *
+         * @var array $collectionNeigbors Neighbor pointers indexed by content_id
+         */
+        var $collectionNeighbors = array();
+        
     /**
      * Pull the list of Content linked to an Image record
      *
@@ -107,7 +134,7 @@ class Content extends AppModel {
                     }
                 }
 //                debug($collections);
-                $this->imageCollections[$content['image_id']] = $collections;
+                $this->imageCollections[$content['Content']['image_id']] = $collections;
             }
         }
 //        debug($list);
@@ -118,5 +145,83 @@ class Content extends AppModel {
         return $collections;
     }
     
+    /**
+     *
+     * @param type $pname
+     * @param type $limit 
+     */
+    function pullCollection($pname, $limit) {
+//        Return "bounce";
+        $test = $this->ContentCollection->Collection->find('first', array(
+            'fields'=>'heading',
+            'conditions'=> array(
+                'Collection.heading LIKE' => "%$pname%",
+                'Collection.category' => 'dispatch'
+            ),
+            'contain' => array(
+                'ContentCollection'=> array(
+                    'fields'=> array('ContentCollection.id'),
+                    'Content' => array(
+                        'fields' => array('Content.id'),
+                        'Image' => array(
+                            'fields' => array(
+                                'Image.id', 'Image.img_file', 'Image.date'
+                            ),
+                            'order' => array(
+                                'Image.date DESC'
+                            )
+                        )
+                    )
+                )
+            )
+        ));
+        
+        foreach($test['ContentCollection'] as $index => $content){
+//            $image_id = (isset($content['Content']['image_id'])) ? $content['Content']['image_id'] : '';
+
+            $collection[] = array(
+                'content_id'=> $content['Content']['id'],
+                'content_collection_id' => $content['id'],
+                'image_id'=> $content['Content']['image_id'],
+                'date'=>$content['Content']['Image']['date'],
+                'img_file'=>$content['Content']['Image']['img_file'],
+                'collections' => $this->linkedCollections($content['Content']['image_id'])
+            );
+        }
+
+        $collection = sortByKey($collection, 'date', 'desc');
+        
+        $this->collection = $collection;
+        $this->listNeighbors($this->collection, $limit);
+    }
+    
+    /**
+     *
+     * @param type $collection
+     * @param type $limit 
+     */
+    function listNeighbors($collection, $limit){
+        foreach($collection as $index => $locus){
+            $max = count($collection)-1;
+
+            // this is overkill
+            foreach ($collection as $index => $locus) {
+                $neighbors[$locus['content_id']]['count'] = $index+1;
+                if ($index == 0) {
+                    $neighbors[$locus['content_id']]['previous'] = $collection[$max]['content_id'];
+                } else {
+                    $neighbors[$locus['content_id']]['previous'] = $collection[$index-1]['content_id'];
+                }
+                if ($index == $max) {
+                    $neighbors[$locus['content_id']]['next'] = $collection[0]['content_id'];
+                } else {
+                    $neighbors[$locus['content_id']]['next'] = $collection[$index+1]['content_id'];
+                }
+                $neighbors[$locus['content_id']]['page'] = intval(($index/$limit)+1);
+                $this->collection[$index]['neighbors'] = $neighbors[$locus['content_id']];
+            }
+        }
+        $this->collectionNeighbors = $neighbors;
+    }
 }
 ?>

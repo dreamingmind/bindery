@@ -94,8 +94,8 @@ class AppHelper extends Helper {
      * @return string Html-the div with search input and possibly hidden fields
      */
     function siteSearch($searchController=null, $hidden=null) {
-        if ($searchController = null) {
-            $searchController = $this->params('controller');
+        if ($searchController == null) {
+            $searchController = $this->params['controller'];
         }
         $tool = FormHelper::create($searchController, array(
 //            'url'=> array('controller'=>$searchController,'action'=>$this->action)

@@ -398,6 +398,21 @@ class ContentsController extends AppController {
             $this->newsfeedPublic($pname);
         }
         
+//        debug($pname);
+//        if($this->Session->check('filmstrip.limit')){
+//           $limit = $this->Session->read('filmstrip.limit');
+//        } else {
+//            $limit = 4;
+//        }
+//        $this->Content->pullCollection($pname, $limit);
+//        debug($this->Content->collection);
+//        debug($this->Content->imageCollections);
+//        debug($this->Content->collectionNeighbors);
+        
+//        $filmstrip = array_chunk($this->Content->collection, $limit, true);
+//        debug($filmstrip[$page-1]); die;
+
+        
         $this->pageOrder = array(
             'Content.publish' => 'desc',
             'ContentCollection.seq' => 'asc'
@@ -489,7 +504,10 @@ class ContentsController extends AppController {
                         'Image.alt',
                         'Image.title',
                         'Image.date'
-                                )
+//                                ),
+//                    'order' => array(
+//                        'Image.date' => 'desc'
+                    )
                 )//,
 //                'Sibling' => array(
 //                    'fields' => array(
