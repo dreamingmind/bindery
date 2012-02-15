@@ -399,15 +399,15 @@ class ContentsController extends AppController {
         }
         
 //        debug($pname);
-//        if($this->Session->check('filmstrip.limit')){
-//           $limit = $this->Session->read('filmstrip.limit');
-//        } else {
-//            $limit = 4;
-//        }
-//        $this->Content->pullCollection($pname, $limit);
-//        debug($this->Content->collection);
-//        debug($this->Content->imageCollections);
-//        debug($this->Content->collectionNeighbors);
+        if($this->Session->check('filmstrip.limit')){
+           $limit = $this->Session->read('filmstrip.limit');
+        } else {
+            $limit = 9;
+        }
+        $this->Content->pullCollection($pname, $limit);
+        $this->set('collectionPages',$this->Content->collection);
+        $this->set('imageCollections',$this->Content->imageCollections);
+        $this->set('collcetionNeighbors',$this->Content->collectionNeighbors);
         
 //        $filmstrip = array_chunk($this->Content->collection, $limit, true);
 //        debug($filmstrip[$page-1]); die;

@@ -176,8 +176,9 @@ class ImagesController extends AppController {
                 $this->column = $this->Session->read('Image.columns');
                 $this->size = $this->Session->read('Image.sizes');
             }
-
+//debug($this->data);
             if(isset($this->data['Image']['searchInput'])){
+//debug($this->data);die;
                 // user requested search
                 $this->searchInput = $this->data['Image']['searchInput'];
                 $this->searchAction= $this->data['Image']['action'];
@@ -207,7 +208,7 @@ class ImagesController extends AppController {
             $this->sizes[$key] = $key;
         }
         $this->set('sizes',  $this->sizes);
-//            $this->set('hidden', array('action'=>array('value'=>  $this->action)));
+        $this->set('searchController', 'Image');
 
     }
 

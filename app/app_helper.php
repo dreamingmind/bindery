@@ -95,11 +95,11 @@ class AppHelper extends Helper {
      */
     function siteSearch($searchController=null, $hidden=null) {
         if ($searchController == null) {
-            $searchController = $this->params['controller'];
+            $searchController = Inflector::camelize( $this->params['controller']);
         }
         $tool = FormHelper::create($searchController, array(
 //            'url'=> array('controller'=>$searchController,'action'=>$this->action)
-            'url'=> array('controller'=>$searchController,'action'=>'search')
+            'url'=> array('controller'=> strtolower(Inflector::pluralize($searchController)),'action'=>'search')
         ));
         
         if ($hidden !=null) {
@@ -125,7 +125,7 @@ class AppHelper extends Helper {
 
         return "<div id='siteSearchBox'>$tool</div>";
     }
-    
+        
     /**
      * Return next/previous links as appropriate
      * 

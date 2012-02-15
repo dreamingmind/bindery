@@ -62,7 +62,12 @@
                    onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
   	</div>
   </div>
-    <?php echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors?>
+    <?php 
+    echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors
+    if($this->action=='newsfeed'){
+        $js->buffer('collectionPages = ' . json_encode($collectionPages));
+    }
+    ?>
   <div id="menuNav">
 <?php 
     if (!isset($searchController)) {
