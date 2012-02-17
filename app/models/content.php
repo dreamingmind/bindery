@@ -134,7 +134,7 @@ class Content extends AppModel {
                     }
                 }
 //                debug($collections);
-                $this->imageCollections[$content['Content']['image_id']] = $collections;
+                $this->imageCollections[$content['Content']['image_id']] = isset($collections) ? $collections : array();
             }
         }
 //        debug($list);
@@ -201,26 +201,35 @@ class Content extends AppModel {
      * @param type $limit 
      */
     function listNeighbors($collection, $limit){
-        foreach($collection as $index => $locus){
             $max = count($collection)-1;
 
             // this is overkill
             foreach ($collection as $index => $locus) {
+//                debug($index);
+//                debug(intval($index/$limit));
+                $neighbors[$locus['content_id']]['page'] = intval($index/$limit)+1;
                 $neighbors[$locus['content_id']]['count'] = $index+1;
                 if ($index == 0) {
                     $neighbors[$locus['content_id']]['previous'] = $collection[$max]['content_id'];
+                    $neighbors[$locus['content_id']]['previous_page'] = intval($max/$limit)+1;
+                    $neighbors[$locus['content_id']]['previous_count'] = $max+1;
                 } else {
                     $neighbors[$locus['content_id']]['previous'] = $collection[$index-1]['content_id'];
+                    $neighbors[$locus['content_id']]['previous_page'] = intval(($index-1)/$limit)+1;
+                    $neighbors[$locus['content_id']]['previous_count'] = $index;
                 }
                 if ($index == $max) {
                     $neighbors[$locus['content_id']]['next'] = $collection[0]['content_id'];
+                    $neighbors[$locus['content_id']]['next_page'] = 1;
+                    $neighbors[$locus['content_id']]['next_count'] = 1;
                 } else {
                     $neighbors[$locus['content_id']]['next'] = $collection[$index+1]['content_id'];
+                    $neighbors[$locus['content_id']]['next_page'] = intval(($index+1)/$limit)+1;
+                    $neighbors[$locus['content_id']]['next_count'] = $index+2;
                 }
-                $neighbors[$locus['content_id']]['page'] = intval(($index/$limit)+1);
+                
                 $this->collection[$index]['neighbors'] = $neighbors[$locus['content_id']];
             }
-        }
         $this->collectionNeighbors = $neighbors;
     }
 }

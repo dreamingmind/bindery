@@ -47,12 +47,12 @@ class ImagesController extends AppController {
     /**
      * @var int $column The default number of columns for Image Grid display
      */
-    var $column = 8;
+    var $column = 3;
 
     /**
      * @var string $size The default size for Image Grid display
      */
-    var $size = 'x75y56';
+    var $size = 'x320y240';
 
     /**
      * @var int $columns The list of possible column counts

@@ -405,6 +405,8 @@ class ContentsController extends AppController {
             $limit = 9;
         }
         $this->Content->pullCollection($pname, $limit);
+//        debug($this->Content->collection);
+//        debug($this->Content->collectionNeighbors);
         $this->set('collectionPages',$this->Content->collection);
         $this->set('imageCollections',$this->Content->imageCollections);
         $this->set('collcetionNeighbors',$this->Content->collectionNeighbors);
