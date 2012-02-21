@@ -83,13 +83,15 @@ class Content extends AppModel {
          *        )
          * @var array $collection
          */
-        var $collection = array();
+        var $collectionPages = array();
         
         /**
          *
          * @var array $collectionNeigbors Neighbor pointers indexed by content_id
          */
         var $collectionNeighbors = array();
+        
+        var $collectionData = array();
         
     /**
      * Pull the list of Content linked to an Image record
@@ -153,7 +155,7 @@ class Content extends AppModel {
     function pullCollection($pname, $limit) {
 //        Return "bounce";
         $test = $this->ContentCollection->Collection->find('first', array(
-            'fields'=>'heading',
+            'fields'=> array('heading', 'text'),
             'conditions'=> array(
                 'Collection.heading LIKE' => "%$pname%",
                 'Collection.category' => 'dispatch'
@@ -162,10 +164,10 @@ class Content extends AppModel {
                 'ContentCollection'=> array(
                     'fields'=> array('ContentCollection.id'),
                     'Content' => array(
-                        'fields' => array('Content.id'),
+                        'fields' => array('Content.id', 'Content.heading', 'Content.content', 'Content.alt', 'Content.title'),
                         'Image' => array(
                             'fields' => array(
-                                'Image.id', 'Image.img_file', 'Image.date'
+                                'Image.id', 'Image.img_file', 'Image.date', 'Image.alt', 'Image.title'
                             ),
                             'order' => array(
                                 'Image.date DESC'
@@ -175,12 +177,18 @@ class Content extends AppModel {
                 )
             )
         ));
+//        debug($test);die;
+        $this->collectionData = $test['Collection'];
         
         foreach($test['ContentCollection'] as $index => $content){
 //            $image_id = (isset($content['Content']['image_id'])) ? $content['Content']['image_id'] : '';
 
             $collection[] = array(
                 'content_id'=> $content['Content']['id'],
+                'heading'=>$content['Content']['heading'],
+                'content'=> $content['Content']['content'],
+                'alt'=>(!is_null($content['Content']['alt'])) ? $content['Content']['alt'] : $content['Content']['Image']['alt'],
+                'title'=>(!is_null($content['Content']['title'])) ? $content['Content']['title'] : $content['Content']['Image']['title'],
                 'content_collection_id' => $content['id'],
                 'image_id'=> $content['Content']['image_id'],
                 'date'=>$content['Content']['Image']['date'],
@@ -191,8 +199,8 @@ class Content extends AppModel {
 
         $collection = sortByKey($collection, 'date', 'desc');
         
-        $this->collection = $collection;
-        $this->listNeighbors($this->collection, $limit);
+        $this->collectionPages = $collection;
+        $this->listNeighbors($this->collectionPages, $limit);
     }
     
     /**
@@ -203,7 +211,6 @@ class Content extends AppModel {
     function listNeighbors($collection, $limit){
             $max = count($collection)-1;
 
-            // this is overkill
             foreach ($collection as $index => $locus) {
 //                debug($index);
 //                debug(intval($index/$limit));
@@ -228,9 +235,11 @@ class Content extends AppModel {
                     $neighbors[$locus['content_id']]['next_count'] = $index+2;
                 }
                 
-                $this->collection[$index]['neighbors'] = $neighbors[$locus['content_id']];
+                $this->collectionPages[$index]['neighbors'] = $neighbors[$locus['content_id']];
             }
+            
         $this->collectionNeighbors = $neighbors;
+        
     }
 }
 ?>

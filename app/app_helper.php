@@ -228,7 +228,7 @@ foreach($collection as $entry) {
         );
     } elseif ($this->params['action']=='newsfeed') {
         $link = HtmlHelper::link($number++ . '<br />' . $image,
-                '#dispatch'.$entry['Content']['id'],
+                '#id'.$entry['Content']['id'],
                 array('escape'=>false,'class'=>'thumb')
         );
     }
@@ -274,7 +274,7 @@ $nImage = HtmlHelper::image(
 $nLink .= HtmlHelper::link( $nImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
-                    '#dispatch'.$neighbors[$paginator->params['named']['id']]['next'],
+                    '#id'.$neighbors[$paginator->params['named']['id']]['next'],
                     array('escape'=>false,'class'=>'thumb')
                 );
     }
@@ -343,6 +343,169 @@ return HtmlHelper::tag(
         );
     }
 
+   function newsfeedFilmStrip($collectionPage, $pageData) {
+//       debug($collection);die;
+        $previousPage = $pageData['previous'];
+        $nextPage = $pageData['next'];
+
+        $pname = (isset($this->params['pname'])) ? DS.  $this->params['pname'] : null;
+        $page = DS.'page:'.$pageData['page'];
+        $id = (isset($paginator->params['id'])) ? DS.'id:' : false;
+//        debug($pname);
+//        debug($page);
+//        debug($id);
+//        debug($previousPage);
+//        debug($nextPage);
+//        debug($collectionPage);
+//        die;
+        $li = null;
+        $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
+        $baseURL = DS.'products'.DS. $this->params['pname'].DS.$this->params['action'] ;
+//        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
+//$number = 1;
+
+// Make the image list items
+foreach($collectionPage as $entry) {
+    //<img src="images/thumb/x54y54/IMG_9167.JPG" />
+    if (isset($entry['img_file'])) {
+        $image = HtmlHelper::image(
+            $path . $entry['img_file'], array(
+                'title' => $entry['title'],
+                'alt' => $entry['alt']
+            )
+        );
+    } else {
+        $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+            'width'=>'54','height'=>'54'));
+    }
+    
+    //<a class="thumb" href="static_nav4.php#1">1<br /><img ... /></a>
+    if ($this->params['action']=='gallery') {
+        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+                 $baseURL. $page .DS.
+                'id:'.$entry['content_id'],
+                array('escape'=>false,'class'=>'thumb')
+        );
+    } elseif ($this->params['action']=='art') {
+//        debug($this->params);
+        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+            array(
+//                'controller'=>$this->params['controller'],
+                'action'=>$this->params['action'],
+                'pass'=>$this->params['pass'],
+                'page'=>$paginator->params['paging']['ContentCollection']['page'],
+                'id'=>$entry['Content']['id']),
+                array('escape'=>false,'class'=>'thumb')
+        );
+    } elseif ($this->params['action']=='newsfeed') {
+        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+                '#id'.$entry['content_id'],
+                array('escape'=>false,'class'=>'thumb')
+        );
+    }
+
+    // this sets the 'active' styling
+    if (isset($this->params['named']['id']) && $this->params['named']['id'] == $entry['content_id']) {
+        $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));
+    } else {
+        $li .= HtmlHelper::tag('li', $link);
+    }
+}
+
+// Make the next PAGE link
+    $nPageImg = HtmlHelper::image(
+        'nxt_arrow_lt.png', array(
+            'title' => 'Next page',
+            'alt' => 'Next page arrow'
+        )
+    );
+    $nLink = HtmlHelper::link( $nPageImg,
+            $baseURL .DS. 
+                'page:'.$nextPage.DS.
+                'id:'. $entry['neighbors']['next'],
+                array('escape'=>false,'class'=>'thumb')
+            ) . '<br />';
+
+// Make the next IMAGE link
+    $nImage = HtmlHelper::image(
+        'nxt_arrow_lt.png', array(
+            'title' => 'Next image',
+            'alt' => 'Next image arrow',
+            'class' => 'npImageButton'
+        )
+    );
+    // Previous page link
+    $pPageImg = HtmlHelper::image(
+        'prev_arrow_lt.png', array(
+            'title' => 'Previous page',
+            'alt' => 'Previous page arrow'
+        )
+    );
+    $pLink = HtmlHelper::link( $pPageImg,
+        $baseURL.DS. 
+            'page:'.$previousPage.DS.
+            'id:'.$entry['neighbors']['previous'],
+            array('escape'=>false,'class'=>'thumb')
+        ) . '<br />';
+
+    // Previous page link
+    $pImage = HtmlHelper::image(
+        'prev_arrow_lt.png', array(
+            'title' => 'Previous image',
+            'alt' => 'previous image arrow',
+            'class' => 'npImageButton'
+        )
+    );
+    if ($this->params['action']=='gallery') {
+        $nLink .= HtmlHelper::link( $nImage,
+            $baseURL.DS. 
+            'page:'.$nextPage.DS.
+            'id:'.$entry['neighbors']['next_page'],
+            array('escape'=>false,'class'=>'thumb')
+        );
+        $pLink .= HtmlHelper::link( $pImage,
+            $baseURL.DS. 
+            'page:'.$entry['neighbors']['previous_page'].DS.
+            'id:'.$entry['neighbors']['previous'],
+            array('escape'=>false,'class'=>'thumb')
+        );
+    } elseif ($this->params['action']=='newsfeed') {
+        $nLink .= HtmlHelper::link( $nImage,
+            $baseURL.DS. 
+            'page:'.$entry['neighbors']['next_page'].DS.
+            '#id'.$entry['neighbors']['next'],
+            array('escape'=>false,'class'=>'thumb')
+        );
+        $pLink .= HtmlHelper::link( $pImage,
+            $baseURL.DS. 
+            'page:'.$entry['neighbors']['previous_page'].DS.
+            '#id'.$entry['neighbors']['previous'],
+            array('escape'=>false,'class'=>'thumb')
+        );
+    }
+
+    // compile the next tags into an LI
+    $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton'));
+
+//    $pLink .= HtmlHelper::link( $pImage,
+//        $baseURL.DS. 
+//            'page:'.$entry['neighbors']['previous_page'].DS.
+//            'id:'.$entry['neighbors']['previous'],
+//            array('escape'=>false,'class'=>'thumb')
+//        );
+
+    // compile the previous tags into an LI
+    $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton'));
+
+    // merge the previous, image and next LIs
+    $li = $previous . $li . $next;
+
+    return HtmlHelper::tag(
+        'nav',
+        HtmlHelper::tag('ul', $li, array('class'=>'thumbList')),
+        array('id'=>'galNav'));
+
+    }
    
 
 }

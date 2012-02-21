@@ -66,6 +66,25 @@ class ContentsController extends AppController {
      */
     var $pageConditions = array();
 
+    /**
+     * next - the next page page (wraps to start)
+     * previous - the previous page (wraps to end)
+     * page - the current page displayed.
+     * pages - total number of pages.
+     * current - current number of records being shown.
+     * count - the total number of records in the result set.
+     * start - number of the first record being displayed.
+     * end - number of the last record being displayed.
+
+     * @var array $pageData pagination information 
+     */
+    var $pageData = array();
+    
+    /**
+     *
+     * @var array $collectionPage the data for this page (chunked from the full set returned from the model)
+     */
+    var $collectionPage = array();
    /**
      * beforeFilter
      */
@@ -374,6 +393,8 @@ class ContentsController extends AppController {
      * for on-page editing of dispatches. Also, unpulished dispatches
      * for the collection are pulled and listed at the end set
      * 
+     * @todo look at moving Session check filmstrip.limit to beforeFilter
+     * 
      * @return null
      */
     function newsfeed(){
@@ -399,49 +420,75 @@ class ContentsController extends AppController {
         }
         
 //        debug($pname);
+        
+        // I think this should be in feforeFilter()?
         if($this->Session->check('filmstrip.limit')){
-           $limit = $this->Session->read('filmstrip.limit');
-        } else {
-            $limit = 9;
+           $this->pageLimit = $this->Session->read('filmstrip.limit');
         }
-        $this->Content->pullCollection($pname, $limit);
-//        debug($this->Content->collection);
-//        debug($this->Content->collectionNeighbors);
-        $this->set('collectionPages',$this->Content->collection);
-        $this->set('imageCollections',$this->Content->imageCollections);
-        $this->set('collcetionNeighbors',$this->Content->collectionNeighbors);
         
-//        $filmstrip = array_chunk($this->Content->collection, $limit, true);
-//        debug($filmstrip[$page-1]); die;
+        $this->Content->pullCollection($pname, $this->pageLimit);
+        $this->paginateCollection($this->Content->collectionPages, $page);
+        $this->set('pageData', $this->pageData);
+        $this->set('collectionPage', $this->collectionPage);
+        $this->set('collectionData', $this->Content->collectionData);
+//        debug($this->pageData);
+//        debug($this->collectionPage);
+//        die;
+        
 
-        
-        $this->pageOrder = array(
-            'Content.publish' => 'desc',
-            'ContentCollection.seq' => 'asc'
-            );
-        
-        $this->pageGroup = array();
-                    
-        $this->pageFields = array (
-            'seq','visible'                
-        );       
-        
-        $neighbors = $this->filmstripNeighbors();
-//        debug($neighbors);
-        $filmStrip = $this->pullFilmStrip($page);
-        
-        foreach($filmStrip as $index => $targetImage){
-            $filmStrip[$index]['collections'] = $this->Content->linkedCollections($targetImage['Content']['image_id']);
-        }
-
-         if (!$id) {
-            $this->newsfeedIntroduction($neighbors);
-        }
-
-        $this->set('neighbors', $neighbors);
-        $this->set('filmStrip',$filmStrip);
-        $this->newsfeedDispatches($filmStrip);
+//        
+//        $this->pageOrder = array(
+//            'Content.publish' => 'desc',
+//            'ContentCollection.seq' => 'asc'
+//            );
+//        
+//        $this->pageGroup = array();
+//                    
+//        $this->pageFields = array (
+//            'seq','visible'                
+//        );       
+//        
+//        $neighbors = $this->filmstripNeighbors();
+////        debug($neighbors);
+//        $filmStrip = $this->pullFilmStrip($page);
+//        
+//        foreach($filmStrip as $index => $targetImage){
+//            $filmStrip[$index]['collections'] = $this->Content->linkedCollections($targetImage['Content']['image_id']);
+//        }
+//
+//         if (!$id) {
+//            $this->newsfeedIntroduction($neighbors);
+//        }
+//
+//        $this->set('neighbors', $neighbors);
+//        $this->set('filmStrip',$filmStrip);
+//        $this->newsfeedDispatches($filmStrip);
 //        debug($this->Content->imageCollections);die;
+    }
+    
+    /**
+     * count - the total number of records in the result set.
+     * page - the current page displayed.
+     * pages - total number of pages.
+     * next - the next page page (wraps to start)
+     * previous - the previous page (wraps to end)
+     * current - current number of records being shown.
+     * start - number of the first record being displayed.
+     * end - number of the last record being displayed.
+     */
+    function paginateCollection($collectionPages, $page){
+        $this->pageData['count'] = count($collectionPages);
+        $this->pageData['page'] = $page;
+        
+        $pages = array_chunk($collectionPages, $this->pageLimit);
+        $this->collectionPage = $pages[$page-1];
+        $this->pageData['pages'] = count($pages);
+        $this->pageData['current'] = count($this->collectionPage);
+        $this->pageData['start'] = $this->collectionPage[0]['neighbors']['count'];
+        $this->pageData['end'] = $this->collectionPage[$this->pageData['current']-1]['neighbors']['count'];
+       
+        $this->pageData['next'] = ($page == $this->pageData['pages']) ? 1 : $page+1;
+        $this->pageData['previous'] = ($page == 1) ? $this->pageData['pages'] : $page-1;
     }
     
     function dispatch_edit() {

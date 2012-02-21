@@ -56,16 +56,30 @@
             </p>
   	</div>
   	<div id="jumpBox">
+            <?php if($this->action == 'newsfeed'){ ?>
+<!--            <label class="inputBox" for="j">Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <?php echo $this->Paginator->counter(array('format'=>'%count%')) ?> </label>
+            <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
+                   onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
+                   onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />-->
+            <?php } else { ?>
             <label class="inputBox" for="j">Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <?php echo $this->Paginator->counter(array('format'=>'%count%')) ?> </label>
             <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
                    onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
                    onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
+            <?php } ?>
   	</div>
   </div>
     <?php 
-    echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors
+    if($this->action == 'newsfeed'){
+        echo $html->newsfeedFilmStrip($collectionPage, $pageData);
+//        debug($collectionPage);die;
+    } else {
+        //this will default to the gallery filmstrip
+        echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors
+    }
     if($this->action=='newsfeed'){
-        $js->buffer('collectionPages = ' . json_encode($collectionPages));
+        $js->buffer('collectionPage = ' . json_encode($collectionPage));
+//        debug($collectionPage);
     }
     ?>
   <div id="menuNav">
@@ -116,6 +130,7 @@
         </div>
     <?php
     echo $js->writeBuffer(); // Write cached scripts
+//    debug($collectionPage);
     ?>
 </body>
 </html>
