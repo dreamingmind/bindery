@@ -51,7 +51,7 @@ foreach ($collectionPage as $dispatch) {
     if (isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     $e = "<ul class='adminMenu'>\r<li>".
         $this->Html->link("Edit<br />im-id:{$dispatch['image_id']}", '#', array(
-        'name' => 'fieldset'.$dispatch['id'],
+        'name' => 'fieldset'.$dispatch['content_id'],
         'onclick'=> 'showhide(this.name, \'block\'); return false',
         'escape' => false
         )) .

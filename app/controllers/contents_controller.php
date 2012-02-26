@@ -431,6 +431,10 @@ class ContentsController extends AppController {
         $this->set('pageData', $this->pageData);
         $this->set('collectionPage', $this->collectionPage);
         $this->set('collectionData', $this->Content->collectionData);
+        foreach($this->collectionPage as $entry){
+            $collectionJson["id{$entry['content_id']}"] = $entry;
+        }
+        $this->set('collectionJson', $collectionJson);
 //        debug($this->pageData);
 //        debug($this->collectionPage);
 //        die;

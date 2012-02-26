@@ -384,7 +384,7 @@ foreach($collectionPage as $entry) {
         $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
                  $baseURL. $page .DS.
                 'id:'.$entry['content_id'],
-                array('escape'=>false,'class'=>'thumb')
+                array('escape'=>false,'class'=>'thumb_link')
         );
     } elseif ($this->params['action']=='art') {
 //        debug($this->params);
@@ -395,12 +395,12 @@ foreach($collectionPage as $entry) {
                 'pass'=>$this->params['pass'],
                 'page'=>$paginator->params['paging']['ContentCollection']['page'],
                 'id'=>$entry['Content']['id']),
-                array('escape'=>false,'class'=>'thumb')
+                array('escape'=>false,'class'=>'thumb_link')
         );
     } elseif ($this->params['action']=='newsfeed') {
         $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
                 '#id'.$entry['content_id'],
-                array('escape'=>false,'class'=>'thumb')
+                array('escape'=>false,'class'=>'thumb_link')
         );
     }
 
@@ -421,8 +421,8 @@ foreach($collectionPage as $entry) {
     );
     $nLink = HtmlHelper::link( $nPageImg,
             $baseURL .DS. 
-                'page:'.$nextPage.DS.
-                'id:'. $entry['neighbors']['next'],
+                'page:'.$nextPage,//.DS.
+//                'id:'. $entry['neighbors']['next'],
                 array('escape'=>false,'class'=>'thumb')
             ) . '<br />';
 
@@ -443,8 +443,8 @@ foreach($collectionPage as $entry) {
     );
     $pLink = HtmlHelper::link( $pPageImg,
         $baseURL.DS. 
-            'page:'.$previousPage.DS.
-            'id:'.$entry['neighbors']['previous'],
+            'page:'.$previousPage,//.DS.
+//            'id:'.$entry['neighbors']['previous'],
             array('escape'=>false,'class'=>'thumb')
         ) . '<br />';
 
@@ -465,8 +465,8 @@ foreach($collectionPage as $entry) {
         );
         $pLink .= HtmlHelper::link( $pImage,
             $baseURL.DS. 
-            'page:'.$entry['neighbors']['previous_page'].DS.
-            'id:'.$entry['neighbors']['previous'],
+            'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
+            'id:'.$collectionPage[0]['neighbors']['previous'],
             array('escape'=>false,'class'=>'thumb')
         );
     } elseif ($this->params['action']=='newsfeed') {
@@ -474,13 +474,13 @@ foreach($collectionPage as $entry) {
             $baseURL.DS. 
             'page:'.$entry['neighbors']['next_page'].DS.
             '#id'.$entry['neighbors']['next'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false,'class'=>'thumb_next_image')
         );
         $pLink .= HtmlHelper::link( $pImage,
             $baseURL.DS. 
-            'page:'.$entry['neighbors']['previous_page'].DS.
-            '#id'.$entry['neighbors']['previous'],
-            array('escape'=>false,'class'=>'thumb')
+            'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
+            '#id'.$collectionPage[0]['neighbors']['previous'],
+            array('escape'=>false,'class'=>'thumb_previous_image')
         );
     }
 

@@ -38,6 +38,7 @@
         echo $html->css('login');
     }
     echo $this->Html->script('jquery-1.4.2');
+//    echo $this->Html->script('newsthumb');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
@@ -78,7 +79,9 @@
         echo $html->FilmStrip($filmStrip, $this->Paginator, $neighbors); //$filmStrip, $this->Paginator, $neighbors
     }
     if($this->action=='newsfeed'){
-        $js->buffer('collectionPage = ' . json_encode($collectionPage));
+        $js->buffer('$(document).ready(function cp(){collectionPage = ' . json_encode($collectionJson) . '})');
+        $script = file_get_contents(JS.DS.'newsthumb.js');
+        $js->buffer($script);
 //        debug($collectionPage);
     }
     ?>
