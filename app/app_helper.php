@@ -423,7 +423,7 @@ foreach($collectionPage as $entry) {
             $baseURL .DS. 
                 'page:'.$nextPage,//.DS.
 //                'id:'. $entry['neighbors']['next'],
-                array('escape'=>false,'class'=>'thumb')
+                array('escape'=>false,'class'=>'next_page')
             ) . '<br />';
 
 // Make the next IMAGE link
@@ -445,7 +445,7 @@ foreach($collectionPage as $entry) {
         $baseURL.DS. 
             'page:'.$previousPage,//.DS.
 //            'id:'.$entry['neighbors']['previous'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false,'class'=>'previous_page')
         ) . '<br />';
 
     // Previous page link
