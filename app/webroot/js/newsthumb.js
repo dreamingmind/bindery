@@ -13,32 +13,31 @@ $(document).ready(function(){
 //    //Set click for previous image button
     $('.thumb_previous_image').bind('click', function(){
         uri = $('.thumb_previous_image').attr('href');
-        index = uri.match(/id[0-9]+/)
         plink = uri
             .replace(/page:[0-9]+/, 
             'page:'+collectionPage[index].neighbors.previous_page)
             .replace(/#id[0-9]+/, 
             '#id'+ collectionPage[index].neighbors.previous);
-//            alert(plink);
-//        $('.thumb_previous_image').attr('href',plink);
-        setThumbFromURI(plink);
-        setPrevNextImageLinks(plink);
 
+        $('.thumb_previous_image').attr('href',plink)
+        $('.thumb_next_image').attr('href',plink)
+
+        setThumbFromURI(plink);
     });
 //    
 //    //Set click for next image button
     $('.thumb_next_image').bind('click', function(){
         uri = $('.thumb_next_image').attr('href');
-        index = uri.match(/id[0-9]+/)
         nlink = uri
             .replace(/page:[0-9]+/, 
             'page:'+collectionPage[index].neighbors.next_page)
             .replace(/#id[0-9]+/, 
             '#id'+ collectionPage[index].neighbors.next);
-//            alert(nlink);
-//        $('.thumb_next_image').attr('href',nlink);
+            
+        $('.thumb_next_image').attr('href',nlink);
+        $('.thumb_previous_image').attr('href',nlink);
+
         setThumbFromURI(nlink);
-        setPrevNextImageLinks(nlink);
     });
     
     //set active thumb on entry from uri
@@ -56,33 +55,21 @@ $(document).ready(function(){
     };
     
     //Set proper next/prev image links from a passed uri
-    function setPrevNextImageLinks(uri){
+    function setPrevNextImageLinks(index){
         
-//        index = uri.match(/id[0-9]+/)
-//        $('.thumb_previous_image').unbind('click');
-        $('.thumb_previous_image').attr('href', uri);
-        $('.thumb_next_image').attr('href', uri);
-//        $('.thumb_next_image').unbind('click');
-//        alert(collectionPage[index].neighbors.page + '\n'
-//            + collectionPage[index].neighbors.previous_page + '\n'
-//            + collectionPage[index].neighbors.next_page + '\n');
-//
-//                
-//        plink = $('.thumb_previous_image').attr('href')
-//            .replace(/page:[0-9]+/, 
-//            'page:'+collectionPage[index].neighbors.previous_page)
-//            .replace(/#id[0-9]+/, 
-//            '#id'+ collectionPage[index].neighbors.previous);
-//            
-//        $('.thumb_previous_image').attr('href',plink);
-//
-//        nlink = $('.thumb_next_image').attr('href')
-//            .replace(/page:[0-9]+/, 
-//            'page:'+collectionPage[index].neighbors.next_page)
-//            .replace(/#id[0-9]+/, 
-//            '#id'+ collectionPage[index].neighbors.next);
-//            
-//        $('.thumb_next_image').attr('href',nlink);
+        index = index.match(/id[0-9]+/)
+        uri = $('.thumb_previous_image').attr('href');
+//        alert ('index: '+index+'\nuri: '+uri);
+        $('.thumb_previous_image').attr('href', uri
+            .replace(/page:[0-9]+/, 
+            'page:'+collectionPage[index].neighbors.page)
+            .replace(/#id[0-9]+/, 
+            '#id'+ collectionPage[index].content_id));
+        $('.thumb_next_image').attr('href', uri
+            .replace(/page:[0-9]+/, 
+            'page:'+collectionPage[index].neighbors.page)
+            .replace(/#id[0-9]+/, 
+            '#id'+ collectionPage[index].content_id));
     }
     
     //clear the active thumb styling
