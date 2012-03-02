@@ -190,10 +190,11 @@ $id = (isset($paginator->params['id'])) ? DS.'id:' : false;
 $li = null;
 $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
 $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
-//$number = 1;
+$count = 0;
 
 // Make the image list items
 foreach($collection as $entry) {
+    $count++;
     //<img src="images/thumb/x54y54/IMG_9167.JPG" />
     if (isset($entry['Content']['Image']['img_file'])) {
         $image = HtmlHelper::image(
@@ -241,6 +242,18 @@ foreach($collection as $entry) {
     }
 }
 
+if($count < 9){
+    while ($count < 9){
+        $image = HtmlHelper::image('transparent.png',array('alt'=>'',
+            'width'=>'54','height'=>'54'));
+        $link = HtmlHelper::link(' <br />' . $image,
+            '#',
+            array('escape'=>false,'class'=>'thumb_link')
+        );
+        $li .= HtmlHelper::tag('li', $link);
+        $count++;
+    }
+}
 // Make the next PAGE link
 $nPageImg = HtmlHelper::image(
             'nxt_arrow_lt.png', array(
@@ -362,10 +375,11 @@ return HtmlHelper::tag(
         $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
         $baseURL = DS.'products'.DS. $this->params['pname'].DS.$this->params['action'] ;
 //        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
-//$number = 1;
+$number = 0;
 
 // Make the image list items
 foreach($collectionPage as $entry) {
+    $number++;
     //<img src="images/thumb/x54y54/IMG_9167.JPG" />
     if (isset($entry['img_file'])) {
         $image = HtmlHelper::image(
@@ -410,8 +424,22 @@ foreach($collectionPage as $entry) {
     } else {
         $li .= HtmlHelper::tag('li', $link);
     }
-}
+} // end of the loop creating the image clickers
 
+//debug($number);
+
+if($number < 9){
+    while ($number < 9){
+        $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+            'width'=>'54','height'=>'54'));
+        $link = HtmlHelper::link(' <br />' . $image,
+            '#',
+            array('escape'=>false,'class'=>'thumb_link')
+        );
+        $li .= HtmlHelper::tag('li', $link);
+        $number++;
+    }
+}
 // Make the next PAGE link
     $nPageImg = HtmlHelper::image(
         'nxt_arrow_lt.png', array(

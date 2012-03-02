@@ -13,6 +13,7 @@ $(document).ready(function(){
 //    //Set click for previous image button
     $('.thumb_previous_image').bind('click', function(){
         uri = $('.thumb_previous_image').attr('href');
+        index = uri.match(/id[0-9]+/)
         plink = uri
             .replace(/page:[0-9]+/, 
             'page:'+collectionPage[index].neighbors.previous_page)
@@ -28,6 +29,7 @@ $(document).ready(function(){
 //    //Set click for next image button
     $('.thumb_next_image').bind('click', function(){
         uri = $('.thumb_next_image').attr('href');
+        index = uri.match(/id[0-9]+/)
         nlink = uri
             .replace(/page:[0-9]+/, 
             'page:'+collectionPage[index].neighbors.next_page)
