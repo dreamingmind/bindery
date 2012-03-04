@@ -38,7 +38,7 @@
         echo $html->css('login');
     }
     echo $this->Html->script('jquery-1.4.2');
-//    echo $this->Html->script('newsthumb');
+    echo $this->Html->script('visibilities');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

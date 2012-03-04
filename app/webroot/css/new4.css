@@ -416,10 +416,10 @@ li.thumbButton {
     width: auto;
 }
 li.thumbButton a img{
-    visibility: hidden;
+/*    visibility: hidden;*/
 }
 li.thumbButton:hover > a img {
-    visibility: visible;
+/*    visibility: visible;*/
 }
 .thumbList li.thumbButton a img, .thumbList li.thumbButton a img:hover {
     width: 18px;

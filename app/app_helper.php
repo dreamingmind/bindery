@@ -191,6 +191,9 @@ $li = null;
 $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
 $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
 $count = 0;
+$tMin = 1;
+$tMax = count($collection);
+
 
 // Make the image list items
 foreach($collection as $entry) {
@@ -200,7 +203,9 @@ foreach($collection as $entry) {
         $image = HtmlHelper::image(
             $path . $entry['Content']['Image']['img_file'], array(
                 'title' => $entry['Content']['Image']['title'],
-                'alt' => $entry['Content']['Image']['alt']
+                'alt' => $entry['Content']['Image']['alt'],
+                'popacity' => 1-($count-$tMin+1)/($tMax-$tMin+2),
+                'nopacity' => ($count-$tMin+1)/($tMax-$tMin+2)
             )
         );
     } else {
@@ -243,9 +248,13 @@ foreach($collection as $entry) {
 }
 
 if($count < 9){
+    $opacity = $count;
     while ($count < 9){
         $image = HtmlHelper::image('transparent.png',array('alt'=>'',
-            'width'=>'54','height'=>'54'));
+            'width'=>'54','height'=>'54',
+            'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
+            'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)
+        ));
         $link = HtmlHelper::link(' <br />' . $image,
             '#',
             array('escape'=>false,'class'=>'thumb_link')
@@ -256,7 +265,7 @@ if($count < 9){
 }
 // Make the next PAGE link
 $nPageImg = HtmlHelper::image(
-            'nxt_arrow_lt.png', array(
+            'nxt_arrow_drk.png', array(
                 'title' => 'Next page',
                 'alt' => 'Next page arrow'
             )
@@ -265,12 +274,12 @@ $nPageImg = HtmlHelper::image(
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$nextPage.DS.
                     'id:'.$paginator->params['named']['id'],
-                    array('escape'=>false,'class'=>'thumb')
+                    array('escape'=>false)
                 ) . '<br />';
 
 // Make the next IMAGE link
 $nImage = HtmlHelper::image(
-            'nxt_arrow_lt.png', array(
+            'nxt_arrow_drk.png', array(
                 'title' => 'Next image',
                 'alt' => 'Next image arrow',
                 'class' => 'npImageButton'
@@ -281,23 +290,23 @@ $nImage = HtmlHelper::image(
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
                     'id:'.$neighbors[$paginator->params['named']['id']]['next'],
-                    array('escape'=>false,'class'=>'thumb')
+                    array('escape'=>false)
                 );
     } elseif ($this->params['action']=='newsfeed') {
 $nLink .= HtmlHelper::link( $nImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
                     '#id'.$neighbors[$paginator->params['named']['id']]['next'],
-                    array('escape'=>false,'class'=>'thumb')
+                    array('escape'=>false)
                 );
     }
 
 // compile the next tags into an LI
-$next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton'));
+$next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
 
 // Previous page link
 $pPageImg = HtmlHelper::image(
-            'prev_arrow_lt.png', array(
+            'prev_arrow_drk.png', array(
                 'title' => 'Previous page',
                 'alt' => 'Previous page arrow'
             )
@@ -306,12 +315,12 @@ $pLink = HtmlHelper::link( $pPageImg,
         DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
             'page:'.$previousPage.DS.
             'id:'.$paginator->params['named']['id'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false)
         ) . '<br />';
 
 // Previous page link
 $pImage = HtmlHelper::image(
-            'prev_arrow_lt.png', array(
+            'prev_arrow_drk.png', array(
                 'title' => 'Previous image',
                 'alt' => 'previous image arrow',
                 'class' => 'npImageButton'
@@ -321,11 +330,11 @@ $pLink .= HtmlHelper::link( $pImage,
         DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
             'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['previous']]['page'].DS.
             'id:'.$neighbors[$paginator->params['named']['id']]['previous'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false)
         );
 
 // compile the previous tags into an LI
-$previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton'));
+$previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
 
 // merge the previous, image and next LIs
 $li = $previous . $li . $next;
@@ -376,6 +385,8 @@ return HtmlHelper::tag(
         $baseURL = DS.'products'.DS. $this->params['pname'].DS.$this->params['action'] ;
 //        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
 $number = 0;
+$tMin = 1;
+$tMax = count($collectionPage);
 
 // Make the image list items
 foreach($collectionPage as $entry) {
@@ -385,7 +396,9 @@ foreach($collectionPage as $entry) {
         $image = HtmlHelper::image(
             $path . $entry['img_file'], array(
                 'title' => $entry['title'],
-                'alt' => $entry['alt']
+                'alt' => $entry['alt'],
+                'popacity' => 1-($number-$tMin+1)/($tMax-$tMin+2),
+                'nopacity' => ($number-$tMin+1)/($tMax-$tMin+2)
             )
         );
     } else {
@@ -398,7 +411,7 @@ foreach($collectionPage as $entry) {
         $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
                  $baseURL. $page .DS.
                 'id:'.$entry['content_id'],
-                array('escape'=>false,'class'=>'thumb_link')
+                array('escape'=>false,'class'=>'thumb_link thumb')
         );
     } elseif ($this->params['action']=='art') {
 //        debug($this->params);
@@ -409,12 +422,12 @@ foreach($collectionPage as $entry) {
                 'pass'=>$this->params['pass'],
                 'page'=>$paginator->params['paging']['ContentCollection']['page'],
                 'id'=>$entry['Content']['id']),
-                array('escape'=>false,'class'=>'thumb_link')
+                array('escape'=>false,'class'=>'thumb_link thumb')
         );
     } elseif ($this->params['action']=='newsfeed') {
         $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
                 '#id'.$entry['content_id'],
-                array('escape'=>false,'class'=>'thumb_link')
+                array('escape'=>false,'class'=>'thumb_link thumb')
         );
     }
 
@@ -429,12 +442,16 @@ foreach($collectionPage as $entry) {
 //debug($number);
 
 if($number < 9){
+    $opacity = $number;
     while ($number < 9){
         $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
-            'width'=>'54','height'=>'54'));
+            'width'=>'54','height'=>'54',
+                'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
+                'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)));
         $link = HtmlHelper::link(' <br />' . $image,
             '#',
-            array('escape'=>false,'class'=>'thumb_link')
+            array('escape'=>false,'class'=>'thumb_link thumb'
+)
         );
         $li .= HtmlHelper::tag('li', $link);
         $number++;
@@ -442,7 +459,7 @@ if($number < 9){
 }
 // Make the next PAGE link
     $nPageImg = HtmlHelper::image(
-        'nxt_arrow_lt.png', array(
+        'nxt_arrow_drk.png', array(
             'title' => 'Next page',
             'alt' => 'Next page arrow'
         )
@@ -456,7 +473,7 @@ if($number < 9){
 
 // Make the next IMAGE link
     $nImage = HtmlHelper::image(
-        'nxt_arrow_lt.png', array(
+        'nxt_arrow_drk.png', array(
             'title' => 'Next image',
             'alt' => 'Next image arrow',
             'class' => 'npImageButton'
@@ -464,7 +481,7 @@ if($number < 9){
     );
     // Previous page link
     $pPageImg = HtmlHelper::image(
-        'prev_arrow_lt.png', array(
+        'prev_arrow_drk.png', array(
             'title' => 'Previous page',
             'alt' => 'Previous page arrow'
         )
@@ -478,7 +495,7 @@ if($number < 9){
 
     // Previous page link
     $pImage = HtmlHelper::image(
-        'prev_arrow_lt.png', array(
+        'prev_arrow_drk.png', array(
             'title' => 'Previous image',
             'alt' => 'previous image arrow',
             'class' => 'npImageButton'
@@ -489,13 +506,13 @@ if($number < 9){
             $baseURL.DS. 
             'page:'.$nextPage.DS.
             'id:'.$entry['neighbors']['next_page'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false)
         );
         $pLink .= HtmlHelper::link( $pImage,
             $baseURL.DS. 
             'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
             'id:'.$collectionPage[0]['neighbors']['previous'],
-            array('escape'=>false,'class'=>'thumb')
+            array('escape'=>false)
         );
     } elseif ($this->params['action']=='newsfeed') {
         $nLink .= HtmlHelper::link( $nImage,
@@ -513,7 +530,7 @@ if($number < 9){
     }
 
     // compile the next tags into an LI
-    $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton'));
+    $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
 
 //    $pLink .= HtmlHelper::link( $pImage,
 //        $baseURL.DS. 
@@ -523,7 +540,7 @@ if($number < 9){
 //        );
 
     // compile the previous tags into an LI
-    $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton'));
+    $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
 
     // merge the previous, image and next LIs
     $li = $previous . $li . $next;
