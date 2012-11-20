@@ -801,8 +801,10 @@ class ImagesController extends AppController {
                         $killList[] = $index;
                     }
                 }
-                foreach($killList as $index){
-                    unset($title[$index]);
+                if(isset($killList)){
+                    foreach($killList as $index){
+                        unset($title[$index]);
+                    }
                 }
                 $this->searchRecords = array_merge($this->searchRecords, $title);
                 
