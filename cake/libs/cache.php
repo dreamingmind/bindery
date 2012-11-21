@@ -236,7 +236,7 @@ class Cache {
 				}
 				$settings = array_merge($self->__config[$name], $settings);
 				if (isset($settings['duration']) && !is_numeric($settings['duration'])) {
-					$settings['duration'] = strtotime($settings['duration']) - time();
+					$settings['duration'] = date_default_timezone_set('America/Los_Angeles') - time();
 				}
 			}
 			$self->_engines[$name]->settings = $settings;
@@ -567,7 +567,7 @@ class CacheEngine {
 			$settings
 		);
 		if (!is_numeric($this->settings['duration'])) {
-			$this->settings['duration'] = strtotime($this->settings['duration']) - time();
+			$this->settings['duration'] = date_default_timezone_set('America/Los_Angeles') - time();
 		}
 		return true;
 	}

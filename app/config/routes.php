@@ -84,7 +84,7 @@ Router::connect('/:static', array(
         Router::connect('/products/:pname/gallery/*',
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));
         
-        Router::connect('/products/:pname/newsfeed/*',
+        Router::connect('/products/:pname/news/*',
         array ('controller'=>'contents','action'=>'newsfeed','pname'=>null));
                 
         Router::connect('/products/:pname/*',
@@ -92,14 +92,16 @@ Router::connect('/:static', array(
         
         Router::connect('/art/*',
                 array ('controller'=>'contents','action'=>'art'));
+        Router::connect('/workshops',
+                array ('controller'=>'workshops','action'=>'upcoming'));
         
 
         
-        Router::connect('/admin/:controller',
-                array('controller'=>':controller', 'action'=>'index'));
-        
-        Router::connect('/admin/:controller/:action/*',
-                array('controller'=>':controller', 'action'=>':action'));
+//        Router::connect('/admin/:controller',
+//                array('controller'=>':controller', 'action'=>'index'));
+//        
+//        Router::connect('/admin/:controller/:action/*',
+//                array('controller'=>':controller', 'action'=>':action'));
 
 	Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
 ?>

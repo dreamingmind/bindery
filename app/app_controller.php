@@ -52,7 +52,7 @@ class AppController extends Controller {
                 'controller' => '/'
                 ),
             'loginError' => "This message shows up when the wrong credentials are used",
-            'authError' => "This error shows up with the user tries to access a part of the website that is protected.",
+            'authError' => "Please log in to proceed.",
             'authorize' => 'controller',
             //'authorize' => 'actions',
             //'authorize' => 'crud',

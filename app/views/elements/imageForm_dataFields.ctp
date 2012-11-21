@@ -2,6 +2,7 @@
 /* @var $this ViewCC */ 
 ?> 
 <?php
+
 // This has been modified so it requires $record
 // but $record does not need to carry the field data
 // which still remains optional. But the calling
@@ -24,7 +25,7 @@ $parameters = array(
         ),
         'title',
         'recent_titles'=>array(
-            'options'=>$record['options']['recent_titles']
+            'options'=>(isset($record))?$record['options']['recent_titles']:''
         ),
         'category'=>array(
             'type'=>'radio',
