@@ -10,30 +10,35 @@ class WorkshopsController extends AppController {
         
         function upcoming(){
             $this->set('upcoming', 'The upcoming list goes here');
+            $findSpecs = array(
+               'fields'=>array(
+                   'title',
+                   'description',
+                   'hours'
+                ),
+                'contain'=>array(
+                    'Session'=>array(
+                        'fields'=>array(
+                            'Session.title',
+                            'Session.cost',
+                            'Session.participants'
+                        ),
+                        'Date'=>array(
+                            'fields'=>array(
+                                'Date.date',
+                                'Date.start_time',
+                                'Date.end_time'
+                            )
+                        )
+                    )
+                )
+            );
+            $this->set('workshops', $this->Workshop->find('all',$findSpecs));
         }
 
 	function index() {
 		$this->Workshop->recursive = 0;
-                $this->paginate['Workshop'] = array(
-                   'fields'=>array(
-                        'title'
-                    ),
-                    'contain'=>array(
-                        'Session'=>array(
-                            'fields'=>array(
-                                'Session.cost'
-                            ),
-                            'Date'=>array(
-                                'fields'=>array(
-                                    'Date.date',
-                                    'Date.start_time'
-                                )
-                            )
-                        )
-                    )
-                );
-		$this->set('workshops', $this->paginate('Workshop'));
-                debug($this->viewVars['workshops']);die;
+		$this->set('workshops', $this->paginate());
 	}
 
 	function view($id = null) {
