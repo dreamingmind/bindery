@@ -40,6 +40,48 @@ class Workshop extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+        
+        /**
+         * @var array $upcoming_sessions sessions records, now and future plus related date data
+         */
+        var $upcoming_sessions = array();
+        
+        /**
+         * @var array $workshops array of all workshop data (no related data) indexed by workshop_id
+         */
+        var $workshops = array();
+        
+        function __construct() {
+            parent::__construct();
+            $this->upcomingSessions();
+            $this->getWorkshops();
+        }
+
+        /**
+         * Set the models $upcoming_session property
+         * 
+         * Sessions where last_day>=current date sorted ascending
+         * Includes related date data
+         */
+        function upcomingSessions(){
+            $this->upcoming_sessions = $this->Session->find('all', array(
+                'conditions'=>'Session.last_day > CURDATE()',
+                'order'=>'Session.first_day ASC',
+//                'fields'=> array('workshop_id','title','cost','participants','first_day','last_day'),
+                'contain'=>array('Date')
+            ));
+        }
+        
+        /**
+         * Pull all workshop data into an id indexed array. No related data
+         */
+        function getWorkshops() {
+            $this->workshops = array();
+            $records = $this->find('all', array('contain'=>false));
+            foreach($records as $record){
+                $this->workshops[$record['Workshop']['id']] = $record;
+            }
+        }
 
 }
 ?>

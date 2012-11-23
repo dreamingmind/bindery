@@ -1,3 +1,5 @@
 <?php 
-echo $upcoming;
+echo $upcoming.'</ br>';
+debug($sessions);
+debug($workshops);
 ?>
