@@ -188,11 +188,15 @@ class Content extends AppModel {
                 'heading'=>$content['Content']['heading'],
                 'content'=> $content['Content']['content'],
                 'alt'=>(!is_null($content['Content']['alt'])) ? $content['Content']['alt'] : $content['Content']['Image']['alt'],
-                'title'=>(!is_null($content['Content']['title'])) ? $content['Content']['title'] : $content['Content']['Image']['title'],
+                'title'=>(!is_null($content['Content']['title'])) 
+                    ? $content['Content']['title'] 
+                    : (isset($content['Content']['Image']['title']))
+                        ?$content['Content']['Image']['title']
+                        :'Missing title',
                 'content_collection_id' => $content['id'],
                 'image_id'=> $content['Content']['image_id'],
-                'date'=>$content['Content']['Image']['date'],
-                'img_file'=>$content['Content']['Image']['img_file'],
+                'date'=>(isset($content['Content']['Image']['date']))?$content['Content']['Image']['date']:0,
+                'img_file'=>(isset($content['Content']['Image']['img_file']))?$content['Content']['Image']['img_file']:'Missing file',
                 'collections' => $this->linkedCollections($content['Content']['image_id'])
             );
         }
