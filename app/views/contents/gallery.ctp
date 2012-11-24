@@ -14,10 +14,11 @@
 <?php
 echo $this->Html->image(
         'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
-        array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']));
+        array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
 //<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
 ?>
-<style media="screen" type="text/css"><!--
+<style media="screen" type="text/css">
+    <!--
     #detail {
         position: relative;
     }
@@ -28,10 +29,12 @@ echo $this->Html->image(
         left: <?php echo $record['ExhibitSupliment']['left_val'] ?>px;
         width: <?php echo $record['ExhibitSupliment']['width_val'] ?>px;
         height: <?php echo $record['ExhibitSupliment']['height_val'] ?>px;
-    }/n--></style>
+    }
+    -->
+</style>
 <div id="proseblock">
 <span class="drksubhead"><?php echo $record['Content']['heading'] ?></span>
 <br>
 <br>
-<span class="drkparagraph"><?php echo $record['Content']['content'] ?><br><br><br><br></span>
+<span class="drkparagraph"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></span>
 </div>
