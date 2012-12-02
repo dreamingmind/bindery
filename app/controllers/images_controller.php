@@ -433,7 +433,7 @@ class ImagesController extends AppController {
                             'id' => $this->Image->id,
                             'height' => $exifData['COMPUTED']['Height'],
                             'width' => $exifData['COMPUTED']['Width'],
-                            'date' => strtotime($exifData['DateTime'])
+                            'date' => date('Y-m-d H:i:s',$exifData['DateTime'])
                         );
 
                         if($this->Image->save($updateExif)){
@@ -866,11 +866,29 @@ class ImagesController extends AppController {
         $this->set('recentCollections', $recentCollections);
         $this->set('collectionCategories',$collectionCategories = $this->Image->Content->ContentCollection->Collection->getCategories());
 
+        //this is a process specific to Element:imageForm_exifFields.
+        //It should be moved out to a common location latter
         if(isset($this->data)){
-            
+                
             // May have chosen Image.title from list rather then typing it
             $this->scanListChoices($this->data);
-
+            
+            if($this->data['Image']['reread_exif']){
+                
+                $exif = $this->Image->refreshExifData($this->data['Image']['img_file']);
+                if(is_string($exif)){
+                    $this->flash($exif);
+                } elseif (is_array($exif)) {
+                    $this->data['Image']['height'] = $exif['COMPUTED']['Height'];
+                    $this->data['Image']['width'] = $exif['COMPUTED']['Width'];
+                    $this->data['Image']['date'] = date('Y-m-d H:i:s',$exif['FILE']['FileDateTime']);
+                    $this->data['Image']['mymetype'] = $exif['FILE']['MimeType'];
+                    $this->data['Image']['size'] = $exif['FILE']['FileSize'];
+                }
+            }
+            // img_file is a file input and having update data triggers
+            // an attempt to process an incoming image. That causes an error.
+            unset($this->data['Image']['img_file']); 
             // save all updated data
             $message = ($this->Image->save($this->data))
                 ? 'Image changes saved'

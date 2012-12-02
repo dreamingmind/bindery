@@ -25,7 +25,14 @@ $parameters = array(
         'filesize',
         'width',
         'height',
-        'date'
+        'date',
+        'img_file'=>array('type'=>'hidden'),
+        'reread_exif'=>array(
+            'type'=>'checkbox',
+            'options'=>array(
+                'yes'
+            )
+        )
     )
 );
 

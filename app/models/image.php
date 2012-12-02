@@ -98,5 +98,41 @@ class Image extends AppModel {
         }
     }
 
+    /**
+     * Provided an image filename, return the EXIF data
+     * 
+     * Assumes the source image file to be stored in
+     * "{$this->actsAs['Upload']['img_file']['dir']}/native/"
+     * [FILE] => Array
+     *      [FileName] => CRW_7744.jpg
+     *      [FileDateTime] => 1301555610
+     *      [FileSize] => 37772
+     *      [FileType] => 2
+     *      [MimeType] => image/jpeg
+     *      [SectionsFound] => 
+     * [COMPUTED] => Array
+     *      [html] => width="680" height="510"
+     *      [Height] => 510
+     *      [Width] => 680
+     *      [IsColor] => 1
+     * 
+     * @param string $pointer image filename
+     * @return array/string the EXIF data or a string error message
+     */
+    function refreshExifData($pointer=null){
+//        debug("{$this->actsAs['Upload']['img_file']['dir']}/native/");die;
+        if(!is_string($pointer)){
+            return 'Please provide an image file name, not '.(is_null($pointer))?'NULL':$pointer;
+        }
+        $target = WWW_ROOT.$this->actsAs['Upload']['img_file']['dir'].'/native/'.$pointer;
+        $exif = exif_read_data($target, 'FILE', true);
+        if($exif){
+            unset($exif['EXIF']['MakerNote']);
+//            $f->exif = $exif;
+        } else {
+            $exif = "Image file not found at $target";
+        }
+        return $exif;
+    }
 }
 ?>

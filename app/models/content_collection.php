@@ -7,7 +7,7 @@ class ContentCollection extends AppModel {
                 'Collection',
                 'DetailCollection'=>array(
                     'className'=>'Collection',
-                    'foreignKey'=>'sub_gallery'
+                    'foreignKey'=>'sub_collection'
                 ));
         
         var $displayField = 'Content.heading';
