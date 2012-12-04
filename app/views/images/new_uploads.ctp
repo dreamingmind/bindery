@@ -52,7 +52,7 @@ $file = array(     //required
                 echo $this->Form->input('Task', array(
                     'name'=>"data[$count][Image][task]",
                     'id' => "{$count}ImageImgTask",
-                    'value'=>'upload',
+                    'value'=>'hold',
                     'type'=>'radio', 'options'=> array(
                         'delete'=>'Delete', 'upload'=>'Upload', 'hold'=>'Hold'
                     )

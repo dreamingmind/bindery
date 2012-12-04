@@ -28,7 +28,8 @@ foreach ($collectionPage as $dispatch) {
     // heading
     $h2 = $dispatch['heading'];
     // text
-    $p = $this->Html->tag('p',$dispatch['content'], array('class'=>'dispatchText'));
+    $p = markdown($dispatch['content']);
+//    $p = $this->Html->tag('p',markdown($dispatch['content']), array('class'=>'dispatchText'));
     
     // image
     if(isset($dispatch['img_file'])){
@@ -84,11 +85,11 @@ foreach ($collectionPage as $dispatch) {
         );
 
     echo $this->element('contentForm_metaFields', array(
-        'record' => $dispatch
+        'record' => array('Content'=>$dispatch)
     ));
     
     echo $this->element('contentForm_dataFields', array(
-        'record' => $dispatch,
+        'record' => array('Content'=>$dispatch),
         'display'=>'show'
     ));
     

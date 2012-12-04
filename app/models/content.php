@@ -179,7 +179,7 @@ class Content extends AppModel {
         ));
 //        debug($test);die;
         $this->collectionData = $test['Collection'];
-        
+//        debug($test['ContentCollection']);die;
         foreach($test['ContentCollection'] as $index => $content){
 //            $image_id = (isset($content['Content']['image_id'])) ? $content['Content']['image_id'] : '';
 
@@ -187,8 +187,10 @@ class Content extends AppModel {
                 'content_id'=> $content['Content']['id'],
                 'heading'=>$content['Content']['heading'],
                 'content'=> $content['Content']['content'],
-                'alt'=>(!is_null($content['Content']['alt'])) ? $content['Content']['alt'] : $content['Content']['Image']['alt'],
-                'title'=>(!is_null($content['Content']['title'])) 
+                'alt'=>(!is_null($content['Content']['alt']) && $content['Content']['alt']!='') 
+                    ? $content['Content']['alt'] 
+                    : $content['Content']['Image']['alt'],
+                'title'=>(!is_null($content['Content']['title']) && $content['Content']['title']!='') 
                     ? $content['Content']['title'] 
                     : (isset($content['Content']['Image']['title']))
                         ?$content['Content']['Image']['title']

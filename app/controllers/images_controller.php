@@ -45,6 +45,11 @@ class ImagesController extends AppController {
     var $lastUpload = false;
 
     /**
+     * @var false|array $uploadSets array of upload seq numbers and count of images in each for a drop list selector
+     */
+    var $uploadSets = false;
+
+    /**
      * @var int $column The default number of columns for Image Grid display
      */
     var $column = 3;
@@ -176,6 +181,22 @@ class ImagesController extends AppController {
                 $this->column = $this->Session->read('Image.columns');
                 $this->size = $this->Session->read('Image.sizes');
             }
+            // set $this->uploadSets
+            $groups = $this->Image->find('list',array(
+                'fields'=>array(
+                    'id',
+                    'id',
+                    'upload'
+                ),
+                'order'=>'upload DESC',
+            ));
+//            debug($groups);die;
+            foreach($groups as $upload=>$members){
+                $this->uploadSets[$upload] = "#$upload - ".  count($members);
+            }
+//            array_unshift($this->uploadSets, '');
+            $this->set('uploads',  $this->uploadSets);
+//            debug($this->uploadSets);die;
 //debug($this->data);
             if(isset($this->data['Image']['searchInput'])){
 //debug($this->data);die;
@@ -360,6 +381,7 @@ class ImagesController extends AppController {
            foreach($hold as $index=>$pointer){
                unset($this->data[$pointer]);
            }
+           debug($this->data);die;
            $this->Image->saveAll($this->data);
            $this->redirect(array('action'=>'search',  $this->lastUpload+1));
         }
@@ -433,7 +455,7 @@ class ImagesController extends AppController {
                             'id' => $this->Image->id,
                             'height' => $exifData['COMPUTED']['Height'],
                             'width' => $exifData['COMPUTED']['Width'],
-                            'date' => date('Y-m-d H:i:s',$exifData['DateTime'])
+                            'date' => strtotime($exifData['DateTime'])
                         );
 
                         if($this->Image->save($updateExif)){
@@ -480,7 +502,7 @@ class ImagesController extends AppController {
         
         $this->set('countMax', 
                 ($this->disallowed || $this->searchRecords || $this->uploadCount)
-                ? $this->uploadCount : 1);
+                ? $this->uploadCount : 0);
         $this->set('searchRecords',  $this->searchRecords);
         $this->set('disallowed',  $this->disallowed);
         $this->set('searchInput', $this->searchInput);
@@ -881,7 +903,7 @@ class ImagesController extends AppController {
                 } elseif (is_array($exif)) {
                     $this->data['Image']['height'] = $exif['COMPUTED']['Height'];
                     $this->data['Image']['width'] = $exif['COMPUTED']['Width'];
-                    $this->data['Image']['date'] = date('Y-m-d H:i:s',$exif['FILE']['FileDateTime']);
+                    $this->data['Image']['date'] = strtotime($exif['EXIF']['DateTimeOriginal']);
                     $this->data['Image']['mymetype'] = $exif['FILE']['MimeType'];
                     $this->data['Image']['size'] = $exif['FILE']['FileSize'];
                 }
