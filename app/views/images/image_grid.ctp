@@ -18,7 +18,7 @@ echo $this->Form->create('Image',array('conroller'=>'images',
     <tr>
         <td><?php echo $this->Form->input('columns', array('value'=>$column)); ?></td>
         <td><?php echo $this->Form->input('sizes', array('value'=>$size)); ?></td>
-        <td><?php echo $this->Form->input('uploads', array('value'=>$uploads)); ?></td>
+        <td><?php echo $this->Form->input('uploadsets', array('value'=>$uploadsets)); ?></td>
         <td><?php echo $this->Form->end(__('Submit', true)); ?></td>
     </tr>
 </table>
