@@ -78,7 +78,7 @@ class Session extends AppModel {
 	var $belongsTo = array(
 		'Workshop' => array(
 			'className' => 'Workshop',
-			'foreignKey' => 'workshop_id',
+			'foreignKey' => 'collection_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
