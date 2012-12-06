@@ -150,7 +150,7 @@ h2 + div a.dispatchAnchor {
 .zoom:hover > a {
     visibility:visible;
 }
-.dispatch p {
+.dispatch p, .dispatch ol {
 	margin: 0px 0px 0px 130px;
         padding: 10px 0 0px 10px;
 	font-size:12px;
@@ -164,11 +164,16 @@ h2 + div a.dispatchAnchor {
         border-left: #bbb 1px solid;
         width: 37em;*/
 }
-p.dispatchText:last-of-type {
+.dispatch .content li{
+    list-style: outside decimal;
+    margin-bottom: 6px;
+    margin-left: 35px;
+}
+.dispatch .content:last-of-type{
     padding-bottom: 15px;
     margin-bottom: 25px;
 }
-p.dispatchText:first-of-type:first-letter {
+.dispatch .content p:first-of-type:first-letter {
     font-size: 16px;
     line-height: 12px;
     color: #802A19; /*#335f6e;*/
