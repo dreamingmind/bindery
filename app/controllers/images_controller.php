@@ -191,11 +191,12 @@ class ImagesController extends AppController {
                 'order'=>'upload DESC',
             ));
 //            debug($groups);die;
+            $this->uploadSets[0] = 'select';
             foreach($groups as $upload=>$members){
                 $this->uploadSets[$upload] = "#$upload - ".  count($members);
             }
 //            array_unshift($this->uploadSets, '');
-            $this->set('uploads',  $this->uploadSets);
+            $this->set('uploadsets',  $this->uploadSets);
 //            debug($this->uploadSets);die;
 //debug($this->data);
             if(isset($this->data['Image']['searchInput'])){
