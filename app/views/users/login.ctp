@@ -5,7 +5,7 @@ echo $form->create('User', array('class'=>'float_form', 'action' => 'login', 'id
 echo $form->inputs(
 	array(
 		'legend' => __('Login', true),
-		'username',
+		'username' => array('autofocus'=>true),
 		'password'
 	)
 );
