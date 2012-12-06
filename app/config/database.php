@@ -88,14 +88,14 @@ class DATABASE_CONFIG {
 		'database' => 'bindery3',
 		'prefix' => '',
 	);
-//	var $hosted = array(
+//	var $default = array(
 //		'driver' => 'mysql',
 //		'persistent' => false,
 //		'host' => 'bindery.e.dreamingmind.com',
 ////		'port' => '/private/tmp/mysql.sock',
 //		'login' => 'dreamingmind',
 //		'password' => 'amphistory',
-//		'database' => 'bindery3',
+//		'database' => 'bindery',
 //		'prefix' => '',
 //	);
 //
