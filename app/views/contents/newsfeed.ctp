@@ -44,7 +44,7 @@ foreach ($collectionPage as $dispatch) {
     
     // anchor to here
     $a = $this->Html->tag('a', '', array(
-        'name'=>'id'.$dispatch['content_id'],
+        'name'=>'id'.$dispatch['id'],
         'class'=>'dispatchAnchor'
     ));
 
@@ -53,7 +53,7 @@ foreach ($collectionPage as $dispatch) {
     if (isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     $e = "<ul class='adminMenu'>\r<li>".
         $this->Html->link("Edit<br />im-id:{$dispatch['image_id']}", '#', array(
-        'name' => 'fieldset'.$dispatch['content_id'],
+        'name' => 'fieldset'.$dispatch['id'],
         'onclick'=> 'showhide(this.name, \'block\'); return false',
         'escape' => false
         )) .
@@ -77,7 +77,7 @@ foreach ($collectionPage as $dispatch) {
     
     echo $this->Html->div('dispatch', $m."\r".$a."\r".$in."\r".$i."\r".$p."\r");
     echo $this->Form->create('Content', array(
-            'id'=>'fieldset'.$dispatch['content_id'],
+            'id'=>'fieldset'.$dispatch['id'],
             'action' => 'dispatch_edit/'.$this->params['pname'] . 
             (isset($this->params['named']['page']) ? '/page:' . $this->params['named']['page'] : 'page:/' . 1),
 //            array('pass' => array($this->params['pname'])),

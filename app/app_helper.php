@@ -426,7 +426,7 @@ foreach($collectionPage as $entry) {
         );
     } elseif ($this->params['action']=='newsfeed') {
         $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
-                '#id'.$entry['content_id'],
+                '#id'.$entry['id'],
                 array('escape'=>false,'class'=>'thumb_link thumb')
         );
     }
