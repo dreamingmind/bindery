@@ -104,116 +104,116 @@ class ContentsController extends AppController {
 //        die;
     }
 
-	function index() {
-                $this->layout = 'noThumbnailPage';
-		$this->Content->recursive = 0;
-		$this->set('contents', $this->paginate());
-	}
+    function index() {
+            $this->layout = 'noThumbnailPage';
+            $this->Content->recursive = 0;
+            $this->set('contents', $this->paginate());
+    }
 
-	function view($id = null) {
-                $this->layout = 'noThumbnailPage';
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid content', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('content', $this->Content->read(null, $id));
-	}
+    function view($id = null) {
+            $this->layout = 'noThumbnailPage';
+            if (!$id) {
+                    $this->Session->setFlash(__('Invalid content', true));
+                    $this->redirect(array('action' => 'index'));
+            }
+            $this->set('content', $this->Content->read(null, $id));
+    }
 
-	function add() {
-                $this->layout = 'noThumbnailPage';
-		if (!empty($this->data)) {
-			$this->Content->create();
-			if ($this->Content->save($this->data)) {
-				$this->Session->setFlash(__('The content has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
-			}
-		}
-		$navlines = $this->Content->Navline->find('list');
-		$images = $this->Content->Image->find('list');
-		$this->set(compact('navlines', 'images'));
-	}
+    function add() {
+            $this->layout = 'noThumbnailPage';
+            if (!empty($this->data)) {
+                    $this->Content->create();
+                    if ($this->Content->save($this->data)) {
+                            $this->Session->setFlash(__('The content has been saved', true));
+                            $this->redirect(array('action' => 'index'));
+                    } else {
+                            $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
+                    }
+            }
+            $navlines = $this->Content->Navline->find('list');
+            $images = $this->Content->Image->find('list');
+            $this->set(compact('navlines', 'images'));
+    }
 
-	function edit($id = null) {
-                $this->layout = 'noThumbnailPage';
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid content', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		if (!empty($this->data)) {
-			if ($this->Content->save($this->data)) {
-				$this->Session->setFlash(__('The content has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Content->read(null, $id);
-		}
-		$navlines = $this->Content->Navline->find('list');
-		$images = $this->Content->Image->find('list');
-		$this->set(compact('navlines', 'images'));
-	}
+    function edit($id = null) {
+            $this->layout = 'noThumbnailPage';
+            if (!$id && empty($this->data)) {
+                    $this->Session->setFlash(__('Invalid content', true));
+                    $this->redirect(array('action' => 'index'));
+            }
+            if (!empty($this->data)) {
+                    if ($this->Content->save($this->data)) {
+                            $this->Session->setFlash(__('The content has been saved', true));
+                            $this->redirect(array('action' => 'index'));
+                    } else {
+                            $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
+                    }
+            }
+            if (empty($this->data)) {
+                    $this->data = $this->Content->read(null, $id);
+            }
+            $navlines = $this->Content->Navline->find('list');
+            $images = $this->Content->Image->find('list');
+            $this->set(compact('navlines', 'images'));
+    }
 
-	function delete($id = null) {
-                $this->layout = 'noThumbnailPage';
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for content', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		if ($this->Content->delete($id)) {
-			$this->Session->setFlash(__('Content deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Content was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
-        
-        /**
-         *
-         * @param string $text An encoded html fragment needing expansion
-         * @return string An expanded html fragment
-         */
-        function decode($text) {
-            $search = array(
-                '/(======)(.+)(======)/',
-                '/(=====)(.+)(=====)/',
-                '/(====)(.+)(====)/',
-                '/(===)(.+)(===)/',
-                '/(==)(.+)(==)/',
-                '/(=)(.+)(=)/',
-                '/(-p)(.+)(\n)/',
-                '/(-p)(.+)(\z)/');
-            $replace = array(
-                '<h6>$2</h6>',
-                '<h5>$2</h5>',
-                '<h4>$2</h4>',
-                '<h3>$2</h3>',
-                '<h2>$2</h2>',
-                '<h1>$2</h1>',
-                "<p>$2</p>\n",
-                "<p>$2</p>\n");
-            return "<div class='splash>\n".preg_replace($search, $replace, $text)."</div>\n";
-}
+    function delete($id = null) {
+            $this->layout = 'noThumbnailPage';
+            if (!$id) {
+                    $this->Session->setFlash(__('Invalid id for content', true));
+                    $this->redirect(array('action'=>'index'));
+            }
+            if ($this->Content->delete($id)) {
+                    $this->Session->setFlash(__('Content deleted', true));
+                    $this->redirect(array('action'=>'index'));
+            }
+            $this->Session->setFlash(__('Content was not deleted', true));
+            $this->redirect(array('action' => 'index'));
+    }
+
+    /**
+     *
+     * @param string $text An encoded html fragment needing expansion
+     * @return string An expanded html fragment
+     */
+    function decode($text) {
+        $search = array(
+            '/(======)(.+)(======)/',
+            '/(=====)(.+)(=====)/',
+            '/(====)(.+)(====)/',
+            '/(===)(.+)(===)/',
+            '/(==)(.+)(==)/',
+            '/(=)(.+)(=)/',
+            '/(-p)(.+)(\n)/',
+            '/(-p)(.+)(\z)/');
+        $replace = array(
+            '<h6>$2</h6>',
+            '<h5>$2</h5>',
+            '<h4>$2</h4>',
+            '<h3>$2</h3>',
+            '<h2>$2</h2>',
+            '<h1>$2</h1>',
+            "<p>$2</p>\n",
+            "<p>$2</p>\n");
+        return "<div class='splash>\n".preg_replace($search, $replace, $text)."</div>\n";
+    }
 
     function search() {
         debug($this->data); die;
     }
-    
+
     function art(){
-//        debug($this->params['pass'][count($this->params['pass'])-1]);
+    //        debug($this->params['pass'][count($this->params['pass'])-1]);
         $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
         $this->gallery();
         $this->render('gallery');
     }
 
     /**
-     * Content Exhibit action, default handling of all product beauty-shot galleries
+     * Content gallery action, default handling of all product beauty-shot galleries
      * 
      * Used to be Product Gallery action
-     * If an id is available, that process to pull and exhbit is called
+     * If an id is available, the process to pull an exhbit is called
      * otherwise the process to build an introductory page is called
      * I don't know of a case where $pname would be passed as a prameter,
      * the router sends it as a url param, but I added it because it's 
