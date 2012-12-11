@@ -53,7 +53,7 @@
 
                 } ?>
             <!-- HEADER TOOLS --><div id="headerTools"><?php
-            echo $html->accountTool($userdata); // creates DIV id=accountTool
+            echo $html->accountTool_($userdata); // creates DIV id=accountTool
             echo $form->siteSearch(); // creates DIV id=siteSearch
             ?></div><!-- END HEADER TOOLS -->
         </div>

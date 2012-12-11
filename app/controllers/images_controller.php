@@ -386,6 +386,7 @@ class ImagesController extends AppController {
            $this->Image->saveAll($this->data);
            $this->redirect(array('action'=>'search',  $this->lastUpload+1));
         }
+        $this->set('recentTitles',  $this->Image->recentTitles);
         $this->layout = 'noThumbnailPage';
     }
     

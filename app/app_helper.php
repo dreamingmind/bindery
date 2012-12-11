@@ -41,24 +41,6 @@ class AppHelper extends Helper {
     function output($str) {
         echo $str . "\n";
     }
-
-    /**
-     * @todo This is for the original layout and should be deleted once things are switched  over
-     * @param type $userdata
-     * @return type 
-     */
-    function accountTool($userdata) {
-        $tool = "<div id='accountTool'><p>";
-        if (isset($userdata) && $userdata != 0) {
-            $tool .= $userdata['username'] . " | ";
-            $tool .= HtmlHelper::link('Log Out', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'logout'));
-        } else {
-            $tool .= HtmlHelper::link('Log In', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'login'));
-            $tool .= ' | ';
-            $tool .= HtmlHelper::link('Register', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'register'));
-        }
-        return $tool . "</p></div>";
-    }
     
     /**
      * Modified for new layout 12/11
@@ -66,6 +48,14 @@ class AppHelper extends Helper {
      * @return type 
      */
     function accountTool_($userdata) {
+//        array_flip($this->Auth->allowedActions);
+//        if(isset($this->Auth->allowedActions[$this->params['action']])){
+//            $outController = 'pages';
+//            $outAction = 'home';
+//        } else {
+//            $outController = $this->params['controller'];
+//            $outAction = $this->params['action'];
+//        }
         $tool = "<p>";
         if (isset($userdata) && $userdata != 0) {
             $tool .= $userdata['username'] . " | ";
@@ -400,22 +390,22 @@ foreach($collectionPage as $entry) {
                 'popacity' => 1-($number-$tMin+1)/($tMax-$tMin+2),
                 'nopacity' => ($number-$tMin+1)/($tMax-$tMin+2)
             )
-        );
+        )."\n";
     } else {
         $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
-            'width'=>'54','height'=>'54'));
+            'width'=>'54','height'=>'54'))."\n";
     }
     
     //<a class="thumb" href="static_nav4.php#1">1<br /><img ... /></a>
     if ($this->params['action']=='gallery') {
-        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+        $link = HtmlHelper::link($entry['neighbors']['count'] . "<br />\n" . $image,
                  $baseURL. $page .DS.
                 'id:'.$entry['content_id'],
                 array('escape'=>false,'class'=>'thumb_link thumb')
-        );
+        )."\n";
     } elseif ($this->params['action']=='art') {
 //        debug($this->params);
-        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+        $link = HtmlHelper::link($entry['neighbors']['count'] . "<br />\n" . $image,
             array(
 //                'controller'=>$this->params['controller'],
                 'action'=>$this->params['action'],
@@ -423,17 +413,17 @@ foreach($collectionPage as $entry) {
                 'page'=>$paginator->params['paging']['ContentCollection']['page'],
                 'id'=>$entry['Content']['id']),
                 array('escape'=>false,'class'=>'thumb_link thumb')
-        );
+        )."\n";
     } elseif ($this->params['action']=='newsfeed') {
-        $link = HtmlHelper::link($entry['neighbors']['count'] . '<br />' . $image,
+        $link = HtmlHelper::link($entry['neighbors']['count'] . "<br />\n" . $image,
                 '#id'.$entry['id'],
                 array('escape'=>false,'class'=>'thumb_link thumb')
-        );
+        )."\n";
     }
 
     // this sets the 'active' styling
     if (isset($this->params['named']['id']) && $this->params['named']['id'] == $entry['content_id']) {
-        $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));
+        $li .= HtmlHelper::tag('li', $link, array('class'=>'active'))."\n";
     } else {
         $li .= HtmlHelper::tag('li', $link);
     }
@@ -447,12 +437,12 @@ if($number < 9){
         $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
             'width'=>'54','height'=>'54',
                 'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
-                'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)));
+                'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)))."\n";
         $link = HtmlHelper::link(' <br />' . $image,
             '#',
             array('escape'=>false,'class'=>'thumb_link thumb'
 )
-        );
+        )."\n";
         $li .= HtmlHelper::tag('li', $link);
         $number++;
     }
@@ -463,13 +453,13 @@ if($number < 9){
             'title' => 'Next page',
             'alt' => 'Next page arrow'
         )
-    );
+    )."\n";
     $nLink = HtmlHelper::link( $nPageImg,
             $baseURL .DS. 
                 'page:'.$nextPage,//.DS.
 //                'id:'. $entry['neighbors']['next'],
                 array('escape'=>false,'class'=>'next_page')
-            ) . '<br />';
+            ) . '<br />'."\n";
 
 // Make the next IMAGE link
     $nImage = HtmlHelper::image(
@@ -478,20 +468,20 @@ if($number < 9){
             'alt' => 'Next image arrow',
             'class' => 'npImageButton'
         )
-    );
+    )."\n";
     // Previous page link
     $pPageImg = HtmlHelper::image(
         'prev_arrow_drk.png', array(
             'title' => 'Previous page',
             'alt' => 'Previous page arrow'
         )
-    );
+    )."\n";
     $pLink = HtmlHelper::link( $pPageImg,
         $baseURL.DS. 
             'page:'.$previousPage,//.DS.
 //            'id:'.$entry['neighbors']['previous'],
             array('escape'=>false,'class'=>'previous_page')
-        ) . '<br />';
+        ) . '<br />'."\n";
 
     // Previous page link
     $pImage = HtmlHelper::image(
@@ -500,33 +490,33 @@ if($number < 9){
             'alt' => 'previous image arrow',
             'class' => 'npImageButton'
         )
-    );
+    )."\n";
     if ($this->params['action']=='gallery') {
         $nLink .= HtmlHelper::link( $nImage,
             $baseURL.DS. 
             'page:'.$nextPage.DS.
             'id:'.$entry['neighbors']['next_page'],
             array('escape'=>false)
-        );
+        )."\n";
         $pLink .= HtmlHelper::link( $pImage,
             $baseURL.DS. 
             'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
             'id:'.$collectionPage[0]['neighbors']['previous'],
             array('escape'=>false)
-        );
+        )."\n";
     } elseif ($this->params['action']=='newsfeed') {
         $nLink .= HtmlHelper::link( $nImage,
             $baseURL.DS. 
             'page:'.$entry['neighbors']['next_page'].DS.
             '#id'.$entry['neighbors']['next'],
             array('escape'=>false,'class'=>'thumb_next_image')
-        );
+        )."\n";
         $pLink .= HtmlHelper::link( $pImage,
             $baseURL.DS. 
             'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
             '#id'.$collectionPage[0]['neighbors']['previous'],
             array('escape'=>false,'class'=>'thumb_previous_image')
-        );
+        )."\n";
     }
 
     // compile the next tags into an LI

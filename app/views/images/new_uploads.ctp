@@ -42,7 +42,12 @@ $file = array(     //required
                     )
                 ));
                 echo $this->element('imageForm_dataFields',array(
-                    'prefix'=>array($count)
+                    'prefix'=>array($count),
+                    'record'=>array(
+                        'Image'=>array(
+                            'recent_titles'=>array('options'=>$recentTitles)
+                        )
+                    )
                 ));
                 echo $this->element('imageForm_exifFields',array(
                     'prefix'=>array($count),

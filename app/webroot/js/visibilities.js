@@ -19,8 +19,8 @@ $(document).ready(function(){
     });
     
     function hidePN(){
-        $('.previousButtons a img').fadeTo(700, 0);
-        $('.nextButtons a img').fadeTo( 700, 0);
+        $('.previousButtons a img').fadeTo(700, .2);
+        $('.nextButtons a img').fadeTo( 700, .2);
     }
     
     $('ul.thumbList').bind('mouseleave',hidePN);

@@ -63,7 +63,7 @@ class Image extends AppModel {
         $this->recentTitles();
         $this->allTitles();
     }
-
+    
         /**
      * sets $recentTitles to an array of the most recently used Image.titles
      * 
@@ -74,7 +74,7 @@ class Image extends AppModel {
     function recentTitles($limit=null) {
         $limit = ($limit==null) ? 10 : $limit;
         
-        $q = "SELECT DISTINCT title from images AS Image WHERE title IS NOT NULL AND title != '' ORDER BY created DESC LIMIT $limit";
+        $q = "SELECT DISTINCT title from images AS Image WHERE title IS NOT NULL AND title != '' ORDER BY modified DESC LIMIT $limit";
         $titles = $this->query($q);
 
         $this->recentTitles[0] = '';
