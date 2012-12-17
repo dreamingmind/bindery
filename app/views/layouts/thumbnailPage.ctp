@@ -58,7 +58,7 @@
             </div>
             <div id="jumpBox">
                 <?php if($this->action == 'newsfeed'){ ?>
-                    <label class="inputBox" for="j">Showing #<?php // echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <?php // echo $this->Paginator->counter(array('format'=>'%count%')) ?> </label>
+                    <label class="inputBox" for="j">Showing #<?php echo $pageData['start']; ?> of <?php echo $pageData['count']; ?> </label>
                     <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
                            onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
                            onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
@@ -73,7 +73,8 @@
             <?php 
                 if($this->action == 'newsfeed'){
                     echo $html->newsfeedFilmStrip($collectionPage, $pageData);
-                    $js->buffer('$(document).ready(function cp(){collectionPage = ' . json_encode($collectionJson) . '})');
+//                    $js->buffer('$(document).ready(function cp(){collectionPage = ' . json_encode($collectionJson) . '})');
+                    $js->buffer('collectionPage = ' . json_encode($collectionJson));
                     $script = file_get_contents(JS.DS.'newsthumb.js');
                     $js->buffer($script);
                 } else {
@@ -122,6 +123,7 @@
                 ?>
             </div>
                 <?php //debug($this->params); ?>
+                <?php // debug($neighbors); debug($pageData); debug($paginator); ?>
                 <?php echo $this->element('sql_dump'); ?>
         </div>
     <?php

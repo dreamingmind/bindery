@@ -452,8 +452,8 @@ class ContentsController extends AppController {
 //            'seq','visible'                
 //        );       
 //        
-//        $neighbors = $this->filmstripNeighbors();
-////        debug($neighbors);
+        $neighbors = $this->filmstripNeighbors();
+//        debug($neighbors);
 //        $filmStrip = $this->pullFilmStrip($page);
 //        
 //        foreach($filmStrip as $index => $targetImage){
@@ -464,7 +464,7 @@ class ContentsController extends AppController {
 //            $this->newsfeedIntroduction($neighbors);
 //        }
 //
-//        $this->set('neighbors', $neighbors);
+        $this->set('neighbors', $neighbors);
 //        $this->set('filmStrip',$filmStrip);
 //        $this->newsfeedDispatches($filmStrip);
 //        debug($this->Content->imageCollections);die;

@@ -84,7 +84,7 @@ Router::connect('/:static', array(
         Router::connect('/products/:pname/gallery/*',
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));
         
-        Router::connect('/products/:pname/news/*',
+        Router::connect('/products/:pname/newsfeed/*',
         array ('controller'=>'contents','action'=>'newsfeed','pname'=>null));
                 
         Router::connect('/products/:pname/*',
