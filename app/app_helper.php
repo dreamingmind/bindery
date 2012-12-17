@@ -145,197 +145,203 @@ class AppHelper extends Helper {
     }
     
     /**
-     * Prototype FilmStrip Generator
-     * @todo make this into real code. Many missing data errors get through
-     * @todo pack out 'short' lists to keep next/prev clickers in the same spot allways
-     * @todo 'pack out' strategy: pull images from circlular wrap and show them or ghost them. How to handle nxt/prv clicks here-ideally redraw to correct target page
-     * @todo still need the jump-box also
-     * @todo page link construction needs to be more subtle to handle the many patterns that can occur. How about regex to insert page and id values into the whole url?
-     * @todo this will probably need more parameters. Send in an array or figure out how to make properties available. HOLD on this for a while
+     * FilmStrip Generator for gallery pages
      * 
-     * @param array $collection The array of records to assemble into a film strip
-     * @param object $paginator The paginator object currently in use in the view
-     * @param array $neighbors array describing prev/next/page info for each picture in the filmstrip
+     * Loop throught the page data assembling the filmstrip,
+     * previous/next links and .active highlighting
+     * 
+     * @param type $collection the data for this page
+     * @param type $paginator paginator object
+     * @param array $neighbors content_id indexed array describing all records in collection and their neighbors
+     * @return html The filmstrip UL wrapped in a nav tag
      */
-
     function FilmStrip($collection, $paginator, $neighbors) {
-//       debug($collection);die;
+
         $previousPage = ($paginator->params['paging']['ContentCollection']['prevPage'])
         ? $paginator->params['paging']['ContentCollection']['page'] -1
         : $paginator->params['paging']['ContentCollection']['pageCount'];
 
-        $nextPage = ($paginator->params['paging']['ContentCollection']['nextPage'])
-        ? $paginator->params['paging']['ContentCollection']['page'] + 1
-        : 1;
+        $pname = (isset($paginator->params['pname'])) ? DS.$paginator->params['pname'] : null;
+        $page = (isset($paginator->params['paging']['ContentCollection']['page'])) ? DS.'page:'.$paginator->params['paging']['ContentCollection']['page'] : DS.'page:1';
+        $id = (isset($paginator->params['id'])) ? DS.'id:' : false;
 
-$pname = (isset($paginator->params['pname'])) ? DS.$paginator->params['pname'] : null;
-$page = (isset($paginator->params['paging']['ContentCollection']['page'])) ? DS.'page:'.$paginator->params['paging']['ContentCollection']['page'] : DS.'page:1';
-$id = (isset($paginator->params['id'])) ? DS.'id:' : false;
-//debug($collection);
-//debug($filmStrip);
-//debug($introduction);
-//debug($exhibit);
-//debug($this->params);
+        $li = null;
+        $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
+        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
+        $count = 0;
+        $tMin = 1;
+        $tMax = count($collection);
 
-$li = null;
-$path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
-$number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
-$count = 0;
-$tMin = 1;
-$tMax = count($collection);
+        // Make the image list items
+        foreach($collection as $entry) {
+            $count++;
+
+            // On first count, calc the previous page link
+            if ($count == 1){
+                $previousPageImage = $neighbors[$entry['Content']['id']]['previous'];
+                $previousPage = $neighbors[$previousPageImage]['page'];
+            }
+            
+            //<img src="images/thumb/x54y54/IMG_9167.JPG" />
+            if (isset($entry['Content']['Image']['img_file'])) {
+                $image = HtmlHelper::image(
+                    $path . $entry['Content']['Image']['img_file'], array(
+                        'title' => $entry['Content']['Image']['title'],
+                        'alt' => $entry['Content']['Image']['alt'],
+                        'popacity' => 1-($count-$tMin+1)/($tMax-$tMin+2),
+                        'nopacity' => ($count-$tMin+1)/($tMax-$tMin+2)
+                    )
+                );
+            } else {
+                $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+                    'width'=>'54','height'=>'54'));
+            }
+
+            //<a class="thumb" href="static_nav4.php#1">1<br /><img ... /></a>
+            if ($this->params['action']=='gallery') {
+                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                         DS.'products'. $pname .DS.
+                        $paginator->params['action']. $page .DS.
+                        'id:'.$entry['Content']['id'],
+                        array('escape'=>false,'class'=>'thumb')
+                );
+            } elseif ($this->params['action']=='art') {
+        //        debug($this->params);
+                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                    array(
+        //                'controller'=>$this->params['controller'],
+                        'action'=>$this->params['action'],
+                        'pass'=>$this->params['pass'],
+                        'page'=>$paginator->params['paging']['ContentCollection']['page'],
+                        'id'=>$entry['Content']['id']),
+                        array('escape'=>false,'class'=>'thumb')
+                );
+            } elseif ($this->params['action']=='newsfeed') {
+                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                        'id#'.$entry['Content']['id'],
+                        array('escape'=>false,'class'=>'thumb')
+                );
+            }
+
+            // this sets the 'active' styling 
+            // and calcs the next/prev image links
+            if ($paginator->params['named']['id'] == $entry['Content']['id']) {
+                $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));
+                $nextImage = $neighbors[$entry['Content']['id']]['next'];
+                $previousImage = $neighbors[$entry['Content']['id']]['previous'];
+                $nextImagePage = $neighbors[$nextImage]['page'];
+                $previousImagePage = $neighbors[$previousImage]['page'];
+            } else {
+                $li .= HtmlHelper::tag('li', $link);
+            }
+        }
+
+        //Now that we're out of the loop, 
+        //calc the next page link from the last thumbnail
+        $nextPageImage = $neighbors[$entry['Content']['id']]['next'];
+        $nextPage = $neighbors[$nextPageImage]['page'];
 
 
-// Make the image list items
-foreach($collection as $entry) {
-    $count++;
-    //<img src="images/thumb/x54y54/IMG_9167.JPG" />
-    if (isset($entry['Content']['Image']['img_file'])) {
-        $image = HtmlHelper::image(
-            $path . $entry['Content']['Image']['img_file'], array(
-                'title' => $entry['Content']['Image']['title'],
-                'alt' => $entry['Content']['Image']['alt'],
-                'popacity' => 1-($count-$tMin+1)/($tMax-$tMin+2),
-                'nopacity' => ($count-$tMin+1)/($tMax-$tMin+2)
-            )
-        );
-    } else {
-        $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
-            'width'=>'54','height'=>'54'));
-    }
-    
-    //<a class="thumb" href="static_nav4.php#1">1<br /><img ... /></a>
-    if ($this->params['action']=='gallery') {
-        $link = HtmlHelper::link($number++ . '<br />' . $image,
-                 DS.'products'. $pname .DS.
-                $paginator->params['action']. $page .DS.
-                'id:'.$entry['Content']['id'],
-                array('escape'=>false,'class'=>'thumb')
-        );
-    } elseif ($this->params['action']=='art') {
-//        debug($this->params);
-        $link = HtmlHelper::link($number++ . '<br />' . $image,
-            array(
-//                'controller'=>$this->params['controller'],
-                'action'=>$this->params['action'],
-                'pass'=>$this->params['pass'],
-                'page'=>$paginator->params['paging']['ContentCollection']['page'],
-                'id'=>$entry['Content']['id']),
-                array('escape'=>false,'class'=>'thumb')
-        );
-    } elseif ($this->params['action']=='newsfeed') {
-        $link = HtmlHelper::link($number++ . '<br />' . $image,
-                'id#'.$entry['Content']['id'],
-                array('escape'=>false,'class'=>'thumb')
-        );
-    }
-
-    // this sets the 'active' styling
-    if ($paginator->params['named']['id'] == $entry['Content']['id']) {
-        $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));
-    } else {
-        $li .= HtmlHelper::tag('li', $link);
-    }
-}
-
-if($count < 9){
-    $opacity = $count;
-    while ($count < 9){
-        $image = HtmlHelper::image('transparent.png',array('alt'=>'',
-            'width'=>'54','height'=>'54',
-            'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
-            'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)
-        ));
-        $link = HtmlHelper::link(' <br />' . $image,
-            '#',
-            array('escape'=>false,'class'=>'thumb_link')
-        );
-        $li .= HtmlHelper::tag('li', $link);
-        $count++;
-    }
-}
-// Make the next PAGE link
-$nPageImg = HtmlHelper::image(
+        if($count < 9){
+            $opacity = $count;
+            while ($count < 9){
+                $image = HtmlHelper::image('transparent.png',array('alt'=>'',
+                    'width'=>'54','height'=>'54',
+                    'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
+                    'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)
+                ));
+                $link = HtmlHelper::link(' <br />' . $image,
+                    '#',
+                    array('escape'=>false,'class'=>'thumb_link')
+                );
+                $li .= HtmlHelper::tag('li', $link);
+                $count++;
+            }
+        }
+        
+        // Make the next PAGE link
+        $nPageImg = HtmlHelper::image(
             'nxt_arrow_drk.png', array(
                 'title' => 'Next page',
                 'alt' => 'Next page arrow'
             )
         );
         $nLink = HtmlHelper::link( $nPageImg,
-                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
-                    'page:'.$nextPage.DS.
-                    'id:'.$paginator->params['named']['id'],
-                    array('escape'=>false)
-                ) . '<br />';
+            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                'page:'.$nextPage.DS.
+                'id:'.$nextPageImage,
+                array('escape'=>false)
+            ) . '<br />';
 
-// Make the next IMAGE link
-$nImage = HtmlHelper::image(
+        // Make the next IMAGE link
+        $nImage = HtmlHelper::image(
             'nxt_arrow_drk.png', array(
                 'title' => 'Next image',
                 'alt' => 'Next image arrow',
                 'class' => 'npImageButton'
             )
         );
-    if ($this->params['action']=='gallery') {
-        $nLink .= HtmlHelper::link( $nImage,
+        if ($this->params['action']=='gallery') {
+            $nLink .= HtmlHelper::link( $nImage,
+                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                    'page:'.$nextImagePage.DS.
+                    'id:'.$nextImage,
+                    array('escape'=>false)
+                );
+        } elseif ($this->params['action']=='newsfeed') {
+            $nLink .= HtmlHelper::link( $nImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
                     'id:'.$neighbors[$paginator->params['named']['id']]['next'],
                     array('escape'=>false)
                 );
-    } elseif ($this->params['action']=='newsfeed') {
-$nLink .= HtmlHelper::link( $nImage,
+        }
+
+        // compile the next tags into an LI
+        $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
+
+        // Previous page link
+        $pPageImg = HtmlHelper::image(
+                    'prev_arrow_drk.png', array(
+                        'title' => 'Previous page',
+                        'alt' => 'Previous page arrow'
+                    )
+                );
+        $pLink = HtmlHelper::link( $pPageImg,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
-                    'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
-                    'id:'.$neighbors[$paginator->params['named']['id']]['next'],
+                    'page:'.$previousPage.DS.
+                    'id:'.$previousPageImage,
+                    array('escape'=>false)
+                ) . '<br />';
+
+        // Previous page link
+        $pImage = HtmlHelper::image(
+                    'prev_arrow_drk.png', array(
+                        'title' => 'Previous image',
+                        'alt' => 'previous image arrow',
+                        'class' => 'npImageButton'
+                    )
+                );
+        $pLink .= HtmlHelper::link( $pImage,
+                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                    'page:'.$previousImagePage.DS.
+                    'id:'.$previousImage,
                     array('escape'=>false)
                 );
-    }
 
-// compile the next tags into an LI
-$next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
+        // compile the previous tags into an LI
+        $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
 
-// Previous page link
-$pPageImg = HtmlHelper::image(
-            'prev_arrow_drk.png', array(
-                'title' => 'Previous page',
-                'alt' => 'Previous page arrow'
-            )
-        );
-$pLink = HtmlHelper::link( $pPageImg,
-        DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
-            'page:'.$previousPage.DS.
-            'id:'.$paginator->params['named']['id'],
-            array('escape'=>false)
-        ) . '<br />';
+        // merge the previous, image and next LIs
+        $li = $previous . $li . $next;
 
-// Previous page link
-$pImage = HtmlHelper::image(
-            'prev_arrow_drk.png', array(
-                'title' => 'Previous image',
-                'alt' => 'previous image arrow',
-                'class' => 'npImageButton'
-            )
-        );
-$pLink .= HtmlHelper::link( $pImage,
-        DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
-            'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['previous']]['page'].DS.
-            'id:'.$neighbors[$paginator->params['named']['id']]['previous'],
-            array('escape'=>false)
-        );
-
-// compile the previous tags into an LI
-$previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
-
-// merge the previous, image and next LIs
-$li = $previous . $li . $next;
-
-return HtmlHelper::tag(
-        'nav',
-        HtmlHelper::tag('ul', $li, array('class'=>'thumbList')),
-        array('id'=>'galNav'));
+        return HtmlHelper::tag(
+                'nav',
+                HtmlHelper::tag('ul', $li, array('class'=>'thumbList')),
+                array('id'=>'galNav'));
 
     }
-    
+
     /**
      * Prepare a table-row style input
      * 
