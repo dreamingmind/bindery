@@ -39,6 +39,7 @@
     }
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('visibilities');
+    echo $this->Html->script('jumpbox');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
@@ -46,6 +47,7 @@
     </script>
 </head>
 <!-- BODY --><body>
+    <?php // debug($this->params);die; ?>
 <div id="fixedNav">
     <div id="absNav">
         <?php echo $html->image('dmboldlogo_.png', array('alt'=>'Dreaming Mind Bindery logo')); ?>
@@ -57,17 +59,38 @@
                 </p>
             </div>
             <div id="jumpBox">
+                <?php echo $form->create('Content', array(
+                    'action'=>'jump')
+                    );?>
                 <?php if($this->action == 'newsfeed'){ ?>
-                    <label class="inputBox" for="j">Showing #<?php echo $pageData['start']; ?> of <?php echo $pageData['count']; ?> </label>
-                    <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
+                <label class="inputBox" for="j"><span id="jumpMessage" style="color:red; font-weight:bold"></span>Showing #<?php echo $pageData['start']; ?> of <span id="highJump"><?php echo $pageData['count']; ?></span> </label>
+                    <input type="text" name="data[j]" id="jumpInput" class="jump_input inputBox" 
                            onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
                            onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
                 <?php } else { ?>
-                    <label class="inputBox" for="j">Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <?php echo $this->Paginator->counter(array('format'=>'%count%')) ?> </label>
-                    <input type="text" name="j" id="jumpInput" class="jump_input inputBox" 
+                    <label class="inputBox" for="j"><span id="jumpMessage" style="color:red; font-weight:bold"></span>Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <span id="highJump"><?php echo $this->Paginator->counter(array('format'=>'%count%')) ?></span> </label>
+                    <input type="text" name="data[j]" id="jumpInput" class="jump_input inputBox" 
                            onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
                            onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
-                <?php } ?>
+                <?php }
+//		echo $form->input('controller',array(
+//                    'type'=>'hidden',
+//                    'name'=>'data[controller]',
+//                    'value'=>$this->params['controller']));
+		echo $form->input('action',array(
+                    'type'=>'hidden',
+                    'name'=>'data[action]',
+                    'value'=>$this->params['action']));
+		echo $form->input('pname',array(
+                    'type'=>'hidden',
+                    'name'=>'data[pname]',
+                    'value'=>$this->params['pname']));
+		echo $form->input('url',array(
+                    'type'=>'hidden',
+                    'name'=>'data[url]',
+                    'value'=> '/'.$this->params['url']['url'])); //need the slash for a proper path in the redirect
+                echo $form->end();?>
+
             </div>
         </div>
             <?php 

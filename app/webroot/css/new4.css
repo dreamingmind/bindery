@@ -481,6 +481,16 @@ li.thumbButton:hover > a img {
 	font-weight: normal;
 }
 
+#jumpBox form {
+    margin-right: 0px;
+    width: 100%;    
+}
+
+input label #jumpMessage {
+    color: red;
+    font-weight: bold;
+}
+
 /*==========================
   Image Layout
 ==========================*/

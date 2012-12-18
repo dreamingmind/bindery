@@ -90,7 +90,7 @@ class ContentsController extends AppController {
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed', 'art');
+        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump');
         //This was used when Content was a Splash-page system
 //        $this->set('navline', $this->Content->Navline->find('list',
 //            array('order'=>'route', 'fields'=> array(
@@ -404,9 +404,6 @@ class ContentsController extends AppController {
             'dispatch' => '',
         );
         $this->set($vars);
-        // ------- end logic testing block
-//            $columns = $this->Content->getColumnTypes();
-//    debug($columns);die;
 
         // Taylor pagination to Exhibits then call for the navStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
@@ -418,8 +415,6 @@ class ContentsController extends AppController {
         } else {
             $this->newsfeedPublic($pname);
         }
-        
-//        debug($pname);
         
         // I think this should be in feforeFilter()?
         if($this->Session->check('filmstrip.limit')){
@@ -435,39 +430,78 @@ class ContentsController extends AppController {
             $collectionJson["id{$entry['id']}"] = $entry;
         }
         $this->set('collectionJson', $collectionJson);
-//        debug($this->pageData);
-//        debug($this->collectionPage);
-//        die;
-        
-
-//        
-//        $this->pageOrder = array(
-//            'Content.publish' => 'desc',
-//            'ContentCollection.seq' => 'asc'
-//            );
-//        
-//        $this->pageGroup = array();
-//                    
-//        $this->pageFields = array (
-//            'seq','visible'                
-//        );       
-//        
         $neighbors = $this->filmstripNeighbors();
-//        debug($neighbors);
-//        $filmStrip = $this->pullFilmStrip($page);
-//        
-//        foreach($filmStrip as $index => $targetImage){
-//            $filmStrip[$index]['collections'] = $this->Content->linkedCollections($targetImage['Content']['image_id']);
-//        }
-//
-//         if (!$id) {
-//            $this->newsfeedIntroduction($neighbors);
-//        }
-//
         $this->set('neighbors', $neighbors);
-//        $this->set('filmStrip',$filmStrip);
-//        $this->newsfeedDispatches($filmStrip);
-//        debug($this->Content->imageCollections);die;
+    }
+    
+    /**
+     * This is the landing point for a jump box request.
+     * 
+     * Select the proper jump context, call for url construction and redirect
+     */
+    function jump() {
+        switch ($this->data['action']) {
+            case 'newsfeed':
+                $url = $this->jumpNewsfeed();
+                break;
+            case 'gallery':
+                $url = $this->jumpGallery();
+                break;
+            default:
+                break;
+        }
+        $this->redirect($url);
+    }
+    
+    /**
+     * Create the url for a jump request on a newsfeed page
+     * 
+     * #id references get dropped from the url and must be added, not replaced
+     * @return string The url to targe the requested newsfeed image
+     */
+    function jumpNewsfeed(){ 
+        //this is the newsfeed specific find with all the neighbor data
+        $this->Content->pullCollection($this->data['pname'], $this->pageLimit);
+        $patterns = '/page:[0-9]+\//';
+        $replacements = 
+            'page:'.
+            $this->Content->collectionPages[$this->data['j']-1]['neighbors']['page'].'/'
+            .'#id'.
+            $this->Content->collectionPages[$this->data['j']-1]['id'];
+        if (preg_match($patterns,  $this->data['url'])){
+            return preg_replace($patterns, $replacements, $this->data['url']);
+        } else {
+            return $this->data['url']. 
+            '/page:'.
+            $this->Content->collectionPages[$this->data['j']-1]['neighbors']['page'].'/'
+            .'#id'.
+            $this->Content->collectionPages[$this->data['j']-1]['id'];
+        }
+    }
+    
+    function jumpGallery(){
+        $this->pageOrder = array(
+                'ContentCollection.seq' => 'asc'
+            );
+        $this->pageConditions = array(
+                'Collection.heading like' => "%{$this->data['pname']}%",
+                'Collection.category' => 'exhibit'
+            );
+        $neighbors = $this->filmstripNeighbors();
+        $target = array_slice($neighbors, $this->data['j']-1, 1, TRUE);
+        $key=array_keys($target);
+
+        $patterns = array();
+        $patterns[0] = '/page:[0-9]+\//';
+        $patterns[1] = '/id:[0-9]+/';
+        $replacements = array();
+        $replacements[0] = 'page:'.$target[$key[0]]['page'].'/';
+        $replacements[1] = 'id:'.$key[0];
+        if (preg_match($patterns[0],  $this->data['url'])){
+            return preg_replace($patterns, $replacements, $this->data['url']);
+        } else {
+            return $this->data['url'].'/page:'.$target[$key[0]]['page'].'/'.'id:'.$key[0];
+        }
     }
     
     /**
