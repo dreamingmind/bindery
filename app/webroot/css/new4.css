@@ -182,7 +182,7 @@ h2 + div a.dispatchAnchor {
     margin-left: -.6em;
 /*    font-weight: bold;*/
 }
-.dispatch img {
+.dispatch img, .dispatch iframe {
 	/*margin: 0px 0px 0px 77px;*/
 	border:#999 thin solid;
 	padding: 4px;

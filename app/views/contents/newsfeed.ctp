@@ -35,11 +35,13 @@ foreach ($collectionPage as $dispatch) {
     // image
     if(isset($dispatch['img_file'])){
         $i = $this->Html->image($path.$dispatch['img_file'], array(
+            'id'=>'im'.$dispatch['image_id'],
             'alt'=>$dispatch['alt'],
             'title'=>$dispatch['title']
         ));
     } else {
-        $i = $this->Html->image('transparent.png',array('alt'=>'Missing Image', 'class'=>'missing'));
+        $i = $this->Html->image('transparent.png',array('id'=>'im'.$dispatch['image_id'],
+'alt'=>'Missing Image', 'class'=>'missing'));
     }
     
     // anchor to here

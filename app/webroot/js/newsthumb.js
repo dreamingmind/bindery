@@ -74,8 +74,32 @@ $(document).ready(function(){
         }
     };
     
+    //Move embedded movies out of content and into image position
+    //they'll be the iframes in the <p> in the <div class=content>
+    //and will have id = if**image_id**
+    //the destination image location will have id = im**image_id**
+    function swapInMovies(){
+        
+        //grab all the iframes
+        var movies = $('.content p iframe');
+        
+        movies.each(function(index){
+            //for each one get its id and revise it to an image id selector for jquery
+            imid = $(this).attr('id').replace(/if/,'#im')
+            //get proper size attributes
+            $(this).attr('width',$(imid).attr('width'));
+            $(this).attr('height',$(imid).attr('height'));
+            //move the movie to before the image
+            $(this).insertBefore($(imid));
+            //and dump the image
+            $(imid).remove();
+        });
+        
+    }
+    
     //Entering the page. Highlight something
 //    cp(); //try to insure the content collection json data is ready when the scripts run
+    swapInMovies();
     setThumbFromURI(document.documentURI);    
     setPrevNextImageLinks(document.documentURI);
     
