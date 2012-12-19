@@ -41,7 +41,8 @@
     $staticPages = array(
         'contact',
         'intern',
-        'policies'
+        'policies',
+        'gitpull'
     );
 
 $staticList = implode('|', $staticPages);
