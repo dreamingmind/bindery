@@ -9,7 +9,7 @@ class WorkshopsController extends AppController {
         }
         
         function upcoming(){
-        debug($this->Workshop);die;
+//        debug($this->Workshop);die;
             $this->set('upcoming', 'The upcoming list goes here');
             $this->set('sessions',  $this->Workshop->upcoming_sessions);
             $this->set('workshops', $this->Workshop->workshops);
