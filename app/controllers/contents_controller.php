@@ -90,7 +90,7 @@ class ContentsController extends AppController {
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump');
+        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','gitpull');
         //This was used when Content was a Splash-page system
 //        $this->set('navline', $this->Content->Navline->find('list',
 //            array('order'=>'route', 'fields'=> array(
@@ -102,6 +102,11 @@ class ContentsController extends AppController {
         parent::afterFilter();
 //        debug($this->viewVars);
 //        die;
+    }
+    
+    function gitpull() {
+        `git pull`;
+        die;
     }
 
     function index() {
