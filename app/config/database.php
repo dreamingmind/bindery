@@ -78,26 +78,26 @@
  */
 class DATABASE_CONFIG {
 
-	var $default = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'port' => '/private/tmp/mysql.sock',
-		'login' => 'root',
-		'password' => 'Up?4worDs',
-		'database' => 'bindery3',
-		'prefix' => '',
-	);
 //	var $default = array(
 //		'driver' => 'mysql',
 //		'persistent' => false,
-//		'host' => 'bindery.e.dreamingmind.com',
-////		'port' => '/private/tmp/mysql.sock',
-//		'login' => 'dreamingmind',
-//		'password' => 'amphistory',
-//		'database' => 'bindery',
+//		'host' => 'localhost',
+//		'port' => '/private/tmp/mysql.sock',
+//		'login' => 'root',
+//		'password' => 'Up?4worDs',
+//		'database' => 'bindery3',
 //		'prefix' => '',
 //	);
+	var $default = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => 'bindery.e.dreamingmind.com',
+//		'port' => '/private/tmp/mysql.sock',
+		'login' => 'dreamingmind',
+		'password' => 'amphistory',
+		'database' => 'bindery',
+		'prefix' => '',
+	);
 //
 //	var $test = array(
 //		'driver' => 'mysql',
