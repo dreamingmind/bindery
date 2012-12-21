@@ -6,6 +6,8 @@ class Collection extends AppModel {
 		'ContentCollection'
             );
         
+        var $belongsTo = 'Category';
+        
         var $displayField = 'heading';
         
         /**

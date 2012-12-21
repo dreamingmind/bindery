@@ -31,19 +31,12 @@ class Content extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-            'Navline' => array(
-                    'className' => 'Navline',
-                    'foreignKey' => 'navline_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => ''
-            ),
             'Image' => array(
                 'className' => 'Image',
                 'foreignKey' => 'image_id'
-            )	);
+            ));
         
-        var $hasOne = 'Category';
+
         
 //        var $hasOne = array('ExhibitSupliment');
         var $hasMany = array(
