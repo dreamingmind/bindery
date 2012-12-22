@@ -104,11 +104,6 @@ class ContentsController extends AppController {
 //        die;
     }
     
-    function gitpull() {
-        `git pull`;
-        die;
-    }
-
     function index() {
             $this->layout = 'noThumbnailPage';
             $this->Content->recursive = 0;
@@ -174,33 +169,6 @@ class ContentsController extends AppController {
             }
             $this->Session->setFlash(__('Content was not deleted', true));
             $this->redirect(array('action' => 'index'));
-    }
-
-    /**
-     *
-     * @param string $text An encoded html fragment needing expansion
-     * @return string An expanded html fragment
-     */
-    function decode($text) {
-        $search = array(
-            '/(======)(.+)(======)/',
-            '/(=====)(.+)(=====)/',
-            '/(====)(.+)(====)/',
-            '/(===)(.+)(===)/',
-            '/(==)(.+)(==)/',
-            '/(=)(.+)(=)/',
-            '/(-p)(.+)(\n)/',
-            '/(-p)(.+)(\z)/');
-        $replace = array(
-            '<h6>$2</h6>',
-            '<h5>$2</h5>',
-            '<h4>$2</h4>',
-            '<h3>$2</h3>',
-            '<h2>$2</h2>',
-            '<h1>$2</h1>',
-            "<p>$2</p>\n",
-            "<p>$2</p>\n");
-        return "<div class='splash>\n".preg_replace($search, $replace, $text)."</div>\n";
     }
 
     function search() {
@@ -277,35 +245,24 @@ class ContentsController extends AppController {
                 )
             )
             );
+        $category = $this->Content->ContentCollection->Collection->Category->find(
+                'all',array(
+                    'fields'=>array('id','name'),
+                    'conditions'=>array('name'=>'exhibit'),
+                    'contain'=>array(
+                        'Collection'=>array(
+                            'fields'=>array('Collection.id','Collection.heading','Collection.category_id'),
+                            'conditions'=>array('Collection.heading LIKE'=>"%$pname%")
+                        ))));
+        debug($pname);debug($category);die;
+        
         $this->pageConditions = array(
                 'Collection.heading like' => "%$pname%",
-                'Collection.category' => 'exhibit'
+                'Collection.category_id' => $category['Category']['id']
             );
 
         $neighbors = $this->filmstripNeighbors();
-//        $collection = $this->Content->ContentCollection->find('all',
-//                array(
-//                    'fields'=>array('Content.id'),
-//                    'conditions'=>  $this->pageConditions,
-//                    'order'=>  $this->pageOrder));
-//        
-//        $max = count($collection)-1;
-//        
-//        foreach ($collection as $index => $locus) {
-//            $neighbors[$locus['Content']['id']]['count'] = $index;
-//
-//            if ($index == 0) {
-//                $neighbors[$locus['Content']['id']]['previous'] = $collection[$max]['Content']['id'];
-//            } else {
-//                $neighbors[$locus['Content']['id']]['previous'] = $collection[$index-1]['Content']['id'];
-//            }
-//            if ($index == $max) {
-//                $neighbors[$locus['Content']['id']]['next'] = $collection[0]['Content']['id'];
-//            } else {
-//                $neighbors[$locus['Content']['id']]['next'] = $collection[$index+1]['Content']['id'];
-//            }
-//            $neighbors[$locus['Content']['id']]['page'] = intval(($index/9)+1);
-//        }
+
         $this->set('neighbors', $neighbors);
         $this->set('filmStrip',$this->pullFilmStrip($page));
         
@@ -336,22 +293,35 @@ class ContentsController extends AppController {
         
         if ($id) {
         $record = $this->Content->find('first',array(
-            'conditions'=>array('Content.id'=>$id))); //,
-//            'contains'=> array(
-//                'Gallery.Label',
-//                'Exhibit.image_file',
-//                'Exhibit.heading',
-//                'Exhibit.prose_t',
-//                'Exhibit.id',
-//                'Exhibit.top_val,',
-//                'Exhibit.left_val',
-//                'Exhibit.height_val',
-//                'Exhibit.width_val',
-//                'Exhibit.headstyle',
-//                'Exhibit.pgraphstyle',
-//                'Exhibit.alt',
-//                'ExhibitGallery.id')));
-        $this->set('record',$record);                
+            'conditions'=>array('Content.id'=>$id),
+            'fields'=>array('image_id','alt','content','publish','heading'),
+            'contain'=>array(
+                'Image'=>array(
+                    'fields'=>array('Image.id','Image.img_file','Image.mimetype','Image.filesize','Image.width','Image.height','Image.title','Image.alt','Image.date','Image.upload'),
+                    'Supplement'=>array(
+                        'fields'=>array('Supplement.image_id',
+                            'Supplement.collection_id',
+                            'Supplement.type',
+                            'Supplement.data')
+                    )
+                ),
+                'ContentCollection'=>array(
+                    'fields'=>array('ContentCollection.collection_id',
+                        'ContentCollection.sub_collection',
+                        'ContentCollection.publish',
+                        'ContentCollection.seq'),
+                    'Collection'=>array(
+                        'fields'=>array('Collection.id','Collection.category_id'),
+                        'Category'=>array(
+                            'fields'=>array('Category.id','Category.name','Category.supplement_list')
+                        )
+                    )
+                )
+            ))); 
+        
+        $this->compressSupplements($record);
+        $this->set('record',$record);
+        debug($record);die;
         }
     }
     /**
@@ -698,6 +668,63 @@ class ContentsController extends AppController {
             // neighbors for id'd record
         }
         return $neighbors;
+    }
+    
+    /**
+     * Compress the supplements array into key=>value pairs
+     * 
+     * Supplements returns a type field and data field in each record.
+     * These need to be accumulated into a single array for each image/collection
+     * [Supplement] => Array
+     *      [0] => Array
+     *              [image_id] => 670
+     *              [collection_id] => 89
+     *              [type] => headstyle
+     *              [data] => drksubhead
+     *      [1] => Array
+     *              [image_id] => 670
+     *              [collection_id] => 89
+     *              [type] => pgraphstyle
+     *              [data] => drkparagraph
+     *      [2] => Array
+     *              [image_id] => 670
+     *              [collection_id] => 44
+     *              [type] => size
+     *              [data] => 35
+     * Should translate into
+     * [Supplement] => Array
+     *      [670] => Array
+     *              [89] => Array
+     *                     [headstyle] => drksubhead
+     *                     [pgraphstyle] => drkparagraph
+     *              [44] => Array
+     *                     [size] => 35
+     * 
+     * @todo what about this multiple cont_coll record situation?
+     */
+    function compressSupplements(&$record){
+        
+        $supplement = array();
+        $collection = $record['ContentCollection'][0]['collection_id'];
+        
+        if ($record['ContentCollection'][0]['Collection']['Category']['supplement_list'] != 'empty'){
+            //there is a list of required supplement data, so build the array
+            $list = $record['ContentCollection'][0]['Collection']['Category']['supplement_list'];
+            $supplement[$record['ContentCollection'][0]['collection_id']] = array_flip(explode("," , $record['ContentCollection'][0]['Collection']['Category']['supplement_list']));
+            // default values could be read from a property here i guess. Or inserted on new/edit screens
+        }
+        
+        if (isset($record['Image']['Supplement'])){
+            foreach($record['Image']['Supplement'] as $entry){
+                // the image may belong to many collections with different supplements
+                // so we'll filter only those for this collection
+                if ($entry['collection_id']==$collection){
+                    $supplement[$entry['type']] = $entry['data'];
+                }
+            }
+        }
+        
+        $record['Image']['Supplement'] = $supplement;
     }
 
 }

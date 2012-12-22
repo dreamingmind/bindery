@@ -29,7 +29,6 @@ class CollectionsController extends AppController {
 	}
 
 	function edit($id = null) {
-            debug($id);
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid collection', true));
 			$this->redirect(array('action' => 'index'));

@@ -2,13 +2,16 @@
 class Collection extends AppModel {
 	var $name = 'Collection';
 
-	var $hasMany = array(
-		'ContentCollection'
-            );
+	var $hasMany = 'ContentCollection';
         
         var $belongsTo = 'Category';
         
         var $displayField = 'heading';
+        
+        var $actsAs = array('Sluggable'=>array(
+            'label'=>'heading',
+            'overwrite'=>true
+        ));
         
         /**
          * Return a Cake list array of all collection headings (indexed by id) grouped by category

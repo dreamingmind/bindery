@@ -6,6 +6,7 @@
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('heading');?></th>
+			<th><?php echo $this->Paginator->sort('slug');?></th>
 			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('text');?></th>
 			<th><?php echo $this->Paginator->sort('role');?></th>
@@ -25,6 +26,7 @@
 		<td><?php echo $collection['Collection']['created']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['modified']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['heading']; ?>&nbsp;</td>
+		<td><?php echo $collection['Collection']['slug']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['publish']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['text']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['role']; ?>&nbsp;</td>

@@ -25,16 +25,16 @@ echo $this->Html->image(
     #proseblock {
         position: absolute;
         z-index: 3;
-        top: <?php echo $record['ExhibitSupliment']['top_val'] ?>px;
-        left: <?php echo $record['ExhibitSupliment']['left_val'] ?>px;
-        width: <?php echo $record['ExhibitSupliment']['width_val'] ?>px;
-        height: <?php echo $record['ExhibitSupliment']['height_val'] ?>px;
+        top: <?php echo $record['Image']['Supplement']['top_val'] ?>px;
+        left: <?php echo $record['Image']['Supplement']['left_val'] ?>px;
+        width: <?php echo $record['Image']['Supplement']['width_val'] ?>px;
+        height: <?php echo $record['Image']['Supplement']['height_val'] ?>px;
     }
     -->
 </style>
 <div id="proseblock">
-<span class="drksubhead"><?php echo $record['Content']['heading'] ?></span>
+<span class="<?php echo $record['Image']['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></span>
 <br>
 <br>
-<span class="drkparagraph"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></span>
+<span class="<?php echo $record['Image']['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></span>
 </div>
