@@ -225,10 +225,10 @@ class SluggableBehavior extends ModelBehavior {
 	 * 				string from where to generate the slug, or a set of field names to
 	 * 				concatenate for generating the slug. DEFAULTS TO: title
 	 *
-	 * - real:		(boolean, optional) if set to true then field names defined in
+	 * - real:	(boolean, optional) if set to true then field names defined in
 	 * 				label must exist in the database table. DEFAULTS TO: true
 	 *
-	 * - slug:		(string, optional) name of the field name that holds generated slugs.
+	 * - slug:	(string, optional) name of the field name that holds generated slugs.
 	 * 				DEFAULTS TO: slug
 	 *
 	 * - separator:	(string, optional) separator character / string to use for replacing
@@ -241,7 +241,15 @@ class SluggableBehavior extends ModelBehavior {
 	 * 				updating an existing record. DEFAULTS TO: false
 	 *
 	 * - ignore:    (array, optional) array of words that should not be part of a slug.
+         * 
+         * - dups:      (boolean | string, optional) set to the fieldname that, if different, allows
+         *                              un-numbered duplicate slugs to be stored
+         *                              default false does not allow duplicates
 	 *
+         * I hacked this to allow duplicate slugs if a secondary (dups) is different field
+         * This allows me to have the same slug for differenly categorized entries
+         * chages (268, 301-307, 327-334)
+         * 
 	 * @param object $model Model using the behaviour
 	 * @param array $settings Settings to override for model.
 	 */
@@ -256,7 +264,8 @@ class SluggableBehavior extends ModelBehavior {
 			'translation' => null,
 			'ignore' => array(
 				'and', 'for', 'is', 'of', 'the'
-			)
+			),
+                        'dups' => false
 		);
 
 		if (!isset($this->settings[$model->alias])) {
@@ -289,6 +298,13 @@ class SluggableBehavior extends ModelBehavior {
 		$settings = $this->settings[$model->alias];
 		$fields = (array) $settings['label'];
 
+                if ($settings['dups'] && !isset($model->data[$settings['dups']]) && !empty($model->id)){
+                    $record = $model->data;
+                    $model->read($settings['dups']);
+                    $record[$model->alias][$settings['dups']] = $model->data[$model->alias][$settings['dups']];
+                    $model->data = $record;
+                }
+            
 		if ($settings['real']) {
 			foreach($fields as $field) {
 				if (!$model->hasField($field)) {
@@ -308,7 +324,14 @@ class SluggableBehavior extends ModelBehavior {
 
 			if (!empty($label)) {
 				$slug = $this->_slug($label, $settings);
-				$conditions = array($model->alias . '.' . $settings['slug'] . ' LIKE' => $slug . '%');
+                                if($settings['dups'] && isset($model->data[$model->alias][$settings['dups']])){
+                                    $conditions = array(
+                                        $model->alias . '.' . $settings['slug'] . ' LIKE' => $slug . '%',
+                                        $model->alias . '.' . $settings['dups'] => $model->data[$model->alias][$settings['dups']]
+                                    );
+                                } else {
+                                    $conditions = array($model->alias . '.' . $settings['slug'] . ' LIKE' => $slug . '%');
+                                }
 				if (!empty($model->id)) {
 					$conditions['not'] = array($model->alias . '.' . $model->primaryKey => $model->id);
 				}
@@ -318,7 +341,7 @@ class SluggableBehavior extends ModelBehavior {
 					'fields' => array($model->primaryKey, $settings['slug']),
 					'recursive' => -1
 				));
-
+                                
 				$sameUrls = null;
 				if (!empty($result)) {
 					$sameUrls = Set::extract($result, '/' . $model->alias . '/' . $settings['slug']);

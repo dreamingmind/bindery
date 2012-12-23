@@ -2,6 +2,7 @@
 class Workshop extends AppModel {
 	var $name = 'Workshop';
         var $useTable = 'collections';
+        var $belongsTo = 'Category';
 //	var $validate = array(
 //		'title' => array(
 //			'notempty' => array(
@@ -89,7 +90,7 @@ class Workshop extends AppModel {
         function getWorkshops() {
             $temp_workshops = $this->find('all',array(
                 'conditions' => array(
-                    'category' => 'workshops'),
+                    'category_id' => $this->Category->categoryNI['workshop']),
                 'recursive'=>0
                 ));
             $this->workshops = array();

@@ -85,23 +85,36 @@ class ContentsController extends AppController {
      * @var array $collectionPage the data for this page (chunked from the full set returned from the model)
      */
     var $collectionPage = array();
+    
+    /** 
+     * @var array $category data from the category found for the collection
+     */
+    var $category = array();
+    
    /**
      * beforeFilter
      */
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','gitpull');
-        //This was used when Content was a Splash-page system
-//        $this->set('navline', $this->Content->Navline->find('list',
-//            array('order'=>'route', 'fields'=> array(
-//                'Navline.id','Navline.route'
-//            ))));
         }
         
     function afterFilter() {
         parent::afterFilter();
 //        debug($this->viewVars);
 //        die;
+    }
+    
+    function pullCategory($pname, $category){
+        $this->category = $this->Content->ContentCollection->Collection->Category->find(
+        'all',array(
+            'fields'=>array('id','name','supplement_list'),
+            'conditions'=>array('name'=>$category),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.heading','Collection.slug','Collection.category_id'),
+                    'conditions'=>array('Collection.slug'=>$pname)
+                ))));
     }
     
     function index() {
@@ -241,24 +254,15 @@ class ContentsController extends AppController {
             ),
             'Collection' => array(
                 'fields' => array(
-                    'Collection.heading'                    
+                    'Collection.heading' ,
+                    'Collection.slug'
                 )
-            )
-            );
-        $category = $this->Content->ContentCollection->Collection->Category->find(
-                'all',array(
-                    'fields'=>array('id','name'),
-                    'conditions'=>array('name'=>'exhibit'),
-                    'contain'=>array(
-                        'Collection'=>array(
-                            'fields'=>array('Collection.id','Collection.heading','Collection.category_id'),
-                            'conditions'=>array('Collection.heading LIKE'=>"%$pname%")
-                        ))));
-        debug($pname);debug($category);die;
+            ));
         
+//        $this->pullCategory($pname, 'exhibit');        
         $this->pageConditions = array(
-                'Collection.heading like' => "%$pname%",
-                'Collection.category_id' => $category['Category']['id']
+                'Collection.slug' => $pname,
+                'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
             );
 
         $neighbors = $this->filmstripNeighbors();
@@ -311,7 +315,7 @@ class ContentsController extends AppController {
                         'ContentCollection.publish',
                         'ContentCollection.seq'),
                     'Collection'=>array(
-                        'fields'=>array('Collection.id','Collection.category_id'),
+                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading'),
                         'Category'=>array(
                             'fields'=>array('Category.id','Category.name','Category.supplement_list')
                         )
@@ -321,7 +325,7 @@ class ContentsController extends AppController {
         
         $this->compressSupplements($record);
         $this->set('record',$record);
-        debug($record);die;
+//        debug($record);die;
         }
     }
     /**
@@ -384,7 +388,8 @@ class ContentsController extends AppController {
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
-
+        
+//        $this->pullCategory($pname, 'dispatch');
         if(isset($this->usergroupid) && $this->usergroupid < 3) {
             $this->newsfeedAdmin($pname);
         } else {
@@ -436,6 +441,7 @@ class ContentsController extends AppController {
      */
     function jumpNewsfeed(){ 
         //this is the newsfeed specific find with all the neighbor data
+//        $this->pullCategory($this->data['pname'], 'dispatch');
         $this->Content->pullCollection($this->data['pname'], $this->pageLimit);
         $patterns = '/page:[0-9]+\//';
         $replacements = 
@@ -455,12 +461,13 @@ class ContentsController extends AppController {
     }
     
     function jumpGallery(){
+//        $this->pullCategory($this->data['pname'], 'exhibit');
         $this->pageOrder = array(
                 'ContentCollection.seq' => 'asc'
             );
         $this->pageConditions = array(
-                'Collection.heading like' => "%{$this->data['pname']}%",
-                'Collection.category' => 'exhibit'
+                'Collection.slug' => $this->data['pname'],
+                'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
             );
         $neighbors = $this->filmstripNeighbors();
         $target = array_slice($neighbors, $this->data['j']-1, 1, TRUE);
@@ -524,8 +531,8 @@ class ContentsController extends AppController {
     function newsfeedAdmin($collectionName) {
         // any user above 'user' authoriziation gets unpulished records to
         $this->pageConditions = array(
-            'Collection.heading like' => "%$collectionName%",
-            'Collection.category' => 'dispatch'
+            'Collection.slug' => $collectionName,
+            'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id']
         );
         // admins need all the data for editing forms
         $this->pageContains = array(
@@ -545,8 +552,8 @@ class ContentsController extends AppController {
     function newsfeedPublic($collectionName) {
         // regular users only get published data
         $this->pageConditions = array(
-            'Collection.heading like' => "%$collectionName%",
-            'Collection.category' => 'dispatch',
+            'Collection.slug' => $collectionName,
+            'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'],//$this->category[0]['Category']['id'],
             'Content.publish' => 1
         );
  // the public only needs enough data to build the page
@@ -581,6 +588,7 @@ class ContentsController extends AppController {
             'Collection' => array(
                 'fields' => array(
                     'Collection.heading',
+                    'Collection.slug',
                     'Collection.text'
                 )
             )

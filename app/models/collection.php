@@ -10,7 +10,8 @@ class Collection extends AppModel {
         
         var $actsAs = array('Sluggable'=>array(
             'label'=>'heading',
-            'overwrite'=>true
+            'overwrite'=>true,
+            'dups' => 'category_id'
         ));
         
         /**
@@ -19,29 +20,16 @@ class Collection extends AppModel {
          * @return array A cake list array of collections grouped by category
          */
         function allCollections(){
-            $this->allCollections = $this->find('list',array(
-                'fields'=> array('Collection.id','Collection.heading', 'Collection.category'),
+            $collections = $this->find('list',array(
+                'fields'=> array('Collection.id','Collection.heading', 'Collection.category_id'),
                 'order' => 'Collection.role ASC'
             ));
+            foreach($collections as $id => $list){
+                $this->allCollections[$this->Category->categoryIN[$id]] = $list;
+            }
+            
             return $this->allCollections;
         }
-        
-        /**
-         * Return an array containing all the unique categories for Collection records
-         *
-         * @return array An array of unique categories for Collection records in the form: array('categoryName'=>'categoryName')
-         */
-        function getCategories(){
-            $categoryRecords = $this->find('all',array(
-                'fields'=>'DISTINCT category',
-                'contain'=>false
-            ));
-            foreach($categoryRecords as $index=>$record){
-                $categories[$record['Collection']['category']] = $record['Collection']['category'];
-            }
-            return $categories;
-        }
-
-        
+                
 }
 ?>

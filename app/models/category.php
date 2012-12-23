@@ -18,6 +18,23 @@ class Category extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+        
+        /**
+         * @var array $categoryNI list of categories name => id
+         */
+        var $categoryNI;
+        
+        /**
+         * @var array $categoryIN list of categories id => name
+         */
+        var $categoryIN;
+        
+        public function __construct($id = false, $table = null, $ds = null) {
+            parent::__construct($id, $table, $ds);
+            
+            $this->categoryIN = $this->find('list');
+            $this->categoryNI = $this->find('list',array('fields'=>array('name','id')));
+        }
 
 }
 ?>

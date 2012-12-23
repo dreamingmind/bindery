@@ -35,7 +35,7 @@ $record = array();
         $record = array('record'=>$searchRecords[$count]);
     }
     
-    $record['record']['options']['recent_titles'] = $recentTitles;
+    $record['record']['recent_titles'] = $recentTitles;
 
     ?>
      

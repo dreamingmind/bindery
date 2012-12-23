@@ -25,7 +25,7 @@ $parameters = array(
         ),
         'title',
         'recent_titles'=>array(
-            'options'=>(isset($record)&&isset($record['Image']['recent_titles']['options']))?$record['Image']['recent_titles']['options']:''
+            'options'=>(isset($record)&&isset($record['recent_titles']))?$record['recent_titles']:''
         ),
         'category'=>array(
             'type'=>'radio',

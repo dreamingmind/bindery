@@ -28,7 +28,7 @@ class ContentCollection extends AppModel {
             
             $recentCollections = $this->find('all',array(
                 'fields'=>array(
-                    'Collection.id', 'Collection.heading', 'Collection.category'
+                    'Collection.id', 'Collection.heading', 'Collection.category_id'
                 ),
                 'order'=>'ContentCollection.created DESC',
                 'limit'=>$limit
@@ -37,8 +37,9 @@ class ContentCollection extends AppModel {
             $this->recentCollections = array(' ');
                     
             foreach($recentCollections as $entry){
+                $collection_name = $this->Collection->Category->categoryIN[$entry['Collection']['category_id']];
                 $this->recentCollections[$entry['Collection']['id']] = 
-                    "{$entry['Collection']['heading']} ({$entry['Collection']['category']})";
+                    "{$entry['Collection']['heading']} ($collection_name)";
             }
             return $this->recentCollections;
         }
