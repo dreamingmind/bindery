@@ -11,6 +11,7 @@ echo $this->Form->create('Collection');?>
 		echo $this->Form->input('text');
 		echo $this->Form->input('role');
 		echo $this->Form->input('category');
+		echo $this->Form->input('category_id');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

@@ -149,11 +149,14 @@ class Content extends AppModel {
      */
     function pullCollection($pname, $limit) {
 //        Return "bounce";
+        $category = $this->ContentCollection->Collection->Category->find('first',array(
+            'conditons'=>array('name'=>'dispatch'),'fields'=>'id','contain'=>false));
+//        debug($category);die;
         $test = $this->ContentCollection->Collection->find('first', array(
             'fields'=> array('heading', 'text'),
             'conditions'=> array(
-                'Collection.heading LIKE' => "%$pname%",
-                'Collection.category' => 'dispatch'
+                'Collection.slug' => $pname,
+                'Collection.category_id' => $category['Category']['id']
             ),
             'contain' => array(
                 'ContentCollection'=> array(

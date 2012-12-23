@@ -120,7 +120,7 @@ class ImagesController extends AppController {
             'ContentCollection'=>array(
                 'fields'=> array('id','collection_id'),
                 'Collection'=>array(
-                    'fields'=>array('heading')
+                    'fields'=>array('Collection.heading','Collection.slug')
                 )
             )
         ));
@@ -939,7 +939,7 @@ class ImagesController extends AppController {
                 // New or existing content was selected for membership. Get its ID
                 if($this->data['Content']['linked_content']==1){
                     $content['Content']['image_id'] = $this->data['Image']['id'];
-                    $content['Content']['heading'] = "New content for record {$this->data['Image']['id']}:: {$this->data['Image']['title']}";
+                    $content['Content']['heading'] = $this->data['Image']['title'];
                     $content['Content']['content'] = $this->data['Image']['alt'];
                     $content['Content']['created'] = date('Y-m-d h:i:s',time());
                     $content['Content']['modified'] = date('Y-m-d h:i:s',time());

@@ -10,7 +10,8 @@ class Collection extends AppModel {
         
         var $actsAs = array('Sluggable'=>array(
             'label'=>'heading',
-            'overwrite'=>true
+            'overwrite'=>true,
+            'dups' => 'category_id'
         ));
         
         /**
