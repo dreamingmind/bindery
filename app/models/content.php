@@ -148,24 +148,11 @@ class Content extends AppModel {
      * @param type $limit 
      */
     function pullCollection($pname, $limit) {
-//        Return "bounce";
-<<<<<<< HEAD
-//        $category = $this->ContentCollection->Collection->Category->find('first',array(
-//            'conditons'=>array('name'=>'dispatch'),'fields'=>'id','contain'=>false));
-=======
-        $category = $this->ContentCollection->Collection->Category->find('first',array(
-            'conditons'=>array('name'=>'dispatch'),'fields'=>'id','contain'=>false));
->>>>>>> remote_bindery/WorkshopModule.FatModel
-//        debug($category);die;
         $test = $this->ContentCollection->Collection->find('first', array(
             'fields'=> array('heading', 'text'),
             'conditions'=> array(
                 'Collection.slug' => $pname,
-<<<<<<< HEAD
                 'Collection.category_id' => $this->ContentCollection->Collection->Category->categoryNI['dispatch']//$category['Category']['id']
-=======
-                'Collection.category_id' => $category['Category']['id']
->>>>>>> remote_bindery/WorkshopModule.FatModel
             ),
             'contain' => array(
                 'ContentCollection'=> array(
