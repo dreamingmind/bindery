@@ -259,10 +259,17 @@ class ContentsController extends AppController {
                 )
             ));
         
+<<<<<<< HEAD
 //        $this->pullCategory($pname, 'exhibit');        
         $this->pageConditions = array(
                 'Collection.slug' => $pname,
                 'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
+=======
+        $this->pullCategory($pname, 'exhibit');        
+        $this->pageConditions = array(
+                'Collection.slug' => $pname,
+                'Collection.category_id' => $this->category[0]['Category']['id']
+>>>>>>> remote_bindery/WorkshopModule.FatModel
             );
 
         $neighbors = $this->filmstripNeighbors();
@@ -389,7 +396,11 @@ class ContentsController extends AppController {
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
         
+<<<<<<< HEAD
 //        $this->pullCategory($pname, 'dispatch');
+=======
+        $this->pullCategory($pname, 'dispatch');
+>>>>>>> remote_bindery/WorkshopModule.FatModel
         if(isset($this->usergroupid) && $this->usergroupid < 3) {
             $this->newsfeedAdmin($pname);
         } else {
@@ -441,7 +452,11 @@ class ContentsController extends AppController {
      */
     function jumpNewsfeed(){ 
         //this is the newsfeed specific find with all the neighbor data
+<<<<<<< HEAD
 //        $this->pullCategory($this->data['pname'], 'dispatch');
+=======
+        $this->pullCategory($this->data['pname'], 'dispatch');
+>>>>>>> remote_bindery/WorkshopModule.FatModel
         $this->Content->pullCollection($this->data['pname'], $this->pageLimit);
         $patterns = '/page:[0-9]+\//';
         $replacements = 
@@ -461,13 +476,21 @@ class ContentsController extends AppController {
     }
     
     function jumpGallery(){
+<<<<<<< HEAD
 //        $this->pullCategory($this->data['pname'], 'exhibit');
+=======
+        $this->pullCategory($this->data['pname'], 'exhibit');
+>>>>>>> remote_bindery/WorkshopModule.FatModel
         $this->pageOrder = array(
                 'ContentCollection.seq' => 'asc'
             );
         $this->pageConditions = array(
                 'Collection.slug' => $this->data['pname'],
+<<<<<<< HEAD
                 'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
+=======
+                'Collection.category_id' => $this->category[0]['Category']['id']
+>>>>>>> remote_bindery/WorkshopModule.FatModel
             );
         $neighbors = $this->filmstripNeighbors();
         $target = array_slice($neighbors, $this->data['j']-1, 1, TRUE);
@@ -532,7 +555,11 @@ class ContentsController extends AppController {
         // any user above 'user' authoriziation gets unpulished records to
         $this->pageConditions = array(
             'Collection.slug' => $collectionName,
+<<<<<<< HEAD
             'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id']
+=======
+            'Collection.category_id' => $this->category[0]['Category']['id']
+>>>>>>> remote_bindery/WorkshopModule.FatModel
         );
         // admins need all the data for editing forms
         $this->pageContains = array(
@@ -553,7 +580,11 @@ class ContentsController extends AppController {
         // regular users only get published data
         $this->pageConditions = array(
             'Collection.slug' => $collectionName,
+<<<<<<< HEAD
             'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'],//$this->category[0]['Category']['id'],
+=======
+            'Collection.category_id' => $this->category[0]['Category']['id'],
+>>>>>>> remote_bindery/WorkshopModule.FatModel
             'Content.publish' => 1
         );
  // the public only needs enough data to build the page
