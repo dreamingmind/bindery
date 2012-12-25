@@ -163,7 +163,7 @@ class Content extends AppModel {
                 'ContentCollection'=> array(
                     'fields'=> array('ContentCollection.id'),
                     'Content' => array(
-                        'fields' => array('Content.id', 'Content.heading', 'Content.content', 'Content.alt', 'Content.title'),
+                        'fields' => array('Content.id', 'Content.heading', 'Content.content', 'Content.alt', 'Content.title','Content.slug'),
                         'Image' => array(
                             'fields' => array(
                                 'Image.id', 'Image.img_file', 'Image.date', 'Image.alt', 'Image.title'
@@ -185,6 +185,7 @@ class Content extends AppModel {
             $collection[] = array(
                 'id'=> $content['Content']['id'],
                 'heading'=>$content['Content']['heading'],
+                'slug'=>$content['Content']['slug'],
                 'content'=> $content['Content']['content'],
                 'alt'=>(!is_null($content['Content']['alt']) && $content['Content']['alt']!='') 
                     ? $content['Content']['alt'] 
