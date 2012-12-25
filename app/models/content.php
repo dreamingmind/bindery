@@ -47,6 +47,11 @@ class Content extends AppModel {
 
         );    
         
+        var $actsAs = array('Sluggable'=>array(
+            'label'=>'heading',
+            'overwrite'=>true,
+            'dups' => 'id'
+        ));
         var $displayField = 'heading';
     
         /**

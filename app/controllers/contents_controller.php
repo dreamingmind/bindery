@@ -96,7 +96,7 @@ class ContentsController extends AppController {
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','gitpull');
+        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','products','blog');
         }
         
     function afterFilter() {
@@ -105,17 +105,17 @@ class ContentsController extends AppController {
 //        die;
     }
     
-    function pullCategory($pname, $category){
-        $this->category = $this->Content->ContentCollection->Collection->Category->find(
-        'all',array(
-            'fields'=>array('id','name','supplement_list'),
-            'conditions'=>array('name'=>$category),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.heading','Collection.slug','Collection.category_id'),
-                    'conditions'=>array('Collection.slug'=>$pname)
-                ))));
-    }
+//    function pullCategory($pname, $category){
+//        $this->category = $this->Content->ContentCollection->Collection->Category->find(
+//        'all',array(
+//            'fields'=>array('id','name','supplement_list'),
+//            'conditions'=>array('name'=>$category),
+//            'contain'=>array(
+//                'Collection'=>array(
+//                    'fields'=>array('Collection.id','Collection.heading','Collection.slug','Collection.category_id'),
+//                    'conditions'=>array('Collection.slug'=>$pname)
+//                ))));
+//    }
     
     function index() {
             $this->layout = 'noThumbnailPage';
@@ -165,7 +165,6 @@ class ContentsController extends AppController {
             if (empty($this->data)) {
                     $this->data = $this->Content->read(null, $id);
             }
-            $navlines = $this->Content->Navline->find('list');
             $images = $this->Content->Image->find('list');
             $this->set(compact('navlines', 'images'));
     }
@@ -186,6 +185,86 @@ class ContentsController extends AppController {
 
     function search() {
         debug($this->data); die;
+    }
+    
+    function blog(){
+        if($this->params['pname']==null){
+        $most_recent = $this->Content->ContentCollection->find('first',array(
+            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'order'=>'ContentCollection.created DESC',
+            'conditions'=>array(
+                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
+        ));
+        $pname = $this->slug($most_recent['Content']['slug']);
+        } else {
+            $pname = $this->params['pname'];
+        }
+//        debug($most_recent);
+//        debug($this->params);
+//        debug($pname);die;
+        $most_recent = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading'),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'order'=>'ContentCollection.created ASC',
+            'conditions'=>array(
+                'Content.slug'=>$pname,
+                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
+        ));
+        $this->layout='noThumbnailPage';
+        $this->set('most_recent',$most_recent);
+    }
+    
+    /**
+     * Landing page for top level Products menu item
+     * 
+     * Pull a list of recently used titles (these will be dispatches and gallery entries)
+     * And the 3 most recent gallery entries for the page
+     * 
+     * Much more to come
+     */
+    function products(){
+//        Configure::write('debug',0);
+        $this->layout = 'noThumbnailPage';
+        $this->set('recentTitles',  $this->Content->Image->recentTitles);
+        $most_recent = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading'),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'order'=>'ContentCollection.created DESC',
+            'conditions'=>array('Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']),
+            'limit'=>3
+        ));
+        $this->set('most_recent',$most_recent);
     }
 
     function art(){

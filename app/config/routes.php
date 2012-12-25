@@ -79,8 +79,14 @@ Router::connect('/:static', array(
 //                array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
 
 
+        Router::connect('/blog',
+                array ('controller'=>'contents','action'=>'blog','pname'=>null));
+        
+        Router::connect('/blog/:pname',
+                array ('controller'=>'contents','action'=>'blog','pname'=>null));
+        
         Router::connect('/products',
-                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
+                array ('controller'=>'contents','action'=>'products','pname'=>null));
         
         Router::connect('/products/:pname/gallery/*',
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));

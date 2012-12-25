@@ -3,7 +3,6 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('navline_id');?></th>
 			<th><?php echo $this->Paginator->sort('content');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
@@ -24,9 +23,6 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $content['Content']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($content['Navline']['name'], array('controller' => 'navlines', 'action' => 'view', $content['Navline']['id'])); ?>
-		</td>
 		<td><?php echo $content['Content']['content']; ?>&nbsp;</td>
 		<td><?php echo $content['Content']['created']; ?>&nbsp;</td>
 		<td><?php echo $content['Content']['modified']; ?>&nbsp;</td>
@@ -63,12 +59,8 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Content', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Navlines', true), array('controller' => 'navlines', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Navline', true), array('controller' => 'navlines', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Exhibit Supliments', true), array('controller' => 'exhibit_supliments', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Exhibit Supliment', true), array('controller' => 'exhibit_supliments', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
