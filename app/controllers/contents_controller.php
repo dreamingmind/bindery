@@ -187,7 +187,39 @@ class ContentsController extends AppController {
         debug($this->data); die;
     }
     
+    /**
+     * Landing page for the blog
+     * 
+     * If no pname is given, get the most recent active
+     * 
+     * Much more to come
+     */
     function blog(){
+        Configure::write('debug',0);
+        $tocbase = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'conditions'=>array(
+                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
+        ));
+        $toc = array();
+        foreach($tocbase as $article){
+//            debug($article);
+            if (!is_null($article['Content']['slug'])){
+               $toc[$article['Collection']['slug']][$article['Content']['slug']]= $article['Content']['heading'];
+            }
+        }
+        $this->set('toc',$toc);
         if($this->params['pname']==null){
         $most_recent = $this->Content->ContentCollection->find('first',array(
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
@@ -231,7 +263,7 @@ class ContentsController extends AppController {
                 'Content.slug'=>$pname,
                 'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
         ));
-        $this->layout='noThumbnailPage';
+        $this->layout='blog_layout';
         $this->set('most_recent',$most_recent);
     }
     

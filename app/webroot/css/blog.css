@@ -1,0 +1,49 @@
+/* 
+    Document   : blog
+    Created on : Dec 24, 2012, 10:42:32 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#fixedNav {
+	margin: 0px auto 0px auto;
+	padding: 5px 0px 0px 25px;
+	position: relative;
+	left: auto;
+	top: 0px;
+	right: auto;
+	height: 145px;
+	background-color:#FFF;
+	width: 100%;
+	z-index: 5;
+}
+#NTfixedNav {
+	margin: 0px auto 0px auto;
+	padding: 5px 0px 0px 25px;
+	position: relative;
+	left: auto;
+	top: 0px;
+	right: auto;
+	height: 50px; /*for no thumbnail version*/
+	background-color:#FFF;
+	width: 100%;
+	z-index: 5;
+}
+
+#detail img{
+    float: left;
+    padding: 2px;
+}
+
+#detail p{
+    padding: 8px;
+}
+#di {
+    width:330px;
+    float: left;
+}
