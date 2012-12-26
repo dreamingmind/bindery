@@ -183,6 +183,7 @@ class Content extends AppModel {
 //            $image_id = (isset($content['Content']['image_id'])) ? $content['Content']['image_id'] : '';
 
             $collection[] = array(
+                'collection_id' => $test['Collection']['id'],
                 'id'=> $content['Content']['id'],
                 'heading'=>$content['Content']['heading'],
                 'slug'=>$content['Content']['slug'],

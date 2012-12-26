@@ -104,13 +104,17 @@
             <div id="navBar">
                 <?
 echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')));
+$toc_id = $toc['id'];
+unset($toc['id']);
 echo '<ul>';
 foreach($toc as $collection => $list){
     $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
     echo $html->tag('li',$collection,array('class'=>'collection', 'id'=>$id));
     echo "<ul class='title_list  $id'>";
     foreach($list as $href=>$text){
-        echo $html->tag('li',$html->link($this->Text->truncate($text,25,array('ending'=>'...')),'/blog/'.$href,array('title'=>$text)));
+        echo $html->tag('li',
+                $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
+                        '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
     }
     echo '</ul>';
 }

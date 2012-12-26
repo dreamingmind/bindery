@@ -91,12 +91,24 @@ class ContentsController extends AppController {
      */
     var $category = array();
     
-   /**
+    /**
+     * @var array $categoryNI list of categories name => id
+     */
+    var $categoryNI;
+
+    /**
+     * @var array $categoryIN list of categories id => name
+     */
+    var $categoryIN;
+    
+   /** 
      * beforeFilter
      */
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','products','blog');
+        $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
+        $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
         
     function afterFilter() {
@@ -196,56 +208,27 @@ class ContentsController extends AppController {
      */
     function blog(){
 //        Configure::write('debug',0);
-    if(!($toc = Cache::read('toc'))) {
-
-        $tocbase = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file')
-                    )
-                )
-            ),
-            'conditions'=>array(
-                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
-        ));
-        $toc = array();
-        foreach($tocbase as $article){
-//            debug($article);
-            if (!is_null($article['Content']['slug'])){
-               $toc[$article['Collection']['slug']][$article['Content']['slug']]= $article['Content']['heading'];
-            }
-        }
-        Cache::write('toc', $toc);
-    }        
+        $toc = $this->readBlogTOC();
         $this->set('toc',$toc);
+//        debug($toc);die;
+        $conditions = array('Collection.category_id'=>$this->categoryNI['dispatch']);
         
-        // look up most recent activity if no request was made
-        if($this->params['pname']==null){
-        $most_recent = $this->Content->ContentCollection->find('first',array(
-            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug')
-                )
-            ),
-            'order'=>'ContentCollection.created DESC',
-            'conditions'=>array(
-                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
-        ));
-        
-        $pname = $most_recent['Content']['slug'];
-        
-        } else {
-            $pname = $this->params['pname'];
+        if(!isset($this->params['pass'][0])){
+            $most_recent = $this->readMostRecentBlog($conditions);
+            $conditions['Content.slug'] = $most_recent['Content']['slug'];
+            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+            
+        } elseif (is_numeric($this->params['pass'][0])){
+            $conditions['ContentCollection.collection_id'] = $this->params['pass'][0];
+            
+            if (isset($this->params['pass'][1]) && is_string($this->params['pass'][1])) {
+                $conditions['Content.slug'] = $this->params['pass'][1];
+            }
+        } elseif (is_string($this->params['pass'][0])) {
+            $conditions['Content.slug'] = $this->params['pass'][0];
+            $most_recent = $this->readMostRecentBlog($conditions);
+            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+
         }
 //        debug($most_recent);
 //        debug($this->params);
@@ -264,14 +247,79 @@ class ContentsController extends AppController {
                 )
             ),
             'order'=>'ContentCollection.created ASC',
-            'conditions'=>array(
-                'Content.slug'=>$pname,
-                'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
+            'conditions' => $conditions
         ));
         $this->layout='blog_layout';
         $this->set('most_recent',$most_recent);
     }
     
+    /**
+     * Read the full blog table of contents from cache or db
+     * 
+     * This send a straight-ahead cake data block which is processed in the layout
+     * 
+     * @return array The raw table of contents data
+     */
+    function readBlogTOC() {
+        if(!($toc = Cache::read('toc'))) {
+
+            $tocbase = $this->Content->ContentCollection->find('all',array(
+                'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+                'contain'=>array(
+                    'Collection'=>array(
+                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                    ),
+                    'Content'=>array(
+                        'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
+                        'Image'=>array(
+                            'fields'=>array('Image.alt','Image.title','Image.img_file')
+                        )
+                    )
+                ),
+                'conditions'=>array(
+                    'Collection.category_id'=>$this->categoryNI['dispatch'])
+            ));
+//            debug($tocbase);
+            $toc = array();
+            foreach($tocbase as $article){
+    //            debug($article);
+                if (!is_null($article['Content']['slug'])){
+                   $toc[$article['Collection']['slug']][$article['Content']['slug']]= $article['Content']['heading'];
+                   $toc['id'][$article['Collection']['slug']]=$article['Collection']['id'];
+                }
+            }
+            Cache::write('toc', $toc);
+        }
+        return $toc;
+    }
+    
+    /**
+     * Discover the most recent dispatch entry (blog post)
+     * 
+     * Given no informaton, return link info for the most recent entry.
+     * The returned content may be linked to more than one Collection,
+     * but only one (the first/arbitrary) parent will be returned
+     * 
+     * @return array The most recent blog entry
+     */
+    
+    function readMostRecentBlog($conditions) {
+        return $this->Content->ContentCollection->find('first',array(
+            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug')
+                )
+            ),
+            'order'=>'ContentCollection.created DESC',
+            'conditions' => $conditions
+        ));
+        
+    }
+
     /**
      * Landing page for top level Products menu item
      * 
@@ -298,7 +346,7 @@ class ContentsController extends AppController {
                 )
             ),
             'order'=>'ContentCollection.created DESC',
-            'conditions'=>array('Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']),
+            'conditions'=>array('Collection.category_id'=>$this->categoryNI['exhibit']),
             'limit'=>3
         ));
         $this->set('most_recent',$most_recent);
@@ -379,7 +427,7 @@ class ContentsController extends AppController {
 //        $this->pullCategory($pname, 'exhibit');        
         $this->pageConditions = array(
                 'Collection.slug' => $pname,
-                'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
+                'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
             );
 
         $neighbors = $this->filmstripNeighbors();
@@ -581,7 +629,7 @@ class ContentsController extends AppController {
             );
         $this->pageConditions = array(
                 'Collection.slug' => $this->data['pname'],
-                'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['exhibit']//$this->category[0]['Category']['id']
+                'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
             );
         $neighbors = $this->filmstripNeighbors();
         $target = array_slice($neighbors, $this->data['j']-1, 1, TRUE);
@@ -646,7 +694,7 @@ class ContentsController extends AppController {
         // any user above 'user' authoriziation gets unpulished records to
         $this->pageConditions = array(
             'Collection.slug' => $collectionName,
-            'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id']
+            'Collection.category_id' => $this->categoryNI['dispatch']//$this->category[0]['Category']['id']
         );
         // admins need all the data for editing forms
         $this->pageContains = array(
@@ -667,7 +715,7 @@ class ContentsController extends AppController {
         // regular users only get published data
         $this->pageConditions = array(
             'Collection.slug' => $collectionName,
-            'Collection.category_id' => $this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'],//$this->category[0]['Category']['id'],
+            'Collection.category_id' => $this->categoryNI['dispatch'],//$this->category[0]['Category']['id'],
             'Content.publish' => 1
         );
  // the public only needs enough data to build the page

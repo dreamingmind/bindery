@@ -23,7 +23,7 @@ echo $this->Html->tag('p',$collectionData['text']);
 foreach ($collectionPage as $dispatch) {
     if ($h2 != $dispatch['heading'] && $dispatch['heading'] != null) {
 //        debug($dispatch);die;
-        $blog_link=$html->link('See Blog Article','/blog/'.$dispatch['slug']);
+        $blog_link=$html->link('See Blog Article','/blog/'.$dispatch['collection_id'].'/'.$dispatch['slug']);
         echo $this->Html->tag('h2', $dispatch['heading'].$blog_link);
     }
     
