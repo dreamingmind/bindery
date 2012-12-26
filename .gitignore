@@ -10,3 +10,4 @@ app/.DS_Store
 >>>>>>> d551cba9743d047a292c7f909553ba2c8e84c517
 /~/
 /app/config/database.php
+app/tmp/cache/*
