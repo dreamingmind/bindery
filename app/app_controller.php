@@ -61,7 +61,7 @@ class AppController extends Controller {
         'Session'
         );
 
-    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown');
+    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text');
     var $uses = array('Navigator', 'User', 'Account');
     var $record = array();
 
@@ -217,19 +217,26 @@ class AppController extends Controller {
      * Read the menu appropriate to an admin, manager, registered user or guest
      */
     function mainNavigation() {
-            $conditions = 'account=0';
+        $conditions = 'account=0';
+        $access = 0;
 
-            if ($this->username) {
-                    $conditions .= ' OR account>=' . $this->usergroupid;
-                    // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
-            }
+        if ($this->username) {
+                $conditions .= ' OR account>=' . $this->usergroupid;
+                // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
+                $access=$this->usergroupid;
+        }
 
-            /**
-             * This is the find for the nested navigation menu data set.
-             * It needs to be beefed up to take into account the login status of the user
-             **/
-            //$this->set('navigators', $this->Navigator->find('all', $find_params));
-            $this->set('group', $this->Navigator->generatetreegrouped($conditions, null, '/Navline', '{n}.Navigator.parent_id', 1));
+        /**
+         * This is the find for the nested navigation menu data set.
+         **/
+
+        if(!($group = Cache::read('group'.$access))) {
+            $group = $this->Navigator->generatetreegrouped($conditions, null, '/Navline', '{n}.Navigator.parent_id', 1);
+            Cache::write('group'.$access,$group);
+    }
+
+
+        $this->set('group', $group);
 
     }
     function isAuthorized() {

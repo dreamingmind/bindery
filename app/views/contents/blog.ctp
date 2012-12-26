@@ -18,13 +18,11 @@
 $divimg = '<div id="di">';
 $divp = '<div id="dp">';
 foreach($most_recent as $update){
-    if ($update['ContentCollection']['content_id']!=$last_update){
-$divimg .= $this->Html->image(
+    $divimg .= $this->Html->image(
         'images'.DS.'thumb'.DS.'x320y240'.DS.$update['Content']['Image']['img_file'],
         array('alt'=>$update['Content']['Image']['alt'].' '.$update['Content']['Image']['alt']))."\n";
         $last_update = $update['ContentCollection']['content_id'];
-$divp .= $html->tag('p',$update['Content']['content']);
-    }
+    $divp .= $html->tag('p',$update['Content']['content']);
 }
 $divimg .= "</div>";
 $divp .= '</div>';

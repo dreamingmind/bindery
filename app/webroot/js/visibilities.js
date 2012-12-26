@@ -18,6 +18,19 @@ $(document).ready(function(){
         $('.nextButtons a img').fadeTo(400,1);
     });
     
+    function compressBlogTOC(){
+        if (collections = $('.collection')){
+            collections.each(function(){
+                $('.'+$(this).attr('id')).hide();
+                $(this).bind('click',function(){
+                    $('.'+$(this).attr('id')).toggle(50, function() {
+    // Animation complete.
+                    })
+                })
+            })
+        }
+    }
+    
     function hidePN(){
         $('.previousButtons a img').fadeTo(700, .2);
         $('.nextButtons a img').fadeTo( 700, .2);
@@ -26,4 +39,5 @@ $(document).ready(function(){
     $('ul.thumbList').bind('mouseleave',hidePN);
     
     hidePN();
+    compressBlogTOC();
 });

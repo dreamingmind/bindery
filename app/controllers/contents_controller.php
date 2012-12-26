@@ -195,7 +195,9 @@ class ContentsController extends AppController {
      * Much more to come
      */
     function blog(){
-        Configure::write('debug',0);
+//        Configure::write('debug',0);
+    if(!($toc = Cache::read('toc'))) {
+
         $tocbase = $this->Content->ContentCollection->find('all',array(
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
@@ -219,7 +221,11 @@ class ContentsController extends AppController {
                $toc[$article['Collection']['slug']][$article['Content']['slug']]= $article['Content']['heading'];
             }
         }
+        Cache::write('toc', $toc);
+    }        
         $this->set('toc',$toc);
+        
+        // look up most recent activity if no request was made
         if($this->params['pname']==null){
         $most_recent = $this->Content->ContentCollection->find('first',array(
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
@@ -228,17 +234,16 @@ class ContentsController extends AppController {
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file')
-                    )
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug')
                 )
             ),
             'order'=>'ContentCollection.created DESC',
             'conditions'=>array(
                 'Collection.category_id'=>$this->Content->ContentCollection->Collection->Category->categoryNI['dispatch'])
         ));
-        $pname = $this->slug($most_recent['Content']['slug']);
+        
+        $pname = $most_recent['Content']['slug'];
+        
         } else {
             $pname = $this->params['pname'];
         }
