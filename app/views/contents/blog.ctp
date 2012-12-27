@@ -22,7 +22,7 @@ foreach($most_recent as $update){
         'images'.DS.'thumb'.DS.'x320y240'.DS.$update['Content']['Image']['img_file'],
         array('alt'=>$update['Content']['Image']['alt'].' '.$update['Content']['Image']['alt']))."\n";
         $last_update = $update['ContentCollection']['content_id'];
-    $divp .= $html->tag('p',$update['Content']['content']);
+    $divp .= Markdown($update['Content']['content']);
 }
 $divimg .= "</div>";
 $divp .= '</div>';

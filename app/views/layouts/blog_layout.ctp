@@ -51,7 +51,7 @@
     <?php // debug($this->params);die; ?>
 <div id="fixedNav">
     <div id="absNav">
-        <?php echo $html->image('dmboldlogo_.png', array('alt'=>'Dreaming Mind Bindery logo')); ?>
+        <?php echo $html->image('bench-marks-bannerv2-95-2000.png', array('alt'=>"Don Drake's Bench Marks blog banner")); ?>
         <div id="headerTools">
             <div id="accountTool">
                 <p>

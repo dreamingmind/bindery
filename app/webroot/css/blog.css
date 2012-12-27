@@ -4,8 +4,15 @@
     Author     : dondrake
     Description:
         Purpose of the stylesheet follows.
+
+        Override styles (supercedes new4.css) for the blog page
 */
 
+body {
+    
+    background-image: url(../img/laid-background.png);
+    background-repeat: repeat;
+}
 root { 
     display: block;
 }
@@ -17,8 +24,9 @@ root {
 	left: auto;
 	top: 0px;
 	right: auto;
-	height: 145px;
-	background-color:#FFF;
+	height: 95px;
+    background-image: url(../img/laid-background.png);
+    background-repeat: repeat;
 	width: 100%;
 	z-index: 5;
 }
@@ -30,20 +38,84 @@ root {
 	top: 0px;
 	right: auto;
 	height: 50px; /*for no thumbnail version*/
-	background-color:#FFF;
+    background-image: url(../img/laid-background.png);
+    background-repeat: repeat;
 	width: 100%;
 	z-index: 5;
+}
+#menuNav {
+	position: absolute;
+	top: 100px;
+	left: 0px;
+	width: 245px;
+	height:auto;
+	padding-left: 0px;
+    background-image: url(../img/laid-background.png);
+    background-repeat: repeat;
+}
+#navBar {
+	font-size: 16px;
+	width:190px;
+	text-align:right;
+	padding: 0px 25px 0px 45px;
+	top:45px;
+	height: auto;
+	/* border: solid #fff 1px;*/ 
+    background-image: url(../img/laid-background.png);
+    background-repeat: repeat;
+	position: absolute;
+	/*left:45px;*/
+}
+#siteSearchBox {
+	border-top: solid 3px #ccc;
+	padding: 10px 0px;
+	width: 192px;
+	margin-left: 45px;
+}
+
+#scrolling {
+/*	padding-top: 150px;*/
+	padding-left: 260px;
+	width: 1060px;
+}
+#scrolling h1 {
+    color: #802A19;
+    background-color: #dad7c2;
+    font-size: 36px;
+    margin: 0;
+    padding: 5px 15px 10px 12px;
+    text-align: right;
+    /*font-weight: bold;*/
+    /*font-variant: small-caps;*/
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #802A19;
 }
 
 #detail img{
     float: left;
-    padding: 2px;
+    padding: 3px;
+    margin: 2px;
+    border: 1px solid #b4ab61;
+    background-color: #fff;
 }
 
 #detail p{
     padding: 8px;
 }
+#detail li{
+    list-style: disc outside;
+    font-size: 90%;
+    padding-bottom: 2px;
+}
 #di {
-    width:330px;
+    /*
+    div for the deail images
+    */
+    width:666px;
     float: left;
+}
+#dp {
+    width:380px;
+    float:right;
 }
