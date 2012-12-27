@@ -152,29 +152,29 @@ class Workshop extends AppModel {
                     'ContentCollection'=>array(
                         'fields'=>array(
                             'ContentCollection.content_id',
-                            'ContentCollection.collection_id',
-                            'Content'=>array(
+                            'ContentCollection.collection_id'
+                            ),
+                        'Content'=>array(
+                            'fields'=>array(
+                                'Content.id',
+                                'Content.content',
+                                'Content.image_id',
+                                'Content.alt',
+                                'Content.title',
+                                'Content.heading',
+                                'Content.slug',
+                                'Content.publish'
+                             ),
+                             'Image'=>array(
                                 'fields'=>array(
-                                    'Content.id',
-                                    'Content.content',
-                                    'Content.image_id',
-                                    'Content.alt',
-                                    'Content.title',
-                                    'Content.heading',
-                                    'Content.slug',
-                                    'Content.publish',
-                                    'Image'=>array(
-                                        'fields'=>array(
-                                            'Image.img_file',
-                                            'Image.id',
-                                            'Image.title',
-                                            'Image.alt'
-                                        )
-                                    )
-                                ),
-                                'conditions'=>array(
-                                    'Content.publish'=>1
+                                    'Image.img_file',
+                                    'Image.id',
+                                    'Image.title',
+                                    'Image.alt'
                                 )
+                            ),
+                            'conditions'=>array(
+                                'Content.publish'=>1
                             )
                         )
                     ),
@@ -186,14 +186,14 @@ class Workshop extends AppModel {
                             'Session.participants',
                             'Session.first_day',
                             'Session.last_day',
-                            'Session.registered',
-                            'Date'=>array(
-                                'fields'=>array(
-                                    'Date.session_id',
-                                    'Date.date',
-                                    'Date.start_time',
-                                    'Date.end_time'
-                                )
+                            'Session.registered'
+                        ),
+                        'Date'=>array(
+                            'fields'=>array(
+                                'Date.session_id',
+                                'Date.date',
+                                'Date.start_time',
+                                'Date.end_time'
                             )
                         ),
                         'conditions'=>array(
