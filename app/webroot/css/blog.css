@@ -24,7 +24,7 @@ root {
 	left: auto;
 	top: 0px;
 	right: auto;
-	height: 95px;
+	height: 135px;
     background-image: url(../img/laid-background.png);
     background-repeat: repeat;
 	width: 100%;
@@ -43,14 +43,18 @@ root {
 	width: 100%;
 	z-index: 5;
 }
+/*===============================
+Menu
+Main navigation strip formatting
+===============================*/
 #menuNav {
 	position: absolute;
-	top: 100px;
+	top: 125px;
 	left: 0px;
 	width: 245px;
 	height:auto;
 	padding-left: 0px;
-    background-image: url(../img/laid-background.png);
+    background-image: url(../img/laid-background-s.png);
     background-repeat: repeat;
 }
 #navBar {
@@ -61,16 +65,127 @@ root {
 	top:45px;
 	height: auto;
 	/* border: solid #fff 1px;*/ 
-    background-image: url(../img/laid-background.png);
+    background-image: url(../img/laid-background-s.png);
     background-repeat: repeat;
 	position: absolute;
 	/*left:45px;*/
 }
+ul {
+	font-size: 16px;
+	/*
+	margin:0px;
+	padding:0px;
+	*/
+}
+ul li a {
+	margin:0px;
+	padding:0px;
+	text-indent:0px;
+}
+
+li {
+	list-style:none;
+	text-indent: 0px;
+}
+
+sublist ul li a {
+	border-right:solid #802A19 .5em;
+}
+.open {
+	display:block;
+}
+
+.close {
+	display:none;
+}
+#navBar ul {
+	font-size:91%;
+	margin-right:2px;
+	margin-left:-10px;
+	margin-bottom:6px;
+	margin-top:4px;
+}
+#navBar li {
+	margin-top:2px;
+	margin-right:4px;
+	/*line-height: .95;*/
+}
+#navBar a, #navBar a:visited, #navBar a:active {
+        font-weight: lighter;
+	color: #003D4C;
+	display:block;
+	margin-right:-6px;
+	padding-right:5px;
+        text-decoration: none;
+	border-right:solid #ddd .5em;
+	border-bottom:solid #eee 1px;
+}
+
+#navBar .open a {
+	color:#802A19;
+	border-right:solid #bbb .5em;
+	border-bottom:solid #ddd 1px;
+}
+
+#navBar .menuopen a{
+	color: #003D4C;
+}
+
+#navBar .active a {
+	color:#802A19;
+	/*font-weight:bold;*/
+	border-bottom:solid #802A19 1px;
+	border-right:solid #802A19 .5em;
+}
+
+#navBar .menuactive a {
+	border-right:solid #bbb .5em;
+	border-bottom:solid #ddd 1px;    
+}
+
+#navBar a:hover {
+	color:#802A19;
+	text-decoration:inherit;
+	border-right:solid #802A19 .5em;
+}
+
+
+
+/*Site search box format*/
 #siteSearchBox {
-	border-top: solid 3px #ccc;
+	margin-top: 3px;
 	padding: 10px 0px;
 	width: 192px;
 	margin-left: 45px;
+}
+input.siteSearchInput {
+    width: 163px;
+}
+input.siteSearchButton {
+    float: right;
+    width: 21px;
+    margin-right: -10px;
+    margin-left: 0px;
+}
+.inputBox {
+	font-size: 10px;
+	text-align: right;
+	color:#999
+}
+
+/*account tool and jumpbox formats*/
+#accountTool, #jumpBox {
+	clear: both;
+	padding-top: 5px;
+}
+#jumpBox label, #jumpBox input {
+	display: inline;
+}
+input#jumpInput {
+	width: 8em;
+}
+input#searchInput {
+	width: 180px;
 }
 
 #scrolling {
@@ -87,9 +202,17 @@ root {
     text-align: right;
     /*font-weight: bold;*/
     /*font-variant: small-caps;*/
-    border-top-style: solid;
-    border-top-width: 3px;
-    border-top-color: #802A19;
+    border-top: 3px solid #802A19;
+}
+#headerTools {
+	text-align: right;
+	font-size:10px;
+/*	float: right;*/
+	padding: 0px 35px 0px 0px;
+        position: absolute;
+        top: 5px;
+        left: 300px;
+        width: 600px;
 }
 
 #detail img{

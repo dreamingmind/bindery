@@ -1,17 +1,6 @@
 <?php
 //debug($recentTitles);
-//debug($most_recent);
-//echo '<ul>';
-//foreach($toc as $collection => $list){
-//    echo $html->tag('li',$collection);
-//    echo '<ul>';
-//    foreach($list as $href=>$text){
-//        echo $html->tag('li',$html->link($text,'/blog/'.$href));
-//    }
-//    echo '</ul>';
-//}
-//    echo '</ul>';
-//
+//debug($most_recent);die;
 ?>
 <h1><?php echo $html->tag('h1',$most_recent[0]['Content']['heading']); ?></h1>
 <?php

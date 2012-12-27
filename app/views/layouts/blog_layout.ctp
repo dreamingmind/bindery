@@ -25,7 +25,7 @@
     <?php
     echo $html->meta('icon');
     echo $html->css('basic');
-    echo $html->css('new4.css');
+//    echo $html->css('new4.css');
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
