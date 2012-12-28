@@ -51,48 +51,13 @@
     <?php // debug($this->params);die; ?>
 <div id="fixedNav">
     <div id="absNav">
-        <?php echo $html->image('bench-marks-bannerv2-95-2000.png', array('alt'=>"Don Drake's Bench Marks blog banner")); ?>
+        <?php echo $html->image('bench-marks-814-150-transparent.png', array('alt'=>"Don Drake's Bench Marks blog banner")); ?>
         <div id="headerTools">
             <div id="accountTool">
                 <p>
-                    <?php if(isset($_GET['a'])) { ?><a href="/dispatch/unpublished">3 Unpub'd</a> | <a href="/dispatch/upload">Upload New</a> | <?php } ?>
-                    <?php echo $html->accountTool_($userdata); // creates DIV id=accountTool ?>
+                    <?php  echo $html->accountTool_($userdata); // creates DIV id=accountTool ?>
                 </p>
             </div>
-<!--            <div id="jumpBox">
-                <?php echo $form->create('Content', array(
-                    'action'=>'jump')
-                    );?>
-                <?php if($this->action == 'newsfeed'){ ?>
-                <label class="inputBox" for="j"><span id="jumpMessage" style="color:red; font-weight:bold"></span>Showing #<?php echo $pageData['start']; ?> of <span id="highJump"><?php echo $pageData['count']; ?></span> </label>
-                    <input type="text" name="data[j]" id="jumpInput" class="jump_input inputBox" 
-                           onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
-                           onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
-                <?php } else { ?>
-                    <label class="inputBox" for="j"><span id="jumpMessage" style="color:red; font-weight:bold"></span>Showing #<?php echo $neighbors[$paginator->params['named']['id']]['count'] ?> of <span id="highJump"><?php echo $this->Paginator->counter(array('format'=>'%count%')) ?></span> </label>
-                    <input type="text" name="data[j]" id="jumpInput" class="jump_input inputBox" 
-                           onfocus="if(this.value=='Jump to #'){ this.value=''; }" 
-                           onblur="if(this.value==''){ this.value='Jump to #'; }" value="Jump to #" />
-                <?php }
-//		echo $form->input('controller',array(
-//                    'type'=>'hidden',
-//                    'name'=>'data[controller]',
-//                    'value'=>$this->params['controller']));
-		echo $form->input('action',array(
-                    'type'=>'hidden',
-                    'name'=>'data[action]',
-                    'value'=>$this->params['action']));
-		echo $form->input('pname',array(
-                    'type'=>'hidden',
-                    'name'=>'data[pname]',
-                    'value'=>$this->params['pname']));
-		echo $form->input('url',array(
-                    'type'=>'hidden',
-                    'name'=>'data[url]',
-                    'value'=> '/'.$this->params['url']['url'])); //need the slash for a proper path in the redirect
-                echo $form->end();?>
-
-            </div>-->
         </div>
         <div id="menuNav">
             <?php 
@@ -109,7 +74,7 @@ unset($toc['id']);
 echo '<ul>';
 foreach($toc as $collection => $list){
     $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
-    echo $html->tag('li',$html->link($collection,'#'),array('class'=>'collection', 'id'=>$id));
+    echo $html->tag('li',$html->link($collection,'#'),array('class'=>'collection menu', 'id'=>$id));
     echo "<ul class='title_list  $id'>";
     foreach($list as $href=>$text){
         echo $html->tag('li',

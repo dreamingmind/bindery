@@ -19,14 +19,14 @@ root {
 
 #fixedNav {
 	margin: 0px auto 0px auto;
-	padding: 5px 0px 0px 25px;
+	padding: 0px 0px 0px 25px;
 	position: relative;
 	left: auto;
 	top: 0px;
 	right: auto;
-	height: 135px;
-    background-image: url(../img/laid-background.png);
-    background-repeat: repeat;
+	height: 160px;
+    background-image: url(../img/banner-background.png);
+    background-repeat: repeat-x;
 	width: 100%;
 	z-index: 5;
 }
@@ -49,7 +49,7 @@ Main navigation strip formatting
 ===============================*/
 #menuNav {
 	position: absolute;
-	top: 125px;
+	top: 160px;
 	left: 0px;
 	width: 245px;
 	height:auto;
@@ -191,6 +191,7 @@ input#searchInput {
 #scrolling {
 /*	padding-top: 150px;*/
 	padding-left: 260px;
+        padding-top: 10px;
 	width: 1060px;
 }
 #scrolling h1 {
@@ -210,26 +211,28 @@ input#searchInput {
 /*	float: right;*/
 	padding: 0px 35px 0px 0px;
         position: absolute;
-        top: 5px;
-        left: 300px;
+        top: 15px;
+        left: 700px;
         width: 600px;
 }
 
 #detail img{
     float: left;
     padding: 3px;
-    margin: 2px;
+    margin: 20px 20px 10px 2px;
     border: 1px solid #b4ab61;
     background-color: #fff;
 }
 
-#detail p{
+/*#detail p{
     padding: 8px;
-}
+}*/
 #detail li{
-    list-style: disc outside;
+    list-style: disc inside;
     font-size: 90%;
-    padding-bottom: 2px;
+    padding-bottom: 8px;
+    margin-left: 340px;
+    /*margin-left:10px;*/
 }
 #di {
     /*
@@ -241,4 +244,20 @@ input#searchInput {
 #dp {
     width:380px;
     float:right;
+}
+div.entry{
+    float:left;
+}
+
+.entryText p{
+    margin: 8px 0px 0px 340px;
+}
+.entryText > p:first-child{
+    margin-top: 100px;
+}
+.entryText > h2:first-child{
+    margin-top: 100px;
+}
+.entryTex p:last-of-type{
+    margin-bottom: 20px;
 }
