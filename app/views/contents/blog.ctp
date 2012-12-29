@@ -11,6 +11,7 @@ foreach($most_recent as $entry){
             'images'.DS.'thumb'.DS.'x640y480'.DS.$entry['Content']['Image']['img_file'],
             array('alt'=>$entry['Content']['Image']['alt'].' '.$entry['Content']['Image']['alt'])
         )
+        ."<menu class='zoom'><a>-</a> <a>+</a></menu>"
         ."\n"
         . $html->div('entryText',Markdown($entry['Content']['content']),
         array(''/* the div attributes */)));

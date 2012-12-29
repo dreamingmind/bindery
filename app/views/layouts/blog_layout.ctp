@@ -38,9 +38,10 @@
     {
         echo $html->css('login');
     }
+//    $js->buffer("var size_swaps = $size_swaps;");
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('visibilities');
-    echo $this->Html->script('jumpbox');
+    echo $this->Html->script('responsive_layout');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
@@ -68,23 +69,23 @@
             ?>
             <div id="navBar">
                 <?
-echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')));
-$toc_id = $toc['id'];
-unset($toc['id']);
-echo '<ul>';
-foreach($toc as $collection => $list){
-    $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
-    echo $html->tag('li',$html->link($collection,'#'),array('class'=>'collection menu', 'id'=>$id));
-    echo "<ul class='title_list  $id'>";
-    foreach($list as $href=>$text){
-        echo $html->tag('li',
-                $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
-                        '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
-    }
-    echo '</ul>';
-}
-    echo '</ul>';
-
+            echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')));
+            $toc_id = $toc['id'];
+            unset($toc['id']);
+            echo '<ul>';
+            foreach($toc as $collection => $list){
+                $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
+                echo $html->tag('li',$html->link($collection,'#'),array('class'=>'collection menu', 'id'=>$id));
+                echo "<ul class='title_list  $id'>";
+                foreach($list as $href=>$text){
+                    echo $html->tag('li',
+                            $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
+                                    '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
+                }
+                echo '</ul>';
+            }
+                echo '</ul>';
+                        
                 ?>
             </div>  <!-- end of navBar, Main Navigation Menu -->
         </div> <!-- end of menuNav -->

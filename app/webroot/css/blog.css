@@ -261,3 +261,20 @@ div.entry{
 .entryTex p:last-of-type{
     margin-bottom: 20px;
 }
+.zoom {
+    /*float: right;*/
+    padding: 0;
+    cursor: pointer;
+}
+.zoom > a {
+    /*visibility: hidden;*/
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #bbb;
+    text-decoration: none;
+}
+.zoom:hover > a {
+    visibility:visible;
+}
