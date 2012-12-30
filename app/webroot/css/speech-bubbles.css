@@ -1,0 +1,56 @@
+/*
+   Speech Bubbles
+   Usage: Apply a class of .speech-bubble and .speech-bubble-DIRECTION
+        <div class="speech-bubble speech-bubble-top">
+            <p>Text goes here.</p>
+        </div>
+*/
+
+.speech-bubble {
+  position: relative;
+  background-color: #292929;
+  width: 200px;
+  height: 150px;
+  line-height: 150px; /* vertically center */
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  font-family: sans-serif;
+  display: table;
+}
+.speech-bubble p {
+  display: table-cell;
+  vertical-align: middle;
+}
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 15px solid;
+}
+/* Position the Arrow */
+.speech-bubble-top:after {
+  border-bottom-color: #292929;
+  left: 50%;
+  bottom: 100%;
+  margin-left: -15px;
+}
+.speech-bubble-right:after {
+  border-left-color: #292929;
+  left: 100%;
+  top: 50%;
+  margin-top: -15px;
+}
+.speech-bubble-bottom:after {
+  border-top-color: #292929;
+  top: 100%;
+  left: 50%;
+  margin-left: -15px;
+}
+.speech-bubble-left:after {
+  border-right-color: #292929;
+  top: 50%;
+  right: 100%;
+  margin-top: -15px;
+}

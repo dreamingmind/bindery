@@ -25,7 +25,7 @@
     <?php
     echo $html->meta('icon');
     echo $html->css('basic');
-//    echo $html->css('new4.css');
+    echo $html->css('speech-bubbles');
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
@@ -59,6 +59,11 @@
                     <?php  echo $html->accountTool_($userdata); // creates DIV id=accountTool ?>
                 </p>
             </div>
+        <menu class='zoom'>
+            <?php echo (isset($userdata['group_id']) && $userdata['group_id']==1)?'<a class="sequence_tool">Order</a> ':''; ?>
+            <a class="scale_tool">-</a> 
+            <a class="scale_tool">+</a>
+        </menu>
         </div>
         <div id="menuNav">
             <?php 
@@ -69,20 +74,21 @@
             ?>
             <div id="navBar">
                 <?
-            echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')));
+            echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')),array('class'=>'open'));
             $toc_id = $toc['id'];
             unset($toc['id']);
-            echo '<ul>';
+            echo '<ul class="open">';
             foreach($toc as $collection => $list){
                 $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
-                echo $html->tag('li',$html->link($collection,'#'),array('class'=>'collection menu', 'id'=>$id));
-                echo "<ul class='title_list  $id'>";
+                echo "<li class='collection menu' id='$id'>";
+                echo $html->link($collection,'#');
+                echo "<ul class='title_list close $id'>";
                 foreach($list as $href=>$text){
                     echo $html->tag('li',
                             $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
                                     '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
                 }
-                echo '</ul>';
+                echo '</ul></li>';
             }
                 echo '</ul>';
                         

@@ -199,6 +199,50 @@ class ContentsController extends AppController {
         debug($this->data); die;
     }
     
+    function sequence(){
+        $this->layout='ajax';
+        $conditions = array('Collection.category_id'=>$this->categoryNI['dispatch']);
+        
+        if(!isset($this->params['pass'][0])){
+            $most_recent = $this->readMostRecentBlog($conditions);
+            $conditions['Content.slug'] = $most_recent['Content']['slug'];
+            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+            
+        } elseif (is_numeric($this->params['pass'][0])){
+            $conditions['ContentCollection.collection_id'] = $this->params['pass'][0];
+            
+            if (isset($this->params['pass'][1]) && is_string($this->params['pass'][1])) {
+                $conditions['Content.slug'] = $this->params['pass'][1];
+            }
+        } elseif (is_string($this->params['pass'][0])) {
+            $conditions['Content.slug'] = $this->params['pass'][0];
+            $most_recent = $this->readMostRecentBlog($conditions);
+            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+
+        }
+//        debug($most_recent);
+//        debug($this->params);
+//        debug($pname);die;
+        $most_recent = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish'),
+                    'conditions'=>array('Content.publish'=>1),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'order'=>'ContentCollection.created ASC',
+            'conditions' => $conditions
+        ));
+        $this->set('most_recent',$most_recent);
+    }
+    
     /**
      * Landing page for the blog
      * 
@@ -240,7 +284,8 @@ class ContentsController extends AppController {
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading'),
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish'),
+                    'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')
                     )
@@ -251,6 +296,27 @@ class ContentsController extends AppController {
         ));
         $this->layout='blog_layout';
         $this->set('most_recent',$most_recent);
+        
+        // set up a json array to lookup size swaps
+//        $size_swaps = json_encode(
+//            array('p'=>array(
+//                'x1000y750'=>'x1000y750',
+//                'x800y600'=>'x1000y750',
+//                'x640y480'=>'x800y600',
+//                'x500y375'=>'x640y480',
+//                'x320x240'=>'x500y375',
+//                'x160y120'=>'x320x240',
+//                'x75y56'=>'x160y120'),
+//            'm'=>array(
+//                'x1000y750'=>'x800y600',
+//                'x800y600'=>'x640y480',
+//                'x640y480'=>'x500y375',
+//                'x500y375'=>'x320x240',
+//                'x320x240'=>'x160y120',
+//                'x160y120'=>'x75y56',
+//                'x75y56'=>'x75y56')
+//        ));
+//        $this->set('size_swaps',$size_swaps);
     }
     
     /**
