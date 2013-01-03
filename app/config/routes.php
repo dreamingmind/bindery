@@ -78,6 +78,8 @@ Router::connect('/:static', array(
 //        Router::connect('/kandinsky',
 //                array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
 
+        Router::connect('/sequence/*',
+                array ('controller'=>'contents','action'=>'sequence'));
 
         Router::connect('/blog/*',
                 array ('controller'=>'contents','action'=>'blog'));

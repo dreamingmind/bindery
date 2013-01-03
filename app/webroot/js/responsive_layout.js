@@ -16,7 +16,9 @@ $(document).ready(function(){
 //         $('#sequence_panel').toggle();
          if($('#sequence_panel').length == 0){
              $('menu.zoom').before('<div id="sp"></div>');
-             $('#sp').load('contents/sequence');
+             var path = location.pathname.replace(/blog/,'sequence')
+             alert(path);
+             $('#sp').load(path);
          } else {
              $('#sp').detach();
          }

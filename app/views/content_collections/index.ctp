@@ -5,8 +5,7 @@
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('visible');?></th>
-			<th><?php echo $this->Paginator->sort('sub_gallery');?></th>
+			<th><?php echo $this->Paginator->sort('sub_collection');?></th>
 			<th><?php echo $this->Paginator->sort('content_id');?></th>
 			<th><?php echo $this->Paginator->sort('collection_id');?></th>
 			<th><?php echo $this->Paginator->sort('seq');?></th>
@@ -24,8 +23,7 @@
 		<td><?php echo $contentCollection['ContentCollection']['created']; ?>&nbsp;</td>
 		<td><?php echo $contentCollection['ContentCollection']['modified']; ?>&nbsp;</td>
 		<td><?php echo $contentCollection['ContentCollection']['id']; ?>&nbsp;</td>
-		<td><?php echo $contentCollection['ContentCollection']['visible']; ?>&nbsp;</td>
-		<td><?php echo $contentCollection['ContentCollection']['sub_gallery']; ?>&nbsp;</td>
+		<td><?php echo $contentCollection['ContentCollection']['sub_collection']; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($contentCollection['Content']['title'], array('controller' => 'contents', 'action' => 'view', $contentCollection['Content']['id'])); ?>
 		</td>

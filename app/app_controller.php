@@ -107,7 +107,9 @@ class AppController extends Controller {
         $this->initAccount(); //set all properties describing the logged in user (or not)
         $this->mainNavigation(); //get the account appropriate full, potential menu record set
         $this->splashContent = $this->pullSplash();
-        
+        $this->Auth->logoutRedirect = $this->referer('bindery', TRUE);
+//        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
+
         //debug();
         
     // Time to see if this user can see the requested page

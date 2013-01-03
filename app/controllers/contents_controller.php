@@ -106,7 +106,7 @@ class ContentsController extends AppController {
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','products','blog');
+        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','products','blog','resequence');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
@@ -201,7 +201,15 @@ class ContentsController extends AppController {
     
     function sequence(){
         $this->layout='ajax';
-        $conditions = array('Collection.category_id'=>$this->categoryNI['dispatch']);
+        if(isset($this->data[0])){
+            //save the data here
+            $this->Content->ContentCollection->saveAll($this->data);
+            $this->blogPage();
+            $this->render('blog');
+        } else {
+        $conditions = array(
+            'Collection.category_id'=>$this->categoryNI['dispatch'],
+            'Content.publish'=>1);
         
         if(!isset($this->params['pass'][0])){
             $most_recent = $this->readMostRecentBlog($conditions);
@@ -223,8 +231,11 @@ class ContentsController extends AppController {
 //        debug($most_recent);
 //        debug($this->params);
 //        debug($pname);die;
-        $most_recent = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+        $sequence_set = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array(
+                'ContentCollection.id','ContentCollection.content_id',
+                'ContentCollection.collection_id','ContentCollection.seq',
+                'ContentCollection.publish'),
             'contain'=>array(
                 'Collection'=>array(
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
@@ -234,15 +245,17 @@ class ContentsController extends AppController {
                     'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')
-                    )
+                    ),
+                    'ContentCollection'=>array('fields'=>array('ContentCollection.seq'))
                 )
             ),
-            'order'=>'ContentCollection.created ASC',
+            'order'=>'ContentCollection.seq ASC',
             'conditions' => $conditions
         ));
-        $this->set('most_recent',$most_recent);
+        $this->set('sequence_set',$sequence_set);
+        }
     }
-    
+        
     /**
      * Landing page for the blog
      * 
@@ -254,7 +267,12 @@ class ContentsController extends AppController {
 //        Configure::write('debug',0);
         $toc = $this->readBlogTOC();
         $this->set('toc',$toc);
+        $this->layout='blog_layout';
 //        debug($toc);die;
+        $this->blogPage();
+    }
+    
+    function blogPage(){
         $conditions = array('Collection.category_id'=>$this->categoryNI['dispatch']);
         
         if(!isset($this->params['pass'][0])){
@@ -274,9 +292,7 @@ class ContentsController extends AppController {
             $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
 
         }
-//        debug($most_recent);
-//        debug($this->params);
-//        debug($pname);die;
+
         $most_recent = $this->Content->ContentCollection->find('all',array(
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
@@ -291,34 +307,12 @@ class ContentsController extends AppController {
                     )
                 )
             ),
-            'order'=>'ContentCollection.created ASC',
+            'order'=>'ContentCollection.seq ASC',
             'conditions' => $conditions
         ));
-        $this->layout='blog_layout';
         $this->set('most_recent',$most_recent);
         
-        // set up a json array to lookup size swaps
-//        $size_swaps = json_encode(
-//            array('p'=>array(
-//                'x1000y750'=>'x1000y750',
-//                'x800y600'=>'x1000y750',
-//                'x640y480'=>'x800y600',
-//                'x500y375'=>'x640y480',
-//                'x320x240'=>'x500y375',
-//                'x160y120'=>'x320x240',
-//                'x75y56'=>'x160y120'),
-//            'm'=>array(
-//                'x1000y750'=>'x800y600',
-//                'x800y600'=>'x640y480',
-//                'x640y480'=>'x500y375',
-//                'x500y375'=>'x320x240',
-//                'x320x240'=>'x160y120',
-//                'x160y120'=>'x75y56',
-//                'x75y56'=>'x75y56')
-//        ));
-//        $this->set('size_swaps',$size_swaps);
     }
-    
     /**
      * Read the full blog table of contents from cache or db
      * 
