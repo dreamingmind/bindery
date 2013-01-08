@@ -232,7 +232,7 @@ input#searchInput {
     list-style: disc inside;
     font-size: 90%;
     padding: 4px 0px 4px;
-    margin-left: 340px;
+    /*margin-left: 340px;*/
     /*margin-left:10px;*/
 }
 div.entry{

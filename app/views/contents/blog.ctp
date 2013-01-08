@@ -5,7 +5,7 @@
 //debug($userdata);
 
 foreach($most_recent as $entry){
-    $cls = str_replace('.', '-', $entry['Content']['Image']['img_file']);
+    $cls = str_replace(array('.','-'), '', $entry['Content']['Image']['img_file']);
     echo $html->div('entry',
 
 '        <menu class="local_zoom" id="'.$cls.'" >
