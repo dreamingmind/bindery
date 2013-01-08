@@ -193,7 +193,7 @@ input#searchInput {
 /*	padding-top: 150px;*/
 	padding-left: 260px;
         padding-top: 10px;
-	width: 1060px;
+	width: 800px;
 }
 #scrolling h1 {
     color: #3f6d44;
@@ -213,7 +213,7 @@ input#searchInput {
 	padding: 0px 35px 0px 0px;
         position: absolute;
         top: 15px;
-        left: 700px;
+        left: 450px;
         width: 600px;
 }
 
@@ -235,23 +235,17 @@ input#searchInput {
     margin-left: 340px;
     /*margin-left:10px;*/
 }
-#di {
-    /*
-    div for the deail images
-    */
-    width:666px;
-    float: left;
-}
-#dp {
-    width:380px;
-    float:right;
-}
 div.entry{
     float:left;
+    position: relative;
 }
-
+.entry menu.zoom, .entry menu.local_zoom{
+    position: absolute;
+    margin-top: 0px;
+    font-size: 10px;
+}
 .entryText{
-    margin-left:340px;
+    margin-left:160px;
     margin-top: 60px;
     padding: 15px 10px 15px 0px;
 /*    border-bottom-left-radius: 50% 10%;
@@ -259,18 +253,34 @@ div.entry{
     border-top-right-radius: 14em 2em;
     border-top: thin solid #993;
 }
+.x160y120, .x1000y750 {
+    border-top-right-radius: 0px 0px;
+    margin-top: 0px;
+    margin-left: 187px;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+}
+.x1000y750 {
+    border: none;
+}
+.x640y480 {
+    margin-top: 460px;
+    padding-top: 42px;
+}
 #detail .entryText img{
-    margin: 2px 8px;
+    margin: 2px 0px 2px 8px;
+    float: right;
 }
 .entryText p{
     margin: 8px 0px 0px;
 }
-.entryText > p:first-child{
+.entryText:first-child{
     margin-top: 15px;
 }
-.entryText > h2:first-child {
+/*.entryText > h2:first-child {
     margin-top: 15px;
-}
+}*/
 .entryTex p:last-of-type{
     margin-bottom: 20px;
 }
@@ -283,13 +293,13 @@ div.entry{
 .entryText h2{
     font-size: 20px;
 }
-.zoom {
+.zoom, .local_zoom {
     /*float: right;*/
     padding: 0;
     cursor: pointer;
     margin-top: 100px;
 }
-.zoom > a {
+.zoom > a, .local_zoom > a {
     /*visibility: hidden;*/
     display: inline-block;
     padding: 2px 6px;
@@ -299,7 +309,7 @@ div.entry{
     text-decoration: none;
     line-height: 1.5em;
 }
-.zoom:hover > a {
+.zoom:hover, .local_zoom:hover > a {
     visibility:visible;
 }
 

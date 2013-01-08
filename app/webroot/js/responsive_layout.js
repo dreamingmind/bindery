@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    
+    var size_swaps = {"p":{"x1000y750":"x1000y750","x800y600":"x1000y750","x640y480":"x800y600","x500y375":"x640y480","x320y240":"x500y375","x160y120":"x320y240","x75y56":"x160y120"},"m":{"x1000y750":"x800y600","x800y600":"x640y480","x640y480":"x500y375","x500y375":"x320y240","x320y240":"x160y120","x160y120":"x160y120","x75y56":"x75y56"}};
+
     /**
      * Assign + and - click functions for blog page image size change
      */
@@ -8,6 +11,41 @@ $(document).ready(function(){
         })
     });
     
+
+    $('.local_zoom').each(assignLocalZooms, $(this).attr('id'));
+        
+    function assignLocalZooms(index, menu){
+//        l_zoom = $('.local_zoom');
+//        id = $(l_zoom[index]).attr('id');
+        id = $(menu).attr('id');
+        $(menu).children('a').each(function(){
+            $(this).bind('click', function(){
+                resizeImage(this);
+            })
+        });
+//        alert()
+//        $('.'+id).each(function(){
+//            alert(this.tagName);
+    };
+
+    function resizeImage(element){
+        var id = $(element).parent().attr('id');
+        var change = $(element).html();
+        var patt = new RegExp("x[0-9]+y[0-9]+");
+        var src = $('img.'+id).attr('src');
+        var index = patt.exec(src);
+//        alert(size_swaps.p[index]+' : '+size_swaps.m[index]);
+        if (change == '+'){
+            $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+            $('div.'+id).attr('class', id+' entryText '+ size_swaps.p[index]);
+        } else {
+            $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'));
+            $('div.'+id).attr('class', id+' entryText '+ size_swaps.m[index]);
+        }
+//        alert(src);
+        
+    }
+
     /*
      * Assign function to button that invokes the Sequencing panel
      */
@@ -30,22 +68,46 @@ $(document).ready(function(){
      */
 
     function resizeImages(change){
-        var size_swaps = {"p":{"x1000y750":"x1000y750","x800y600":"x1000y750","x640y480":"x800y600","x500y375":"x640y480","x320y240":"x500y375","x160y120":"x320y240","x75y56":"x160y120"},"m":{"x1000y750":"x800y600","x800y600":"x640y480","x640y480":"x500y375","x500y375":"x320y240","x320y240":"x160y120","x160y120":"x75y56","x75y56":"x75y56"}};
         var patt = new RegExp("x[0-9]+y[0-9]+");
         var src = $('img.scalable').attr('src');
+        var fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace('.','-');
         var index = patt.exec(src);
+//        var cls = new String(index);
         if (change == '+'){
-//            alert(src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
             $('img.scalable').each(function(){
-                $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'))
+                $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+                $('.'+index).attr('class', fn_class+' entryText '+ size_swaps.p[index]);
             });
         } else {
-//            alert(src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'));
             $('img.scalable').each(function(){
                 $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
+                $('.'+index).attr('class', fn_class+' entryText '+ size_swaps.m[index]);
             });
         }
         
     }
+
+//    function resizeImage(change, cid){
+////        var size_swaps = {"p":{"x1000y750":"x1000y750","x800y600":"x1000y750","x640y480":"x800y600","x500y375":"x640y480","x320y240":"x500y375","x160y120":"x320y240","x75y56":"x160y120"},"m":{"x1000y750":"x800y600","x800y600":"x640y480","x640y480":"x500y375","x500y375":"x320y240","x320y240":"x160y120","x160y120":"x160y120","x75y56":"x75y56"}};
+//        var patt = new RegExp("x[0-9]+y[0-9]+");
+//        var src = $('img.scalable').attr('src');
+//        var index = patt.exec(src);
+//        var cls = String('.'+cid);
+//        if (change == '+'){
+////            alert(src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+//            
+//                $(cls).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+//                $(cls.nextSibling).attr('class','entryText '+ size_swaps.p[index]);
+////                $('.'+index).addClass(size_swaps.p[index]);
+//            
+//        } else {
+////            alert(src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'));
+//                $(cls).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
+//                $(cls.nextSibling).attr('class','entryText '+ size_swaps.m[index]);
+////                $('.'+index).;
+//        }
+//        
+//    }
+
 
 });

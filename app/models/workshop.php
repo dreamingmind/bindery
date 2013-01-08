@@ -203,6 +203,7 @@ class Workshop extends AppModel {
                 )
             )
         );
+       debug(getallheaders());
        debug($this->workshops_all);die;
        }
 
