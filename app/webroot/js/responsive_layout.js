@@ -70,18 +70,22 @@ $(document).ready(function(){
     function resizeImages(change){
         var patt = new RegExp("x[0-9]+y[0-9]+");
         var src = $('img.scalable').attr('src');
-        var fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace('.','-');
+//        var fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace('.','-');
         var index = patt.exec(src);
 //        var cls = new String(index);
         if (change == '+'){
             $('img.scalable').each(function(){
+                src = $(this).attr('src');
+                fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
                 $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
-                $('.'+index).attr('class', fn_class+' entryText '+ size_swaps.p[index]);
+                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.p[index]);
             });
         } else {
             $('img.scalable').each(function(){
+                src = $(this).attr('src');
+                fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
                 $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
-                $('.'+index).attr('class', fn_class+' entryText '+ size_swaps.m[index]);
+                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.m[index]);
             });
         }
         
