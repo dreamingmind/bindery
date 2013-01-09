@@ -955,7 +955,7 @@ class ImagesController extends AppController {
             // next look for a request to create a new Collection
             if($this->data['Content']['new_collection']!=null){
                 $collection['Collection']['heading'] = $this->data['Content']['new_collection'];
-                $collection['Collection']['category'] = $this->data['Content']['new_collection_category'];
+                $collection['Collection']['category_id'] = $this->data['Content']['new_collection_category'];
                 $this->Image->Content->ContentCollection->Collection->create($collection);
                 debug('new collection save');
                 $this->Image->Content->ContentCollection->Collection->save();
