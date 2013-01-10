@@ -273,7 +273,7 @@ div.entry{
     float: right;
 }
 .entryText p{
-    margin: 8px 0px 0px;
+    margin: 0px 0px 8px;
 }
 .entryText:first-child{
     margin-top: 15px;

@@ -205,7 +205,7 @@ class ContentsController extends AppController {
             //save the data here
             $this->Content->ContentCollection->saveAll($this->data);
             $this->blogPage();
-            $this->render('blog');
+            $this->render('blog','ajax');
         } else {
         $conditions = array(
             'Collection.category_id'=>$this->categoryNI['dispatch'],
