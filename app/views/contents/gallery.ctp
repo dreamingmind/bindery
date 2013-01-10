@@ -36,5 +36,5 @@ echo $this->Html->image(
 <span class="<?php echo $record['Image']['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></span>
 <br>
 <br>
-<span class="<?php echo $record['Image']['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></span>
+<div class="markdown <?php echo $record['Image']['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></div>
 </div>

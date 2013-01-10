@@ -37,10 +37,10 @@ $(document).ready(function(){
 //        alert(size_swaps.p[index]+' : '+size_swaps.m[index]);
         if (change == '+'){
             $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
-            $('div.'+id).attr('class', id+' entryText '+ size_swaps.p[index]);
+            $('div.'+id).attr('class', id+' entryText '+ size_swaps.p[index] + ' markdown');
         } else {
             $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'));
-            $('div.'+id).attr('class', id+' entryText '+ size_swaps.m[index]);
+            $('div.'+id).attr('class', id+' entryText '+ size_swaps.m[index] + ' markdown');
         }
 //        alert(src);
         

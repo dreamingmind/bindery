@@ -20,7 +20,7 @@ foreach($most_recent as $entry){
                 'class'=>'scalable '.$cls)
         )
         ."\n"
-        . $html->div($cls . ' entryText x320y240',Markdown($entry['Content']['content']),
+        . $html->div($cls . ' entryText x320y240 markdown',Markdown($entry['Content']['content']),
         array(''/* the div attributes */)));
 }
 ?>

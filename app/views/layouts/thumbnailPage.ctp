@@ -40,6 +40,7 @@
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('visibilities');
     echo $this->Html->script('jumpbox');
+    echo $this->Html->script('adjust_markdown');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
