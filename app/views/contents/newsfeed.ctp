@@ -70,9 +70,9 @@ foreach ($collectionPage as $dispatch) {
     $collection_list = '';
     foreach($dispatch['collections'] as $collection_id => $collection_heading){
         $collection_list .= $this->Html->tag('li', 
-                $this->Html->link($collection_heading, array(
+                $this->Html->link($collection_heading[0], array(
                     'action'=>'newsfeed',
-                    'pname'=>$collection_heading)));
+                    'pname'=>$collection_heading[1])));
     }
     $in = $this->Html->div('imgNav',
             $this->Html->div('tools',

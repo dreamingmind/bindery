@@ -50,7 +50,8 @@ class Content extends AppModel {
         var $actsAs = array('Sluggable'=>array(
             'label'=>'heading',
             'overwrite'=>true,
-            'dups' => 'id'
+            'dups' => 'id',
+            'translate' => true
         ));
         var $displayField = 'heading';
     
@@ -119,7 +120,8 @@ class Content extends AppModel {
                     ),
                     'Collection'=>array(
                         'fields'=>array(
-                            'Collection.heading'
+                            'Collection.heading',
+                            'Collection.slug'
                         )
                     )
                 )
@@ -132,7 +134,10 @@ class Content extends AppModel {
                 foreach($content['ContentCollection'] as $collection){
 //                    debug($collection);
                     if(isset($collection['Collection']['heading'])){
-                        $collections[$collection['collection_id']] = $collection['Collection']['heading'];
+                        $collections[$collection['collection_id']] = array(
+                            $collection['Collection']['heading'],
+                            $collection['Collection']['slug']
+                        );
                     }
                 }
 //                debug($collections);

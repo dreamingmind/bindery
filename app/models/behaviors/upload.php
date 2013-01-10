@@ -77,9 +77,25 @@ App::import('Core', array('File', 'Folder'));
      }
      
      function read_exif(&$fileObj = null){
-        $exif = exif_read_data($fileObj->path, 'FILE', true);
-        unset($exif['EXIF']['MakerNote']);
-        $fileObj->exif = $exif;
+         if($fileObj->info['extension'] != 'png'){
+            $exif = exif_read_data($fileObj->path, 'FILE', true);
+            unset($exif['EXIF']['MakerNote']);
+            $fileObj->exif = $exif;
+         } else {
+             // png files don't have exif data
+             $fileObj->exif = array(
+                 'FILE'=>array(
+                     'MimeType'=>'image/png',
+                     'FileSize'=>''
+                 ),
+                 'EXIF'=>array(
+                     'DateTimeOriginal'=>''
+                 ),
+                 'COMPUTED'=>array(
+                     'Width'=>'',
+                     'Height'=>''
+                 ));
+         }
      }
 
         /**

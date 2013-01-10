@@ -155,7 +155,7 @@ h2 + div a.dispatchAnchor {
 .zoom:hover > a {
     visibility:visible;
 }
-.dispatch p, .dispatch ol {
+.dispatch p, .dispatch ol, .content ul {
 	margin: 0px 0px 0px 130px;
         padding: 10px 0 0px 10px;
 	font-size:12px;
@@ -173,6 +173,9 @@ h2 + div a.dispatchAnchor {
     list-style: outside decimal;
     margin-bottom: 6px;
     margin-left: 35px;
+}
+.dispatch .content li:last-of-type{
+    margin-bottom: 0px;
 }
 .dispatch .content:last-of-type{
     padding-bottom: 15px;
