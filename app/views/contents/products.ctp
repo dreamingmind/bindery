@@ -1,12 +1,26 @@
 <?php
-//debug($recentTitles);
+//debug($recentTitles);die;
 //debug($most_recent);
+$path = 'images/thumb/x160y120/';
 ?>
 <h1>Recent updates</h1>
 <ul>
 <?php
 foreach($recentTitles as $li){
-    echo $html->tag('li',$li);
+        $img = $html->image($path.$li['Image']['img_file'], array(
+            'id'=>'im'.$li['Image']['id'],
+            'alt'=>$li['Image']['alt'],
+            'title'=>$li['Image']['title']
+        ));
+        $head = $html->tag('h2',$li['Content']['heading']);
+        $txt = $html->para('',TextHelper::truncate($li['Content']['content'],50));
+        $link = $html->link('Go', array(
+            'controller'=>'contents',
+            'pname'=>$li['ContentCollection'][0]['Collection']['slug'],
+            'action'=>'newsfeed',
+            '/#id'.$li['Content']['id']
+        ));
+        echo $img . $head . $txt . $link;
 }
 ?>
 </ul>

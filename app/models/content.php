@@ -253,5 +253,173 @@ class Content extends AppModel {
         $this->collectionNeighbors = $neighbors;
         
     }
+    
+    /**
+     * @todo Make this pull other recent category data by passing ->categoryNI[]
+     * @todo Improve the link-creation ability by getting neighbor data so the page can be known
+     * @todo Can this serve as a model for getting search result sets? 
+     * Pull data for the $limit more recent Content entries on distinct Content.headings
+     *    [0] => Array
+     *      [Content] => Array
+     *              [heading] => Catching up after the holidays
+     *              [id] => 481
+     *              [slug] => catching-up-after-holidays
+     *              [content] => Here are the liners...
+     *              [created] => 2013-01-11 12:15:38
+     *      [Image] => Array
+     *              [id] => 828
+     *              [title] => Catching up after the holidays
+     *              [alt] => Liners for a portfolio trimmed up a...
+     *              [img_file] => DSC01566.JPG
+     *      [ContentCollection] => Array
+     *              [0] => Array
+     *                      [content_id] => 481
+     *                      [collection_id] => 61
+     *                      [publish] => 1
+     *                      [Collection] => Array
+     *                              [id] => 61
+     *                              [category_id] => 1469
+     *                              [heading] => Portfolios
+     *                              [slug] => portfolios
+     * 
+     * @param int $limit How many records to pull, default 10
+     * @return array The data, most recent dispatch entries, each on a different Content.heading
+     */
+   function recentNews($limit=null){
+        $limit = ($limit==null) ? 10 : $limit;
+        
+        // ---------------------------------------------
+        // This pulls the most recent 50 Content.ids that are 'dispatch' Category
+        // It's assumed that this range will include 10 unique Content.headings
+        // This list of ids will be formatted (id1,id2,id3...) for use 
+        // later in a WHERE x IN () statement
+        $id_list = $this->ContentCollection->find('all',array(
+            'fields'=>array(
+                'ContentCollection.content_id',
+                'ContentCollection.collection_id'
+            ),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array(
+                        'Collection.id',
+                        'Collection.category_id'
+                    )
+                )),
+            'conditions'=>array(
+                'Collection.category_id'=>
+                $this->ContentCollection->Collection->Category->categoryNI['dispatch']),
+            'limit'=>50,
+            'order'=>'ContentCollection.modified DESC'
+            
+        ));
+        
+        $in = $c = '';
+        foreach($id_list as $record){
+            $in .= $c.$record['ContentCollection']['content_id'];
+            $c = ',';
+        } 
+        // the IN () list is done and stored in $in
+        // ---------------------------------------------
+
+        // ---------------------------------------------
+        // This will construct the subquery to isolate
+        // the unique (on Content.heading) records
+        // to the MOST RECENT entry of that Content.heading
+        $dbo = $this->getDataSource();
+        $subQuery = $dbo->buildStatement(
+            array(
+                'fields' => array('MAX(`c2`.`id`)'),
+                'table' => $dbo->fullTableName('contents'),
+                'alias' => 'c2',
+                'limit' => null,
+                'offset' => null,
+                'joins' => array(),
+                'conditions' => array('`Content`.`heading`  = `c2`.`heading`'),
+                'order' => null,
+                'group' => null
+            ),
+            $this->alias
+        );
+        $subQuery = ' `Content`.`id` = (' . $subQuery . ') ';
+        $subQueryExpression = $dbo->expression($subQuery);
+
+        // ---------------------------------------------
+        
+        $this->recent_news = $this->find('all', array(
+            'fields'=>array(
+                'Content.heading',
+                'Content.id',
+                'Content.slug',
+                'Content.content',
+                'Content.created'
+            ),
+            'group'=>array('Content.heading'),
+            'order'=>array('Content.modified DESC'),
+            'limit'=>$limit,
+            'contain'=>array(
+                'Image'=>array(
+                    'fields'=>array(
+                        'Image.id',
+                        'Image.title',
+                        'Image.alt',
+                        'Image.img_file'
+                    ),
+                ),
+                'ContentCollection'=>array(
+                    'fields'=>array(
+                        'ContentCollection.content_id',
+                        'ContentCollection.collection_id',
+                        'ContentCollection.publish'
+                    ),
+                    'Collection'=>array(
+                        'fields'=>array(
+                            'Collection.id',
+                            'Collection.category_id',
+                            'Collection.heading',
+                            'Collection.slug'
+                        ),
+                        'conditions'=>array(
+                            'Collection.category_id'=>
+                            $this->ContentCollection->Collection->Category->categoryNI['dispatch'])
+                    )
+                )
+            ),
+            'conditions'=>array(
+                $subQueryExpression,
+                "Content.id IN ($in)"
+            )
+        ));
+      
+//        foreach($news as $record){
+//            $this->recent_news_list[$record['Content']['slug']]=$record['Content']['heading'];
+//        }
+        return $this->recent_news;
+    }
+//
+//$conditions[] = $subQueryExpression;
+//$conditionsSubQuery['`User2`.`status`'] = 'B';
+//
+//$dbo = $this->User->getDataSource();
+//$subQuery = $dbo->buildStatement(
+//    array(
+//        'fields' => array('`User2`.`id`'),
+//        'table' => $dbo->fullTableName($this->User),
+//        'alias' => 'User2',
+//        'limit' => null,
+//        'offset' => null,
+//        'joins' => array(),
+//        'conditions' => $conditionsSubQuery,
+//        'order' => null,
+//        'group' => null
+//    ),
+//    $this->User
+//);
+//$subQuery = ' `User`.`id` NOT IN (' . $subQuery . ') ';
+//$subQueryExpression = $dbo->expression($subQuery);
+//
+//$conditions[] = $subQueryExpression;
+//
+//$this->User->find('all', compact('conditions'));
+
 }
 ?>

@@ -389,9 +389,13 @@ class ContentsController extends AppController {
      * Much more to come
      */
     function products(){
+//        debug($this->Content->recentNews());
+//        debug($this->Content->Image->recentNewsLinks());
+        $this->set('recentTitles',  $this->Content->recentNews());
+
 //        Configure::write('debug',0);
         $this->layout = 'noThumbnailPage';
-        $this->set('recentTitles',  $this->Content->Image->recentTitles);
+//        $this->set('recentTitles',  $this->Content->Image->recentTitles);
         $most_recent = $this->Content->ContentCollection->find('all',array(
             'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
