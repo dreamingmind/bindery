@@ -1,4 +1,5 @@
 <?php
+App::import('Sanitize');
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
@@ -391,7 +392,7 @@ class ContentsController extends AppController {
     function products(){
 //        debug($this->Content->recentNews());
 //        debug($this->Content->Image->recentNewsLinks());
-        $this->set('recentTitles',  $this->Content->recentNews());
+        $this->set('recentTitles',  $this->Content->recentNews(5));
 
 //        Configure::write('debug',0);
         $this->layout = 'noThumbnailPage';
@@ -400,7 +401,7 @@ class ContentsController extends AppController {
             'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
                 'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading')
+                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
                 ),
                 'Content'=>array(
                     'fields'=>array('Content.id','Content.content','Content.heading'),

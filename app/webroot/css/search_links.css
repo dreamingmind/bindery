@@ -1,0 +1,84 @@
+/* 
+    Document   : search_links
+    Created on : Jan 13, 2013, 8:12:56 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+#noThumbTransparent{
+    height: 50px;
+}
+#scrolling{
+    width: 830px;
+}
+.linkDiv{
+    height: 130px;
+    width: 400px;
+}
+.Col2Left {
+    float: left;
+    padding-top: 10px;
+}
+.Col2Right {
+    float: right;
+    padding-top: 10px;
+}
+.linkDiv img{
+    float: left;
+    margin-right: 10px;
+}
+.linkDiv a, .linkDiv p{
+}
+.linkDiv a{
+    color: #8C4A3D;
+    font-size: 16px;
+    text-decoration: underline;
+}
+.linkDiv a:hover{
+    color: #003d4c;
+    font-size: 16px;
+    text-decoration: underline;
+}
+.linkDiv p{
+    font-size: 12px;
+    margin-left: 170px;
+}
+
+#intro h1 {
+    text-align: center;
+    color: #802A19;
+    background-color: #e1e1e1;
+    font-size: 28px;
+    margin: 0 0 4px 0;
+    padding: 5px 5px 10px 12px;
+    font-weight: bold;
+    font-variant: small-caps;
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #802A19;
+}
+#intro p {
+    padding: 0px 0 8px;
+    margin: 0 75px 0 75px;
+    font-size: 14px;
+    font-weight: normal;
+    color:#666;
+}
+#scrolling h2.Col2 {
+    width: 380px;
+    color: #8c4a3d;
+    background-color: #e1e1e1;
+    font-size: 20px;
+    margin-bottom: 8px;
+    padding: 5px 5px 5px 12px;
+}
+#scrolling h2 a {
+    font-weight: normal;
+    font-size: 10px;
+    padding-left: 10px;
+}
+
