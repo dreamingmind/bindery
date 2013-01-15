@@ -62,11 +62,7 @@ foreach($most_recent as $update){
         //and follow it with truncated markdown content
         $link = $html->link($update['Content']['heading'],
             DS.'products'.DS.$update['Collection']['slug'].DS.'gallery'.DS.'id:'.$update['Content']['id']
-            
-        //http://localhost/bindery/products/photo-albums/gallery/page:1/id:354
-        ) . markdown(TextHelper::truncate($clean,100));
-//        echo $html->tag('h2',$update['Content']['heading']);
-//        echo $html->tag('p',$update['Content']['content']);
+            ) . markdown(TextHelper::truncate($clean,100));
         //assemble the image link
         $img = $html->image($path.$update['Content']['Image']['img_file'], array(
 //            'id'=>'im'.$update['Content']['Image']['id'],
