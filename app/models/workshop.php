@@ -203,8 +203,59 @@ class Workshop extends AppModel {
                 )
             )
         );
+        $this->workshopsSetter();
        debug(getallheaders());
-       debug($this->workshops_all);die;
+       debug($this->workshops_now);
+       debug($this->workshops_upcoming);
+       debug($this->workshops_potential);
+       debug($this->workshops_all);
+       die;
+       }
+       function workshopsSetter (){
+           foreach ($this->workshops_all as $workshop){
+//             for workshops_potential find those sessions with null first days
+               if(empty($workshop['Session'])){
+                   $this->workshops_potential[$workshop['Workshop']['id']]=$workshop;
+//                 if there are no sessions, don't do the session loop
+                   continue;
+               }
+//             for workshops_now find those sessions with a first day of today OR those
+//             sessions with a first day before today and a last day after or equal to today
+               foreach ($workshop['Session'] as $session){
+                   if ($session['first_day'] == date('Y-m-d',time())
+                       OR
+                       ($session['first_day']< date('Y-m-d',time())
+                       AND
+                       $session['first_day']<= date('Y-m-d',time()))
+                       ){
+                   $this->workshops_now[$workshop['Workshop']['id']]=$workshop;
+//             for workshops_upcoming find those sessions with a first day after today                   
+                   }else if($session['first_day'] > date('Y-m-d',time())){
+                       $this->workshops_upcoming[$workshop['Workshop']['id']]=$workshop;
+//                     if there is an upcoming session, no need to look for more
+                       continue;
+                   }
+               
+               }
+           }
+       }
+       function workshopsUpcoming (){
+                   if (empty($this->workshops_upcoming)){
+                       $this->workshopsAll();
+                   }
+                   return $this->workshops_upcoming;
+       }
+      function workshopsPotential (){
+                   if (empty($this->workshops_potential)){
+                       $this->workshopsAll();
+                   }
+                   return $this->workshops_potential;
+       }
+       function workshopsNow (){
+                   if (empty($this->workshops_now)){
+                       $this->workshopsAll();
+                   }
+                   return $this->workshops_now;
        }
 
 }
