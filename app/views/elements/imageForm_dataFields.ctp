@@ -1,5 +1,12 @@
 <?php
 /* @var $this ViewCC */ 
+/**
+ * Image.alt
+ * Image.title
+ * 
+ * Image.recent_titles (array for drop list)
+ * 
+ */
 ?> 
 <?php
 
@@ -26,12 +33,6 @@ $parameters = array(
         'title',
         'recent_titles'=>array(
             'options'=>(isset($record)&&isset($record['recent_titles']))?$record['recent_titles']:''
-        ),
-        'category'=>array(
-            'type'=>'radio',
-            'options'=> array(
-                'dispatches'=>'Dispatch', 'exhibits'=>'Exhibit'
-            )
         )
     )
 );

@@ -1,5 +1,9 @@
 <?php
 /* @var $this ViewCC */ 
+/**
+ * Content.id
+ * Content.image_id
+ */
 ?> 
 	<?php
 $parameters = array(

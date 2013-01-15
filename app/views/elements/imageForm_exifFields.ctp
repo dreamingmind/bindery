@@ -1,5 +1,16 @@
 <?php
 /* @var $this ViewCC */ 
+/**
+ * Record array (accepts standard array or file object with exif data in it)
+ * Image.mimetype
+ * Image.filesize
+ * Image.date
+ * Image.width
+ * Image.height
+ * Image.img_file (this is hidden and won't allow file uploads)
+ * 
+ * Image.reread_exif (I don't think this has to be in the array. It's for post-processing)
+ */
 ?> 
 	<?php
                     

@@ -1,5 +1,13 @@
 <?php
 /* @var $this ViewCC */ 
+
+/**
+ * Content.heading
+ * Content.content
+ * Content.alt
+ * Content.title
+ * Content.publish 
+ */
 ?> 
 	<?php
 $parameters = array(

@@ -1,5 +1,21 @@
 <?php
 /* @var $this ViewCC */ 
+/**
+ * Record array
+ * 
+ * This fieldset element doesn't use a $record array beacuse it is
+ * all post-processing data. But it does require a few
+ * arrays that support selection lists of various kinds
+ * 
+ * Content.linked_content (array of Content.heading(s) where Content.image_id = Content.image_id, and '', 'New')
+ *      the array is passed in $linkedContent
+ * Content.new_collection (empty. used in post-processing)
+ * Content.new_collection_category (array of possible categories)
+ *      the array is passed in $collectionCategories
+ * Content.recent_collections (array of recently used Collection.heading(s))
+ *      passed in $recentCollections (id=>'heading (category)')
+ * $groups array is complicated. I'll have to look that up.
+ */
 ?> 
 <?php
 // make the grouped list into individual lists with a [0] element

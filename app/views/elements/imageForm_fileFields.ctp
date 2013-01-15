@@ -1,5 +1,15 @@
 <?php
 /* @var $this ViewCC */
+/** This element has not be re-written into the 
+ * NEW modular fieldset helper system
+ * $data array
+ * [x]Image.img_file.name
+ * [x]Image.img_file.type
+ * [x]Image.img_file.tmp_file
+ * [x]Image.img_file.size
+ * [x]Image.img_file.error
+ * [x]Image.batch
+ */
 
 // copy this code to set-up the proper $file array
 //$count = $replace; //optional

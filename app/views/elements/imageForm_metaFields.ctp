@@ -1,5 +1,10 @@
 <?php
-/* @var $this ViewCC */ 
+/* @var $this ViewCC */
+/**
+ * Record array
+ * Image.id
+ * Image.upload
+ */
 ?>
 <?php
 $parameters = array(
