@@ -226,7 +226,7 @@ class Workshop extends AppModel {
                        OR
                        ($session['first_day']< date('Y-m-d',time())
                        AND
-                       $session['first_day']<= date('Y-m-d',time()))
+                       $session['last_day']>= date('Y-m-d',time()))
                        ){
                    $this->workshops_now[$workshop['Workshop']['id']]=$workshop;
 //             for workshops_upcoming find those sessions with a first day after today                   
