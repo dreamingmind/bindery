@@ -531,14 +531,18 @@ class ContentsController extends AppController {
             'fields'=>array('image_id','alt','content','publish','heading'),
             'contain'=>array(
                 'Image'=>array(
-                    'fields'=>array('Image.id','Image.img_file','Image.mimetype','Image.filesize','Image.width','Image.height','Image.title','Image.alt','Image.date','Image.upload'),
-                    'Supplement'=>array(
-                        'fields'=>array('Supplement.image_id',
-                            'Supplement.collection_id',
-                            'Supplement.type',
-                            'Supplement.data')
-                    )
-                ),
+                    'fields'=>array(
+                        'Image.id',
+                        'Image.img_file',
+                        'Image.mimetype',
+                        'Image.filesize',
+                        'Image.width',
+                        'Image.height',
+                        'Image.title',
+                        'Image.alt',
+                        'Image.date',
+                        'Image.upload'
+                    )                ),
                 'ContentCollection'=>array(
                     'fields'=>array('ContentCollection.collection_id',
                         'ContentCollection.sub_collection',
@@ -549,7 +553,14 @@ class ContentsController extends AppController {
                         'Category'=>array(
                             'fields'=>array('Category.id','Category.name','Category.supplement_list')
                         )
+                    ),
+                    'Supplement'=>array(
+                        'fields'=>array('Supplement.image_id',
+                            'Supplement.collection_id',
+                            'Supplement.type',
+                            'Supplement.data')
                     )
+
                 )
             ))); 
         
@@ -940,26 +951,30 @@ class ContentsController extends AppController {
     function compressSupplements(&$record){
         
         $supplement = array();
-        $collection = $record['ContentCollection'][0]['collection_id'];
+//        $collection = $record['ContentCollection'][0]['collection_id'];
         
         if ($record['ContentCollection'][0]['Collection']['Category']['supplement_list'] != 'empty'){
             //there is a list of required supplement data, so build the array
             $list = $record['ContentCollection'][0]['Collection']['Category']['supplement_list'];
             $supplement[$record['ContentCollection'][0]['collection_id']] = array_flip(explode("," , $record['ContentCollection'][0]['Collection']['Category']['supplement_list']));
             // default values could be read from a property here i guess. Or inserted on new/edit screens
+//            debug($list);
+//            debug($supplement);
         }
         
-        if (isset($record['Image']['Supplement'])){
-            foreach($record['Image']['Supplement'] as $entry){
+        if (isset($record['ContentCollection'][0]['Supplement'])){
+//            debug($record['ContentCollection'][0]['Supplement']);
+            foreach($record['ContentCollection'][0]['Supplement'] as $entry){
+//                debug($entry);
                 // the image may belong to many collections with different supplements
                 // so we'll filter only those for this collection
-                if ($entry['collection_id']==$collection){
+//                if ($entry['collection_id']==$collection){
                     $supplement[$entry['type']] = $entry['data'];
-                }
+//                }
             }
         }
         
-        $record['Image']['Supplement'] = $supplement;
+        $record['ContentCollection'][0] = $supplement;
     }
 
 }

@@ -9,6 +9,13 @@ class ContentCollection extends AppModel {
                     'className'=>'Collection',
                     'foreignKey'=>'sub_collection'
                 ));
+                
+        var $hasMany = array(
+            'Supplement' => array(
+                'className'=>'Supplement',
+                'foreignKey'=>'content_collection_id'
+            )
+        );
         
         var $displayField = 'Content.heading';
         

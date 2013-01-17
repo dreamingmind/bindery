@@ -1,7 +1,7 @@
 <?php /* @var $this ViewCC */ ?> 
 <?php
 //<p>
-//debug($record);
+//debug($record);die;
 //debug($neighbors);
 //debug($filmStrip);
 ////debug($introduction);
@@ -25,16 +25,16 @@ echo $this->Html->image(
     #proseblock {
         position: absolute;
         z-index: 3;
-        top: <?php echo $record['Image']['Supplement']['top_val'] ?>px;
-        left: <?php echo $record['Image']['Supplement']['left_val'] ?>px;
-        width: <?php echo $record['Image']['Supplement']['width_val'] ?>px;
-        height: <?php echo $record['Image']['Supplement']['height_val'] ?>px;
+        top: <?php echo $record['ContentCollection'][0]['top_val'] ?>px;
+        left: <?php echo $record['ContentCollection'][0]['left_val'] ?>px;
+        width: <?php echo $record['ContentCollection'][0]['width_val'] ?>px;
+        height: <?php echo $record['ContentCollection'][0]['height_val'] ?>px;
     }
     -->
 </style>
 <div id="proseblock">
-<span class="<?php echo $record['Image']['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></span>
+<span class="<?php echo $record['ContentCollection'][0]['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></span>
 <br>
 <br>
-<div class="markdown <?php echo $record['Image']['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></div>
+<div class="markdown <?php echo $record['ContentCollection'][0]['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></div>
 </div>

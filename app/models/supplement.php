@@ -4,20 +4,24 @@ class Supplement extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-		'Image' => array(
-			'className' => 'Image',
-			'foreignKey' => 'image_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Collection' => array(
-			'className' => 'Collection',
-			'foreignKey' => 'collection_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+//            'Image' => array(
+//                    'className' => 'Image',
+//                    'foreignKey' => 'image_id',
+//                    'conditions' => '',
+//                    'fields' => '',
+//                    'order' => ''
+//            ),
+//            'Collection' => array(
+//                'className' => 'Collection',
+//                'foreignKey' => 'collection_id',
+//                'conditions' => '',
+//                'fields' => '',
+//                'order' => ''
+//            ),
+            'ContentCollection' => array(
+                'className' => 'ContentCollection',
+                'foreignKey' => 'content_collection_id',
+            )
 	);
 }
 ?>

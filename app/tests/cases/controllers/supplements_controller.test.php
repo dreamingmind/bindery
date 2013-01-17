@@ -1,5 +1,5 @@
 <?php
-/* Supplements Test cases generated on: 2012-12-20 17:58:12 : 1356055092*/
+/* Supplements Test cases generated on: 2013-01-16 08:14:54 : 1358352894*/
 App::import('Controller', 'Supplements');
 
 class TestSupplementsController extends SupplementsController {
@@ -11,7 +11,7 @@ class TestSupplementsController extends SupplementsController {
 }
 
 class SupplementsControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.supplement', 'app.image', 'app.content', 'app.navline', 'app.navigator', 'app.exhibit_supliment', 'app.content_collection', 'app.collection', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
+	var $fixtures = array('app.supplement', 'app.image', 'app.content', 'app.content_collection', 'app.collection', 'app.category', 'app.navigator', 'app.navline', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
 
 	function startTest() {
 		$this->Supplements =& new TestSupplementsController();
