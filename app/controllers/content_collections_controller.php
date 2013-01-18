@@ -26,9 +26,10 @@ class ContentCollectionsController extends AppController {
 				$this->Session->setFlash(__('The content collection could not be saved. Please, try again.', true));
 			}
 		}
+		$detailCollections = $this->ContentCollection->DetailCollection->find('list');
 		$contents = $this->ContentCollection->Content->find('list');
 		$collections = $this->ContentCollection->Collection->find('list');
-		$this->set(compact('contents', 'collections'));
+		$this->set(compact('detailCollections', 'contents', 'collections'));
 	}
 
 	function edit($id = null) {
@@ -45,16 +46,12 @@ class ContentCollectionsController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
-                    $this->set('neighbors',  $this->ContentCollection->find('neighbors',array('field'=>'id','value'=>$id)));
 			$this->data = $this->ContentCollection->read(null, $id);
 		}
+		$detailCollections = $this->ContentCollection->DetailCollection->find('list');
 		$contents = $this->ContentCollection->Content->find('list');
-		$collections = $this->ContentCollection->Collection->find('list', array
-                        ('conditions' => array('Collection.category' =>  $this->data['Collection']['category'])));
-		$detail_collections = $this->ContentCollection->Collection->find('list', array
-                        ('conditions' => array('Collection.category' =>  $this->data['Collection']['category'].'_detail')));
-		$this->set(compact('contents', 'collections', 'detail_collections'));
-//                debug($this->data);
+		$collections = $this->ContentCollection->Collection->find('list');
+		$this->set(compact('detailCollections', 'contents', 'collections'));
 	}
 
 	function delete($id = null) {

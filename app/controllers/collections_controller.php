@@ -26,6 +26,8 @@ class CollectionsController extends AppController {
 				$this->Session->setFlash(__('The collection could not be saved. Please, try again.', true));
 			}
 		}
+		$categories = $this->Collection->Category->find('list');
+		$this->set(compact('categories'));
 	}
 
 	function edit($id = null) {
@@ -42,9 +44,10 @@ class CollectionsController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
-                    $this->set('neighbors',  $this->Collection->find('neighbors',array('field'=>'id','value'=>$id)));
 			$this->data = $this->Collection->read(null, $id);
 		}
+		$categories = $this->Collection->Category->find('list');
+		$this->set(compact('categories'));
 	}
 
 	function delete($id = null) {

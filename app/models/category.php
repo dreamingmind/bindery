@@ -18,7 +18,7 @@ class Category extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-        
+
         /**
          * @var array $categoryNI list of categories name => id
          */

@@ -1,5 +1,5 @@
 <?php
-/* Categories Test cases generated on: 2012-12-20 20:08:38 : 1356062918*/
+/* Categories Test cases generated on: 2013-01-17 20:43:01 : 1358484181*/
 App::import('Controller', 'Categories');
 
 class TestCategoriesController extends CategoriesController {
@@ -11,7 +11,7 @@ class TestCategoriesController extends CategoriesController {
 }
 
 class CategoriesControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.category', 'app.collection', 'app.content_collection', 'app.content', 'app.navline', 'app.navigator', 'app.image', 'app.supplement', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
+	var $fixtures = array('app.category', 'app.collection', 'app.content_collection', 'app.content', 'app.image', 'app.supplement', 'app.navigator', 'app.navline', 'app.user', 'app.group', 'app.optin_user', 'app.optin', 'app.account');
 
 	function startTest() {
 		$this->Categories =& new TestCategoriesController();

@@ -56,11 +56,8 @@
 		<th><?php __('Publish'); ?></th>
 		<th><?php __('Text'); ?></th>
 		<th><?php __('Role'); ?></th>
-		<th><?php __('Category'); ?></th>
-		<th><?php __('Id Dispatch'); ?></th>
-		<th><?php __('Id Exhibit'); ?></th>
-		<th><?php __('Workshop Id'); ?></th>
 		<th><?php __('Category Id'); ?></th>
+		<th><?php __('Slug'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -79,11 +76,8 @@
 			<td><?php echo $collection['publish'];?></td>
 			<td><?php echo $collection['text'];?></td>
 			<td><?php echo $collection['role'];?></td>
-			<td><?php echo $collection['category'];?></td>
-			<td><?php echo $collection['id_dispatch'];?></td>
-			<td><?php echo $collection['id_exhibit'];?></td>
-			<td><?php echo $collection['workshop_id'];?></td>
 			<td><?php echo $collection['category_id'];?></td>
+			<td><?php echo $collection['slug'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'collections', 'action' => 'view', $collection['id'])); ?>
 				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'collections', 'action' => 'edit', $collection['id'])); ?>

@@ -5,6 +5,7 @@
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('sub_collection');?></th>
 			<th><?php echo $this->Paginator->sort('content_id');?></th>
 			<th><?php echo $this->Paginator->sort('collection_id');?></th>
@@ -23,9 +24,12 @@
 		<td><?php echo $contentCollection['ContentCollection']['created']; ?>&nbsp;</td>
 		<td><?php echo $contentCollection['ContentCollection']['modified']; ?>&nbsp;</td>
 		<td><?php echo $contentCollection['ContentCollection']['id']; ?>&nbsp;</td>
-		<td><?php echo $contentCollection['ContentCollection']['sub_collection']; ?>&nbsp;</td>
+		<td><?php echo $contentCollection['ContentCollection']['publish']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($contentCollection['Content']['title'], array('controller' => 'contents', 'action' => 'view', $contentCollection['Content']['id'])); ?>
+			<?php echo $this->Html->link($contentCollection['DetailCollection']['id'], array('controller' => 'collections', 'action' => 'view', $contentCollection['DetailCollection']['id'])); ?>
+		</td>
+		<td>
+			<?php echo $this->Html->link($contentCollection['Content']['heading'], array('controller' => 'contents', 'action' => 'view', $contentCollection['Content']['id'])); ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($contentCollection['Collection']['id'], array('controller' => 'collections', 'action' => 'view', $contentCollection['Collection']['id'])); ?>
@@ -57,9 +61,11 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('List Collections', true), array('controller' => 'collections', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Detail Collection', true), array('controller' => 'collections', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Contents', true), array('controller' => 'contents', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content', true), array('controller' => 'contents', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Collections', true), array('controller' => 'collections', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Collection', true), array('controller' => 'collections', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Supplements', true), array('controller' => 'supplements', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Supplement', true), array('controller' => 'supplements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

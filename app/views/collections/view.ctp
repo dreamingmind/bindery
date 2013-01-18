@@ -38,7 +38,12 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $collection['Collection']['category']; ?>
+			<?php echo $this->Html->link($collection['Category']['name'], array('controller' => 'categories', 'action' => 'view', $collection['Category']['id'])); ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Slug'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $collection['Collection']['slug']; ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -50,6 +55,8 @@
 		<li><?php echo $this->Html->link(__('Delete Collection', true), array('action' => 'delete', $collection['Collection']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $collection['Collection']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Collections', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Collection', true), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Categories', true), array('controller' => 'categories', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
@@ -62,8 +69,8 @@
 		<th><?php __('Created'); ?></th>
 		<th><?php __('Modified'); ?></th>
 		<th><?php __('Id'); ?></th>
-		<th><?php __('Visible'); ?></th>
-		<th><?php __('Sub Gallery'); ?></th>
+		<th><?php __('Publish'); ?></th>
+		<th><?php __('Sub Collection'); ?></th>
 		<th><?php __('Content Id'); ?></th>
 		<th><?php __('Collection Id'); ?></th>
 		<th><?php __('Seq'); ?></th>
@@ -81,8 +88,8 @@
 			<td><?php echo $contentCollection['created'];?></td>
 			<td><?php echo $contentCollection['modified'];?></td>
 			<td><?php echo $contentCollection['id'];?></td>
-			<td><?php echo $contentCollection['visible'];?></td>
-			<td><?php echo $contentCollection['sub_gallery'];?></td>
+			<td><?php echo $contentCollection['publish'];?></td>
+			<td><?php echo $contentCollection['sub_collection'];?></td>
 			<td><?php echo $contentCollection['content_id'];?></td>
 			<td><?php echo $contentCollection['collection_id'];?></td>
 			<td><?php echo $contentCollection['seq'];?></td>

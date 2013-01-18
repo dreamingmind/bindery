@@ -7,7 +7,8 @@
 		echo $this->Form->input('publish');
 		echo $this->Form->input('text');
 		echo $this->Form->input('role');
-		echo $this->Form->input('category');
+		echo $this->Form->input('category_id');
+		echo $this->Form->input('slug');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
@@ -17,6 +18,8 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Collections', true), array('action' => 'index'));?></li>
+		<li><?php echo $this->Html->link(__('List Categories', true), array('controller' => 'categories', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
