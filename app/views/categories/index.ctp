@@ -24,7 +24,10 @@
 		<td><?php echo $category['Category']['created']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['name']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['description']; ?>&nbsp;</td>
-		<td><?php echo $category['Category']['supplement_list']; ?>&nbsp;</td>
+                <?php if (str_word_count($category['Category']['supplement_list'])>1){ 
+//                    echo str_word_count($category['Category']['supplement_list']);?>
+                <td><pre><?php print_r(unserialize($category['Category']['supplement_list'])); ?>&nbsp;</pre></td>
+                <?php } ?>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id'])); ?>

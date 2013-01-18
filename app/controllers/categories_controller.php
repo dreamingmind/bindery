@@ -2,6 +2,8 @@
 class CategoriesController extends AppController {
 
 	var $name = 'Categories';
+        
+        var $layout = 'noThumbnailPage';
 
 	function index() {
 		$this->Category->recursive = 0;
@@ -18,6 +20,7 @@ class CategoriesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+                    debug($this->data);die;
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));

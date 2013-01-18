@@ -28,7 +28,7 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Supplement List'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $category['Category']['supplement_list']; ?>
+                    <pre><?php print_r(unserialize($category['Category']['supplement_list'])); ?></pre>
 			&nbsp;
 		</dd>
 	</dl>

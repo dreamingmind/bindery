@@ -78,6 +78,15 @@ input#jumpInput {
 input#searchInput {
 	width: 180px;
 }
+
+input.supplement_list {
+    display: inline;
+    width: 36%;
+}
+button.supplement_list {
+    display: inline;
+    margin-left: 5px;
+}
 /*===============================
 Dispatch Content
 Dispatch entries, links and clickers
