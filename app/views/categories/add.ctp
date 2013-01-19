@@ -5,40 +5,7 @@
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
-                
-                //this assembles content for 1 div
-                //KEY input, =>, VALUE input, + button, - button
-                //it should be an element since edit.ctp uses it too
-		$sl = $this->Form->input('supplement_list',array(
-                    'name'=>'data[Category][supplement_key][]',
-                    'class'=>'supplement_list',
-                    'id'=>false,
-                    'div'=>false
-                    ))
-                .'&nbsp;=>&nbsp;'.
-		$this->Form->input('supplement_list',array(
-                    'name'=>'data[Category][supplement_value][]',
-                    'class'=>'supplement_list',
-                    'id'=>false,
-                    'div'=>false,
-                    'label'=>false
-                    ))
-                 .$this->Form->button('+',array(
-                     'class'=>'supplement_list clone',
-                     'type'=>'button',
-                     'title'=>'Clone this'
-
-                 ))
-                 .$this->Form->button('-',array(
-                     'class'=>'supplement_list remove',
-                     'type'=>'button',
-                     'title'=>'Remove this'
-                ));
-                
-                //this actually outputs the assembly
-                //this div is the clonable or deletable unit
-                //that javascript works on when the +/- buttons are clicked
-                echo $html->div('input text', $sl);
+                echo $this->element('supplement_default_fields', array('form',$this->Form));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

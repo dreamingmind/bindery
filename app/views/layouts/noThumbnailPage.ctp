@@ -39,6 +39,7 @@
         echo $html->css('login');
     }
     echo $this->Html->script('jquery-1.4.2');
+    echo $this->Html->script('supplement_defaults');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

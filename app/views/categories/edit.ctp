@@ -8,45 +8,10 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
 //		echo $html->para('',$this->data['Category']['supplement_list']);
-                if (str_word_count($this->data['Category']['supplement_list'])>1){
-                    $defaults = unserialize($this->data['Category']['supplement_list']);
-                    foreach($defaults as $key => $value){
-                        $sl = $this->Form->input('supplement_list',array(
-                            'name'=>'data[Category][supplement_key][]',
-                            'class'=>'supplement_list',
-                            'id'=>false,
-                            'div'=>false,
-                            'value'=>$key
-                            ))
-                        .'&nbsp;=>&nbsp;'.
-                        $this->Form->input('supplement_list',array(
-                            'name'=>'data[Category][supplement_value][]',
-                            'class'=>'supplement_list',
-                            'id'=>false,
-                            'div'=>false,
-                            'label'=>false,
-                            'value'=>$value
-                            ))
-                         .$this->Form->button('+',array(
-                             'class'=>'supplement_list clone',
-                             'type'=>'button',
-                             'title'=>'Clone this'
-                             
-                         ))
-                         .$this->Form->button('-',array(
-                             'class'=>'supplement_list remove',
-                             'type'=>'button',
-                             'title'=>'Remove this'
-                         ))
-                                ;
-                        echo $html->div('input text', $sl);
-
-                    }
-                } 
-                
-//                foreach($this->data){
-//                    
-//                }
+                echo $this->element('supplement_default_fields', array(
+                    'form',$this->Form,
+                    'supplement_defaults'=>$this->data['Category']['supplement_list']
+                    ));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
