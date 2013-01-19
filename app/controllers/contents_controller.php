@@ -566,7 +566,6 @@ class ContentsController extends AppController {
         
         $this->compressSupplements($record);
         $this->set('record',$record);
-//        debug($record);die;
         }
     }
     /**
@@ -939,42 +938,28 @@ class ContentsController extends AppController {
      *              [data] => 35
      * Should translate into
      * [Supplement] => Array
-     *      [670] => Array
-     *              [89] => Array
-     *                     [headstyle] => drksubhead
-     *                     [pgraphstyle] => drkparagraph
-     *              [44] => Array
-     *                     [size] => 35
+     *              [headstyle] => drksubhead
+     *              [pgraphstyle] => drkparagraph
+     *              [size] => 35
      * 
      * @todo what about this multiple cont_coll record situation?
      */
     function compressSupplements(&$record){
-        
+
         $supplement = array();
-//        $collection = $record['ContentCollection'][0]['collection_id'];
         
         if ($record['ContentCollection'][0]['Collection']['Category']['supplement_list'] != 'empty'){
-            //there is a list of required supplement data, so build the array
-            $list = $record['ContentCollection'][0]['Collection']['Category']['supplement_list'];
-            $supplement[$record['ContentCollection'][0]['collection_id']] = array_flip(explode("," , $record['ContentCollection'][0]['Collection']['Category']['supplement_list']));
-            // default values could be read from a property here i guess. Or inserted on new/edit screens
-//            debug($list);
-//            debug($supplement);
+            //there is default supplement data, so build the array
+            $supplement = unserialize($record['ContentCollection'][0]['Collection']['Category']['supplement_list']);
         }
         
         if (isset($record['ContentCollection'][0]['Supplement'])){
-//            debug($record['ContentCollection'][0]['Supplement']);
             foreach($record['ContentCollection'][0]['Supplement'] as $entry){
-//                debug($entry);
-                // the image may belong to many collections with different supplements
-                // so we'll filter only those for this collection
-//                if ($entry['collection_id']==$collection){
-                    $supplement[$entry['type']] = $entry['data'];
-//                }
+                $supplement[$entry['type']] = $entry['data'];
             }
         }
         
-        $record['ContentCollection'][0] = $supplement;
+        $record['Supplement'] = $supplement;
     }
 
 }
