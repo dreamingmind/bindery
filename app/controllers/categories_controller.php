@@ -20,7 +20,7 @@ class CategoriesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
-                    debug($this->data);die;
+                        $this->data['Category']['supplement_list'] = $this->processSupplementDefaults();
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
@@ -37,6 +37,7 @@ class CategoriesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+                        $this->data['Category']['supplement_list'] = $this->processSupplementDefaults();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
 				$this->redirect(array('action' => 'index'));
@@ -61,5 +62,31 @@ class CategoriesController extends AppController {
 		$this->Session->setFlash(__('Category was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        /**
+         * Process a clean value for Category.supplement_list add/edit methods
+         * 
+         * The form sends 2 arrays, keys and values for 
+         * default Supplement values. This makes sure every
+         * key says something if it has a corresponding value
+         * and throws out any empty pairs
+         * as it makes one array out of the two.
+         * 
+         * @return string empty string or serialized array
+         */
+        function processSupplementDefaults(){
+            $keys = $this->data['Category']['supplement_key'];
+            $values = $this->data['Category']['supplement_value'];
+            if(implode('', $keys).implode('', $values) == ''){
+                return '';
+            }
+            $defaults = array();
+            for($i=0; $i<count($this->data['Category']['supplement_key']); $i++){
+                if ($keys[$i].$values[$i] != ''){
+                    $defaults[($keys[$i] != '')?$keys[$i]:"noKey$i"] = $values[$i];
+                }
+            }
+            return serialize($defaults);
+        }
 }
 ?>
