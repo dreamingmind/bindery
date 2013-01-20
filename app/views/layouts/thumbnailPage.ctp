@@ -41,6 +41,7 @@
     echo $this->Html->script('visibilities');
     echo $this->Html->script('jumpbox');
     echo $this->Html->script('adjust_markdown');
+    echo $this->Html->script('edit_exhibit');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

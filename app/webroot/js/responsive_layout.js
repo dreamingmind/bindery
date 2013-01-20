@@ -55,7 +55,7 @@ $(document).ready(function(){
          if($('#sequence_panel').length == 0){
              $('menu.zoom').before('<div id="sp"></div>');
              var path = location.pathname.replace(/blog/,'sequence')
-             alert(path);
+//             alert(path);
              $('#sp').load(path);
          } else {
              $('#sp').detach();

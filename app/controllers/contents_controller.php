@@ -181,6 +181,60 @@ class ContentsController extends AppController {
             $images = $this->Content->Image->find('list');
             $this->set(compact('navlines', 'images'));
     }
+    
+    function edit_exhibit($id=null) {
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid content', true));
+            debug($this->referer());die;
+            $this->redirect($this->referer());
+        }
+        if (!empty($this->data)) {
+            $result = 0; // 0 at the end means nothing saved properly
+            $result_message = '';
+            //save the Content portion
+            if ($this->Content->save($this->data)) {
+                $result_message = __('The content has been saved', true);
+                $result += 1;
+            } else {
+                $result_message = __('The content could not be saved. Please, try again.', true);
+            }
+            if ($this->Content->Image->save($this->data)) {
+                $result_message .= __("<br />The image has been saved", true);
+                $result += 1;
+            } else {
+                $result_message .= __("<br />The image could not be saved. Please, try again.", true);
+            }
+            $this->Session->setFlash($result_message);
+            if($result > 0){
+            // refresh the screen after everythign is saved
+                $this->passedArgs = unserialize($this->data['Content']['passedArgs']);
+                $this->params = unserialize($this->data['Content']['params']);
+                $this->gallery();
+                $this->render('gallery','thumbnailPage');
+            } else{
+            // if nothing saved, redraw the form
+                $packet = $this->data;
+                unset($this->data);
+            }
+        }
+        if(empty($this->data)){
+        $this->layout = 'ajax';
+//        $this->layout = 'noThumbnailPage';
+            $packet = $this->Content->find('all',array(
+                'contain'=>array(
+                    'Image',
+                    'ContentCollection'=>array(
+                        'Collection',
+                        'Supplement'
+                    )
+
+                ),
+                'conditions'=>array('Content.id'=>$id)
+            ));
+        $this->set('packet',$packet);
+        }
+//        $this->Session->setFlash('a test message');
+    }
 
     function delete($id = null) {
             $this->layout = 'noThumbnailPage';
@@ -450,7 +504,8 @@ class ContentsController extends AppController {
         );
         $this->set($vars);
         // ------- end logic testing block
-        
+//        debug($this->passedArgs);
+//        debug($this->params);
         // Taylor pagination to Exhibits then call for the navStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
