@@ -212,6 +212,7 @@ class ContentsController extends AppController {
                 $this->gallery();
                 $this->render('gallery','thumbnailPage');
             } else{
+                // SEE ISSUE 82 FOR THE DIRECTION TO GO ON THIS SECTION
             // if nothing saved, redraw the form
                 $packet = $this->data;
                 unset($this->data);
@@ -224,7 +225,9 @@ class ContentsController extends AppController {
                 'contain'=>array(
                     'Image',
                     'ContentCollection'=>array(
-                        'Collection',
+                        'Collection' =>array(
+                            'Category'
+                        ),
                         'Supplement'
                     )
 
@@ -610,8 +613,8 @@ class ContentsController extends AppController {
                         )
                     ),
                     'Supplement'=>array(
-                        'fields'=>array('Supplement.image_id',
-                            'Supplement.collection_id',
+                        'fields'=>array(
+                            'Supplement.content_collection_id',
                             'Supplement.type',
                             'Supplement.data')
                     )

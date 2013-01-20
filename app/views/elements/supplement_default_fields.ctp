@@ -1,6 +1,21 @@
 <?php
 /* @var $this ViewCC */
 /**
+ * Call with Category.supplement_defaults in $supplement_defaults
+ *  or not if there are none.
+ * 
+ * This is the basic edit form for Category records.
+ * It doesn't take into account Supplement records attached
+ * to a ContentCollection. In that case, use 
+ * Element supplementForm_dataFields which builds
+ * on a copy of this code
+ * 
+ * Also pass a set of Supplement records with the field
+ *  Supplement.id
+ *  Supplement.type
+ *  Supplement.data
+ *  if they exist
+ * 
  * 
  *  */
 ?>
