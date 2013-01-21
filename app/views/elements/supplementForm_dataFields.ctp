@@ -16,9 +16,10 @@
  */
 ?> 
 	<?php
+//        debug($data);
 //        $post_fields = $this->element('supplement_default_fields', array('supplement_defaults'=>$data['ContentCollection'][0]['Collection']['Category']['supplement_list']));
-//        debug($data['ContentCollection'][0]['Collection']['Category']['supplement_list']);
-//        debug($data['ContentCollection'][0]['Supplement']);
+$supplement_defaults = $data['ContentCollection'][0]['Collection']['Category']['supplement_list'];
+$supplements = $data['ContentCollection'][0]['Supplement'];
 $parameters = array(
     'supplement_defaults' => (isset($supplement_defaults)?$supplement_defaults:false),
     'supplements' => (isset($supplements)?$supplements:false),
@@ -29,7 +30,7 @@ $parameters = array(
     'record'=> (isset($record))?$record:false,
     'legend'=> (isset($legend))?$legend:'Supplement fields',
     'prefix'=> (isset($prefix))?$prefix:false,
-    'model'=>'Content',
+    'model'=>'Supplement', 
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array()
 //        'type',
@@ -37,14 +38,33 @@ $parameters = array(
 );
 //
 
-$merged_supplements = mergeSupplements($parameters);
+$tempParams = $parameters;
+$merged_supplements = mergeSupplements($tempParams);
 
 if($merged_supplements){
+    $parameters['post_fields'] = '';
+    $count = 0;
+    foreach($merged_supplements as $key => $entry){
+        if ($key != 'Stored--id'){
+            $tempParams['record'] = array(
+                'type'=>$key,
+                'data'=>$entry);
+//            debug($key);
+            if(isset($merged_supplements['Stored--id'][$key])){
+                $tempParams['record']['id']=$merged_supplements['Stored--id'][$key];
+            }
+            $tempParams['linkNumber'] = $count++;
+            $parameters['post_fields'] .= oneInput($form_helper, $tempParams);
+        }
+    }
     
 } else {
-    $parameters['post_fields'] = oneInput($form_helper);
+    $tempParams['linkNumber'] = 0;
+    $tempParams['record'] = array('type'=>'','data'=>'');
+    $parameters['post_fields'] = oneInput($form_helper, $tempParams);
 }
 
+$parameters['prefix'] = $parameters['record'] = $parameters['linkNumber'] = false;
 echo $fieldset->fieldset($parameters);
        
        $this->Js->buffer(
@@ -75,6 +95,12 @@ echo $fieldset->fieldset($parameters);
 //    }
 //
 //echo $inputs;
+  
+    function compileName($params){
+        $params['prefix'][] = $params['model'];
+        $params['prefix'][] = $params['linkNumber'];
+        return 'data['.implode('][', $params['prefix']).']';
+    }
 
 
     /**
@@ -82,7 +108,10 @@ echo $fieldset->fieldset($parameters);
      * @param array $params The entire parameter set
      * @return array|false False if there are no Supplements, default or stored; merged array otherwise
      */
-    function mergeSupplements($params){  
+    function mergeSupplements($params){ 
+//        debug($params);
+//        debug($params['supplement_defaults']);
+//        debug($params['supplements']);
         //indicate no supplement data provided
         $merged = false;
         if($params['supplement_defaults']){
@@ -95,8 +124,11 @@ echo $fieldset->fieldset($parameters);
             //as an indicator of a non-default, stored value
             foreach($params['supplements'] as $count => $record){
                 $merged[$record['type']] = $record['data'];
-                $merged[$record['type']]['id'] = $record['id'];
+                $merged['Stored--id'][$record['type']] = $record['id'];
             }
+        }
+        if(is_array($merged)&&!isset($merged['Stored--id'])){
+            $merged['Stored--id'] = array();
         }
         return $merged;
     }
@@ -109,36 +141,43 @@ echo $fieldset->fieldset($parameters);
      * @param string $value The 'value' value for the form input
      * @return string HTML <div><label></label><input/><input/><button/><button/></div>
      */
-    function oneInput(&$form, $key = '', $value = '') {
-    //function oneInput($key = '', $value = '') {
+    function oneInput(&$form, $params) {
+//        // assemble the 'prefix' portion of the 'name' attribute
+//        $this->prefixName = (isset($params['prefix']))
+//                ?'data['.implode('][', $params['prefix']).']'
+//                :'data';
 
-        $i1 = $form->input('supplement_list',array(
-            'name'=>'data[Category][supplement_key][]',
-            'class'=>'supplement_list',
+    //function oneInput($key = '', $value = '') {
+        $name = compileName($params);
+        $storage = (isset($params['record']['id']))?'STORED - ':'DEFAULT - ';
+        
+        $i1 = $form->input($storage . 'Supplement Value',array(
+            'name'=>$name.'[type]',
+            'class'=>'supplement_list ' . strtolower($storage),
             'id'=>false,
             'div'=>false,
-            'value'=>$key
+            'value'=>$params['record']['type']
             ))
         .'&nbsp;=>&nbsp;'.
         $form->input('supplement_list',array(
-            'name'=>'data[Category][supplement_value][]',
-            'class'=>'supplement_list',
+            'name'=> $name.'[value]',
+            'class'=>'supplement_list ' . strtolower($storage),
             'id'=>false,
             'div'=>false,
             'label'=>false,
-            'value'=>$value
+            'value'=>$params['record']['data']
             ))
-         .$form->button('+',array(
-             'class'=>'supplement_list clone',
-             'type'=>'button',
-             'title'=>'Clone this'
-
-         ))
-         .$form->button('-',array(
-             'class'=>'supplement_list remove',
-             'type'=>'button',
-             'title'=>'Remove this'
-         ))
+//         .$form->button('+',array(
+//             'class'=>'supplement_list clone',
+//             'type'=>'button',
+//             'title'=>'Clone this'
+//
+//         ))
+//         .$form->button('-',array(
+//             'class'=>'supplement_list remove',
+//             'type'=>'button',
+//             'title'=>'Remove this'
+//         ))
          ."\n";
 
         return '<div class="input text">' . $i1. '</div>';

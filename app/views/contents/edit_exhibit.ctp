@@ -8,7 +8,10 @@ echo '<DIV class="formContent">';
     echo $this->Html->div('', $this->element('contentForm_dataFields',array(
         'record'=>$packet[0],
         'display'=>'show')));
-    echo $this->Html->div('', $this->element('supplementForm_dataFields',array('data'=>'','form_helper'=>$form)));//$packet[0]
+    echo $this->Html->div('', $this->element('supplementForm_dataFields',array(
+        'data'=>$packet[0],
+        'form_helper'=>$form,
+        'prefix'=>array('ContentCollection','0'))));//
     echo $this->Html->div('', $this->element('imageForm_dataFields',array(
         'record'=>$packet[0])));
     echo $this->Html->div('', $this->element('contentForm_metaFields',array(
