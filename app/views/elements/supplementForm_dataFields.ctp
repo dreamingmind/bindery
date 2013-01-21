@@ -16,15 +16,14 @@
  */
 ?> 
 	<?php
-//        debug($data);
-//        $post_fields = $this->element('supplement_default_fields', array('supplement_defaults'=>$data['ContentCollection'][0]['Collection']['Category']['supplement_list']));
-$supplement_defaults = $data['ContentCollection'][0]['Collection']['Category']['supplement_list'];
-$supplements = $data['ContentCollection'][0]['Supplement'];
 $parameters = array(
+    'content_collection_id' => (isset($content_collection_id)?$content_collection_id:false),
     'supplement_defaults' => (isset($supplement_defaults)?$supplement_defaults:false),
     'supplements' => (isset($supplements)?$supplements:false),
     
-    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
+    'pre_fields' => '<label>STORED Supplement values are from Supplement records linked to the current ContentCollection record</label>
+        <label>DEFAULT values are looked up from Category, meaning no values have ever been entered for this ContentCollection record</label><br />'
+        . ((isset($pre_fields))?$pre_fields:''),
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
@@ -149,23 +148,46 @@ echo $fieldset->fieldset($parameters);
 
     //function oneInput($key = '', $value = '') {
         $name = compileName($params);
+        $id_attr = preg_replace(array('/\[/','/\]/'),'', $name);
         $storage = (isset($params['record']['id']))?'STORED - ':'DEFAULT - ';
         
         $i1 = $form->input($storage . 'Supplement Value',array(
             'name'=>$name.'[type]',
-            'class'=>'supplement_list ' . strtolower($storage),
+            'class'=>'supplement_list ' . $id_attr,
             'id'=>false,
             'div'=>false,
             'value'=>$params['record']['type']
             ))
         .'&nbsp;=>&nbsp;'.
         $form->input('supplement_list',array(
-            'name'=> $name.'[value]',
-            'class'=>'supplement_list ' . strtolower($storage),
-            'id'=>false,
+            'name'=> $name.'[data]',
+            'class'=>'supplement_list live_update',
+            'id'=>$id_attr,
             'div'=>false,
             'label'=>false,
             'value'=>$params['record']['data']
+            ))
+        .$form->input('supplement_list',array(
+            'name'=> $name.'[content_collection_id]',
+            'type'=>'hidden',
+            'class'=>false,
+            'id'=>false,
+            'div'=>false,
+            'label'=>false,
+            'value'=>(isset($params['content_collection_id']))
+                ?$params['content_collection_id']
+                :''
+            ))
+        .$form->input('supplement_list',array(
+            'name'=> $name.'[id]',
+            'type'=>'hidden',
+            'class'=>false,
+            'id'=>false,
+            'div'=>false,
+            'label'=>false,
+            'value'=>(isset($params['record']['id']))
+                ?$params['record']['id']
+                :''
             ))
 //         .$form->button('+',array(
 //             'class'=>'supplement_list clone',

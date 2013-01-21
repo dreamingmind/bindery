@@ -477,22 +477,32 @@ li.thumbButton:hover > a img {
         left: 300px;
         width: 600px;
 }
-.drksubhead     {
+h1#drksubhead {
 	color: #9a3614;
 	font-size: 16px;
 	font-weight: bold;
+        margin: 0px;
+        background: none;
+        border: none;
+        padding: 0px;
+        font-variant: normal;
 }
-.drkparagraph  {
+#drkparagraph p {
 	color: black;
 	font-size: 12px;
 	font-weight: normal;
 }
-.ltsubhead  {
+h1#ltsubhead  {
 	color: #e7df7e;
 	font-size: 16px;
 	font-weight: bold;
+        margin: 0px;
+        background: none;
+        border: none;
+        padding: 0px;
+        font-variant: normal;
 }
-.ltparagraph  {
+#ltparagraph p{
 	color: white;
 	font-size: 12px;
 	font-weight: normal;

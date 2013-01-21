@@ -33,10 +33,8 @@ echo $this->Html->image(
     -->
 </style>
 <div id="proseblock" >
-<span class="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></span>
-<br>
-<br>
-<div class="markdown <?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?><br><br><br><br></div>
+<h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
+<div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
 </div>
 <?php
 

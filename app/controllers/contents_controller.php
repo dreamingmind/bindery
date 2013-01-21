@@ -189,6 +189,8 @@ class ContentsController extends AppController {
             $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
+//            debug($this->data['ContentCollection'][0]);
+            
             $result = 0; // 0 at the end means nothing saved properly
             $result_message = '';
             //save the Content portion
@@ -197,6 +199,14 @@ class ContentsController extends AppController {
                 $result += 1;
             } else {
                 $result_message = __('The content could not be saved. Please, try again.', true);
+            }
+            if (isset($this->data['ContentCollection'][0]['Supplement'])){
+                if ($this->Content->ContentCollection->Supplement->saveAll($this->data['ContentCollection'][0]['Supplement'])) {
+                    $result_message .= __('<br />The supplements have been saved', true);
+                    $result += 1;
+                } else {
+                    $result_message .= __('<br />The supplements could not be saved. Please, try again.', true);
+                }
             }
             if ($this->Content->Image->save($this->data)) {
                 $result_message .= __("<br />The image has been saved", true);
