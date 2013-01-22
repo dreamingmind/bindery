@@ -18,6 +18,7 @@ root {
 .linkDiv{
     height: 130px;
     width: 400px;
+    margin-bottom: 5px;
 }
 .Col2Left {
     float: left;
@@ -30,6 +31,7 @@ root {
 .linkDiv img{
     float: left;
     margin-right: 10px;
+    margin-top: 3px;
 }
 .linkDiv a, .linkDiv p{
 }
@@ -46,6 +48,14 @@ root {
 .linkDiv p{
     font-size: 12px;
     margin-left: 170px;
+    margin-top: 3px;
+}
+p.aside, .aside a {
+    font-size: 11px;
+    font-weight: normal;
+}
+p.aside {
+    color: #888;
 }
 
 #intro h1 {
