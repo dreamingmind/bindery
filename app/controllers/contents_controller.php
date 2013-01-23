@@ -31,6 +31,8 @@ class ContentsController extends AppController {
 
     var $name = 'Contents';
     
+    var $uses = array('Content','Catalog');
+    
     /**
      * @var string $layout The default layout for content has the thumbnail strip at the top
      */
@@ -489,6 +491,23 @@ class ContentsController extends AppController {
         $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
         $this->gallery();
         $this->render('gallery');
+    }
+    
+    /**
+     * Landing page for a major Product category
+     * 
+     * Tentatively this will show a couple of recent news feeds,
+     * A couple of recent Gallery links
+     * Some general product descriptions
+     * and some display of pricing samples or purchase links from Catalog
+     */
+    function product_landing(){
+        $this->layout = 'noThumbnailPage';
+        $this->set('recentTitles',  $this->Content->recentNews(2,  $this->params['pname']));
+        $sale_items = $this->Catalog->find('all',array(
+            'conditions'=>array('category'=>  $this->params['pname'])
+        ));
+        $this->set('sale_items',$sale_items);
     }
 
     /**

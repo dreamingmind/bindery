@@ -285,9 +285,13 @@ class Content extends AppModel {
      * @param int $limit How many records to pull, default 10
      * @return array The data, most recent dispatch entries, each on a different Content.heading
      */
-   function recentNews($limit=null){
-        $limit = ($limit==null) ? 10 : $limit;
-        
+   function recentNews($limit=null, $pname = null){
+        $limit = ($limit == null) ? 10 : $limit;
+        $product_condition = 
+            ($pname == null 
+                || ! $pname = $this->ContentCollection->Collection->findByslug($pname))
+            ? ''
+            : 'ContentCollection.collection_id = ' . $pname['Collection']['id'];
         // ---------------------------------------------
         // This pulls the most recent 50 Content.ids that are 'dispatch' Category
         // It's assumed that this range will include 10 unique Content.headings
@@ -307,7 +311,8 @@ class Content extends AppModel {
                 )),
             'conditions'=>array(
                 'Collection.category_id'=>
-                $this->ContentCollection->Collection->Category->categoryNI['dispatch']),
+                $this->ContentCollection->Collection->Category->categoryNI['dispatch'],
+                $product_condition),
             'limit'=>50,
             'order'=>'ContentCollection.modified DESC'
             

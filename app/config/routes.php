@@ -96,6 +96,9 @@ Router::connect('/:static', array(
         Router::connect('/products',
                 array ('controller'=>'contents','action'=>'products','pname'=>null));
         
+        Router::connect('/products/:pname',
+                array ('controller'=>'contents','action'=>'product_landing','pname'=>null));
+        
         Router::connect('/products/:pname/gallery/*',
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));
         
