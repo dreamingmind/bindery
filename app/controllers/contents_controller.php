@@ -515,6 +515,7 @@ class ContentsController extends AppController {
      */
     function product_landing(){
         $this->layout = 'noThumbnailPage';
+        $this->set('result_imagePath',  $this->result_imagePath);
         $this->set('recentTitles',  $this->Content->recentNews(2,  $this->params['pname']));
         $sale_items = $this->Catalog->find('all',array(
             'conditions'=>array('category'=>  $this->params['pname'])

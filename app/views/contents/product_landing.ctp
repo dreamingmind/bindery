@@ -1,11 +1,11 @@
 <?php
 echo $html->css('search_links');
 //$path = 'images/thumb/x75y56/';
-$path = 'images/thumb/x160y120/';
-
-// patterns in markdown: links, images, paragraphs
-$patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
-$replace = array('','',' ');
+//$path = 'images/thumb/x160y120/';
+//
+//// patterns in markdown: links, images, paragraphs
+//$patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
+//$replace = array('','',' ');
 //debug($patterns);
 echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
@@ -20,33 +20,8 @@ echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
     <!--</div>-->
     
 <?php
-foreach($recentTitles as $li){
-    //remove links and image links from markdown content
-    $clean = preg_replace($patterns, $replace,$li['Content']['content']);
-    //assemble the image link
-    $img = $html->image($path.$li['Image']['img_file'], array(
-        'id'=>'im'.$li['Image']['id'],
-        'alt'=>$li['Image']['alt'],
-        'title'=>$li['Image']['title']
-    ));
-    $link_uri = array(
-        'controller'=>'contents',
-        'pname'=>$li['ContentCollection'][0]['Collection']['slug'],
-        'action'=>'newsfeed',
-        '/#id'.$li['Content']['id']
-        );
-//    debug($li);
-        $blog_link=$html->link('Blog Article','/blog/'.$li['ContentCollection'][0]['collection_id'].'/'.$li['Content']['slug']);    //make the heading into the <A> tag
-    //and follow it with truncated markdown content
-    $heading_link = $html->link(truncateText($li['Content']['heading'],45), $link_uri,array('escape'=>false)) 
-            . markdown(truncateText($clean,100,true))
-            . $html->para('aside',"Or view as a $blog_link");
-;
-    
-    $image_link = $html->link($img, $link_uri,array('escape'=>false));
-    
-    //and output everything in a left-floating div
-    echo $html->div('linkDiv', $image_link . $html->para('aside','On the bench: date goes here') . $heading_link);
+foreach($recentTitles as $news){
+    echo $html->foundNewBlock($news, $result_imagePath);
 }
 ?>
 </div>
