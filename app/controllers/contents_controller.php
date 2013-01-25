@@ -30,7 +30,7 @@ App::import('Sanitize');
 class ContentsController extends AppController {
 
     var $name = 'Contents';
-    
+        
     var $uses = array('Content','Catalog');
     
     /**
@@ -103,13 +103,25 @@ class ContentsController extends AppController {
      * @var array $categoryIN list of categories id => name
      */
     var $categoryIN;
-    
+ 
+    /**
+     * @var string $result_ImagePath picks the size of image in search result blocks
+     */
+    var $result_imagePath = 'images/thumb/x160y120/';
    /** 
      * beforeFilter
      */
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('gallery', 'newsfeed', 'art', 'jump','products','blog','resequence');
+        $this->Auth->allow(
+                'gallery', 
+                'newsfeed', 
+                'art', 
+                'jump',
+                'products',
+                'blog',
+                'resequence',
+                'product_landing');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
@@ -461,8 +473,8 @@ class ContentsController extends AppController {
     function products(){
 //        debug($this->Content->recentNews());
 //        debug($this->Content->Image->recentNewsLinks());
-        $this->set('recentTitles',  $this->Content->recentNews(5));
-
+        $this->set('recentTitles',  $this->Content->recentNews(3));
+        $this->set('result_imagePath',  $this->result_imagePath);
 //        Configure::write('debug',0);
         $this->layout = 'noThumbnailPage';
 //        $this->set('recentTitles',  $this->Content->Image->recentTitles);

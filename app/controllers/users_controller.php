@@ -16,7 +16,6 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $helpers = array('Form');
         var $components = array('UserRecordForm', 'Email');
         var $tempPassword = null;
 

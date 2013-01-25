@@ -18,7 +18,6 @@ class AccountsController extends AppController {
 
 	var $name = 'Accounts';
         var $uses = array('User', 'Optin');
-	var $helpers = array('Form');
         var $components = array('UserRecordForm');
 
         /**

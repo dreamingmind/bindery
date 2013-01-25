@@ -21,8 +21,6 @@
 class NavigatorsController extends AppController {
 
 	var $name = 'Navigators';
-	//var $helpers = array('Html', 'Form', 'Session');
-        //var $uses = array('Navigator', 'Navline');
         var $components = array('TreeCrud');
         var $helpers = array(
             'TreeCrud'

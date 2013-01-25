@@ -23,7 +23,7 @@
  * @version       $Revision$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::import('Core', 'Helper', 'Session','Html');
+//App::import('Core', 'Helper');
 /**
  * This is a placeholder class.
  * Create the same file in app/app_helper.php
@@ -38,6 +38,9 @@ App::import('Core', 'Helper', 'Session','Html');
  * @property FormHelper $FormHelper
  */
 class AppHelper extends Helper {
+    
+    var $helpers = array ('Html','Time', 'Session', 'Form');
+    
     function output($str) {
         echo $str . "\n";
     }
@@ -59,14 +62,42 @@ class AppHelper extends Helper {
         $tool = "<p>";
         if (isset($userdata) && $userdata != 0) {
             $tool .= $userdata['username'] . " | ";
-            $tool .= HtmlHelper::link('Log Out', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'logout'));
+            $tool .= $this->Html->link('Log Out', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'logout'));
         } else {
-            $tool .= HtmlHelper::link('Log In', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'login'));
+            $tool .= $this->Html->link('Log In', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'login'));
             $tool .= ' | ';
-            $tool .= HtmlHelper::link('Register', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'register'));
+            $tool .= $this->Html->link('Register', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'register'));
         }
         return $tool;
     }
+    
+    /**
+     * Extend the abilities of TextHelpers truncate()
+     * 
+     * This can version can force truncation of strings that 
+     * fall below the truncation length, and allows setting
+     * the number of chars to remove in such a case
+     * 
+     * @param string $text The string to truncate
+     * @param type $length The max allowable length
+     * @param type $force
+     * @param type $force_length
+     * @return type
+     */
+    function truncateText($text, $length = 100, $options = array()){
+		$default = array(
+			'force' => false, 'force_cut' => 10
+		);
+		$options = array_merge($default, $options);
+		extract($options);
+    //if text is shorter than lengh and $force is true, $force_length chars will drop anyway
+        if($force){
+            $count= strlen($text);
+            $length = ($count<$length) ? $count-$force_cut : $length;
+        }
+        return TextHelper::truncate($text,$length,$options);
+    }
+
 
     /**
      * This is the main site search tool. Called from Layouts.
@@ -184,7 +215,7 @@ class AppHelper extends Helper {
             
             //<img src="images/thumb/x54y54/IMG_9167.JPG" />
             if (isset($entry['Content']['Image']['img_file'])) {
-                $image = HtmlHelper::image(
+                $image = $this->Html->image(
                     $path . $entry['Content']['Image']['img_file'], array(
                         'title' => $entry['Content']['Image']['title'],
                         'alt' => $entry['Content']['Image']['alt'],
@@ -193,13 +224,13 @@ class AppHelper extends Helper {
                     )
                 );
             } else {
-                $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+                $image = $this->Html->image('transparent.png',array('alt'=>'Missing Image',
                     'width'=>'54','height'=>'54'));
             }
 
             //<a class="thumb" href="static_nav4.php#1">1<br /><img ... /></a>
             if ($this->params['action']=='gallery') {
-                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                $link = $this->Html->link($number++ . '<br />' . $image,
                          DS.'products'. $pname .DS.
                         $paginator->params['action']. $page .DS.
                         'id:'.$entry['Content']['id'],
@@ -207,7 +238,7 @@ class AppHelper extends Helper {
                 );
             } elseif ($this->params['action']=='art') {
         //        debug($this->params);
-                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                $link = $this->Html->link($number++ . '<br />' . $image,
                     array(
         //                'controller'=>$this->params['controller'],
                         'action'=>$this->params['action'],
@@ -217,7 +248,7 @@ class AppHelper extends Helper {
                         array('escape'=>false,'class'=>'thumb')
                 );
             } elseif ($this->params['action']=='newsfeed') {
-                $link = HtmlHelper::link($number++ . '<br />' . $image,
+                $link = $this->Html->link($number++ . '<br />' . $image,
                         'id#'.$entry['Content']['id'],
                         array('escape'=>false,'class'=>'thumb')
                 );
@@ -226,13 +257,13 @@ class AppHelper extends Helper {
             // this sets the 'active' styling 
             // and calcs the next/prev image links
             if ($paginator->params['named']['id'] == $entry['Content']['id']) {
-                $li .= HtmlHelper::tag('li', $link, array('class'=>'active'));
+                $li .= $this->Html->tag('li', $link, array('class'=>'active'));
                 $nextImage = $neighbors[$entry['Content']['id']]['next'];
                 $previousImage = $neighbors[$entry['Content']['id']]['previous'];
                 $nextImagePage = $neighbors[$nextImage]['page'];
                 $previousImagePage = $neighbors[$previousImage]['page'];
             } else {
-                $li .= HtmlHelper::tag('li', $link);
+                $li .= $this->Html->tag('li', $link);
             }
         }
 
@@ -245,28 +276,28 @@ class AppHelper extends Helper {
         if($count < 9){
             $opacity = $count;
             while ($count < 9){
-                $image = HtmlHelper::image('transparent.png',array('alt'=>'',
+                $image = $this->Html->image('transparent.png',array('alt'=>'',
                     'width'=>'54','height'=>'54',
                     'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
                     'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)
                 ));
-                $link = HtmlHelper::link(' <br />' . $image,
+                $link = $this->Html->link(' <br />' . $image,
                     '#',
                     array('escape'=>false,'class'=>'thumb_link')
                 );
-                $li .= HtmlHelper::tag('li', $link);
+                $li .= $this->Html->tag('li', $link);
                 $count++;
             }
         }
         
         // Make the next PAGE link
-        $nPageImg = HtmlHelper::image(
+        $nPageImg = $this->Html->image(
             'nxt_arrow_drk.png', array(
                 'title' => 'Next page',
                 'alt' => 'Next page arrow'
             )
         );
-        $nLink = HtmlHelper::link( $nPageImg,
+        $nLink = $this->Html->link( $nPageImg,
             DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                 'page:'.$nextPage.DS.
                 'id:'.$nextPageImage,
@@ -274,7 +305,7 @@ class AppHelper extends Helper {
             ) . '<br />';
 
         // Make the next IMAGE link
-        $nImage = HtmlHelper::image(
+        $nImage = $this->Html->image(
             'nxt_arrow_drk.png', array(
                 'title' => 'Next image',
                 'alt' => 'Next image arrow',
@@ -282,14 +313,14 @@ class AppHelper extends Helper {
             )
         );
         if ($this->params['action']=='gallery') {
-            $nLink .= HtmlHelper::link( $nImage,
+            $nLink .= $this->Html->link( $nImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$nextImagePage.DS.
                     'id:'.$nextImage,
                     array('escape'=>false)
                 );
         } elseif ($this->params['action']=='newsfeed') {
-            $nLink .= HtmlHelper::link( $nImage,
+            $nLink .= $this->Html->link( $nImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
                     'id:'.$neighbors[$paginator->params['named']['id']]['next'],
@@ -298,16 +329,16 @@ class AppHelper extends Helper {
         }
 
         // compile the next tags into an LI
-        $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
+        $next = $this->Html->tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
 
         // Previous page link
-        $pPageImg = HtmlHelper::image(
+        $pPageImg = $this->Html->image(
                     'prev_arrow_drk.png', array(
                         'title' => 'Previous page',
                         'alt' => 'Previous page arrow'
                     )
                 );
-        $pLink = HtmlHelper::link( $pPageImg,
+        $pLink = $this->Html->link( $pPageImg,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$previousPage.DS.
                     'id:'.$previousPageImage,
@@ -315,14 +346,14 @@ class AppHelper extends Helper {
                 ) . '<br />';
 
         // Previous page link
-        $pImage = HtmlHelper::image(
+        $pImage = $this->Html->image(
                     'prev_arrow_drk.png', array(
                         'title' => 'Previous image',
                         'alt' => 'previous image arrow',
                         'class' => 'npImageButton'
                     )
                 );
-        $pLink .= HtmlHelper::link( $pImage,
+        $pLink .= $this->Html->link( $pImage,
                 DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
                     'page:'.$previousImagePage.DS.
                     'id:'.$previousImage,
@@ -330,14 +361,14 @@ class AppHelper extends Helper {
                 );
 
         // compile the previous tags into an LI
-        $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
+        $previous = $this->Html->tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
 
         // merge the previous, image and next LIs
         $li = $previous . $li . $next;
 
-        return HtmlHelper::tag(
+        return $this->Html->tag(
                 'nav',
-                HtmlHelper::tag('ul', $li, array('class'=>'thumbList')),
+                $this->Html->tag('ul', $li, array('class'=>'thumbList')),
                 array('id'=>'galNav'));
 
     }
@@ -444,7 +475,7 @@ class AppHelper extends Helper {
             }
         // <img nopacity="0.2" popacity="0.8" alt="An improve..." src="/bindery/img/images/thumb/x54y54/DSC01242.JPG">
             if (isset($entry['img_file'])) {
-                $image = HtmlHelper::image(
+                $image = $this->Html->image(
                     $path . $entry['img_file'], array(
                         'title' => $entry['title'],
                         'alt' => $entry['alt'],
@@ -453,12 +484,12 @@ class AppHelper extends Helper {
                     )
                 )."\n";
             } else {
-                $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+                $image = $this->Html->image('transparent.png',array('alt'=>'Missing Image',
                     'width'=>'54','height'=>'54'))."\n";
             }
 
         // <a class="thumb_link thumb" href="/bindery/products/publishing/newsfeed/page:1/#id408">1<br /><img ... /></a>
-                $link = HtmlHelper::link($entry['neighbors']['count'] . "<br />\n" . $image,
+                $link = $this->Html->link($entry['neighbors']['count'] . "<br />\n" . $image,
                          $baseURL. $page .DS.
                         '#id'.$entry['id'],
                         array('escape'=>false,'class'=>'thumb_link thumb')
@@ -466,9 +497,9 @@ class AppHelper extends Helper {
 
             // this sets the 'active' styling
             if (isset($this->params['named']['id']) && $this->params['named']['id'] == $entry['content_id']) {
-                $li .= HtmlHelper::tag('li', $link, array('class'=>'active'))."\n";
+                $li .= $this->Html->tag('li', $link, array('class'=>'active'))."\n";
             } else {
-                $li .= HtmlHelper::tag('li', $link);
+                $li .= $this->Html->tag('li', $link);
             }
         } // end of the loop creating the image clickers
 
@@ -477,21 +508,21 @@ class AppHelper extends Helper {
         if($number < 9){
             $opacity = $number;
             while ($number < 9){
-                $image = HtmlHelper::image('transparent.png',array('alt'=>'Missing Image',
+                $image = $this->Html->image('transparent.png',array('alt'=>'Missing Image',
                     'width'=>'54','height'=>'54',
                         'popacity' => 1-($opacity-$tMin+1)/($tMax-$tMin+2),
                         'nopacity' => ($opacity-$tMin+1)/($tMax-$tMin+2)))."\n";
-                $link = HtmlHelper::link(' <br />' . $image,
+                $link = $this->Html->link(' <br />' . $image,
                     '#',
                     array('escape'=>false,'class'=>'thumb_link thumb')
                 )."\n";
-                $li .= HtmlHelper::tag('li', $link);
+                $li .= $this->Html->tag('li', $link);
                 $number++;
             }
         }
         
     // Make the next page <img>
-    $nPageImg = HtmlHelper::image(
+    $nPageImg = $this->Html->image(
         'nxt_arrow_drk.png', array(
             'title' => 'Next page',
             'alt' => 'Next page arrow'
@@ -499,7 +530,7 @@ class AppHelper extends Helper {
     )."\n";
     
     // Make the next page <a>
-    $nLink = HtmlHelper::link( $nPageImg,
+    $nLink = $this->Html->link( $nPageImg,
             $baseURL .DS. 
                 'page:'.$nextPage.DS.
                 '#id'. $entry['neighbors']['next'],
@@ -507,7 +538,7 @@ class AppHelper extends Helper {
             ) . '<br />'."\n";
     
     // Make the next image <img>
-    $nImage = HtmlHelper::image(
+    $nImage = $this->Html->image(
         'nxt_arrow_drk.png', array(
             'title' => 'Next image',
             'alt' => 'Next image arrow',
@@ -516,7 +547,7 @@ class AppHelper extends Helper {
     )."\n";
     
     // Make the pervious page <img>
-    $pPageImg = HtmlHelper::image(
+    $pPageImg = $this->Html->image(
         'prev_arrow_drk.png', array(
             'title' => 'Previous page',
             'alt' => 'Previous page arrow'
@@ -524,7 +555,7 @@ class AppHelper extends Helper {
     )."\n";
     
     // Make the previous page <a>
-    $pLink = HtmlHelper::link( $pPageImg,
+    $pLink = $this->Html->link( $pPageImg,
         $baseURL.DS. 
             'page:'.$previousPage.DS.
             '#id'.$previousImageID,
@@ -532,7 +563,7 @@ class AppHelper extends Helper {
         ) . '<br />'."\n";
 
     // Make the previous image <img>
-    $pImage = HtmlHelper::image(
+    $pImage = $this->Html->image(
         'prev_arrow_drk.png', array(
             'title' => 'Previous image',
             'alt' => 'previous image arrow',
@@ -549,7 +580,7 @@ class AppHelper extends Helper {
     // The jumpbox will have to be fixed with javascript too.
     
     // Append and assemble the next image <a>
-    $nLink .= HtmlHelper::link( $nImage,
+    $nLink .= $this->Html->link( $nImage,
         $baseURL.DS. 
         'page:'.$entry['neighbors']['next_page'].DS.
         '#id'.$entry['neighbors']['next'],
@@ -557,7 +588,7 @@ class AppHelper extends Helper {
     )."\n";
 
     // Append and assemble the next image <a>
-    $pLink .= HtmlHelper::link( $pImage,
+    $pLink .= $this->Html->link( $pImage,
         $baseURL.DS. 
         'page:'.$collectionPage[0]['neighbors']['previous_page'].DS.
         '#id'.$collectionPage[0]['neighbors']['previous'],
@@ -565,22 +596,95 @@ class AppHelper extends Helper {
     )."\n";
 
     // compile the next page/image tags into an LI
-    $next = HtmlHelper::tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
+    $next = $this->Html->tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
 
     // compile the previous page/image tags into an LI
-    $previous = HtmlHelper::tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
+    $previous = $this->Html->tag('li', $pLink, array('class'=>'thumbButton previousButtons'));
 
     // merge the 'previous' <li>, image thumbnail <li>s and 'next' <li> into one big list
     $li = $previous . $li . $next;
 
     // bundle the list into a <ul> and that into a <nav>
-    return HtmlHelper::tag(
+    return $this->Html->tag(
         'nav',
-        HtmlHelper::tag('ul', $li, array('class'=>'thumbList')),
+        $this->Html->tag('ul', $li, array('class'=>'thumbList')),
         array('id'=>'galNav'));
 
     }
    
+    /**
+     * Rather than outputting directly or returning a 
+     * ready-to-go HTML block, this returns an array
+     * with one block per element. This allows post-processing
+     * options in the View
+     * 
+     * Required structure
+     * 
+     * $new = Array
+     *          [Content] => Array
+     *                  [heading] => Jackson Nichol's Forcado portfolio
+     *                  [id] => 494
+     *                  [slug] => jackson-nichol-s-forcado-portfolio
+     *                  [content] => I got a bit of a surprise when I ...
+     *                  [created] => 2013-01-23 02:02:15
+     *          [Image] => Array
+     *                  [id] => 838
+     *                  [title] => Jackson Nichol's Forcado portfolio
+     *                  [alt] => The two shells for Jackson Nichol's portfolio ...
+     *                  [img_file] => DSC01663.JPG
+     *          [ContentCollection] => Array
+     *                  [0] => Array
+     *                          [content_id] => 494
+     *                          [collection_id] => 60
+     *                          [publish] => 1
+     *                          [Collection] => Array
+     *                                  [id] => 60
+     *                                  [category_id] => 1469
+     *                                  [heading] => Boxes
+     *                                  [slug] => boxes
+     */
+    function foundNewBlock($news, $path){
+    //foreach($news as $news){
 
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
+        $replace = array('','',' ');
+
+        //remove links and image links from markdown content
+        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
+
+        //assemble the image link
+        $img = $this->Html->image($path.$news['Image']['img_file'], array(
+            'id'=>'im'.$news['Image']['id'],
+            'alt'=>$news['Image']['alt'],
+            'title'=>$news['Image']['title']));
+
+        $link_uri = array(
+            'controller'=>'contents',
+            'pname'=>$news['ContentCollection'][0]['Collection']['slug'],
+            'action'=>'newsfeed',
+            '/#id'.$news['Content']['id']);
+
+        //make the heading into the <A> tag
+        $blog_link = $this->Html->link('Blog Article',
+            '/blog/'.$news['ContentCollection'][0]['collection_id']
+            .'/'.$news['Content']['slug']);
+
+        //and follow it with truncated markdown content
+        $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],45), 
+            $link_uri, array('escape'=>false)) 
+            . markdown($this->Html->truncateText($clean,100,array('force'=>true)))
+            . $this->Html->para('aside',"Or view as a $blog_link");
+
+        $image_link = $this->Html->link($img, $link_uri,array('escape'=>false));
+
+        //and output everything in a left-floating div
+        echo $this->Html->div('linkDiv', 
+            $image_link 
+            . $this->Html->para('aside',
+            'On the bench: '
+            . $this->Time->timeAgoInWords($news['Content']['created'])) 
+            . $heading_link);
+    //}
+    }
 }
 ?>
