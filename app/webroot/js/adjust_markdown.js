@@ -19,6 +19,16 @@ $(document).ready(function(){
         });
     }
     
+    function manage_images(){
+        $('.markdown').find('img').each(function(){
+//            alert($(this).attr('src'));
+            $(this).bind('mouseover', function(){
+                alert($(this).parent().parent().attr('class'));
+            });
+        });
+    }
+    
     manage_href_target();
+    manage_images();
 
 })

@@ -379,7 +379,7 @@ class ContentsController extends AppController {
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
                 'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
                 ),
                 'Content'=>array(
                     'fields'=>array('Content.id','Content.content','Content.heading','Content.publish'),

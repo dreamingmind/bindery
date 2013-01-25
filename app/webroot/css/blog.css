@@ -198,6 +198,17 @@ input#searchInput {
 #scrolling h1 {
     color: #3f6d44;
     background-color: transparent;
+    font-size: 18px;
+    margin: 0;
+    padding: 0px 15px 10px 12px;
+    /*text-align: right;*/
+    /*font-weight: bold;*/
+    /*font-variant: small-caps;*/
+    /*border-top: thin solid #802A19;*/
+}
+#scrolling h2 {
+    color: #3f6d44;
+    background-color: transparent;
     font-size: 36px;
     margin: 0;
     padding: 0px 15px 10px 12px;
@@ -205,6 +216,7 @@ input#searchInput {
     font-weight: bold;
     /*font-variant: small-caps;*/
     /*border-top: thin solid #802A19;*/
+    font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 }
 #headerTools {
 	text-align: right;
