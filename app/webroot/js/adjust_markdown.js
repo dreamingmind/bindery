@@ -23,8 +23,13 @@ $(document).ready(function(){
         $('.markdown').find('img').each(function(){
 //            alert($(this).attr('src'));
             $(this).bind('mouseover', function(){
-                alert($(this).parent().parent().attr('class'));
+                parentclass=$(this).parent().parent().attr('class').match(/x[0-9]+y[0-9]+/);
+                $(this).attr('src',$(this).attr('src').replace(/x[0-9]+y[0-9]+/,parentclass));
+//                alert($(this).parent().parent().attr('class'));
             });
+            $(this).bind('mouseleave',function(){
+                $(this).attr('src',$(this).attr('src').replace(/x[0-9]+y[0-9]+/,'x160y120'));
+            })
         });
     }
     
