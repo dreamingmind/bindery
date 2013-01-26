@@ -20,8 +20,21 @@ echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
     <!--</div>-->
     
 <?php
-foreach($recentTitles as $news){
+foreach($recentNews as $news){
     echo $html->foundNewBlock($news, $result_imagePath);
+}
+?>
+</div>
+<div class="Col2Right">
+    <!--<div class="linkDiv">-->
+        <h2 class="Col2">Recently finished projects</h2>
+    <!--</div>-->
+    
+<?php
+
+$last_update = 0;
+foreach($recentExhibit as $exhibit){
+    echo $html->foundGalleryBlock($exhibit, $result_imagePath);
 }
 ?>
 </div>

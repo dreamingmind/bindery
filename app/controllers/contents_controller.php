@@ -355,7 +355,11 @@ class ContentsController extends AppController {
     }
     
     function blogPage(){
-        $conditions = array('Collection.category_id'=>$this->categoryNI['dispatch']);
+        $conditions = array('OR'=>array(
+            'Collection.category_id'=>array(
+                $this->categoryNI['dispatch'],
+                $this->categoryNI['blog']),
+            ));
         
         if(!isset($this->params['pass'][0])){
             $most_recent = $this->readMostRecentBlog($conditions);
@@ -418,8 +422,9 @@ class ContentsController extends AppController {
                         )
                     )
                 ),
-                'conditions'=>array(
-                    'Collection.category_id'=>$this->categoryNI['dispatch'])
+                'conditions'=>array('OR'=>array('Collection.category_id'=>
+                    array($this->categoryNI['dispatch'],$this->categoryNI['blog'])))
+                    
             ));
 //            debug($tocbase);
             $toc = array();
@@ -478,23 +483,24 @@ class ContentsController extends AppController {
 //        Configure::write('debug',0);
         $this->layout = 'noThumbnailPage';
 //        $this->set('recentTitles',  $this->Content->Image->recentTitles);
-        $most_recent = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading'),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file')
-                    )
-                )
-            ),
-            'order'=>'ContentCollection.created DESC',
-            'conditions'=>array('Collection.category_id'=>$this->categoryNI['exhibit']),
-            'limit'=>3
-        ));
+        $most_recent = $this->Content->recentExhibits(3);
+//        $most_recent = $this->Content->ContentCollection->find('all',array(
+//            'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
+//            'contain'=>array(
+//                'Collection'=>array(
+//                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
+//                ),
+//                'Content'=>array(
+//                    'fields'=>array('Content.id','Content.content','Content.heading'),
+//                    'Image'=>array(
+//                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+//                    )
+//                )
+//            ),
+//            'order'=>'ContentCollection.created DESC',
+//            'conditions'=>array('Collection.category_id'=>$this->categoryNI['exhibit']),
+//            'limit'=>3
+//        ));
         $this->set('most_recent',$most_recent);
     }
 
@@ -516,7 +522,8 @@ class ContentsController extends AppController {
     function product_landing(){
         $this->layout = 'noThumbnailPage';
         $this->set('result_imagePath',  $this->result_imagePath);
-        $this->set('recentTitles',  $this->Content->recentNews(2,  $this->params['pname']));
+        $this->set('recentNews',  $this->Content->recentNews(2,  $this->params['pname']));
+        $this->set('recentExhibit',  $this->Content->recentExhibits(2,  $this->params['pname']));
         $sale_items = $this->Catalog->find('all',array(
             'conditions'=>array('category'=>  $this->params['pname'])
         ));

@@ -6,8 +6,8 @@ echo $html->css('search_links');
 //$this->result_imagePath = 'images/thumb/x160y120/';
 
 // patterns in markdown: links, images, paragraphs
-$patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
-$replace = array('','',' ');
+//$patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
+//$replace = array('','',' ');
 //debug($patterns);
 echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>

@@ -38,6 +38,7 @@ class CollectionsController extends AppController {
 		if (!empty($this->data)) {
 			if ($this->Collection->save($this->data)) {
 				$this->Session->setFlash(__('The collection has been saved', true));
+                    debug($this->data);die;
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The collection could not be saved. Please, try again.', true));

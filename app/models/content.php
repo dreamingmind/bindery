@@ -254,6 +254,40 @@ class Content extends AppModel {
         
     }
     
+    function recentExhibits($limit = null, $pname = null){        
+        $limit = ($limit == null) ? 10 : $limit;
+        $product_condition = 
+            ($pname == null 
+                || ! $pname = $this->ContentCollection->Collection->find('first',array(
+                    'conditions'=>array(
+                        'Collection.category_id'=>
+                            $this->ContentCollection->Collection->Category->categoryNI['exhibit'],
+                        'Collection.slug'=>$pname
+                    ),
+                    'contain'=>array(false))))
+            ? ''
+            : 'ContentCollection.collection_id = ' . $pname['Collection']['id'];
+        return $most_recent = $this->ContentCollection->find('all',array(
+            'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
+            'contain'=>array(
+                'Collection'=>array(
+                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading'),
+                    'Image'=>array(
+                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                    )
+                )
+            ),
+            'order'=>'ContentCollection.created DESC',
+            'conditions'=>array('Collection.category_id'=>
+                $this->ContentCollection->Collection->Category->categoryNI['exhibit'],
+                $product_condition),
+            'limit'=>$limit
+        ));
+    }
+    
     /**
      * @todo Make this pull other recent category data by passing ->categoryNI[]
      * @todo Improve the link-creation ability by getting neighbor data so the page can be known
