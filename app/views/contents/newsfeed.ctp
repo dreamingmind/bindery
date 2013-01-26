@@ -32,7 +32,7 @@ foreach ($collectionPage as $dispatch) {
     // text
     $p = markdown($dispatch['content']);
 //    $p = $this->Html->tag('p',markdown($dispatch['content']), array('class'=>'dispatchText'));
-    $p = $this->Html->tag('div', $p, array('class'=>'content markdown'));
+    $p = $this->Html->tag('div', $p, array('class'=>'content markdown x640y480'));
     
     // image
     if(isset($dispatch['img_file'])){

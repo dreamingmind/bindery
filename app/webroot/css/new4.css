@@ -207,10 +207,6 @@ h2 + div a.dispatchAnchor {
 /*        height:50%;
         width:50%;*/
 }
-.dispatch img:hover {
-    height: 375px;
-    width: 500px;
-}
 .dispatch form {
 	padding-left: 77px;
 	display:none;
