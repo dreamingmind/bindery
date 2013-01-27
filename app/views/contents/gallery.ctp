@@ -11,6 +11,7 @@
 //debug($previousPage);
 //debug($this->Paginator->params);</p>
 ?>
+<div id="reference-grid"></div>
 <?php
 echo $this->Html->image(
         'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],

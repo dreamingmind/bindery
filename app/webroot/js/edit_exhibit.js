@@ -2,8 +2,10 @@ $(document).ready(function(){
    $('#ContentEditExhibitForm button.edit').bind('click',function(){
        if(this.innerHTML == 'Edit'){
            loadEditForm($(this));
+           $('#reference-grid').css('background','url("/bindery/img/exhibit-grid.png") repeat scroll 0 0 transparent');
        } else {
            cancelEditForm($(this));
+           $('#reference-grid').css('background','none');
        }
    });
    

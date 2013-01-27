@@ -87,6 +87,12 @@ button.supplement_list {
     display: inline;
     margin-left: 5px;
 }
+#reference-grid {
+	/*background: url('/bindery/img/exhibit-grid.png') repeat scroll 0 0 transparent;*/
+	position: fixed;
+	width:640px;
+	height:480px;
+}
 /*===============================
 Dispatch Content
 Dispatch entries, links and clickers
