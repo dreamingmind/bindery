@@ -1,6 +1,7 @@
 <?php
-//debug($recentTitles);die;
-//debug($most_recent);
+//debug($recentExhibits);
+//debug($recentNews);die;
+
 echo $html->css('search_links');
 //$this->result_imagePath = 'images/thumb/x75y56/';
 //$this->result_imagePath = 'images/thumb/x160y120/';
@@ -22,7 +23,7 @@ echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
     <!--</div>-->
     
 <?php
-foreach($recentTitles as $news){
+foreach($recentNews as $news){
     echo $html->foundNewBlock($news, $result_imagePath);
 }
 ?>
@@ -35,7 +36,7 @@ foreach($recentTitles as $news){
 <?php
 
 $last_update = 0;
-foreach($most_recent as $exhibit){
+foreach($recentExhibits as $exhibit){
     echo $html->foundGalleryBlock($exhibit, $result_imagePath);
 }
 ?>

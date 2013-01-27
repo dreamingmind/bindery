@@ -476,32 +476,11 @@ class ContentsController extends AppController {
      * Much more to come
      */
     function products(){
-//        debug($this->Content->recentNews());
-//        debug($this->Content->Image->recentNewsLinks());
-        $this->set('recentTitles',  $this->Content->recentNews(3));
-        $this->set('result_imagePath',  $this->result_imagePath);
-//        Configure::write('debug',0);
         $this->layout = 'noThumbnailPage';
-//        $this->set('recentTitles',  $this->Content->Image->recentTitles);
-        $most_recent = $this->Content->recentExhibits(3);
-//        $most_recent = $this->Content->ContentCollection->find('all',array(
-//            'fields'=>array('DISTINCT ContentCollection.content_id','ContentCollection.collection_id'),
-//            'contain'=>array(
-//                'Collection'=>array(
-//                    'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
-//                ),
-//                'Content'=>array(
-//                    'fields'=>array('Content.id','Content.content','Content.heading'),
-//                    'Image'=>array(
-//                        'fields'=>array('Image.alt','Image.title','Image.img_file')
-//                    )
-//                )
-//            ),
-//            'order'=>'ContentCollection.created DESC',
-//            'conditions'=>array('Collection.category_id'=>$this->categoryNI['exhibit']),
-//            'limit'=>3
-//        ));
-        $this->set('most_recent',$most_recent);
+        $this->set('result_imagePath',  $this->result_imagePath);
+
+        $this->set('recentNews',  $this->Content->recentNews(3));
+        $this->set('recentExhibits',$this->Content->recentExhibits(3));
     }
 
     function art(){
@@ -522,6 +501,7 @@ class ContentsController extends AppController {
     function product_landing(){
         $this->layout = 'noThumbnailPage';
         $this->set('result_imagePath',  $this->result_imagePath);
+        
         $this->set('recentNews',  $this->Content->recentNews(2,  $this->params['pname']));
         $this->set('recentExhibit',  $this->Content->recentExhibits(2,  $this->params['pname']));
         $sale_items = $this->Catalog->find('all',array(
@@ -549,24 +529,17 @@ class ContentsController extends AppController {
      * @param string $pname The product group (normally comes in on $this->params['pname'])
      */
     function gallery(){
-        // This block is for logic testing
-        $vars = array (
-            'introduction' => '',
-            'exhibit' => '',
-        );
-        $this->set($vars);
-        // ------- end logic testing block
 //        debug($this->passedArgs);
 //        debug($this->params);
-        // Taylor pagination to Exhibits then call for the navStrip
+        // Tailor pagination to Exhibits then call for the filmStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
         $this->pageOrder = array(
-                'ContentCollection.seq' => 'asc'
+                'ContentCollection.seq' => 'ASC'
             );
         $this->pageFields = array (
-            'seq','visible'                
+            'seq','visible','created'                
         );                
         $this->pageContains = array(
 //            'fields' => array(
@@ -724,14 +697,7 @@ class ContentsController extends AppController {
      * @return null
      */
     function newsfeed(){
-        // This block is for logic testing
-        $vars = array (
-            'introduction' => '',
-            'dispatch' => '',
-        );
-        $this->set($vars);
-
-        // Taylor pagination to Exhibits then call for the navStrip
+        // Tailor pagination to Exhibits then call for the navStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
@@ -742,7 +708,7 @@ class ContentsController extends AppController {
             $this->newsfeedPublic($pname);
         }
         
-        // I think this should be in feforeFilter()?
+        // I think this should be in beforeFilter()?
         if($this->Session->check('filmstrip.limit')){
            $this->pageLimit = $this->Session->read('filmstrip.limit');
         }
