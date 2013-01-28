@@ -46,7 +46,7 @@ $(document).ready(function(){
         var p = $(this);
         
         var offset = p.position();
-        var left = offset.left-(x-160);
+        var left = offset.left-(x-160)+5;
 
         zoomed = $(this)
             .clone(false).bind('mouseleave',hoverZoomOut)
@@ -73,7 +73,7 @@ $(document).ready(function(){
      * Initialize the Markdown inline images with a visual cue of mouseover-zoom (blog page)
      */
     function addHoverZoomMarker(){
-        menu = $('<menu>').attr('class','local_zoom hover_zoom').html('<a class="local_scale_tool">+</a>');
+        menu = $('<menu>').attr('class','local_zoom hover_zoom').html('<a class="local_scale_tool">&larr;</a>');
         menu.insertBefore($('.markdown').find('img'));
         $('menu.hover_zoom').bind('mouseover',function(){
             $(this).next('img').trigger('mouseover');
