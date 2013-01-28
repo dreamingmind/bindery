@@ -251,7 +251,19 @@ div.entry{
     float:left;
     position: relative;
 }
+
+/*The visual indicator of hover_zoom on blog inline images*/
+.entry .markdown menu.hover_zoom{
+    position: relative;
+    float: right;
+    margin-left: -20px;
+    margin-bottom: 120px;
+}
+#detail .entryText img#zoomed{
+    position: absolute;
+}
 .entry menu.zoom, .entry menu.local_zoom{
+/*.entry menu.zoom{*/
     position: absolute;
     margin-top: 0px;
     font-size: 10px;
