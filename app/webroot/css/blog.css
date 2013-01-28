@@ -256,8 +256,17 @@ div.entry{
 .entry .markdown menu.hover_zoom{
     position: relative;
     float: right;
-    margin-left: -20px;
+/*    margin-left: -20px;
     margin-bottom: 120px;
+    transform: rotate(-45deg);
+    transform-origin: center top 0;*/
+    opacity: .8;
+    margin: 12px 12px 110px -50px;
+}
+.entry .markdown menu.hover_zoom a{
+    padding: 1px 3px;
+    color: black;
+    font-weight: bold;
 }
 #detail .entryText img#zoomed{
     position: absolute;
