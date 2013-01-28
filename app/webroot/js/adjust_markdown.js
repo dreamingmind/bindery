@@ -52,6 +52,7 @@ $(document).ready(function(){
             .clone(false).bind('mouseleave',hoverZoomOut)
             .attr('src',$(this).attr('src').replace(/x[0-9]+y[0-9]+/,parentclass))
             .attr('id','zoomed')
+            .attr('class','zoomed')
             .css('top',offset.top-((y-120)/2))
             .css('left',(left < 0)?0:left)
             .css('z-index',100);
@@ -65,7 +66,7 @@ $(document).ready(function(){
      */
     function hoverZoomOut(){
         $(this).next(menu).css('display','block');
-        $('#zoomed').remove();
+        $('.zoomed').remove();
     }
     
     /**
