@@ -25,7 +25,8 @@ $(document).ready(function(){
      */
     function manage_images(){
         $('.markdown').find('img').each(function(){
-//            alert($(this).attr('src'));
+//            alert('domain: ' + document.images[1].src);
+            $(this).attr('src', '/bindery/img/images/thumb/x160y120/' + $(this).attr('src'));
             $(this).bind('mouseover', hoverZoomIn);
 //            $(this).bind('mouseleave', hoverZoomOut);
         });
