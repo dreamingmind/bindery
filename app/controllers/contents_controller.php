@@ -359,7 +359,8 @@ class ContentsController extends AppController {
             'Collection.category_id'=>array(
                 $this->categoryNI['dispatch'],
                 $this->categoryNI['blog']),
-            ));
+            ),
+            'ContentCollection.publish'=>1);
         
         if(!isset($this->params['pass'][0])){
             $most_recent = $this->readMostRecentBlog($conditions);
@@ -409,11 +410,55 @@ class ContentsController extends AppController {
     function readBlogTOC() {
         if(!($toc = Cache::read('toc'))) {
 
+            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
+                'fields'=>array(
+                    'Collection.id',
+                    'Collection.category_id',
+                    'Collection.slug',
+                    'Collection.heading'),
+                'contain'=>array(
+                    'ContentCollection'=>array(
+                        'fields'=>array(
+                            'ContentCollection.content_id',
+                            'ContentCollection.collection_id',
+                            'ContentCollection.publish'
+                        ),
+                        'Content'=>array(
+                            'fields'=>array(
+                                'Content.id',
+                                'Content.heading',
+                                'Content.slug'
+                            )
+                        ),
+                        'conditions'=>array('ContentCollection.publish'=>1)
+                    )
+                ),
+                'conditions'=>array(
+                    'OR'=>array(
+                        'Collection.category_id'=>array(
+                            $this->categoryNI['dispatch'],
+                            $this->categoryNI['blog']
+                        )
+                    ),
+                ),
+                'group'=>'Collection.slug'
+            ));
+            foreach($tocbase as $index => $collection){
+                $i = 0;
+                while($i < count($collection['ContentCollection'])){
+                    $tocbase[$index]['Collection']['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
+//                    unset($tocbase[$index]['ContentCollection'][$i++]);
+                    $i++;
+                }
+                unset($tocbase[$index]['ContentCollection']);
+            }
+//            die;
+    debug($tocbase);die;
             $tocbase = $this->Content->ContentCollection->find('all',array(
                 'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
                 'contain'=>array(
                     'Collection'=>array(
-                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
+                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
                     ),
                     'Content'=>array(
                         'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
@@ -423,7 +468,8 @@ class ContentsController extends AppController {
                     )
                 ),
                 'conditions'=>array('OR'=>array('Collection.category_id'=>
-                    array($this->categoryNI['dispatch'],$this->categoryNI['blog'])))
+                    array($this->categoryNI['dispatch'],$this->categoryNI['blog'])),
+                    'ContentCollection.publish'=>1)
                     
             ));
 //            debug($tocbase);
@@ -437,6 +483,7 @@ class ContentsController extends AppController {
             }
             Cache::write('toc', $toc);
         }
+//        debug ($toc);
         return $toc;
     }
     
@@ -821,17 +868,17 @@ class ContentsController extends AppController {
         $this->pageData['previous'] = ($page == 1) ? $this->pageData['pages'] : $page-1;
     }
     
-    function dispatch_edit() {
- //       debug($this->data); die;
-        if ($this->Content->save($this->data)) {
-            $this->redirect(array(
-                'controller' => 'contents',
-                'action'=> 'newsfeed',
-                'pname'=> $this->params['pass'][0],
-                'page'=> $this->params['named']['page']));
-        }
-    }
-    
+//    function dispatch_edit() {
+// //       debug($this->data); die;
+//        if ($this->Content->save($this->data)) {
+//            $this->redirect(array(
+//                'controller' => 'contents',
+//                'action'=> 'newsfeed',
+//                'pname'=> $this->params['pass'][0],
+//                'page'=> $this->params['named']['page']));
+//        }
+//    }
+//    
     /**
      * Set pagination parameters appropriate to a site manager
      * 
@@ -905,30 +952,30 @@ class ContentsController extends AppController {
             );
     }
 
-    /**
-     * Set a starting Content id for introduction entry point
-     * 
-     * Page output expects an id but in initial entry none is present
-     * in the url. So here it gets discovered and set
-     * @todo this may break if filmstripNeighbors() gets re-written
-     * @return null
-     */
-    function newsfeedIntroduction($neighbors) {
-        foreach ($neighbors as $id => $info) {
-            $this->params['named']['id'] = $id;
-            //debug($this->params); debug($this->paginator); die;
-            continue;
-        }
-    }
-
-    /**
-     * Dispatch shows all records from the page so just use the filmstrip 
-     * @param array $filmStrip The current page of newsfeed data
-     * @return null
-     */
-    function newsfeedDispatches($filmStrip = false) {
-    $this->set('content',  $filmStrip);
-    }
+//    /**
+//     * Set a starting Content id for introduction entry point
+//     * 
+//     * Page output expects an id but in initial entry none is present
+//     * in the url. So here it gets discovered and set
+//     * @todo this may break if filmstripNeighbors() gets re-written
+//     * @return null
+//     */
+//    function newsfeedIntroduction($neighbors) {
+//        foreach ($neighbors as $id => $info) {
+//            $this->params['named']['id'] = $id;
+//            //debug($this->params); debug($this->paginator); die;
+//            continue;
+//        }
+//    }
+//
+//    /**
+//     * Dispatch shows all records from the page so just use the filmstrip 
+//     * @param array $filmStrip The current page of newsfeed data
+//     * @return null
+//     */
+//    function newsfeedDispatches($filmStrip = false) {
+//    $this->set('content',  $filmStrip);
+//    }
 
     /**
      * Pull the records needed to build a Collection's navigation strip
