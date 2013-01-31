@@ -75,23 +75,30 @@
             ?>
             <div id="navBar">
                 <?
-            echo $html->tag('ul',$html->tag('li',$html->link('Bindery','/')),array('class'=>'open'));
-            $toc_id = $toc['id'];
-            unset($toc['id']);
-            echo '<ul class="open">';
-            foreach($toc as $collection => $list){
-                $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
-                echo "<li class='collection menu' id='$id'>";
-                echo $html->link($collection,'#');
-                echo "<ul class='title_list close $id'>";
-                foreach($list as $href=>$text){
-                    echo $html->tag('li',
-                            $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
-                                    '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
-                }
-                echo '</ul></li>';
-            }
+//                debug($toc);die;
+            echo $html->tag('ul',
+                    $html->tag('li',$html->link('Back to the Bindery','/'))
+                    .$html->tag('li','Recent updates:')
+                    ,array('class'=>'open'));
+//            $toc_id = $toc['id'];
+//            unset($toc['id']);
+//            echo '<ul class="open">';
+//            foreach($toc as $collection => $list){
+//                $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
+//                echo "<li class='collection menu' id='$id'>";
+//                echo $html->link($collection,'#');
+//                echo "<ul class='title_list close $id'>";
+//                foreach($list as $href=>$text){
+//                    echo $html->tag('li',
+//                            $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
+//                                    '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
+//                }
+//                echo '</ul></li>';
+//            }
                 echo '</ul>';
+            foreach($recentPosts as $news){
+                echo $html->blogMenuBlock($news, $result_imagePath);
+            }
                         
                 ?>
             </div>  <!-- end of navBar, Main Navigation Menu -->

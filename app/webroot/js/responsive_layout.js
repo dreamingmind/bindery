@@ -78,14 +78,14 @@ $(document).ready(function(){
                 src = $(this).attr('src');
                 fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
                 $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
-                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.p[index]);
+                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.p[index] + ' markdown');
             });
         } else {
             $('img.scalable').each(function(){
                 src = $(this).attr('src');
                 fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
                 $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
-                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.m[index]);
+                $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.m[index] + ' markdown');
             });
         }
         

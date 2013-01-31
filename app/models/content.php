@@ -334,7 +334,8 @@ class Content extends AppModel {
         $id_list = $this->ContentCollection->find('all',array(
             'fields'=>array(
                 'ContentCollection.content_id',
-                'ContentCollection.collection_id'
+                'ContentCollection.collection_id',
+                'ContentCollection.publish'
             ),
             'contain'=>array(
                 'Collection'=>array(
@@ -346,7 +347,8 @@ class Content extends AppModel {
             'conditions'=>array(
                 'Collection.category_id'=>
                 $this->ContentCollection->Collection->Category->categoryNI['dispatch'],
-                $product_condition),
+                $product_condition,
+                'ContentCollection.publish'=>1),
             'limit'=>50,
             'order'=>'ContentCollection.modified DESC'
             

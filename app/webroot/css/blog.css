@@ -60,7 +60,7 @@ Main navigation strip formatting
 #navBar {
 	font-size: 16px;
 	width:190px;
-	text-align:right;
+	/*text-align:right;*/
 	padding: 0px 25px 0px 45px;
 	top:45px;
 	height: auto;
@@ -109,6 +109,8 @@ sublist ul li a {
 	margin-top:2px;
 	margin-right:4px;
 	/*line-height: .95;*/
+	/*font-size:81%;*/
+        color: #666;
 }
 #navBar a, #navBar a:visited, #navBar a:active {
         font-weight: lighter;
@@ -117,14 +119,14 @@ sublist ul li a {
 	margin-right:-6px;
 	padding-right:5px;
         text-decoration: none;
-	border-right:solid #d2d1b4 .5em;
-	border-bottom:solid #d2d1b4 1px;
+/*	border-right:solid #d2d1b4 .5em;
+	border-bottom:solid #d2d1b4 1px;*/
 }
 
 #navBar .open a {
 	color:#3F6D44;
-	border-right:solid #d2d1b4 .5em;
-	border-bottom:solid #d2d1b4 1px;
+/*	border-right:solid #d2d1b4 .5em;
+	border-bottom:solid #d2d1b4 1px;*/
 }
 
 #navBar .menuopen a{
@@ -134,22 +136,45 @@ sublist ul li a {
 #navBar .active a {
 	color:#3F6D44;
 	/*font-weight:bold;*/
-	border-bottom:solid #802A19 1px;
-	border-right:solid #802A19 .5em;
+/*	border-bottom:solid #802A19 1px;
+	border-right:solid #802A19 .5em;*/
 }
 
 #navBar .menuactive a {
-	border-right:solid #bbb .5em;
-	border-bottom:solid #ddd 1px;    
+/*	border-right:solid #bbb .5em;
+	border-bottom:solid #ddd 1px;    */
 }
 
 #navBar a:hover {
 	color:#802A19;
 	text-decoration:inherit;
-	border-right:solid #802A19 .5em;
+	/*border-right:solid #802A19 .5em;*/
 }
 
+#navBar .linkDiv {
+    text-align: left;
+    height: 82px;
+    border-top: thin solid #3F6D44
+}
 
+#navBar .linkDiv p.aside {
+    font-size: 10px;
+    color: #555;
+    width: 100%;
+    padding-top:2px;
+}
+
+#navBar .linkDiv a {
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
+    padding-top: 3px;
+}
+
+#navBar .linkDiv img {
+    float: left;
+    padding-right: 6px;
+}
 
 /*Site search box format*/
 #siteSearchBox {

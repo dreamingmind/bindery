@@ -687,6 +687,58 @@ class AppHelper extends Helper {
     //}
     }
     
+    /**
+     * Using the same datablock as foundNewsBlock
+     * @param type $news
+     * @param type $path
+     */
+    function blogMenuBlock($news, $path){
+    //foreach($news as $news){
+
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
+        $replace = array('','',' ');
+
+        //remove links and image links from markdown content
+        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
+
+        //assemble the image link
+        $img = $this->Html->image($path.$news['Image']['img_file'], array(
+            'id'=>'im'.$news['Image']['id'],
+            'alt'=>$news['Image']['alt'],
+            'title'=>$news['Image']['title']));
+
+//        $link_uri = array(
+//            'controller'=>'contents',
+//            'pname'=>$news['ContentCollection'][0]['Collection']['slug'],
+//            'action'=>'newsfeed',
+//            '/#id'.$news['Content']['id']);
+
+        //make the heading into the <A> tag
+        $blog_uri = array(
+            'controller'=>'contents',
+            'action'=>'blog',
+            $news['ContentCollection'][0]['collection_id'],
+            $news['Content']['slug']
+        );
+
+        //and follow it with truncated markdown content
+        $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
+            $blog_uri, array('escape'=>false));
+
+        $image_link = $this->Html->link($img, $blog_uri,array('escape'=>false));
+
+        //and output everything in a left-floating div
+        echo $this->Html->div('linkDiv', 
+            $this->Html->para('aside',
+            $this->Html->truncateText($news['ContentCollection'][0]['Collection']['heading'],15,
+                    array('exact'=>false,
+                        'ending'=>'')).': '
+            . $this->Time->timeAgoInWords($news['Content']['created'])) 
+            . $image_link 
+            . $heading_link);
+    //}
+    }
+    
     function foundGalleryBlock($exhibit, $path){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 

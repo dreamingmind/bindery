@@ -355,11 +355,8 @@ class ContentsController extends AppController {
     }
     
     function blogPage(){
-        $conditions = array('OR'=>array(
-            'Collection.category_id'=>array(
-                $this->categoryNI['dispatch'],
-                $this->categoryNI['blog']),
-            ),
+        $conditions = array(
+            'Collection.category_id'=>$this->categoryNI['dispatch'],
             'ContentCollection.publish'=>1);
         
         if(!isset($this->params['pass'][0])){
@@ -410,50 +407,56 @@ class ContentsController extends AppController {
     function readBlogTOC() {
         if(!($toc = Cache::read('toc'))) {
 
-            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
-                'fields'=>array(
-                    'Collection.id',
-                    'Collection.category_id',
-                    'Collection.slug',
-                    'Collection.heading'),
-                'contain'=>array(
-                    'ContentCollection'=>array(
-                        'fields'=>array(
-                            'ContentCollection.content_id',
-                            'ContentCollection.collection_id',
-                            'ContentCollection.publish'
-                        ),
-                        'Content'=>array(
-                            'fields'=>array(
-                                'Content.id',
-                                'Content.heading',
-                                'Content.slug'
-                            )
-                        ),
-                        'conditions'=>array('ContentCollection.publish'=>1)
-                    )
-                ),
-                'conditions'=>array(
-                    'OR'=>array(
-                        'Collection.category_id'=>array(
-                            $this->categoryNI['dispatch'],
-                            $this->categoryNI['blog']
-                        )
-                    ),
-                ),
-                'group'=>'Collection.slug'
-            ));
-            foreach($tocbase as $index => $collection){
-                $i = 0;
-                while($i < count($collection['ContentCollection'])){
-                    $tocbase[$index]['Collection']['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
-//                    unset($tocbase[$index]['ContentCollection'][$i++]);
-                    $i++;
-                }
-                unset($tocbase[$index]['ContentCollection']);
-            }
+//            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
+//                'fields'=>array(
+//                    'Collection.id',
+//                    'Collection.category_id',
+//                    'Collection.slug',
+//                    'Collection.heading'),
+//                'contain'=>array(
+//                    'ContentCollection'=>array(
+//                        'fields'=>array(
+//                            'ContentCollection.content_id',
+//                            'ContentCollection.collection_id',
+//                            'ContentCollection.publish'
+//                        ),
+//                        'Content'=>array(
+//                            'fields'=>array(
+//                                'Content.id',
+//                                'Content.heading',
+//                                'Content.slug'
+//                            )
+//                        ),
+//                        'conditions'=>array('ContentCollection.publish'=>1)
+//                    )
+//                ),
+//                'conditions'=>array(
+//                    'Collection.category_id'=>$this->categoryNI['dispatch']
+//                ),
+//                'group'=>'Collection.slug'
+//            ));
+//            $tocLevels = array();
+//            foreach($tocbase as $index => $collection){
+//                $level_id = $collection['Collection']['id'];
+//                $level_heading = $collection['Collection']['heading'];
+////                debug($level_id. ' : ' . $level_heading);
+//                $i = 0;
+//                while($i < count($collection['ContentCollection'])){
+//                    $tocbase[$index]['Collection']['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
+//                    $tocLevels[$level_id][$level_heading][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
+////                    unset($tocbase[$index]['ContentCollection'][$i++]);
+//                    $i++;
+//                }
+//                unset($tocbase[$index]['ContentCollection']);
+//            }
+            
+            $recentPosts = $this->Content->recentNews(8);
+            $this->set('recentPosts',$recentPosts);
+            $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
+//            debug($recentPosts);
 //            die;
-    debug($tocbase);die;
+//            debug($tocLevels);
+//    debug($tocbase);die;
             $tocbase = $this->Content->ContentCollection->find('all',array(
                 'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
                 'contain'=>array(
@@ -462,15 +465,14 @@ class ContentsController extends AppController {
                     ),
                     'Content'=>array(
                         'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
-                        'Image'=>array(
-                            'fields'=>array('Image.alt','Image.title','Image.img_file')
-                        )
+//                        'Image'=>array(
+//                            'fields'=>array('Image.alt','Image.title','Image.img_file')
+//                        )
                     )
                 ),
-                'conditions'=>array('OR'=>array('Collection.category_id'=>
-                    array($this->categoryNI['dispatch'],$this->categoryNI['blog'])),
+                'conditions'=>array(
+                    'Collection.category_id'=>$this->categoryNI['dispatch'],
                     'ContentCollection.publish'=>1)
-                    
             ));
 //            debug($tocbase);
             $toc = array();
