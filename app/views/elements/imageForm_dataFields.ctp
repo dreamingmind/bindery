@@ -1,6 +1,7 @@
 <?php
 /* @var $this ViewCC */ 
 /**
+ * Image.img_file
  * Image.alt
  * Image.title
  * 
@@ -19,6 +20,9 @@
 // 'options'=>'category' so the category radio list
 // will be dynamic too.
 $parameters = array(
+    'post_fields' => (isset($record['Image']['img_file']))
+        ?'<p>!['.$record['Image']['alt'].'][1]</p><p>[1]: '.$record['Image']['img_file'].' "'.$record['Image']['title'].'"</p>'
+        :false,
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
     'legend'=>'Image data fields',

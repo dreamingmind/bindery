@@ -391,7 +391,10 @@ class ContentsController extends AppController {
                     )
                 )
             ),
-            'order'=>'ContentCollection.seq ASC',
+            'order'=>array(
+                'ContentCollection.seq ASC',
+                'ContentCollection.id ASC'
+            ),
             'conditions' => $conditions
         ));
         $this->set('most_recent',$most_recent);

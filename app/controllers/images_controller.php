@@ -944,7 +944,7 @@ class ImagesController extends AppController {
                     $content['Content']['created'] = date('Y-m-d h:i:s',time());
                     $content['Content']['modified'] = date('Y-m-d h:i:s',time());
                     $this->Image->Content->create($content);
-                    debug('linked content save');
+//                    debug('linked content save');
                     $this->Image->Content->save();
                     $content_id = $this->Image->Content->id;
                 } else {
@@ -957,7 +957,7 @@ class ImagesController extends AppController {
                 $collection['Collection']['heading'] = $this->data['Content']['new_collection'];
                 $collection['Collection']['category_id'] = $this->data['Content']['new_collection_category'];
                 $this->Image->Content->ContentCollection->Collection->create($collection);
-                debug('new collection save');
+//                debug('new collection save');
                 $this->Image->Content->ContentCollection->Collection->save();
                 $collectionIDs[] = $this->Image->Content->ContentCollection->Collection->id;
             }
