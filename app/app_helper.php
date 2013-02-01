@@ -23,7 +23,6 @@
  * @version       $Revision$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-//App::import('Core', 'Helper');
 /**
  * This is a placeholder class.
  * Create the same file in app/app_helper.php
@@ -646,8 +645,8 @@ class AppHelper extends Helper {
     function foundNewBlock($news, $path){
     //foreach($news as $news){
 
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
-        $replace = array('','',' ');
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
 
         //remove links and image links from markdown content
         $clean = preg_replace($patterns, $replace,$news['Content']['content']);
@@ -695,8 +694,8 @@ class AppHelper extends Helper {
     function blogMenuBlock($news, $path){
     //foreach($news as $news){
 
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
-        $replace = array('','',' ');
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
 
         //remove links and image links from markdown content
         $clean = preg_replace($patterns, $replace,$news['Content']['content']);
@@ -706,12 +705,6 @@ class AppHelper extends Helper {
             'id'=>'im'.$news['Image']['id'],
             'alt'=>$news['Image']['alt'],
             'title'=>$news['Image']['title']));
-
-//        $link_uri = array(
-//            'controller'=>'contents',
-//            'pname'=>$news['ContentCollection'][0]['Collection']['slug'],
-//            'action'=>'newsfeed',
-//            '/#id'.$news['Content']['id']);
 
         //make the heading into the <A> tag
         $blog_uri = array(
@@ -742,8 +735,8 @@ class AppHelper extends Helper {
     function foundGalleryBlock($exhibit, $path){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
-            $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
-            $replace = array('','',' ');
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
             
             //remove links and image links from markdown content
             $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
@@ -762,12 +755,6 @@ class AppHelper extends Helper {
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
-    //echo $this->Html->image(
-    //        'images'.DS.'thumb'.DS.'x500y375'.DS.$update['Content']['Image']['img_file'],
-    //        array('alt'=>$update['Content']['Image']['alt'].' '.$update['Content']['Image']['alt']))."\n";
-    //        $last_update = $update['ContentCollection']['content_id'];
-//    }
-    
     }
 }
 ?>

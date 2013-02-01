@@ -22,9 +22,12 @@ if(is_object($record)){
     $recordArray['Image']['width'] = $record->exif['COMPUTED']['Width'];
     $recordArray['Image']['height'] = $record->exif['COMPUTED']['Height'];
     $record = $recordArray;
+    $dateLabel = 'Date: '.$record->exif['EXIF']['DateTimeOriginal'];
 }
+$dateLabel = (isset($dateLabel)) ? $dateLabel : date('m-j-Y h:m',$record['Image']['date']);
 
 $parameters = array(
+    'post_fields'=>$dateLabel,
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
     'legend'=>'Image exif fields',
