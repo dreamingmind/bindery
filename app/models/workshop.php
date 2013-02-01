@@ -204,12 +204,12 @@ class Workshop extends AppModel {
             )
         );
         $this->workshopsSetter();
-       debug(getallheaders());
-       debug($this->workshops_now);
-       debug($this->workshops_upcoming);
-       debug($this->workshops_potential);
-       debug($this->workshops_all);
-       die;
+//       debug(getallheaders());
+//       debug($this->workshops_now);
+//       debug($this->workshops_upcoming);
+//       debug($this->workshops_potential);
+//       debug($this->workshops_all);
+//       die;
        }
        function workshopsSetter (){
            foreach ($this->workshops_all as $workshop){

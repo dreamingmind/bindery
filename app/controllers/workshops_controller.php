@@ -2,6 +2,12 @@
 class WorkshopsController extends AppController {
 
 	var $name = 'Workshops';
+        /**
+         * @var string $result_ImagePath picks the size of image in search result blocks
+         */
+        var $result_imagePath = 'images/thumb/x160y120/';
+
+
         
     function beforeFilter() {
         parent::beforeFilter();
@@ -10,9 +16,11 @@ class WorkshopsController extends AppController {
         
         function upcoming(){
 //        debug($this->Workshop);die;
-            $this->set('upcoming', 'The upcoming list goes here');
-            $this->set('sessions',  $this->Workshop->upcoming_sessions);
-            $this->set('workshops', $this->Workshop->workshops);
+            $this->set('upcoming', $this->Workshop->workshops_upcoming);
+            $this->set('potential',  $this->Workshop->workshops_potential);
+            $this->set('now', $this->Workshop->workshops_now);
+            $this->set('result_imagePath', $this->result_imagePath);
+            $this->layout = 'noThumbnailPage';
         }
 
 	function index() {
