@@ -642,7 +642,7 @@ class AppHelper extends Helper {
      *                                  [heading] => Boxes
      *                                  [slug] => boxes
      */
-    function foundNewBlock($news, $path){
+    function foundNewBlock($news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -691,7 +691,7 @@ class AppHelper extends Helper {
      * @param type $news
      * @param type $path
      */
-    function blogMenuBlock($news, $path){
+    function blogMenuBlock($news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -732,7 +732,7 @@ class AppHelper extends Helper {
     //}
     }
     
-    function foundGalleryBlock($exhibit, $path){
+    function foundGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -756,7 +756,7 @@ class AppHelper extends Helper {
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
     }
-    function foundWorkshopBlock($exhibit, $path){
+    function foundWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -764,7 +764,7 @@ class AppHelper extends Helper {
             
             //remove links and image links from markdown content
             $clean = preg_replace($patterns, $replace,$exhibit['ContentCollection']['0']['Content']['content']);
-            $collection = $this->Html->para('aside',$exhibit['Workshop']['heading']);
+            $collection = $this->Html->para('aside','ID: '.$exhibit['ContentCollection']['0']['Content']['id'].' - '.$exhibit['Workshop']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
             $link_uri = DS.'products'.DS.$exhibit['Workshop']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Workshop']['id'];

@@ -107,7 +107,7 @@ class ContentsController extends AppController {
     /**
      * @var string $result_ImagePath picks the size of image in search result blocks
      */
-    var $result_imagePath = 'images/thumb/x160y120/';
+//    var $result_imagePath = 'images/thumb/x160y120/';
    /** 
      * beforeFilter
      */
@@ -196,6 +196,11 @@ class ContentsController extends AppController {
             $this->set(compact('navlines', 'images'));
     }
     
+    /**
+     * Ajax editing form for Gallery Exhibits
+     * 
+     * @param int $id The id of the record to pull for editing
+     */
     function edit_exhibit($id=null) {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid content', true));
@@ -253,6 +258,77 @@ class ContentsController extends AppController {
                             'Category'
                         ),
                         'Supplement'
+                    )
+
+                ),
+                'conditions'=>array('Content.id'=>$id)
+            ));
+        $this->set('packet',$packet);
+        }
+//        $this->Session->setFlash('a test message');
+    }
+    
+    /**
+     * Ajax editing form for newsfeed and blog dispatches
+     * 
+     * @param int $id The id of the record to pull for editing
+     */
+    function edit_dispatch($id=null) {
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid content', true));
+            debug($this->referer());die;
+            $this->redirect($this->referer());
+        }
+        if (!empty($this->data)) {
+//            debug($this->data['ContentCollection'][0]);
+            
+//            $result = 0; // 0 at the end means nothing saved properly
+//            $result_message = '';
+//            //save the Content portion
+//            if ($this->Content->save($this->data)) {
+//                $result_message = __('The content has been saved', true);
+//                $result += 1;
+//            } else {
+//                $result_message = __('The content could not be saved. Please, try again.', true);
+//            }
+//            if (isset($this->data['ContentCollection'][0]['Supplement'])){
+//                if ($this->Content->ContentCollection->Supplement->saveAll($this->data['ContentCollection'][0]['Supplement'])) {
+//                    $result_message .= __('<br />The supplements have been saved', true);
+//                    $result += 1;
+//                } else {
+//                    $result_message .= __('<br />The supplements could not be saved. Please, try again.', true);
+//                }
+//            }
+//            if ($this->Content->Image->save($this->data)) {
+//                $result_message .= __("<br />The image has been saved", true);
+//                $result += 1;
+//            } else {
+//                $result_message .= __("<br />The image could not be saved. Please, try again.", true);
+//            }
+//            $this->Session->setFlash($result_message);
+//            if($result > 0){
+//            // refresh the screen after everythign is saved
+//                $this->passedArgs = unserialize($this->data['Content']['passedArgs']);
+//                $this->params = unserialize($this->data['Content']['params']);
+//                $this->gallery();
+//                $this->render('gallery','thumbnailPage');
+//            } else{
+//                // SEE ISSUE 82 FOR THE DIRECTION TO GO ON THIS SECTION
+//            // if nothing saved, redraw the form
+//                $packet = $this->data;
+//                unset($this->data);
+//            }
+        }
+        if(empty($this->data)){
+        $this->layout = 'ajax';
+//        $this->layout = 'noThumbnailPage';
+            $packet = $this->Content->find('all',array(
+                'contain'=>array(
+                    'Image',
+                    'ContentCollection'=>array(
+                        'Collection' =>array(
+                            'Category'
+                        )
                     )
 
                 ),
@@ -529,7 +605,7 @@ class ContentsController extends AppController {
      */
     function products(){
         $this->layout = 'noThumbnailPage';
-        $this->set('result_imagePath',  $this->result_imagePath);
+//        $this->set('result_imagePath',  $this->result_imagePath);
 
         $this->set('recentNews',  $this->Content->recentNews(3));
         $this->set('recentExhibits',$this->Content->recentExhibits(3));
@@ -552,7 +628,7 @@ class ContentsController extends AppController {
      */
     function product_landing(){
         $this->layout = 'noThumbnailPage';
-        $this->set('result_imagePath',  $this->result_imagePath);
+//        $this->set('result_imagePath',  $this->result_imagePath);
         
         $this->set('recentNews',  $this->Content->recentNews(2,  $this->params['pname']));
         $this->set('recentExhibit',  $this->Content->recentExhibits(2,  $this->params['pname']));

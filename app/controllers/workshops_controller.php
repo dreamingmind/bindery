@@ -5,8 +5,6 @@ class WorkshopsController extends AppController {
         /**
          * @var string $result_ImagePath picks the size of image in search result blocks
          */
-        var $result_imagePath = 'images/thumb/x160y120/';
-
 
         
     function beforeFilter() {
@@ -19,7 +17,7 @@ class WorkshopsController extends AppController {
             $this->set('upcoming', $this->Workshop->workshops_upcoming);
             $this->set('potential',  $this->Workshop->workshops_potential);
             $this->set('now', $this->Workshop->workshops_now);
-            $this->set('result_imagePath', $this->result_imagePath);
+//            $this->set('result_imagePath');
             $this->layout = 'noThumbnailPage';
         }
 

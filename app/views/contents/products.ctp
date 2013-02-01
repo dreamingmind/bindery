@@ -24,7 +24,7 @@ echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
     
 <?php
 foreach($recentNews as $news){
-    echo $html->foundNewBlock($news, $result_imagePath);
+    echo $html->foundNewBlock($news);
 }
 ?>
 </div>
@@ -37,7 +37,7 @@ foreach($recentNews as $news){
 
 $last_update = 0;
 foreach($recentExhibits as $exhibit){
-    echo $html->foundGalleryBlock($exhibit, $result_imagePath);
+    echo $html->foundGalleryBlock($exhibit);
 }
 ?>
 </div>

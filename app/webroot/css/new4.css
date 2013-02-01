@@ -89,7 +89,7 @@ button.supplement_list {
 }
 #reference-grid {
 	/*background: url('/bindery/img/exhibit-grid.png') repeat scroll 0 0 transparent;*/
-	position: fixed;
+	position: absolute;
 	width:640px;
 	height:480px;
 }
