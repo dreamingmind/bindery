@@ -41,3 +41,51 @@ h2#featureHeading {
     color: white;
     border: 2px solid white;
 }
+
+#feature-overlay p {
+    font-size:17px;
+    margin-left: 250px;
+}
+
+#featuredSession p.session, #featuredSession p.day {
+    text-align: right;
+    margin: 0;
+}
+
+#featuredSession p.session {
+    font-size: 13px;
+    font-weight: bold;
+    color: #7C3A2D;
+    padding-top: 3px;
+}
+
+#featuredSession p.day {
+    font-size: 11px;
+    color: #444;
+}
+
+#featuredSession button.register {
+  background-color: #7C3A2D;
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 3px;
+  opacity: 0.9;
+  padding: 0px 10px;
+}
+
+
+div#featuredSession {
+    position: absolute;
+    background-color: white;
+    opacity: .85;
+    width: 200px;
+    height: 150px;
+    top: 280px;
+    left: 15px;
+    padding: 4px;
+    border:3px solid #7C3A2D;
+    padding: 6px 10px 3px 0;
+}
+
