@@ -1,0 +1,43 @@
+/* 
+    Document   : search_links
+    Created on : Jan 13, 2013, 8:12:56 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#feature-pic {
+    height: 480px; 
+    width: 830px; 
+    position: relative; 
+    padding-bottom: 10px; 
+    /*background: url("/bindery/img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 0px 0px transparent;*/
+}
+
+#feature-overlay {
+    position: absolute; 
+    top: 0px; 
+    background: url("/bindery/img/workshop/feather-mask-left-third.png") repeat scroll 0px 0px transparent; 
+    height: 482px; 
+    width: 832px; 
+    margin-left: -1px; 
+    border-top: 6px solid rgb(0, 61, 76); 
+    margin-top: 3px;
+}
+
+#featurePicture {
+    background-color: #fff;
+    padding: 3px;
+    border: 4px solid #7C3A2D;
+    float: left;
+    margin: 50px 15px 15px 160px;
+}
+
+h2#featureHeading {
+    margin: 62px 0 10px 120px;
+    padding: 10px;
+    font-size: 35px;
+    background-color: #7C3A2D;
+    color: white;
+    border: 2px solid white;
+}

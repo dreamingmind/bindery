@@ -30,6 +30,9 @@
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
+    if($this->params['controller']=='workshops'){
+        echo $html->css('workshop');
+    }
     if (
         $this->params['action']=='forgot' 
         || $this->params['action']=='login'
