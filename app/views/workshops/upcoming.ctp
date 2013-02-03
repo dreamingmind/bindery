@@ -20,18 +20,33 @@
 //            $feature['ContentCollection'][0]['Content']['content'],
 //            array('id'=>'featureContent'));
     $accum = array(
-        '<p class="session">June 2013 - Session 1</p>',
-        '<p class="day"><time datetime="2013-6-7 9:00:00">June 6, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
-        '<p class="day"><time datetime="2013-6-8 9:00:00">June 6, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
         '<button class="register">Register: Session 1</button>',
-        '<p class="session">September 2013 - Session 2</p>',
-        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
-        '<button class="register">Register: Session 2</button>'
+//        '<p class="session">June 2013 - Session 1</p>',
+        '<p class="day"><time datetime="2013-6-7 9:00:00">June 6 2013, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
+        '<p class="day"><time datetime="2013-6-8 9:00:00">June 6 2013, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
+        '<button class="register">Register: Session 2</button>',
+//        '<p class="session">September 2013 - Session 2</p>',
+        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20 2013, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
+//        '<p class="session">June 2013 - Session 1</p>',
+//        '<p class="day"><time datetime="2013-6-7 9:00:00">June 6, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
+//        '<p class="day"><time datetime="2013-6-8 9:00:00">June 6, 9:00</time><span class="am">AM</span> - 2:00<span class="pm">PM</span>',
+//        '<button class="register">Register: Session 1</button>',
+//        '<p class="session">September 2013 - Session 2</p>',
+//        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
+//        '<button class="register">Register: Session 2</button>'
     );
     $sessions = implode('', $accum);
     $sessionDiv = $this->Html->div('',$sessions,array('id'=>'featuredSession'));
+//    $costLine = $this->Html->div('fdBackground',$this->Html->div('featureCost',$this->Html->tag('h3','Session 1 is 8 hours, $120 // Session 2 is 7 hours, $120')
+////                . $this->Html->tag('h3','Session 1: 8 hours, $120')
+//            ),
+//            array(
+////                'style'=>"background: url('/bindery/img/images/thumb/x640y480/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}') no-repeat scroll 0px 0px transparent;"
+//            )
+//);
+    $costLine = $this->Html->tag('h3','Session 1 is 8 hours, $120 // Session 2 is 7 hours, $120',array('class'=>'featureCost'));
     
-    $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $sessionDiv;
+    $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $costLine . $sessionDiv;
     echo $this->Html->css('search_links');
     echo $this->Html->div('',
         $this->Html->div('',$featureHtml,array(

@@ -71,6 +71,7 @@ h2#featureHeading {
   font-size: 11px;
   font-weight: bold;
   margin-bottom: 3px;
+  margin-top: 10px;
   opacity: 0.9;
   padding: 0px 10px;
 }
@@ -80,12 +81,42 @@ div#featuredSession {
     position: absolute;
     background-color: white;
     opacity: .85;
-    width: 200px;
-    height: 150px;
-    top: 280px;
-    left: 15px;
+    width: 215px;
+    /*height: 150px;*/
+    /*top: 280px;*/
+    /*left: 15px;*/
+    bottom:45px;
     padding: 4px;
     border:3px solid #7C3A2D;
-    padding: 6px 10px 3px 0;
+    padding: 0px 10px 10px 0;
+    text-align: right;
+    alignment-baseline: 0px;
 }
 
+.fdBackground {
+    /*background: url("/bindery/img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 100px 0px transparent;*/
+    /*border: thin solid;*/
+    /*height: 28px;*/
+    /*padding-left: 130px;*/
+    margin-left: 220px;
+    position: absolute;
+    top: 400px;
+    /*width: 604px;*/
+    /*opacity: .4;*/
+}
+.featureCost {
+    /*height: 28px;*/
+    /*background: url("/bindery/img/workshop/feather-mask-right-brick.png") repeat scroll -110px 0px transparent;*/ 
+}
+
+h3.featureCost {
+    font-weight: bold;
+    font-size: 17px;
+    margin: 0 0 0 250px;
+    color: black;
+/*    vertical-align: middle;
+    opacity: 1;*/
+    /*margin-left: 220px;*/
+    position: absolute;
+    top: 400px;
+}
