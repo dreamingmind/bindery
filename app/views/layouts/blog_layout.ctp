@@ -78,7 +78,8 @@
                 <?
 //                debug($toc);die;
             echo $html->tag('ul',
-                    $html->tag('li',$html->link('Back to the Bindery','/'))
+                    $html->tag('li',$html->link('The Bindery','/'))
+                    .$html->tag('li',$html->link('Workshops','/workshops'))
                     .$html->tag('li','Recent updates:')
                     ,array('class'=>'open'));
 //            $toc_id = $toc['id'];
