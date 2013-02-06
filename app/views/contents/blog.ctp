@@ -1,7 +1,9 @@
 <?php
 //debug($recentTitles);
 //debug($most_recent);die;
-echo $html->tag('h1','From the collection: '.$most_recent[0]['Collection']['heading']); 
+echo $html->tag('h1',
+        'From the collection: '.$most_recent[0]['Collection']['heading'].
+        $this->Form->button('Related Articles')); 
 echo $html->tag('h2',$most_recent[0]['Content']['heading']);
 //debug($userdata);
 

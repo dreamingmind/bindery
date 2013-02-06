@@ -422,11 +422,8 @@ class ContentsController extends AppController {
      * Much more to come
      */
     function blog(){
-//        Configure::write('debug',0);
-        $toc = $this->readBlogTOC();
-        $this->set('toc',$toc);
+        $this->readBlogTOC();
         $this->layout='blog_layout';
-//        debug($toc);die;
         $this->blogPage();
     }
     
@@ -479,93 +476,80 @@ class ContentsController extends AppController {
     /**
      * Read the full blog table of contents from cache or db
      * 
-     * This send a straight-ahead cake data block which is processed in the layout
+     * Provides an id indexed array and a lookup-by-slug element
+     * that can be popped off the front of the array
      * 
-     * @return array The raw table of contents data
+     *  Array
+     *      [lookup]
+     *              [box-structures-their-part-names] => 133
+     *              [boxes] => 60
+     *              [daily-planners] => 129
+     *              [design-cycle] => 128
+     *      [133] => Array
+     *              [id] => 133
+     *              [category_id] => 1469
+     *              [slug] => box-structures-their-part-names
+     *              [heading] => Box Structures and their Part Names
+     *              [Titles] => Array
+     *                     [clamshell-box-its-variations] => The Clamshell Box and Its Variations
+     *      [60] => Array
+     *              [id] => 60
+     *              [category_id] => 1469
+     *              [slug] => boxes
+     *              [heading] => Boxes
+     *              [Titles] => Array
+     *                      [wedding-memory-boxes] => Wedding Memory Boxes
+     *                      [lucha-libre] => Lucha Libre!
+     *                      [jackson-nichol-s-forcado-portfolio] => Jackson Nichol's Forcado portfolio
      */
     function readBlogTOC() {
         if(!($toc = Cache::read('toc'))) {
 
-//            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
-//                'fields'=>array(
-//                    'Collection.id',
-//                    'Collection.category_id',
-//                    'Collection.slug',
-//                    'Collection.heading'),
-//                'contain'=>array(
-//                    'ContentCollection'=>array(
-//                        'fields'=>array(
-//                            'ContentCollection.content_id',
-//                            'ContentCollection.collection_id',
-//                            'ContentCollection.publish'
-//                        ),
-//                        'Content'=>array(
-//                            'fields'=>array(
-//                                'Content.id',
-//                                'Content.heading',
-//                                'Content.slug'
-//                            )
-//                        ),
-//                        'conditions'=>array('ContentCollection.publish'=>1)
-//                    )
-//                ),
-//                'conditions'=>array(
-//                    'Collection.category_id'=>$this->categoryNI['dispatch']
-//                ),
-//                'group'=>'Collection.slug'
-//            ));
-//            $tocLevels = array();
-//            foreach($tocbase as $index => $collection){
-//                $level_id = $collection['Collection']['id'];
-//                $level_heading = $collection['Collection']['heading'];
-////                debug($level_id. ' : ' . $level_heading);
-//                $i = 0;
-//                while($i < count($collection['ContentCollection'])){
-//                    $tocbase[$index]['Collection']['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
-//                    $tocLevels[$level_id][$level_heading][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
-////                    unset($tocbase[$index]['ContentCollection'][$i++]);
-//                    $i++;
-//                }
-//                unset($tocbase[$index]['ContentCollection']);
-//            }
-            
-            $recentPosts = $this->Content->recentNews(8);
-            $this->set('recentPosts',$recentPosts);
-            $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
-//            debug($recentPosts);
-//            die;
-//            debug($tocLevels);
-//    debug($tocbase);die;
-            $tocbase = $this->Content->ContentCollection->find('all',array(
-                'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
+                'fields'=>array(
+                    'Collection.id',
+                    'Collection.category_id',
+                    'Collection.slug',
+                    'Collection.heading'),
                 'contain'=>array(
-                    'Collection'=>array(
-                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
-                    ),
-                    'Content'=>array(
-                        'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
-//                        'Image'=>array(
-//                            'fields'=>array('Image.alt','Image.title','Image.img_file')
-//                        )
+                    'ContentCollection'=>array(
+                        'fields'=>array(
+                            'ContentCollection.content_id',
+                            'ContentCollection.collection_id',
+                            'ContentCollection.publish'
+                        ),
+                        'Content'=>array(
+                            'fields'=>array(
+                                'Content.id',
+                                'Content.heading',
+                                'Content.slug'
+                            )
+                        ),
+                        'conditions'=>array('ContentCollection.publish'=>1)
                     )
                 ),
                 'conditions'=>array(
-                    'Collection.category_id'=>$this->categoryNI['dispatch'],
-                    'ContentCollection.publish'=>1)
+                    'Collection.category_id'=>$this->categoryNI['dispatch']
+                ),
+                'group'=>'Collection.slug'
             ));
-//            debug($tocbase);
-            $toc = array();
-            foreach($tocbase as $article){
-    //            debug($article);
-                if (!is_null($article['Content']['slug'])){
-                   $toc[$article['Collection']['slug']][$article['Content']['slug']]= $article['Content']['heading'];
-                   $toc['id'][$article['Collection']['slug']]=$article['Collection']['id'];
+            foreach($tocbase as $index => $collection){
+                $level_id = $collection['Collection']['id'];
+                $level_slug = $collection['Collection']['slug'];
+                $toc['lookup'][$level_slug] = $level_id;
+                $toc[$level_id] = $collection['Collection'];
+                $i = 0;
+                while($i < count($collection['ContentCollection'])){
+                    $toc[$level_id]['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
+                    $i++;
                 }
             }
             Cache::write('toc', $toc);
         }
-//        debug ($toc);
-        return $toc;
+        $this->set('toc',$toc);
+        $recentPosts = $this->Content->recentNews(8);
+        $this->set('recentPosts',$recentPosts);
+        $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
     }
     
     /**

@@ -75,29 +75,35 @@
                 echo $form->siteSearch($searchController, $hidden); // creates DIV id=siteSearch 
             ?>
             <div id="navBar">
-                <?
-//                debug($toc);die;
-            echo $html->tag('ul',
-                    $html->tag('li',$html->link('The Bindery','/'))
-                    .$html->tag('li',$html->link('Workshops','/workshops'))
-                    .$html->tag('li','Recent updates:')
-                    ,array('class'=>'open'));
-//            $toc_id = $toc['id'];
-//            unset($toc['id']);
-//            echo '<ul class="open">';
-//            foreach($toc as $collection => $list){
-//                $id = $this->Text->truncate(sha1($collection),8,array('ending'=>''));
-//                echo "<li class='collection menu' id='$id'>";
-//                echo $html->link($collection,'#');
-//                echo "<ul class='title_list close $id'>";
-//                foreach($list as $href=>$text){
-//                    echo $html->tag('li',
-//                            $html->link($this->Text->truncate($text,25,array('ending'=>'...')),
-//                                    '/blog/'.$toc_id[$collection].'/'.$href,array('title'=>$text)));
-//                }
-//                echo '</ul></li>';
-//            }
-                echo '</ul>';
+            <?
+//            $tocLookup = array_shift($toc);
+//                debug($toc);//die;
+            $this->Html->output('<ul>');
+                $this->Html->output($html->tag('li',$html->link('The Bindery','/')));
+                $this->Html->output($html->tag('li',$html->link('Workshops','/workshops')));
+                $this->Html->output('<li>'.$this->Html->link('Article Collections',array('#')),
+                    array('id'=>'collection')
+                );
+                    foreach($toc as $index => $collection){
+                        if(!is_string($index)){
+                            $this->Html->output("\t<ul id='collection$index' class='close collection'>\r\t\t<li>".$collection['heading']);
+                            $this->Html->output("\t\t\t<ul class='collectionList$index close'>");
+                            foreach($collection['Titles'] as $slug => $heading){
+                                $this->Html->output("\t\t\t\t".$this->Html->tag('li',
+                                        $this->Html->link($heading, array(
+                                            'action'=>'blog',
+                                            $index,
+                                            $slug
+                                        ))
+                                ));
+                            }
+                            $this->Html->output("\t\t\t</ul>");
+                            $this->Html->output("\t\t</li>");
+                            $this->Html->output("\t</ul>");
+                        }
+                    }
+                $this->Html->output($html->tag('li','Recent updates:'));
+            $this->Html->output('</ul>');
             foreach($recentPosts as $news){
                 echo $html->blogMenuBlock($news, $result_imagePath);
             }
