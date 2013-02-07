@@ -3,7 +3,9 @@
 //debug($most_recent);die;
 echo $html->tag('h1',
         'From the collection: '.$most_recent[0]['Collection']['heading'].
-        $this->Form->button('Related Articles',array('class'=>'related'))); 
+        $this->Form->button('Related Articles',array(
+            'class'=>'related',
+            'collection'=>'collection'.$most_recent[0]['Collection']['id']))) . $html->div('related',''); 
 echo $html->tag('h2',$most_recent[0]['Content']['heading']);
 //debug($userdata);
 

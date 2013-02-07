@@ -65,6 +65,20 @@ $(document).ready(function(){
         })
     }
     
+    function intializeRelatedButton(){
+        $('button.related').bind('click',function(){
+            var x = this.offsetLeft;
+            var y = this.offsetTop;
+            var target = $('.'+$(this).attr('collection'));
+            target.attr('class','open');
+            target.appendTo($('div.related'));
+            $('div.related').css('top',y+15).css('left',x+60).css('display','inline');
+        })
+        $('div.related').bind('mouseleave',function(){
+            $(this).css('display','none');
+        })
+    }
+    
     function compressBlogTOC() {
         $('.title_list').css('display','none');
     }
@@ -75,4 +89,5 @@ $(document).ready(function(){
     initializeBlogCollectionsReveal();
     initializeBlogArticleReveal();
     allowArticleClick();
+    intializeRelatedButton();
 });

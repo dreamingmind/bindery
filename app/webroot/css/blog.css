@@ -152,6 +152,7 @@ sublist ul li a {
 	/*border-right:solid #802A19 .5em;*/
 }
 
+
 #navBar .linkDiv {
     text-align: left;
     height: 82px;
@@ -263,6 +264,9 @@ input#searchInput {
         width: 600px;
 }
 
+div#detail{
+    position: relative;
+}
 #detail img{
     float: left;
     padding: 3px;
@@ -279,6 +283,37 @@ button.related {
     padding: 1px;
 }
 
+div.related {
+    background-color: #DAE7C2;
+    display: none;
+    margin-left: -10px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    width: 250px;
+    z-index: 100;
+}
+
+#detail div.related ul {
+    font-size: 91%;
+    margin: 4px 2px 6px 2px;
+}
+
+#detail div.related ul li{
+    color: #666666;
+    margin-right: 4px;
+    margin-top: 2px;
+    list-style-type: square;
+    list-style: outside;
+}
+
+#detail div.related ul li a{
+    text-decoration: underline;
+    color: #3F6D44;
+    font-weight: lighter;
+    margin-right: -6px;
+    padding-right: 5px;
+}
 /*#detail p{
     padding: 8px;
 }*/
