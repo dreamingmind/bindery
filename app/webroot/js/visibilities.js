@@ -23,19 +23,46 @@ $(document).ready(function(){
         $('.nextButtons a img').fadeTo( 700, .2);
     }
     
-    // functions to manage Blog TOC
-    function intializeBlogTOC(){
-        if (collections = $('.collection')){
-            collections.each(function(){
-                $('.'+$(this).attr('id')).hide();
-                $(this).bind('click',function(){
-                    compressBlogTOC();
-                    $('.'+$(this).attr('id')).toggle(50, function() {
-    // Animation complete.
-                    })
-                })
+    // click function for top level
+    // to reveal the list of Collection
+    // in the menu
+    function initializeBlogCollectionsReveal(){
+        $('#collections').each(function(){
+            var target = $(this).attr('id');
+            $(this).bind('click',function(e){
+                e.preventDefault();
+                $('.'+target).toggle(50);
             })
-        }
+//                alert($(this).html());
+        })
+    }
+    
+    // In blog menu, once Collections are showing
+    // clicking on one must reveal its articles
+    function initializeBlogArticleReveal(){
+        $('.collection').each(function(){
+            var target = $(this).attr('id');
+            $(this).find('li').each(function(){
+                if($(this).attr('class') != 'article'){
+                    $(this).bind('click',function(e){
+                        e.preventDefault();
+                        $('.'+target).toggle(50);
+                        e.stopPropagation();
+                    })
+                }
+//                alert($(this).html());
+            })
+        })
+    }
+    
+    // prevent click propagaion from aricles!
+    function allowArticleClick(){
+        $('.article').find('a').each(function(){
+            $(this).bind('click',function(e){
+//                e.allowDefault();
+                e.stopPropagation();
+            })
+        })
     }
     
     function compressBlogTOC() {
@@ -45,5 +72,7 @@ $(document).ready(function(){
     $('ul.thumbList').bind('mouseleave',hidePN);
     
     hidePN();
-    intializeBlogTOC();
+    initializeBlogCollectionsReveal();
+    initializeBlogArticleReveal();
+    allowArticleClick();
 });

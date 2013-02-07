@@ -61,7 +61,7 @@ Main navigation strip formatting
 	font-size: 16px;
 	width:190px;
 	/*text-align:right;*/
-	padding: 0px 25px 0px 45px;
+	padding: 0px 25px 0px 40px;
 	top:45px;
 	height: auto;
 	/* border: solid #fff 1px;*/ 
@@ -100,10 +100,11 @@ sublist ul li a {
 }
 #navBar ul {
 	font-size:91%;
-	margin-right:2px;
+        margin: 4px 2px 6px -5px;
+/*	margin-right:2px;
 	margin-left:-10px;
 	margin-bottom:6px;
-	margin-top:4px;
+	margin-top:4px;*/
 }
 #navBar li {
 	margin-top:2px;
@@ -174,6 +175,14 @@ sublist ul li a {
 #navBar .linkDiv img {
     float: left;
     padding-right: 6px;
+}
+
+#navBar li.article > a {
+    text-decoration: underline;
+}
+
+li.article {
+    list-style-type: square;
 }
 
 /*Site search box format*/
@@ -260,6 +269,14 @@ input#searchInput {
     margin: 5px 20px 10px 2px;
     border: 1px solid #b4ab61;
     background-color: #fff;
+}
+
+button.related {
+    background-color: #DAE7C2;
+    cursor: pointer;
+    margin-left: 15px;
+    opacity: 0.5;
+    padding: 1px;
 }
 
 /*#detail p{
