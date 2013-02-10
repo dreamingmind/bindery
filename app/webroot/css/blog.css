@@ -134,24 +134,6 @@ sublist ul li a {
 	color: #3F6D44;
 }
 
-#navBar .active a {
-	color:#3F6D44;
-	/*font-weight:bold;*/
-/*	border-bottom:solid #802A19 1px;
-	border-right:solid #802A19 .5em;*/
-}
-
-#navBar .menuactive a {
-/*	border-right:solid #bbb .5em;
-	border-bottom:solid #ddd 1px;    */
-}
-
-#navBar a:hover {
-	color:#802A19;
-	text-decoration:inherit;
-	/*border-right:solid #802A19 .5em;*/
-}
-
 
 #navBar .linkDiv {
     text-align: left;
@@ -176,6 +158,11 @@ sublist ul li a {
 #navBar .linkDiv img {
     float: left;
     padding-right: 6px;
+}
+
+.linkDiv.active {
+    background: none repeat scroll 0 0 #DAE7C2;
+    border-left: thick solid #DAE7C2;
 }
 
 #navBar li.article > a {
@@ -207,6 +194,39 @@ input.siteSearchButton {
 	font-size: 10px;
 	text-align: right;
 	color:#999
+}
+
+#navBar li.active > a {
+    /*color: white;*/
+    background: none repeat scroll 0 0 #DAE7C2;
+    padding: 3px;
+    text-decoration: none
+    /*padding: 3px;*/
+	/*color:#3F6D44;*/
+	/*font-weight:bold;*/
+/*	border-bottom:solid #802A19 1px;
+	border-right:solid #802A19 .5em;*/
+}
+
+li.active {
+/*    background: none repeat scroll 0 0 #3F6D44;*/
+    /*color: white;*/
+    list-style: square;
+}
+
+#navBar .active a:hover {
+    background: #DAE7C2;
+    /*color: white;*/
+}
+#navBar .menuactive a {
+/*	border-right:solid #bbb .5em;
+	border-bottom:solid #ddd 1px;    */
+}
+
+#navBar a:hover {
+	color:#802A19;
+	text-decoration:inherit;
+	/*border-right:solid #802A19 .5em;*/
 }
 
 /*account tool and jumpbox formats*/
@@ -296,13 +316,13 @@ div.related {
 
 #detail div.related ul {
     font-size: 91%;
-    margin: 4px 2px 6px 2px;
+    /*margin: 4px 2px 6px 2px;*/
 }
 
 #detail div.related ul li{
     color: #666666;
     margin-right: 4px;
-    margin-top: 2px;
+    /*margin-top: 2px;*/
     list-style-type: square;
     list-style: outside;
 }
@@ -313,6 +333,15 @@ div.related {
     font-weight: lighter;
     margin-right: -6px;
     padding-right: 5px;
+}
+
+#detail div.related ul li.active a{
+    text-decoration: none;
+    color: black;
+}
+
+#detail div.related ul li{
+    padding:1px 0;
 }
 /*#detail p{
     padding: 8px;

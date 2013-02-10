@@ -81,12 +81,12 @@
             $this->Html->output('<ul>');
                 $this->Html->output($html->tag('li',$html->link('The Bindery','/')));
                 $this->Html->output($html->tag('li',$html->link('Workshops','/workshops')));
-                $this->Html->output('<li id="collections">'.$this->Html->link('Article Collections',array('#'))
+                $this->Html->output('<li id="collections">'.$this->Html->link('Article Collections',array(''))
                 );
                     foreach($toc as $index => $collection){
                         if(!is_string($index)){
-                            $this->Html->output("\t<ul id='collection$index' class='close collection collections'>\r\t\t<li>"
-                                    .$this->Html->link($collection['heading'],'#')
+                            $this->Html->output("\t<ul id='collection$index' class='open collection collections'>\r\t\t<li>"
+                                    .$this->Html->link($collection['heading'],$index)
                                     );
                             $this->Html->output("\t\t\t<ul class='collection$index close'>");
                             foreach($collection['Titles'] as $slug => $heading){
@@ -94,7 +94,8 @@
                                         $this->Html->link($heading, array(
                                             'action'=>'blog',
                                             $index,
-                                            $slug
+                                            $slug,
+                                            '#'
                                         )), array('class'=>'article')
                                 ));
                             }
