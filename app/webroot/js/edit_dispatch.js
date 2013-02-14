@@ -19,15 +19,20 @@ $(document).ready(function(){
     * Intialize the Fieldset toggling
     * Enable the Submit button in the new form
     * Make the Supplement fieldset live-update the page
+    * 
+    * On the server-side the $id has the content_id
+    * and $_POST[collection][0] holds the collection_id
     */
    function loadEditForm(button){
 //       path = location.pathname.replace(/products\/[\S]+/,'contents/edit_dispatch/'+$('#ContentEditDispatchForm').attr('content_id'));
        var path = $(button).parent().attr('action');
        var id = $(button).parent().attr('content_id');
        button.html('Cancel');
-       $('.formContent'+id).append().load(path,function(){
-           toggleFieldsets();
-           enableSubmit();
+       $('.formContent'+id).append().load(path,
+            {collection:$('button.related').attr('collection').match(/[\d]+/),slug:$('button.related').attr('slug')},
+            function(){
+               toggleFieldsets();
+               enableSubmit();
        });
 //       toggleFieldsets();
    }

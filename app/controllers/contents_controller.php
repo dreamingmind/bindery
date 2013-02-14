@@ -330,15 +330,97 @@ class ContentsController extends AppController {
                             'Category'
                         )
                     )
-
                 ),
                 'conditions'=>array('Content.id'=>$id)
             ));
+//            debug($_POST['collection'][0]);
+//            debug($_POST);
+//            debug($id);
         $this->set('packet',$packet);
+//        // now pull unpublished images. Those are potential
+//        // inline images.
+        $iiLinks = $this->unpubImageLinks($_POST['collection'][0],$_POST['slug']);
+        $this->set('iiLinks',$iiLinks);
         }
 //        $this->Session->setFlash('a test message');
     }
 
+    /**
+     * Given a collection_id, create markdown links for inline images
+     * 
+     * Inline images for a collection will be unpublished ContentCollection records
+     * Pull them and construct the markdown for inserting the image
+     * into content. The reference number for the link is the image id (just in case)
+     * 
+     * As usual, Image provides alt and title tags
+     * but can be over-ridden with alt and title in Content
+     * 
+     * I've included html for a caption for the inline picture.
+     * If no caption is wanted, the Content.content field should be left empty
+     * @todo these captions need css. hidden normally, show on rollover expansion.
+     * 
+     * @param int $collection The collection_id to query
+     * @return string A block of text with all the link markdown
+     */
+    function unpubImageLinks($collection,$slug){
+        $inlineImages = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array(
+                'ContentCollection.collection_id',
+                'ContentCollection.content_id',
+                'ContentCollection.publish',
+                'ContentCollection.seq'
+            ),
+            'contain'=>array(
+                'Content'=>array(
+                    'fields'=>array(
+                        'Content.id',
+                        'Content.image_id',
+                        'Content.alt',
+                        'Content.title',
+                        'Content.content',
+                        'Content.slug'
+                    ),
+                    'Image'=>array(
+                        'fields'=>array(
+                            'Image.id',
+                            'Image.alt',
+                            'Image.title',
+                            'Image.img_file'
+                        )
+//                    ),
+//                    'conditions'=>array(
+//                        'Content.slug'=>$slug
+                    )
+                )
+            ),
+            'conditions'=>array(
+                'Content.slug'=>$slug,
+                'ContentCollection.collection_id'=>$collection,
+                'ContentCollection.publish'=>0
+            )
+        ));
+//        debug($inlineImages);
+//        ![Final Lucha Libre hot stamp design elements][1]
+//        [1]: LLpx005.jpg "Lucha Libre!"
+        if(is_array($inlineImages)){
+        $iiLinks = 'Unpublished Image links:</br>';
+            foreach($inlineImages as $image){
+                $index = $image['Content']['Image']['id'];
+                $alt = ($image['Content']['alt']=='') ? $image['Content']['Image']['alt'] : $image['Content']['alt'];
+                $caption = ($image['Content']['content']=='') ? '' : '&lt;caption&gt;'.$image['Content']['content']."&lt;/caption&gt;\r";
+                $title = (empty($image['Content']['title'])) ? $image['Content']['Image']['title'] : $image['Content']['title'];
+                
+                $iiLinks .= 
+                    "<br />![" . $alt
+                    . "][$index]<br />" . $caption
+                    .'<br />['.$index.']: '.$image['Content']['Image']['img_file'] . ' ' .$title . "<br />";
+//                $inlineImages[$index]['image'] = $image['Content']['Image']['img_file'];
+            }
+        }
+        return "<code>$iiLinks</code>";
+    }
+    
+    
     function delete($id = null) {
             $this->layout = 'noThumbnailPage';
             if (!$id) {
@@ -457,7 +539,7 @@ class ContentsController extends AppController {
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish'),
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish','Content.slug'),
                     'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')

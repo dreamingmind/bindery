@@ -15,6 +15,7 @@
         'id'=>'editExhibitSubmit'));
     echo $this->Html->div('', $this->element('contentForm_dataFields',array(
         'record'=>$packet[0],
+        'post_fields'=>$iiLinks,
         'display'=>'show')));
     echo $this->Html->div('', $this->element('imageForm_dataFields',array(
         'record'=>$packet[0])));

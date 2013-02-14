@@ -428,7 +428,7 @@ Thumbnail navigation bar formatting
 	margin:-25px -6px -14px -6px;
 }
 li.active {
-    background-color: #eaeafa ;
+    /*background-color: #eaeafa ;*/
     border-right: solid 1px #eaeafa;
     border-left: solid 1px #eaeafa;
     padding-left: -1px;
