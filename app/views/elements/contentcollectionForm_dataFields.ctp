@@ -2,35 +2,33 @@
 /* @var $this ViewCC */ 
 
 /**
- * Content.heading
- * Content.content
- * Content.alt
- * Content.title
+ * ContentCollection.id
+ * ContentCollection.seq
+ * ContentCollection.publish 
  */
 ?> 
 	<?php
+//debug($record);
 $parameters = array(
     'pre_fields' => (isset($pre_fields))?$pre_fields:'',
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Content data fields',
+    'legend'=> (isset($legend))?$legend:'ContentCollection data fields',
     'prefix'=> (isset($prefix))?$prefix:false,
-    'model'=>'Content',
+    'model'=>'ContentCollection',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'heading',
-        'content' => array(
-            'type'=> 'textarea'
+        'id'=>array(
+            'type'=>'hidden'
         ),
-        'alt',
-        'title',
-//        'publish'=> array(
-//            'type'=>'radio',
-//            'options'=> array(
-//                '1'=>'Publish', '0'=>'Hold' 
-//            )
-//         )
+        'seq',
+        'publish'=> array(
+            'type'=>'radio',
+            'options'=> array(
+                '1'=>'Publish', '0'=>'Hold/In-line' 
+            )
+         )
     )
 );
 

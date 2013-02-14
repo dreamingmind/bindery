@@ -73,11 +73,19 @@ if($chunk) {
                         
                         // work out the memberships for this Content record
                         if(isset($entry['ContentCollection'])){
+                            $ccFieldset = null;
                             $memberships = null;
-                            foreach($entry['ContentCollection'] as $collections){
+                            foreach($entry['ContentCollection'] as $cc_index => $collections){
                                 $memberships .= (isset($collections['Collection']['heading']))
                                     ?$this->Html->tag('li',$collections['Collection']['heading'])
                                     :'';
+                                $ccFieldset .= $this->element('contentcollectionForm_dataFields',array(
+                                    'record'=>array('ContentCollection'=> array($cc_index => $collections)),
+                                    'legend'=>'ContentCollection '.$collections['Collection']['heading'],
+                                    'linkNumber' => $cc_index,
+                                    'prefix' => array('Content',$index),
+                                    'display' => 'show'
+                                ));
                             }
                             $memberships = (!is_null($memberships))
                                 ? $this->Html->tag('ul',$memberships)
@@ -87,7 +95,8 @@ if($chunk) {
                             'record'=>$val,
                             'legend'=>$entry['heading'],
                             'linkNumber' => $index,
-                            'pre_fields' => (isset($memberships))?$memberships:''
+                            'pre_fields' => (isset($memberships))?$memberships:'',
+                            'post_fields' => $ccFieldset
                             )));
                     }
                 }

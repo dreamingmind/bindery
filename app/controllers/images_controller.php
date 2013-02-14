@@ -118,7 +118,7 @@ class ImagesController extends AppController {
     var $contain = array(
         'Content'=>array(
             'ContentCollection'=>array(
-                'fields'=> array('id','collection_id'),
+                'fields'=> array('id','collection_id','seq','publish'),
                 'Collection'=>array(
                     'fields'=>array('Collection.heading','Collection.slug')
                 )
@@ -995,7 +995,7 @@ class ImagesController extends AppController {
 //            $this->searchAction = 'image_grid';
 //            $this->redirect(array('action'=>'search'));
         } // end of $this->data processing
-
+//        debug($this->data);die;
         $this->layout = 'noThumbnailPage';
         $this->setSearchAction('image_grid');
 
