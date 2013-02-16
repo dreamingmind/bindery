@@ -280,6 +280,7 @@ class ContentsController extends AppController {
             $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
+            debug($this->data);die;
 //            debug($this->data['ContentCollection'][0]);
             
 //            $result = 0; // 0 at the end means nothing saved properly
@@ -333,10 +334,14 @@ class ContentsController extends AppController {
                 ),
                 'conditions'=>array('Content.id'=>$id)
             ));
+            $record[0]['Content'][$packet[0]['Content']['id']] = $packet[0]['Content'];
+            $record[0]['Image'][$packet[0]['Content']['id']] = $packet[0]['Image'];
 //            debug($_POST['collection'][0]);
 //            debug($_POST);
 //            debug($id);
-        $this->set('packet',$packet);
+//            debug($record);
+            $this->set('linkNumber',$packet[0]['Content']['id']);
+        $this->set('packet',$record);
 //        // now pull unpublished images. Those are potential
 //        // inline images.
         $iiLinks = $this->unpubImageLinks($_POST['collection'][0],$_POST['slug']);

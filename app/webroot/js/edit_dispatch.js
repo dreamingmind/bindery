@@ -25,9 +25,10 @@ $(document).ready(function(){
     */
    function loadEditForm(button){
 //       path = location.pathname.replace(/products\/[\S]+/,'contents/edit_dispatch/'+$('#ContentEditDispatchForm').attr('content_id'));
-       var path = $(button).parent().attr('action');
-       var id = $(button).parent().attr('content_id');
+       var id = $(button).attr('content_id');
+       var path = $('#ContentEditDispatchForm').attr('action') + '/' + id;
        button.html('Cancel');
+       $('.formContent'+id).html('<p>Loading...</p>');
        $('.formContent'+id).append().load(path,
             {collection:$('button.related').attr('collection').match(/[\d]+/),slug:$('button.related').attr('slug')},
             function(){
@@ -43,7 +44,7 @@ $(document).ready(function(){
     * Dump the form
     */
    function cancelEditForm(button){
-       var id = $(button).parent().attr('content_id');
+       var id = $(button).attr('content_id');
        button.html('Edit');
        $('.formContent'+id).html('');
 

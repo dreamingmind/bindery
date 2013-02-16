@@ -180,6 +180,9 @@ li.article {
 	width: 192px;
 	margin-left: 45px;
 }
+.toggleHide{
+    display: none;
+}
 input.siteSearchInput {
     width: 163px;
     background-color: #EAE7D2;
@@ -356,6 +359,8 @@ div.related {
 div.entry{
     float:left;
     position: relative;
+    margin:0;
+    padding:0;
 }
 
 /*The visual indicator of hover_zoom on blog inline images*/
@@ -383,7 +388,7 @@ div.entry{
     margin-top: 0px;
     font-size: 10px;
 }
-.entryText{
+div.entryText{
     margin-left:160px;
     margin-top: 60px;
     padding: 15px 10px 15px 0px;
