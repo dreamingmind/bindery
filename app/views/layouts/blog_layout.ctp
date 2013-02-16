@@ -40,8 +40,8 @@
     }
 //    $js->buffer("var size_swaps = $size_swaps;");
     echo $this->Html->script('jquery-1.4.2');
-    echo $this->Html->script('visibilities');
-    echo $this->Html->script('responsive_layout');
+    echo $this->Html->script('blog_menu');
+    echo $this->Html->script('blog_image_zoom');
     echo $this->Html->script('adjust_markdown');
     echo $this->Html->script('edit_dispatch');
     echo $scripts_for_layout;

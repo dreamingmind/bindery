@@ -38,7 +38,7 @@
         echo $html->css('login');
     }
     echo $this->Html->script('jquery-1.4.2');
-    echo $this->Html->script('visibilities');
+    echo $this->Html->script('manage_thumbnails');
     echo $this->Html->script('jumpbox');
     echo $this->Html->script('adjust_markdown');
     echo $this->Html->script('edit_exhibit');
