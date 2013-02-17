@@ -268,6 +268,9 @@ class ContentsController extends AppController {
 //        $this->Session->setFlash('a test message');
     }
     
+    function sample(){
+        debug($this->data);die;
+    }
     /**
      * Ajax editing form for newsfeed and blog dispatches
      * 
@@ -280,7 +283,18 @@ class ContentsController extends AppController {
             $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
-            debug($this->data);die;
+            $this->params = unserialize($this->data['params']);
+            $this->passedArgs = unserialize($this->data['passedArgs']);
+//            debug($this->params);//die;
+            $message = ($this->Content->saveAll($this->data['Content']))
+                ? 'Content records saved'
+                : 'Content record save failed';
+            $message .= ($this->Content->Image->saveAll($this->data['Image']))
+                ? "<br />Image records saved"
+                : "<br />Image record save failed";
+            $this->Session->setFlash($message);
+            $this->redirect('/'.$this->params['url']['url'].'/#');
+//            debug($this->data);die;
 //            debug($this->data['ContentCollection'][0]);
             
 //            $result = 0; // 0 at the end means nothing saved properly

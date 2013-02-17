@@ -33,7 +33,7 @@ $(document).ready(function(){
             {collection:$('button.related').attr('collection').match(/[\d]+/),slug:$('button.related').attr('slug')},
             function(){
                toggleFieldsets();
-               enableSubmit();
+//               enableSubmit();
        });
 //       toggleFieldsets();
    }

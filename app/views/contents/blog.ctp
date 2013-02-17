@@ -17,16 +17,18 @@ echo $html->tag('h2',$most_recent[0]['Content']['heading']);
             // I create a content_id attribute for the form so the 
             // ajax call knows what record to get for the form values
             echo $this->Form->create('Content', array(
-                'default'=>false,
+//                'default'=>false,
                 'class'=>'edit',
                 'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
 //                'content_id'=>$entry['Content']['id']
                 ));
             echo $form->input('passedArgs',array(
                 'type'=>'hidden',
+                'name'=>'data[passedArgs]',
                 'value'=>  serialize($this->passedArgs)));
             echo $form->input('params',array(
                 'type'=>'hidden',
+                'name'=>'data[params]',
                 'value'=>  serialize($this->params)));
         }
 
