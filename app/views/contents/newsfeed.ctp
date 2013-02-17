@@ -16,10 +16,36 @@ $path = 'images/thumb/x500y375/';
 //$path = 'images/thumb/x160y120/';
 //$path = 'images/thumb/x800y600/';
 
-echo $this->Html->tag('h1',$collectionData['heading']);
+echo $this->Html->tag('h1',$collectionData['heading'],array(
+    'class' => 'related',
+    'collection'=> $collectionData['id']
+));
 echo $this->Html->tag('p',$collectionData['text']);
 
-//debug($collectionPage);die;
+//debug($collectionData);die;
+        // This is the admins edit form for the Content record
+        // passedArgs and params are saved from the current page
+        // so the full page context can be re-established 
+        // if the data gets saved properly.
+if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
+    // I create a content_id attribute for the form so the 
+    // ajax call knows what record to get for the form values
+    echo $this->Form->create('Content', array(
+//                'default'=>false,
+        'class'=>'edit',
+        'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
+//                'content_id'=>$entry['Content']['id']
+        ));
+    echo $form->input('passedArgs',array(
+        'type'=>'hidden',
+        'name'=>'data[passedArgs]',
+        'value'=>  serialize($this->passedArgs)));
+    echo $form->input('params',array(
+        'type'=>'hidden',
+        'name'=>'data[params]',
+        'value'=>  serialize($this->params)));
+}
+
 foreach ($collectionPage as $dispatch) {
     if ($h2 != $dispatch['heading'] && $dispatch['heading'] != null) {
 //        debug($dispatch);die;
@@ -53,15 +79,24 @@ foreach ($collectionPage as $dispatch) {
     ));
 
     // admin's edit tool
-    $e=null;
+    $e = null;
+    $d = null;
     if (isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
-    $e = "<ul class='adminMenu'>\r<li>".
-        $this->Html->link("Edit<br />im-id:{$dispatch['image_id']}", '#', array(
-        'name' => 'fieldset'.$dispatch['id'],
-        'onclick'=> 'showhide(this.name, \'block\'); return false',
-        'escape' => false
-        )) .
-        "</li>\r</ul>\r";
+//    $e = "<ul class='adminMenu'>\r<li>".
+//        $this->Html->link("Edit<br />im-id:{$dispatch['image_id']}", '#', array(
+//        'name' => 'fieldset'.$dispatch['id'],
+//        'onclick'=> 'showhide(this.name, \'block\'); return false',
+//        'escape' => false
+//        )) .
+//        "</li>\r</ul>\r";
+//        debug($dispatch);
+        $e = $form->button('Edit',array(
+            'class'=>'edit',
+            'type'=>'button',
+            'slug' => $dispatch['slug'],
+            'content_id'=>$dispatch['id']
+    ));
+        $d = '<div class="formContent'.$dispatch['id'].'"></div>';
     }
 
     // image zoom tool
@@ -80,24 +115,26 @@ foreach ($collectionPage as $dispatch) {
                     $this->Html->tag('p',date('M j, Y', $dispatch['date'])).$e));
     
     echo $this->Html->div('dispatch', $m."\r".$a."\r".$in."\r".$i."\r".$p."\r");
-    echo $this->Form->create('Content', array(
-            'id'=>'fieldset'.$dispatch['id'],
-            'action' => 'dispatch_edit/'.$this->params['pname'] . 
-            (isset($this->params['named']['page']) ? '/page:' . $this->params['named']['page'] : 'page:/' . 1),
-//            array('pass' => array($this->params['pname'])),
-            'style' =>'display: none;'
-            )
-        );
-
-    echo $this->element('contentForm_metaFields', array(
-        'record' => array('Content'=>$dispatch)
-    ));
-    
-    echo $this->element('contentForm_dataFields', array(
-        'record' => array('Content'=>$dispatch),
-        'display'=>'show'
-    ));
-    
-    echo $this->Form->end('Submit');
+    echo $d;
+//    echo $this->Form->create('Content', array(
+//            'id'=>'fieldset'.$dispatch['id'],
+//            'action' => 'dispatch_edit/'.$this->params['pname'] . 
+//            (isset($this->params['named']['page']) ? '/page:' . $this->params['named']['page'] : 'page:/' . 1),
+////            array('pass' => array($this->params['pname'])),
+//            'style' =>'display: none;'
+//            )
+//        );
+//
+//    echo $this->element('contentForm_metaFields', array(
+//        'record' => array('Content'=>$dispatch)
+//    ));
+//    
+//    echo $this->element('contentForm_dataFields', array(
+//        'record' => array('Content'=>$dispatch),
+//        'display'=>'show'
+//    ));
+//    
+//    echo $this->Form->end('Submit');
 }
+echo '</form>';
 ?>

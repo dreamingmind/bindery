@@ -13,24 +13,24 @@ echo $html->tag('h2',$most_recent[0]['Content']['heading']);
         // passedArgs and params are saved from the current page
         // so the full page context can be re-established 
         // if the data gets saved properly.
-        if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
-            // I create a content_id attribute for the form so the 
-            // ajax call knows what record to get for the form values
-            echo $this->Form->create('Content', array(
+if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
+    // I create a content_id attribute for the form so the 
+    // ajax call knows what record to get for the form values
+    echo $this->Form->create('Content', array(
 //                'default'=>false,
-                'class'=>'edit',
-                'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
+        'class'=>'edit',
+        'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
 //                'content_id'=>$entry['Content']['id']
-                ));
-            echo $form->input('passedArgs',array(
-                'type'=>'hidden',
-                'name'=>'data[passedArgs]',
-                'value'=>  serialize($this->passedArgs)));
-            echo $form->input('params',array(
-                'type'=>'hidden',
-                'name'=>'data[params]',
-                'value'=>  serialize($this->params)));
-        }
+        ));
+    echo $form->input('passedArgs',array(
+        'type'=>'hidden',
+        'name'=>'data[passedArgs]',
+        'value'=>  serialize($this->passedArgs)));
+    echo $form->input('params',array(
+        'type'=>'hidden',
+        'name'=>'data[params]',
+        'value'=>  serialize($this->params)));
+}
 
 foreach($most_recent as $entry){
     $cls = str_replace(array('.','-'), '', $entry['Content']['Image']['img_file']);
@@ -59,6 +59,7 @@ foreach($most_recent as $entry){
             echo $form->button('Edit',array(
                 'class'=>'edit',
                 'type'=>'button',
+                'slug'=>$most_recent[0]['Content']['slug'],
                 'content_id'=>$entry['Content']['id']
             ));
             echo '<div class="formContent'.$entry['Content']['id'].'"></div>';

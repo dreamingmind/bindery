@@ -52,6 +52,10 @@ $(document).ready(function(){
         if(uri==null){
             uri = document.documentURI;
         }
+        if(uri.match(/#id/) != '#id') {
+            uri = $('a.thumb_link:first-of-type').attr('href');
+        }
+        var collectionPage = initCollectionPage();
         var patt = new RegExp(document.domain);
         uri = uri.replace(/http:\/\//,'').replace(patt,'');
         index = uri.match(/id[0-9]+/);

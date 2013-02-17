@@ -4,7 +4,7 @@ $(document).ready(function(){
      * Bind clicks to the Edit button to toggle the form in and out of the page
      * Also lay the reference grid over the Exhibit picture
      */
-   $('form [id*=#ContentEditDispatchForm"]').children('.edit').bind('click',function(){
+   $('form [id*=#ContentEditDispatchForm"]').find('button.edit').bind('click',function(){
        if(this.innerHTML == 'Edit'){
            loadEditForm($(this));
        } else {
@@ -27,10 +27,11 @@ $(document).ready(function(){
 //       path = location.pathname.replace(/products\/[\S]+/,'contents/edit_dispatch/'+$('#ContentEditDispatchForm').attr('content_id'));
        var id = $(button).attr('content_id');
        var path = $('#ContentEditDispatchForm').attr('action') + '/' + id;
+//       alert(path);
        button.html('Cancel');
        $('.formContent'+id).html('<p>Loading...</p>');
        $('.formContent'+id).append().load(path,
-            {collection:$('button.related').attr('collection').match(/[\d]+/),slug:$('button.related').attr('slug')},
+            {collection:$('.related').attr('collection').match(/[\d]+/),slug:button.attr('slug')},
             function(){
                toggleFieldsets();
 //               enableSubmit();

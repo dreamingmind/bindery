@@ -159,7 +159,7 @@ class Content extends AppModel {
      */
     function pullCollection($pname, $limit) {
         $test = $this->ContentCollection->Collection->find('first', array(
-            'fields'=> array('heading', 'text'),
+            'fields'=> array('heading', 'text','slug'),
             'conditions'=> array(
                 'Collection.slug' => $pname,
                 'Collection.category_id' => $this->ContentCollection->Collection->Category->categoryNI['dispatch']//$category['Category']['id']

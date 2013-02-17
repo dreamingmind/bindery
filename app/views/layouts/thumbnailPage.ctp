@@ -41,7 +41,11 @@
     echo $this->Html->script('manage_thumbnails');
     echo $this->Html->script('jumpbox');
     echo $this->Html->script('adjust_markdown');
-    echo $this->Html->script('edit_exhibit');
+    if($this->params['action']=='gallery'){
+        echo $this->Html->script('edit_exhibit');
+    } elseif($this->params['action']=='newsfeed') {
+        echo $this->Html->script('edit_dispatch');
+    }
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
@@ -99,7 +103,7 @@
                 if($this->action == 'newsfeed'){
                     echo $html->newsfeedFilmStrip($collectionPage, $pageData);
 //                    $js->buffer('$(document).ready(function cp(){collectionPage = ' . json_encode($collectionJson) . '})');
-                    $js->buffer('collectionPage = ' . json_encode($collectionJson));
+                    $js->buffer("\rfunction initCollectionPage(){\rreturn " . json_encode($collectionJson)."\r}");
                     $script = file_get_contents(JS.DS.'newsthumb.js');
                     $js->buffer($script);
                 } else {
