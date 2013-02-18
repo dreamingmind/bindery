@@ -657,11 +657,16 @@ class AppHelper extends Helper {
             'alt'=>$news['Image']['alt'],
             'title'=>$news['Image']['title']));
 
+        // No page is sent with these and the id is encoded
+        // as a named parameter so it's easy to pick up.
+        // The newsfeed page detects this partial condition and
+        // calculates the correct page, writes a URI and redirects
+        // so the filmstrip can initialize and highlight properly
         $link_uri = array(
             'controller'=>'contents',
             'pname'=>$news['ContentCollection'][0]['Collection']['slug'],
             'action'=>'newsfeed',
-            '/#id'.$news['Content']['id']);
+            '/id:'.$news['Content']['id']);
 
         //make the heading into the <A> tag
         $blog_link = $this->Html->link('Blog Article',

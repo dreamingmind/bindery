@@ -822,7 +822,7 @@ class ContentsController extends AppController {
         if ($id) {
         $record = $this->Content->find('first',array(
             'conditions'=>array('Content.id'=>$id),
-            'fields'=>array('image_id','alt','content','publish','heading'),
+            'fields'=>array('image_id','alt','content','heading'),
             'contain'=>array(
                 'Image'=>array(
                     'fields'=>array(
@@ -911,16 +911,44 @@ class ContentsController extends AppController {
      * @return null
      */
     function newsfeed(){
-        // Tailor pagination to Exhibits then call for the navStrip
-        $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
-        $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
+//        debug($_ENV);
+//        debug($_REQUEST);
+//        debug($_GET);
+//        debug($this->here);
+//        debug($this->base);
+//        debug($this->passedArgs);
+//        debug($this->params);
+//        die;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
-        
         if(isset($this->usergroupid) && $this->usergroupid < 3) {
             $this->newsfeedAdmin($pname);
         } else {
             $this->newsfeedPublic($pname);
         }
+        $this->pageOrder = array(
+                'Content.id' => 'desc'
+            );
+        
+        // To allow proper function of 'sent' links to dispatches, 
+        // the :page param should never be part of the uri since 
+        // it will change over time. So if a link has an id and no
+        // page, its page must be calculated so the filmstip will 
+        // function properly
+        if (isset ($this->passedArgs['id']) && !isset ($this->passedArgs['page'])){
+//            debug($this->filmstripNeighbors());
+//            debug($this->params);
+//            debug($this->passedArgs);//die;
+            $n = $this->filmstripNeighbors();
+            $uri = preg_replace('/\/id:[\d]+/', '/page:'.$n[$this->passedArgs['id']]['page'].'/#id'.$this->passedArgs['id'], $this->params['url']['url']);
+//            debug($uri);die;
+            $this->redirect('/'.$uri);
+        }
+        // if no page/id info is provided use the first page...
+        // do these default choices really make sense now?
+        $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
+        $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
+        // I don't think you can get in here without a pname
+//        $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
         
         // I think this should be in beforeFilter()?
         if($this->Session->check('filmstrip.limit')){
