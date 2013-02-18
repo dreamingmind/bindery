@@ -10,7 +10,7 @@
 			<th><?php echo $this->Paginator->sort('alt');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('heading');?></th>
-			<th><?php echo $this->Paginator->sort('publish');?></th>
+			<!--<th><?php // echo $this->Paginator->sort('publish');?></th>-->
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -32,7 +32,7 @@
 		<td><?php echo $content['Content']['alt']; ?>&nbsp;</td>
 		<td><?php echo $content['Content']['title']; ?>&nbsp;</td>
 		<td><?php echo $content['Content']['heading']; ?>&nbsp;</td>
-		<td><?php echo $content['Content']['publish']; ?>&nbsp;</td>
+		<!--<td><?php // echo $content['Content']['publish']; ?>&nbsp;</td>-->
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $content['Content']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $content['Content']['id'])); ?>

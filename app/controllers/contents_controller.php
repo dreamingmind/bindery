@@ -467,8 +467,9 @@ class ContentsController extends AppController {
             $this->render('blog','ajax');
         } else {
         $conditions = array(
-            'Collection.category_id'=>$this->categoryNI['dispatch'],
-            'Content.publish'=>1);
+            'Collection.category_id'=>$this->categoryNI['dispatch']
+//            ,'Content.publish'=>1
+            );
         
         if(!isset($this->params['pass'][0])){
             $most_recent = $this->readMostRecentBlog($conditions);
@@ -500,8 +501,8 @@ class ContentsController extends AppController {
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish'),
-                    'conditions'=>array('Content.publish'=>1),
+                    'fields'=>array('Content.id','Content.content','Content.heading'),
+//                    'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')
                     ),
@@ -558,8 +559,8 @@ class ContentsController extends AppController {
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.publish','Content.slug'),
-                    'conditions'=>array('Content.publish'=>1),
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
+//                    'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')
                     )

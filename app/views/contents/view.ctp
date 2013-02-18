@@ -41,11 +41,11 @@
 			<?php echo $content['Content']['heading']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Publish'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['publish']; ?>
+		<!--<dt<?php // if ($i % 2 == 0) echo $class;?>><?php // __('Publish'); ?></dt>-->
+<!--		<dd<?php // if ($i++ % 2 == 0) echo $class;?>>
+			<?php // echo $content['Content']['publish']; ?>
 			&nbsp;
-		</dd>
+		</dd>-->
 	</dl>
 </div>
 <div class="actions">

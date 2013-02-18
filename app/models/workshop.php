@@ -162,8 +162,8 @@ class Workshop extends AppModel {
                                 'Content.alt',
                                 'Content.title',
                                 'Content.heading',
-                                'Content.slug',
-                                'Content.publish'
+                                'Content.slug'//,
+//                                'Content.publish'
                              ),
                              'Image'=>array(
                                 'fields'=>array(
@@ -172,9 +172,9 @@ class Workshop extends AppModel {
                                     'Image.title',
                                     'Image.alt'
                                 )
-                            ),
-                            'conditions'=>array(
-                                'Content.publish'=>1
+//                            ),
+//                            'conditions'=>array(
+//                                'Content.publish'=>1
                             )
                         )
                     ),

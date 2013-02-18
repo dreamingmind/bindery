@@ -9,7 +9,7 @@
 		echo $this->Form->input('alt');
 		echo $this->Form->input('title');
 		echo $this->Form->input('heading');
-		echo $this->Form->input('publish');
+//		echo $this->Form->input('publish');
 		echo $this->Form->input('slug');
 	?>
 	</fieldset>
