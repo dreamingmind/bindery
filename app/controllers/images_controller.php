@@ -926,6 +926,7 @@ class ImagesController extends AppController {
                         $message .= ($this->Image->Content->save())
                              ? "<br />Content record $recordNumber saved."
                              : "<br />Content record $recordNumber not saved.";
+                        $this->Image->Content->ContentCollection->saveAll($data['Content']['ContentCollection']);
                     }
                 }
             }
