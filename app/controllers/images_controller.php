@@ -133,6 +133,29 @@ class ImagesController extends AppController {
      */
     var $fileError = False;
 
+    function beforeRender() {
+       if($this->usergroupid < 3) { // managers or administrators
+
+           // Set lastUpload property
+           $u = $this->Image->find('first',array(
+                'order'=>'Image.upload DESC',
+                'fields'=>'Image.upload',
+                'contains'=>false));
+           $this->set('lastUpload', $this->lastUpload = ($u) ? $u['Image']['upload'] : false); 
+
+           $this->pull_orphans();
+
+           // Check the Upload folder and set upload realted properties
+           $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/images');
+           $this->Image->ingest_images(); //this is in Upload behavior which reads the upolad folder
+
+           // these will be false or arrays of file data from the upload folder
+           $this->set('disallowed',$this->disallowed = $this->Image->Behaviors->Upload->disallowed);
+           $this->set('duplicate',  $this->duplicate = $this->Image->Behaviors->Upload->dup);
+           $this->set('new',  $this->new = $this->Image->Behaviors->Upload->new);
+
+           }
+    }
     /**
      * Take care of ImageController housekeeping
      * 
