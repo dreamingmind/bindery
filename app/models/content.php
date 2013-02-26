@@ -321,11 +321,23 @@ class Content extends AppModel {
      */
    function recentNews($limit=null, $pname = null){
         $limit = ($limit == null) ? 10 : $limit;
-        $product_condition = 
-            ($pname == null 
-                || ! $pname = $this->ContentCollection->Collection->findByslug($pname))
-            ? ''
-            : 'ContentCollection.collection_id = ' . $pname['Collection']['id'];
+        // if no pname
+        // OR if a search on slug==pname returns false
+        // condition is 'only collections that are menu choices under "Products"'
+        if($pname==null || !$this->ContentCollection->Collection->findByslug($pname)){
+            $products = $this->query("select route from navlines where id IN (select navline_id from navigators where parent_id = (select id from navigators where navline_id = (select id from navlines where route = 'products')))");
+            $inlist = '';
+            $comma = '';
+            foreach($products as $product){
+                $inlist .= "$comma'{$product['navlines']['route']}'";
+                $comma = ',';
+            }
+            $inlist = "IN($inlist)";
+            $product_condition = 'Collection.slug ' . $inlist;
+        } else {
+            $pname = $this->ContentCollection->Collection->findByslug($pname);
+            $product_condition = 'ContentCollection.collection_id = ' . $pname['Collection']['id'];
+        }
         // ---------------------------------------------
         // This pulls the most recent 50 Content.ids that are 'dispatch' Category
         // It's assumed that this range will include 10 unique Content.headings
