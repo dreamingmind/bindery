@@ -735,22 +735,19 @@ class ContentsController extends AppController {
      * important and I wanted it documented with the params
      *
      * @todo don't neglect exhibit detail picture sets (links added to text?)
-     * @todo make the filmStrip query 'pulblish' aware
-     * @todo what is the significance of ContentCollection.visible?
      * @todo the process the makes $collection is overkill. We just need one localized prev/next pair
+     * 
      * @param int $page The SlideStrip page
      * @param int $id The Exhibit to detail
      * @param string $pname The product group (normally comes in on $this->params['pname'])
      */
     function gallery(){
-//        debug($this->passedArgs);
-//        debug($this->params);
         // Tailor pagination to Exhibits then call for the filmStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
         $this->setExhibitFilmstripParams();
-//        $this->pullCategory($pname, 'exhibit');        
+
         $this->pageConditions = array(
                 'ContentCollection.publish' => 1,
                 'Collection.slug' => $pname,
