@@ -749,42 +749,10 @@ class ContentsController extends AppController {
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
-        $this->pageOrder = array(
-                'ContentCollection.seq' => 'ASC'
-            );
-        $this->pageFields = array (
-            'seq','visible','created'                
-        );                
-        $this->pageContains = array(
-//            'fields' => array(
-//                'ContentCollection.seq' => 'asc'
-//            ),
-            'Content' => array(
-                'fields' => array(
-                    'Content.heading',
-                    'Content.id',
-                    'Content.image_id',
-                    'Content.alt',
-                    'Content.title',                   
-                ),
-                'Image' => array(
-                    'fields' => array(
-                        'Image.img_file',
-                        'Image.alt',
-                        'Image.title'
-                                )
-                            )
-            ),
-            'Collection' => array(
-                'fields' => array(
-                    'Collection.heading' ,
-                    'Collection.slug'
-                )
-            ));
-        
-
+        $this->setExhibitFilmstripParams();
 //        $this->pullCategory($pname, 'exhibit');        
         $this->pageConditions = array(
+                'ContentCollection.publish' => 1,
                 'Collection.slug' => $pname,
                 'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
             );
@@ -794,13 +762,10 @@ class ContentsController extends AppController {
         $this->set('neighbors', $neighbors);
         $this->set('filmStrip',$this->pullFilmStrip($page));
         
-        /**
-         * @todo this pattern may not be right for the final version. It just focuses on the first gallery item rather than allowing for a possible introducion page
-         */
         if (!$id) {
-            $id = $this->galleryIntroduction();
+            $id = $this->discoverFirstExhibit();
         }
-        $this->galleryExhibit($id);
+        $this->pullExhibit($id);
     }
 
     /**
@@ -810,19 +775,21 @@ class ContentsController extends AppController {
      * control is passed to this method to pull all the 
      * data for the detail display
      * 
-     * @todo Acutally write something including gathering of the detail sub-records if they exist.
+     * @todo gather of the detail sub-records if they exist.
      * @todo verify it's an actual exhibit id (if this is protected, possibly not necessary?)
      * @todo Provide some form of db-down protection
      */
-    function galleryExhibit($id = false) {
+    function pullExhibit($id = false) {
         $this->set('exhibit',"This is exhibit $id.");
 //        $this->set('content',  $this->Content->find('all',array('conditions'=>array('Content.id = '=>$id))));
-        
         
         if ($id) {
         $record = $this->Content->find('first',array(
             'conditions'=>array('Content.id'=>$id),
-            'fields'=>array('image_id','alt','content','heading'),
+            'fields'=>array('Content.image_id',
+                'Content.alt',
+                'Content.content',
+                'Content.heading'),
             'contain'=>array(
                 'Image'=>array(
                     'fields'=>array(
@@ -863,40 +830,57 @@ class ContentsController extends AppController {
         }
     }
     /**
-     * Process for the first call on a gallery when no ID is known
+     * Process for the first call on a gallery or art/edition when no ID is known
      * 
-     * This could be beefed up to show a splash page or whatever.
-     * Right now it is set to select a random exhibit from the current
-     * gallery page and display that. 
-     *
-     * Will return  an id or set a flash message and return false
-     *
-     * @todo returning a random element like this requires calculation of the correct gallery page for viewing
-     * @todo this is a temporary fix copied from newsfeed. it discovers the first Content in Collection but may break if filmstripNeighbors() gets changed
-     * @return integer/boolean id of random exhibit from gallery or false
+     * @return integer/boolean id of exhibit from gallery
      */
-    function galleryIntroduction() {
-//        debug($this->viewVars['filmStrip']); die;
-        $this->set('introduction', "This is a gallery introduction page");
-            $this->params['named']['id'] = $this->viewVars['filmStrip'][0]['Content']['id'];
-//        foreach ($this->viewVars['filmStrip'] as $id => $info) {
-//            $this->params['named']['id'] = $id;
-//            //debug($this->params); debug($this->paginator); die;
-//            continue;
-//        }
+    function discoverFirstExhibit() {
+//        $this->set('introduction', "This is a gallery introduction page");
+        $this->params['named']['id'] = $this->viewVars['filmStrip'][0]['Content']['id'];
         return $this->params['named']['id'];
-//        $records = $this->ExhibitGallery->find('all',array(
-//             'conditions'=> array('Gallery.label LIKE'=> "%{$this->product}%"),
-//             'contain'=>array('Exhibit.id', 'Gallery.label')
-//        ));
-//        //return ($records[0]['Exhibit']['id']);
-//        if ($records && count($records)>0){
-//            //$this->Session->setFlash('Getting a random element');
-//            return ($records[rand(0, count($records))-1]['Exhibit']['id']);
-//        }
-//        $this->Session->setFlash('No gallery entries found. Please try again');
-//        return false;
-//        //debug($records);
+    }
+    
+    /**
+     * Set properties for typical Exhibit query
+     * 
+     * This serves both Gallery and Art/Edition queries
+     * and sets the basic Order and Fields
+     * Conditions are set in the calling method
+     */
+    function setExhibitFilmstripParams(){
+        $this->pageOrder = array(
+            'ContentCollection.created' => 'DESC',
+            'ContentCollection.seq' => 'ASC'
+            );
+        $this->pageFields = array (
+            'ContentCollection.seq','ContentCollection.publish','ContentCollection.created'                
+        );                
+        $this->pageContains = array(
+//            'fields' => array(
+//                'ContentCollection.seq' => 'asc'
+//            ),
+            'Content' => array(
+                'fields' => array(
+                    'Content.heading',
+                    'Content.id',
+                    'Content.image_id',
+                    'Content.alt',
+                    'Content.title',                   
+                ),
+                'Image' => array(
+                    'fields' => array(
+                        'Image.img_file',
+                        'Image.alt',
+                        'Image.title'
+                                )
+                            )
+            ),
+            'Collection' => array(
+                'fields' => array(
+                    'Collection.heading' ,
+                    'Collection.slug'
+                )
+            ));
     }
     
     /**
