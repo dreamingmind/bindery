@@ -219,15 +219,20 @@ class AppController extends Controller {
      * Read the menu appropriate to an admin, manager, registered user or guest
      */
     function mainNavigation() {
-        $conditions = 'account=0';
+        $conditions = array('Navigator.publish'=>1);
         $access = 0;
 
         if ($this->username) {
-                $conditions .= ' OR account>=' . $this->usergroupid;
-                // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
-                $access=$this->usergroupid;
+            $conditions['OR'] = array(
+                array('Navigator.account' => '0'), 
+                array('Navigator.account >=' => $this->usergroupid));
+            // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
+            $access=$this->usergroupid;
+        } else {
+            $conditions['Navigator.account'] = '0';
         }
-
+//        debug($conditions);die;
+//        debug($conditions);die;
         /**
          * This is the find for the nested navigation menu data set.
          **/

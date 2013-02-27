@@ -40,8 +40,25 @@ class AppHelper extends Helper {
     
     var $helpers = array ('Html','Time', 'Session', 'Form');
     
-    function output($str) {
-        echo $str . "\n";
+    function output($str, $tab = '') {
+        echo "$tab$str\r";
+    }
+    
+    /**
+     * An accumulation/decumulation tool to build strings of tabs to format html output
+     * 
+     * @param string $tab A string with some number of tab characters
+     * @param boolean $mode True to add a tab, false to remove one
+     * @return string A string full of tabs or empty
+     */
+    function tab($tab, $mode = true){
+        if($mode){
+            return $tab . "\t";
+        } elseif (strlen($tab)){
+            return substr($tab, 0, -1);
+        } else {
+            return '';
+        }
     }
     
     /**

@@ -94,6 +94,19 @@ class Content extends AppModel {
         
         var $collectionData = array();
         
+        /**
+         * Filter for newsfeed search returns
+         * 
+         * The recentNews method will pull for a pname. But if none
+         * is provided, it would pull indiscriment and inappropriated dispatches 
+         * without this filter will make mark a menu level and its submenu 
+         * navline slugs will be the filter set to limit returns.
+         * This strategy lets recentNews to act as a submenu preview.
+         *
+         * @var string Slug at a menu level to filter newsfeed returns
+         */
+        var $recentNewsFilter = 'products';
+        
     /**
      * Pull the list of Content linked to an Image record
      *
@@ -325,7 +338,10 @@ class Content extends AppModel {
         // OR if a search on slug==pname returns false
         // condition is 'only collections that are menu choices under "Products"'
         if($pname==null || !$this->ContentCollection->Collection->findByslug($pname)){
-            $products = $this->query("select route from navlines where id IN (select navline_id from navigators where parent_id = (select id from navigators where navline_id = (select id from navlines where route = 'products')))");
+            $products = $this->query("select route from navlines where id IN 
+                (select navline_id from navigators where parent_id = 
+                    (select id from navigators where navline_id = 
+                        (select id from navlines where route = '{$this->recentNewsFilter}')))");
             $inlist = '';
             $comma = '';
             foreach($products as $product){
