@@ -62,21 +62,21 @@ class Workshop extends AppModel {
          * contains all related content and images
          * contains current and future sessions and dates
          */
-        var $workshops_all = array();
+        var $workshops_all = false;
         /**
          * @var array $workshops_potential array of workshops_all that didn't return sessions
          */
-        var $workshops_potential = array();
+        var $workshops_potential = false;
         /**
          * @var array $workshops_upcoming contains the members of workshops_all array
          * containing only those with sessions with dates in the future
          */
-        var $workshops_upcoming = array();
+        var $workshops_upcoming = false;
         /**
          * @var array $workshops_now contains the members of workshops_all array
          * containing only those with sessions where the date is today
          */
-        var $workshops_now = array();
+        var $workshops_now = false;
 
 
         

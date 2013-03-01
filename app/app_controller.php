@@ -61,7 +61,7 @@ class AppController extends Controller {
         'Session'
         );
 
-    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text');
+    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text','Number');
     var $uses = array('Navigator', 'User', 'Account');
     var $record = array();
 
