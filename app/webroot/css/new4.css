@@ -109,6 +109,9 @@ form table {
     font-size: 11px;
     background-color: #e6e49f;
 }
+form div {
+    background-color: white;
+}
 #scrolling h1 {
     color: #802A19;
     background-color: #e1e1e1;

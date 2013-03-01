@@ -916,6 +916,7 @@ class ImagesController extends AppController {
         //this is a process specific to Element:imageForm_exifFields.
         //It should be moved out to a common location latter
         if(isset($this->data)){
+            debug($this->data);die;
             $this->image_grid_save($this->data);
         } // end of $this->data processing
 //        debug($this->data);die;

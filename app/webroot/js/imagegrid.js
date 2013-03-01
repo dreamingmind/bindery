@@ -30,7 +30,20 @@ function initGoTo(){
     });
 }
 
+function trackChanges(){
+    $('form#ImageImageGridForm').find('input').change(function(){
+        $('input[name="'+$(this).attr('name').match(/data\[[\d]+\]/)+'[changed]"]').attr('value',1);
+    })
+    $('form#ImageImageGridForm').find('textarea').change(function(){
+        $('input[name="'+$(this).attr('name').match(/data\[[\d]+\]/)+'[changed]"]').attr('value',1);
+    })
+    $('form#ImageImageGridForm').find('select').change(function(){
+        $('input[name="'+$(this).attr('name').match(/data\[[\d]+\]/)+'[changed]"]').attr('value',1);
+    })
+}
+
 setupReveals();
 initGoTo();
+trackChanges();
 
 function insureOneMemeberChange(){}

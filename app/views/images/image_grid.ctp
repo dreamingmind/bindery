@@ -23,10 +23,12 @@ echo $this->Form->create('Image',array('conroller'=>'images',
     </tr>
 </table>
 <?php
-?>
+echo $this->Form->create('Image',array('conroller'=>'images',
+                    'action'=>'image_grid'))?>
 <table>
 <?php
 //debug(count($chunk));
+$masterCount = 0;
 if($chunk) {
     $i = $record = 0;
     do {
@@ -49,15 +51,23 @@ if($chunk) {
             );
             $val['recent_titles']=$recentTitles;
 //            debug($val);die;
-            // Buld the various fieldsets
+            $changeFlag = $this->Form->input('changed'.$masterCount,array(
+                'name'=>"data[$masterCount][changed]",
+                'value'=>0,
+                'type'=>'hidden'
+            ));
+            // Build the various fieldsets
                 $im_meta = $this->Html->div('', $this->element('imageForm_metaFields', array(
                     'record'=>$val,
+                    'prefix'=> array($masterCount)
                     )));
                 $im_data = $this->Html->div('', $this->element('imageForm_dataFields', array(
                     'record'=>$val,
+                    'prefix'=> array($masterCount)
                     )));
                 $im_exif = $this->Html->div('', $this->element('imageForm_exifFields', array(
                     'record'=>$val,
+                    'prefix'=> array($masterCount)
                     )));
                 
                 // accumulate the content records if there are any
@@ -68,6 +78,7 @@ if($chunk) {
                     foreach($val['Content'] as $index=>$entry){
                         $con_set .= $this->Html->div('', $this->element('contentForm_metaFields', array(
                             'record'=>$val,
+                            'prefix'=> array($masterCount),
                             'linkNumber' => $index
                             )));
                         
@@ -83,7 +94,7 @@ if($chunk) {
                                     'record'=>array('ContentCollection'=> array($cc_index => $collections)),
                                     'legend'=>'ContentCollection '.$collections['Collection']['heading'],
                                     'linkNumber' => $cc_index,
-                                    'prefix' => array('Content',$index),
+                                    'prefix' => array($masterCount,'Content',$index),
                                     'display' => 'show'
                                 ));
                             }
@@ -96,6 +107,7 @@ if($chunk) {
                             'legend'=>$entry['heading'],
                             'linkNumber' => $index,
                             'pre_fields' => (isset($memberships))?$memberships:'',
+                            'prefix'=> array($masterCount),
                             'post_fields' => $ccFieldset
                             )));
                     }
@@ -106,6 +118,7 @@ if($chunk) {
                     'record'=>$val,
                     'linkedContent' => $linkedContent[$val['Image']['id']],
                     'recentCollections'=> $recentCollections,
+                    'prefix'=> array($masterCount),
                     'allCollections' => $allCollections
                     )));
             
@@ -113,16 +126,18 @@ if($chunk) {
             echo $this->Html->div("recordForm",
                 $this->Html->div('hideButtons',
                     $this->Html->para('hideForm','x',array('name'=>$val['Image']['id']))
+                    . $changeFlag
                 )
-                . $this->Form->create('Image',array('conroller'=>'images',
-                    'action'=>'image_grid'))
+//                . $this->Form->create('Image',array('conroller'=>'images',
+//                    'action'=>'image_grid'))
                 . $im_meta.$im_data.$im_exif.$con_set.$coll_assign
 //                  . $this->Form->inputs($val['Image'])
 //                  . $this->Form->inputs($val['Content'][0])
-                . $this->Form->end('Submit',true)
+//                . $this->Form->end('Submit',true)
                 ,array('id'=>'recordForm'.$val['Image']['id'])
             );
             echo '</div></td>';
+            $masterCount++;
         }
         echo "</tr>";
         $i++;
@@ -131,4 +146,5 @@ if($chunk) {
 ?>
 </table>
 <?php 
+echo $this->Form->end('Submit',true);
 $js->buffer(file_get_contents('js/imagegrid.js')); ?>
