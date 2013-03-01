@@ -21,6 +21,16 @@ function setupReveals(){
     $('.hideForm').each(function(){$(this).click(hideForm)});
 }
 
+function initGoTo(){
+    $('#ImageUploadsets').bind('change',function(){
+        var loc = new String(location);
+        var upload = $('#ImageUploadsets').find(':selected').attr('value');
+        loc = loc.replace(/grid[\/]*[\d]*/i,'grid/' + upload);
+        location.replace(loc);
+    });
+}
+
 setupReveals();
+initGoTo();
 
 function insureOneMemeberChange(){}
