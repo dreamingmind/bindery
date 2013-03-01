@@ -916,7 +916,31 @@ class ImagesController extends AppController {
         //this is a process specific to Element:imageForm_exifFields.
         //It should be moved out to a common location latter
         if(isset($this->data)){
-                
+            $this->image_grid_save($this->data);
+        } // end of $this->data processing
+//        debug($this->data);die;
+        $this->layout = 'noThumbnailPage';
+        $this->setSearchAction('image_grid');
+
+        if(!$this->searchInput){
+            $this->searchInput = 'last_upload';
+        }
+        $this->doSearch();
+        if($this->searchRecords){
+            foreach($this->searchRecords as $record){
+                $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
+            }
+            $this->set('linkedContent',$linkedContent);
+            $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
+        } else {
+            $this->set('chunk',false);
+            $this->Session->setFlash('No records found for search '.$this->searchInput);
+        }
+
+    }
+    
+    function image_grid_save($data){
+                        
             // May have chosen Image.title from list rather then typing it
             $this->scanListChoices($this->data);
             
@@ -990,7 +1014,7 @@ class ImagesController extends AppController {
                 $collectionIDs[] = $this->data['Content']['recent_collections'];
             }
             // and more selected collection ids
-            foreach($collectionCategories as $category){
+            foreach($this->Image->Content->ContentCollection->Collection->Category->categoryIN as $category){
                 if(is_array($this->data['Content'][$category])){
                     foreach($this->data['Content'][$category] as $choice){
                         if($choice!=0){
@@ -1013,30 +1037,11 @@ class ImagesController extends AppController {
                }
 //                debug($collectionIDs);
 //                debug($content_id);
-//                debug($content_collection);die;
+//                debug($content_collection);die;$this->Image->Content->ContentCollection->Collection->Category->categoryIN
             }
 //            unset($this->data);
 //            $this->searchAction = 'image_grid';
 //            $this->redirect(array('action'=>'search'));
-        } // end of $this->data processing
-//        debug($this->data);die;
-        $this->layout = 'noThumbnailPage';
-        $this->setSearchAction('image_grid');
-
-        if(!$this->searchInput){
-            $this->searchInput = 'last_upload';
-        }
-        $this->doSearch();
-        if($this->searchRecords){
-            foreach($this->searchRecords as $record){
-                $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
-            }
-            $this->set('linkedContent',$linkedContent);
-            $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
-        } else {
-            $this->set('chunk',false);
-            $this->Session->setFlash('No records found for search '.$this->searchInput);
-        }
 
     }
 
