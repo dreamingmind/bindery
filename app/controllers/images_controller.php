@@ -916,8 +916,15 @@ class ImagesController extends AppController {
         //this is a process specific to Element:imageForm_exifFields.
         //It should be moved out to a common location latter
         if(isset($this->data)){
-            debug($this->data);die;
-            $this->image_grid_save($this->data);
+//            debug($this->data);
+            foreach($this->data as $block){
+                if ($block['changed'] != 0){
+//                    debug($block);die;
+                    $this->image_grid_save($block);
+                }
+            }
+//            die;
+
         } // end of $this->data processing
 //        debug($this->data);die;
         $this->layout = 'noThumbnailPage';
@@ -943,38 +950,38 @@ class ImagesController extends AppController {
     function image_grid_save($data){
                         
             // May have chosen Image.title from list rather then typing it
-            $this->scanListChoices($this->data);
+            $this->scanListChoices($data);
             
-            if($this->data['Image']['reread_exif']){
+            if($data['Image']['reread_exif']){
                 
-                $exif = $this->Image->refreshExifData($this->data['Image']['img_file']);
+                $exif = $this->Image->refreshExifData($data['Image']['img_file']);
                 if(is_string($exif)){
                     $this->flash($exif);
                 } elseif (is_array($exif)) {
-                    $this->data['Image']['height'] = $exif['COMPUTED']['Height'];
-                    $this->data['Image']['width'] = $exif['COMPUTED']['Width'];
-                    $this->data['Image']['date'] = strtotime($exif['EXIF']['DateTimeOriginal']);
-                    $this->data['Image']['mymetype'] = $exif['FILE']['MimeType'];
-                    $this->data['Image']['size'] = $exif['FILE']['FileSize'];
+                    $data['Image']['height'] = $exif['COMPUTED']['Height'];
+                    $data['Image']['width'] = $exif['COMPUTED']['Width'];
+                    $data['Image']['date'] = strtotime($exif['EXIF']['DateTimeOriginal']);
+                    $data['Image']['mymetype'] = $exif['FILE']['MimeType'];
+                    $data['Image']['size'] = $exif['FILE']['FileSize'];
                 }
             }
             // img_file is a file input and having update data triggers
             // an attempt to process an incoming image. That causes an error.
-            unset($this->data['Image']['img_file']); 
+            unset($data['Image']['img_file']); 
             // save all updated data
-            $message = ($this->Image->save($this->data))
+            $message = ($this->Image->save($data))
                 ? 'Image changes saved'
                 : 'Image changes not saved';
-            if(isset($this->data['Content'][0])){
-                foreach($this->data['Content'] as $recordNumber => $contentRecord){
+            if(isset($data['Content'][0])){
+                foreach($data['Content'] as $recordNumber => $contentRecord){
                     if(is_int($recordNumber)){
-                        $data=array('Content'=>$contentRecord);
+                        $contentdata=array('Content'=>$contentRecord);
 //                        debug($data);die;
-                        $this->Image->Content->create($data);
+                        $this->Image->Content->create($contentdata);
                         $message .= ($this->Image->Content->save())
                              ? "<br />Content record $recordNumber saved."
                              : "<br />Content record $recordNumber not saved.";
-                        $this->Image->Content->ContentCollection->saveAll($data['Content']['ContentCollection']);
+                        $this->Image->Content->ContentCollection->saveAll($contentdata['Content']['ContentCollection']);
                     }
                 }
             }
@@ -984,12 +991,12 @@ class ImagesController extends AppController {
             // probe the Collection Membership Assignment choices
 
             // first look for a content record selection
-            if($this->data['Content']['linked_content']!=0){
+            if($data['Content']['linked_content']!=0){
                 // New or existing content was selected for membership. Get its ID
-                if($this->data['Content']['linked_content']==1){
-                    $content['Content']['image_id'] = $this->data['Image']['id'];
-                    $content['Content']['heading'] = $this->data['Image']['title'];
-                    $content['Content']['content'] = $this->data['Image']['alt'];
+                if($data['Content']['linked_content']==1){
+                    $content['Content']['image_id'] = $data['Image']['id'];
+                    $content['Content']['heading'] = $data['Image']['title'];
+                    $content['Content']['content'] = $data['Image']['alt'];
                     $content['Content']['created'] = date('Y-m-d h:i:s',time());
                     $content['Content']['modified'] = date('Y-m-d h:i:s',time());
                     $this->Image->Content->create($content);
@@ -997,27 +1004,27 @@ class ImagesController extends AppController {
                     $this->Image->Content->save();
                     $content_id = $this->Image->Content->id;
                 } else {
-                    $content_id = $this->data['Content']['linked_content'];
+                    $content_id = $data['Content']['linked_content'];
                 }
             }
 
             // next look for a request to create a new Collection
-            if($this->data['Content']['new_collection']!=null){
-                $collection['Collection']['heading'] = $this->data['Content']['new_collection'];
-                $collection['Collection']['category_id'] = $this->data['Content']['new_collection_category'];
+            if($data['Content']['new_collection']!=null){
+                $collection['Collection']['heading'] = $data['Content']['new_collection'];
+                $collection['Collection']['category_id'] = $data['Content']['new_collection_category'];
                 $this->Image->Content->ContentCollection->Collection->create($collection);
 //                debug('new collection save');
                 $this->Image->Content->ContentCollection->Collection->save();
                 $collectionIDs[] = $this->Image->Content->ContentCollection->Collection->id;
             }
             // continue by gather other selected collection ids
-            if($this->data['Content']['recent_collections']!=0){
-                $collectionIDs[] = $this->data['Content']['recent_collections'];
+            if($data['Content']['recent_collections']!=0){
+                $collectionIDs[] = $data['Content']['recent_collections'];
             }
             // and more selected collection ids
             foreach($this->Image->Content->ContentCollection->Collection->Category->categoryIN as $category){
-                if(is_array($this->data['Content'][$category])){
-                    foreach($this->data['Content'][$category] as $choice){
+                if(is_array($data['Content'][$category])){
+                    foreach($data['Content'][$category] as $choice){
                         if($choice!=0){
                             $collectionIDs[] = $choice;
                         }
@@ -1040,7 +1047,7 @@ class ImagesController extends AppController {
 //                debug($content_id);
 //                debug($content_collection);die;$this->Image->Content->ContentCollection->Collection->Category->categoryIN
             }
-//            unset($this->data);
+//            unset($data);
 //            $this->searchAction = 'image_grid';
 //            $this->redirect(array('action'=>'search'));
 
