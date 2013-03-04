@@ -26,6 +26,7 @@
     echo $html->meta('icon');
     echo $html->css('basic');
     echo $html->css('new4.css');
+    echo $html->css('advanced-search');
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
@@ -46,6 +47,7 @@
     } elseif($this->params['action']=='newsfeed') {
         echo $this->Html->script('edit_dispatch');
     }
+    echo $this->Html->script('app');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

@@ -131,32 +131,50 @@ class AppHelper extends Helper {
      * @return string Html-the div with search input and possibly hidden fields
      */
     function siteSearch($searchController=null, $hidden=null) {
-        if ($searchController == null) {
-            $searchController = Inflector::camelize( $this->params['controller']);
-        }
+//        if ($searchController == null) {
+//            $searchController = Inflector::camelize( $this->params['controller']);
+//        }
         $tool = FormHelper::create($searchController, array(
-//            'url'=> array('controller'=>$searchController,'action'=>$this->action)
-            'url'=> array('controller'=> strtolower(Inflector::pluralize($searchController)),'action'=>'search')
+            'url'=> array('controller'=> 'contents','action'=>'search')
         ));
-        
-        if ($hidden !=null) {
-            foreach($hidden as $field=>$options) {
-                $tool .= FormHelper::input($field,$options+array('type'=>'hidden'));
-            }
-        }
+//        debug($this);die;
+        $tool .= FormHelper::input('controller',array(
+            'value' => $this->params['controller'],
+            'name' => 'data[controller]',
+            'type' => 'hidden'
+            ))
+            . FormHelper::input('acion',array(
+            'value' => $this->params['action'],
+            'name' => 'data[action]',
+            'type' => 'hidden'
+            ));
+//        if ($hidden !=null) {
+//            foreach($hidden as $field=>$options) {
+//                $tool .= FormHelper::input($field,$options+array('type'=>'hidden'));
+//            }
+//        }
         
         // This is the new, more cakey version
         $tool .= FormHelper::input('searchInput', array(
                 'type'=>'text',
                 'value'=>' Search',
-                'onblur'=>"if(this.value==''){this.value=' Search';}",
-                'onfocus'=>"if(this.value==' Search'){this.value=''}",
+//                'onblur'=>"if(this.value==''){this.value=' Search';}",
+//                'onfocus'=>"if(this.value==' Search'){this.value=''}",
                 'class'=>'siteSearchInput inputBox',
                 'label'=>false,
                 'div'=>false
             ));
         $tool .= "<input class='siteSearchButton' type='image' 
             src='/bindery/img/magnify.p.png' value = 'Submit' alt='Submit' />";
+        $tool .= $this->Html->div('',
+                $this->Html->link(
+                'Advanced Search',
+                '/contents/advanced_search',
+                array(
+                    'class' => 'advanced-search'
+                )),
+                array('id'=>'advanced-search')
+             );
 
         $tool .= FormHelper::end();
 

@@ -26,6 +26,7 @@
     echo $html->meta('icon');
     echo $html->css('basic');
     echo $html->css('speech-bubbles');
+    echo $html->css('advanced-search');
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }

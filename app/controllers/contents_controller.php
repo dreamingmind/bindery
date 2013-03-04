@@ -121,7 +121,8 @@ class ContentsController extends AppController {
                 'products',
                 'blog',
                 'resequence',
-                'product_landing');
+                'product_landing',
+                'advanced_search');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
@@ -194,6 +195,20 @@ class ContentsController extends AppController {
             }
             $images = $this->Content->Image->find('list');
             $this->set(compact('navlines', 'images'));
+    }
+    
+    /**
+     * Ajax Advanced Search
+     */
+    function advanced_search(){
+        $this->layout = 'ajax';
+        if ($this->data){
+            //put save data in session for reuse
+            //do search here
+        }
+        if(empty($this->data)){
+            //check session for previous search data
+        }
     }
     
     /**
@@ -698,6 +713,16 @@ class ContentsController extends AppController {
     }
 
     function art(){
+        if(empty($this->params['pass'])){
+            //main art landing page
+        } elseif (empty($this->params['named'])){
+            //no specific exhibit indicated
+            //decide what process to use
+        } else {
+            //a specific exhibit (page & id) is indicated
+            //go ahead and do the filmstrip and exhibit queries
+        }
+//        debug($this->params);
     //        debug($this->params['pass'][count($this->params['pass'])-1]);
         $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
         $this->gallery();
@@ -1086,8 +1111,7 @@ class ContentsController extends AppController {
         // regular users only get published data
         $this->pageConditions = array(
             'Collection.slug' => $collectionName,
-            'Collection.category_id' => $this->categoryNI['dispatch'],//$this->category[0]['Category']['id'],
-            'Content.publish' => 1
+            'Collection.category_id' => $this->categoryNI['dispatch']//$this->category[0]['Category']['id'],
         );
  // the public only needs enough data to build the page
         $this->pageContains = array(

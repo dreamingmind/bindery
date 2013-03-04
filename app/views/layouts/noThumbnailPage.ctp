@@ -27,6 +27,7 @@
     echo $html->meta('icon');
     echo $html->css('basic');
     echo $html->css('new4.css');
+    echo $html->css('advanced-search');
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
@@ -43,6 +44,7 @@
     }
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('supplement_defaults');
+    echo $this->Html->script('app');
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">
