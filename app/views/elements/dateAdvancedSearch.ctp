@@ -1,9 +1,10 @@
 <?php
 /* @var $this ViewCC */ 
 /**
- * Image.img_file
- * Image.alt
- * Image.title
+ * Date.year
+ * Date.season
+ * Date.month
+ * Date.week
  * 
  * Image.recent_titles (array for drop list)
  * 
@@ -20,21 +21,26 @@
 // 'options'=>'category' so the category radio list
 // will be dynamic too.
 $parameters = array(
-    'post_fields' => (isset($post_fields))?$post_fields:false,
+    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
+    'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
-    'legend'=>'Image data fields',
+    'legend'=>'Date ranges',
     'prefix'=> (isset($prefix))?$prefix:false,
-    'model'=>'Image',
+    'model'=>'DateRange',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         //'img_file',
-        'alt'=>array(
-            'label'=>'Alt text'
+        'year'=>array(
+            'options'=>$year
         ),
-        'img_file'=>array(
-            'label'=>'Image'
+//        'season',
+        'month'=>array(
+            'options'=>$month
         ),
+        'week'=>array(
+            'options'=>$week
+        )
     )
 );
 

@@ -14,5 +14,11 @@ $record = array();
     echo $this->Html->div('', $this->element('imageAdvancedSearch',array(
         'record'=>$record,
         'display'=>'show')));
+    echo $this->Html->div('', $this->element('dateAdvancedSearch',array(
+        'record'=>$record,
+        'year'=>$year,
+        'month'=>$month,
+        'week'=>$week,
+        'display'=>'show')));
 //echo '</DIV>';
 ?>

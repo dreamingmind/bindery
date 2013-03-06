@@ -19,18 +19,20 @@ $parameters = array(
     'model'=>'Content',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'heading',
+        'heading'=>array(
+            'label'=>'Title'
+        ),
         'content'
     )
 );
 
 echo $fieldset->fieldset($parameters);
        
-       $this->Js->buffer(
-               "$('#{$fieldset->unique}').click(function() {
-  $('.{$fieldset->unique}').toggle(50, function() {
-    // Animation complete.
-  });
-});
-");
+//       $this->Js->buffer(
+//               "$('#{$fieldset->unique}').click(function() {
+//  $('.{$fieldset->unique}').toggle(50, function() {
+//    // Animation complete.
+//  });
+//});
+//");
 	?>
