@@ -263,7 +263,8 @@ class ContentsController extends AppController {
             $y = $this->firstYear;
             $year = array(0=>'Select');
             while ($y <= date('Y', time())) {
-                $year[$y] = $y++;
+                $year[$y] = $y;
+                $y++;
             }
             $this->set('year',$year);
             $this->set('month',$this->month);

@@ -24,9 +24,28 @@ $(document).ready(function(){
             $('#advanced-search').append().load($(this).attr('href'),
                 function(){ //this add a function to the incoming HTML chunk
                     $('.cancel-advanced-search').bind('click',discardAdvancedSearch);
+                    formatAdvancedSearchDates();
                 });
             $('#advanced-search').attr('class', 'asfieldsets');
        });
+    }
+    
+    function formatAdvancedSearchDates(){
+        $('label[for$="year"]').css('width','36%').parent().css('display','inline-block').css('width','50%');
+        $('label[for$="month"]').css('width','36%').parent().css('display','inline-block').css('width','50%');
+        $('select[id$="year"]').css('width','59%').bind('change',resetWeek);
+        $('select[id$="month"]').css('width','59%').bind('change',resetWeek);
+        $('select[id$="week"]').bind('change',resetYearMonth);
+//        , label[id~=month]')
+    }
+    
+    function resetWeek(){
+        $('select[id$="week"]').val('0');
+    }
+    
+    function resetYearMonth(){
+        $('select[id$="year"]').val('0');
+        $('select[id$="month"]').val('0');
     }
     
     function discardAdvancedSearch(){

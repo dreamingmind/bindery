@@ -30,13 +30,11 @@ $parameters = array(
     'model'=>'DateRange',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        //'img_file',
-        'year'=>array(
-            'options'=>$year
-        ),
-//        'season',
         'month'=>array(
             'options'=>$month
+        ),
+        'year'=>array(
+            'options'=>$year
         ),
         'week'=>array(
             'options'=>$week
