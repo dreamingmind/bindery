@@ -530,8 +530,31 @@ class ContentsController extends AppController {
             $this->redirect(array('action' => 'index'));
     }
 
+    /**
+     * Primary site search tool
+     */
     function search() {
-        debug($this->data); die;
+        // Standard or Avanced search
+        if(6==9){
+        // Build standard query
+        } else {
+        // Build advanced query
+        }
+        // Search for Content or Edit records
+        if(6==9){
+            // Search for Conent/Image matches
+            // Search for Static Page matches
+            // Compile Content/Image results into value-weighted Content.slug group pointers
+            // Compile Static Page results into link pointers
+        } else {
+            // Search for Edit records
+            // At this point, all Admin Edit screens focus on Image records
+            // Redirect to proper edit page
+        }
+        debug($this->data);
+        unset($this->data['controller']);
+        unset($this->data['action']);
+        debug(array('OR'=>$this->postConditions($this->data)));die;
     }
     
     function sequence(){

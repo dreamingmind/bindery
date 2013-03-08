@@ -115,10 +115,8 @@
             ?>
         <div id="menuNav">
             <?php 
-                $searchController = (!isset($searchController)) ? null : $searchController;
-                $hidden = (!isset ($hidden)) ? null : $hidden;
-
-                echo $form->siteSearch($searchController, $hidden); // creates DIV id=siteSearch 
+            if (!isset($searchController)) {$searchController=null;}
+            echo $form->siteSearch($searchController); // creates DIV id=siteSearch 
             ?>
             <div id="navBar">
                 <?php

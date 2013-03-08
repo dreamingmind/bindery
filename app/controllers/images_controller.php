@@ -500,6 +500,7 @@ class ImagesController extends AppController {
         
         $this->layout = 'noThumbnailPage';
         $this->setSearchAction('multi_add');
+        $this->set('searchController','images');
         $this->searchRecords = array();
         
         // if there were bad upload files, we'll keep those for reprocessing
@@ -725,6 +726,7 @@ class ImagesController extends AppController {
 //            $this->redirect(array('action'=>'search'));
        }
         $this->layout = 'noThumbnailPage';
+        $this->set('searchController','images');
         $this->setSearchAction('clean_up');
 
         if(!$this->searchInput){
@@ -760,6 +762,7 @@ class ImagesController extends AppController {
          * $uploadCount = the number of image upload forms to draw or false
          */
     function doSearch(){
+//        debug($this->searchInput);die;
         // int = upload set
         // orphan_images
         $upload = false;
@@ -860,13 +863,39 @@ class ImagesController extends AppController {
             }
         }
         
+        function implode_r($glue,$arr){
+        $ret_str = "";
+        foreach($arr as $a){
+                $ret_str .= (is_array($a)) ? $this->implode_r($glue,$a) : $glue . $a;
+        }
+        return $ret_str;
+        }
+        
     /**
      * @todo Make this work for more than one action. possibly a case statement?
      * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
      */
     function search() {
-//            debug($this->searchAction);
-        switch($this->searchAction){
+        debug($this->params);
+        debug($this->data);
+        unset($this->data['controller']);
+        unset($this->data['action']);
+        debug(implode('', $this->postConditions($this->data)));die;
+        $search = $this->data;
+        debug($this->implode_r('', $search));die;
+        // Was search data received?
+        if(6==9){
+            // Standard or Advanced search?
+            if(6==9){
+                // Do standard search
+            } else {
+                // Do Advanced search
+            }
+        } else {
+            // set a 'no search' message
+            $this->Session->setFlash('No search request was made.');
+        }
+        switch($this->data['action']){
 
             case 'clean_up':
                 $this->clean_up();
@@ -928,6 +957,7 @@ class ImagesController extends AppController {
         } // end of $this->data processing
 //        debug($this->data);die;
         $this->layout = 'noThumbnailPage';
+        $this->set('searchController','images');
         $this->setSearchAction('image_grid');
 
         if(!$this->searchInput){

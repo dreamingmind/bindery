@@ -127,15 +127,14 @@ class AppHelper extends Helper {
      * other page/state information.
      * 
      * @param string $searchController An alternate controller
-     * @param array $hidden Hidden fields to carry with the search form
      * @return string Html-the div with search input and possibly hidden fields
      */
-    function siteSearch($searchController=null, $hidden=null) {
-//        if ($searchController == null) {
-//            $searchController = Inflector::camelize( $this->params['controller']);
-//        }
+    function siteSearch($searchController=null) {
+        if ($searchController == null) {
+            $searchController = 'contents';
+        }
         $tool = FormHelper::create($searchController, array(
-            'url'=> array('controller'=> 'contents','action'=>'search')
+            'url'=> array('controller'=> $searchController,'action'=>'search')
         ));
 //        debug($this);die;
         $tool .= FormHelper::input('controller',array(
@@ -169,7 +168,7 @@ class AppHelper extends Helper {
         $tool .= $this->Html->div('',
                 $this->Html->link(
                 'Advanced Search',
-                '/contents/advanced_search',
+                "/contents/advanced_search",
                 array(
                     'class' => 'advanced-search'
                 )),
