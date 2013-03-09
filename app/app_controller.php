@@ -285,5 +285,123 @@ class AppController extends Controller {
             return false;
         }
     }
+    
+    /**
+     * Check to see if any actual search data was sent in the post
+     * 
+     * The empty form must return only the values ' ', 'search', or '0'
+     * And the live form must provide at least one character beyond this set
+     * 
+     * @return boolean True or False
+     */
+    function verifySearchData($data){
+        unset($data['controller']);
+        unset($data['action']);
+        $pattern = array('/search/i','/ /','/0/');
+        $test = preg_replace($pattern,'',implode($this->postConditions($data)));
+        if(empty($test)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * 
+     * This can hava a boundary problem if today is Sunday. No biggy for this app though
+     * @param type $day
+     * @return type
+     */
+    function firstOfWeek($day = null){
+        if($day==null){
+            $day = time();
+        }
+        return strtotime('previous sunday', $day);
+    }
+    
+    /**
+     * 
+     * This can have a boundary problem if today is Saturday. No biggy for his app though
+     * @param type $day
+     * @return type
+     */
+    function lastOfWeek($day = null){
+        if($day==null){
+            $day = time();
+        }
+        return strtotime('next saturday', $day);
+    }
+
+    function xWeeksAgo($ago = 0){
+        $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
+        $start = $this->firstOfWeek($base_day);
+        $end = $start + 604800;
+        $range = array(
+            'start' => array(
+                'sql' => date('Y-m-d', $start),
+                'unix' => $start
+            ),
+            'end' => array(
+                'sql' => date('Y-m-d', $end),
+                'unix' => $end
+            )
+        );
+        return $range;
+    }
+    
+        function sinceXWeeksAgo($ago = 0){
+        $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
+        $start = $this->firstOfWeek($base_day);
+        $end = $this->lastOfWeek(time());
+        $range = array(
+            'start' => array(
+                'sql' => date('Y-m-d', $start),
+                'unix' => $start
+            ),
+            'end' => array(
+                'sql' => date('Y-m-d', $end),
+                'unix' => $end
+            )
+        );
+        return $range;
+    }
+
+    function monthSpan($day = null){
+        if($day == null){
+            $day = time();
+        }
+        $start = strtotime(date('Y-m-01',$day));
+        $end = strtotime(date('Y-m-t',$day));
+        $range = array(
+            'start' => array(
+                'sql' => date('Y-m-d', $start),
+                'unix' => $start
+            ),
+            'end' => array(
+                'sql' => date('Y-m-d', $end),
+                'unix' => $end
+            )
+        );
+        return $range;
+    }
+    
+    function yearSpan($day = null){
+        if($day == null){
+            $day = time();
+        }
+        $start = strtotime(date('Y-01-01',$day));
+        $end = strtotime(date('Y-12-31',$day));
+        $range = array(
+            'start' => array(
+                'sql' => date('Y-m-d', $start),
+                'unix' => $start
+            ),
+            'end' => array(
+                'sql' => date('Y-m-d', $end),
+                'unix' => $end
+            )
+        );
+        return $range;
+    }
 }
 

@@ -157,6 +157,7 @@ class AppHelper extends Helper {
         $tool .= FormHelper::input('searchInput', array(
                 'type'=>'text',
                 'value'=>' Search',
+                'name'=>'data[Standard][searchInput]',
 //                'onblur'=>"if(this.value==''){this.value=' Search';}",
 //                'onfocus'=>"if(this.value==' Search'){this.value=''}",
                 'class'=>'siteSearchInput inputBox',

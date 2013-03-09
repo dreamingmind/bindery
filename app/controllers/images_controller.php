@@ -876,8 +876,6 @@ class ImagesController extends AppController {
      * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
      */
     function search() {
-        debug($this->params);
-        debug($this->data);
         unset($this->data['controller']);
         unset($this->data['action']);
         debug(implode('', $this->postConditions($this->data)));die;

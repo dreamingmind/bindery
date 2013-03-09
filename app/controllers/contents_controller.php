@@ -70,6 +70,26 @@ class ContentsController extends AppController {
     var $pageConditions = array();
 
     /**
+     * The search conditions for pulling Quality Sorted Result Blocks
+     * 
+     * search() calculates these conditions from user input
+     * into the SiteSearch form which is on every layout
+     *
+     * @var array|false $qualityConditions 
+     */
+    var $qualityConditions = false;
+    
+    /**
+     * The search conditions for pulling Categorical Result Links
+     * 
+     * search() calculates these conditions from user input
+     * into the SiteSearch form which is on every layout
+     *
+     * @var array|false $categoricalConditions 
+     */
+    var $categoricalConditions = false;
+    
+    /**
      * next - the next page page (wraps to start)
      * previous - the previous page (wraps to end)
      * page - the current page displayed.
@@ -149,11 +169,11 @@ class ContentsController extends AppController {
         '2' => 'Last week',
         '2.5' => 'Since last week',
         '3' => 'Two weeks ago',
-        '3.5' => 'The last two weeks',
+        '3.5' => 'Since two weeks ago',
         '4' => 'Three weeks ago',
-        '4.5' => 'The last three weeks',
+        '4.5' => 'Since three weeks ago',
         '5' => 'Four weeks ago',
-        '5.5' => 'The last four weeks'
+        '5.5' => 'Since four weeks ago'
     );
  
     /**
@@ -174,7 +194,8 @@ class ContentsController extends AppController {
                 'blog',
                 'resequence',
                 'product_landing',
-                'advanced_search');
+                'advanced_search',
+                'search');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
@@ -344,9 +365,6 @@ class ContentsController extends AppController {
 //        $this->Session->setFlash('a test message');
     }
     
-    function sample(){
-        debug($this->data);die;
-    }
     /**
      * Ajax editing form for newsfeed and blog dispatches
      * 
@@ -530,33 +548,6 @@ class ContentsController extends AppController {
             $this->redirect(array('action' => 'index'));
     }
 
-    /**
-     * Primary site search tool
-     */
-    function search() {
-        // Standard or Avanced search
-        if(6==9){
-        // Build standard query
-        } else {
-        // Build advanced query
-        }
-        // Search for Content or Edit records
-        if(6==9){
-            // Search for Conent/Image matches
-            // Search for Static Page matches
-            // Compile Content/Image results into value-weighted Content.slug group pointers
-            // Compile Static Page results into link pointers
-        } else {
-            // Search for Edit records
-            // At this point, all Admin Edit screens focus on Image records
-            // Redirect to proper edit page
-        }
-        debug($this->data);
-        unset($this->data['controller']);
-        unset($this->data['action']);
-        debug(array('OR'=>$this->postConditions($this->data)));die;
-    }
-    
     function sequence(){
         $this->layout='ajax';
         if(isset($this->data[0])){
@@ -1366,5 +1357,151 @@ class ContentsController extends AppController {
         $record['Supplement'] = $supplement;
     }
 
+    /**
+     * Primary site search tool
+     */
+    function search() {
+        if($this->verifySearchData($this->data)){
+            $this->qualityConditions = array();
+            // Standard or Avanced search
+            if($this->data['Standard']['searchInput']!=' Search'){
+                // Build standard query properties
+                //  $this->qualityConditions
+                //  $this->categoricalConditions
+                $this->buildStandardSearchConditions();
+            } else {
+                // Build advanced query text search properties
+                //  $this->qualityConditions
+                //  $this->categoricalConditions
+                $advancedTextConditions = $this->buildAdvancedTextSearchConditions();
+                $advancedDateConditions = $this->buildAdvancedDateSearchConditions();
+                if ($advancedTextConditions){
+                    $this->qualityConditions = array(
+                        'OR' => $advancedTextConditions
+                    );
+                    if($advancedDateConditions){
+                        $this->qualityConditions['AND'] = array(
+                            'OR' => $advancedDateConditions
+                        );
+                    }
+                } elseif($advancedDateConditions){
+                    $this->qualityConditions = array(
+                        'OR' => $advancedDateConditions
+                    );
+                }
+            }
+            debug($this->qualityConditions);
+            debug($this->categoricalConditions);
+            debug($this->Content->find('all',array('conditions'=> $this->qualityConditions)));
+            die;
+            // Search for Content or Edit records
+            if(6==9){
+                // Search for Conent/Image matches
+                // Search for Static Page matches
+                // Compile Content/Image results into value-weighted Content.slug group pointers
+                // Compile Static Page results into link pointers
+            } else {
+                // Search for Edit records
+                // At this point, all Admin Edit screens focus on Image records
+                // Redirect to proper edit page
+            }
+            } else {
+                $this->Session->setFlash('Did you click that accidentally? There were no search terms included. Try again?');
+                $this->redirect($this->referer());
+            } 
+    }
+    
+    function buildStandardSearchConditions(){
+        if($this->data['Standard']['searchInput']!=' Search'){
+            // Build standard query
+            $likeMe = "%{$this->data['Standard']['searchInput']}%";
+            $this->qualityConditions = array(
+                'OR' => array(
+                    'Content.heading LIKE' => $likeMe,
+                    'Content.content LIKE' => $likeMe,
+                    'Image.alt LIKE' => $likeMe
+                 )
+            );
+            $this->categoricalConditions = array(
+                'Collection' => array(
+                    'Collection.heading LIKE' => $likeMe 
+                ),
+                'Navline' => array(
+                    'Navline.name LIKE' => $likeMe
+                )
+            );
+        }
+    }
+    
+    function buildAdvancedTextSearchConditions(){
+        // possibly write the OR late after we find out if it's necessary?
+        // also do $this->categoricalConditions
+        
+//        $this->qualityConditions = array(
+//            'OR' => array()
+//        );
+        $advancedTextConditions = false;
+
+        // Assemble text conditions if they exist
+        $advancedTextInput = array(
+            'Content' => $this->data['Content'],
+            'Image' => $this->data['Image']
+        );
+        foreach($advancedTextInput as $model => $search){
+            foreach($search as $field => $input){
+                $input = trim($input);
+                if(!empty($input)){
+                    $advancedTextConditions["$model.$field LIKE"] = "%$input%";
+                }
+            }
+        }
+        return $advancedTextConditions;
+    }
+    
+    function buildAdvancedDateSearchConditions(){
+        $advancedDateCondtions = false;
+        if($this->data['DateRange']['month'] != 0 || $this->data['DateRange']['year'] != 0){
+            // some form of month/year request
+            if($this->data['DateRange']['year'] == 0){
+                // month only request
+                $advancedDateCondtions = array();
+                $y = date('Y', time());
+                while ($y >= $this->firstYear) {
+                    $range = $this->monthSpan(strtotime($y.'-'.$this->data['DateRange']['month']));
+                    $onemonth = $this->constructDateRangeCondition($range);
+                    $advancedDateCondtions = array_merge($advancedDateCondtions, $onemonth);
+                    $y--;
+                }
+            } elseif ($this->data['DateRange']['month'] == 0){
+                // year only request
+                $range = $this->yearSpan(strtotime($this->data['DateRange']['year'].'-01-01'));
+                $advancedDateCondtions = $this->constructDateRangeCondition($range);
+            } else {
+                // month and year request
+                $range = $this->monthSpan(strtotime($this->data['DateRange']['year'].'-'.$this->data['DateRange']['month']));
+                $advancedDateCondtions = $this->constructDateRangeCondition($range);
+            }
+        } elseif($this->data['DateRange']['week'] != 0) {
+            // a week range request
+            $offset = intval($this->data['DateRange']['week']);
+            if($this->data['DateRange']['week'] > $offset){
+                $range = $this->sinceXWeeksAgo($offset-1);
+            } else {
+                $range = $this->XWeeksAgo($offset-1);
+            }
+            $advancedDateCondtions = $this->constructDateRangeCondition($range);
+        }
+        return $advancedDateCondtions;
+    }
+    
+    function constructDateRangeCondition($range){
+        //array('Post.id BETWEEN ? AND ?' => array(1,10))
+        $rangeCondition = array(
+            array('Content.modified BETWEEN ? AND ?' => array($range['start']['sql'], $range['end']['sql'])),
+            array('Image.date BETWEEN ? AND ?' => array($range['start']['unix'], $range['end']['unix'])),
+            array('Image.modified BETWEEN ? AND ?' => array($range['start']['sql'], $range['end']['sql']))
+        );
+        return $rangeCondition;
+    }
 }
 ?>
