@@ -772,6 +772,47 @@ class AppHelper extends Helper {
     //}
     }
     
+    function siteSearchBlogBlock($news, $path = 'images/thumb/x160y120/'){
+    //foreach($news as $news){
+
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
+
+        //remove links and image links from markdown content
+        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
+
+        //assemble the image link
+        $img = $this->Html->image($path.$news['Image']['img_file'], array(
+            'id'=>'im'.$news['Image']['id'],
+            'alt'=>$news['Image']['alt'],
+            'title'=>$news['Image']['title']));
+
+        //make the heading into the <A> tag
+        $blog_uri = array(
+            'controller'=>'contents',
+            'action'=>'blog',
+            $news['ContentCollection'][0]['collection_id'],
+            $news['Content']['slug']
+        );
+
+        //and follow it with truncated markdown content
+        $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
+            $blog_uri, array('escape'=>false));
+
+        $image_link = $this->Html->link($img, $blog_uri,array('escape'=>false));
+
+        //and output everything in a left-floating div
+        echo $this->Html->div('linkDiv', 
+            $this->Html->para('aside',
+            $this->Html->truncateText($news['ContentCollection'][0]['Collection']['heading'],15,
+                    array('exact'=>false,
+                        'ending'=>'')).': '
+            . $this->Time->timeAgoInWords($news['Content']['created'])) 
+            . $image_link 
+            . $heading_link);
+    //}
+    }
+    
     function foundGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
@@ -796,6 +837,32 @@ class AppHelper extends Helper {
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
     }
+    
+    function siteSearchGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
+//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
+
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
+            
+            //remove links and image links from markdown content
+            $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
+            $collection = $this->Html->para('aside',$exhibit['ContentCollection'][0]['Collection']['heading']);
+            //make the heading into the <A> tag
+            //and follow it with truncated markdown content
+            $link_uri = DS.'products'.DS.$exhibit['ContentCollection'][0]['Collection']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Content']['id'];
+            $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
+                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+            //assemble the image link
+            $img = $this->Html->image($path.$exhibit['Image']['img_file'], array(
+    //            'id'=>'im'.$exhibit['Content']['Image']['id'],
+                'alt'=>$exhibit['Image']['alt'],
+                'title'=>$exhibit['Image']['title']
+            ));
+            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+    }
+    
     function foundWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
@@ -815,6 +882,31 @@ class AppHelper extends Helper {
     //            'id'=>'im'.$exhibit['Workshop']['Image']['id'],
                 'alt'=>$exhibit['ContentCollection']['0']['Content']['Image']['alt'],
                 'title'=>$exhibit['ContentCollection']['0']['Content']['Image']['title']
+            ));
+            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+    }
+    
+    function siteSearchWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
+//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
+
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
+            
+            //remove links and image links from markdown content
+            $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
+            $collection = $this->Html->para('aside','ID: '.$exhibit['Content']['id'].' - '.$exhibit['Content']['heading']);
+            //make the heading into the <A> tag
+            //and follow it with truncated markdown content
+            $link_uri = DS.'products'.DS.$exhibit['Content']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Content']['id'];
+            $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
+                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+            //assemble the image link
+            $img = $this->Html->image($path.$exhibit['Image']['img_file'], array(
+    //            'id'=>'im'.$exhibit['Workshop']['Image']['id'],
+                'alt'=>$exhibit['Image']['alt'],
+                'title'=>$exhibit['Image']['title']
             ));
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 

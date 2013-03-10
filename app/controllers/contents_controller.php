@@ -992,6 +992,7 @@ class ContentsController extends AppController {
      * @return null
      */
     function newsfeed(){
+        $this->layout = 'thumbnailPage';
 //        debug($_ENV);
 //        debug($_REQUEST);
 //        debug($_GET);
@@ -1390,10 +1391,11 @@ class ContentsController extends AppController {
                     );
                 }
             }
-            debug($this->qualityConditions);
-            debug($this->categoricalConditions);
-            debug($this->Content->find('all',array('conditions'=> $this->qualityConditions)));
-            die;
+//            debug($this->qualityConditions);
+//            debug($this->categoricalConditions);
+            $this->layout = 'noThumbnailPage';
+            $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
+//            die;
             // Search for Content or Edit records
             if(6==9){
                 // Search for Conent/Image matches
