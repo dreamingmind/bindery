@@ -17,7 +17,7 @@
  */
 
 $record = array();
-
+sort($searchRecords);
 ?>
 <div class="images form">
 <?php 

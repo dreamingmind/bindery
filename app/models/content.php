@@ -467,26 +467,51 @@ class Content extends AppModel {
 
     function siteSearch($conditions){
         
-     $raw_search = $this->find('all', array(
-        'fields'=>array(
-            'Content.heading',
-            'Content.id',
-            'Content.slug',
-            'Content.content',
-            'Content.created'
-        ),
-        'group'=>array('Content.heading'),
+     $raw_search = $this->siteSearchRaw($conditions);
+     
+     if($raw_search){
+         $categories = $this->ContentCollection->Collection->Category->categoryIN;
+         foreach($categories as $name){
+             $result_groups[$name] = false;
+         }
+         
+         foreach($raw_search as $result){
+             $slot = $categories[$result['ContentCollection'][0]['Collection']['category_id']];
+             if(isset($result_groups[$slot][$result['Content']['slug']]['count'])){
+                 $result_groups[$slot][$result['Content']['slug']]['count'] += 1;
+             } else {
+                 $result_groups[$slot][$result['Content']['slug']] = $result;
+                 $result_groups[$slot][$result['Content']['slug']]['count'] = 1;
+             }
+         }
+         return $result_groups;
+     }
+     return $raw_search;
+    }
+
+    function siteSearchRaw($conditions){
+        
+     return $this->find('all', array(
+//        'fields'=>array(
+//            'Content.heading',
+//            'Content.id',
+//            'Content.slug',
+//            'Content.content',
+//            'Content.created'
+//        ),
         'contain'=>array(
-            'Image'=>array(
-                'fields'=>array(
-                    'Image.id',
-                    'Image.title',
-                    'Image.alt',
-                    'Image.img_file'
-                ),
-            ),
+            'Image',//=>array(
+//                'fields'=>array(
+//                    'Image.id',
+//                    'Image.title',
+//                    'Image.alt',
+//                    'Image.img_file'
+//                ),
+//            ),
             'ContentCollection'=>array(
                 'fields'=>array(
+                    'ContentCollection.id',
+                    'ContentCollection.seq',
                     'ContentCollection.content_id',
                     'ContentCollection.collection_id',
                     'ContentCollection.publish'
@@ -502,26 +527,6 @@ class Content extends AppModel {
             )),
             'conditions'=>$conditions
         ));
-     
-     if($raw_search){
-         $categories = $this->ContentCollection->Collection->Category->categoryIN;
-         foreach($categories as $name){
-             $result_groups[$name] = false;
-         }
-         
-         foreach($raw_search as $result){
-             $slot = $categories[$result['ContentCollection'][0]['Collection']['category_id']];
-             if(isset($result_groups[$slot][$result['Content']['slug']]['count'])){
-                 $result_groups[$slot][$result['Content']['slug']]['count']++;
-             } else {
-                 $result_groups[$slot][$result['Content']['slug']] = $result;
-                 $result_groups[$slot][$result['Content']['slug']]['count'] = 1;
-             }
-         }
-         return $result_groups;
-     }
-     return $raw_search;
     }
-
 }
 ?>

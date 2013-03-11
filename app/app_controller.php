@@ -403,5 +403,97 @@ class AppController extends Controller {
         );
         return $range;
     }
+    function buildStandardSearchConditions(){
+        if($this->data['Standard']['searchInput']!=' Search'){
+            // Build standard query
+            $likeMe = "%{$this->data['Standard']['searchInput']}%";
+            $this->qualityConditions = array(
+                'OR' => array(
+                    'Content.heading LIKE' => $likeMe,
+                    'Content.content LIKE' => $likeMe,
+                    'Image.alt LIKE' => $likeMe
+                 )
+            );
+            $this->categoricalConditions = array(
+                'Collection' => array(
+                    'Collection.heading LIKE' => $likeMe 
+                ),
+                'Navline' => array(
+                    'Navline.name LIKE' => $likeMe
+                )
+            );
+        }
+    }
+    
+    function buildAdvancedTextSearchConditions(){
+        // possibly write the OR late after we find out if it's necessary?
+        // also do $this->categoricalConditions
+        
+//        $this->qualityConditions = array(
+//            'OR' => array()
+//        );
+        $advancedTextConditions = false;
+
+        // Assemble text conditions if they exist
+        $advancedTextInput = array(
+            'Content' => $this->data['Content'],
+            'Image' => $this->data['Image']
+        );
+        foreach($advancedTextInput as $model => $search){
+            foreach($search as $field => $input){
+                $input = trim($input);
+                if(!empty($input)){
+                    $advancedTextConditions["$model.$field LIKE"] = "%$input%";
+                }
+            }
+        }
+        return $advancedTextConditions;
+    }
+    
+    function buildAdvancedDateSearchConditions(){
+        $advancedDateCondtions = false;
+        if($this->data['DateRange']['month'] != 0 || $this->data['DateRange']['year'] != 0){
+            // some form of month/year request
+            if($this->data['DateRange']['year'] == 0){
+                // month only request
+                $advancedDateCondtions = array();
+                $y = date('Y', time());
+                while ($y >= $this->firstYear) {
+                    $range = $this->monthSpan(strtotime($y.'-'.$this->data['DateRange']['month']));
+                    $onemonth = $this->constructDateRangeCondition($range);
+                    $advancedDateCondtions = array_merge($advancedDateCondtions, $onemonth);
+                    $y--;
+                }
+            } elseif ($this->data['DateRange']['month'] == 0){
+                // year only request
+                $range = $this->yearSpan(strtotime($this->data['DateRange']['year'].'-01-01'));
+                $advancedDateCondtions = $this->constructDateRangeCondition($range);
+            } else {
+                // month and year request
+                $range = $this->monthSpan(strtotime($this->data['DateRange']['year'].'-'.$this->data['DateRange']['month']));
+                $advancedDateCondtions = $this->constructDateRangeCondition($range);
+            }
+        } elseif($this->data['DateRange']['week'] != 0) {
+            // a week range request
+            $offset = intval($this->data['DateRange']['week']);
+            if($this->data['DateRange']['week'] > $offset){
+                $range = $this->sinceXWeeksAgo($offset-1);
+            } else {
+                $range = $this->XWeeksAgo($offset-1);
+            }
+            $advancedDateCondtions = $this->constructDateRangeCondition($range);
+        }
+        return $advancedDateCondtions;
+    }
+    
+    function constructDateRangeCondition($range){
+        //array('Post.id BETWEEN ? AND ?' => array(1,10))
+        $rangeCondition = array(
+            array('Content.modified BETWEEN ? AND ?' => array($range['start']['sql'], $range['end']['sql'])),
+            array('Image.date BETWEEN ? AND ?' => array($range['start']['unix'], $range['end']['unix'])),
+            array('Image.modified BETWEEN ? AND ?' => array($range['start']['sql'], $range['end']['sql']))
+        );
+        return $rangeCondition;
+    }
 }
 

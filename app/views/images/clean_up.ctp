@@ -6,7 +6,8 @@
 //debug($orphans);
 //$foundRecords = $orphans;
 $heading2 = 'Orphan Images';
-if(isset($searchRecords[0]) && !is_null($searchRecords)){
+if(isset($searchRecords) && !is_null($searchRecords)){
+sort($searchRecords);
     $foundRecords = $searchRecords;
     $heading2 = "Search term: ".$session->read('Image.searchInput');
 }
@@ -17,7 +18,7 @@ if(isset ($foundRecords)){
 <table style="width:1000px; background-color: #fff;">
 <?php
     $fields = array('id','img_file','title','alt','category','width','height',);
-    $contentFields = array('id','heading','content','alt','title','publish','image_id');
+    $contentFields = array('id','heading','content','alt','title','image_id');
     
     foreach($foundRecords as $foundRecord){
 ?>

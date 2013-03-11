@@ -491,6 +491,7 @@ pre.cake-debug {
 	margin-top: 1em;
 	overflow: auto;
 	position: relative;
+        z-index: 100;
 }
 div.cake-stack-trace {
 	background: #fff;

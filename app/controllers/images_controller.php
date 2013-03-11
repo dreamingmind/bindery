@@ -257,6 +257,10 @@ class ImagesController extends AppController {
 
     }
 
+    /**
+     * DELETE
+     * @param type $action
+     */
     function setSearchAction($action){
         $this->set('hidden', array('action'=>array('value'=>  $action)));
     }
@@ -278,19 +282,20 @@ class ImagesController extends AppController {
     }
     
     function index() {
+        $this->set('searchController','images');
         $this->setSearchAction('index');
         
         $conditions = array();
         if ($this->searchInput){
             $conditions = array('conditions'=> array(
-                'Image.alt LIKE'=>"%$this->searchInput%"
+                'Image.alt LIKE'=>$this->searchInput['OR']['Image.alt LIKE']
             ));
             $this->Session->setFlash("Search term: $this->searchInput");
         }
         $this->paginate = array('order'=>array('Image.id'=> 'desc')) + $conditions;
-        $this->Image->recursive = 0;
-        $this->set('images', $this->paginate());
-    }
+            $this->Image->recursive = 0;
+            $this->set('images', $this->paginate());
+        }
 
     function view($id = null) {
         if (!$id) {
@@ -499,13 +504,14 @@ class ImagesController extends AppController {
         } //end of posted data processing
         
         $this->layout = 'noThumbnailPage';
-        $this->setSearchAction('multi_add');
+//        $this->setSearchAction('multi_add');
         $this->set('searchController','images');
-        $this->searchRecords = array();
+//        $this->searchRecords = array();
         
         // if there were bad upload files, we'll keep those for reprocessing
         // in all other cases, including no data, we'll do standard search
         if($this->fileError){
+            $this->searchRecords = array();
             foreach($this->fileError as $index => $message){
                 $this->searchRecords[]=$this->data[$index];
                 $error[] = $message;
@@ -514,9 +520,9 @@ class ImagesController extends AppController {
             $this->set('fileError',$this->fileError);
 //            $this->data=null;
             
-        } else {
-            $this->doSearch();
-        }
+        } //else {
+//            $this->doSearch();
+//        }
         
         if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
@@ -688,7 +694,6 @@ class ImagesController extends AppController {
      * @todo image_grid properly retains a found set from here, but this layout doesn't use a found set from other contexts
      */
     function clean_up(){
-
         if(isset ($this->data)){
             $delete = $this->processDeletions();
 //                debug($delete);die;
@@ -727,12 +732,12 @@ class ImagesController extends AppController {
        }
         $this->layout = 'noThumbnailPage';
         $this->set('searchController','images');
-        $this->setSearchAction('clean_up');
+//        $this->setSearchAction('clean_up');
 
         if(!$this->searchInput){
             $this->searchInput = 'orphan_images';
+            $this->doSearch();
         }
-        $this->doSearch();
         if($this->searchRecords == array()){
             $this->Session->setFlash('No records found for search '.$this->searchInput);
         }
@@ -863,7 +868,7 @@ class ImagesController extends AppController {
             }
         }
         
-        function implode_r($glue,$arr){
+    function implode_r($glue,$arr){
         $ret_str = "";
         foreach($arr as $a){
                 $ret_str .= (is_array($a)) ? $this->implode_r($glue,$a) : $glue . $a;
@@ -876,28 +881,54 @@ class ImagesController extends AppController {
      * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
      */
     function search() {
-        unset($this->data['controller']);
-        unset($this->data['action']);
-        debug(implode('', $this->postConditions($this->data)));die;
-        $search = $this->data;
-        debug($this->implode_r('', $search));die;
-        // Was search data received?
-        if(6==9){
-            // Standard or Advanced search?
-            if(6==9){
-                // Do standard search
+        if($this->verifySearchData($this->data)){
+            $this->qualityConditions = array();
+            // Standard or Avanced search
+            if($this->data['Standard']['searchInput']!=' Search'){
+                // Build standard query properties
+                //  $this->qualityConditions
+                //  $this->categoricalConditions
+                $this->buildStandardSearchConditions();
             } else {
-                // Do Advanced search
+                // Build advanced query text search properties
+                //  $this->qualityConditions
+                //  $this->categoricalConditions
+                $advancedTextConditions = $this->buildAdvancedTextSearchConditions();
+                $advancedDateConditions = $this->buildAdvancedDateSearchConditions();
+                if ($advancedTextConditions){
+                    $this->qualityConditions = array(
+                        'OR' => $advancedTextConditions
+                    );
+                    if($advancedDateConditions){
+                        $this->qualityConditions['AND'] = array(
+                            'OR' => $advancedDateConditions
+                        );
+                    }
+                } elseif($advancedDateConditions){
+                    $this->qualityConditions = array(
+                        'OR' => $advancedDateConditions
+                    );
+                }
             }
-        } else {
-            // set a 'no search' message
-            $this->Session->setFlash('No search request was made.');
-        }
-        switch($this->data['action']){
+            $this->searchInput = $this->qualityConditions;
+            $this->searchAction = $this->data['action'];
+            $this->searchRecords = $this->Image->Content->siteSearchRaw($this->qualityConditions);
+            $this->searchRecords = $this->reconfigureRawSearch($this->searchRecords);
+//            unset($this->data);
+            $this->data = array();
+//            debug($this->searchRecords);
+//            debug($this->qualityConditions);
+//            die;
+//            debug($this->qualityConditions);die;
+//        debug($this->searchRecords);die;
+            $this->layout = 'noThumbnailPage';
+            $this->params['action'] = $this->searchAction;
+            $this->params['url']['url'] = $this->params['controller'].'/'.  $this->searchAction;
+//            debug($this->params);
+            switch($this->searchAction){
 
             case 'clean_up':
                 $this->clean_up();
-//                    debug($this->searchInput);die;
                 $this->render('clean_up');
                 break;
 
@@ -905,7 +936,9 @@ class ImagesController extends AppController {
                 $this->multi_add();
                 $this->render("multi_add");
                 break;
-
+            case 'index':
+                $this->index();
+                $this->render('index');
             default :
                 $this->image_grid();
                 $this->render('image_grid');
@@ -914,6 +947,62 @@ class ImagesController extends AppController {
 
 //        $this->render($this->searchAction);
 //
+    
+        }
+    }
+    
+    /**
+     * 
+     * Take an array in this form
+     *  [0] => Array
+     *      [Content] => Array
+     *              [fields] => field data
+     *      [Image] => Array
+     *              [fields] => field data
+     *      [ContentCollection] => Array
+     *              [0] => Array
+     *                      [fields] => field data
+     *                      [Collection] => Array
+     *                          [fields] => field data
+     *
+     * and convert it to an array in this form
+     * [5] => Array
+     *      [Image] => Array
+     *          [fields] => field data
+     *      [Content] => Array
+     *          [0] => Array
+     *              [fields] => field data
+     *                  [ContentCollection] => Array
+     *                      [0] => Array
+     *                          ([fields] => field data
+     *                              [Collection] => Array
+     *                                  [fields] => field data
+     *          [1] => Array
+     *              [fields] => field data
+     *                  [ContentCollection] => Array
+     *                      [0] => Array
+     *                          [fields] => field data
+     *                              [Collection] => Array
+     *                                  [fields] => field data
+     *
+     * @param type $data
+     */
+    function reconfigureRawSearch($data){
+        $search_result = false;
+        if($data){
+            foreach($data as $record){
+                $image_id = $record['Image']['id'];
+                if(!isset($search_result[$image_id])){
+                    $search_result[$record['Image']['id']]['Image'] = $record['Image'];
+                }
+                if(is_array($record['Content'])){
+                    $record['Content']['ContentCollection'] = $record['ContentCollection'];
+                    $search_result[$image_id]['Content'][] = $record['Content'];
+                }
+            }
+        }
+//        debug($search_result);die;
+        return $search_result;
     }
 
     /**
@@ -931,7 +1020,7 @@ class ImagesController extends AppController {
      * @todo the Content fieldsets that output don't have any Collection membership information showing. This might be very helpful though. Can the Content-Element/FieldsetHelper handle this?
      */
     function image_grid(){
-//        debug($this->Image->recentTitles);
+//        debug($this->searchRecords);die;
 //        debug($this->Image->allTitles);
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
         $this->set('recentTitles',  $this->Image->recentTitles);
@@ -956,12 +1045,13 @@ class ImagesController extends AppController {
 //        debug($this->data);die;
         $this->layout = 'noThumbnailPage';
         $this->set('searchController','images');
-        $this->setSearchAction('image_grid');
+//        $this->setSearchAction('image_grid');
 
-        if(!$this->searchInput){
+        if(!$this->searchRecords){
             $this->searchInput = 'last_upload';
+            $this->doSearch();
         }
-        $this->doSearch();
+        
         if($this->searchRecords){
             foreach($this->searchRecords as $record){
                 $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
