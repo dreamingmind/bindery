@@ -66,33 +66,57 @@ class Content extends AppModel {
         var $imageCollections = array();
         
         /**
-         * An array of all content records and linked data for a collection
-         * [0] => Array
-         *        (
-         *            [content_id] => 474
-         *            [content_collection_id] => 303
-         *            [image_id] => 887
-         *            [date] => 1326395478
-         *            [img_file] => DSC01055.JPG
-         *            [collections] => Array
-         *                (
-         *                    [60] => Boxes
-         *                    [61] => portfolios
-         *                    [78] => PhotoCentral
-         *                )
+         * The data under Collection.slug pname where Collection->Category is dispatch
+         * 
+         * This is a standard Cake data array and is rewritten into $collectionPages
          *
-         *        )
-         * @var array $collection
+         * @var array $collectionData
          */
-        var $collectionPages = array();
+        var $collectionData = array();
         
         /**
-         *
+         * Indexed by Content.id, shows all page, next and previous values
+         * 
          * @var array $collectionNeigbors Neighbor pointers indexed by content_id
          */
         var $collectionNeighbors = array();
         
-        var $collectionData = array();
+        /**
+         * An array of all content records and linked data for a collection
+         * 
+         * This is a non-standard array
+         *  [1] => Array
+         *      [collection_id] => 60
+         *      [id] => 498 //Content.id
+         *      [heading] => Lucha Libre!
+         *      [slug] => lucha-libre
+         *      [content] => This material is not the traditional...way. 
+         *      [alt] => Non-traditional cloth to be used in a binding project
+         *      [title] => Lucha Libre!
+         *      [content_collection_id] => 457
+         *      [image_id] => 846
+         *      [date] => 1359137576 //image exif date
+         *      [img_file] => DSC01670.JPG
+         *      [collections] => Array
+         *          [132] => Array //collection_id
+         *              [0] => materials //Collection.heading
+         *              [1] => materials //Collection.slug
+         *          [60] => Array
+         *              [0] => Boxes
+         *              [1] => boxes
+         *      [neighbors] => Array
+         *          [page] => 1
+         *          [count] => 2
+         *          [previous] => 562
+         *          [previous_page] => 1
+         *          [previous_count] => 1
+         *          [next] => 561
+         *          [next_page] => 1
+         *          [next_count] => 3
+         * 
+         * @var array $collectionPages
+         */
+        var $collectionPages = array();
         
         /**
          * Filter for newsfeed search returns
@@ -123,9 +147,25 @@ class Content extends AppModel {
         return $list;
     }
 
-    function linkedCollections($id){
+    /**
+     * Given an image_id, get the Collections that contain it
+     * 
+     * In addition to the returned array for the specific image_id
+     * this method sets an element in the imageCollections property. 
+     * Multiple calls will accumlate into the property. 
+     * It's form is:
+     * Array
+     *  [545] => Array      //image_id
+     *      [60] => Array   //collection_id
+     *          [0] => Boxes
+     *          [1] => boxes
+     * 
+     * @param integer $image_id
+     * @return array collection_id indexed, heading and slug elements
+     */
+    function linkedCollections($image_id){
         $list = $this->find('all', array(
-            'conditions'=>array('Content.image_id'=>$id),
+            'conditions'=>array('Content.image_id'=>$image_id),
             'contain' => array(
                 'ContentCollection'=>array(
                     'fields'=>array(
@@ -166,9 +206,17 @@ class Content extends AppModel {
     }
     
     /**
+     * Get the data for a Newsfeed page
+     * 
+     * This gets a standard data array and puts it in property collectionData
+     * And process the data into a non standard array in property collectionPages
+     * It also makes a call to assemble collectionNeighbor property and 
+     * fold that data into collectionPages too.
+     * 
+     * Is this any way to run a rodeo?
      *
-     * @param type $pname
-     * @param type $limit 
+     * @param string $pname The Collection.slug (better be a 'dispatch' collection
+     * @param integer $limit Builds neighbor data, but doesn't limit the find
      */
     function pullCollection($pname, $limit) {
         $test = $this->ContentCollection->Collection->find('first', array(
@@ -229,9 +277,13 @@ class Content extends AppModel {
     }
     
     /**
+     * Assemble neighbor data for newsfeed page/next/previous link assembly
+     * 
+     * $this->collectionPages also gets these blocks parsed into it
+     * so each Content record has all its data and this stuff too.
      *
-     * @param type $collection
-     * @param type $limit 
+     * @param type $collection The collectionPages property
+     * @param type $limit Number of records in a page/thumbnail set
      */
     function listNeighbors($collection, $limit){
             $max = count($collection)-1;
@@ -267,6 +319,17 @@ class Content extends AppModel {
         
     }
     
+    /**
+     * Get the 'n' most recent exhibits
+     * 
+     * This is fairly simple because (and as long as) there is only
+     * single record exhibits. Newsfeed/blog articles are more 
+     * difficult to find the unique most recent
+     * 
+     * @param integer $limit How many recent exhibits to return
+     * @param string $pname Which exhibit Collection.slug to target
+     * @return array The found exhibit records
+     */
     function recentExhibits($limit = null, $pname = null){        
         $limit = ($limit == null) ? 10 : $limit;
         $product_condition = 
@@ -465,6 +528,31 @@ class Content extends AppModel {
         return $this->recent_news;
     }
 
+
+    /**
+     * Query using the user's conditions and return the processed results
+     * 
+     * Request the raw search, then return the grouped results
+     * group under Category.name - Content.slug indexes
+     * Only one of each Content.slug is kept but the count found is recorded
+     * 
+     * [dispatch] => Array //Collection's Category.name
+            [unbacked-cloth] => Array //Content.slug
+                [Content] => Array
+                    fields => data
+                [Image] => Array
+                    fields => data
+                [ContentCollection] => Array
+                    [0] => Array
+                        fields => data
+                            [Collection] => Array
+                                fields => data
+                [count] => 3 //number of Content found on search with this Content.slug 
+
+     * @param array $conditions Cake conditions array for the query
+     * @return false|array False or the found records
+     */
+    
     function siteSearch($conditions){
         
      $raw_search = $this->siteSearchRaw($conditions);
@@ -484,11 +572,18 @@ class Content extends AppModel {
                  $result_groups[$slot][$result['Content']['slug']]['count'] = 1;
              }
          }
+         debug($result_groups);die;
          return $result_groups;
      }
      return $raw_search;
     }
 
+    /**
+     * Query using the user's conditions and return the results
+     * 
+     * @param array $conditions Cake conditions array for the query
+     * @return false|array False or the found records
+     */
     function siteSearchRaw($conditions){
         
      return $this->find('all', array(
