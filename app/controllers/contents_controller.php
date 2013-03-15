@@ -271,26 +271,20 @@ class ContentsController extends AppController {
     }
     
     /**
-     * Ajax Advanced Search
+     * Ajax Advanced Search Form
      */
     function advanced_search(){
         $this->layout = 'ajax';
-        if ($this->data){
-            //put save data in session for reuse
-            //do search here
+        //check session for previous search data
+        $y = $this->firstYear;
+        $year = array(0=>'Select');
+        while ($y <= date('Y', time())) {
+            $year[$y] = $y;
+            $y++;
         }
-        if(empty($this->data)){
-            //check session for previous search data
-            $y = $this->firstYear;
-            $year = array(0=>'Select');
-            while ($y <= date('Y', time())) {
-                $year[$y] = $y;
-                $y++;
-            }
-            $this->set('year',$year);
-            $this->set('month',$this->month);
-            $this->set('week',$this->week);
-        }
+        $this->set('year',$year);
+        $this->set('month',$this->month);
+        $this->set('week',$this->week);
     }
     
     /**
@@ -1145,17 +1139,6 @@ class ContentsController extends AppController {
         $this->pageData['previous'] = ($page == 1) ? $this->pageData['pages'] : $page-1;
     }
     
-//    function dispatch_edit() {
-// //       debug($this->data); die;
-//        if ($this->Content->save($this->data)) {
-//            $this->redirect(array(
-//                'controller' => 'contents',
-//                'action'=> 'newsfeed',
-//                'pname'=> $this->params['pass'][0],
-//                'page'=> $this->params['named']['page']));
-//        }
-//    }
-//    
     /**
      * Set pagination parameters appropriate to a site manager
      * 
@@ -1227,31 +1210,6 @@ class ContentsController extends AppController {
             )
             );
     }
-
-//    /**
-//     * Set a starting Content id for introduction entry point
-//     * 
-//     * Page output expects an id but in initial entry none is present
-//     * in the url. So here it gets discovered and set
-//     * @todo this may break if filmstripNeighbors() gets re-written
-//     * @return null
-//     */
-//    function newsfeedIntroduction($neighbors) {
-//        foreach ($neighbors as $id => $info) {
-//            $this->params['named']['id'] = $id;
-//            //debug($this->params); debug($this->paginator); die;
-//            continue;
-//        }
-//    }
-//
-//    /**
-//     * Dispatch shows all records from the page so just use the filmstrip 
-//     * @param array $filmStrip The current page of newsfeed data
-//     * @return null
-//     */
-//    function newsfeedDispatches($filmStrip = false) {
-//    $this->set('content',  $filmStrip);
-//    }
 
     /**
      * Pull the records needed to build a Collection's navigation strip
@@ -1391,22 +1349,8 @@ class ContentsController extends AppController {
                     );
                 }
             }
-//            debug($this->qualityConditions);
-//            debug($this->categoricalConditions);
-            $this->layout = 'noThumbnailPage';
-            $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
-//            die;
-            // Search for Content or Edit records
-            if(6==9){
-                // Search for Conent/Image matches
-                // Search for Static Page matches
-                // Compile Content/Image results into value-weighted Content.slug group pointers
-                // Compile Static Page results into link pointers
-            } else {
-                // Search for Edit records
-                // At this point, all Admin Edit screens focus on Image records
-                // Redirect to proper edit page
-            }
+                $this->layout = 'noThumbnailPage';
+                $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
             } else {
                 $this->Session->setFlash('Did you click that accidentally? There were no search terms included. Try again?');
                 $this->redirect($this->referer());

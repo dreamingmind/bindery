@@ -15,9 +15,9 @@
  * @param int params[pass][0] the number of upload forms to generate
  * @param string params[pass][1] the string 'upload'
  */
+//        debug ($countMax);die;
 
 $record = array();
-sort($searchRecords);
 ?>
 <div class="images form">
 <?php 
@@ -30,8 +30,8 @@ sort($searchRecords);
     <?php 
     
     for ($count = 0; $count < $countMax; $count++) { 
-        
     if($searchRecords){
+        sort($searchRecords);
         $record = array('record'=>$searchRecords[$count]);
     }
     

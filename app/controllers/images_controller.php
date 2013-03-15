@@ -520,9 +520,9 @@ class ImagesController extends AppController {
             $this->set('fileError',$this->fileError);
 //            $this->data=null;
             
-        } //else {
-//            $this->doSearch();
-//        }
+        } else {
+            $this->doSearch();
+        }
         
         if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
@@ -531,7 +531,6 @@ class ImagesController extends AppController {
                 $this->Session->setFlash('No records found for search '.$this->searchInput);
             }
         }
-        
         $this->set('countMax', 
                 ($this->disallowed || $this->searchRecords || $this->uploadCount)
                 ? $this->uploadCount : 0);
