@@ -647,13 +647,14 @@ class AppHelper extends Helper {
     }
    
     /**
-     * Rather than outputting directly or returning a 
-     * ready-to-go HTML block, this returns an array
-     * with one block per element. This allows post-processing
-     * options in the View
+     * Output a newfeed link block for various landing pages
+     * 
+     * These blocks link to newsfeed pages and also have 
+     * a link to the blog article presentation for the record.
+     * These blocks are used as exploration-invitation blocks
+     * on landing pages
      * 
      * Required structure
-     * 
      * $new = Array
      *          [Content] => Array
      *                  [heading] => Jackson Nichol's Forcado portfolio
@@ -727,7 +728,7 @@ class AppHelper extends Helper {
     }
     
     /**
-     * Using the same datablock as foundNewsBlock
+     * Using the same data array as foundNewsBlock
      * @param type $news
      * @param type $path
      */
@@ -812,6 +813,7 @@ class AppHelper extends Helper {
             . $heading_link);
     //}
     }
+    
     
     function foundGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){

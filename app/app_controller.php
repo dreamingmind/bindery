@@ -158,7 +158,6 @@ class AppController extends Controller {
       * @param string $string 
       * @return string 
       */
-
     function slug($string) {
 	//Unwanted:  {UPPERCASE} ; / ? : @ & = + $ , . ! ~ * ' ( )
 	$string = strtolower($string);
@@ -170,8 +169,6 @@ class AppController extends Controller {
 	$string = preg_replace("/[\s_]/", "-", $string);
 	return $string;
 }
-
-
 
     /**
      * Initialize Company description strings
@@ -213,6 +210,7 @@ class AppController extends Controller {
         $routes = explode(DS, $this->params['url']['url']);
         $this->splashRoute = $routes[count($routes)-1];
     }
+    
     /**
      * Read the proper menus for this user
      *
@@ -246,6 +244,8 @@ class AppController extends Controller {
         $this->set('group', $group);
 
     }
+    
+    
     function isAuthorized() {
        $id = $this->Account->findByUsername($this->username,array('fields'=>'id'));
        //debug ($this->record);
@@ -307,10 +307,11 @@ class AppController extends Controller {
     }
     
     /**
+     * Get the first day of the week contain $day
      * 
-     * This can hava a boundary problem if today is Sunday. No biggy for this app though
-     * @param type $day
-     * @return type
+     * This can have a boundary problem if today is Sunday. No biggy for this app though
+     * @param unixtime $day A day if provided or today
+     * @return unixtime Sunday of the week containing $day
      */
     function firstOfWeek($day = null){
         if($day==null){
@@ -320,10 +321,11 @@ class AppController extends Controller {
     }
     
     /**
+     * Get the last day of the week containing $day
      * 
      * This can have a boundary problem if today is Saturday. No biggy for his app though
-     * @param type $day
-     * @return type
+     * @param unixtime $day A day if provided or today
+     * @return unixtime Saturday of the week containing $day
      */
     function lastOfWeek($day = null){
         if($day==null){
@@ -332,6 +334,21 @@ class AppController extends Controller {
         return strtotime('next saturday', $day);
     }
 
+    /**
+     * Get the start/end dates of the specified week in the past
+     * 
+     * Returns both sql and unix timestamps for the range
+     * Array 
+     *  [start] => Array
+     *      ['sql'] => 2013-03-14
+     *      ['unix'] => 1362124799
+     *  [end] => Array
+     *      ['sql'] => 2013-03-14
+     *      ['unix'] => 1362124799
+     * 
+     * @param integer $ago Number of weeks prior to this one
+     * @return array First and last day of week for specified week
+     */
     function xWeeksAgo($ago = 0){
         $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
         $start = $this->firstOfWeek($base_day);
@@ -349,7 +366,22 @@ class AppController extends Controller {
         return $range;
     }
     
-        function sinceXWeeksAgo($ago = 0){
+    /**
+     * Get the start/end dates of the range, start of week $day to end of this week
+     * 
+     * Returns both sql and unix timestamps for the range
+     * Array 
+     *  [start] => Array
+     *      ['sql'] => 2013-03-14
+     *      ['unix'] => 1362124799
+     *  [end] => Array
+     *      ['sql'] => 2013-03-14
+     *      ['unix'] => 1362124799
+     * 
+     * @param integer $ago Number of weeks prior to this one
+     * @return array First day of past week and last day of this week
+     */    
+    function sinceXWeeksAgo($ago = 0){
         $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
         $start = $this->firstOfWeek($base_day);
         $end = $this->lastOfWeek(time());
@@ -366,6 +398,21 @@ class AppController extends Controller {
         return $range;
     }
 
+    /**
+     * Get the start/end dates of the month containing $day
+     * 
+     * Returns both sql and unix timestamps for the range
+     * Array 
+     *  [start] => Array
+     *      ['sql'] => 2013-03-01
+     *      ['unix'] => 1362124799
+     *  [end] => Array
+     *      ['sql'] => 2013-03-31
+     *      ['unix'] => 1362124799
+     * 
+     * @param unixtime $day A day in the month to range
+     * @return array First and last day of specified month
+     */
     function monthSpan($day = null){
         if($day == null){
             $day = time();
@@ -385,6 +432,21 @@ class AppController extends Controller {
         return $range;
     }
     
+    /**
+     * Get the start/end datees of the year containing $day
+     * 
+     * Returns both sql and unix timestamps for the range
+     * Array 
+     *  [start] => Array
+     *      ['sql'] => 2013-01-01
+     *      ['unix'] => 1362124799
+     *  [end] => Array
+     *      ['sql'] => 2013-12-31
+     *      ['unix'] => 1362124799
+     * 
+     * @param unixtime $day A day in the year to range
+     * @return array First and last day of specified year
+     */
     function yearSpan($day = null){
         if($day == null){
             $day = time();
@@ -403,6 +465,19 @@ class AppController extends Controller {
         );
         return $range;
     }
+
+    /**
+     * If Standard input is present, make a 'condition' for a search
+     * 
+     * As Standard (simple) search tries:
+     *  LIKE Content.heading
+     *  OR
+     *  LIKE Content.content
+     *  OR
+     *  LIKE Image.alt
+     * 
+     * condition stored in $this->qualityCondition
+     */
     function buildStandardSearchConditions(){
         if($this->data['Standard']['searchInput']!=' Search'){
             // Build standard query
@@ -414,24 +489,18 @@ class AppController extends Controller {
                     'Image.alt LIKE' => $likeMe
                  )
             );
-            $this->categoricalConditions = array(
-                'Collection' => array(
-                    'Collection.heading LIKE' => $likeMe 
-                ),
-                'Navline' => array(
-                    'Navline.name LIKE' => $likeMe
-                )
-            );
         }
     }
     
+    /**
+     * If Advanced text input is present, make a 'condition' for a search
+     * 
+     * An Advanced search tries LIKE on the field of the same name
+     * as the POSTED input. Multiple inputs are OR'd
+     * 
+     * condition stored in $this->qualityCondition
+     */
     function buildAdvancedTextSearchConditions(){
-        // possibly write the OR late after we find out if it's necessary?
-        // also do $this->categoricalConditions
-        
-//        $this->qualityConditions = array(
-//            'OR' => array()
-//        );
         $advancedTextConditions = false;
 
         // Assemble text conditions if they exist
@@ -450,6 +519,23 @@ class AppController extends Controller {
         return $advancedTextConditions;
     }
     
+    /**
+     * If Advanced date input is present, make a 'condition' for a search
+     * 
+     * A date range will OR on:
+     *  Content.modified
+     *  Image.modified
+     *  Image.date (the image files exif date)
+     * 
+     * Possible ranges, one of these:
+     *  Records in YEAR yyyy
+     *  Records in MONTH-YEAR mm-yyyy
+     *  Records in MONTH (mm of every yyyy in the data)
+     *  Records in 1 week (this week through 4 weeks ago)
+     *  Records in span from x weeks ago to end of this week
+     * 
+     * @return array The array of OR condions, all date range searches
+     */
     function buildAdvancedDateSearchConditions(){
         $advancedDateCondtions = false;
         if($this->data['DateRange']['month'] != 0 || $this->data['DateRange']['year'] != 0){
@@ -486,6 +572,16 @@ class AppController extends Controller {
         return $advancedDateCondtions;
     }
     
+    /**
+     * Return one three-part date range condition array
+     * 
+     * Though this array as written would AND search the three field,
+     * code that calls this method will add an OR element later.
+     * This allows multiple date ranges to be searched simultaneously.
+     * 
+     * @param array $range A standard date range array
+     * @return array A Cake condition array for a query
+     */
     function constructDateRangeCondition($range){
         //array('Post.id BETWEEN ? AND ?' => array(1,10))
         $rangeCondition = array(

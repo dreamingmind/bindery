@@ -572,7 +572,6 @@ class Content extends AppModel {
                  $result_groups[$slot][$result['Content']['slug']]['count'] = 1;
              }
          }
-         debug($result_groups);die;
          return $result_groups;
      }
      return $raw_search;
@@ -587,22 +586,8 @@ class Content extends AppModel {
     function siteSearchRaw($conditions){
         
      return $this->find('all', array(
-//        'fields'=>array(
-//            'Content.heading',
-//            'Content.id',
-//            'Content.slug',
-//            'Content.content',
-//            'Content.created'
-//        ),
         'contain'=>array(
-            'Image',//=>array(
-//                'fields'=>array(
-//                    'Image.id',
-//                    'Image.title',
-//                    'Image.alt',
-//                    'Image.img_file'
-//                ),
-//            ),
+            'Image',
             'ContentCollection'=>array(
                 'fields'=>array(
                     'ContentCollection.id',
