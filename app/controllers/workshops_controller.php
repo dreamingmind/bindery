@@ -1,4 +1,4 @@
-<?php
+ <?php
 class WorkshopsController extends AppController {
 
 	var $name = 'Workshops';
