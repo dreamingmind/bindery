@@ -677,6 +677,21 @@ class AppHelper extends Helper {
      *                                  [category_id] => 1469
      *                                  [heading] => Boxes
      *                                  [slug] => boxes
+     * 
+     *  <div class="linkDiv"
+     *      <a href="/bindery/products/notebooks/newsfeed/id:32">   // $heading_link $link_uri
+     *          <img title="Alligator notebook"     // $img
+     *              alt="alt text" 
+     *              id="im546" 
+     *              src="/bindery/img/images/thumb/x160y120/DSC00241.JPG">
+     *      </a>
+     *      <p class="aside">On the bench: on 30/11/-1</p> 
+     *      <a href="/bindery/products/notebooks/newsfeed/id:32">Alligator notebook</a>
+     *      <p>content.</p> //$heading_link $clean markdown
+     *      <p class="aside">Or view as a 
+     *          <a href="/bindery/blog/58/alligator-notebook">Blog Article</a> $blog_link
+     *      </p>
+     *  </div>
      */
     function foundNewBlock($news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
@@ -729,6 +744,18 @@ class AppHelper extends Helper {
     
     /**
      * Using the same data array as foundNewsBlock
+     * 
+     *  <div class="linkDiv">
+     *      <p class="aside">Boxes: 4 days, 5 hours ago</p>
+     *      <a href="/bindery/blog/60/jackson-nichol-s-forcado-portfolio">
+     *          <img title="Jackson Nichol's Forcado portfolio" 
+     *              alt="alt text" 
+     *              id="im917" 
+     *              src="/bindery/img/images/thumb/x75y56/DSC01983.JPG">
+     *      </a>
+     *      <a href="/bindery/blog/60/forcado-portfolio">Forcado portfolio</a>
+     *  </div>
+     * 
      * @param type $news
      * @param type $path
      */
@@ -773,6 +800,22 @@ class AppHelper extends Helper {
     //}
     }
     
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <p class="aside">Notebooks: on 30/11/-1</p>
+     *      <a href="/bindery/blog/58/alligator-notebook">
+     *          <img title="Alligator Notebook" 
+     *              alt="The cover of an alligator and goatskin notebook ready for top stitching." 
+     *              id="im549" 
+     *              src="/bindery/img/images/thumb/x160y120/DSC00189.JPG">
+     *      </a>
+     *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
+     *  </div>
+     * 
+     * @param type $news
+     * @param type $path
+     */
     function siteSearchBlogBlock($news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
 
@@ -814,7 +857,21 @@ class AppHelper extends Helper {
     //}
     }
     
-    
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/products/boxes/gallery/id:574">
+     *          <img title="Non-traditional materials for an artist's portfolio" 
+     *              alt="alt text" 
+     *              src="/bindery/img/images/thumb/x160y120/DSC02030x.jpg">
+     *      </a><p class="aside">Boxes</p>
+     *      <a href="/bindery/products/boxes/gallery/id:574">Non-traditional mater ...</a>
+     *      <p>The interior of a clamshell box with a book well and a foil ...</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
     function foundGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
@@ -840,6 +897,22 @@ class AppHelper extends Helper {
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
     }
     
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/products/notebooks/gallery/id:310">
+     *          <img title="Calendars" 
+     *              alt="" 
+     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *      </a>
+     *      <p class="aside">Notebooks</p>
+     *      <a href="/bindery/products/notebooks/gallery/id:310">Calendars</a>
+     *      <p>Many standard notebook fillers are available in...</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
     function siteSearchGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
@@ -865,6 +938,21 @@ class AppHelper extends Helper {
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
     }
     
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/products/45-minute-box/gallery/id:114">
+     *          <img title="45 Minute Box" alt="alt text" 
+     *              src="/bindery/img/images/thumb/x160y120/DSC01734.JPG">
+     *      </a>
+     *      <p class="aside">ID: 384 - 45 Minute Box</p>
+     *      <a href="/bindery/products/45-minute-box/gallery/id:114">45 Minute Box</a>
+     *      <p>Learn to make a professional looking box to e...</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
     function foundWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
@@ -890,6 +978,22 @@ class AppHelper extends Helper {
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
     }
     
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/products/just-facts-ma-39-am-notebook/gallery/id:388">
+     *          <img title="Special material option" 
+     *              alt="" 
+     *              src="/bindery/img/images/thumb/x160y120/DSCN4470.jpg">
+     *      </a>
+     *      <p class="aside">ID: 388 - Just-the-Facts-Ma'am Notebook</p>
+     *      <a href="/bindery/products/just-facts/gallery/id:388">Just-the-Facts</a>
+     *      <p>You  ...</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
     function siteSearchWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 

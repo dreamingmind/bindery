@@ -1,10 +1,14 @@
-<div class="users form">
-    <p>
-        Home</ br>
-        Homepage information
-    </p>>
+<div>
     <?php
-//        debug($userdata);
-//        debug($data);
+    echo $this->Html->div('linkDiv', ' ');
+    echo $this->Html->foundNewBlock($recentNews[0],'images/thumb/x160y120/');
+    echo $html->foundGalleryBlock($recentExhibits[0],'images/thumb/x160y120/');
+?>
+</div>
+<div id="personshot" class="clear">
+    <?php
+    echo $this->Html->para(null,$record[0]['Content']['content']);
+    echo $this->Html->image('images/thumb/x640y480/'. $record[0]['Image']['img_file']);
+//    debug($recentNews);
     ?>
 </div>

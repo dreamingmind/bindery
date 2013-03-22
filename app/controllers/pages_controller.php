@@ -44,7 +44,7 @@ class PagesController extends AppController {
  * @var array
  * @access public
  */
-	var $uses = array();
+	var $uses = array('Content');
 
 /**
  * Displays a view
@@ -53,7 +53,7 @@ class PagesController extends AppController {
  * @access public
  */
 	function display() {
-            $this->layout = 'noThumbnailPage';
+            $this->layout = 'HomePage';
 		$path = func_get_args();
 
 		$count = count($path);
@@ -71,6 +71,21 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title_for_layout = Inflector::humanize($path[$count - 1]);
 		}
+                $records = $this->Content->find('all',array(
+                    'fields'=>array('id'),
+                    'recursive'=>0,
+                    'conditions'=>array('slug LIKE' => '%home%')
+                ));
+                $target = rand(0, count($records)-1);
+        $this->set('recentNews',  $this->Content->recentNews(1));
+        $this->set('recentExhibits',$this->Content->recentExhibits(1));
+                $record = $this->Content->find('all',array(
+                        'contain'=>array(
+                            'Image'
+                        ),
+                        'conditions' => array('Content.id' => $records[$target]['Content']['id']))
+                    );
+                $this->set('record',$record);
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
 	}

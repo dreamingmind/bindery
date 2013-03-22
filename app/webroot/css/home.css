@@ -1,0 +1,63 @@
+/* 
+    Document   : home
+    Created on : Mar 15, 2013, 7:42:00 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+#absNav > img{
+    width: 392px;
+}
+#menuNav{
+    top: 130px;
+}
+img#NTtopTransparent {
+    height: 130px;
+}
+/*div#personshot {
+    width: 650px;
+    border-top: 3px solid #CCCCCC;
+    float: right;
+}*/
+div#personshot {
+    background-color: gray;
+    border-top: 3px solid #CCCCCC;
+    padding: 20px;
+    width: 650px;
+}
+#personshot > p {
+    color: white;
+    /*font-size: 150%;*/
+    padding: 15px 30px 10px;
+}
+.linkDiv{
+    width: 160px;
+    height: 100%;
+    /*padding-left:5px;*/
+    float: left;
+    padding: 10px 5px 20px 5px;
+}
+.linkDiv p{
+    margin-left: 0;
+}
+#personshot img {
+    border: thin solid darkred;
+}
+.clear {
+    clear: both;
+}
+/*#personshot > div {
+    position: relative;
+}
+div.lace {
+    background-image: url("/bindery/img/lace-right-640.png");
+    height: 480px;
+    left: 577px;
+    position: absolute;
+    top: 0;
+    width: 64px;
+}*/
