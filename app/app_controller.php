@@ -300,6 +300,7 @@ class AppController extends Controller {
         $pattern = array('/search/i','/ /','/0/');
         $test = preg_replace($pattern,'',implode($this->postConditions($data)));
         if(empty($test)){
+            $this->Session->delete('qualityConditions');
             return false;
         } else {
             return true;

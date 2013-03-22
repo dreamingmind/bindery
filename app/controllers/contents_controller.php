@@ -1348,10 +1348,12 @@ class ContentsController extends AppController {
                         'OR' => $advancedDateConditions
                     );
                 }
+                $this->Session->write('qualityConditions', serialize($this->qualityConditions));
             }
                 $this->layout = 'noThumbnailPage';
                 $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
             } else {
+                $this->Session->delete('qualityConditions');
                 $this->Session->setFlash('Did you click that accidentally? There were no search terms included. Try again?');
                 $this->redirect($this->referer());
             } 

@@ -172,6 +172,9 @@ class ImagesController extends AppController {
      */
     function beforeFilter(){
 //            debug($this->data);die;
+//        if($this->Session->check('qualityConditions')){
+//            debug($this->Session->read('qualityConditions'));
+//        }
        parent::beforeFilter();
        if($this->usergroupid < 3) { // managers or administrators
 
@@ -504,7 +507,7 @@ class ImagesController extends AppController {
         } //end of posted data processing
         
         $this->layout = 'noThumbnailPage';
-//        $this->setSearchAction('multi_add');
+        $this->setSearchAction('multi_add');
         $this->set('searchController','images');
 //        $this->searchRecords = array();
         
@@ -731,7 +734,7 @@ class ImagesController extends AppController {
        }
         $this->layout = 'noThumbnailPage';
         $this->set('searchController','images');
-//        $this->setSearchAction('clean_up');
+        $this->setSearchAction('clean_up');
 
         if(!$this->searchInput){
             $this->searchInput = 'orphan_images';
@@ -766,6 +769,10 @@ class ImagesController extends AppController {
          * $uploadCount = the number of image upload forms to draw or false
          */
     function doSearch(){
+//        debug($this->Session->read('qualityConditions'));
+        if($this->Session->check('qualityConditions')){
+            $this->redirect(array('controller'=>'images','action'=>'search'));
+        }
 //        debug($this->searchInput);die;
         // int = upload set
         // orphan_images
@@ -880,35 +887,45 @@ class ImagesController extends AppController {
      * @todo Auto-searches, like 'last upload' aren't pulling the full data set like a manual search does
      */
     function search() {
-        if($this->verifySearchData($this->data)){
-            $this->qualityConditions = array();
-            // Standard or Avanced search
-            if($this->data['Standard']['searchInput']!=' Search'){
-                // Build standard query properties
-                //  $this->qualityConditions
-                //  $this->categoricalConditions
-                $this->buildStandardSearchConditions();
-            } else {
-                // Build advanced query text search properties
-                //  $this->qualityConditions
-                //  $this->categoricalConditions
-                $advancedTextConditions = $this->buildAdvancedTextSearchConditions();
-                $advancedDateConditions = $this->buildAdvancedDateSearchConditions();
-                if ($advancedTextConditions){
-                    $this->qualityConditions = array(
-                        'OR' => $advancedTextConditions
-                    );
-                    if($advancedDateConditions){
-                        $this->qualityConditions['AND'] = array(
+//        debug($this->searchAction);
+        $this->qualityConditions = false;
+        if(isset($this->data) && $this->verifySearchData($this->data)){
+                $this->qualityConditions = array();
+                // Standard or Avanced search
+                if($this->data['Standard']['searchInput']!=' Search'){
+                    // Build standard query properties
+                    //  $this->qualityConditions
+                    //  $this->categoricalConditions
+                    $this->buildStandardSearchConditions();
+                } else {
+                    // Build advanced query text search properties
+                    //  $this->qualityConditions
+                    //  $this->categoricalConditions
+                    $advancedTextConditions = $this->buildAdvancedTextSearchConditions();
+                    $advancedDateConditions = $this->buildAdvancedDateSearchConditions();
+                    if ($advancedTextConditions){
+                        $this->qualityConditions = array(
+                            'OR' => $advancedTextConditions
+                        );
+                        if($advancedDateConditions){
+                            $this->qualityConditions['AND'] = array(
+                                'OR' => $advancedDateConditions
+                            );
+                        }
+                    } elseif($advancedDateConditions){
+                        $this->qualityConditions = array(
                             'OR' => $advancedDateConditions
                         );
                     }
-                } elseif($advancedDateConditions){
-                    $this->qualityConditions = array(
-                        'OR' => $advancedDateConditions
-                    );
                 }
-            }
+                $this->Session->write('qualityConditions', serialize($this->qualityConditions));
+        }
+//        debug($this->data);
+//        debug($this->Session->read('qualityConditions'));//die;
+        if($this->Session->check('qualityConditions')){
+            $this->qualityConditions = unserialize($this->Session->read('qualityConditions'));
+        }
+        if($this->qualityConditions){
             $this->searchInput = $this->qualityConditions;
             $this->searchAction = $this->data['action'];
             $this->searchRecords = $this->Image->Content->siteSearchRaw($this->qualityConditions);
@@ -926,28 +943,29 @@ class ImagesController extends AppController {
 //            debug($this->params);
             switch($this->searchAction){
 
-            case 'clean_up':
-                $this->clean_up();
-                $this->render('clean_up');
-                break;
+                case 'clean_up':
+                    $this->clean_up();
+                    $this->render('clean_up');
+                    break;
 
-            case 'multi_add':
-                $this->multi_add();
-                $this->render("multi_add");
-                break;
-            case 'index':
-                $this->index();
-                $this->render('index');
-            default :
-                $this->image_grid();
-                $this->render('image_grid');
-                break;
+                case 'multi_add':
+                    $this->multi_add();
+                    $this->render("multi_add");
+                    break;
+                case 'index':
+                    $this->index();
+                    $this->render('index');
+                    break;
+                default :
+                    $this->image_grid();
+                    $this->render('image_grid');
+                    break;
+            }  
         }
 
 //        $this->render($this->searchAction);
 //
     
-        }
     }
     
     /**
@@ -1044,10 +1062,11 @@ class ImagesController extends AppController {
 //        debug($this->data);die;
         $this->layout = 'noThumbnailPage';
         $this->set('searchController','images');
-//        $this->setSearchAction('image_grid');
+        $this->setSearchAction('image_grid');
 
         if(!$this->searchRecords){
-            $this->searchInput = 'last_upload';
+//            $this->searchInput = 'last_upload';
+            $this->searchAction = 'image_grid';
             $this->doSearch();
         }
         

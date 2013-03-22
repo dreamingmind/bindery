@@ -12,7 +12,7 @@ echo $session->flash();
 //debug($recentCollections);
 //debug($allCollections);
 echo $this->Form->create('Image',array('conroller'=>'images',
-    'action'=>'search'));
+    'action'=>'image_grid'));
 ?>
 <table style="width:50%;margin-top:50px;">
     <tr>
