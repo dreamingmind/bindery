@@ -53,6 +53,7 @@ $record = array();
         }
         // This is the control to keep or delete the disallowed file
         // Either can happen whether or not a replacement file is uploaded
+        // when multi_add/disallowed beforeFilter() moves it to $searchInput
         if($searchInput == 'disallowed'){
             echo $this->Html->tag('h3',key($disallowed) . ' ('.current($disallowed)->reason.')');
             echo $this->Form->input('Task', array(

@@ -443,6 +443,18 @@ class ImagesController extends AppController {
      * @param int $count The number of forms to present
      */
     function multi_add($count=null) {
+        // [1] Set universal controls
+        // [2] Save data if present
+        // [3] If save failures prepare them for redisplay
+        // [4] If no failures (including no save attempt) choose view display
+        // [5] Prepare context sensitive control vars
+        
+        // [1] Se universal controls
+        $this->layout = 'noThumbnailPage';
+        $this->setSearchAction('multi_add');
+        $this->set('searchController','images');
+        
+        // [2] Save data if present
         if (!empty($this->data)) {
 //            debug($this->data);die;
 //            debug($this->Image->actsAs['Upload']['img_file']['allowed_mime']);//die;
@@ -506,13 +518,11 @@ class ImagesController extends AppController {
             
         } //end of posted data processing
         
-        $this->layout = 'noThumbnailPage';
-        $this->setSearchAction('multi_add');
-        $this->set('searchController','images');
 //        $this->searchRecords = array();
         
         // if there were bad upload files, we'll keep those for reprocessing
         // in all other cases, including no data, we'll do standard search
+        // [3] If save failures, redisplay them for correcion
         if($this->fileError){
             $this->searchRecords = array();
             foreach($this->fileError as $index => $message){
@@ -524,15 +534,42 @@ class ImagesController extends AppController {
 //            $this->data=null;
             
         } else {
-            $this->doSearch();
+        // [4] No failures (including no save attempt). What should be displayed?
+        
+            // multi_add/disallowed set $this->uploadCount to # of disallowed
+            // multi_add/[0-9]+ set $this->uploadCount to [0-9]+
+            // Session 'qualityConditions' set $this->searchRecords
+            
+            // First handle possible uri encoded requests
+            if(isset($this->params['pass'][0]) && $this->params['pass'][0] == 'disallowed') { 
+                $this->uploadCount = count($this->disallowed);
+                $this->Session->setFlash("$this->uploadCount Records were found for '{$this->params['pass'][0]}'");
+
+                
+            } elseif (isset($this->params['pass'][0]) && (intval($this->params['pass'][0]) == $this->params['pass'][0])) {
+                $this->uploadCount = $this->searchInput;
+                
+            // no uri encoded, check for stored user search
+            } elseif($this->Session->check('qualityConditions')) {
+//                debug(unserialize($this->Session->read('qualityConditions')));
+                $this->searchInput = false;
+                $qualityConditions = unserialize($this->Session->read('qualityConditions'));
+                $this->searchRecords = $this->Image->Content->siteSearchRaw($qualityConditions);
+                $this->searchRecords = $this->reconfigureRawSearch($this->searchRecords);
+                $this->Session->setFlash(count($this->searchRecords).' Records were found for <pre>'. print_r($qualityConditions, TRUE) . '</pre>');
+                
+            } else {
+                $this->uploadCount = 1;
+            }
         }
         
+        // [5] Prep context sensitive controls for View
         if($this->searchRecords){
             $this->uploadCount = count($this->searchRecords);
-            $this->Session->setFlash("$this->uploadCount Records were found for '$this->searchInput'");
-            if($this->searchRecords == array()){
-                $this->Session->setFlash('No records found for search '.$this->searchInput);
-            }
+//            $this->Session->setFlash("$this->uploadCount Records were found for '$this->searchInput'");
+//            if($this->searchRecords == array()){
+//                $this->Session->setFlash('No records found for search '.$this->searchInput);
+//            }
         }
         $this->set('countMax', 
                 ($this->disallowed || $this->searchRecords || $this->uploadCount)
@@ -696,6 +733,10 @@ class ImagesController extends AppController {
      * @todo image_grid properly retains a found set from here, but this layout doesn't use a found set from other contexts
      */
     function clean_up(){
+        $this->layout = 'noThumbnailPage';
+        $this->set('searchController','images');
+        $this->setSearchAction('clean_up');
+        
         if(isset ($this->data)){
             $delete = $this->processDeletions();
 //                debug($delete);die;
@@ -732,14 +773,24 @@ class ImagesController extends AppController {
 ////            $this->searchAction = 'clean_up';
 //            $this->redirect(array('action'=>'search'));
        }
-        $this->layout = 'noThumbnailPage';
-        $this->set('searchController','images');
-        $this->setSearchAction('clean_up');
 
-        if(!$this->searchInput){
-            $this->searchInput = 'orphan_images';
-            $this->doSearch();
+       // handle uri encoded request
+        if(isset($this->params['pass'][0]) && $this->params['pass'][0] == 'orphan_images'){
+            $this->searchRecords = $this->orphans; //move in the standing set of orphans
+            
+        // if no uri request, is there a saved user search?    
+        } elseif($this->Session->check('qualityConditions')) {
+//                debug(unserialize($this->Session->read('qualityConditions')));
+            $this->searchInput = false;
+            $qualityConditions = unserialize($this->Session->read('qualityConditions'));
+            $this->findOnQualityConditions($qualityConditions);
+
+        // no uri request or saved search, default to orphans
+        } else {
+            $this->searchRecords = $this->orphans; //move in the standing set of orphans
         }
+            
+//            $this->doSearch();
         if($this->searchRecords == array()){
             $this->Session->setFlash('No records found for search '.$this->searchInput);
         }
@@ -751,128 +802,128 @@ class ImagesController extends AppController {
      * 
      * @param string $name Name of the image file to delete
      */
-    function delete_image_files($name){
-        $path = IMAGES."images/native/$name";
-        if(is_file($path)){
-            unlink($path);
-            }
-        foreach($this->sizes as $size => $size_again){
-            $path = IMAGES."images/thumb/$size/$name";
-            if(is_file($path)){
-                unlink($path);
-            }
-        }
-    }
-
-    /**
-         * $uploadRequest = the number of the upload set or false
-         * $uploadCount = the number of image upload forms to draw or false
-         */
-    function doSearch(){
-//        debug($this->Session->read('qualityConditions'));
-        if($this->Session->check('qualityConditions')){
-            $this->redirect(array('controller'=>'images','action'=>'search'));
-        }
-//        debug($this->searchInput);die;
-        // int = upload set
-        // orphan_images
-        $upload = false;
-        $param0 = (isset($this->params['pass'][0])) 
-                ? $this->params['pass'][0] : false; //simplify booleans later
-
-        preg_match('/id=[0-9]+|id between [0-9]+ and [0-9]+|id in \([0-9]+(,[0-9]+)*\)/i', $this->searchInput,$match);
-        if(isset($match[0])){
-            $this->searchRecords = $this->Image->find('all', array(
-                'conditions'=>$match[0],
-                'contain'=>$this->contain//$fields
-            ));
-            return;
-        }
-        // Handle interger search input
-        preg_match('/[0-9]+/',$this->searchInput,$match);
-        $uploadRequest = (
-                isset($match[0])
-                &&$match[0] > 0 
-                && ($this->searchAction != 'multi_add' && $this->action != 'multi_add')) 
-                    ? $match[0] : false;
-        $this->uploadCount = (
-                isset($match[0])
-                &&$match[0] > 0 
-                && ($this->searchAction == 'multi_add' || $this->action == 'multi_add')) 
-                    ? $match[0] : false;
-
-        // A bit of processing for upload set requests
-        if ($uploadRequest) {
-            if ($uploadRequest > 0 && $uploadRequest <= $this->lastUpload) {
-                $upload = $uploadRequest;
-            } else {
-                $this->Session->setFlash("Upload sets exist for values 1 - {$this->lastUpload}. Your request for set $uploadRequest can't be satisfied");
-            }
-        }
-        if ($this->searchInput == 'last_upload' || $param0 == 'last_upload'){
-            $upload = $this->lastUpload;
-        }
-
-        // processing for multi_add requests
-        if ($this->searchAction == 'multi_add' || $this->action == 'multi_add'){
-            if($this->uploadCount){
-                $this->searchRecords = false;
-//                $this->disallowed = false;
-                return; // had integer searchInput
-            }
-            if($this->searchInput != 'disallowed' || $param0 != 'disallowed') {
-                
-//                 $this->disallowed = false; 
-            } else {
-                $this->uploadCount = count($this->disallowed);
-                return; // had disallowed search or link
-            }
-            
-        }
-
-            
-//            $this->out(698);die;
-            if ($upload) {
-                // search param was integer; that's an upload set number
-                $this->searchRecords = $this->Image->find('all', array(
-                    'conditions'=>array('Image.upload'=> $upload),
-                    'contain'=>$this->contain//$fields
-                ));
-            } elseif ($this->searchInput == 'orphan_images') {
-                // search param was a request to see orphan images
-                $this->searchRecords = $this->orphans;
-            } else {
-                // search param wasn't integer or orphan; that's means a field value search
-                $this->searchRecords = $this->Image->find('all', array(
-                'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%"),
-                'contain'=>$this->contain//$fields
-                ));
-                
-                foreach($this->searchRecords as $record){
-                    $idList[$record['Image']['id']] = true;
-                }
-                
-                $title = $this->Image->find('all', array(
-                'conditions'=>array('Image.title LIKE'=> "%{$this->searchInput}%"),
-                'contain'=>$this->contain//$fields
-                ));
-
-                foreach($title as $index => $record){
-                    if(isset($idList[$record['Image']['id']])){
-                        $killList[] = $index;
-                    }
-                }
-                if(isset($killList)){
-                    foreach($killList as $index){
-                        unset($title[$index]);
-                    }
-                }
-                $this->searchRecords = array_merge($this->searchRecords, $title);
-                
-//                debug($title);
-//                die;
-            }
-        }
+//    function delete_image_files($name){
+//        $path = IMAGES."images/native/$name";
+//        if(is_file($path)){
+//            unlink($path);
+//            }
+//        foreach($this->sizes as $size => $size_again){
+//            $path = IMAGES."images/thumb/$size/$name";
+//            if(is_file($path)){
+//                unlink($path);
+//            }
+//        }
+//    }
+//
+//    /**
+//         * $uploadRequest = the number of the upload set or false
+//         * $uploadCount = the number of image upload forms to draw or false
+//         */
+////    function doSearch(){
+////        debug($this->Session->read('qualityConditions'));
+//        if($this->Session->check('qualityConditions')){
+//            $this->redirect(array('controller'=>'images','action'=>'search'));
+//        }
+////        debug($this->searchInput);die;
+//        // int = upload set
+//        // orphan_images
+//        $upload = false;
+//        $param0 = (isset($this->params['pass'][0])) 
+//                ? $this->params['pass'][0] : false; //simplify booleans later
+//
+//        preg_match('/id=[0-9]+|id between [0-9]+ and [0-9]+|id in \([0-9]+(,[0-9]+)*\)/i', $this->searchInput,$match);
+//        if(isset($match[0])){
+//            $this->searchRecords = $this->Image->find('all', array(
+//                'conditions'=>$match[0],
+//                'contain'=>$this->contain//$fields
+//            ));
+//            return;
+//        }
+//        // Handle interger search input
+//        preg_match('/[0-9]+/',$this->searchInput,$match);
+//        $uploadRequest = (
+//                isset($match[0])
+//                &&$match[0] > 0 
+//                && ($this->searchAction != 'multi_add' && $this->action != 'multi_add')) 
+//                    ? $match[0] : false;
+//        $this->uploadCount = (
+//                isset($match[0])
+//                &&$match[0] > 0 
+//                && ($this->searchAction == 'multi_add' || $this->action == 'multi_add')) 
+//                    ? $match[0] : false;
+//
+//        // A bit of processing for upload set requests
+//        if ($uploadRequest) {
+//            if ($uploadRequest > 0 && $uploadRequest <= $this->lastUpload) {
+//                $upload = $uploadRequest;
+//            } else {
+//                $this->Session->setFlash("Upload sets exist for values 1 - {$this->lastUpload}. Your request for set $uploadRequest can't be satisfied");
+//            }
+//        }
+//        if ($this->searchInput == 'last_upload' || $param0 == 'last_upload'){
+//            $upload = $this->lastUpload;
+//        }
+//
+//        // processing for multi_add requests
+//        if ($this->searchAction == 'multi_add' || $this->action == 'multi_add'){
+//            if($this->uploadCount){
+//                $this->searchRecords = false;
+////                $this->disallowed = false;
+//                return; // had integer searchInput
+//            }
+//            if($this->searchInput != 'disallowed' || $param0 != 'disallowed') {
+//                
+////                 $this->disallowed = false; 
+//            } else {
+//                $this->uploadCount = count($this->disallowed);
+//                return; // had disallowed search or link
+//            }
+//            
+//        }
+//
+//            
+////            $this->out(698);die;
+//            if ($upload) {
+//                // search param was integer; that's an upload set number
+//                $this->searchRecords = $this->Image->find('all', array(
+//                    'conditions'=>array('Image.upload'=> $upload),
+//                    'contain'=>$this->contain//$fields
+//                ));
+//            } elseif ($this->searchInput == 'orphan_images') {
+//                // search param was a request to see orphan images
+//                $this->searchRecords = $this->orphans;
+//            } else {
+//                // search param wasn't integer or orphan; that's means a field value search
+//                $this->searchRecords = $this->Image->find('all', array(
+//                'conditions'=>array('Image.alt LIKE'=> "%{$this->searchInput}%"),
+//                'contain'=>$this->contain//$fields
+//                ));
+//                
+//                foreach($this->searchRecords as $record){
+//                    $idList[$record['Image']['id']] = true;
+//                }
+//                
+//                $title = $this->Image->find('all', array(
+//                'conditions'=>array('Image.title LIKE'=> "%{$this->searchInput}%"),
+//                'contain'=>$this->contain//$fields
+//                ));
+//
+//                foreach($title as $index => $record){
+//                    if(isset($idList[$record['Image']['id']])){
+//                        $killList[] = $index;
+//                    }
+//                }
+//                if(isset($killList)){
+//                    foreach($killList as $index){
+//                        unset($title[$index]);
+//                    }
+//                }
+//                $this->searchRecords = array_merge($this->searchRecords, $title);
+//                
+////                debug($title);
+////                die;
+//            }
+//        }
         
     function implode_r($glue,$arr){
         $ret_str = "";
@@ -941,6 +992,7 @@ class ImagesController extends AppController {
             $this->params['action'] = $this->searchAction;
             $this->params['url']['url'] = $this->params['controller'].'/'.  $this->searchAction;
 //            debug($this->params);
+//            debug($this->searchAction);
             switch($this->searchAction){
 
                 case 'clean_up':
@@ -1039,6 +1091,9 @@ class ImagesController extends AppController {
     function image_grid(){
 //        debug($this->searchRecords);die;
 //        debug($this->Image->allTitles);
+        $this->layout = 'noThumbnailPage';
+        $this->set('searchController','images');
+        $this->setSearchAction('image_grid');
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
         $this->set('recentTitles',  $this->Image->recentTitles);
         $this->set('allCollections', $allCollections);
@@ -1060,16 +1115,39 @@ class ImagesController extends AppController {
 
         } // end of $this->data processing
 //        debug($this->data);die;
-        $this->layout = 'noThumbnailPage';
-        $this->set('searchController','images');
-        $this->setSearchAction('image_grid');
+//        debug($this);
+        $qualityConditions = false;
+       // handle uri encoded request
+        if(isset($this->params['pass'][0])){
+            if($this->params['pass'][0] == 'last_upload'){
+                $qualityConditions = array('Image.upload' => $this->lastUpload);
+            } elseif(intval($this->params['pass'][0]) == $this->params['pass'][0] && ($this->params['pass'][0]>0 && $this->params['pass'][0] <= $this->lastUpload)){
+                $qualityConditions = array('Image.upload' => $this->params['pass'][0]); //move in the standing set of orphans
+            }
 
-        if(!$this->searchRecords){
-//            $this->searchInput = 'last_upload';
-            $this->searchAction = 'image_grid';
-            $this->doSearch();
+        // if no uri request, is there a saved user search?    
+        } elseif($this->Session->check('qualityConditions')) {
+//                debug(unserialize($this->Session->read('qualityConditions')));
+            $this->searchInput = false;
+            $qualityConditions = unserialize($this->Session->read('qualityConditions'));
+
+        // no uri request or saved search, default to orphans
+        } else {
+            $qualityConditions = array('Image.upload' => $this->lastUpload);
         }
-        
+        $this->findOnQualityConditions($qualityConditions);
+            
+//            $this->doSearch();
+//        if($this->searchRecords == array()){
+//            $this->Session->setFlash('No records found for search '.$this->searchInput);
+//        }
+        $this->set('searchRecords',  $this->searchRecords);
+//        if(!$this->searchRecords){
+////            $this->searchInput = 'last_upload';
+//            $this->searchAction = 'image_grid';
+//            $this->doSearch();
+//        }
+//        
         if($this->searchRecords){
             foreach($this->searchRecords as $record){
                 $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
@@ -1081,6 +1159,12 @@ class ImagesController extends AppController {
             $this->Session->setFlash('No records found for search '.$this->searchInput);
         }
 
+    }
+    
+    function findOnQualityConditions($qualityConditions){
+        $this->searchRecords = $this->Image->Content->siteSearchRaw($qualityConditions);
+        $this->searchRecords = $this->reconfigureRawSearch($this->searchRecords);
+        $this->Session->setFlash(count($this->searchRecords).' Records were found for <pre>'. print_r($qualityConditions, TRUE) . '</pre>');
     }
     
     function image_grid_save($data){

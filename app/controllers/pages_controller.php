@@ -76,6 +76,7 @@ class PagesController extends AppController {
                     'recursive'=>0,
                     'conditions'=>array('slug LIKE' => '%home%')
                 ));
+//                debug($records);die;
                 $target = rand(0, count($records)-1);
         $this->set('recentNews',  $this->Content->recentNews(1));
         $this->set('recentExhibits',$this->Content->recentExhibits(1));

@@ -142,7 +142,7 @@ class AppHelper extends Helper {
             'name' => 'data[controller]',
             'type' => 'hidden'
             ))
-            . FormHelper::input('acion',array(
+            . FormHelper::input('action',array(
             'value' => $this->params['action'],
             'name' => 'data[action]',
             'type' => 'hidden'
