@@ -116,7 +116,7 @@ if($chunk) {
                 //build the tools-set for collection assignment
                 $coll_assign = $this->Html->div('', $this->element('collectionMemberAssignment_pickFields', array(
                     'record'=>$val,
-                    'linkedContent' => $linkedContent[$val['Image']['id']],
+                    'linkedContent' => (isset($linkedContent[$val['Image']['id']])) ? $linkedContent[$val['Image']['id']] : null,
                     'recentCollections'=> $recentCollections,
                     'prefix'=> array($masterCount),
                     'allCollections' => $allCollections

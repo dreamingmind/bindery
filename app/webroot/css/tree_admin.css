@@ -29,3 +29,6 @@ div#tree_control input.input{
 
     visibility: hidden;
 }
+#tree_control label{
+    font-size: 100%;
+}

@@ -52,7 +52,6 @@ class Navline extends AppModel {
 //                )
             
 	);
-        var $hasOne = array('Content');
 
 
         function parentNode() {

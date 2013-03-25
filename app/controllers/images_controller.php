@@ -289,11 +289,9 @@ class ImagesController extends AppController {
         $this->setSearchAction('index');
         
         $conditions = array();
-        if ($this->searchInput){
-            $conditions = array('conditions'=> array(
-                'Image.alt LIKE'=>$this->searchInput['OR']['Image.alt LIKE']
-            ));
-            $this->Session->setFlash("Search term: $this->searchInput");
+        if ($this->Session->check('qualityConditions')){
+            $conditions = array('conditions'=> unserialize($this->Session->read('qualityConditons')));
+            $this->Session->setFlash('Search term: ' . print_r($conditions['conditions']));
         }
         $this->paginate = array('order'=>array('Image.id'=> 'desc')) + $conditions;
             $this->Image->recursive = 0;
@@ -1089,7 +1087,7 @@ class ImagesController extends AppController {
      * @todo the Content fieldsets that output don't have any Collection membership information showing. This might be very helpful though. Can the Content-Element/FieldsetHelper handle this?
      */
     function image_grid(){
-//        debug($this->searchRecords);die;
+//        debug($this->data);die;
 //        debug($this->Image->allTitles);
         $this->layout = 'noThumbnailPage';
         $this->set('searchController','images');
@@ -1135,12 +1133,14 @@ class ImagesController extends AppController {
         } else {
             $qualityConditions = array('Image.upload' => $this->lastUpload);
         }
+//                debug($qualityConditions);die;
         $this->findOnQualityConditions($qualityConditions);
             
 //            $this->doSearch();
 //        if($this->searchRecords == array()){
 //            $this->Session->setFlash('No records found for search '.$this->searchInput);
 //        }
+//        debug($this->searchRecords);
         $this->set('searchRecords',  $this->searchRecords);
 //        if(!$this->searchRecords){
 ////            $this->searchInput = 'last_upload';
@@ -1150,8 +1150,8 @@ class ImagesController extends AppController {
 //        
         if($this->searchRecords){
             foreach($this->searchRecords as $record){
-                $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
-            }
+                    $linkedContent[$record['Image']['id']] = $this->Image->Content->linkedContent($record['Image']['id']);
+                }
             $this->set('linkedContent',$linkedContent);
             $this->set('chunk', array_chunk($this->searchRecords, $this->column+1));
         } else {
@@ -1161,9 +1161,49 @@ class ImagesController extends AppController {
 
     }
     
+            /**
+     * Query using the user's conditions and return the results
+     * 
+     * @param array $conditions Cake conditions array for the query
+     * @return false|array False or the found records
+     */
     function findOnQualityConditions($qualityConditions){
+//        debug($qualityConditions);//die;
+        // newly uploaded images wont be found by siteSearchRaw()
+        // and an Image context search can't handle the Content conditions
+        // that may be present. So filter those out of the various condition arrays
+        if(isset($qualityConditions['OR'])){
+            foreach($qualityConditions['OR'] as $field => $condition){
+                if(is_array($condition)){
+                    $key = array_keys($condition);
+//                    debug($key);die;
+                    if(stristr($key[0], 'Image')){
+                        $imageConditions['OR'][$field] = $condition;
+                    }
+                } elseif(stristr($field, 'Image')){
+                    $imageConditions['OR'][$field] = $condition;
+                }
+            }
+        } else {
+            $imageConditions = $qualityConditions;
+        }
+
         $this->searchRecords = $this->Image->Content->siteSearchRaw($qualityConditions);
         $this->searchRecords = $this->reconfigureRawSearch($this->searchRecords);
+//        debug($imageConditions);
+//                debug($qualityConditions);
+        // now pick up the images that don't have Content records
+        $new = $this->Image->find('all',array('conditions'=>$imageConditions));
+//        debug($new);
+        // now merge the arrays into one set
+        foreach($new as $imageRecord){
+//            debug($imageRecord);//die;
+            if($imageRecord['Content'] == array()){
+                unset($imageRecord['Content']);
+                $this->searchRecords[$imageRecord['Image']['id']] = $imageRecord;
+            }
+        }
+//        debug($this->searchRecords);die;
         $this->Session->setFlash(count($this->searchRecords).' Records were found for <pre>'. print_r($qualityConditions, TRUE) . '</pre>');
     }
     
