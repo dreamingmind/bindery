@@ -1,5 +1,6 @@
 <?php
 echo $html->css('search_links');
+//debug($collection);
 //$path = 'images/thumb/x75y56/';
 //$path = 'images/thumb/x160y120/';
 //
@@ -10,10 +11,11 @@ echo $html->css('search_links');
 echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
 <div id="intro">
-    <?php echo $html->tag('h1',$this->params['pname']); ?>
-    <p>There are no off-the-shelf products at Dreaming Mind, so the products listed in the menu are general categories of custom bindings I've completed over the years.</p>
-    <p>Click on them for additional links to the Gallery of finished work or 'On The Bench' in-process pictures.</p>
-</div>
+    <?php
+    echo $html->tag('h1',$this->params['pname']);
+    echo Markdown($collection['Collection']['text']);
+    ?>
+ </div>
 <div class="Col2Left">
     <!--<div class="linkDiv">-->
         <h2 class="Col2">Recent On The Bench postings</h2>

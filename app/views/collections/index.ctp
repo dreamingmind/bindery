@@ -3,8 +3,8 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
+<!--			<th><?php // echo $this->Paginator->sort('created');?></th>
+			<th><?php // echo $this->Paginator->sort('modified');?></th>-->
 			<th><?php echo $this->Paginator->sort('heading');?></th>
 			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('text');?></th>
@@ -23,8 +23,8 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $collection['Collection']['id']; ?>&nbsp;</td>
-		<td><?php echo $collection['Collection']['created']; ?>&nbsp;</td>
-		<td><?php echo $collection['Collection']['modified']; ?>&nbsp;</td>
+<!--		<td><?php // echo $collection['Collection']['created']; ?>&nbsp;</td>
+		<td><?php // echo $collection['Collection']['modified']; ?>&nbsp;</td>-->
 		<td><?php echo $collection['Collection']['heading']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['publish']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['text']; ?>&nbsp;</td>

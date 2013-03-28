@@ -757,7 +757,13 @@ class ContentsController extends AppController {
     function product_landing(){
         $this->layout = 'noThumbnailPage';
 //        $this->set('result_imagePath',  $this->result_imagePath);
-        
+        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
+            'conditions'=> array(
+                'Collection.category_id' => $this->categoryNI['exhibit'],
+                'Collection.slug' => $this->params['pname']
+            ),
+            'recursive' => -1
+        )));
         $this->set('recentNews',  $this->Content->recentNews(2,  $this->params['pname']));
         $this->set('recentExhibit',  $this->Content->recentExhibits(2,  $this->params['pname']));
         $sale_items = $this->Catalog->find('all',array(

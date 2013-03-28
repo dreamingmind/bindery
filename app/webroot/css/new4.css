@@ -612,3 +612,18 @@ div.cleanup{
 div.cleanup p{
     font-size: 10px;
 }
+
+/*==========================
+  Landing pages
+==========================*/
+#intro > h2, #detail > h1 {
+    background: none repeat scroll 0 0 transparent;
+    background-color: #8C4A3D;
+    color: white;
+    display: inline;
+    float: left;
+    margin-right: 6px;
+    padding: 3px 15px;
+    text-align: right;
+    width: 35%;
+}
