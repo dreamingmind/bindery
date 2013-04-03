@@ -243,8 +243,8 @@ class ContentsController extends AppController {
     function edit_exhibit($id=null) {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid content', true));
-            debug($this->referer());die;
-            $this->redirect($this->referer());
+//            debug($this->referer());die;
+//            $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
 //            debug($this->data['ContentCollection'][0]);
@@ -315,8 +315,9 @@ class ContentsController extends AppController {
     function edit_dispatch($id=null) {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid content', true));
-            debug($this->referer());die;
-            $this->redirect($this->referer());
+//            
+//            debug($this->referer());die;
+//            $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
             $this->params = unserialize($this->data['params']);
@@ -330,45 +331,6 @@ class ContentsController extends AppController {
                 : "<br />Image record save failed";
             $this->Session->setFlash($message);
             $this->redirect('/'.$this->params['url']['url'].'/#');
-//            debug($this->data);die;
-//            debug($this->data['ContentCollection'][0]);
-            
-//            $result = 0; // 0 at the end means nothing saved properly
-//            $result_message = '';
-//            //save the Content portion
-//            if ($this->Content->save($this->data)) {
-//                $result_message = __('The content has been saved', true);
-//                $result += 1;
-//            } else {
-//                $result_message = __('The content could not be saved. Please, try again.', true);
-//            }
-//            if (isset($this->data['ContentCollection'][0]['Supplement'])){
-//                if ($this->Content->ContentCollection->Supplement->saveAll($this->data['ContentCollection'][0]['Supplement'])) {
-//                    $result_message .= __('<br />The supplements have been saved', true);
-//                    $result += 1;
-//                } else {
-//                    $result_message .= __('<br />The supplements could not be saved. Please, try again.', true);
-//                }
-//            }
-//            if ($this->Content->Image->save($this->data)) {
-//                $result_message .= __("<br />The image has been saved", true);
-//                $result += 1;
-//            } else {
-//                $result_message .= __("<br />The image could not be saved. Please, try again.", true);
-//            }
-//            $this->Session->setFlash($result_message);
-//            if($result > 0){
-//            // refresh the screen after everythign is saved
-//                $this->passedArgs = unserialize($this->data['Content']['passedArgs']);
-//                $this->params = unserialize($this->data['Content']['params']);
-//                $this->gallery();
-//                $this->render('gallery','thumbnailPage');
-//            } else{
-//                // SEE ISSUE 82 FOR THE DIRECTION TO GO ON THIS SECTION
-//            // if nothing saved, redraw the form
-//                $packet = $this->data;
-//                unset($this->data);
-//            }
         }
         if(empty($this->data)){
         $this->layout = 'ajax';
@@ -386,10 +348,6 @@ class ContentsController extends AppController {
             ));
             $record[0]['Content'][$packet[0]['Content']['id']] = $packet[0]['Content'];
             $record[0]['Image'][$packet[0]['Content']['id']] = $packet[0]['Image'];
-//            debug($_POST['collection'][0]);
-//            debug($_POST);
-//            debug($id);
-//            debug($record);
             $this->set('linkNumber',$packet[0]['Content']['id']);
         $this->set('packet',$record);
 //        // now pull unpublished images. Those are potential
@@ -584,8 +542,30 @@ class ContentsController extends AppController {
 
         }
 
-        $most_recent = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
+        $most_recent = $this->findBlogTarget($conditions);
+        $this->set('most_recent',$most_recent);
+        
+    }
+    
+    /**
+     * Return some batch of Content records sorted by article order
+     * 
+     * These are pulled for ContentCollection context so there may be
+     * more be a variety of results.
+     * $condition can look at 
+     *      ContentCollection
+     *      Collection
+     *      Content
+     * 
+     * @param array $conditions The ContentCollection conditions for the query
+     * @return boolean|array A batch of Content/Image records or false
+     */
+    function findBlogTarget($conditions = null){
+        if($conditions == null){
+            return false;
+        }
+        return $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('ContentCollection.id', 'ContentCollection.content_id','ContentCollection.collection_id'),
             'contain'=>array(
                 'Collection'=>array(
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
@@ -594,7 +574,8 @@ class ContentsController extends AppController {
                     'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
 //                    'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+                        'fields'=>array('Image.alt','Image.title','Image.img_file',
+                            'Image.created', 'Image.date','Image.id')
                     )
                 )
             ),
@@ -603,10 +584,62 @@ class ContentsController extends AppController {
                 'ContentCollection.id ASC'
             ),
             'conditions' => $conditions
-        ));
-        $this->set('most_recent',$most_recent);
-        
+        ));        
     }
+    
+    /**
+     * Reset the modification dates of Content and Image record(s)
+     * 
+     * Provide an article slug or Content.id and have the
+     * Content Modification date set to the Image.date or
+     * Image.created if date does not exist.
+     * 
+     * Also set the Image.modified/Image.created to Image.date
+     * 
+     * This will help 'age' Content when an edit would 
+     * otherwise make it a recent update
+     * 
+     * @param $param The article slug or record id
+     */
+    function resetContentDates($content_id, $slug = false){
+        $conditions = array(
+            'Collection.category_id'=>$this->categoryNI['dispatch'],
+            'ContentCollection.publish'=>1);
+        if(intval($content_id) == $content_id && is_string($slug)){
+            $conditions['ContentCollection.collection_id'] = $content_id;
+            $conditions['Content.slug'] = $slug;            
+        } elseif(intval($content_id) == $content_id){
+            $conditions['ContentCollection.content_id'] = $content_id;
+        } else {
+            $conditions = false;
+            $this->Session->setFlash('Only a Content.slug or Content.id may be passed');
+        }
+        if($conditions){
+            $result = $this->findBlogTarget($conditions);
+            if($result && !empty($result)){
+                $content = array();
+                array_walk($result, 'resetDate', &$content);
+                if(!empty($content)){
+                    
+                    $message = ($this->Content->saveAll($content['Content']))
+                        ? '<p>'. count($content['Content']).' Content record dates reset.</p>'
+                        : '<p>'. count($content['Content']).' Content record reset failed.</p>';
+                    $message .= ($this->Content->Image->saveAll($content['Image']))
+                        ? '<p>'. count($content['Image']).' Image record dates reset.</p>'
+                        : '<p>'. count($content['Image']).' Image record reset failed.</p>';
+                    $message .= ($this->Content->ContentCollection->saveAll($content['ContentCollection']))
+                        ? '<p>'. count($content['ContentCollection']).' ContentCollection record dates reset.</p>'
+                        : '<p>'. count($content['ContentCollection']).' ContentCollection record reset failed.</p>';
+                }
+                $this->Session->setFlash($message);
+//                debug($content);
+            } else {
+                $this->Session->setFlash('No records were found, none were modified for the search <pre>'.  print_r($conditions, TRUE). '</pre>');
+            }
+        }
+        $this->redirect($this->referer());
+    }
+    
     /**
      * Read the full blog table of contents from cache or db
      * 
@@ -730,20 +763,32 @@ class ContentsController extends AppController {
     }
 
     function art(){
+//        debug($this->params);die;
         if(empty($this->params['pass'])){
             //main art landing page
-        } elseif (empty($this->params['named'])){
+            $this->params['pname'] = 'art-editions';
+        } else {
             //no specific exhibit indicated
             //decide what process to use
-        } else {
+            $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
+        } 
+        if(!empty($this->params['named'])) {
             //a specific exhibit (page & id) is indicated
             //go ahead and do the filmstrip and exhibit queries
         }
 //        debug($this->params);
     //        debug($this->params['pass'][count($this->params['pass'])-1]);
-        $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
-        $this->gallery();
-        $this->render('gallery');
+//        $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
+        $this->layout = 'noThumbnailPage';
+//        $this->set('result_imagePath',  $this->result_imagePath);
+        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
+            'conditions'=> array(
+                'Collection.category_id' => $this->categoryNI['art'],
+                'Collection.slug' => $this->params['pname']
+            ),
+            'recursive' => -1
+        )));
+        $this->render('product_landing');
     }
     
     /**
@@ -1314,4 +1359,32 @@ class ContentsController extends AppController {
     }
     
 }
+    /**
+     * array_walk function to reset the mod dates of Content records
+     * 
+     * 
+     * 
+     * @param array Content array with Image children, automatic in array_walk
+     * @param int $key This is automatically discovered by array_walk
+     */
+    function resetDate(&$record, $key, $content){
+//        debug($key);
+//        debug($record);
+        $content['Content'][$key]['id'] = $record['Content']['id'];
+        $content['Image'][$key]['id'] = $record['Content']['Image']['id'];
+        $content['ContentCollection'][$key]['id'] = $record['ContentCollection']['id'];
+        $content['Content'][$key]['modified'] =
+            $content['Content'][$key]['created'] =
+            $content['Image'][$key]['modified'] = 
+            $content['Image'][$key]['created'] =
+            $content['ContentCollection'][$key]['modified'] =
+            $content['ContentCollection'][$key]['created'] =
+                (!empty($record['Content']['Image']['date']))
+                ? date('Y-m-d H-i-s', $record['Content']['Image']['date'])
+                : $record['Content']['Image']['created']
+        ;
+//        $content['Content'][$key]['old'] = $record['Content']['modified'];
+//        $content['Image'][$key]['old'] = $record['Content']['Image']['created'];
+    }
+
 ?>

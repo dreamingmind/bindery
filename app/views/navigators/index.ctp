@@ -17,8 +17,9 @@ echo $paginator->counter(array(
 	<th><?php echo $paginator->sort('parent_id');?></th>
 	<th><?php echo $paginator->sort('lft');?></th>
 	<th><?php echo $paginator->sort('rght');?></th>
+	<th><?php echo $paginator->sort('account');?></th>
 	<th><?php echo $paginator->sort('name');?></th>
-	<th><?php echo $paginator->sort('navline_id');?></th>
+	<th><?php echo $paginator->sort('publish');?></th>
 	<th class="actions"><?php __('Actions');?></th>
 </tr>
 <?php
@@ -47,6 +48,9 @@ foreach ($navigators as $navigator):
 		</td>
 		<td>
 			<?php echo $html->link($navigator['Navline']['name'], array('controller' => 'navlines', 'action' => 'view', $navigator['Navline']['id'])); ?>
+		</td>
+		<td>
+			<?php echo $navigator['Navigator']['publish']; ?>
 		</td>
 		<td class="actions">
 			<?php echo $html->link(__('View', true), array('action' => 'view', $navigator['Navigator']['id'])); ?>

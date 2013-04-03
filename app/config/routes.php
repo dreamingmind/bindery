@@ -108,7 +108,7 @@ Router::connect('/:static', array(
         Router::connect('/products/:pname/*',
                 array ('controller'=>'contents','action'=>'gallery','pname'=>null));
         
-        Router::connect('/art/*',
+        Router::connect('/art-editions/*',
                 array ('controller'=>'contents','action'=>'art'));
         Router::connect('/workshops',
                 array ('controller'=>'workshops','action'=>'upcoming'));

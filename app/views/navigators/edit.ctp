@@ -9,6 +9,7 @@
 		echo $form->input('rght');
 		echo $form->input('navline_id');
 		echo $form->input('account');
+		echo $form->input('publish');
 	?>
 	</fieldset>
 <?php echo $form->end('Submit');?>

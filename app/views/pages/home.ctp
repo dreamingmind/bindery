@@ -1,7 +1,7 @@
 <div>
     <?php
     echo $this->Html->div('linkDiv', ' ');
-    echo $this->Html->foundNewBlock($recentNews[0],'images/thumb/x160y120/');
+    echo $this->Html->foundNewBlock($this->viewVars, $recentNews[0],'images/thumb/x160y120/');
     echo $html->foundGalleryBlock($recentExhibits[0],'images/thumb/x160y120/');
 ?>
 </div>

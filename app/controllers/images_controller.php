@@ -498,7 +498,7 @@ class ImagesController extends AppController {
                             'id' => $this->Image->id,
                             'height' => $exifData['COMPUTED']['Height'],
                             'width' => $exifData['COMPUTED']['Width'],
-                            'date' => strtotime($exifData['DateTime'])
+                            'date' => strtotime($exifData['DateTimeOriginal'])
                         );
 
                         if($this->Image->save($updateExif)){
@@ -800,18 +800,18 @@ class ImagesController extends AppController {
      * 
      * @param string $name Name of the image file to delete
      */
-//    function delete_image_files($name){
-//        $path = IMAGES."images/native/$name";
-//        if(is_file($path)){
-//            unlink($path);
-//            }
-//        foreach($this->sizes as $size => $size_again){
-//            $path = IMAGES."images/thumb/$size/$name";
-//            if(is_file($path)){
-//                unlink($path);
-//            }
-//        }
-//    }
+    function delete_image_files($name){
+        $path = IMAGES."images/native/$name";
+        if(is_file($path)){
+            unlink($path);
+            }
+        foreach($this->sizes as $size => $size_again){
+            $path = IMAGES."images/thumb/$size/$name";
+            if(is_file($path)){
+                unlink($path);
+            }
+        }
+    }
 //
 //    /**
 //         * $uploadRequest = the number of the upload set or false

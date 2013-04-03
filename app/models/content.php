@@ -434,13 +434,15 @@ class Content extends AppModel {
                         'Collection.id',
                         'Collection.category_id'
                     )
-                )),
+                ),
+                'Content'),
             'conditions'=>array(
                 'Collection.category_id'=>
                 $this->ContentCollection->Collection->Category->categoryNI['dispatch'],
                 $product_condition,
                 'ContentCollection.publish'=>1),
-            'limit'=>50,
+            'limit'=>$limit,
+            'group'=>'Content.slug',
             'order'=>'ContentCollection.modified DESC'
             
         ));
@@ -457,23 +459,23 @@ class Content extends AppModel {
         // This will construct the subquery to isolate
         // the unique (on Content.heading) records
         // to the MOST RECENT entry of that Content.heading
-        $dbo = $this->getDataSource();
-        $subQuery = $dbo->buildStatement(
-            array(
-                'fields' => array('MAX(`c2`.`id`)'),
-                'table' => $dbo->fullTableName('contents'),
-                'alias' => 'c2',
-                'limit' => null,
-                'offset' => null,
-                'joins' => array(),
-                'conditions' => array('`Content`.`heading`  = `c2`.`heading`'),
-                'order' => null,
-                'group' => null
-            ),
-            $this->alias
-        );
-        $subQuery = ' `Content`.`id` = (' . $subQuery . ') ';
-        $subQueryExpression = $dbo->expression($subQuery);
+//        $dbo = $this->getDataSource();
+//        $subQuery = $dbo->buildStatement(
+//            array(
+//                'fields' => array('MAX(`c2`.`modified`)'),
+//                'table' => $dbo->fullTableName('contents'),
+//                'alias' => 'c2',
+//                'limit' => null,
+//                'offset' => null,
+//                'joins' => array(),
+//                'conditions' => array('`Content`.`heading`  = `c2`.`heading`'),
+//                'order' => null,
+//                'group' => null
+//            ),
+//            $this->alias
+//        );
+//        $subQuery = ' `Content`.`modified` = (' . $subQuery . ') ';
+//        $subQueryExpression = $dbo->expression($subQuery);
 
         // ---------------------------------------------
         
@@ -483,7 +485,8 @@ class Content extends AppModel {
                 'Content.id',
                 'Content.slug',
                 'Content.content',
-                'Content.created'
+                'Content.created',
+                'Content.modified'
             ),
             'group'=>array('Content.heading'),
             'order'=>array('Content.modified DESC'),
@@ -517,7 +520,7 @@ class Content extends AppModel {
                 )
             ),
             'conditions'=>array(
-                $subQueryExpression,
+//                $subQueryExpression,
                 "Content.id IN ($in)"
             )
         ));

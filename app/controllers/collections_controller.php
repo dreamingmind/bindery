@@ -63,5 +63,38 @@ class CollectionsController extends AppController {
 		$this->Session->setFlash(__('Collection was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        function editCollection($id=null){
+            if (!$id && empty($this->data)) {
+                $this->Session->setFlash(__('Invalid content', true));
+            }
+            
+            $this->Session->setFlash('');
+            $packet = array();
+            
+            if (!empty($this->data)) {
+                $this->params = unserialize($this->data['params']);
+                $this->passedArgs = unserialize($this->data['passedArgs']);
+    //            debug($this->params);//die;
+                $message = ($this->Collection->save($this->data['Collection']))
+                    ? 'Collection record saved'
+                    : 'Collectin record save failed';
+                $this->Session->setFlash($message);
+//                $this->redirect('/'.$this->params['url']['url'].'/#');
+            }
+            
+            if(empty($this->data)){
+            $this->layout = 'ajax';
+    //        $this->layout = 'noThumbnailPage';
+                $packet = $this->Collection->find('first',array(
+                    'recursive' => -1,
+                    'conditions'=>array(
+                        'Collection.id'=>$request['id'],
+                        'Collection.category_id' => $request['category_id']
+                    )
+                ));
+            $this->set('packet',$packet);
+            }
+        }
 }
 ?>

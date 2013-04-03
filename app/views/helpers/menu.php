@@ -40,7 +40,7 @@ class MenuHelper extends AppHelper {
             $x = $domUL->item(0);
             $this->walkUL($x, $parentClass);
 
-            return $dom->saveHTML();
+            return str_replace(': ','<br />',$dom->saveHTML());
 
 	}
         

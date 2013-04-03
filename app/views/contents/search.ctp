@@ -7,7 +7,7 @@ if($searchResults){
                     echo $html->tag('h2','Blog Articles');
                     foreach($category_set as $result){
 //                        debug($result);
-                        echo $html->siteSearchBlogBlock($result);
+                        echo $html->siteSearchBlogBlock($this->viewVars, $result);
                     }
                     break;
                 case 'exhibit':
@@ -15,7 +15,7 @@ if($searchResults){
                     echo $html->tag('h2','Gallery Exhibits');
                     foreach($category_set as $result){
 //                        debug($result);
-                        echo $html->siteSearchGalleryBlock($result);
+                        echo $html->siteSearchGalleryBlock($this->viewVars, $result);
                     }
                     break;
                 case 'workshop':

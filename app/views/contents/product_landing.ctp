@@ -23,7 +23,7 @@ echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
     
 <?php
 foreach($recentNews as $news){
-    echo $html->foundNewBlock($news);
+    echo $html->foundNewBlock($this->viewVars, $news);
 }
 ?>
 </div>

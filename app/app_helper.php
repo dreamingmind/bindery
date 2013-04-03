@@ -693,7 +693,7 @@ class AppHelper extends Helper {
      *      </p>
      *  </div>
      */
-    function foundNewBlock($news, $path = 'images/thumb/x160y120/'){
+    function foundNewBlock(&$view, $news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -731,14 +731,37 @@ class AppHelper extends Helper {
             . $this->Html->para('aside',"Or view as a $blog_link");
 
         $image_link = $this->Html->link($img, $link_uri,array('escape'=>false));
+        
+        // if admin, make resetDate links to make Content
+        // as old as the Image
+        $resetDateLinks = $this->assembleDateResetLinks($view, $news);
+//        $resetDateLinks = null;
+////        debug($controller->viewVars);die;
+//        if(isset($view['usergroupid']) && $view['usergroupid'] < 3){
+//            $resetDateLinks = $this->Html->link('Record',
+//                   array(
+//                       'controller'=>'contents', 
+//                       'action'=>'resetContentDates',
+//                       $news['Content']['id']
+//                   ));
+//            $resetDateLinks .= ' | '.$this->Html->link('Article',
+//                   array(
+//                       'controller'=>'contents', 
+//                       'action'=>'resetContentDates',
+//                       $news['ContentCollection'][0]['collection_id'],
+//                       $news['Content']['slug']
+//                   ));
+//        }
+        
 
         //and output everything in a left-floating div
         echo $this->Html->div('linkDiv', 
             $image_link 
             . $this->Html->para('aside',
             'On the bench: '
-            . $this->Time->timeAgoInWords($news['Content']['created'])) 
-            . $heading_link);
+            . $this->Time->timeAgoInWords($news['Content']['modified'], 'M j, Y')) //'Y/n/j'
+            . $heading_link
+            . $resetDateLinks);
     //}
     }
     
@@ -816,7 +839,7 @@ class AppHelper extends Helper {
      * @param type $news
      * @param type $path
      */
-    function siteSearchBlogBlock($news, $path = 'images/thumb/x160y120/'){
+    function siteSearchBlogBlock(&$view, $news, $path = 'images/thumb/x160y120/'){
     //foreach($news as $news){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -838,6 +861,7 @@ class AppHelper extends Helper {
             $news['ContentCollection'][0]['collection_id'],
             $news['Content']['slug']
         );
+        $resetDateLinks = $this->assembleDateResetLinks($view, $news);
 
         //and follow it with truncated markdown content
         $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
@@ -853,7 +877,8 @@ class AppHelper extends Helper {
                         'ending'=>'')).': '
             . $this->Time->timeAgoInWords($news['Content']['created'])) 
             . $image_link 
-            . $heading_link);
+            . $heading_link
+            . $resetDateLinks);
     //}
     }
     
@@ -913,7 +938,7 @@ class AppHelper extends Helper {
      * @param type $exhibit
      * @param type $path
      */
-    function siteSearchGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
+    function siteSearchGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -933,9 +958,10 @@ class AppHelper extends Helper {
                 'alt'=>$exhibit['Image']['alt'],
                 'title'=>$exhibit['Image']['title']
             ));
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
     }
     
     /**
@@ -1017,6 +1043,30 @@ class AppHelper extends Helper {
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+    }
+    
+    function assembleDateResetLinks(&$view, $news){
+        // if admin, make resetDate links to make Content
+        // as old as the Image
+        $resetDateLinks = null;
+//        debug($controller->viewVars);die;
+        if(isset($view['usergroupid']) && $view['usergroupid'] < 3){
+            $resetDateLinks = $this->Html->link('Record',
+                   array(
+                       'controller'=>'contents', 
+                       'action'=>'resetContentDates',
+                       $news['Content']['id']
+                   ));
+            $resetDateLinks .= ' | '.$this->Html->link('Article',
+                   array(
+                       'controller'=>'contents', 
+                       'action'=>'resetContentDates',
+                       $news['ContentCollection'][0]['collection_id'],
+                       $news['Content']['slug']
+                   ));
+            $resetDateLinks = $this->Html->para('aside','Reset dates: '.$resetDateLinks);
+        }
+        return $resetDateLinks;
     }
 }
 ?>
