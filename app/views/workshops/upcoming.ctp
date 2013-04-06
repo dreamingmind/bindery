@@ -101,14 +101,14 @@ if($upcoming){
 echo '<div class="Col2Left">';
 echo $this->Html->tag('h1',$leftheading);
 foreach ($potentialcontent[0] as $workshop) {
-      echo $html->foundWorkshopBlock($workshop);
+      echo $html->foundWorkshopBlock($this->viewVars, $workshop);
 }
 echo '</div>';
 
 echo '<div class="Col2Right">';
 echo $this->Html->tag('h1',$rightheading);
 foreach ($potentialcontent[1] as $workshop) {
-      echo $html->foundWorkshopBlock($workshop);
+      echo $html->foundWorkshopBlock($this->viewVars, $workshop);
 }
 echo '</div>';
 ?>

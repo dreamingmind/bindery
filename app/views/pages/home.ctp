@@ -2,7 +2,7 @@
     <?php
     echo $this->Html->div('linkDiv', ' ');
     echo $this->Html->foundNewBlock($this->viewVars, $recentNews[0],'images/thumb/x160y120/');
-    echo $html->foundGalleryBlock($recentExhibits[0],'images/thumb/x160y120/');
+    echo $html->foundGalleryBlock($this->viewVars, $recentExhibits[0],'images/thumb/x160y120/');
 ?>
 </div>
 <div id="personshot" class="clear">

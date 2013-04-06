@@ -36,7 +36,7 @@ foreach($recentNews as $news){
 
 $last_update = 0;
 foreach($recentExhibit as $exhibit){
-    echo $html->foundGalleryBlock($exhibit);
+    echo $html->foundGalleryBlock($this->viewVars, $exhibit);
 }
 ?>
 </div>
