@@ -168,7 +168,10 @@ class AppController extends Controller {
     }
 
     function initAccount() {
+//        debug($this->Auth->user());
+//        debug($this->Auth);
         if ($this->Auth->user() != null) {
+//            debug('in');
             $this->useractive = $userdata['useractive'] = $this->Auth->user('active');
             $this->username = $userdata['username'] = $this->Auth->user('username');
             $this->usergroupid = $userdata['usergroupid'] =  $this->Auth->user('group_id');

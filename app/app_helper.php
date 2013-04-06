@@ -897,7 +897,7 @@ class AppHelper extends Helper {
      * @param type $exhibit
      * @param type $path
      */
-    function foundGalleryBlock($exhibit, $path = 'images/thumb/x160y120/'){
+    function foundGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -917,9 +917,12 @@ class AppHelper extends Helper {
                 'alt'=>$exhibit['Content']['Image']['alt'],
                 'title'=>$exhibit['Content']['Image']['title']
             ));
+            $exhibit['ContentCollection']['Collection'] = $exhibit['Collection'];
+            $exhibit['ContentCollection'][] = $exhibit['ContentCollection'];
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
     }
     
     /**
@@ -940,7 +943,7 @@ class AppHelper extends Helper {
      */
     function siteSearchGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
-
+        debug($view['category_name']);
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
         $replace = array('','',' ','');
             
@@ -979,7 +982,7 @@ class AppHelper extends Helper {
      * @param type $exhibit
      * @param type $path
      */
-    function foundWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
+    function foundWorkshopBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -1000,8 +1003,9 @@ class AppHelper extends Helper {
                 'title'=>$exhibit['ContentCollection']['0']['Content']['Image']['title']
             ));
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
     }
     
     /**
@@ -1020,7 +1024,7 @@ class AppHelper extends Helper {
      * @param type $exhibit
      * @param type $path
      */
-    function siteSearchWorkshopBlock($exhibit, $path = 'images/thumb/x160y120/'){
+    function siteSearchWorkshopBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
 //        if ($exhibit['ContentCollection']['content_id']!=$last_update){
 
         $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
@@ -1041,8 +1045,9 @@ class AppHelper extends Helper {
                 'title'=>$exhibit['Image']['title']
             ));
             $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
     }
     
     function assembleDateResetLinks(&$view, $news){

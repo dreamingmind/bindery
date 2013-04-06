@@ -350,7 +350,7 @@ class Content extends AppModel {
                     'fields'=>array('Collection.id','Collection.category_id', 'Collection.heading', 'Collection.slug')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading'),
+                    'fields'=>array('Content.id','Content.content','Content.heading', 'Content.slug'),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file')
                     )
