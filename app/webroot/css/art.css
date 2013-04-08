@@ -1,0 +1,16 @@
+/* 
+    Document   : art.css
+    Created on : Apr 6, 2013, 11:30:36 PM
+    Author     : dondrake
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+img.scalable {
+    box-shadow: 0 0 0 1px #000000, 0 0 0 10px #e5e5e5, 0 0 0 11px #802A19;
+    margin: 11px;
+}

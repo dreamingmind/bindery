@@ -136,7 +136,7 @@ class ContentsController extends AppController {
         $this->Auth->allow(
                 'gallery', 
                 'newsfeed', 
-                'art', 
+                'art_editions', 
                 'jump',
                 'products',
                 'blog',
@@ -356,7 +356,7 @@ class ContentsController extends AppController {
         $this->set('iiLinks',$iiLinks);
         }
 //        $this->Session->setFlash('a test message');
-    }
+        }
 
     /**
      * Given a collection_id, create markdown links for inline images
@@ -762,22 +762,31 @@ class ContentsController extends AppController {
         $this->set('recentExhibits',$this->Content->recentExhibits(3));
     }
 
-    function art(){
+    function art_editions(){
+        $target = explode('/', $this->params['url']['url']);
+//        debug($target);
+        $this->params['pname'] = $target[count($target)-1];
+        
+        $conditions = array(
+            'Collection.category_id'=>$this->categoryNI['art'],
+            'ContentCollection.publish'=>1,
+            'Content.slug'=>  $this->params['pname']);
+            $artedtion = $this->findBlogTarget($conditions);
+            $this->set('artedition',$artedtion);
+//        debug($target);//die;
 //        debug($this->params);die;
-        if(empty($this->params['pass'])){
-            //main art landing page
-            $this->params['pname'] = 'art-editions';
-        } else {
-            //no specific exhibit indicated
-            //decide what process to use
-            $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
-        } 
-        if(!empty($this->params['named'])) {
-            //a specific exhibit (page & id) is indicated
-            //go ahead and do the filmstrip and exhibit queries
-        }
-//        debug($this->params);
-    //        debug($this->params['pass'][count($this->params['pass'])-1]);
+//        if(empty($this->params['pass'])){
+//            //main art landing page
+//            $this->params['pname'] = 'art-editions';
+//        } else {
+//            //no specific exhibit indicated
+//            //decide what process to use
+//            $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
+//        } 
+//        if(!empty($this->params['named'])) {
+//            //a specific exhibit (page & id) is indicated
+//            //go ahead and do the filmstrip and exhibit queries
+//        }
 //        $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
         $this->layout = 'noThumbnailPage';
 //        $this->set('result_imagePath',  $this->result_imagePath);
@@ -788,7 +797,7 @@ class ContentsController extends AppController {
             ),
             'recursive' => -1
         )));
-        $this->render('product_landing');
+        $this->render('art-editions');
     }
     
     /**
