@@ -171,7 +171,7 @@ class ImagesController extends AppController {
      * @todo search/1 then hit Admin/Image will f'up $this->searchInput. Other values work. Odd
      */
     function beforeFilter(){
-//            debug($this->data);die;
+//            debug($_POST);die;
 //        if($this->Session->check('qualityConditions')){
 //            debug($this->Session->read('qualityConditions'));
 //        }

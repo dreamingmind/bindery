@@ -773,23 +773,7 @@ class ContentsController extends AppController {
             'Content.slug'=>  $this->params['pname']);
             $artedtion = $this->findBlogTarget($conditions);
             $this->set('artedition',$artedtion);
-//        debug($target);//die;
-//        debug($this->params);die;
-//        if(empty($this->params['pass'])){
-//            //main art landing page
-//            $this->params['pname'] = 'art-editions';
-//        } else {
-//            //no specific exhibit indicated
-//            //decide what process to use
-//            $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
-//        } 
-//        if(!empty($this->params['named'])) {
-//            //a specific exhibit (page & id) is indicated
-//            //go ahead and do the filmstrip and exhibit queries
-//        }
-//        $this->params['pname'] = $this->params['pass'][count($this->params['pass'])-1];
         $this->layout = 'noThumbnailPage';
-//        $this->set('result_imagePath',  $this->result_imagePath);
         $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
             'conditions'=> array(
                 'Collection.category_id' => $this->categoryNI['art'],
@@ -797,6 +781,8 @@ class ContentsController extends AppController {
             ),
             'recursive' => -1
         )));
+$this->readBlogTOC();
+        debug($this->viewVars['toc']);die;
         $this->render('art-editions');
     }
     
