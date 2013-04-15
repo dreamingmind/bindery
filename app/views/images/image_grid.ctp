@@ -1,6 +1,6 @@
 <?php /* @var $this ViewCC */ ?> 
 <?php
-//debug($duplicate);
+//debug($allTitles);
 //debug($disallowed);
 //debug($new);
 
@@ -95,7 +95,8 @@ if($chunk) {
                                     'legend'=>'ContentCollection '.$collections['Collection']['heading'],
                                     'linkNumber' => $cc_index,
                                     'prefix' => array($masterCount,'Content',$index),
-                                    'display' => 'show'
+                                    'display' => 'show',
+                                    'allTitles' => $allTitles
                                 ));
                             }
                             $memberships = (!is_null($memberships))

@@ -52,7 +52,7 @@ class ImagesController extends AppController {
     /**
      * @var int $column The default number of columns for Image Grid display
      */
-    var $column = 3;
+    var $column = 2;
 
     /**
      * @var string $size The default size for Image Grid display
@@ -1094,6 +1094,7 @@ class ImagesController extends AppController {
         $this->setSearchAction('image_grid');
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
         $this->set('recentTitles',  $this->Image->recentTitles);
+        $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
         $this->set('allCollections', $allCollections);
         $recentCollections = $this->Image->Content->ContentCollection->recentCollections();
         $this->set('recentCollections', $recentCollections);

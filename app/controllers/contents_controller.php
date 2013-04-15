@@ -782,7 +782,6 @@ class ContentsController extends AppController {
             'recursive' => -1
         )));
 $this->readBlogTOC();
-        debug($this->viewVars['toc']);die;
         $this->render('art-editions');
     }
     

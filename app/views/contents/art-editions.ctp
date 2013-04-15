@@ -57,12 +57,12 @@ if(isset($artedition) && !empty($artedition)){
     '
             // the div content
             . $html->image(
-                'images'.DS.'thumb'.DS.'x800y600'.DS.$entry['Content']['Image']['img_file'],
+                'images'.DS.'thumb'.DS.'x640y480'.DS.$entry['Content']['Image']['img_file'],
                 array('alt'=>$entry['Content']['Image']['alt'].' '.$entry['Content']['Image']['alt'],
                     'class'=>'scalable '.$cls)
             )
             ."\n"
-            . $html->div($cls . ' entryText x320y240 markdown',Markdown($entry['Content']['content']),
+            . $html->div($cls . ' entryText x640y480 markdown',Markdown($entry['Content']['content']),
             array(''/* the div attributes */)));
 
             if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){

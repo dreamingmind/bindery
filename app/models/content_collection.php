@@ -112,5 +112,46 @@ class ContentCollection extends AppModel {
             return $this->recentCollections;
         }
 
+    /**
+     * Return an alphabetical list of all Content.slug
+     * 
+     * @return array The Collection.id=>Content.slug list
+     */
+    function pullArticleList(){
+        $rawList = $this->find('all',array(
+            'fields'=> array(
+                'ContentCollection.id',
+                'ContentCollection.collection_id',
+                'ContentCollection.content_id'),
+            'contain' => array(
+                'Collection'=>array(
+                    'fields'=>array(
+                        'Collection.id',
+                        'Collection.category_id'
+                    )
+                ),
+                'Content'=>array(
+                    'fields'=>array(
+                        'Content.id',
+                        'Content.slug',
+                        'Content.heading'
+                    )
+                )
+            ),
+            'group'=>'Content.slug',
+            'order' => 'Content.slug ASC',
+            'conditions'=>array(
+                'Collection.category_id'=>$this->Collection->Category->categoryNI['dispatch']
+            )
+            ));
+        $content['Link an article'] = '';
+        array_walk($rawList, 'assembleArticleList', &$content);
+        return $content;
+    }
+    
+
+}
+function assembleArticleList(&$record, $key, $content){
+    $content[$record['Content']['slug']] = $record['Content']['heading'];
 }
 ?>

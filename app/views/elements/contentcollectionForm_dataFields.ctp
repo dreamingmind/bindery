@@ -5,6 +5,7 @@
  * ContentCollection.id
  * ContentCollection.seq
  * ContentCollection.publish 
+ * ContentCollection.sub_slug
  */
 ?> 
 	<?php
@@ -28,7 +29,10 @@ $parameters = array(
             'options'=> array(
                 '1'=>'Publish', '0'=>'Hold/In-line' 
             )
-         )
+         ),
+        'sub_slug'=>array(
+            'options'=>$allTitles
+        )
     )
 );
 

@@ -2,6 +2,8 @@
 class CollectionsController extends AppController {
 
 	var $name = 'Collections';
+        
+//        var $layout = 'noThumbnailPage';
 
 	function index() {
 		$this->Collection->recursive = 0;

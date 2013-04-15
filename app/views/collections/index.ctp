@@ -9,8 +9,6 @@
 			<th><?php echo $this->Paginator->sort('publish');?></th>
 			<th><?php echo $this->Paginator->sort('text');?></th>
 			<th><?php echo $this->Paginator->sort('role');?></th>
-			<th><?php echo $this->Paginator->sort('category_id');?></th>
-			<th><?php echo $this->Paginator->sort('slug');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -25,17 +23,16 @@
 		<td><?php echo $collection['Collection']['id']; ?>&nbsp;</td>
 <!--		<td><?php // echo $collection['Collection']['created']; ?>&nbsp;</td>
 		<td><?php // echo $collection['Collection']['modified']; ?>&nbsp;</td>-->
-		<td><?php echo $collection['Collection']['heading']; ?>&nbsp;</td>
+		<td><?php echo $collection['Collection']['heading']; ?>&nbsp;<hr>
+                <?php echo $collection['Collection']['slug']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['publish']; ?>&nbsp;</td>
 		<td><?php echo $collection['Collection']['text']; ?>&nbsp;</td>
-		<td><?php echo $collection['Collection']['role']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($collection['Category']['name'], array('controller' => 'categories', 'action' => 'view', $collection['Category']['id'])); ?>
+		<td><?php echo $collection['Collection']['role']; ?>&nbsp;<hr>
+                    <?php echo $this->Html->link($collection['Category']['name'], array('controller' => 'categories', 'action' => 'view', $collection['Category']['id'])); ?>
 		</td>
-		<td><?php echo $collection['Collection']['slug']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $collection['Collection']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $collection['Collection']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $collection['Collection']['id'])); ?><br />
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $collection['Collection']['id'])); ?><br />
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $collection['Collection']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $collection['Collection']['id'])); ?>
 		</td>
 	</tr>
