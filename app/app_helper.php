@@ -270,15 +270,25 @@ class AppHelper extends Helper {
                         'id:'.$entry['Content']['id'],
                         array('escape'=>false,'class'=>'thumb')
                 );
-            } elseif ($this->params['action']=='art') {
-        //        debug($this->params);
-                $link = $this->Html->link($number++ . '<br />' . $image,
+            } elseif ($this->params['action']=='art_editions') {
+//                debug($this->params);
+//                $link = $this->Html->link($number++ . '<br />' . $image,
+//                    array(
+//        //                'controller'=>$this->params['controller'],
+//                        'action'=>$this->params['action'],
+//                        'pass'=>$this->params['pass'],
+//                        'page'=>$paginator->params['paging']['ContentCollection']['page'],
+//                        'id'=>$entry['Content']['id']),
+//                        array('escape'=>false,'class'=>'thumb')
+//                );
+                $url = preg_replace(
                     array(
-        //                'controller'=>$this->params['controller'],
-                        'action'=>$this->params['action'],
-                        'pass'=>$this->params['pass'],
-                        'page'=>$paginator->params['paging']['ContentCollection']['page'],
-                        'id'=>$entry['Content']['id']),
+                        '/[\/]?page:[0-9]+/',
+                        '/[\/]?id:[0-9]+/'
+                    ), '', $this->params['url']['url']);
+                $link = $this->Html->link($number++ . '<br />' . $image,
+                         DS.$url.DS. $page .DS.
+                        'id:'.$entry['Content']['id'],
                         array('escape'=>false,'class'=>'thumb')
                 );
             } elseif ($this->params['action']=='newsfeed') {

@@ -9,6 +9,7 @@ echo $html->css('search_links');
 //$patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/');
 //$replace = array('','',' ');
 //debug($patterns);
+$details = array();
 echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
 <div id="intro">
@@ -47,6 +48,10 @@ if(isset($artedition) && !empty($artedition)){
     }
 
     foreach($artedition as $entry){
+//        debug($entry);die;
+        if(!empty($entry['ContentCollection']['sub_slug']) && $entry['ContentCollection']['sub_slug'] != 0){
+            $details[] = $entry['ContentCollection']['sub_slug'];
+        }
         $cls = str_replace(array('.','-'), '', $entry['Content']['Image']['img_file']);
         echo $html->div('entry',
 
@@ -80,5 +85,22 @@ if(isset($artedition) && !empty($artedition)){
             }
     }
     echo '</form>';
+    if(!empty($details)){
+        $message = (count($details) > 1) 
+            ? 'Here are ' . count($details) . 'additional, related articles.'
+            : 'Here is an additional, related article.';
+        echo $this->Html->tag('h4',$message);
+        foreach($details as $detail){
+            $detail_data = explode(':', $detail);
+            $image = $this->Html->image('images'.DS.'thumb'.DS.'x75y56'.DS.$detail_data[2]);
+//            echo $image;
+            $link = $this->Html->link($image,
+                    DS.'blog'.DS.$detail_data[0].DS.$detail_data[1],
+                    array('escape'=>false,'class'=>'detaillink')
+            );
+            echo $link;
+        }
+        
+    }
 }
 ?>

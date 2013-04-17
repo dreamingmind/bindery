@@ -597,7 +597,8 @@ class Content extends AppModel {
                     'ContentCollection.seq',
                     'ContentCollection.content_id',
                     'ContentCollection.collection_id',
-                    'ContentCollection.publish'
+                    'ContentCollection.publish',
+                    'ContentCollection.sub_slug'
                 ),
                 'Collection'=>array(
                     'fields'=>array(

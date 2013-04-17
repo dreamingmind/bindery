@@ -48,6 +48,7 @@
     echo $this->Html->script('app');
     if ($this->params['action'] == 'art_editions'){
         echo $html->css('art');
+        echo $this->Html->script('art');
         echo $this->Html->script('blog_image_zoom');
         echo $this->Html->script('adjust_markdown');
         echo $this->Html->script('edit_dispatch');

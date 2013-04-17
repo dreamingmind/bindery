@@ -115,7 +115,14 @@ class ContentCollection extends AppModel {
     /**
      * Return an alphabetical list of all Content.slug
      * 
-     * @return array The Collection.id=>Content.slug list
+     * Returns a select option list. Big hammer approach
+     * to allowing blog articles to be linked to any ContentCollection
+     * record as detail/supplement reading
+     * The index can be parsed for standard blog article retrieval and
+     * also includes the first image for the article
+     * so a picture link can be constructed
+     * 
+     * @return array The Collection.id:Content.slug:Image.img_file=>Content.heading list
      */
     function pullArticleList(){
         $rawList = $this->find('all',array(
@@ -134,24 +141,37 @@ class ContentCollection extends AppModel {
                     'fields'=>array(
                         'Content.id',
                         'Content.slug',
-                        'Content.heading'
+                        'Content.heading',
+                        'Content.image_id'
+                    ),
+                    'Image'=>array(
+                        'fields'=>array(
+                            'id',
+                            'img_file'
+                        )
                     )
                 )
             ),
             'group'=>'Content.slug',
-            'order' => 'Content.slug ASC',
+            'order' => array(
+                'ContentCollection.seq',
+                'ContentCollection.modified',
+                'Content.slug ASC'
+            ),
             'conditions'=>array(
                 'Collection.category_id'=>$this->Collection->Category->categoryNI['dispatch']
             )
             ));
-        $content['Link an article'] = '';
+        $content[] = 'Link an article';
         array_walk($rawList, 'assembleArticleList', &$content);
         return $content;
     }
     
 
 }
+
 function assembleArticleList(&$record, $key, $content){
-    $content[$record['Content']['slug']] = $record['Content']['heading'];
+//    debug($record);
+    $content[$record['Collection']['id'] . ':' . $record['Content']['slug'] . ':' . $record['Content']['Image']['img_file']] = $record['Content']['heading'];
 }
 ?>

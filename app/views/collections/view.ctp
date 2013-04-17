@@ -89,7 +89,7 @@
 			<td><?php echo $contentCollection['modified'];?></td>
 			<td><?php echo $contentCollection['id'];?></td>
 			<td><?php echo $contentCollection['publish'];?></td>
-			<td><?php echo $contentCollection['sub_collection'];?></td>
+			<td><?php echo $contentCollection['sub_slug'];?></td>
 			<td><?php echo $contentCollection['content_id'];?></td>
 			<td><?php echo $contentCollection['collection_id'];?></td>
 			<td><?php echo $contentCollection['seq'];?></td>

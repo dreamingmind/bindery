@@ -143,7 +143,8 @@ class ContentsController extends AppController {
                 'resequence',
                 'product_landing',
                 'advanced_search',
-                'search');
+                'search',
+                'pull_detail');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
         }
@@ -505,6 +506,18 @@ class ContentsController extends AppController {
         $this->set('sequence_set',$sequence_set);
         }
     }
+    
+    /**
+     * Pull a blog aricle and return it (ajax)
+     * 
+     * Given the collection.id and content.slug
+     * pull the article (probably a linked detail)
+     * and return it to the page
+     */
+    function pull_detail(){
+        debug($this->params);
+        die;
+    }
         
     /**
      * Landing page for the blog
@@ -565,7 +578,11 @@ class ContentsController extends AppController {
             return false;
         }
         return $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('ContentCollection.id', 'ContentCollection.content_id','ContentCollection.collection_id'),
+            'fields'=>array(
+                'ContentCollection.id', 
+                'ContentCollection.content_id',
+                'ContentCollection.collection_id',
+                'ContentCollection.sub_slug'),
             'contain'=>array(
                 'Collection'=>array(
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
@@ -763,26 +780,43 @@ class ContentsController extends AppController {
     }
 
     function art_editions(){
-        $target = explode('/', $this->params['url']['url']);
-//        debug($target);
+        $url = preg_replace(
+            array(
+                '/[\/]?page:[0-9]+/',
+                '/[\/]?id:[0-9]+/'
+            ), '', $this->params['url']['url']);
+        $target = explode('/', $url);
         $this->params['pname'] = $target[count($target)-1];
+        $this->gallery('art');
+//        $this->render('gallery');
         
         $conditions = array(
             'Collection.category_id'=>$this->categoryNI['art'],
             'ContentCollection.publish'=>1,
             'Content.slug'=>  $this->params['pname']);
-            $artedtion = $this->findBlogTarget($conditions);
-            $this->set('artedition',$artedtion);
-        $this->layout = 'noThumbnailPage';
-        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
-            'conditions'=> array(
-                'Collection.category_id' => $this->categoryNI['art'],
-                'Collection.slug' => $this->params['pname']
-            ),
-            'recursive' => -1
-        )));
-$this->readBlogTOC();
-        $this->render('art-editions');
+            $set = $this->Content->ContentCollection->find('all',array(
+                'fields'=>array('ContentCollection.sub_slug'),
+                'conditions'=>$conditions));
+            $details = array();
+            foreach($set as $detail){
+                if(!empty($detail['ContentCollection']['sub_slug'])){
+                    $details[] = $detail['ContentCollection']['sub_slug'];
+                }
+            }
+            $this->set('details',$details);
+//            $this->set('artedition',$artedtion);
+//        $this->layout = 'noThumbnailPage';
+//        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
+//            'conditions'=> array(
+//                'Collection.category_id' => $this->categoryNI['art'],
+//                'Collection.slug' => $this->params['pname']
+//            ),
+//            'recursive' => -1
+//        )));
+//        // array_walk to detect any linked blog articles
+//        // build links for those
+//        // clicking the links will ajax them onto the page and collapse the main article
+//        $this->render('art-editions');
     }
     
     /**
@@ -828,7 +862,7 @@ $this->readBlogTOC();
      * @param int $id The Exhibit to detail
      * @param string $pname The product group (normally comes in on $this->params['pname'])
      */
-    function gallery(){
+    function gallery($category = 'exhibit'){
         // Tailor pagination to Exhibits then call for the filmStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
@@ -838,7 +872,7 @@ $this->readBlogTOC();
         $this->pageConditions = array(
                 'ContentCollection.publish' => 1,
                 'Collection.slug' => $pname,
-                'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
+                'Collection.category_id' => $this->categoryNI[$category]//$this->category[0]['Category']['id']
             );
 
         $neighbors = $this->filmstripNeighbors();
@@ -890,7 +924,7 @@ $this->readBlogTOC();
                     )                ),
                 'ContentCollection'=>array(
                     'fields'=>array('ContentCollection.collection_id',
-                        'ContentCollection.sub_collection',
+                        'ContentCollection.sub_slug',
                         'ContentCollection.publish',
                         'ContentCollection.seq'),
                     'Collection'=>array(
@@ -933,8 +967,8 @@ $this->readBlogTOC();
      */
     function setExhibitFilmstripParams(){
         $this->pageOrder = array(
-            'ContentCollection.created' => 'DESC',
-            'ContentCollection.seq' => 'ASC'
+            'ContentCollection.seq' => 'ASC',
+            'ContentCollection.created' => 'DESC'
             );
         $this->pageFields = array (
             'ContentCollection.seq','ContentCollection.publish','ContentCollection.created'                

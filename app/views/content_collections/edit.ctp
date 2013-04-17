@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('publish');
-		echo $this->Form->input('sub_collection');
+		echo $this->Form->input('sub_slug');
 		echo $this->Form->input('content_id');
 		echo $this->Form->input('collection_id');
 		echo $this->Form->input('seq');

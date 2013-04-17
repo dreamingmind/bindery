@@ -6,7 +6,7 @@
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('publish');?></th>
-			<th><?php echo $this->Paginator->sort('sub_collection');?></th>
+			<th><?php echo $this->Paginator->sort('sub_slug');?></th>
 			<th><?php echo $this->Paginator->sort('content_id');?></th>
 			<th><?php echo $this->Paginator->sort('collection_id');?></th>
 			<th><?php echo $this->Paginator->sort('seq');?></th>
