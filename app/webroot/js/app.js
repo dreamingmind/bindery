@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#flashMessage').delay(6400).fadeOut(3200);
-    
+
     function initSiteSearchForm(){
         var standardInput = $('input.siteSearchInput');
         standardInput.bind('blur',function(){
@@ -18,12 +18,12 @@ $(document).ready(function(){
             }
         });
     }
-    
+
     function discardStandardSearch(){
         $('input.siteSearchInput').css('color','#999').css('font-weight','normal');
         $('input.siteSearchInput').val(' Search');
     }
-    
+
     function initAdvancedSearchClick(){
         $('#advanced-search').children('a').bind('click',function(e){
             e.preventDefault();
@@ -37,7 +37,7 @@ $(document).ready(function(){
             $('#advanced-search').attr('class', 'asfieldsets');
        });
     }
-    
+
     function formatAdvancedSearchDates(){
         $('label[for$="year"]').css('width','36%').parent().css('display','inline-block').css('width','50%');
         $('label[for$="month"]').css('width','36%').parent().css('display','inline-block').css('width','50%');
@@ -46,22 +46,22 @@ $(document).ready(function(){
         $('select[id$="week"]').bind('change',resetYearMonth);
 //        , label[id~=month]')
     }
-    
+
     function resetWeek(){
         $('select[id$="week"]').val('0');
     }
-    
+
     function resetYearMonth(){
         $('select[id$="year"]').val('0');
         $('select[id$="month"]').val('0');
     }
-    
+
     function discardAdvancedSearch(){
         $('#advanced-search').html('<a class="advanced-search" href="/bindery/contents/advanced_search">Advanced Search</a>');
         $('#advanced-search').attr('class', '');
         initAdvancedSearchClick();
     }
-    
+
     initSiteSearchForm();
     initAdvancedSearchClick();
 })

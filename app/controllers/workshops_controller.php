@@ -9,7 +9,7 @@ class WorkshopsController extends AppController {
         
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('upcoming');
+        $this->Auth->allow('upcoming','request');
         }
         
         function upcoming(){
@@ -77,5 +77,13 @@ class WorkshopsController extends AppController {
 		$this->Session->setFlash(__('Workshop was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+
+        function request(){
+            $this->set('result',$this->data);
+            //  validate data
+            //  send email w/ php
+            //  $this->setflash('Thanks for your info, we'll spam you for life')
+            //  $this->referrer() to redirect to the page
+        }
 }
 ?>

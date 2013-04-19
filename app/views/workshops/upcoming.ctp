@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This section determines which workshop to feature
  */
@@ -20,7 +20,7 @@
             "images/thumb/x160y120/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}",array('id'=>'featurePicture'));
     $workshopContent = TextHelper::truncate(Markdown($feature['ContentCollection'][0]['Content']['content']),550);
     $sessioncount = count($feature['Session']);
-//  sprintf slugging    
+//  sprintf slugging
     $dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</span> - %s<span class="%s">%s</span>';
 //    preset $starttimestamp & $endtimestamp for each loop
 //    will use sprintf($dateslug,
@@ -34,11 +34,11 @@
 //  Variable setup
     $sesnumber = 1;
     $accum = $costaccum = array();
-//  Button loop    
+//  Button loop
     foreach($feature['Session'] as $wksession){
             $s = ($sessioncount>1)?'Session ' . $sesnumber . ' - ':'';
-            $cost = 'Register: ' 
-            . $s 
+            $cost = 'Register: '
+            . $s
             . $this->Number->currency($wksession['cost'],'USD',$options=array('before'=>'$','places'=>0));
 //    debug($cost);die;
         $accum[]= $this->Form->button($cost,array('class'=>'register'));
@@ -57,8 +57,8 @@
                       date('A',$endtimestamp));
             $durations[$sesnumber] += $endtimestamp-$starttimestamp;
         }
-        $costaccum[]= 'Session ' . $sesnumber . ' is ' 
-                . ($durations[$sesnumber++]/3600) . ' hours, ' 
+        $costaccum[]= 'Session ' . $sesnumber . ' is '
+                . ($durations[$sesnumber++]/3600) . ' hours, '
                 . $this->Number->currency($wksession['cost'],'USD',$options=array('before'=>'$','places'=>0));
     }
 //    $accum = array(
@@ -68,16 +68,22 @@
 //        '<button class="register">Register: Session 2 - $120</button>',
 //        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20 2013, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
 //    );
+if($upcoming){
     $sessions = implode('', $accum);
+}else{
+    $sessions = $this->element('workshop_date_request', array(
+        'heading'=>$feature['Workshop']['heading'],
+        'id'=>$feature['Workshop']['id']));
+}
     $sessionDiv = $this->Html->div('',$sessions,array('id'=>'featuredSession'));
     $costLine = $this->Html->tag('h3',  implode(' // ', $costaccum),array('class'=>'featureCost'));
-    
+
     $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $costLine . $sessionDiv;
     echo $this->Html->css('search_links');
     echo $this->Html->div('',
         $this->Html->div('',$featureHtml,array(
             'id'=>'feature-overlay'
-        )), 
+        )),
         array(
             'id'=>'feature-pic',
             'style'=>"background: url('/bindery/img/images/thumb/x640y480/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}') no-repeat scroll 0px 0px transparent;"
@@ -86,7 +92,7 @@
 
 //  Two column bottom half of screen
 //  Could present upcoming and potential workshops, if no upcoming, present two columns of potential
-//  
+//
 if($upcoming){
     $leftheading = 'Upcoming Workshops';
     $rightheading = 'Potential Workshops';
@@ -111,4 +117,5 @@ foreach ($potentialcontent[1] as $workshop) {
       echo $html->foundWorkshopBlock($this->viewVars, $workshop);
 }
 echo '</div>';
+
 ?>
