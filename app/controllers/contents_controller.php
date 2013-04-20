@@ -779,8 +779,7 @@ class ContentsController extends AppController {
         $this->set('recentExhibits',$this->Content->recentExhibits(3));
     }
 
-    function art
-    (){
+    function art(){
         $url = preg_replace(
             array(
                 '/[\/]?page:[0-9]+/',
@@ -790,23 +789,27 @@ class ContentsController extends AppController {
         $this->params['pname'] = $target[count($target)-1];
         $this->gallery('art');
 //        $this->render('gallery');
+//        debug($this->viewVars['filmstrip']);
+        if(empty($this->viewVars['filmStrip'])){
+            $this->layout = 'noThumbnailPage';
+        }
         
         $conditions = array(
             'Collection.category_id'=>$this->categoryNI['art'],
             'ContentCollection.publish'=>1,
             'Content.slug'=>  $this->params['pname']);
-            $set = $this->Content->ContentCollection->find('all',array(
-                'fields'=>array('ContentCollection.sub_slug'),
-                'conditions'=>$conditions));
-            $details = array();
-            foreach($set as $detail){
-                if(!empty($detail['ContentCollection']['sub_slug'])){
-                    $details[] = $detail['ContentCollection']['sub_slug'];
-                }
+        $set = $this->Content->ContentCollection->find('all',array(
+            'fields'=>array('ContentCollection.sub_slug'),
+            'conditions'=>$conditions));
+        
+        $details = array();
+        foreach($set as $detail){
+            if(!empty($detail['ContentCollection']['sub_slug'])){
+                $details[] = $detail['ContentCollection']['sub_slug'];
             }
-            $this->set('details',$details);
-//            $this->set('artedition',$artedtion);
-//        $this->layout = 'noThumbnailPage';
+        }
+        $this->set('details',$details);
+        
         $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
             'conditions'=> array(
                 'Collection.category_id' => $this->categoryNI['art'],
@@ -814,10 +817,6 @@ class ContentsController extends AppController {
             ),
             'recursive' => -1
         )));
-//        // array_walk to detect any linked blog articles
-//        // build links for those
-//        // clicking the links will ajax them onto the page and collapse the main article
-//        $this->render('art-editions');
     }
     
     /**
@@ -955,7 +954,10 @@ class ContentsController extends AppController {
      */
     function discoverFirstExhibit() {
 //        $this->set('introduction', "This is a gallery introduction page");
-        $this->params['named']['id'] = $this->viewVars['filmStrip'][0]['Content']['id'];
+        $this->params['named']['id'] = 
+            (isset($this->viewVars['filmStrip'][0]['Content']['id']))
+                ? $this->viewVars['filmStrip'][0]['Content']['id']
+                : false;
         return $this->params['named']['id'];
     }
     
@@ -1266,6 +1268,7 @@ class ContentsController extends AppController {
      * @return array $neighbors an array of the neighbors for Content.id or every Content record 
      */
     function filmstripNeighbors($id = null) {
+        $neighbors = array();
         if ($id == null) {
             // neighbors for entire collection
             $collection = $this->Content->ContentCollection->find('all',

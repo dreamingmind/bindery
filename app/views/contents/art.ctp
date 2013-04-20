@@ -23,30 +23,31 @@ echo $html->css('search_links');
  </div>
 <div id="reference-grid"></div>
 <?php
-echo $this->Html->image(
-        'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
-        array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
-//<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
-?>
-<style media="screen" type="text/css">
-    <!--
-    #detail {
-        position: relative;
-    }
-    #proseblock {
-        position: absolute;
-        z-index: 3;
-        top: <?php echo $record['Supplement']['top_val'] ?>px;
-        left: <?php echo $record['Supplement']['left_val'] ?>px;
-        width: <?php echo $record['Supplement']['width_val'] ?>px;
-        height: <?php echo $record['Supplement']['height_val'] ?>px;
-    }
-    -->
-</style>
-<div id="proseblock" >
-<h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
-<div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
-</div>
+if(!empty($record)){
+    echo $this->Html->image(
+            'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
+            array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
+    //<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
+    ?>
+    <style media="screen" type="text/css">
+        <!--
+        #detail {
+            position: relative;
+        }
+        #proseblock {
+            position: absolute;
+            z-index: 3;
+            top: <?php echo $record['Supplement']['top_val'] ?>px;
+            left: <?php echo $record['Supplement']['left_val'] ?>px;
+            width: <?php echo $record['Supplement']['width_val'] ?>px;
+            height: <?php echo $record['Supplement']['height_val'] ?>px;
+        }
+        -->
+    </style>
+    <div id="proseblock" >
+    <h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
+    <div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
+    </div>
 <?php
     if(!empty($details)){
         $message = (count($details) > 1) 
@@ -90,4 +91,7 @@ if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     echo $html->div('formContent');
     echo '</form>';
 }
+
+}
+
 ?>
