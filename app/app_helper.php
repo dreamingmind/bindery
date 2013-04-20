@@ -270,7 +270,7 @@ class AppHelper extends Helper {
                         'id:'.$entry['Content']['id'],
                         array('escape'=>false,'class'=>'thumb')
                 );
-            } elseif ($this->params['action']=='art_editions') {
+            } elseif ($this->params['action']=='art') {
 //                debug($this->params);
 //                $link = $this->Html->link($number++ . '<br />' . $image,
 //                    array(
@@ -334,6 +334,16 @@ class AppHelper extends Helper {
             }
         }
         
+        if($paginator->params['action'] == 'gallery'){
+            $baseurl = DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'];
+        } elseif($paginator->params['action'] == 'art'){
+            $baseurl = DS.preg_replace(
+                    array(
+                        '/[\/]?page:[0-9]+/',
+                        '/[\/]?id:[0-9]+/'
+                    ), '', $this->params['url']['url']);
+        }
+        
         // Make the next PAGE link
         $nPageImg = $this->Html->image(
             'nxt_arrow_drk.png', array(
@@ -342,7 +352,8 @@ class AppHelper extends Helper {
             )
         );
         $nLink = $this->Html->link( $nPageImg,
-            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+//            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                $baseurl.DS.
                 'page:'.$nextPage.DS.
                 'id:'.$nextPageImage,
                 array('escape'=>false)
@@ -356,21 +367,22 @@ class AppHelper extends Helper {
                 'class' => 'npImageButton'
             )
         );
-        if ($this->params['action']=='gallery') {
+//        if ($this->params['action']=='gallery') {
             $nLink .= $this->Html->link( $nImage,
-                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+//            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                $baseurl.DS.
                     'page:'.$nextImagePage.DS.
                     'id:'.$nextImage,
                     array('escape'=>false)
                 );
-        } elseif ($this->params['action']=='newsfeed') {
-            $nLink .= $this->Html->link( $nImage,
-                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
-                    'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
-                    'id:'.$neighbors[$paginator->params['named']['id']]['next'],
-                    array('escape'=>false)
-                );
-        }
+//        } elseif ($this->params['action']=='newsfeed') {
+//            $nLink .= $this->Html->link( $nImage,
+//                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+//                    'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
+//                    'id:'.$neighbors[$paginator->params['named']['id']]['next'],
+//                    array('escape'=>false)
+//                );
+//        }
 
         // compile the next tags into an LI
         $next = $this->Html->tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
@@ -383,7 +395,8 @@ class AppHelper extends Helper {
                     )
                 );
         $pLink = $this->Html->link( $pPageImg,
-                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+//            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                $baseurl.DS.
                     'page:'.$previousPage.DS.
                     'id:'.$previousPageImage,
                     array('escape'=>false)
@@ -398,7 +411,8 @@ class AppHelper extends Helper {
                     )
                 );
         $pLink .= $this->Html->link( $pImage,
-                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+//            DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS. 
+                $baseurl.DS.
                     'page:'.$previousImagePage.DS.
                     'id:'.$previousImage,
                     array('escape'=>false)

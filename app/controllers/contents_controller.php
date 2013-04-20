@@ -136,7 +136,7 @@ class ContentsController extends AppController {
         $this->Auth->allow(
                 'gallery', 
                 'newsfeed', 
-                'art_editions', 
+                'art', 
                 'jump',
                 'products',
                 'blog',
@@ -779,7 +779,8 @@ class ContentsController extends AppController {
         $this->set('recentExhibits',$this->Content->recentExhibits(3));
     }
 
-    function art_editions(){
+    function art
+    (){
         $url = preg_replace(
             array(
                 '/[\/]?page:[0-9]+/',
@@ -806,13 +807,13 @@ class ContentsController extends AppController {
             $this->set('details',$details);
 //            $this->set('artedition',$artedtion);
 //        $this->layout = 'noThumbnailPage';
-//        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
-//            'conditions'=> array(
-//                'Collection.category_id' => $this->categoryNI['art'],
-//                'Collection.slug' => $this->params['pname']
-//            ),
-//            'recursive' => -1
-//        )));
+        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
+            'conditions'=> array(
+                'Collection.category_id' => $this->categoryNI['art'],
+                'Collection.slug' => $this->params['pname']
+            ),
+            'recursive' => -1
+        )));
 //        // array_walk to detect any linked blog articles
 //        // build links for those
 //        // clicking the links will ajax them onto the page and collapse the main article

@@ -12,6 +12,15 @@ echo $html->css('search_links');
 //$details = array();
 //echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
+<div id="intro">
+    <?php
+    echo $html->tag('h1',$collection['Collection']['heading'], array(
+        'class' => 'related',
+        'collection' => $collection['Collection']['id']
+    ));
+    echo Markdown($collection['Collection']['text']);
+    ?>
+ </div>
 <div id="reference-grid"></div>
 <?php
 echo $this->Html->image(

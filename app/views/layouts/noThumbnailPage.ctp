@@ -46,7 +46,7 @@
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('supplement_defaults');
     echo $this->Html->script('app');
-    if ($this->params['action'] == 'art_editions'){
+    if ($this->params['action'] == 'art'){
         echo $html->css('art');
         echo $this->Html->script('art');
         echo $this->Html->script('blog_image_zoom');
