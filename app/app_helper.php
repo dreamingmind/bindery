@@ -718,19 +718,7 @@ class AppHelper extends Helper {
      *  </div>
      */
     function foundNewBlock(&$view, $news, $path = 'images/thumb/x160y120/'){
-    //foreach($news as $news){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-
-        //remove links and image links from markdown content
-        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
-
-        //assemble the image link
-        $img = $this->Html->image($path.$news['Image']['img_file'], array(
-            'id'=>'im'.$news['Image']['id'],
-            'alt'=>$news['Image']['alt'],
-            'title'=>$news['Image']['title']));
+        $clean = $this->flattenMarkdown($news['Content']['content']);
 
         // No page is sent with these and the id is encoded
         // as a named parameter so it's easy to pick up.
@@ -754,7 +742,9 @@ class AppHelper extends Helper {
             . markdown($this->Html->truncateText($clean,100,array('force'=>true)))
             . $this->Html->para('aside',"Or view as a $blog_link");
 
-        $image_link = $this->Html->link($img, $link_uri,array('escape'=>false));
+
+        //assemble the image link
+        $image_link = $this->makeLinkedImage($link_uri, $news['Image'], $path);
         
         // if admin, make resetDate links to make Content
         // as old as the Image
@@ -807,19 +797,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function blogMenuBlock($news, $path = 'images/thumb/x160y120/'){
-    //foreach($news as $news){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-
-        //remove links and image links from markdown content
-        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
-
-        //assemble the image link
-        $img = $this->Html->image($path.$news['Image']['img_file'], array(
-            'id'=>'im'.$news['Image']['id'],
-            'alt'=>$news['Image']['alt'],
-            'title'=>$news['Image']['title']));
+        $clean = $this->flattenMarkdown($news['Content']['content']);
 
         //make the heading into the <A> tag
         $blog_uri = array(
@@ -833,7 +811,9 @@ class AppHelper extends Helper {
         $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
             $blog_uri, array('escape'=>false));
 
-        $image_link = $this->Html->link($img, $blog_uri,array('escape'=>false));
+
+        //assemble the image link
+        $image_link = $this->makeLinkedImage($blog_uri, $news['Image'], $path);
 
         //and output everything in a left-floating div
         echo $this->Html->div('linkDiv', 
@@ -864,19 +844,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function siteSearchBlogBlock(&$view, $news, $path = 'images/thumb/x160y120/'){
-    //foreach($news as $news){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-
-        //remove links and image links from markdown content
-        $clean = preg_replace($patterns, $replace,$news['Content']['content']);
-
-        //assemble the image link
-        $img = $this->Html->image($path.$news['Image']['img_file'], array(
-            'id'=>'im'.$news['Image']['id'],
-            'alt'=>$news['Image']['alt'],
-            'title'=>$news['Image']['title']));
+        $clean = $this->flattenMarkdown($news['Content']['content']);
 
         //make the heading into the <A> tag
         $blog_uri = array(
@@ -891,7 +859,9 @@ class AppHelper extends Helper {
         $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
             $blog_uri, array('escape'=>false));
 
-        $image_link = $this->Html->link($img, $blog_uri,array('escape'=>false));
+
+        //assemble the image link
+        $image_link = $this->makeLinkedImage($blog_uri, $news['Image'], $path);
 
         //and output everything in a left-floating div
         echo $this->Html->div('linkDiv', 
@@ -922,13 +892,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function foundGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
-//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-            
-            //remove links and image links from markdown content
-            $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
+            $clean = $this->flattenMarkdown($exhibit['Content']['content']);
             $collection = $this->Html->para('aside',$exhibit['Collection']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
@@ -936,17 +900,44 @@ class AppHelper extends Helper {
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
-            $img = $this->Html->image($path.$exhibit['Content']['Image']['img_file'], array(
-    //            'id'=>'im'.$exhibit['Content']['Image']['id'],
-                'alt'=>$exhibit['Content']['Image']['alt'],
-                'title'=>$exhibit['Content']['Image']['title']
-            ));
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['Content']['Image'], $path);
+            
             $exhibit['ContentCollection']['Collection'] = $exhibit['Collection'];
             $exhibit['ContentCollection'][] = $exhibit['ContentCollection'];
             $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
-            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+    }
+    
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/art/traveler">
+     *          <img title="Traveler" 
+     *              alt="" 
+     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *      </a>
+     *      REMOVED <p class="aside">Notebooks</p>
+     *      <a href="/bindery/art/traveler">Traveler</a>
+     *      <p>Traveler is an edition</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
+    function foundArtBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
+            $clean = $this->flattenMarkdown($exhibit['Content']['content']);
+//            $collection = $this->Html->para('aside',$exhibit['ContentCollection'][0]['Collection']['heading']);
+            //make the heading into the <A> tag
+            //and follow it with truncated markdown content
+            $link_uri = DS.'art'.DS.$exhibit['Collection']['slug'];
+            $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
+                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+            //assemble the image link
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['Content']['Image'], $path);
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+
+        echo $this->Html->div('linkDiv', $image_link . $heading_link . $resetDateLinks);
     }
     
     /**
@@ -966,13 +957,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function siteSearchGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
-//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
-        debug($view['category_name']);
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-            
-            //remove links and image links from markdown content
-            $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
+            $clean = $this->flattenMarkdown($exhibit['Content']['content']);
             $collection = $this->Html->para('aside',$exhibit['ContentCollection'][0]['Collection']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
@@ -980,15 +965,41 @@ class AppHelper extends Helper {
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
-            $img = $this->Html->image($path.$exhibit['Image']['img_file'], array(
-    //            'id'=>'im'.$exhibit['Content']['Image']['id'],
-                'alt'=>$exhibit['Image']['alt'],
-                'title'=>$exhibit['Image']['title']
-            ));
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
             $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
-            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+    }
+    
+    /**
+     * 
+     *  <div class="linkDiv">
+     *      <a href="/bindery/art/traveler">
+     *          <img title="Traveler" 
+     *              alt="" 
+     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *      </a>
+     *      REMOVED <p class="aside">Notebooks</p>
+     *      <a href="/bindery/art/traveler">Traveler</a>
+     *      <p>Traveler is an edition</p>
+     *  </div>
+     * 
+     * @param type $exhibit
+     * @param type $path
+     */
+    function siteSearchArtBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
+            $clean = $this->flattenMarkdown($exhibit['Content']['content']);
+//            $collection = $this->Html->para('aside',$exhibit['ContentCollection'][0]['Collection']['heading']);
+            //make the heading into the <A> tag
+            //and follow it with truncated markdown content
+            $link_uri = DS.'art'.DS.$exhibit['ContentCollection'][0]['Collection']['slug'];
+            $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
+                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+            //assemble the image link
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
+            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+
+        echo $this->Html->div('linkDiv', $image_link . $heading_link . $resetDateLinks);
     }
     
     /**
@@ -1007,13 +1018,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function foundWorkshopBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
-//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-            
-            //remove links and image links from markdown content
-            $clean = preg_replace($patterns, $replace,$exhibit['ContentCollection']['0']['Content']['content']);
+            $clean = $this->flattenMarkdown($exhibit['ContentCollection']['0']['Content']['content']);
             $collection = $this->Html->para('aside','ID: '.$exhibit['ContentCollection']['0']['Content']['id'].' - '.$exhibit['Workshop']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
@@ -1021,12 +1026,7 @@ class AppHelper extends Helper {
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Workshop']['heading'],45),$link_uri) 
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
-            $img = $this->Html->image($path.$exhibit['ContentCollection']['0']['Content']['Image']['img_file'], array(
-    //            'id'=>'im'.$exhibit['Workshop']['Image']['id'],
-                'alt'=>$exhibit['ContentCollection']['0']['Content']['Image']['alt'],
-                'title'=>$exhibit['ContentCollection']['0']['Content']['Image']['title']
-            ));
-            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['ContentCollection']['0']['Content']['Image'], $path);
             $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
@@ -1049,13 +1049,7 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function siteSearchWorkshopBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
-//        if ($exhibit['ContentCollection']['content_id']!=$last_update){
-
-        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
-        $replace = array('','',' ','');
-            
-            //remove links and image links from markdown content
-            $clean = preg_replace($patterns, $replace,$exhibit['Content']['content']);
+            $clean = $this->flattenMarkdown($exhibit['Content']['content']);
             $collection = $this->Html->para('aside','ID: '.$exhibit['Content']['id'].' - '.$exhibit['Content']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
@@ -1063,17 +1057,48 @@ class AppHelper extends Helper {
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri) 
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
-            $img = $this->Html->image($path.$exhibit['Image']['img_file'], array(
-    //            'id'=>'im'.$exhibit['Workshop']['Image']['id'],
-                'alt'=>$exhibit['Image']['alt'],
-                'title'=>$exhibit['Image']['title']
-            ));
-            $image_link = $this->Html->link($img,$link_uri,array('escape'=>false));
+            $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
             $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
 
         echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
     }
     
+    /**
+     * Strip markdown to text only
+     * 
+     * This allows the markdown to be shown in truncated 
+     * found-article blocks on landing pages as search results
+     */
+    function flattenMarkdown($content){
+        $patterns = array('/[\[|!\[]/','/\]\([\s|\S]+\)/','/\s[\s]+/','/#/');
+        $replace = array('','',' ','');
+            
+        //remove links and image links from markdown content
+        return preg_replace($patterns, $replace,$content);
+    }
+    
+    /**
+     * Make linked image for search/landing block
+     * 
+     * @param string $uri The href for the <a> tag
+     * @param array $image_record The Image record
+     * @param string $path The path to the image file
+     * @return string HTML fragment, the <a> tag with a displayed image
+     */
+    function makeLinkedImage($uri, $image_record, $path = 'images/thumb/x160y120/'){
+        $img = $this->Html->image($path.$image_record['img_file'], array(
+            'id'=>(isset($image_record['id']))?'im'.$image_record['id']:'',
+            'alt'=>$image_record['alt'],
+            'title'=>$image_record['title']
+        ));
+        return $this->Html->link($img,$uri,array('escape'=>false));
+    }
+    /**
+     * 
+     * @param type $view
+     * @param type $news
+     * @return type
+     */
     function assembleDateResetLinks(&$view, $news){
         // if admin, make resetDate links to make Content
         // as old as the Image

@@ -786,12 +786,99 @@ class ContentsController extends AppController {
                 '/[\/]?id:[0-9]+/'
             ), '', $this->params['url']['url']);
         $target = explode('/', $url);
+        // extract the last non-page/non-id bit off the url as pname
         $this->params['pname'] = $target[count($target)-1];
+        
+        if(count($target)==2){
+            // found possible shortcut URL like
+            // /art/so-different
+            // if it is, we'll construct the true path and redirect
+            
+            // first get the tree path to the current pname
+            $nav = $this->Navigator->find('all',array(
+                'conditions'=>array(
+                    'Navline.route'=>  $this->params['pname']
+                )
+            ));
+            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
+
+            // then if it is longer that the current path, 
+            // then it was a shortcut. build and redirect
+            if(count($target) < count($nav)){
+                $path = '';
+                foreach($nav as $node){
+                    $path .= DS.$node['Navline']['route'];
+                }
+                $this->redirect($path);
+            };
+        }
+        
         $this->gallery('art');
-//        $this->render('gallery');
-//        debug($this->viewVars['filmstrip']);
+
         if(empty($this->viewVars['filmStrip'])){
+            // didn't find any Content records for pname
+            // scrap the thumbnailPage layout
             $this->layout = 'noThumbnailPage';
+            // and get some links for nested art inside this node
+            // so we can make a landing page with links
+            $nav = $this->Navigator->find('all',array(
+                'conditions'=>array(
+                    'Navline.route'=>  $this->params['pname']
+                )
+            ));
+            $nav = $this->Navigator->children($nav[0]['Navigator']['id'], false, null, null, null, 1, 1);
+            $list = array();
+            if(!empty($nav)){
+                // found nested nodes, look for Content for them
+                foreach($nav as $node){
+                    $content = $this->Content->ContentCollection->find('first',array(
+                        'fields'=>array(
+                            'ContentCollection.id',
+                            'ContentCollection.collection_id',
+                            'ContentCollection.content_id'
+                        ),
+                        'contain'=>array(
+                            'Collection'=>array(
+                                'fields'=>array(
+                                    'Collection.id',
+                                    'Collection.slug'
+                                )
+                            ),
+                            'Content'=>array(
+                                'fields'=>array(
+                                    'Content.heading',
+                                    'Content.content',
+                                    'Content.slug',
+                                    'Content.id',
+                                    'Content.image_id'
+                                ),
+                                'Image'=>array(
+                                    'fields'=>array(
+                                        'Image.id',
+                                        'Image.img_file',
+                                        'Image.alt',
+                                        'Image.title'
+                                    )
+                                ),
+                            )
+                        ),
+                        'conditions'=>array(
+                            'Collection.slug'=>$node['Navline']['route']
+                        )
+                    ));
+                    if($content){
+                        $list[] = $content;
+                    }
+                }
+                // should have some Content now for art/edition link construction
+                // if there are a lot, get 3 random ones for output
+                if(count($list)>3){
+                    shuffle($list);
+                    $chunk = array_chunk($list, 3);
+                    $list = $chunk[0];
+                }
+            }
+            $this->set('list',$list);
         }
         
         $conditions = array(

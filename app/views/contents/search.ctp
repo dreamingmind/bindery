@@ -22,7 +22,7 @@ if($searchResults){
                     echo $html->tag('h2','Art & Editions');
                     foreach($category_set as $result){
 //                        debug($result);
-                        echo $html->siteSearchGalleryBlock($this->viewVars, $result);
+                        echo $html->siteSearchArtBlock($this->viewVars, $result);
                     }
                     break;
                 case 'workshop':
