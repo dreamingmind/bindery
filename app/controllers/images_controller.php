@@ -1072,6 +1072,71 @@ class ImagesController extends AppController {
         return $search_result;
     }
 
+    
+    function change_collection($slug = 'lucha-libre', $collection_id = 60){
+        $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
+        $this->searchRecords = $this->Image->Content->ContentCollection->find('all',array(
+            'fields'=>array(
+                'ContentCollection.id',
+                'ContentCollection.content_id',
+                'ContentCollection.collection_id',
+                'ContentCollection.sub_slug',
+                'ContentCollection.seq',
+                'ContentCollection.publish'
+            ),
+            'contain' => array(
+                'Content'=>array(
+                    'fields'=>array(
+                        'Content.id',
+                        'Content.image_id',
+                        'Content.alt',
+                        'Content.title',
+                        'Content.heading',
+                        'Content.slug',
+                        'Content.content'
+                    ),
+                    'ContentCollection'=>array(
+                        'fields'=>array(
+                            'ContentCollection.id',
+                            'ContentCollection.content_id',
+                            'ContentCollection.collection_id',
+                        ),
+                        'Collection'=>array(
+                            'fields'=>array(
+                                'Collection.id',
+                                'Collection.heading',
+                                'Collection.slug',
+                                'Collection.category_id'
+                            ),
+                            'Category'=>array(
+                                'fields'=>array(
+                                    'Category.id',
+                                    'Category.name'
+                                )
+                            )
+                        )
+                    ),
+                    'Image'=>array(
+                        'fields'=>array(
+                            'Image.id',
+                            'Image.img_file',
+                            'Image.alt',
+                            'Image.title'
+                        )
+                    )
+                )
+            ),
+            'conditions'=>array(
+                'Content.slug'=>$slug,
+                'ContentCollection.collection_id'=>$collection_id
+            )
+        ));
+        $this->set('slug',$slug);
+        $this->set('collection_id',$collection_id);
+        $this->set('searchRecords',  $this->searchRecords);
+//        $this->image_grid();
+        $this->setSearchAction('change_collection');
+    }
     /**
      * Image grid interface for admins
      * 
