@@ -49,7 +49,8 @@ if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
 foreach ($collectionPage as $dispatch) {
     if ($h2 != $dispatch['heading'] && $dispatch['heading'] != null) {
 //        debug($dispatch);die;
-        $blog_link=$html->link('See Blog Article','/blog/'.$dispatch['collection_id'].'/'.$dispatch['slug']);
+        $blog_link = $this->Html->link('See Blog Article','/blog/'.$dispatch['collection_id'].'/'.$dispatch['slug']);
+        $blog_link .= $this->Html->changeCollection($this->viewVars, $dispatch['slug'], $dispatch['collection_id']);
         echo $this->Html->tag('h2', $dispatch['heading'].$blog_link);
     }
     

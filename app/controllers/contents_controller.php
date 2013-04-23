@@ -994,7 +994,8 @@ class ContentsController extends AppController {
             'fields'=>array('Content.image_id',
                 'Content.alt',
                 'Content.content',
-                'Content.heading'),
+                'Content.heading',
+                'Content.slug'),
             'contain'=>array(
                 'Image'=>array(
                     'fields'=>array(

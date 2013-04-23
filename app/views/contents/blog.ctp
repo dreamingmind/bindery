@@ -1,6 +1,7 @@
 <?php
 //debug($recentTitles);
 //debug($most_recent);die;
+echo $this->Html->changeCollection($this->viewVars, $most_recent[0]['Content']['slug'], $most_recent[0]['Collection']['id']);
 echo $html->tag('h1',
         'From the collection: '.$most_recent[0]['Collection']['heading'].
         $this->Form->button('Related Articles',array(

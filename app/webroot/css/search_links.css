@@ -28,6 +28,10 @@ root {
     float: right;
     padding-top: 10px;
 }
+div.linkDiv {
+    clear: both;
+    height: 100%;
+}
 .linkDiv img{
     float: left;
     margin-right: 10px;
@@ -42,7 +46,7 @@ root {
 }
 .linkDiv a:hover{
     color: #003d4c;
-    font-size: 16px;
+    /*font-size: 16px;*/
     text-decoration: underline;
 }
 .linkDiv p{

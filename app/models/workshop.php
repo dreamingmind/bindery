@@ -176,6 +176,13 @@ class Workshop extends AppModel {
 //                            'conditions'=>array(
 //                                'Content.publish'=>1
                             )
+                        ),
+                        'Collection'=>array(
+                            'fields'=>array(
+                                'Collection.id',
+                                'Collection.heading',
+                                'Collection.slug'
+                            )
                         )
                     ),
                     'Session'=>array(

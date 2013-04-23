@@ -44,6 +44,8 @@ echo $this->Html->image(
 // so the full page context can be re-established 
 // if the data gets saved properly.
 if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
+//    debug($record);
+    echo $this->Html->changeCollection($this->viewVars, $record['Content']['slug'], $record['ContentCollection'][0]['Collection']['id']);
     // I create a content_id attribute for the form so the 
     // ajax call knows what record to get for the form values
     echo $this->Form->create('Content', array(

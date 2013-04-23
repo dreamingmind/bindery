@@ -627,3 +627,16 @@ div.cleanup p{
     text-align: right;
     width: 35%;
 }
+/*==========================
+ Change Collection page
+==========================*/
+div.changeCollection {
+    clear:both;
+    padding:5px;
+}
+.changeCollection img {
+    float: left;
+}
+.changeCollection fieldset {
+    float: left;
+}

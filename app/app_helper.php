@@ -748,26 +748,9 @@ class AppHelper extends Helper {
         
         // if admin, make resetDate links to make Content
         // as old as the Image
-        $resetDateLinks = $this->assembleDateResetLinks($view, $news);
-//        $resetDateLinks = null;
-////        debug($controller->viewVars);die;
-//        if(isset($view['usergroupid']) && $view['usergroupid'] < 3){
-//            $resetDateLinks = $this->Html->link('Record',
-//                   array(
-//                       'controller'=>'contents', 
-//                       'action'=>'resetContentDates',
-//                       $news['Content']['id']
-//                   ));
-//            $resetDateLinks .= ' | '.$this->Html->link('Article',
-//                   array(
-//                       'controller'=>'contents', 
-//                       'action'=>'resetContentDates',
-//                       $news['ContentCollection'][0]['collection_id'],
-//                       $news['Content']['slug']
-//                   ));
-//        }
+        $adminLinks = $this->assembleDateResetLinks($view, $news);
+        $adminLinks .= $this->changeCollection($view, $news['Content']['slug'], $news['ContentCollection'][0]['Collection']['id']);
         
-
         //and output everything in a left-floating div
         echo $this->Html->div('linkDiv', 
             $image_link 
@@ -775,7 +758,7 @@ class AppHelper extends Helper {
             'On the bench: '
             . $this->Time->timeAgoInWords($news['Content']['modified'], 'M j, Y')) //'Y/n/j'
             . $heading_link
-            . $resetDateLinks);
+            . $adminLinks);
     //}
     }
     
@@ -853,7 +836,8 @@ class AppHelper extends Helper {
             $news['ContentCollection'][0]['collection_id'],
             $news['Content']['slug']
         );
-        $resetDateLinks = $this->assembleDateResetLinks($view, $news);
+        $adminLinks = $this->assembleDateResetLinks($view, $news);
+        $adminLinks .= $this->changeCollection($view, $news['Content']['slug'], $news['ContentCollection'][0]['Collection']['id']);
 
         //and follow it with truncated markdown content
         $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],35), 
@@ -872,7 +856,7 @@ class AppHelper extends Helper {
             . $this->Time->timeAgoInWords($news['Content']['created'])) 
             . $image_link 
             . $heading_link
-            . $resetDateLinks);
+            . $adminLinks);
     //}
     }
     
@@ -904,9 +888,10 @@ class AppHelper extends Helper {
             
             $exhibit['ContentCollection']['Collection'] = $exhibit['Collection'];
             $exhibit['ContentCollection'][] = $exhibit['ContentCollection'];
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Content']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $adminLinks);
     }
     
     /**
@@ -935,9 +920,10 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Content']['Image'], $path);
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Content']['slug'], $exhibit['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $heading_link . $adminLinks);
     }
     
     /**
@@ -966,9 +952,10 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Content']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $adminLinks);
     }
     
     /**
@@ -997,9 +984,10 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Content']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $heading_link . $adminLinks);
     }
     
     /**
@@ -1027,9 +1015,10 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['ContentCollection']['0']['Content']['Image'], $path);
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Workshop']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $adminLinks);
     }
     
     /**
@@ -1058,9 +1047,10 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
-            $resetDateLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
+            $adminLinks .= $this->changeCollection($view, $exhibit['Content']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
-        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $resetDateLinks);
+        echo $this->Html->div('linkDiv', $image_link . $collection . $heading_link . $adminLinks);
     }
     
     /**
@@ -1122,5 +1112,17 @@ class AppHelper extends Helper {
         }
         return $resetDateLinks;
     }
+    
+    function changeCollection(&$view, $slug, $id){
+        if (isset($view['usergroupid']) && $view['usergroupid'] < 3) {
+            $link = $this->Html->link('Change collection', array(
+                'controller' => 'images',
+                'action' => 'change_collection',
+                $slug, $id
+            ));
+            return $this->Html->para('aside',$link);
+        }
+    }
+
 }
 ?>
