@@ -1075,62 +1075,20 @@ class ImagesController extends AppController {
     
     function change_collection($slug = 'lucha-libre', $collection_id = 60){
         $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
-        $this->searchRecords = $this->Image->Content->ContentCollection->find('all',array(
-            'fields'=>array(
-                'ContentCollection.id',
-                'ContentCollection.content_id',
-                'ContentCollection.collection_id',
-                'ContentCollection.sub_slug',
-                'ContentCollection.seq',
-                'ContentCollection.publish'
-            ),
-            'contain' => array(
-                'Content'=>array(
-                    'fields'=>array(
-                        'Content.id',
-                        'Content.image_id',
-                        'Content.alt',
-                        'Content.title',
-                        'Content.heading',
-                        'Content.slug',
-                        'Content.content'
-                    ),
-                    'ContentCollection'=>array(
-                        'fields'=>array(
-                            'ContentCollection.id',
-                            'ContentCollection.content_id',
-                            'ContentCollection.collection_id',
-                        ),
-                        'Collection'=>array(
-                            'fields'=>array(
-                                'Collection.id',
-                                'Collection.heading',
-                                'Collection.slug',
-                                'Collection.category_id'
-                            ),
-                            'Category'=>array(
-                                'fields'=>array(
-                                    'Category.id',
-                                    'Category.name'
-                                )
-                            )
-                        )
-                    ),
-                    'Image'=>array(
-                        'fields'=>array(
-                            'Image.id',
-                            'Image.img_file',
-                            'Image.alt',
-                            'Image.title'
-                        )
-                    )
-                )
-            ),
-            'conditions'=>array(
-                'Content.slug'=>$slug,
-                'ContentCollection.collection_id'=>$collection_id
-            )
-        ));
+        $this->searchRecords = $this->Image->Content->ContentCollection->pullForChangeCollection($slug, $collection_id);
+
+        // this is how the set of collection selectors are made in the element
+        // $groups is a valid part of a field list for the fieldset helper
+        $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
+        $this->set('allCollections', $allCollections);
+//        foreach($allCollections as $group => $list){
+//            $options = array('')+$list;
+//            $groups[$group] = array('options'=>$options, 'default'=>0);
+//        }
+//        
+//        debug($groups);
+//        debug($allCollections);
+
         $this->set('slug',$slug);
         $this->set('collection_id',$collection_id);
         $this->set('searchRecords',  $this->searchRecords);

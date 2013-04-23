@@ -167,6 +167,65 @@ class ContentCollection extends AppModel {
         return $content;
     }
     
+        function pullForChangeCollection($slug, $id){
+            $result = $this->find('all',array(
+                'fields'=>array(
+                    'ContentCollection.id',
+                    'ContentCollection.content_id',
+                    'ContentCollection.collection_id',
+                    'ContentCollection.sub_slug',
+                    'ContentCollection.seq',
+                    'ContentCollection.publish'
+                ),
+                'contain' => array(
+                    'Content'=>array(
+                        'fields'=>array(
+                            'Content.id',
+                            'Content.image_id',
+                            'Content.alt',
+                            'Content.title',
+                            'Content.heading',
+                            'Content.slug',
+                            'Content.content'
+                        ),
+                        'ContentCollection'=>array(
+                            'fields'=>array(
+                                'ContentCollection.id',
+                                'ContentCollection.content_id',
+                                'ContentCollection.collection_id',
+                            ),
+                            'Collection'=>array(
+                                'fields'=>array(
+                                    'Collection.id',
+                                    'Collection.heading',
+                                    'Collection.slug',
+                                    'Collection.category_id'
+                                ),
+                                'Category'=>array(
+                                    'fields'=>array(
+                                        'Category.id',
+                                        'Category.name'
+                                    )
+                                )
+                            )
+                        ),
+                        'Image'=>array(
+                            'fields'=>array(
+                                'Image.id',
+                                'Image.img_file',
+                                'Image.alt',
+                                'Image.title'
+                            )
+                        )
+                    )
+                ),
+                'conditions'=>array(
+                    'Content.slug'=>$slug,
+                    'ContentCollection.collection_id'=>$id
+                )
+            ));
+            return $result;
+        }
 
 }
 

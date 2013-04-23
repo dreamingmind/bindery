@@ -14,7 +14,7 @@
  *      the array is passed in $collectionCategories
  * Content.recent_collections (array of recently used Collection.heading(s))
  *      passed in $recentCollections (id=>'heading (category)')
- * $groups array is complicated. I'll have to look that up.
+ * $groups array - a drop down list of Collections for each Category
  */
 ?> 
 <?php
