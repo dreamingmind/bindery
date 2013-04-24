@@ -1113,8 +1113,8 @@ class AppHelper extends Helper {
         return $resetDateLinks;
     }
     
-    function changeCollection(&$view, $slug, $id){
-        if (isset($view['usergroupid']) && $view['usergroupid'] < 3) {
+    function changeCollection(&$view, $slug, $id, $allow = false){
+        if ((isset($view['usergroupid']) && $view['usergroupid'] < 3) || $allow) {
             $link = $this->Html->link('Change collection', array(
                 'controller' => 'images',
                 'action' => 'change_collection',

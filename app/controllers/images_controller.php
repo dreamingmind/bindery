@@ -1080,6 +1080,8 @@ class ImagesController extends AppController {
         // this is how the set of collection selectors are made in the element
         // $groups is a valid part of a field list for the fieldset helper
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();
+        //This will allow setting the default collection in the proper list (processed $allCollection)
+        $this->set('default',array($this->searchRecords[0]['Collection']['Category']['name'], $collection_id));
         $this->set('allCollections', $allCollections);
 //        foreach($allCollections as $group => $list){
 //            $options = array('')+$list;

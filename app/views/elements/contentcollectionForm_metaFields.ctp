@@ -15,9 +15,14 @@ if(isset($allCollections)){
     // make the grouped list into individual lists with a [0] element
     foreach($allCollections as $group => $list){
         $options = array('')+$list;
-        $groups[$group] = array('options'=>$options, 'default'=>0);
+        $groups[$group] = array('options'=>$options, 'selected'=>0);
     }
+    if(isset($default)){
+        $groups[$default[0]]['selected']=$default[1];
+    }
+//    debug($default);
 }
+//debug($groups);
 //debug($record);
 $parameters = array(
     'pre_fields' => (isset($pre_fields))?$pre_fields:'',
