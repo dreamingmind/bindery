@@ -630,6 +630,9 @@ div.cleanup p{
 /*==========================
  Change Collection page
 ==========================*/
+fieldset {
+    padding: 6px 10px;
+}
 div.changeCollection {
     clear:both;
     padding:5px;
@@ -638,5 +641,11 @@ div.changeCollection {
     float: left;
 }
 .changeCollection fieldset {
-    float: left;
+    /*float: left;*/
+}
+.fieldsets {
+    margin-left: 180px;
+}
+div.fieldsets {
+    display: none;
 }
