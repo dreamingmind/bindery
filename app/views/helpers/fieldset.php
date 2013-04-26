@@ -71,6 +71,8 @@ class FieldsetHelper extends AppHelper {
      * linkNumber
      * fields
      * 
+     * 'pre_fields' and 'post_fields' accept ready-to-go HTML fragments.
+     *  
      * javascript/css hooks
      * --------------------
      * In addition to the standard structure Cake gives to inputs:

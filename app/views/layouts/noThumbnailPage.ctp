@@ -53,6 +53,9 @@
         echo $this->Html->script('adjust_markdown');
         echo $this->Html->script('edit_dispatch');
     }
+    if($this->params['action']=='change_collection'){
+        echo $this->Html->script('change_collection');
+    }
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

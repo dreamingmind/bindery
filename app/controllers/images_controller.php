@@ -1083,13 +1083,6 @@ class ImagesController extends AppController {
         //This will allow setting the default collection in the proper list (processed $allCollection)
         $this->set('default',array($this->searchRecords[0]['Collection']['Category']['name'], $collection_id));
         $this->set('allCollections', $allCollections);
-//        foreach($allCollections as $group => $list){
-//            $options = array('')+$list;
-//            $groups[$group] = array('options'=>$options, 'default'=>0);
-//        }
-//        
-//        debug($groups);
-//        debug($allCollections);
 
         $this->set('slug',$slug);
         $this->set('collection_id',$collection_id);

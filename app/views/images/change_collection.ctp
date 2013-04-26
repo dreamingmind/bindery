@@ -29,13 +29,27 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     foreach($groups as $field => $options){
     echo $this->Form->input($field, $options);        
     }
+    
+    $options = array(
+        'individual' => 'Set each record individually',
+        'relink' => 'Relink all Content',
+        'clone' => 'Clone all and link'
+        );
+    $attributes = array(
+        'default'=>'individual',
+        'name'=>"data[master][treatment]",
+        'legend'=>false);
+    echo $this->Form->radio('treatment', $options, $attributes);
+    
     echo $this->Form->Submit();
     echo '</fieldset>';
     
 foreach($searchRecords as $index => $record){
-    echo '<div class="changeCollection">';
+    echo '<div class="changeCollection individual_treatment">';
     //    debug($record['Content']['ContentCollection']);
         echo $this->Html->makeLinkedImage('', $record['Content']['Image']);
+        
+        // Individual radio buttons (always visible)
         $statusLegend = $this->Html->tag('legend','Content treatment during assignment',
                 array('id'=>"contentStatus$index"));
         $options = array(
@@ -48,37 +62,43 @@ foreach($searchRecords as $index => $record){
             'name'=>"data[$index][treatment]",
             'legend'=>false);
         $statusChoice = $this->Form->radio('treatment', $options, $attributes);
+        
         echo $this->Html->tag('fieldset',
                 $statusLegend . $statusChoice, array('class'=>'fieldsets'));
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
-            'value'=>0
-        ));
+            'value'=>0,
+            'id'=>$index.'changed'
+        )); // end of always visible individual treatment radio buttons
+        
         echo $this->Html->para('fieldsets','Click to open field tools',array('id'=>"cc$index"));
-//            
-//        
-//        //Bundle the legend and inputs into a fieldset, wrapping 
-//        // the inputs in a div that keys to the legend
-//        // for show/hide toggling
-//        $this->fieldset = $this->Html->tag('fieldset',
-//            $this->legendTag
-//            . $this->Html->div($this->unique.' '.$this->display,
-//            $this->pre_fields . implode('', $this->inputs) . $this->post_fields)
 
-        echo "<div class='cc$index fieldsets'>";
+        echo "<div class='cc$index fieldsets individual_data'>"; // collapsing div of internal fields
+        
+            // ContentCollection meta fields
             echo $this->element('contentcollectionForm_metaFields',array(
                 'record'=>$record,
                 'legend'=>'ContentCollection Link Fields',
                 'prefix'=>array($index),
                 'allCollections'=>$allCollections
             ));
-           echo $this->element('contentcollectionForm_dataFields',array(
+            
+            // ContentCollection data fields
+            echo $this->element('contentcollectionForm_dataFields',array(
                 'record'=>$record,
                 'legend'=>'ContentCollection Data Fields',
                 'prefix'=>array($index),
                 'allTitles'=>$allTitles
             ));
+            
+            // Content meta fields
+            echo $this->element('contentForm_metaFields',array(
+                'prefix'=>array($index),
+                'record'=>$record
+            ));
+            
+            // Content data fields
             $legend = 'Content Data Fields';
             if(count($record['Content']['ContentCollection']) > 1){
                 $legend .= '<p class="aside">Additional use of this Content:</p>';
@@ -98,8 +118,9 @@ foreach($searchRecords as $index => $record){
                 'legend'=>$legend,
                 'record'=>$record
             ));
-        echo '</div>';
-    echo '</div>';
+            
+        echo '</div>'; // end of collapsing internal fields
+    echo '</div>'; // end of single Content block
     $this->Js->buffer(
         "$('#cc$index').click(function() {
             $('.cc$index').toggle(50, function() {
