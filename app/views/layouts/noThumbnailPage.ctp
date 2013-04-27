@@ -1,4 +1,4 @@
-<?php /* @var $this ViewCC */ ?> 
+<?php /* @var $this ViewCC */ ?>
 <?php
 /**
  *
@@ -36,7 +36,7 @@
         echo $html->css('workshop');
     }
     if (
-        $this->params['action']=='forgot' 
+        $this->params['action']=='forgot'
         || $this->params['action']=='login'
         || $this->params['action']=='validate_user'
         || $this->params['action']=='opt_in')
@@ -55,6 +55,9 @@
     }
     if($this->params['action']=='change_collection'){
         echo $this->Html->script('change_collection');
+    }
+    if($this->params['action']=='upcoming'){
+        echo $this->Html->script('workshop');
     }
     echo $scripts_for_layout;
     ?>
@@ -76,9 +79,9 @@
  ?>
   </div>
   <div id="menuNav">
-<?php 
+<?php
             if (!isset($searchController)) {$searchController=null;}
-            echo $form->siteSearch($searchController); // creates DIV id=siteSearch 
+            echo $form->siteSearch($searchController); // creates DIV id=siteSearch
 ?>
 	<div id="navBar">
             <?php
@@ -94,9 +97,9 @@
 
         <!-- CONTENT DIV --><div id="scrolling">
     <?php echo $html->image('transparent.png', array('id'=>'NTtopTransparent')); ?>
-            <?php //if (isset($productExhibits) || $this->params['action'] == 'gallery') { 
+            <?php //if (isset($productExhibits) || $this->params['action'] == 'gallery') {
                 //echo $galNav->productPageLinks();
-                
+
                 //} ?>
             <?php echo '<!-- Flash message -->' . $session->flash();
             echo '<!-- Flash auth message -->' . $session->flash('auth');
