@@ -30,6 +30,12 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     echo $this->Form->input($field, $options);        
     }
     
+    echo $this->Form->input('heading',array(
+        'name'=>'data[master][heading]',
+        'type'=>'text',
+        'class'=>'masterheading'
+    ));
+    
     $options = array(
         'individual' => 'Set each record individually',
         'relink' => 'Relink all Content',
@@ -45,6 +51,23 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     echo '</fieldset>';
     
 foreach($searchRecords as $index => $record){
+            
+        $legend = '';
+        if(count($record['Content']['ContentCollection']) > 1){
+            $legend .= '<p class="aside">Additional use of this Content:</p>';
+            foreach($record['Content']['ContentCollection'] as $collectionLink){
+                if($collectionLink['collection_id'] != $id){
+    //                debug($collectionLink);
+                    $legend .= str_replace(
+                            'Change collection', 
+                            'Change collection: '.$collectionLink['Collection']['heading'],
+                            $this->Html->changeCollection($this->viewVars, $slug, $collectionLink['collection_id']));
+                }
+            }
+        }
+
+        $usage = $this->Html->para(null, $legend);
+
     echo '<div class="changeCollection individual_treatment">';
     //    debug($record['Content']['ContentCollection']);
         echo $this->Html->makeLinkedImage('', $record['Content']['Image']);
@@ -61,10 +84,18 @@ foreach($searchRecords as $index => $record){
             'default'=>'ignore',
             'name'=>"data[$index][treatment]",
             'legend'=>false);
-        $statusChoice = $this->Form->radio('treatment', $options, $attributes);
+        $statusChoice = $this->Html->div(null,$this->Form->radio('treatment', $options, $attributes));
         
+            // ContentCollection meta fields
+            $cc = $this->element('contentcollectionForm_metaFields',array(
+                'record'=>$record,
+                'legend'=>'ContentCollection Link Fields',
+                'prefix'=>array($index),
+                'allCollections'=>$allCollections
+            ));
+            
         echo $this->Html->tag('fieldset',
-                $statusLegend . $statusChoice, array('class'=>'fieldsets'));
+                $statusLegend . $statusChoice. $usage . $cc, array('class'=>'fieldsets'));
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
@@ -72,54 +103,49 @@ foreach($searchRecords as $index => $record){
             'id'=>$index.'changed'
         )); // end of always visible individual treatment radio buttons
         
-        echo $this->Html->para('fieldsets','Click to open field tools',array('id'=>"cc$index"));
-
-        echo "<div class='cc$index fieldsets individual_data'>"; // collapsing div of internal fields
+        $contentLegend = $this->Html->tag('legend','Content',array('id'=>"cc$index"));
+        $contentPara = $this->Html->para(null,$record['Content']['content']);
+        $contentHead = $this->Html->tag('h4',$record['Content']['heading']);
+        $contentC = $this->Form->input("$index.Content.content",array(
+            'value'=>$record['Content']['content'],
+            'type'=>'textarea'));
+        $contentID = $this->Form->input("$index.Content.id",array('value'=>$record['Content']['id'], array(
+            'type'=>'hidden'
+        )));
+        $contentH = $this->Form->input("$index.Content.heading",array('value'=>$record['Content']['heading']));
+        $contentFieldset = $this->Html->tag('fieldset',
+                $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
+        echo $this->Html->div('content',$contentHead.$contentPara.$contentFieldset);
         
-            // ContentCollection meta fields
-            echo $this->element('contentcollectionForm_metaFields',array(
-                'record'=>$record,
-                'legend'=>'ContentCollection Link Fields',
-                'prefix'=>array($index),
-                'allCollections'=>$allCollections
-            ));
-            
+//        
+//        echo $this->Html->para('fieldsets','Click to open field tools',array('id'=>"cc$index"));
+//
+//        echo "<div class='cc$index fieldsets individual_data'>"; // collapsing div of internal fields
+        
             // ContentCollection data fields
-            echo $this->element('contentcollectionForm_dataFields',array(
-                'record'=>$record,
-                'legend'=>'ContentCollection Data Fields',
-                'prefix'=>array($index),
-                'allTitles'=>$allTitles
-            ));
+//            echo $this->element('contentcollectionForm_dataFields',array(
+//                'record'=>$record,
+//                'legend'=>'ContentCollection Data Fields',
+//                'prefix'=>array($index),
+//                'allTitles'=>$allTitles
+//            ));
             
             // Content meta fields
-            echo $this->element('contentForm_metaFields',array(
-                'prefix'=>array($index),
-                'record'=>$record
-            ));
+//            echo $this->element('contentForm_metaFields',array(
+//                'prefix'=>array($index),
+//                'record'=>$record
+//            ));
             
             // Content data fields
-            $legend = 'Content Data Fields';
-            if(count($record['Content']['ContentCollection']) > 1){
-                $legend .= '<p class="aside">Additional use of this Content:</p>';
-                foreach($record['Content']['ContentCollection'] as $collectionLink){
-                    if($collectionLink['collection_id'] != $id){
-        //                debug($collectionLink);
-                        $legend .= str_replace(
-                                'Change collection', 
-                                'Change collection: '.$collectionLink['Collection']['heading'],
-                                $this->Html->changeCollection($this->viewVars, $slug, $collectionLink['collection_id']));
-                    }
-                }
-            }
-
-            echo $this->element('contentForm_dataFields',array(
-                'prefix'=>array($index),
-                'legend'=>$legend,
-                'record'=>$record
-            ));
+//            $legend = 'Content Data Fields';
+//            echo $this->element('contentForm_dataFields',array(
+//                'prefix'=>array($index),
+//                'legend'=>$legend,
+//                'record'=>$record
+//            
             
-        echo '</div>'; // end of collapsing internal fields
+            
+//        echo '</div>'; // end of collapsing internal fields
     echo '</div>'; // end of single Content block
     $this->Js->buffer(
         "$('#cc$index').click(function() {

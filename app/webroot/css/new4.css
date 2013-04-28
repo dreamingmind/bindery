@@ -636,16 +636,46 @@ fieldset {
 div.changeCollection {
     clear:both;
     padding:5px;
+    width: 830px;
 }
 .changeCollection img {
     float: left;
 }
 .changeCollection fieldset {
-    /*float: left;*/
+    float: left;
+    margin: 0;
 }
 .fieldsets {
     margin-left: 180px;
 }
 div.fieldsets {
     display: none;
+}
+div.content {
+    float: right;
+    width: 315px;
+}
+div.content p {
+    font-size: 12px;
+}
+div.content fieldset {
+    width: 288px;
+}
+div.content fieldset > div {
+    display: none;
+}
+.input.select > label, label[for*='ImageHeading'] {
+    display: inline-block;
+    margin-right: 5px;
+    text-align: right;
+    width: 55px;
+}
+.input.select > select, #ImageHeading {
+    width: 200px;
+}
+label[for*='ImageTreatment'] {
+    margin: 5px 0 5px 5px;
+}
+input[id*='ImageTreatment'] {
+    margin-right: 5px;
 }
