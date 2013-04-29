@@ -110,7 +110,7 @@ form table {
     background-color: #e6e49f;
 }
 form div {
-    background-color: white;
+    /*background-color: white;*/
 }
 #scrolling h1 {
     color: #802A19;
@@ -663,6 +663,7 @@ div.content fieldset {
 }
 div.content fieldset > div {
     display: none;
+    background-color: none;
 }
 .input.select > label, label[for*='ImageHeading'] {
     display: inline-block;
@@ -678,4 +679,13 @@ label[for*='ImageTreatment'] {
 }
 input[id*='ImageTreatment'] {
     margin-right: 5px;
+}
+.content fieldset legend {
+    font-size: 90%;
+    font-weight: normal;
+}
+.content fieldset {
+    background-color: #CCCCCC;
+    /*margin-bottom: 0.2em;*/
+    padding: 10px 8px;
 }

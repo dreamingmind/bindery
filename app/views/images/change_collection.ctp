@@ -33,16 +33,18 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     echo $this->Form->input('heading',array(
         'name'=>'data[master][heading]',
         'type'=>'text',
-        'class'=>'masterheading'
+        'class'=>'masterheading',
+        'value'=>$searchRecords[0]['Content']['heading']
     ));
     
     $options = array(
         'individual' => 'Set each record individually',
         'relink' => 'Relink all Content',
-        'clone' => 'Clone all and link'
+        'clone' => 'Clone all and link',
+        'ignore' => 'Don\'t change any',
         );
     $attributes = array(
-        'default'=>'individual',
+        'default'=>'relink',
         'name'=>"data[master][treatment]",
         'legend'=>false);
     echo $this->Form->radio('treatment', $options, $attributes);
@@ -81,7 +83,7 @@ foreach($searchRecords as $index => $record){
             'clone' => 'Link a clone'
             );
         $attributes = array(
-            'default'=>'ignore',
+            'default'=>'relink',
             'name'=>"data[$index][treatment]",
             'legend'=>false);
         $statusChoice = $this->Html->div(null,$this->Form->radio('treatment', $options, $attributes));
@@ -95,7 +97,7 @@ foreach($searchRecords as $index => $record){
             ));
             
         echo $this->Html->tag('fieldset',
-                $statusLegend . $statusChoice. $usage . $cc, array('class'=>'fieldsets'));
+                $statusLegend . $statusChoice. $cc, array('class'=>'fieldsets'));
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
@@ -115,7 +117,7 @@ foreach($searchRecords as $index => $record){
         $contentH = $this->Form->input("$index.Content.heading",array('value'=>$record['Content']['heading']));
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
-        echo $this->Html->div('content',$contentHead.$contentPara.$contentFieldset);
+        echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset);
         
 //        
 //        echo $this->Html->para('fieldsets','Click to open field tools',array('id'=>"cc$index"));
