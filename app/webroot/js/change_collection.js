@@ -1,14 +1,8 @@
 $(document).ready(function(){
     
-//    alert('Number of Change trackers '+$('input[id*="changed"]').size());
-    
-    // Treatment settings for individual records
-    // 'dont change'.change - reset all internal values to original values
-    $('.individual_treatment > fieldset').find('input').each(function(){
-//        alert('Individual treatment: '+$(this).attr('id'));
-    });
-    
-    // Memorize all input conditions
+    /*
+    * Memorize all input initial values
+    */
     function memorize(){
         // Radio buttons and checkboxes
         $('input').each(function(){
@@ -30,28 +24,39 @@ $(document).ready(function(){
         })
     }
     
-    // Restore input condition of this set of inputs
-    function restoreInputValue(inputSet){
-        //figure out how to do this
-    }
-    
+    /**
+     * Intitialize the behaviors of all inputs
+     */
     function initFieldBehaviors(){
         // Content heading behavior: Master
         $('#ImageHeading').bind('change',function(){
-            if($('#ImageTreatmentIndividual').attr('checked') != true){
-                $('.content > h4').text($(this).attr('value'));
-                $('input[id*="ContentHeading"]').attr('value',$(this).attr('value'))
-                fieldChanged(this);
-            } else {
-                alert('Must handle individually');
-            }
+            $('.content > h4').text($(this).attr('value'));
+            $('input[id*="ContentHeading"]').attr('value',$(this).attr('value')).trigger('change')
+            fieldChanged(this);
         })
+        
+        // Fieldset enclosed inputs
+        $('.fieldsets').find('input').each(function(){
+            $(this).bind('change',function(){
+                fieldChanged($(this));
+                // if the collection_id is changing we need
+                // to syncronize the select lists. Change tracking
+                // and value-reset will all be done on this field
+                // and not on the individual select lists
+                if($(this).attr('name').match(/data\[[0-9]+\]\[ContentCollection\]\[collection_id\]/)){
+                    scanIndividualSelect($(this).val(), $(this).parent().parent().find('select'));
+                }
+            });
+        });
     }
     
+     /**
+     * If the field is different than its original value
+     * make the label a reset tool. If the field value
+     * matches the original value show a default label
+     */
     function fieldChanged(field){
         var label = $('label[for="'+$(field).attr('id')+'"]');
-//        alert($(field).val());
-//        alert($(field).attr('reset'));
         if($(field).val() == $(field).attr('reset')){
             var labelText = $(label).text();
             $(label).text(labelText.replace('*',''))
@@ -68,12 +73,32 @@ $(document).ready(function(){
         }
     }
     
+    /**
+     * Function to restore a field to its original value
+     * then determine the proper state of its label
+     */
     function resetClick(){
 //        var input = $('label[for="'+$(field).attr('id')+'"]');
         var input = $('#'+$(this).attr('for'));
-        $(input).val($(input).attr('reset'));
+        $(input).val($(input).attr('reset')).trigger('change');
         fieldChanged(input);
 //        alert($(this).text());
+    }
+    
+    /**
+     * Given a collection_id, set the proper select list item
+     */
+    function scanIndividualSelect(collection_id, selects){
+        alert(collection_id);
+        selects.each(function(){
+            if($(this).find('option[value="'+collection_id+'"]').length == 1){
+                $(this).find('option').removeAttr('selected');
+                $(this).find('option[value="'+collection_id+'"]').attr('selected','selected');
+            } else {
+                $(this).find('option').removeAttr('selected');
+                $(this).find('option[value="0"]').attr('selected','selected');
+            }
+        })
     }
     
     memorize();

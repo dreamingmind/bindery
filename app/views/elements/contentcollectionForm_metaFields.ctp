@@ -34,9 +34,15 @@ $parameters = array(
     'model'=>'ContentCollection',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'id',
-        'content_id',
-        'collection_id'
+        'id' => array(
+            'div' => array('similar' => 'ContentCollectionId')
+        ),
+        'content_id' => array(
+            'div' => array('similar' => 'ContentCollectionContentId')
+        ),
+        'collection_id' => array(
+            'div' => array('similar' => 'ContentCollectionCollectionId')
+        )
     ) + $groups
 );
 

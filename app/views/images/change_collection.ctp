@@ -38,7 +38,7 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     ));
     
     $options = array(
-        'individual' => 'Set each record individually',
+        'varies' => 'Individual settings vary',
         'relink' => 'Relink all Content',
         'clone' => 'Clone all and link',
         'ignore' => 'Don\'t change any',
@@ -110,11 +110,22 @@ foreach($searchRecords as $index => $record){
         $contentHead = $this->Html->tag('h4',$record['Content']['heading']);
         $contentC = $this->Form->input("$index.Content.content",array(
             'value'=>$record['Content']['content'],
-            'type'=>'textarea'));
+            'type'=>'textarea',
+            'div' => array(
+                'similar' => 'ContentContent'
+            )));
         $contentID = $this->Form->input("$index.Content.id",array('value'=>$record['Content']['id'], array(
-            'type'=>'hidden'
+            'div' => array(
+                'similar' => 'ContentId'
+            )
         )));
-        $contentH = $this->Form->input("$index.Content.heading",array('value'=>$record['Content']['heading']));
+        debug($record);
+        debug($contentID);
+        $contentH = $this->Form->input("$index.Content.heading",array(
+            'value'=>$record['Content']['heading'],
+            'div' => array(
+                'similar' => 'ContentHeading'
+            )));
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
         echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset);
