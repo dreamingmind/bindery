@@ -27,7 +27,7 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     //Master Form section
     echo '<fieldset class="master"><legend>Master settings for the article</legend>';
     foreach($groups as $field => $options){
-    echo $this->Form->input($field, $options);        
+    echo $this->Form->input($field, $options);
     }
     
     echo $this->Form->input('heading',array(
@@ -38,7 +38,6 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
     ));
     
     $options = array(
-        'varies' => 'Individual settings vary',
         'relink' => 'Relink all Content',
         'clone' => 'Clone all and link',
         'ignore' => 'Don\'t change any',
@@ -47,7 +46,7 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
         'default'=>'relink',
         'name'=>"data[master][treatment]",
         'legend'=>false);
-    echo $this->Form->radio('treatment', $options, $attributes);
+    echo $this->Form->radio('master_treatment', $options, $attributes);
     
     echo $this->Form->Submit();
     echo '</fieldset>';
@@ -114,18 +113,17 @@ foreach($searchRecords as $index => $record){
             'div' => array(
                 'similar' => 'ContentContent'
             )));
-        $contentID = $this->Form->input("$index.Content.id",array('value'=>$record['Content']['id'], array(
+        $contentID = $this->Form->input("$index.Content.id",array(
+            'value'=>$record['Content']['id'],
+            'type'=>'text',
             'div' => array(
                 'similar' => 'ContentId'
-            )
-        )));
-        debug($record);
-        debug($contentID);
+            )));
         $contentH = $this->Form->input("$index.Content.heading",array(
             'value'=>$record['Content']['heading'],
             'div' => array(
                 'similar' => 'ContentHeading'
-            )));
+            ))) ;
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
         echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset);

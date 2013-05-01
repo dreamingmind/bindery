@@ -1,5 +1,14 @@
 $(document).ready(function(){
     
+    /**
+     * establish starting indicator flags in the Master area
+     * these show when individual settings diverge from
+     * displayed master field values
+     */
+    $('#ImageDispatch').after('<span id="ContentCollectionCollectionId" class="MasterCollection individualFlag"> Individual settings vary</span>');
+    $('#ImageHeading').after('<span class="MasterHeading individualFlag"> Individual settings vary</span>');
+    $('label[for="ImageMasterTreatmentClone"]').append('<span class="MasterTreatment individualFlag"> Individual settings vary</span>');
+    $('.individualFlag').css('display','none');
     /*
     * Memorize all input initial values
     */

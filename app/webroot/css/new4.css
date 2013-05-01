@@ -674,10 +674,10 @@ div.content fieldset > div {
 .input.select > select, #ImageHeading {
     width: 200px;
 }
-label[for*='ImageTreatment'] {
+label[for*='ImageTreatment'], label[for*='ImageMasterTreatment'] {
     margin: 5px 0 5px 5px;
 }
-input[id*='ImageTreatment'] {
+input[id*='ImageTreatment'], input[id*='ImageMasterTreatment'] {
     margin-right: 5px;
 }
 .content fieldset legend {
@@ -688,4 +688,10 @@ input[id*='ImageTreatment'] {
     background-color: #CCCCCC;
     /*margin-bottom: 0.2em;*/
     padding: 10px 8px;
+}
+.individualFlag {
+    display: inline-block;
+    color: red;
+    font-size: 70%;
+    padding-left: 7px;
 }
