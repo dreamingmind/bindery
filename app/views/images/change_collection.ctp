@@ -83,6 +83,7 @@ foreach($searchRecords as $index => $record){
             );
         $attributes = array(
             'default'=>'relink',
+            'id'=>'Content'.$index.'Treatment',
             'name'=>"data[$index][treatment]",
             'legend'=>false);
         $statusChoice = $this->Html->div(null,$this->Form->radio('treatment', $options, $attributes));
@@ -107,20 +108,26 @@ foreach($searchRecords as $index => $record){
         $contentLegend = $this->Html->tag('legend','Content',array('id'=>"cc$index"));
         $contentPara = $this->Html->para(null,$record['Content']['content']);
         $contentHead = $this->Html->tag('h4',$record['Content']['heading']);
-        $contentC = $this->Form->input("$index.Content.content",array(
+        $contentC = $this->Form->input("Content.content",array(
             'value'=>$record['Content']['content'],
+            'name'=>"data[$index][Content][content]",
+            'id'=>$index.'ContentContent',
             'type'=>'textarea',
             'div' => array(
                 'similar' => 'ContentContent'
             )));
-        $contentID = $this->Form->input("$index.Content.id",array(
+        $contentID = $this->Form->input("Content.id",array(
             'value'=>$record['Content']['id'],
+            'name'=>"data[$index][Content][id]",
+            'id'=>$index.'ContentId',
             'type'=>'text',
             'div' => array(
                 'similar' => 'ContentId'
             )));
-        $contentH = $this->Form->input("$index.Content.heading",array(
+        $contentH = $this->Form->input("Content.heading",array(
             'value'=>$record['Content']['heading'],
+            'name'=>"data[$index][Content][heading]",
+            'id'=>$index.'ContentHeading',
             'div' => array(
                 'similar' => 'ContentHeading'
             ))) ;
