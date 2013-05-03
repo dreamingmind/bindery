@@ -45,7 +45,7 @@ $(document).ready(function(){
         })
         
         // Fieldset enclosed inputs
-        $('.fieldsets').find('input').each(function(){
+        $('.fieldsets').find('input:not([type="radio"])').each(function(){
             $(this).bind('change',function(){
                 fieldChanged($(this));
                 // if the collection_id is changing we need
@@ -66,6 +66,7 @@ $(document).ready(function(){
      */
     function fieldChanged(field){
         var label = $('label[for="'+$(field).attr('id')+'"]');
+        var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
         if($(field).val() == $(field).attr('reset')){
             var labelText = $(label).text();
             $(label).text(labelText.replace('*',''))
@@ -73,76 +74,84 @@ $(document).ready(function(){
                 .attr('title','')
                 .css('cursor','auto')
                 .css('color','black');
-                masterFlagManagement(field);
+//                $('#'+recordIndex+'changed').val(function(){
+//                    return  this.value - 9;
+//                });
+//                masterFlagManagement(field);
         } else {
             $(label).text('*'+$(label).text())
                 .bind('click',resetClick)
                 .attr('title','Click to reset')
                 .css('cursor','pointer')
                 .css('color','red');
-                masterFlagManagement(field);
+            $('#'+recordIndex+'changed').val(function(){
+                return (parseInt(this.value) + 1);
+            });
+            masterFlagManagement(field);
         }
     }
     
     
     function masterFlagManagement(field){
-        // if we have a field that can be set from master
-        // do this scan, otherwise, bug out
-        var similar = $(field).parent().attr('similar');
-        var similarInputs = $('div[similar="'+similar+'"] input');
-        var toChange = similarInputs
-            .filter(function(){
-                return this.value.match(/[0-9]+/);
-            });
-        var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
-            
-        if(similar == 'ContentId'){
-        // when the Content.id changes, analyze the set so master-block can be sync'd
-        // Content.id is set by the Treatment radio button set, but it's used
-        // as the trigger for flagging rather than the radio set
-            if(toChange.length == 0){
-                //no IDs have values
-                $('#'+similar).css('display','none')
-                $('#ImageMasterTreatmentClone').attr('checked','checked');
-                // Now sync the individual radio button knowing it should be 'clone'
-                // Probably that radio triggered this and is ok, but just in case
-                // the user hand tweaked the id...
-                $('#Content'+recordIndex+'TreatmentClone').attr('checked','checked');
-            } else if(similarInputs.length == toChange.length){
-                //all IDs have values
-                $('#'+similar).css('display','none')
-                $('#ImageMasterTreatmentRelink').attr('checked','checked');
-                // Now sync the individual radio button knowing it should be 'relink' or 'dont change'
-                // Probably that radio triggered this and is ok, but just in case
-                // the user hand tweaked the id...
-                if($('#Content'+recordIndex+'TreatmentClone').attr('checked')){
-                    $('#Content'+recordIndex+'TreatmentRelink').attr('checked','checked');
-                }
-            } else if(similarInputs.length > toChange.length){
-                //some but not all IDs have values
-                $('#'+similar).css('display','inline-block')
-                // Now sync the individual radio button
-                // Probably that radio triggered this and is ok, but just in case
-                // the user hand tweaked the id...
-                if($('#Content'+recordIndex+'TreatmentRelink').attr('checked') 
-                        && field.attr('value') == ''){
+        if($(field).parent().attr('sync')){
+            // if we have a field that can be set from master
+            // do this scan, otherwise, bug out
+            var similar = $(field).parent().attr('similar');
+            var similarInputs = $('div[similar="'+similar+'"] input');
+            var toChange = similarInputs
+                .filter(function(){
+                    return this.value.match(/[0-9]+/);
+                });
+            var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
+
+            if(similar == 'ContentId'){
+            // when the Content.id changes, analyze the set so master-block can be sync'd
+            // Content.id is set by the Treatment radio button set, but it's used
+            // as the trigger for flagging rather than the radio set
+                if(toChange.length == 0){
+                    //no IDs have values
+                    $('#'+similar).css('display','none')
+                    $('#ImageMasterTreatmentClone').attr('checked','checked');
+                    // Now sync the individual radio button knowing it should be 'clone'
+                    // Probably that radio triggered this and is ok, but just in case
+                    // the user hand tweaked the id...
                     $('#Content'+recordIndex+'TreatmentClone').attr('checked','checked');
-                } else if($('#Content'+recordIndex+'TreatmentClone').attr('checked') 
-                        && field.attr('value') != ''){
-                    $('#Content'+recordIndex+'TreatmentRelink').attr('checked','checked');
+                } else if(similarInputs.length == toChange.length){
+                    //all IDs have values
+                    $('#'+similar).css('display','none')
+                    $('#ImageMasterTreatmentRelink').attr('checked','checked');
+                    // Now sync the individual radio button knowing it should be 'relink' or 'dont change'
+                    // Probably that radio triggered this and is ok, but just in case
+                    // the user hand tweaked the id...
+                    if($('#Content'+recordIndex+'TreatmentClone').attr('checked')){
+                        $('#Content'+recordIndex+'TreatmentRelink').attr('checked','checked');
+                    }
+                } else if(similarInputs.length > toChange.length){
+                    //some but not all IDs have values
+                    $('#'+similar).css('display','inline-block')
+                    // Now sync the individual radio button
+                    // Probably that radio triggered this and is ok, but just in case
+                    // the user hand tweaked the id...
+                    if($('#Content'+recordIndex+'TreatmentRelink').attr('checked') 
+                            && field.attr('value') == ''){
+                        $('#Content'+recordIndex+'TreatmentClone').attr('checked','checked');
+                    } else if($('#Content'+recordIndex+'TreatmentClone').attr('checked') 
+                            && field.attr('value') != ''){
+                        $('#Content'+recordIndex+'TreatmentRelink').attr('checked','checked');
+                    }
                 }
+            } else if(similar == 'ContentHeading'){
+//                alert(similar);
+
+            } else if(similar == 'ContentCollectionCollectionId'){
+//                alert(similar);
             }
-        } else if(similar == 'ContentHeading'){
-            alert(similar);
-            
-        } else if(similar == 'ContentCollectionCollectionId'){
-            alert(similar);
+
+            // find all similar that match master setting
+            // if count of found == total count of similar
+            // hide the flag span
+            // in every other case, show the flag span
         }
-        
-        // find all similar that match master setting
-        // if count of found == total count of similar
-        // hide the flag span
-        // in every other case, show the flag span
     }
     
     /** Change master treatment setting
@@ -168,6 +177,12 @@ $(document).ready(function(){
         var input = $('#'+$(this).attr('for'));
         $(input).val($(input).attr('reset')).trigger('change');
         fieldChanged(input);
+        
+        var recordIndex = parseInt($(this).attr('for').match(/[0-9]+/));
+        $('#'+recordIndex+'changed').val(function(){
+            alert(this);
+            return  this.value - 1;
+        });
 //        alert($(this).text());
     }
     

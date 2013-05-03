@@ -101,7 +101,7 @@ foreach($searchRecords as $index => $record){
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
-            'value'=>0,
+            'value'=>'0',
             'id'=>$index.'changed'
         )); // end of always visible individual treatment radio buttons
         
@@ -114,7 +114,8 @@ foreach($searchRecords as $index => $record){
             'id'=>$index.'ContentContent',
             'type'=>'textarea',
             'div' => array(
-                'similar' => 'ContentContent'
+                'similar' => 'ContentContent',
+                'sync' => true
             )));
         $contentID = $this->Form->input("Content.id",array(
             'value'=>$record['Content']['id'],
@@ -122,14 +123,16 @@ foreach($searchRecords as $index => $record){
             'id'=>$index.'ContentId',
             'type'=>'text',
             'div' => array(
-                'similar' => 'ContentId'
+                'similar' => 'ContentId',
+                'sync' => true
             )));
         $contentH = $this->Form->input("Content.heading",array(
             'value'=>$record['Content']['heading'],
             'name'=>"data[$index][Content][heading]",
             'id'=>$index.'ContentHeading',
             'div' => array(
-                'similar' => 'ContentHeading'
+                'similar' => 'ContentHeading',
+                'sync' => true
             ))) ;
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
