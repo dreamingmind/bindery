@@ -76,7 +76,13 @@ class RequestsController extends AppController {
             $this->set('result',$this->data);
             $this->Email->from    = $this->company['email'];
             $this->Email->subject = 'Thanks for your Dreaming Mind Workshop date request';
-            $body = 'This is the message body';
+            $body = <<< BOD
+Thank you for you interest in Dreamng Mind Workshops.
+    
+Now, CHECK OUT THIS SIGNATURE!! It's new in \$this->company.
+
+{$this->company['workshopSignature']}
+BOD;
 
             if (isset($this->data['Request']['email'])){
                 $this->Email->to      = $this->data['Request']['email'];
