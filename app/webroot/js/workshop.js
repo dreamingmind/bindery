@@ -4,11 +4,11 @@ function initForm (){
     // $(requestform).html($(requestform).find('legend').html('bill'));
     // alert (requestform);
 $('legend').text(
-$('input#WorkshopHeading').val() + ' workshop');
-var datereqblock = $('input#WorkshopHeading').parent().html();
-var drboutput=datereqblock.replace('type="text"','type="hidden"').replace('<label for="WorkshopHeading">Heading</label>','');
-$('input#WorkshopHeading').parent().html(drboutput);
-$('#WorkshopRequestForm').css('display','none');
+$('input#RequestWorkshopName').val() + ' workshop');
+var datereqblock = $('input#RequestWorkshopName').parent().html();
+var drboutput=datereqblock.replace('type="text"','type="hidden"').replace('<label for="RequestWorkshopName">Heading</label>','');
+$('input#RequestWorkshopName').parent().html(drboutput);
+$('#RequestRequestForm').css('display','none');
 $('.requesttoggle').clone().appendTo('.linkDiv');
 $('.requesttoggle').bind('click',function (e){
   e.preventDefault();
@@ -20,10 +20,10 @@ $('.requesttoggle').bind('click',function (e){
     }
   }else {
     //insert logic here to handle a different position between featured and standard sessions
-    $(this).before($('#WorkshopRequestForm'));
-    $('#WorkshopRequestForm').css('display','block');
-    $('#WorkshopRequestForm legend').html($(this).parent().attr('heading'));
-    $('#WorkshopHeading').attr('value',$(this).parent().attr('heading'));
+    $(this).before($('#RequestRequestForm'));
+    $('#RequestRequestForm').css('display','block');
+    $('#RequestRequestForm legend').html($(this).parent().attr('heading'));
+    $('#RequestWorkshopName').attr('value',$(this).parent().attr('heading'));
   }
   // $(this).siblings('form').toggle();
 })

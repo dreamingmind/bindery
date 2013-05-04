@@ -41,7 +41,8 @@ class Workshop extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-                'ContentCollection'
+                'ContentCollection',
+                'Request'
 	);
         
 //        /**

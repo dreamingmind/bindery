@@ -58,7 +58,8 @@ class AppController extends Controller {
             //'authorize' => 'crud',
             'allowedActions' => array('display')
         ),
-        'Session'
+        'Session',
+        'Email'
         );
 
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text','Number');
@@ -160,6 +161,13 @@ class AppController extends Controller {
         $this->mainNavigation(); //get the account appropriate full, potential menu record set
         $this->splashContent = $this->pullSplash();
         $this->Auth->logoutRedirect = $this->referer('bindery', TRUE);
+        $this->Email->smtpOptions = array(
+            'port'=>'465',
+            'host' => 'ssl://mail.dreamingmind.com',
+            'username' => 'ddrake@dreamingmind.com',
+            'password' => 'hU_9d+4F'
+        );
+        $this->Email->delivery = 'smtp';
 //        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
 
         //debug();
