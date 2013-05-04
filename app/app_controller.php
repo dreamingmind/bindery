@@ -249,6 +249,35 @@ class AppController extends Controller {
     function initCompany() {
         Configure::load('company');
         $this->company = Configure::read('company');
+        $this->company['workshopSignature'] = 
+<<< SIG
+
+{$this->company['firstName']} {$this->company['lastName']}
+{$this->company['businessName']}
+{$this->company['slogan']}
+    
+{$this->company['phone']}
+{$this->company['email']}
+{$this->company['siteURL']}
+{$this->company['workshopURL']}
+SIG;
+
+        $this->company['fullSignature'] = 
+<<< SIG
+
+{$this->company['firstName']} {$this->company['lastName']}
+{$this->company['businessName']}
+{$this->company['slogan']}
+    
+{$this->company['phone']}
+{$this->company['email']}
+    
+{$this->company['siteURL']}
+{$this->company['blogURL']}
+{$this->company['productURL']}
+{$this->company['workshopURL']}
+{$this->company['artURL']}
+SIG;
         $this->set('company', $this->company);
     }
 

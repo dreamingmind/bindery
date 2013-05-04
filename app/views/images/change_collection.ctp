@@ -86,7 +86,7 @@ foreach($searchRecords as $index => $record){
             'id'=>'Content'.$index.'Treatment',
             'name'=>"data[$index][treatment]",
             'legend'=>false);
-        $statusChoice = $this->Html->div(null,$this->Form->radio('treatment', $options, $attributes));
+        $statusChoice = $this->Html->div('individualTreatment',$this->Form->radio('treatment', $options, $attributes));
         
             // ContentCollection meta fields
             $cc = $this->element('contentcollectionForm_metaFields',array(
@@ -101,7 +101,7 @@ foreach($searchRecords as $index => $record){
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
-            'value'=>'0',
+            'value'=>0,
             'id'=>$index.'changed'
         )); // end of always visible individual treatment radio buttons
         
@@ -131,8 +131,7 @@ foreach($searchRecords as $index => $record){
             'name'=>"data[$index][Content][heading]",
             'id'=>$index.'ContentHeading',
             'div' => array(
-                'similar' => 'ContentHeading',
-                'sync' => true
+                'similar' => 'ContentHeading'
             ))) ;
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
