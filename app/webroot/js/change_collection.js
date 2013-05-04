@@ -64,14 +64,15 @@ $(document).ready(function(){
                 $(this).bind('change', function(){
                     if($(this).attr('id').match(/clone/i) != null){
                         // clicked master clone radio button
-//                        $('.individualTreatment input[value="clone"]')
+                        $('.individualTreatment input[value="clone"]').attr('checked','checked');
                         $('div[similar="ContentId"]').find('input').each(function(){
                             $(this).val('');
                             $(this).trigger('change');
                         });
                     } else {
+                        // clicked relink or ignore master treatment button
+                        $('.individualTreatment input[value="'+$(this).val()+'"]').attr('checked','checked');
                         $('div[similar="ContentId"]').find('input').each(function(){
-//                        $('.individualTreatment input[value="'+$(this).val()+'"]')
                             doFieldReset($(this));
 //                            $(this).val($(this).attr('reset'));
                             $(this).trigger('change');
@@ -79,9 +80,20 @@ $(document).ready(function(){
                     }
                 }) // end of MASTER radio button initializaton
             } else {
-                
+                // These are the individual treatment settings
+                $(this).bind('change',function(){
+                    var recordIndex = $(this).attr('id').match(/[0-9]+/);
+                    var input = $('#'+recordIndex+'ContentId');
+                    if($(this).attr('id').match(/clone/i) != null){
+                        //clicked individual clone radio button
+                        input.val('').trigger('change');
+                    } else {
+                        doFieldReset(input);
+//                            $(this).val($(this).attr('reset'));
+                        $(input).trigger('change');
+                    }
+                });
             }
-            
         })
     }
     
@@ -152,7 +164,9 @@ $(document).ready(function(){
                 } else if(similarInputs.length == toChange.length){
                     //all IDs have values
                     $('#'+similar).css('display','none')
-                    $('#ImageMasterTreatmentRelink').attr('checked','checked');
+                    if($('#ImageMasterTreatmentClone').attr('checked')){
+                        $('#ImageMasterTreatmentRelink').attr('checked','checked');
+                    }
                     // Now sync the individual radio button knowing it should be 'relink' or 'dont change'
                     // Probably that radio triggered this and is ok, but just in case
                     // the user hand tweaked the id...
