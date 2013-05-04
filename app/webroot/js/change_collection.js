@@ -57,6 +57,32 @@ $(document).ready(function(){
                 }
             });
         });
+        
+        // do the treatment radio buttons
+        $('input[type="radio"]').each(function(){
+            if($(this).attr('id').match(/master/i) != null){
+                $(this).bind('change', function(){
+                    if($(this).attr('id').match(/clone/i) != null){
+                        // clicked master clone radio button
+//                        $('.individualTreatment input[value="clone"]')
+                        $('div[similar="ContentId"]').find('input').each(function(){
+                            $(this).val('');
+                            $(this).trigger('change');
+                        });
+                    } else {
+                        $('div[similar="ContentId"]').find('input').each(function(){
+//                        $('.individualTreatment input[value="'+$(this).val()+'"]')
+                            doFieldReset($(this));
+//                            $(this).val($(this).attr('reset'));
+                            $(this).trigger('change');
+                        });
+                    }
+                }) // end of MASTER radio button initializaton
+            } else {
+                
+            }
+            
+        })
     }
     
      /**
@@ -65,8 +91,12 @@ $(document).ready(function(){
      * matches the original value show a default label
      */
     function fieldChanged(field){
+        //master fields have no numeric index
+        var master = $(field).attr('class').match(/master/) != null;
         var label = $('label[for="'+$(field).attr('id')+'"]');
-        var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
+        if(!master){
+            var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
+        }
         if($(field).val() == $(field).attr('reset')){
             var labelText = $(label).text();
             $(label).text(labelText.replace('*',''))
@@ -77,16 +107,19 @@ $(document).ready(function(){
 //                $('#'+recordIndex+'changed').val(function(){
 //                    return  this.value - 9;
 //                });
-//                masterFlagManagement(field);
-        } else {
+                masterFlagManagement(field);
+        } else if($(label).css('color') != 'red') {
+            //Only evaluate if this field wasn't previously changed
             $(label).text('*'+$(label).text())
                 .bind('click',resetClick)
                 .attr('title','Click to reset')
                 .css('cursor','pointer')
                 .css('color','red');
-            $('#'+recordIndex+'changed').val(function(){
-                return (parseInt(this.value) + 1);
-            });
+            if(!master){
+                $('#'+recordIndex+'changed').val(function(){
+                    return (parseInt(this.value) + 1);
+                });
+            }
             masterFlagManagement(field);
         }
     }
@@ -153,21 +186,7 @@ $(document).ready(function(){
             // in every other case, show the flag span
         }
     }
-    
-    /** Change master treatment setting
-     *
-     */
-    function changeMasterTreatment(){
-        // reach in and change all the Content.ids
-        // but do not run their change functions
-        // because the evaluate overall Content treatment
-        // method for the group and reach back to 
-        // the Master treatment to insure it is set properly
-        // Hence they will destroy the users click in the 
-        // process. 
-        //
-    }
-    
+        
     /**
      * Function to restore a field to its original value
      * then determine the proper state of its label
@@ -175,15 +194,29 @@ $(document).ready(function(){
     function resetClick(){
 //        var input = $('label[for="'+$(field).attr('id')+'"]');
         var input = $('#'+$(this).attr('for'));
-        $(input).val($(input).attr('reset')).trigger('change');
-        fieldChanged(input);
-        
-        var recordIndex = parseInt($(this).attr('for').match(/[0-9]+/));
-        $('#'+recordIndex+'changed').val(function(){
-            alert(this);
-            return  this.value - 1;
-        });
+        doFieldReset(input);
+//        $(input).val($(input).attr('reset')).trigger('change');
+//        fieldChanged(input);
+//        
+//        var recordIndex = parseInt($(this).attr('for').match(/[0-9]+/));
+//        $('#'+recordIndex+'changed').val(function(){
+//            alert(this);
+//            return  this.value - 1;
+//        });
 //        alert($(this).text());
+    }
+    
+    function doFieldReset(input){
+        if($(input).val() != $(input).attr('reset')){
+            $(input).val($(input).attr('reset')).trigger('change');
+            fieldChanged(input);
+
+            var recordIndex = parseInt($(input).attr('id').match(/[0-9]+/));
+            $('#'+recordIndex+'changed').val(function(){
+    //            alert(this);
+                return  this.value - 1;
+            });
+        }
     }
     
     /**
