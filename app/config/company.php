@@ -16,7 +16,8 @@
 //        Configure::write('company.aim', 'stitchbyhand');
 //        Configure::write('company.jabber', 'dreamingmind.8');
 //
-        $config['company.name'] = 'Dreaming Mind';
+        $config['company.businessName'] = 'Dreaming Mind';
+        $config['company.slogan'] = 'Creating Contatiners for Creative Expression';
         $config['company.bindery'] = 'Dreaming Mind Bindery';
         $config['company.phone'] = '(510) 537-9711';
         $config['company.dotphone'] = '510.537.9711';
@@ -25,8 +26,14 @@
         $config['company.fax'] = '(925) 475-6709';
         $config['company.dotfax'] = '925.475-6709';
         $config['company.email'] = 'ddrake@dreamingmind.com';
-        $config['company.url'] = 'http://dreamingmind.com';
+        $config['company.siteURL'] = 'http://e.dreamingmind.com/bindery/';
+        $config['company.workshopURL'] = 'http://e.dreamingmind.com/bindery/workshops/';
+        $config['company.artURL'] = 'http://e.dreamingmind.com/bindery/art/';
+        $config['company.blogURL'] = 'http://e.dreamingmind.com/bindery/blog/';
+        $config['company.productURL'] = 'http://e.dreamingmind.com/bindery/products/';
         $config['company.aim'] = 'stitchbyhand';
         $config['company.jabber'] = 'dreamingmind.8';
+        $config['company.firstName'] = 'Don';
+        $config['company.lastName'] = 'Drake';
 
 ?>
