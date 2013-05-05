@@ -44,6 +44,9 @@ $(document).ready(function(){
             fieldChanged(this);
         })
         
+        $('textarea').bind('change', function(){
+            fieldChanged($(this));
+        })
         // Fieldset enclosed inputs
         $('.fieldsets').find('input:not([type="radio"])').each(function(){
             $(this).bind('change',function(){
