@@ -50,14 +50,15 @@ $(document).ready(function(){
         // Fieldset enclosed inputs
         $('.fieldsets').find('input:not([type="radio"])').each(function(){
             $(this).bind('change',function(){
+//                var recordIndex = $(this).attr('name').match(/[0-9]+/);
                 fieldChanged($(this));
                 // if the collection_id is changing we need
                 // to syncronize the select lists. Change tracking
                 // and value-reset will all be done on this field
                 // and not on the individual select lists
-                if($(this).attr('name').match(/data\[[0-9]+\]\[ContentCollection\]\[collection_id\]/)){
-                    scanIndividualSelect($(this).val(), $(this).parent().parent().find('select'));
-                }
+//                if($(this).attr('name').match(/data\[[0-9]+\]\[ContentCollection\]\[collection_id\]/)){
+//                    scanIndividualSelect($(this).val(), $('#'+recordIndex+'Individual').find('select'));
+//                }
             });
         });
         
@@ -225,7 +226,22 @@ $(document).ready(function(){
                     $('#'+similar).css('display','inline-block')
                 }
             } else if(similar == 'ContentCollectionCollectionId'){
-//                alert(similar);
+                var recordIndex = $(field).attr('name').match(/[0-9]+/);
+                if(toChange.length == 0){
+                    //no Headings have changed
+                    $('#'+similar).css('display','none')
+                    scanIndividualSelect($(field).val(), $('#'+recordIndex+'Individual').find('select'));
+                    scanIndividualSelect($(field).val(), $('.master').find('select'));
+                } else if(similarInputs.length == toChange.length){
+                    //all Headings have changed
+                    $('#'+similar).css('display','none')
+                    scanIndividualSelect($(field).val(), $('#'+recordIndex+'Individual').find('select'));
+                    scanIndividualSelect($(field).val(), $('.master').find('select'));
+                } else if(similarInputs.length > toChange.length){
+                    //some but not all Headings have changed
+                    $('#'+similar).css('display','inline-block')
+                    scanIndividualSelect($(field).val(), $('#'+recordIndex+'Individual').find('select'));
+                }
             }
 
             // find all similar that match master setting
@@ -271,7 +287,7 @@ $(document).ready(function(){
      * Given a collection_id, set the proper select list item
      */
     function scanIndividualSelect(collection_id, selects){
-        alert(collection_id);
+//        alert(collection_id);
         selects.each(function(){
             if($(this).find('option[value="'+collection_id+'"]').length == 1){
                 $(this).find('option').removeAttr('selected');

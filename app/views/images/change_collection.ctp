@@ -70,8 +70,7 @@ foreach($searchRecords as $index => $record){
 
         $usage = $this->Html->para(null, $legend);
 
-    echo '<div class="changeCollection individual_treatment">';
-    //    debug($record['Content']['ContentCollection']);
+    echo '<div class="changeCollection individual_treatment" id="'.$index.'Individual">';
         echo $this->Html->makeLinkedImage('', $record['Content']['Image']);
         
         // Individual radio buttons (always visible)
@@ -87,7 +86,9 @@ foreach($searchRecords as $index => $record){
             'id'=>'Content'.$index.'Treatment',
             'name'=>"data[$index][treatment]",
             'legend'=>false);
-        $statusChoice = $this->Html->div('individualTreatment',$this->Form->radio('treatment', $options, $attributes));
+        $statusChoice = $this->Html->div(
+                'individualTreatment',
+                $this->Form->radio('treatment', $options, $attributes));
  
         $droplists = '';
         foreach($groups as $field => $options){
@@ -103,7 +104,10 @@ foreach($searchRecords as $index => $record){
         ));
         
         $cc = str_replace('<fieldset>', '<fieldset class="fieldsets">', $cc);
+        $cc = str_replace('similar="ContentCollectionCollectionId"', 
+                'similar="ContentCollectionCollectionId" sync="1"', $cc);
             
+
         echo $this->Html->tag('fieldset',
                 $statusLegend . $statusChoice. $droplists, array('class'=>'fieldsets'));
         echo $this->Form->input('changed',array(
