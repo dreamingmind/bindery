@@ -40,7 +40,7 @@ $(document).ready(function(){
         // Content heading behavior: Master
         $('#ImageHeading').bind('change',function(){
             $('.content > h4').text($(this).attr('value'));
-            $('input[id*="ContentHeading"]').attr('value',$(this).attr('value')).trigger('change')
+            $('input[id*="ContentHeading"]').val($(this).attr('value')).trigger('change')
             fieldChanged(this);
         })
         
@@ -145,7 +145,9 @@ $(document).ready(function(){
             var similarInputs = $('div[similar="'+similar+'"] input');
             var toChange = similarInputs
                 .filter(function(){
-                    return this.value.match(/[0-9]+/);
+                    if($(this).val() == $(this).attr('reset')){
+                        return $(this);
+                    };
                 });
             var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
 
@@ -188,8 +190,37 @@ $(document).ready(function(){
                     }
                 }
             } else if(similar == 'ContentHeading'){
-//                alert(similar);
-
+            // when the Content.id changes, analyze the set so master-block can be sync'd
+            // Content.id is set by the Treatment radio button set, but it's used
+            // as the trigger for flagging rather than the radio set
+                if(toChange.length == 0){
+                    //no Headings have changed
+                    if($('#ImageHeading').val != field.val()){
+                        $('#ImageHeading').val(field.val());
+                    }
+                    $('label[for="ImageHeading"]').text('*Heading')
+                        .bind('click',resetClick)
+                        .attr('title','Click to reset')
+                        .css('cursor','pointer')
+                        .css('color','red');
+                    $('#'+similar).css('display','none')
+//                    $('#ImageMasterTreatmentClone').attr('checked','checked');
+//                    $('#Content'+recordIndex+'TreatmentClone').attr('checked','checked');
+                } else if(similarInputs.length == toChange.length){
+                    //all Headings have changed
+                    if($('#ImageHeading').val != field.val()){
+                        $('#ImageHeading').val(field.val());
+                    }
+                    $('label[for="ImageHeading"]').text('Heading')
+                        .unbind('click')
+                        .attr('title','')
+                        .css('cursor','auto')
+                        .css('color','black');
+                    $('#'+similar).css('display','none')
+                } else if(similarInputs.length > toChange.length){
+                    //some but not all Headings have changed
+                    $('#'+similar).css('display','inline-block')
+                }
             } else if(similar == 'ContentCollectionCollectionId'){
 //                alert(similar);
             }

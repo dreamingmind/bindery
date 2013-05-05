@@ -1,5 +1,6 @@
 <?php
 //debug($this->params);
+//debug($this->viewVars);
 $group = array();
 if(isset($allCollections)){
     // make the grouped list into individual lists with a [0] element
@@ -114,8 +115,7 @@ foreach($searchRecords as $index => $record){
             'id'=>$index.'ContentContent',
             'type'=>'textarea',
             'div' => array(
-                'similar' => 'ContentContent',
-                'sync' => true
+                'similar' => 'ContentContent'
             )));
         $contentID = $this->Form->input("Content.id",array(
             'value'=>$record['Content']['id'],
@@ -131,7 +131,8 @@ foreach($searchRecords as $index => $record){
             'name'=>"data[$index][Content][heading]",
             'id'=>$index.'ContentHeading',
             'div' => array(
-                'similar' => 'ContentHeading'
+                'similar' => 'ContentHeading',
+                'sync' => true
             ))) ;
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
