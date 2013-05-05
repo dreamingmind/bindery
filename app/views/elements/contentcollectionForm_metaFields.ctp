@@ -10,7 +10,7 @@
 ?> 
 <?php
 
-$group = array();
+$group = $groups = array();
 if(isset($allCollections)){
     // make the grouped list into individual lists with a [0] element
     foreach($allCollections as $group => $list){

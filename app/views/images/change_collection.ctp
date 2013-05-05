@@ -25,12 +25,7 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
                 . ucfirst($searchRecords[0]['Collection']['Category']['name']) . ' category');        
 //    }
     
-    //Master Form section
     echo '<fieldset class="master"><legend>Master settings for the article</legend>';
-    foreach($groups as $field => $options){
-    echo $this->Form->input($field, $options);
-    }
-    
     echo $this->Form->input('heading',array(
         'name'=>'data[master][heading]',
         'type'=>'text',
@@ -49,7 +44,12 @@ echo $this->Form->create('Image', array('action'=>"change_collection/$slug/$id")
         'legend'=>false);
     echo $this->Form->radio('master_treatment', $options, $attributes);
     
-    echo $this->Form->Submit();
+    //Master Form section
+    foreach($groups as $field => $options){
+    echo $this->Form->input($field, $options);
+    }
+    
+    echo $this->Form->Submit(); 
     echo '</fieldset>';
     
 foreach($searchRecords as $index => $record){
@@ -78,9 +78,9 @@ foreach($searchRecords as $index => $record){
         $statusLegend = $this->Html->tag('legend','Content treatment during assignment',
                 array('id'=>"contentStatus$index"));
         $options = array(
-            'ignore' => 'Don\'t change me',
             'relink' => 'Relink this Content',
-            'clone' => 'Link a clone'
+            'clone' => 'Link a clone',
+            'ignore' => 'Don\'t change me'
             );
         $attributes = array(
             'default'=>'relink',
@@ -88,17 +88,24 @@ foreach($searchRecords as $index => $record){
             'name'=>"data[$index][treatment]",
             'legend'=>false);
         $statusChoice = $this->Html->div('individualTreatment',$this->Form->radio('treatment', $options, $attributes));
+ 
+        $droplists = '';
+        foreach($groups as $field => $options){
+            $droplists .= $this->Form->input($field, $options);
+        }
+        unset($allCollections, $this->viewVars['allCollections']);
+        // ContentCollection meta fields
+        $cc = $this->element('contentcollectionForm_metaFields',array(
+            'record'=>$record,
+            'legend'=>'ContentCollection Link Fields',
+            'prefix'=>array($index)//,
+//            'allCollections'=>$allCollections
+        ));
         
-            // ContentCollection meta fields
-            $cc = $this->element('contentcollectionForm_metaFields',array(
-                'record'=>$record,
-                'legend'=>'ContentCollection Link Fields',
-                'prefix'=>array($index),
-                'allCollections'=>$allCollections
-            ));
+        $cc = str_replace('<fieldset>', '<fieldset class="fieldsets">', $cc);
             
         echo $this->Html->tag('fieldset',
-                $statusLegend . $statusChoice. $cc, array('class'=>'fieldsets'));
+                $statusLegend . $statusChoice. $droplists, array('class'=>'fieldsets'));
         echo $this->Form->input('changed',array(
             'type'=>'hidden',
             'name'=>"data[$index][changed]",
@@ -136,7 +143,7 @@ foreach($searchRecords as $index => $record){
             ))) ;
         $contentFieldset = $this->Html->tag('fieldset',
                 $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
-        echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset);
+        echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset . $cc);
         
 //        
 //        echo $this->Html->para('fieldsets','Click to open field tools',array('id'=>"cc$index"));
