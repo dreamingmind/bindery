@@ -1075,11 +1075,28 @@ class ImagesController extends AppController {
     
     function change_collection($slug = 'lucha-libre', $collection_id = 60){
         if(isset($this->data)){
-            debug($this->data);
+            $master = array_shift($this->data);
+            foreach($this->data as $index => $record){
+                if($record['changed'] != 0){
+                    if($record['Content']['id']==''){
+                        $this->Image->Content->create();
+                        $this->Image->Content->save($record);
+                        $record['ContentCollection']['content_id'] = $this->Image->Content->id;
+                        $record['ContentCollection']['id'] = '';
+                        $this->Image->Content->ContentCollection->create();
+                        $this->Image->Content->ContentCollection->save($record);
+                    } else {
+                        $this->Image->Content->create();
+                        $this->Image->Content->save($record);
+                        $this->Image->Content->ContentCollection->create();
+                        $this->Image->Content->ContentCollection->save($record);
+                    }
+                }
+            }
         }
         $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
         $this->searchRecords = $this->Image->Content->ContentCollection->pullForChangeCollection($slug, $collection_id);
-
+//        debug($this->searchRecords);die;
         // this is how the set of collection selectors are made in the element
         // $groups is a valid part of a field list for the fieldset helper
         $allCollections = $this->Image->Content->ContentCollection->Collection->allCollections();

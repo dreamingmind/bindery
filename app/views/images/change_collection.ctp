@@ -147,8 +147,20 @@ foreach($searchRecords as $index => $record){
                 'similar' => 'ContentHeading',
                 'sync' => true
             ))) ;
+        $contentPlus = 
+        $this->Form->input('Content.image_id', array('type'=>'text',
+            'name'=>"data[$index][Content][image_id]",
+                'value'=>$record['Content']['image_id']))
+                .$this->Form->input('Content.alt',array(
+                    'name'=>"data[$index][Content][alt]",
+                    'value'=>$record['Content']['alt']
+                ))
+                .$this->Form->input('Content.title',array(
+                    'name'=>"data[$index][Content][title]",
+                    'value'=>$record['Content']['title']
+                ));
         $contentFieldset = $this->Html->tag('fieldset',
-                $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC), array('class'=>'fieldsets'));
+                $contentLegend.$this->Html->div("cc$index",$contentID.$contentH.$contentC.$contentPlus), array('class'=>'fieldsets'));
         echo $this->Html->div('content',$usage . $contentHead.$contentPara.$contentFieldset . $cc);
         
 //        
