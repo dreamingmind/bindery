@@ -1,5 +1,53 @@
+/**
+ * Tools to keep all the inputs on content_collection in sync
+ * 
+ * Since there are typically 2 inputs that can be used to set
+ * a field value (one master-set input and one individual-record input)
+ * AND a third input which is the actual $this->data[blah], there is
+ * a lot of potential for irrational page content.
+ * 
+ * The basic plan:
+ *      - The data field change-event does the work of coordinating the 
+ *        other page elements.
+ *      - A field which must do this work is in a div with attribute
+ *        'sync' which indicates the process must be done, and an
+ *        attribute 'similar' which provides a way to locate all the 
+ *        this field in the other records, and a <span> on the master
+ *        field that will display info about the master field setting
+ *        matches all the individual fields
+ *      - When a data field changes, it gets a reset clicker on its
+ *        label so it can be restored
+ *      - When all matching fields come into allignment (same values)
+ *        the master input is set to match. Otherwise the master's
+ *        <span> tells things are based on individual/local settings
+ *      - When a field changes it sets it own individual/local tool
+ *        to match its value
+ *        
+ *      - So using a master or individual/local input, reaches in to 
+ *        set the data field and the data field change-event reaches
+ *        back up to sync all the associated inputs
+ *        
+ *      - Adding a recordIndex attribute would make it much easier
+ *        to associate the individual/local inputs and their
+ *        associated data fields.
+ *        
+ * The View is a bit of a mess. And this code is ineficient too.
+ * There are some bugs related to multiple changes on collection_id.
+ * This might clear up if I took the hard-coded UUID's out of 
+ * the Fieldset Helper. It's only there to make the toggle work and
+ * I can probably find a better way of doing that now.
+ * 
+ * Also, I set a 'reset' value on all my inputs but it appears
+ * there is already a defaultValue property on them that will make
+ * this unnecessary.
+ * 
+ * Use document.location.pathname to add alternative action
+ * attributes to the submit button so, after submitting and 
+ * processing the data we can come back to this page on the 
+ * new article or the old
+ */
+
 $(document).ready(function(){
-    
     /**
      * establish starting indicator flags in the Master area
      * these show when individual settings diverge from
@@ -122,7 +170,7 @@ $(document).ready(function(){
         var master = $(field).attr('class').match(/master/) != null;
         var label = $('label[for="'+$(field).attr('id')+'"]');
         if(!master){
-            var recordIndex = parseInt(field.attr('id').match(/[0-9]+/));
+            var recordIndex = parseInt(field.attr('name').match(/[0-9]+/));
         }
         if($(field).val() == $(field).attr('reset')){
             var labelText = $(label).text();
