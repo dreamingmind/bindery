@@ -94,6 +94,8 @@ foreach($searchRecords as $index => $record){
         foreach($groups as $field => $options){
             $droplists .= $this->Form->input($field, $options);
         }
+        
+        $droplists = str_replace('data[master]','data['.$index.']',$droplists);
         unset($allCollections, $this->viewVars['allCollections']);
         // ContentCollection meta fields
         $cc = $this->element('contentcollectionForm_metaFields',array(

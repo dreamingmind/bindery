@@ -1074,6 +1074,9 @@ class ImagesController extends AppController {
 
     
     function change_collection($slug = 'lucha-libre', $collection_id = 60){
+        if(isset($this->data)){
+            debug($this->data);
+        }
         $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
         $this->searchRecords = $this->Image->Content->ContentCollection->pullForChangeCollection($slug, $collection_id);
 

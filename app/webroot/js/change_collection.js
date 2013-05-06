@@ -98,6 +98,17 @@ $(document).ready(function(){
                     }
                 });
             }
+        });
+        
+        // do the select lists
+        $('select').bind('change',function(){
+            if($(this).attr('name').match(/master/)){
+                $('input[id*="-collection_id"]').val($(this).val()).trigger('change');
+            } else {
+                var recordIndex = $(this).attr('name').match(/[0-9]+/);
+                $('input[name="data['+recordIndex+'][ContentCollection][collection_id]"]').val($(this).val()).trigger('change');
+//                $('input[name="data['+recordIndex+'][ContentCollection][collection_id]"]').trigger('change');
+            }
         })
     }
     
