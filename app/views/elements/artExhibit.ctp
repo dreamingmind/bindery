@@ -32,14 +32,15 @@
             : 'Here is an additional, related article.';
         echo $this->Html->tag('h4',$message);
         foreach($details as $detail){
-            $detail_data = explode(':', $detail);
-            $image = $this->Html->image('images'.DS.'thumb'.DS.'x75y56'.DS.$detail_data[2]);
-//            echo $image;
-            $link = $this->Html->link($image,
-                    DS.'blog'.DS.$detail_data[0].DS.$detail_data[1],
-                    array('escape'=>false,'class'=>'detaillink')
-            );
-            echo $link;
+            echo $this->Html->artDetailBlock($this->viewVars, $detail,'images/thumb/x75y56/');
+//            $detail_data = explode(':', $detail);
+//            $image = $this->Html->image('images'.DS.'thumb'.DS.'x75y56'.DS.$detail_data[2]);
+////            echo $image;
+//            $link = $this->Html->link($image,
+//                    DS.'blog'.DS.$detail_data[0].DS.$detail_data[1],
+//                    array('escape'=>false,'class'=>'detaillink')
+//            );
+//            echo $link;
         }
         
     }

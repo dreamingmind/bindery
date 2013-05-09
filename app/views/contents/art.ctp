@@ -28,7 +28,7 @@ if(!empty($record)){
     foreach($list as $result){
         echo $html->foundArtBlock($this->viewVars, $result);
     }
-    debug($list);
+//    debug($list);
 }
 
 ?>

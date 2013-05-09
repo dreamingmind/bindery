@@ -63,6 +63,47 @@ class Collection extends AppModel {
             return $this->allCollections;
         }
 
-
+        function articleTOC($category){
+            $tocbase = $this->find('all',array(
+                'fields'=>array(
+                    'Collection.id',
+                    'Collection.category_id',
+                    'Collection.slug',
+                    'Collection.heading'),
+                'contain'=>array(
+                    'ContentCollection'=>array(
+                        'fields'=>array(
+                            'ContentCollection.content_id',
+                            'ContentCollection.collection_id',
+                            'ContentCollection.publish'
+                        ),
+                        'Content'=>array(
+                            'fields'=>array(
+                                'Content.id',
+                                'Content.heading',
+                                'Content.slug'
+                            )
+                        ),
+                        'conditions'=>array('ContentCollection.publish'=>1)
+                    )
+                ),
+                'conditions'=>array(
+                    'Collection.category_id'=>$this->Category->categoryNI[$category]
+                ),
+                'group'=>'Collection.slug'
+            ));
+            foreach($tocbase as $index => $collection){
+                $level_id = $collection['Collection']['id'];
+                $level_slug = $collection['Collection']['slug'];
+                $toc['lookup'][$level_slug] = $level_id;
+                $toc[$level_id] = $collection['Collection'];
+                $i = 0;
+                while($i < count($collection['ContentCollection'])){
+                    $toc[$level_id]['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
+                    $i++;
+                }
+            }
+            return $toc;
+        }
 }
 ?>

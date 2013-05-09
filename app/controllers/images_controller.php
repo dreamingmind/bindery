@@ -1074,8 +1074,10 @@ class ImagesController extends AppController {
 
     
     function change_collection($slug = 'lucha-libre', $collection_id = 60){
+        $links = array();
         if(isset($this->data)){
             $master = array_shift($this->data);
+            
             foreach($this->data as $index => $record){
                 if($record['changed'] != 0){
                     if($record['Content']['id']==''){
@@ -1091,9 +1093,13 @@ class ImagesController extends AppController {
                         $this->Image->Content->ContentCollection->create();
                         $this->Image->Content->ContentCollection->save($record);
                     }
+                    // Build data for links to saved/moved articles
+                    $content = $this->Image->Content->read('slug',$this->Image->Content->id);
+                    $links[$content['Content']['slug'].$record['ContentCollection']['collection_id']]=array($content['Content']['slug'],$record['ContentCollection']['collection_id']);
                 }
             }
         }
+        $this->set('links',$links);
         $this->set('allTitles',  $this->Image->Content->ContentCollection->pullArticleList());
         $this->searchRecords = $this->Image->Content->ContentCollection->pullForChangeCollection($slug, $collection_id);
 //        debug($this->searchRecords);die;
@@ -1109,7 +1115,7 @@ class ImagesController extends AppController {
         $this->set('searchRecords',  $this->searchRecords);
 //        $this->image_grid();
         $this->setSearchAction('change_collection');
-    }
+        }
     /**
      * Image grid interface for admins
      * 

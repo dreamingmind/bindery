@@ -688,46 +688,7 @@ class ContentsController extends AppController {
      */
     function readBlogTOC() {
         if(!($toc = Cache::read('toc'))) {
-
-            $tocbase = $this->Content->ContentCollection->Collection->find('all',array(
-                'fields'=>array(
-                    'Collection.id',
-                    'Collection.category_id',
-                    'Collection.slug',
-                    'Collection.heading'),
-                'contain'=>array(
-                    'ContentCollection'=>array(
-                        'fields'=>array(
-                            'ContentCollection.content_id',
-                            'ContentCollection.collection_id',
-                            'ContentCollection.publish'
-                        ),
-                        'Content'=>array(
-                            'fields'=>array(
-                                'Content.id',
-                                'Content.heading',
-                                'Content.slug'
-                            )
-                        ),
-                        'conditions'=>array('ContentCollection.publish'=>1)
-                    )
-                ),
-                'conditions'=>array(
-                    'Collection.category_id'=>$this->categoryNI['dispatch']
-                ),
-                'group'=>'Collection.slug'
-            ));
-            foreach($tocbase as $index => $collection){
-                $level_id = $collection['Collection']['id'];
-                $level_slug = $collection['Collection']['slug'];
-                $toc['lookup'][$level_slug] = $level_id;
-                $toc[$level_id] = $collection['Collection'];
-                $i = 0;
-                while($i < count($collection['ContentCollection'])){
-                    $toc[$level_id]['Titles'][$collection['ContentCollection'][$i]['Content']['slug']] = $collection['ContentCollection'][$i]['Content']['heading'];
-                    $i++;
-                }
-            }
+            $toc = $this->Content->ContentCollection->Collection->articleTOC('dispatch');
             Cache::write('toc', $toc);
         }
         $this->set('toc',$toc);
@@ -780,6 +741,8 @@ class ContentsController extends AppController {
     }
 
     function art(){
+        // get the pname
+        // and expand the url to full nest-length if necessary
         $url = preg_replace(
             array(
                 '/[\/]?page:[0-9]+/',
@@ -813,6 +776,8 @@ class ContentsController extends AppController {
             };
         }
         
+        // we now have a full url and a pname
+        // get a paginated filmstrip and an beauty shot
         $this->gallery('art');
 
         if(empty($this->viewVars['filmStrip'])){
@@ -831,41 +796,8 @@ class ContentsController extends AppController {
             if(!empty($nav)){
                 // found nested nodes, look for Content for them
                 foreach($nav as $node){
-                    $content = $this->Content->ContentCollection->find('first',array(
-                        'fields'=>array(
-                            'ContentCollection.id',
-                            'ContentCollection.collection_id',
-                            'ContentCollection.content_id'
-                        ),
-                        'contain'=>array(
-                            'Collection'=>array(
-                                'fields'=>array(
-                                    'Collection.id',
-                                    'Collection.slug'
-                                )
-                            ),
-                            'Content'=>array(
-                                'fields'=>array(
-                                    'Content.heading',
-                                    'Content.content',
-                                    'Content.slug',
-                                    'Content.id',
-                                    'Content.image_id'
-                                ),
-                                'Image'=>array(
-                                    'fields'=>array(
-                                        'Image.id',
-                                        'Image.img_file',
-                                        'Image.alt',
-                                        'Image.title'
-                                    )
-                                ),
-                            )
-                        ),
-                        'conditions'=>array(
-                            'Collection.slug'=>$node['Navline']['route']
-                        )
-                    ));
+                    $slug = $node['Navline']['route'];
+                    $content = $this->Content->ContentCollection->nodeMemeber($node['Navline']['route']);
                     if($content){
                         $list[] = $content;
                     }
@@ -879,7 +811,14 @@ class ContentsController extends AppController {
                 }
             }
             $this->set('list',$list);
+            
+            //@todo TODO ================================ TODO
+            // and finally, see if we have any LIKE %pname% blog articles to offer as reprints
         }
+        
+        // now we've either got a beauty shot and paginated filmstrip
+        // or a set of representative projects from deeper levels
+        // of this pname menu-nest
         
         $conditions = array(
             'Collection.category_id'=>$this->categoryNI['art'],
@@ -890,9 +829,13 @@ class ContentsController extends AppController {
             'conditions'=>$conditions));
         
         $details = array();
-        foreach($set as $detail){
-            if(!empty($detail['ContentCollection']['sub_slug'])){
-                $details[] = $detail['ContentCollection']['sub_slug'];
+        $count = 0;
+        foreach($this->viewVars['neighbors'] as $detail){
+            if($detail['detail'] > 0){
+                $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
+//                $details[$count]['Image']=$details[$count]['Content']['Image'];
+//                $details[$count]['ContentCollection']['Collection']=$details[$count]['Collection'];
+//                $details[$count]['ContentCollection'][0]=$details[$count]['ContentCollection'];
             }
         }
         $this->set('details',$details);
@@ -904,6 +847,10 @@ class ContentsController extends AppController {
             ),
             'recursive' => -1
         )));
+        
+        // do the data pulls for any sub_collections use ContentCollection.id
+//        debug($this->Content->ContentCollection->pullArticleLink(546));
+
     }
     
     /**
@@ -1350,6 +1297,7 @@ class ContentsController extends AppController {
     
     /**
      * Discover the proper links for prev/next image for every record in a collection
+     * Also store the ContentCollection.id link to detail articles
      * 
      * @todo This full array is overkill for filmstrip clickers. Either re-write or make an option to only find prev/next for a single record
      * @param int $id If provided, will only return neighbors for this record. Otherwise an array for every record in collection
@@ -1361,7 +1309,7 @@ class ContentsController extends AppController {
             // neighbors for entire collection
             $collection = $this->Content->ContentCollection->find('all',
                     array(
-                        'fields'=>array('Content.id'),
+                        'fields'=>array('Content.id','ContentCollection.sub_slug'),
                         'conditions'=>  $this->pageConditions,
                         'order'=>  $this->pageOrder));
 
@@ -1381,6 +1329,7 @@ class ContentsController extends AppController {
                     $neighbors[$locus['Content']['id']]['next'] = $collection[$index+1]['Content']['id'];
                 }
                 $neighbors[$locus['Content']['id']]['page'] = intval(($index/9)+1);
+                $neighbors[$locus['Content']['id']]['detail'] = $locus['ContentCollection']['sub_slug'];
             }
         }else {
             // neighbors for id'd record

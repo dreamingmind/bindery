@@ -81,6 +81,155 @@ class ContentCollection extends AppModel {
         var $displayField = 'Content.heading';
         
         /**
+         * The ContentCollection fields for full knowledge of this article node
+         * 
+         * include all links and sorting, publishing and detailing info
+         *
+         * @var array 'fields' element of a query param
+         */
+        var $bigFields = array('fields'=>array(
+                    'ContentCollection.id',
+                    'ContentCollection.content_id',
+                    'ContentCollection.collection_id',
+                    'ContentCollection.sub_slug',
+                    'ContentCollection.seq',
+                    'ContentCollection.publish'
+                ));
+        
+        /**
+         * The linked fields for full knowledge of this article nodes Content
+         * 
+         * This contain provides all fields for display of a Content record
+         * its Image, its use in other articles and Collections
+         * This is 'the whole enchilada' for use with $this->bigFields
+         *
+         * @var array 'contain' fields for a query
+         */
+        var $bigContain = array(
+                    'Content'=>array(
+                        'fields'=>array(
+                            'Content.id',
+                            'Content.image_id',
+                            'Content.alt',
+                            'Content.title',
+                            'Content.heading',
+                            'Content.slug',
+                            'Content.content'
+                        ),
+                        'ContentCollection'=>array(
+                            'fields'=>array(
+                                'ContentCollection.id',
+                                'ContentCollection.content_id',
+                                'ContentCollection.collection_id',
+                            ),
+                            'Collection'=>array(
+                                'fields'=>array(
+                                    'Collection.id',
+                                    'Collection.heading',
+                                    'Collection.slug',
+                                    'Collection.category_id'
+                                ),
+                                'Category'=>array(
+                                    'fields'=>array(
+                                        'Category.id',
+                                        'Category.name'
+                                    )
+                                )
+                            )
+                        ),
+                        'Image'=>array(
+                            'fields'=>array(
+                                'Image.id',
+                                'Image.img_file',
+                                'Image.alt',
+                                'Image.title'
+                            )
+                        )
+                    )
+                );
+        
+        /**
+         * Minimum fields for a query param. Links only
+         *
+         * @var array ContentCollection link fields only
+         */
+        var $smallFields = array('fields'=> array(
+                'ContentCollection.id',
+                'ContentCollection.collection_id',
+                'ContentCollection.content_id'));
+        
+        /**
+         * Minimum 'contain' fields for a query
+         * 
+         * Useful only for drop-list contstrucion or 
+         * super simple picture/text article link construction
+         * No Collection name or Image alt data
+         *
+         * @var array Minimum 'contain' fields for a query
+         */
+        var $smallContain = array(
+                'Collection'=>array(
+                    'fields'=>array(
+                        'Collection.id',
+                        'Collection.category_id'
+                    )
+                ),
+                'Content'=>array(
+                    'fields'=>array(
+                        'Content.id',
+                        'Content.slug',
+                        'Content.heading',
+                        'Content.image_id'
+                    ),
+                    'Image'=>array(
+                        'fields'=>array(
+                            'id',
+                            'img_file'                        )
+                    )
+                )
+            );
+        
+        
+        /**
+         * Basic 'contain' fields for a query
+         * 
+         * Useful for link-block construction
+         * Provides text/slug and ids for Collection and Content
+         * as well as Content.content and Image alt/title data
+         * But it's shallow. No knowledge of additional 
+         * Content use is provided.
+         *
+         * @var array Basic 'contain' fields for a query
+         */
+        var $linkContain = array(
+                'Collection' => array(
+                    'fields' => array(
+                        'Collection.id',
+                        'Collection.heading',
+                        'Collection.slug',
+                        'Collection.category_id'
+                    )
+                ),
+                'Content' => array(
+                    'fields' => array(
+                        'Content.id',
+                        'Content.heading',
+                        'Content.slug',
+                        'Content.content',
+                        'Content.image_id'
+                    ),
+                    'Image' => array(
+                        'fields' => array(
+                            'Image.id',
+                            'Image.img_file',
+                            'Image.alt',
+                            'Image.title'
+                        )
+                    )
+                )
+            );
+        
+        /**
          * Return an array of the most recently used Collections
          * 
          * Default to returning the most recent 10 but passing param can change this.
@@ -124,42 +273,14 @@ class ContentCollection extends AppModel {
      * 
      * @return array The Collection.id:Content.slug:Image.img_file=>Content.heading list
      */
-    function pullArticleList(){
-        $rawList = $this->find('all',array(
-            'fields'=> array(
-                'ContentCollection.id',
-                'ContentCollection.collection_id',
-                'ContentCollection.content_id'),
-            'contain' => array(
-                'Collection'=>array(
-                    'fields'=>array(
-                        'Collection.id',
-                        'Collection.category_id'
-                    )
-                ),
-                'Content'=>array(
-                    'fields'=>array(
-                        'Content.id',
-                        'Content.slug',
-                        'Content.heading',
-                        'Content.image_id'
-                    ),
-                    'Image'=>array(
-                        'fields'=>array(
-                            'id',
-                            'img_file'
-                        )
-                    )
-                )
-            ),
+    function pullArticleList($category = 'dispatch'){
+        $this->contain($this->smallContain);
+        $this->order = array('Content.slug ASC');
+        $rawList = $this->find('all',
+            $this->smallFields + array(
             'group'=>'Content.slug',
-            'order' => array(
-                'ContentCollection.seq',
-                'ContentCollection.modified',
-                'Content.slug ASC'
-            ),
             'conditions'=>array(
-                'Collection.category_id'=>$this->Collection->Category->categoryNI['dispatch']
+                'Collection.category_id'=>$this->Collection->Category->categoryNI[$category]
             )
             ));
         $content[] = 'Link an article';
@@ -168,69 +289,39 @@ class ContentCollection extends AppModel {
     }
     
         function pullForChangeCollection($slug, $id){
-            $result = $this->find('all',array(
-                'fields'=>array(
-                    'ContentCollection.id',
-                    'ContentCollection.content_id',
-                    'ContentCollection.collection_id',
-                    'ContentCollection.sub_slug',
-                    'ContentCollection.seq',
-                    'ContentCollection.publish'
-                ),
-                'contain' => array(
-                    'Content'=>array(
-                        'fields'=>array(
-                            'Content.id',
-                            'Content.image_id',
-                            'Content.alt',
-                            'Content.title',
-                            'Content.heading',
-                            'Content.slug',
-                            'Content.content'
-                        ),
-                        'ContentCollection'=>array(
-                            'fields'=>array(
-                                'ContentCollection.id',
-                                'ContentCollection.content_id',
-                                'ContentCollection.collection_id',
-                            ),
-                            'Collection'=>array(
-                                'fields'=>array(
-                                    'Collection.id',
-                                    'Collection.heading',
-                                    'Collection.slug',
-                                    'Collection.category_id'
-                                ),
-                                'Category'=>array(
-                                    'fields'=>array(
-                                        'Category.id',
-                                        'Category.name'
-                                    )
-                                )
-                            )
-                        ),
-                        'Image'=>array(
-                            'fields'=>array(
-                                'Image.id',
-                                'Image.img_file',
-                                'Image.alt',
-                                'Image.title'
-                            )
-                        )
-                    )
-                ),
-                'conditions'=>array(
+            $conditions = array('conditions' => array(
                     'Content.slug'=>$slug,
                     'ContentCollection.collection_id'=>$id
-                )
-            ));
+                ));
+            $this->contain($this->bigContain);
+            $result = $this->find('all',$this->bigFields+$conditions);
             return $result;
         }
 
+        function nodeMemeber($slug){
+            //I might want to Order this to get the first/title image
+            $conditions = array('conditions'=>array(
+                'Collection.slug'=>$slug,
+                'Collection.category_id' => $this->Collection->Category->categoryNI['art']
+            ));
+            $this->contain($this->linkContain);
+            $fields = $this->smallFields;
+            return $this->find('first', $fields+$conditions);
+            }
+        
+        function pullArticleLink($id){
+            //I might want to Order this to get the first/title image
+            $conditions = array('conditions'=>array(
+                'ContentCollection.id'=>$id
+            ));
+            $this->contain($this->linkContain);
+            $fields = $this->bigFields;
+            return $this->find('first', $fields+$conditions);
+        }
 }
 
-function assembleArticleList(&$record, $key, $content){
+function assembleArticleList($record, $key, $content){
 //    debug($record);
-    $content[$record['Collection']['id'] . ':' . $record['Content']['slug'] . ':' . $record['Content']['Image']['img_file']] = $record['Content']['heading'];
+    $content[$record['ContentCollection']['id']] = $record['Content']['heading'];
 }
 ?>

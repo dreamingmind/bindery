@@ -863,6 +863,56 @@ class AppHelper extends Helper {
     /**
      *
      *  <div class="linkDiv">
+     *      <p class="aside">Notebooks: on 30/11/-1</p>
+     *      <a href="/bindery/blog/58/alligator-notebook">
+     *          <img title="Alligator Notebook"
+     *              alt="The cover of an alligator and goatskin notebook ready for top stitching."
+     *              id="im549"
+     *              src="/bindery/img/images/thumb/x160y120/DSC00189.JPG">
+     *      </a>
+     *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
+     *  </div>
+     *
+     * @param type $news
+     * @param type $path
+     */
+    function artDetailBlock(&$view, $detail, $path = 'images/thumb/x160y120/'){
+        $clean = $this->flattenMarkdown($detail['Content']['content']);
+
+        //make the heading into the <A> tag
+        $blog_uri = array(
+            'controller'=>'contents',
+            'action'=>'blog',
+            $detail['ContentCollection']['collection_id'],
+            $detail['Content']['slug']
+        );
+        $adminLinks = $this->assembleDateResetLinks($view, $detail);
+        $adminLinks .= $this->changeCollection($view, $detail['Content']['slug'], $detail['Collection']['id']);
+
+        //and follow it with truncated markdown content
+        $heading_link = $this->Html->link($this->Html->truncateText($detail['Content']['heading'],35),
+            $blog_uri, array('escape'=>false))
+            . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+
+        //assemble the image link
+        $image_link = $this->makeLinkedImage($blog_uri, $detail['Content']['Image'], $path);
+
+        //and output everything in a left-floating div
+        echo $this->Html->div('linkDiv',
+//            $this->Html->para('aside',
+//            $this->Html->truncateText($detail['Collection']['heading'],15,
+//                    array('exact'=>false,
+//                        'ending'=>'')).': '
+//            . $this->Time->timeAgoInWords($detail['Content']['created']))
+             $image_link
+            . $heading_link
+            . $adminLinks);
+    //}
+    }
+
+    /**
+     *
+     *  <div class="linkDiv">
      *      <a href="/bindery/products/boxes/gallery/id:574">
      *          <img title="Non-traditional materials for an artist's portfolio"
      *              alt="alt text"
@@ -1106,7 +1156,9 @@ class AppHelper extends Helper {
                    array(
                        'controller'=>'contents',
                        'action'=>'resetContentDates',
-                       $news['ContentCollection'][0]['collection_id'],
+                       ((isset($news['ContentCollection'][0]))
+                            ? $news['ContentCollection'][0]['collection_id']
+                            : $news['ContentCollection']['collection_id']),
                        $news['Content']['slug']
                    ));
             $resetDateLinks = $this->Html->para('aside','Reset dates: '.$resetDateLinks);
