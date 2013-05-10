@@ -687,12 +687,13 @@ class ContentsController extends AppController {
      *                      [jackson-nichol-s-forcado-portfolio] => Jackson Nichol's Forcado portfolio
      */
     function readBlogTOC() {
+        $recentPosts = $this->Content->ContentCollection->recentBlog();
         if(!($toc = Cache::read('toc'))) {
             $toc = $this->Content->ContentCollection->Collection->articleTOC('dispatch');
             Cache::write('toc', $toc);
         }
         $this->set('toc',$toc);
-        $recentPosts = $this->Content->recentNews(8);
+//        $recentPosts = $this->Content->recentNews(8);
         $this->set('recentPosts',$recentPosts);
         $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
     }
@@ -791,55 +792,49 @@ class ContentsController extends AppController {
                     'Navline.route'=>  $this->params['pname']
                 )
             ));
+            
+            // since we don't have a beauty-shot gallery, lets
+            // plumb the menu-nest and show some deep links
             $nav = $this->Navigator->children($nav[0]['Navigator']['id'], false, null, null, null, 1, 1);
-            $list = array();
+            $deepLinks = array();
             if(!empty($nav)){
                 // found nested nodes, look for Content for them
                 foreach($nav as $node){
                     $slug = $node['Navline']['route'];
                     $content = $this->Content->ContentCollection->nodeMemeber($node['Navline']['route']);
                     if($content){
-                        $list[] = $content;
+                        $deepLinks[] = $content;
                     }
                 }
                 // should have some Content now for art/edition link construction
                 // if there are a lot, get 3 random ones for output
-                if(count($list)>3){
-                    shuffle($list);
-                    $chunk = array_chunk($list, 3);
-                    $list = $chunk[0];
+                if(count($deepLinks)>3){
+                    shuffle($deepLinks);
+                    $chunk = array_chunk($deepLinks, 3);
+                    $deepLinks = $chunk[0];
                 }
             }
-            $this->set('list',$list);
+            $this->set('deepLinks',$deepLinks);
             
             //@todo TODO ================================ TODO
             // and finally, see if we have any LIKE %pname% blog articles to offer as reprints
         }
         
+        // searh should be fixed to maintain its own default array
         // now we've either got a beauty shot and paginated filmstrip
         // or a set of representative projects from deeper levels
         // of this pname menu-nest
-        
-        $conditions = array(
-            'Collection.category_id'=>$this->categoryNI['art'],
-            'ContentCollection.publish'=>1,
-            'Content.slug'=>  $this->params['pname']);
-        $set = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array('ContentCollection.sub_slug'),
-            'conditions'=>$conditions));
-        
+
         $details = array();
         $count = 0;
         foreach($this->viewVars['neighbors'] as $detail){
             if($detail['detail'] > 0){
                 $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
-//                $details[$count]['Image']=$details[$count]['Content']['Image'];
-//                $details[$count]['ContentCollection']['Collection']=$details[$count]['Collection'];
-//                $details[$count]['ContentCollection'][0]=$details[$count]['ContentCollection'];
             }
         }
         $this->set('details',$details);
         
+        // This makes the page header
         $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
             'conditions'=> array(
                 'Collection.category_id' => $this->categoryNI['art'],
@@ -847,6 +842,12 @@ class ContentsController extends AppController {
             ),
             'recursive' => -1
         )));
+        
+        $searchResults = $this->Content->siteSearch(array(
+//            'Content.heading' => $this->viewVars['collection']['Collection']['heading']
+            'Content.heading' => 'Art & Editions'
+        ));
+        $this->set('searchResults', isset($searchResults['dispatch'])?$searchResults['dispatch']:'');
         
         // do the data pulls for any sub_collections use ContentCollection.id
 //        debug($this->Content->ContentCollection->pullArticleLink(546));

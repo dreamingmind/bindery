@@ -28,8 +28,8 @@
 <?php
     if(!empty($details)){
         $message = (count($details) > 1) 
-            ? 'Here are ' . count($details) . 'additional, related articles.'
-            : 'Here is an additional, related article.';
+            ? 'Here are ' . count($details) . ' reprints of related blog articles.'
+            : 'Here is a reprint of a related blog article.';
         echo $this->Html->tag('h4',$message);
         foreach($details as $detail){
             echo $this->Html->artDetailBlock($this->viewVars, $detail,'images/thumb/x75y56/');

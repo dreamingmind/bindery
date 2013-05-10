@@ -23,10 +23,22 @@ echo $html->css('search_links');
  </div>
 <?php
 if(!empty($record)){
+   // found exhibits so show the beauty shot and filmstrip (also detail links)
    echo $this->element('artExhibit');
 } else {
-    foreach($list as $result){
-        echo $html->foundArtBlock($this->viewVars, $result);
+    // no exhibits. A landing page. Show some downstream sample links
+    // and blog-reprints on this pname if they exist
+    foreach($deepLinks as $link){
+        echo $html->foundArtBlock($this->viewVars, $link);
+    }
+    if(!empty($searchResults)){
+        $message = (count($searchResults) > 1) 
+            ? 'Here are ' . count($searchResults) . ' reprints of related blog articles.'
+            : 'Here is a reprint of a related blog article.';
+        echo $this->Html->tag('h4',$message);
+        foreach($searchResults as $link){
+            echo $this->Html->foundNewBlock($this->viewVars, $link, 'images/thumb/x75y56/');
+        }
     }
 //    debug($list);
 }

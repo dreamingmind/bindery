@@ -780,13 +780,13 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function blogMenuBlock($news, $path = 'images/thumb/x160y120/'){
-        $clean = $this->flattenMarkdown($news['Content']['content']);
+//        $clean = $this->flattenMarkdown($news['Content']['content']);
 
         //make the heading into the <A> tag
         $blog_uri = array(
             'controller'=>'contents',
             'action'=>'blog',
-            $news['ContentCollection'][0]['collection_id'],
+            $news['ContentCollection']['collection_id'],
             $news['Content']['slug']
         );
 
@@ -796,12 +796,12 @@ class AppHelper extends Helper {
 
 
         //assemble the image link
-        $image_link = $this->makeLinkedImage($blog_uri, $news['Image'], $path);
+        $image_link = $this->makeLinkedImage($blog_uri, $news['Content']['Image'], $path);
 
         //and output everything in a left-floating div
         echo $this->Html->div('linkDiv',
             $this->Html->para('aside',
-            $this->Html->truncateText($news['ContentCollection'][0]['Collection']['heading'],15,
+            $this->Html->truncateText($news['Collection']['heading'],15,
                     array('exact'=>false,
                         'ending'=>'')).': '
             . $this->Time->timeAgoInWords($news['Content']['created']))

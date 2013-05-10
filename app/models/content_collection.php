@@ -261,6 +261,26 @@ class ContentCollection extends AppModel {
             return $this->recentCollections;
         }
 
+        
+        function recentBlog(){
+            $this->contain($this->linkContain);
+            $this->contain['Content']['group'] = 'Content.slug';
+            $this->contain['Contnet']['order'] = 'Content.created DESC';
+            $fields = $this->bigFields;
+            $fields['fields'][] = 'ContentCollection.created';
+            $fields['fields'][] = 'Content.created';
+            $order = array('order' => array(
+                'ContentCollection.created DESC',
+                'ContentCollection.seq DESC'));
+            $limit = array('limit' => 8);
+            $group = array('group' => 'Content.slug');
+            $conditions = array('conditions'=>array(
+                'Collection.category_id' => $this->Collection->Category->categoryNI['dispatch']
+            ));
+            return $this->find('all', 
+                $fields + $conditions +  $order + $limit + $group
+            );
+        }
     /**
      * Return an alphabetical list of all Content.slug
      * 
