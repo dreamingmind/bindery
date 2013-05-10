@@ -741,6 +741,15 @@ class ContentsController extends AppController {
         $this->set('recentExhibits',$this->Content->recentExhibits(3));
     }
 
+    /**
+     * Master art & editions page for both landing levels and gallery levels of the art section.
+     * 
+     * Accepts short urls for every menu destination and it will automatically expand the url to control the menu display
+     * It uses the product gallery action to query & prepare the content.
+     * It examines the content for linked detail articles.
+     * If no gallery content is found, it pulls three (3) representative art links from child nodes of the menu tree.
+     * 
+     */
     function art(){
         // get the pname
         // and expand the url to full nest-length if necessary
