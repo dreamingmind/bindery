@@ -369,6 +369,7 @@ class Content extends AppModel {
      * @todo Improve the link-creation ability by getting neighbor data so the page can be known
      * @todo Can this serve as a model for getting search result sets? 
      * Pull data for the $limit more recent Content entries on distinct Content.headings
+     * <code>
      *    [0] => Array
      *      [Content] => Array
      *              [heading] => Catching up after the holidays
@@ -391,6 +392,7 @@ class Content extends AppModel {
      *                              [category_id] => 1469
      *                              [heading] => Portfolios
      *                              [slug] => portfolios
+     * </code>
      * 
      * @param int $limit How many records to pull, default 10
      * @return array The data, most recent dispatch entries, each on a different Content.heading

@@ -1,4 +1,17 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Content Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ * 
+*/
 class ContentCollection extends AppModel {
 	var $name = 'ContentCollection';
 	var $validate = array(
@@ -229,7 +242,7 @@ class ContentCollection extends AppModel {
                 )
             );
         
-        /**
+    /**
          * Return an array of the most recently used Collections
          * 
          * Default to returning the most recent 10 but passing param can change this.
@@ -239,48 +252,59 @@ class ContentCollection extends AppModel {
          * that link to the Collection.
          *
          * @return array A Cake list of the most recently used Collections
-         */
-        function recentCollections($limit=null) {
-            $limit = ($limit==null) ? 10 : $limit;
-            
-            $recentCollections = $this->find('all',array(
-                'fields'=>array(
-                     'DISTINCT Collection.heading', 'Collection.id','Collection.category_id'
-                ),
-                'order'=>'ContentCollection.created DESC',
-                'limit'=>$limit
-            ));
-            
-            $this->recentCollections = array(' ');
-                    
-            foreach($recentCollections as $entry){
-                $collection_name = $this->Collection->Category->categoryIN[$entry['Collection']['category_id']];
-                $this->recentCollections[$entry['Collection']['id']] = 
-                    "{$entry['Collection']['heading']} ($collection_name)";
-            }
-            return $this->recentCollections;
-        }
+ */
+    function recentCollections($limit=null) {
+        $limit = ($limit==null) ? 10 : $limit;
 
-        
-        function recentBlog(){
+        $recentCollections = $this->find('all',array(
+            'fields'=>array(
+                 'DISTINCT Collection.heading', 'Collection.id','Collection.category_id'
+            ),
+            'order'=>'ContentCollection.created DESC',
+            'limit'=>$limit
+        ));
+
+        $this->recentCollections = array(' ');
+
+        foreach($recentCollections as $entry){
+            $collection_name = $this->Collection->Category->categoryIN[$entry['Collection']['category_id']];
+            $this->recentCollections[$entry['Collection']['id']] = 
+                "{$entry['Collection']['heading']} ($collection_name)";
+        }
+        return $this->recentCollections;
+    }
+
+    /**
+     * Given a limit and Category, pull link data for the most recent articles
+     * 
+     * Default params will return the 8 most recent blog articles
+     * 
+     * @todo make this return the first Content in the article sequence so I can control the link image by crafting the article
+     * @return array Data to build links to the most recent articles in a Category
+     */
+    function recentBlog($limit = 8, $category = 'dispatch'){
             $this->contain($this->linkContain);
             $this->contain['Content']['group'] = 'Content.slug';
             $this->contain['Contnet']['order'] = 'Content.created DESC';
+            
             $fields = $this->bigFields;
             $fields['fields'][] = 'ContentCollection.created';
             $fields['fields'][] = 'Content.created';
+            
             $order = array('order' => array(
                 'ContentCollection.created DESC',
-                'ContentCollection.seq DESC'));
-            $limit = array('limit' => 8);
+                'ContentCollection.seq ASC'));
+            $limit = array('limit' => $limit);
             $group = array('group' => 'Content.slug');
+            
             $conditions = array('conditions'=>array(
-                'Collection.category_id' => $this->Collection->Category->categoryNI['dispatch']
+                'Collection.category_id' => $this->Collection->Category->categoryNI[$category]
             ));
             return $this->find('all', 
                 $fields + $conditions +  $order + $limit + $group
             );
         }
+
     /**
      * Return an alphabetical list of all Content.slug
      * 
@@ -308,28 +332,59 @@ class ContentCollection extends AppModel {
         return $content;
     }
     
-        function pullForChangeCollection($slug, $id){
-            $conditions = array('conditions' => array(
-                    'Content.slug'=>$slug,
-                    'ContentCollection.collection_id'=>$id
-                ));
-            $this->contain($this->bigContain);
-            $result = $this->find('all',$this->bigFields+$conditions);
-            return $result;
+    /**
+     * Given a Collection.id and Content.slug pull an article
+     * 
+     * This gives data for for the change_collection tool
+     * But could serve elsewhere.
+     * 
+     * @param type $slug A Content.slug
+     * @param integer $id A Collection.id
+     * @return array All the data for an article
+     */
+    function pullForChangeCollection($slug, $id){
+        $conditions = array('conditions' => array(
+                'Content.slug'=>$slug,
+                'ContentCollection.collection_id'=>$id
+            ));
+        $this->contain($this->bigContain);
+        $result = $this->find('all',$this->bigFields+$conditions);
+        return $result;
+    }
+
+    /**
+     * Given a slug pull a link for an article in that Collection.slug
+     * 
+     * Landing on an art page that has no Collection Content
+     * We want links for other Collections deeper in the menu nest
+     * This will return one link for a slug if it exists
+     * 
+     * @param string $slug A possibly Collection slug
+     * @return array One data packet for a link block
+     */
+    function nodeMemeber($slug){
+        //I might want to Order this to get the first/title image
+        $conditions = array('conditions'=>array(
+            'Collection.category_id' => $this->Collection->Category->categoryNI['art'],
+            'Content.slug'=>$slug
+        ));
+        $this->contain($this->linkContain);
+        $fields = $this->smallFields;
+        return $this->find('first', $fields+$conditions);
         }
 
-        function nodeMemeber($slug){
-            //I might want to Order this to get the first/title image
-            $conditions = array('conditions'=>array(
-                'Collection.slug'=>$slug,
-                'Collection.category_id' => $this->Collection->Category->categoryNI['art']
-            ));
-            $this->contain($this->linkContain);
-            $fields = $this->smallFields;
-            return $this->find('first', $fields+$conditions);
-            }
-        
-        function pullArticleLink($id){
+    /**
+     * Pull data for a link given a ContentCollection.id
+     * 
+     * Finding a detail-article link in a ContentCollection
+     * record that link will be a ContentCollection.id
+     * This will pull data so we can construct a link to
+     * that detail article
+     * 
+     * @param integer $id ContentCollection.id
+     * @return array One data packet for a link block
+     */
+    function pullArticleLink($id){
             //I might want to Order this to get the first/title image
             $conditions = array('conditions'=>array(
                 'ContentCollection.id'=>$id

@@ -14,14 +14,6 @@ App::import('Sanitize');
  * Handles splash page content
  * @package       bindery
  * @subpackage    bindery.controller
- * @todo get something that can list the content records that belong to no collection
- * @todo search all occurances of dispatch in code and fix
- * @todo search all occurances of exhibit in code and fix
- * @todo method to pull the ID'd Content record with its Collection memberships, Detail link data, and Image data
- * @todo method to pull a page of thumbnail construction data
- * @todo method to pull a full page of Content records
- * @todo define how an article can be paged. Each section head defines a collection of Content records that equivalent to a page of thumbnails. So the articl TOC is actuall a prev/next page clicker analog.
- * @todo the many $page-Whatever vars are to modify pagination and could be grouped into an array rather than done singly
  * 
  * @property AuthComponent $Auth
  * @property SessionComponent $Session
@@ -663,7 +655,7 @@ class ContentsController extends AppController {
      * Provides an id indexed array and a lookup-by-slug element
      * that can be popped off the front of the array
      * 
-     *  Array
+     *  <pre>Array
      *      [lookup]
      *              [box-structures-their-part-names] => 133
      *              [boxes] => 60
@@ -684,7 +676,7 @@ class ContentsController extends AppController {
      *              [Titles] => Array
      *                      [wedding-memory-boxes] => Wedding Memory Boxes
      *                      [lucha-libre] => Lucha Libre!
-     *                      [jackson-nichol-s-forcado-portfolio] => Jackson Nichol's Forcado portfolio
+     *                      [jackson-nichol-s-forcado-portfolio] => Jackson Nichol's Forcado portfolio</pre>
      */
     function readBlogTOC() {
         $recentPosts = $this->Content->ContentCollection->recentBlog();
@@ -707,7 +699,6 @@ class ContentsController extends AppController {
      * 
      * @return array The most recent blog entry
      */
-    
     function readMostRecentBlog($conditions) {
         return $this->Content->ContentCollection->find('first',array(
             'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
@@ -992,6 +983,7 @@ class ContentsController extends AppController {
         $this->set('record',$record);
         }
     }
+
     /**
      * Process for the first call on a gallery or art/edition when no ID is known
      * 
@@ -1352,7 +1344,7 @@ class ContentsController extends AppController {
      * 
      * Supplements returns a type field and data field in each record.
      * These need to be accumulated into a single array for each image/collection
-     * [Supplement] => Array
+     * <pre>[Supplement] => Array
      *      [0] => Array
      *              [image_id] => 670
      *              [collection_id] => 89
@@ -1363,16 +1355,10 @@ class ContentsController extends AppController {
      *              [collection_id] => 89
      *              [type] => pgraphstyle
      *              [data] => drkparagraph
-     *      [2] => Array
-     *              [image_id] => 670
-     *              [collection_id] => 44
-     *              [type] => size
-     *              [data] => 35
      * Should translate into
      * [Supplement] => Array
      *              [headstyle] => drksubhead
-     *              [pgraphstyle] => drkparagraph
-     *              [size] => 35
+     *              [pgraphstyle] => drkparagraph</pre>
      * 
      * @todo what about this multiple cont_coll record situation?
      */
@@ -1438,6 +1424,7 @@ class ContentsController extends AppController {
     }
     
 }
+
     /**
      * array_walk function to reset the mod dates of Content records
      * 
@@ -1465,5 +1452,4 @@ class ContentsController extends AppController {
 //        $content['Content'][$key]['old'] = $record['Content']['modified'];
 //        $content['Image'][$key]['old'] = $record['Content']['Image']['created'];
     }
-
 ?>

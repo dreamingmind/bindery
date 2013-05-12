@@ -1,4 +1,17 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.model
+ */
+/**
+ * Content Model
+ * 
+ * @package       bindery
+ * @subpackage    bindery.model
+ * 
+*/
 class Workshop extends AppModel {
 	var $name = 'Workshop';
         var $useTable = 'collections';

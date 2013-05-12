@@ -18,6 +18,17 @@ $(document).ready(function(){
             }
         });
     }
+    
+    /**
+     * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
+     */
+    function initToggles(){
+        $('.toggle').bind('click',function(){
+            $('.'+$(this).attr('id')).toggle(50,function(){
+                // animation complete.
+            });
+        })
+    }
 
     function discardStandardSearch(){
         $('input.siteSearchInput').css('color','#999').css('font-weight','normal');
@@ -64,4 +75,5 @@ $(document).ready(function(){
 
     initSiteSearchForm();
     initAdvancedSearchClick();
+    initToggles();
 })

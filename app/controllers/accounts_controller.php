@@ -5,14 +5,17 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.User.Controller
  */
 /**
- * AccountsController
+ * Accounts Controller
  * 
- * Categories for Users that establish permission levels
+ * Provides a Cake-y way of having URL's point to /account/method
+ * rather than /user/method. Just a little more friendly.
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.User.Controller 
+ * @todo figure out why this is separate from User
 */
 class AccountsController extends AppController {
 
