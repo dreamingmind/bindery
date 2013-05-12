@@ -5,13 +5,16 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.User.Controller
  */
 /**
  * Optins Controller
  * 
+ * The system to track which site services Users have requested
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.User.Controller
+ * @todo Does this really only require a scaffold?
  */
 class OptinsController extends AppController {
 

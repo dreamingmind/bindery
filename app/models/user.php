@@ -5,14 +5,24 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.User.Model
  */
 /**
  * User Model
+ * 
  * Table of register users, customers and site administrators
+ * and all the contact data they provided on registration to the site
+ * <pre>
+ *   |<--- Request
+ *   V
+ * User <-- OptinUser --> Optin
+ *   |
+ *   |---> Group
+ * </pre>
  * 
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.User.Model
+ * @todo figure out why this is separate from Account
  */
 class User extends AppModel {
 
