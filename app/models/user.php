@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
  */
 /**
  * User Model
@@ -21,7 +21,7 @@
  * </pre>
  * 
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
  * @todo figure out why this is separate from Account
  */
 class User extends AppModel {

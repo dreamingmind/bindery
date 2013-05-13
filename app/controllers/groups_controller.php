@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  */
 /**
  * Groups Controller
@@ -14,7 +14,7 @@
  * for making display and feature choices when sending pages to the client
  * 
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  * @todo The id is used as a access level indicator. This is too arbitrary.
  *       The determination should be made on a hand set value.
  */

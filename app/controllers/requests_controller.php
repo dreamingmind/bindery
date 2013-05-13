@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  */
 /**
  * Requests Controller
@@ -14,7 +14,7 @@
  * on the Workshop landing page. The requests are Workshop date requests.
  * 
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  * @todo Can this module be generalized to store other user interaction data?
  * 
 */

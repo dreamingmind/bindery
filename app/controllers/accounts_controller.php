@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  */
 /**
  * Accounts Controller
@@ -14,7 +14,7 @@
  * rather than /user/method. Just a little more friendly.
  * 
  * @package       bindery
- * @subpackage    bindery.User.Controller 
+ * @subpackage    bindery.User 
  * @todo figure out why this is separate from User
 */
 class AccountsController extends AppController {

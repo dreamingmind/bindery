@@ -3,7 +3,7 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
  */
 /**
  * OptinUser Model
@@ -12,7 +12,7 @@
  * This is the join table between User and Optin.
  * 
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
 */
 class OptinUser extends AppModel {
 	var $name = 'OptinUser';

@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
  */
 /**
  * Account Model
@@ -16,7 +16,7 @@
  * rather than /user/method. Just a little more friendly.
  * 
  * @package       bindery
- * @subpackage    bindery.User.Model
+ * @subpackage    bindery.User
  * @todo figure out why this is separate from User
  */
 class Account extends AppModel {

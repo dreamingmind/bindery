@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  */
 /**
  * Users Controller
@@ -13,7 +13,7 @@
  * Methods to manage User registration and stored data
  * 
  * @package       bindery
- * @subpackage    bindery.User.Controller
+ * @subpackage    bindery.User
  * @todo figure out why this is separate from Account
  */
 class UsersController extends AppController {
