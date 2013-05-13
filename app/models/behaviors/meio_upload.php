@@ -3,14 +3,14 @@
  * MeioUpload Behavior
  *
  * @package bindery
- * @subpackage bindery.models.behaviors
+ * @subpackage bindery.Data
  * @version 3.0
  */
 /**
  * Meio Upload Behavior
  * 
  * @package bindery
- * @subpackage bindery.models.behaviors
+ * @subpackage bindery.Data
  */
 App::import('Core', array('File', 'Folder'));
 

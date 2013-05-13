@@ -5,11 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Data
  */
 /**
+ * Fieldset Helper
+ * 
  * @package bindery
- * @subpackage bindery.helper
+ * @subpackage bindery.Data
  */
 class FieldsetHelper extends AppHelper {
 

@@ -9,16 +9,19 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Data
  */
 
 /**
- * TreeCrudHelper creates the form components to edit trees
+ * TreeCrud Helper creates the form components to edit trees
  * 
  * This builds up all the select drop down data
  * and the various kinds of inputs that are needed
  * the packages them in fieldset collections for each 
  * tree editing function
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Data
  */
 class TreeCrudHelper extends AppHelper {
     var $helpers = array('Html', 'Form', 'Session');
