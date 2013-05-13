@@ -5,13 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Navigation
  */
 /**
  * Navline Model
  * 
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Navigation
  */
 class Navline extends AppModel {
 	var $name = 'Navline';

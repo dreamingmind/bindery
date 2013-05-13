@@ -8,6 +8,8 @@
  * @subpackage    bindery.Navigation
  */
 /**
+ * Navigators Controller
+ * 
  * Functions related to Navigator Model, the nested tree that is the main site navigation menu source
  * 
  * Included here are all the basic data access and simple CRUD functions as well

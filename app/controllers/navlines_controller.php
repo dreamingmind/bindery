@@ -5,13 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Navigation
  */
 /**
  * Navlines Controller
  * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Navigation
 
  */
 class NavlinesController extends AppController {
