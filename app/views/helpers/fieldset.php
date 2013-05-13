@@ -5,11 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Data
  */
 /**
+ * Fieldset Helper
+ * 
  * @package bindery
- * @subpackage bindery.helper
+ * @subpackage bindery.Data
  */
 class FieldsetHelper extends AppHelper {
 
@@ -21,7 +23,8 @@ class FieldsetHelper extends AppHelper {
      * This can be called from a Veiw for a one-off fieldset, or create
      * Elements that generate reusable and portable fieldsets. Here's a 
      * sample Element:
-     * $parameters = array(
+     * 
+     *  <code>$parameters = array(
      *     'display'=> (isset($display))?$display:'hide',
      *     'record'=> (isset($record))?$record:false,
      *     'legend'=>'Content meta fields',
@@ -40,7 +43,7 @@ class FieldsetHelper extends AppHelper {
      *             )
      *          )
      *     )
-     * );
+     * );</code>
 
      * The fieldset will toggle open/closed by clicking on the fieldset legend.
      * Use 'display' set to 'show' or 'hide' to set the initial state
@@ -53,9 +56,14 @@ class FieldsetHelper extends AppHelper {
      * This can handle any Cake-style data array for models.
      * 'prefix' is an array, the others are strings. All three components
      * are combined to make the data array index pattern:
-     * data[Image][fieldName] (prefix=null,model='Image',linkNumber=null)
-     * data[Post][Content][3][fieldName] (prefix=array('Post'),model='Content',linkNumber=3)
-     * data[2][Post][Author][fieldName] (prefix=array('2','Post'),model='Author',linkNumber=null)
+     * <code>//prefix=null,model='Image',linkNumber=null
+     * data[Image][fieldName] 
+     * 
+     * //prefix=array('Post'),model='Content',linkNumber=3
+     * data[Post][Content][3][fieldName] 
+     * 
+     * //prefix=array('2','Post'),model='Author',linkNumber=null
+     * data[2][Post][Author][fieldName] </code>
      * 
      * 'fields' is an array which controls what will be in the fieldset.
      * If the element is a string, you'll get a default cake input for
@@ -63,18 +71,20 @@ class FieldsetHelper extends AppHelper {
      * and array will be the options to pass to the cake input helper.
      * 
      * Controls:
-     * display
-     * legend
-     * record
-     * prefix
-     * model
-     * linkNumber
-     * fields
+     *  - display
+     *  - legend
+     *  - record
+     *  - prefix
+     *  - model
+     *  - linkNumber
+     *  - fields
      * 
      * 'pre_fields' and 'post_fields' accept ready-to-go HTML fragments.
      *  
      * javascript/css hooks
+     * 
      * --------------------
+     * 
      * In addition to the standard structure Cake gives to inputs:
      * Each fieldset gets a UUID id attribute
      * Each field get UUID-fieldname id attribute
@@ -160,15 +170,16 @@ class FieldsetHelper extends AppHelper {
         
         //create the fieldset legend hml
         $this->legendTag = $this->Html->tag('legend',$this->legend,
-            array('id'=>$this->unique));
+            array('id'=>$this->unique,'class'=>'toggle'));
         
         //Bundle the legend and inputs into a fieldset, wrapping 
         // the inputs in a div that keys to the legend
         // for show/hide toggling
         $this->fieldset = $this->Html->tag('fieldset',
-            $this->legendTag
-            . $this->Html->div($this->unique.' '.$this->display,
-            $this->pre_fields . implode('', $this->inputs) . $this->post_fields)
+            $this->legendTag . $this->Html->div(
+                    $this->unique.' '.$this->display,
+                    $this->pre_fields . implode('', $this->inputs) . $this->post_fields
+                    )
         );
         
         //return the assembled fieldset

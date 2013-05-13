@@ -5,11 +5,14 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
- * 
- * @property    HtmlHelper
+ * @subpackage    bindery.Navigation
  */
-/* /app/views/helpers/gal_nav.php */
+/**
+ * GalNav Helper
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Navigation
+ */
 class GalNavHelper extends HtmlHelper {
 
     var $helpers = array('Paginator');

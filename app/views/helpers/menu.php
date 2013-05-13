@@ -1,15 +1,17 @@
 <?php
 /**
- *
- * PHP versions 4 and 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
- *
- * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.com)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Navigation
+ */
+/**
+ * Menu Helper
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Navigation
  */
 class MenuHelper extends AppHelper {
 	var $helpers = array('Html');

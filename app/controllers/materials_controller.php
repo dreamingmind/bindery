@@ -5,13 +5,13 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Product
  */
 /**
  * Materials Controller
  * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Product
  */
 class MaterialsController extends AppController {
 

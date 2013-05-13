@@ -3,7 +3,7 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.behavior
+ * @subpackage    bindery.Data
  */
 /**
  * Sluggable Behavior
@@ -11,7 +11,7 @@
  * An output packaging method for trees
  * 
  * @package       bindery
- * @subpackage    bindery.behavior
+ * @subpackage    bindery.Data
 */
 class SluggableBehavior extends ModelBehavior {
 	/**

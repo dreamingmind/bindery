@@ -1,4 +1,41 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.Article
+ */
+/**
+ * ContentCollections Controller
+ * 
+ * This is the join table between Collections and Content.
+ * It allows a single Content record to be attached to several Collections
+ * and hence be part of more than one Article.
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * <ul>
+ * <li>ContentCollections serve 3 major functions
+ *     <ul>
+ *     <li>ContentCollection.publish controlls whether the Content record is gathered as part of the Article</li>
+ *     <li>ContentCollection.sub_slug serves a link to another Article. This second Artilcle can provide more 
+ * detail about the Content its linked to.</li>
+ *     <li>ContentCollection.collection_id provides the second piece of information to create and article. The two 
+ * requirements are a shared Content.heading and a shared ContentCollection.collection.id</li>
+ *     </ul>
+ * </li>
+ * </ul>
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Article
+ * 
+*/
 class ContentCollectionsController extends AppController {
 
 	var $name = 'ContentCollections';

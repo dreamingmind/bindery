@@ -5,18 +5,18 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.component
+ * @subpackage    bindery.User
  */
 /**
- * Description of user_record_form
+ * UserRecordForm Component
  *
- * Mehthod to check for proper password and email entries
+ * Method to check for proper password and email entries
  * and to massage form content and error messages in case
  * of entry error or non valid input
  * 
  * @author dondrake
  * @package       bindery
- * @subpackage    bindery.component
+ * @subpackage    bindery.User
  */
 class UserRecordFormComponent extends Object {
 

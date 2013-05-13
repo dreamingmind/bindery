@@ -22,12 +22,4 @@ $parameters = array(
 );
 
 echo $fieldset->fieldset($parameters);
-       
-       $this->Js->buffer(
-               "$('#{$fieldset->unique}').click(function() {
-  $('.{$fieldset->unique}').toggle(50, function() {
-    // Animation complete.
-  });
-});
-");
 	?>

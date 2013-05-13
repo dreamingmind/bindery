@@ -2,16 +2,16 @@
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
- * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.com)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Data
  */
 /**
- * UploadBehavior
+ * Upload Behavior
  * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Data
  */
 App::import('Behavior', array('MeioUpload'));
 App::import('Core', array('File', 'Folder'));

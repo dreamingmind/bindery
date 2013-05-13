@@ -3,13 +3,15 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.User
  */
 /**
  * Optin Model
  * 
+ * The system to track which site services Users have requested
+ *
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.User
 */
 class Optin extends AppModel {
 	var $name = 'Optin';

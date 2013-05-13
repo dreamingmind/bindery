@@ -3,7 +3,7 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.behavior
+ * @subpackage    bindery.Daa
  */
 App::import('Behavior', array('Tree'));
 
@@ -13,7 +13,7 @@ App::import('Behavior', array('Tree'));
  * An output packaging method for trees
  * 
  * @package       bindery
- * @subpackage    bindery.behavior
+ * @subpackage    bindery.Data
 */
 class GroupTreeBehavior extends TreeBehavior {
 	function generatetreegrouped(&$Model, $conditions = null, $keyPath = null, $valuePath = null, $groupPath = null, $recursive = null) {

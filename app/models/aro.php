@@ -3,13 +3,13 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Security
  */
 /**
  * Aro Model
  * 
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Security
 */
 //class Aro extends AppModel {
 //	var $name = 'Aro';

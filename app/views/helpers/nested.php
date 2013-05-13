@@ -2,12 +2,18 @@
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
- * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.com)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Output
  */
-
+/**
+ * Nested Helper
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Output
+ * @todo Looks like this is unused
+ */
 class NestedHelper extends AppHelper {
 	function getCategories($key, $categories, &$mainList) {
 		$result = '<ul>';
