@@ -5,7 +5,7 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.component
+ * @subpackage    bindery.Data
  */
 /**
  * TreeCrud Component
@@ -13,7 +13,7 @@
  * Handle tasks to impliment an editing system for tree data
  * 
  * @package       bindery
- * @subpackage    bindery.component
+ * @subpackage    bindery.Data
  */
 class TreeCrudComponent extends Object {
 
