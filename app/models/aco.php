@@ -3,13 +3,13 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Security
  */
 /**
  * Aco Model
  * 
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Security
 */
 class Aco extends AppModel {
 	var $name = 'Aco';

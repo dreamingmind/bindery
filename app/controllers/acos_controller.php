@@ -5,13 +5,15 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Security
  */
 /**
- * AcosController
+ * Acos Controller
+ * 
  * Provide basic crud and tree management of the Acos Model
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Security
 */
 class AcosController extends AppController {
 

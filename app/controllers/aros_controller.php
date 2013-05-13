@@ -2,16 +2,18 @@
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
- * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.com)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Security
  */
 /**
- * ArosController
+ * Aros Controller
+ * 
  * Provides basic crud and tree management of the Aros Model
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Security
  */
 class ArosController extends AppController {
 
