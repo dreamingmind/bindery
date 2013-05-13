@@ -118,4 +118,5 @@ foreach ($potentialcontent[1] as $workshop) {
 }
 echo '</div>';
 
+//debug($userdata);
 ?>
