@@ -3,17 +3,37 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Article
  */
 /**
  * Content Model
  * 
- * @package       bindery
- * @subpackage    bindery.model
+ * An Article is created from one or more text/image pairs.
+ * Content records are the text portion of a pair. Image records
+ * belong to Content records and are the image protion of the pair. 
+ * To create a multi-unit Article, all Content.headings must be the same
+ * and all ContentCollection.collection_ids must be the same.
  * 
- * @property Image $Image
- * @property ExhibitSupliment $ExhibitSupliment
-*/
+ * While the linked Image carries a default <alt> and <title> value,
+ * the Content record also carries these values and can override the
+ * Image values. Since Images may belong to multiple Content records (and hence
+ * multiple articles), this allows the <alt> and <title> to be appropriate
+ * to the article topic.
+ * 
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Article
+ * 
+ */
 class Content extends AppModel {
 	var $name = 'Content';
 	var $validate = array(

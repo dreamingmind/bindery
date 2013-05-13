@@ -1,4 +1,42 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.Article
+ */
+/**
+ * Collection Model
+ * 
+ * This is a high level classification of site Articles. Each Collection will
+ * have a Category and will contain many Articles.
+ * 
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * <ul>
+ * 
+ * <li>Each Collection is a member of a Category</li>
+ * <li>Collections may share the same Collection.heading but if they are in different Categories, they are different Collections</li>
+ * <li>The name 'Collection' refers to the roll of these records—to collect Articles
+ *     <ul>
+ *     <li>Articles are sets of Content records with the same Content.heading which are members of a single Collection</li>
+ *     <li>Content records may share a Content.heading but if they are in different Collections they will be in different articles</li>
+ *     <li>There is a join table between Collections and their Content (see Content Model for more info)</li>
+ *     </ul>
+ * </li>
+ * </ul>
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Article
+ * 
+*/
 class Collection extends AppModel {
 	var $name = 'Collection';
 	var $validate = array(

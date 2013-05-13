@@ -1,4 +1,39 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ *
+ * @package       bindery
+ * @subpackage    bindery.Article
+ */
+/**
+ * Categories Controller
+ * 
+ * This is the most general classification of site Content.
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * <ul>
+ * <li>Collections are Categorized</li>
+ * <li>Major page types will only display Content of a specific Category
+ *     <ul>
+ *     <li>Blog and Newsfeed only allow 'dispatch' category</li>
+ *     <li>Workshop only allows 'workshop' category</li>
+ *     <li>Product Galleries only allow 'exhibit' category</li>
+ *     <li>Art & Editions only allow 'art' category</li>
+ *     </ul>
+ * </li>
+ * </ul>
+ * 
+ * @package       bindery
+ * @subpackage    bindery.Article
+ * 
+*/
 class CategoriesController extends AppController {
 
 	var $name = 'Categories';

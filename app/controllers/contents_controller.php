@@ -3,22 +3,38 @@ App::import('Sanitize');
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
- * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
- * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Article
  */
 /**
- * ContentsController
+ * Contents Controller
  * 
- * Handles splash page content
+ * An Article is created from one or more text/image pairs.
+ * Content records are the text portion of a pair. Image records
+ * belong to Content records and are the image protion of the pair. 
+ * To create a multi-unit Article, all Content.headings must be the same
+ * and all ContentCollection.collection_ids must be the same.
+ * 
+ * While the linked Image carries a default <alt> and <title> value,
+ * the Content record also carries these values and can override the
+ * Image values. Since Images may belong to multiple Content records (and hence
+ * multiple articles), this allows the <alt> and <title> to be appropriate
+ * to the article topic.
+ * 
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Article
  * 
- * @property AuthComponent $Auth
- * @property SessionComponent $Session
- * @property AclComponents $Acl
-*/
+ */
 class ContentsController extends AppController {
 
     var $name = 'Contents';

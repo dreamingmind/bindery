@@ -5,16 +5,37 @@
  * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
  * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Article
  */
 /**
  * Images Controller
  * 
+ * An Article is created from one or more text/image pairs.
+ * Image records are the image portion of a pair. Content records
+ * own to Image records and are the text protion of the pair. 
+ * To create a multi-unit Article, all Content.headings must be the same
+ * and all ContentCollection.collection_ids must be the same.
+ * 
+ * Image carries a default <alt> and <title> value, and exif data from the image file.
+ * The Content record also carries  <alt> and <title> values and can override the
+ * Image values. Since Images may belong to multiple Content records (and hence
+ * multiple articles), this allows the <alt> and <title> to be appropriate
+ * to the article topic.
+ * 
+ * The basic structual chain for Content is:
+ * <pre>
+ *                                                      |<--Supplement
+ * Category<--Collection<--ContentCollection-->Content--|
+ *                                                      |-->Image
+ * |         |            |                  |                     |
+ * | Content |            |                  |                     |
+ * | Filter  |Article Sets| Article Assembly |     Article Parts   |
+ * </pre>
+ * 
  * @package       bindery
- * @subpackage    bindery.controller
+ * @subpackage    bindery.Article
  * @todo write populator that reads the current image collection and writes records for images that don't have them
- * @property Image $Image
- */
+*/
 class ImagesController extends AppController {
 
     var $name = 'Images';
