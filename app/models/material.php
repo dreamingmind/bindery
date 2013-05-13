@@ -2,15 +2,17 @@
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
+ * @copyright     Copyright 2010, Dreaming Mind (http://dreamingmind.org)
+ * @link          http://dreamingmind.com
  * @package       bindery
- * @subpackage    bindery.model
+ * @subpackage    bindery.Product
  */
 /**
- * Material
+ * Materials Model
  * 
  * @package       bindery
- * @subpackage    bindery.model
-*/
+ * @subpackage    bindery.Product
+ */
 class Material extends AppModel {
 	var $name = 'Material';
 	var $primaryKey = 'id';
