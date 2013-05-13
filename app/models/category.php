@@ -32,14 +32,14 @@
  *     <li>Workshop only allows 'workshop' Articles</li>
  *     <li>Product Galleries only allow 'exhibit' Articles</li>
  *     <li>Art & Editions only allow 'art' Articles</li>
- *     <li>Blog and Newsfeed only allow 'dispatch' Articles</li>
+ *     <li>Blog and Newsfeed only allow 'dispatch' Articles
  *         <ul>
  *         <li>Any article of Category 'dispatch' will be included in the Blog</li>
  *         <li>Newsfeed Articles are a sub-set of 'dispatch' category articles.
  *             Only the 'dispatch' Collections who's headings match menu-tree nodes
  *             under the Product parent will be included (see the bindery.Navigation subpackage)</li>
  *     <li>'dispatch' articles can serve as a Detail Article to any other category of article
- *     </ul>
+ *     </ul></li>
  * </li>
  * </ul>
  * 
