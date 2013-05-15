@@ -12,3 +12,4 @@ app/.DS_Store
 /~/
 /app/config/database.php
 app/tmp/cache/*
+/app/config/core.php
