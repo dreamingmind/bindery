@@ -533,11 +533,13 @@ class ContentsController extends AppController {
      * If no pname is given, get the most recent active
      * 
      * Much more to come
+     * @todo look at a sys to save the user's size pref in db or session
      */
     function blog(){
         $this->readBlogTOC();
         $this->layout='blog_layout';
         $this->blogPage();
+        $this->set('size','x640y480');
     }
     
     function blogPage(){

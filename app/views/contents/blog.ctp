@@ -44,12 +44,12 @@ foreach($most_recent as $entry){
 '
         // the div content
         . $html->image(
-            'images'.DS.'thumb'.DS.'x320y240'.DS.$entry['Content']['Image']['img_file'],
+            'images'.DS.'thumb'.DS. $size .DS.$entry['Content']['Image']['img_file'],
             array('alt'=>$entry['Content']['Image']['alt'].' '.$entry['Content']['Image']['alt'],
-                'class'=>'scalable '.$cls)
+                'class'=>'scalable '.$cls . ' img'.$size)
         )
         ."\n"
-        . $html->div($cls . ' entryText x320y240 markdown',Markdown($entry['Content']['content']),
+        . $html->div($cls . ' entryText ' . $size . ' markdown',Markdown($entry['Content']['content']),
         array(''/* the div attributes */)));
     
         if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
