@@ -1,5 +1,6 @@
 app/config/database.php #private stuff in here
 nbproject/
+app/webroot/img/*
 app/.DS_Store
 .DS_Store
 <<<<<<< HEAD
