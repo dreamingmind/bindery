@@ -18,7 +18,7 @@
  * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
  * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
  * @package       bindery
- * @subpackage    bindery.helper
+ * @subpackage    bindery.Output
  * @since         CakePHP(tm) v 0.2.9
  * @version       $Revision$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -31,10 +31,7 @@
  * will inherit them.
  *
  * @package       bindery
- * @subpackage    bindery.helper
- *
- * @property HtmlHelper $HtmlHelper
- * @property FormHelper $FormHelper
+ * @subpackage    bindery.Output
  */
 class AppHelper extends Helper {
 
@@ -115,14 +112,6 @@ class AppHelper extends Helper {
      * @return type
      */
     function accountTool_($userdata) {
-//        array_flip($this->Auth->allowedActions);
-//        if(isset($this->Auth->allowedActions[$this->params['action']])){
-//            $outController = 'pages';
-//            $outAction = 'home';
-//        } else {
-//            $outController = $this->params['controller'];
-//            $outAction = $this->params['action'];
-//        }
         $tool = "<p>";
         if (isset($userdata) && $userdata != 0) {
             $tool .= $userdata['username'] . " | ";
@@ -195,11 +184,6 @@ class AppHelper extends Helper {
             'name' => 'data[action]',
             'type' => 'hidden'
             ));
-//        if ($hidden !=null) {
-//            foreach($hidden as $field=>$options) {
-//                $tool .= FormHelper::input($field,$options+array('type'=>'hidden'));
-//            }
-//        }
 
         // This is the new, more cakey version
         $tool .= FormHelper::input('searchInput', array(
@@ -319,16 +303,6 @@ class AppHelper extends Helper {
                         array('escape'=>false,'class'=>'thumb')
                 );
             } elseif ($this->params['action']=='art') {
-//                debug($this->params);
-//                $link = $this->Html->link($number++ . '<br />' . $image,
-//                    array(
-//        //                'controller'=>$this->params['controller'],
-//                        'action'=>$this->params['action'],
-//                        'pass'=>$this->params['pass'],
-//                        'page'=>$paginator->params['paging']['ContentCollection']['page'],
-//                        'id'=>$entry['Content']['id']),
-//                        array('escape'=>false,'class'=>'thumb')
-//                );
                 $url = preg_replace(
                     array(
                         '/[\/]?page:[0-9]+/',
@@ -423,14 +397,6 @@ class AppHelper extends Helper {
                     'id:'.$nextImage,
                     array('escape'=>false)
                 );
-//        } elseif ($this->params['action']=='newsfeed') {
-//            $nLink .= $this->Html->link( $nImage,
-//                DS.'products'.DS. $paginator->params['pname'].DS.$paginator->params['action'].DS.
-//                    'page:'.$neighbors[$neighbors[$paginator->params['named']['id']]['next']]['page'].DS.
-//                    'id:'.$neighbors[$paginator->params['named']['id']]['next'],
-//                    array('escape'=>false)
-//                );
-//        }
 
         // compile the next tags into an LI
         $next = $this->Html->tag('li', $nLink, array('class'=>'thumbButton nextButtons'));
@@ -506,6 +472,7 @@ class AppHelper extends Helper {
      * 2nd through tMax LIs contain numbered image thumbnail clickers
      * Last LI contains next page and next image clickers
      *
+     * <pre>
      * $collectionPage sample record
      *  [0] => Array
      *  (
@@ -550,7 +517,8 @@ class AppHelper extends Helper {
      *      [next] => 2
      *      [previous] => 2
      *  )
-     *
+     * </pre>
+     * 
      * @param type $collectionPage Content record data and much more (see above)
      * @param type $pageData Array of info about this page, the next page, the previous page
      * @return type
@@ -727,6 +695,7 @@ class AppHelper extends Helper {
      * on landing pages
      *
      * Required structure
+     * <code>
      * $new = Array
      *          [Content] => Array
      *                  [heading] => Jackson Nichol's Forcado portfolio
@@ -764,6 +733,7 @@ class AppHelper extends Helper {
      *          <a href="/bindery/blog/58/alligator-notebook">Blog Article</a> $blog_link
      *      </p>
      *  </div>
+     * </code>
      */
     function foundNewBlock(&$view, $news, $path = 'images/thumb/x160y120/'){
         $clean = $this->flattenMarkdown($news['Content']['content']);
@@ -813,6 +783,7 @@ class AppHelper extends Helper {
     /**
      * Using the same data array as foundNewsBlock
      *
+     * <code>
      *  <div class="linkDiv">
      *      <p class="aside">Boxes: 4 days, 5 hours ago</p>
      *      <a href="/bindery/blog/60/jackson-nichol-s-forcado-portfolio">
@@ -823,7 +794,8 @@ class AppHelper extends Helper {
      *      </a>
      *      <a href="/bindery/blog/60/forcado-portfolio">Forcado portfolio</a>
      *  </div>
-     *
+     * </code>
+     * 
      * @param type $news
      * @param type $path
      */
@@ -860,6 +832,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <p class="aside">Notebooks: on 30/11/-1</p>
      *      <a href="/bindery/blog/58/alligator-notebook">
@@ -870,6 +843,7 @@ class AppHelper extends Helper {
      *      </a>
      *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
      *  </div>
+     * </code>
      *
      * @param type $news
      * @param type $path
@@ -910,6 +884,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <p class="aside">Notebooks: on 30/11/-1</p>
      *      <a href="/bindery/blog/58/alligator-notebook">
@@ -920,7 +895,8 @@ class AppHelper extends Helper {
      *      </a>
      *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
      *  </div>
-     *
+     * </code>
+     * 
      * @param type $news
      * @param type $path
      */
@@ -960,6 +936,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/products/boxes/gallery/id:574">
      *          <img title="Non-traditional materials for an artist's portfolio"
@@ -969,6 +946,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/boxes/gallery/id:574">Non-traditional mater ...</a>
      *      <p>The interior of a clamshell box with a book well and a foil ...</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
@@ -994,6 +972,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/art/traveler">
      *          <img title="Traveler"
@@ -1004,6 +983,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/art/traveler">Traveler</a>
      *      <p>Traveler is an edition</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
@@ -1026,6 +1006,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/products/notebooks/gallery/id:310">
      *          <img title="Calendars"
@@ -1036,6 +1017,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/notebooks/gallery/id:310">Calendars</a>
      *      <p>Many standard notebook fillers are available in...</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
@@ -1058,6 +1040,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/art/traveler">
      *          <img title="Traveler"
@@ -1068,6 +1051,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/art/traveler">Traveler</a>
      *      <p>Traveler is an edition</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
@@ -1090,6 +1074,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/products/45-minute-box/gallery/id:114">
      *          <img title="45 Minute Box" alt="alt text"
@@ -1099,6 +1084,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/45-minute-box/gallery/id:114">45 Minute Box</a>
      *      <p>Learn to make a professional looking box to e...</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
@@ -1113,6 +1099,7 @@ class AppHelper extends Helper {
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['ContentCollection']['0']['Content']['Image'], $path);
+            $exhibit['Content']=$exhibit['ContentCollection'][0]['Content'];
             $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
             $adminLinks .= $this->changeCollection($view, $exhibit['Workshop']['slug'], $exhibit['ContentCollection'][0]['Collection']['id']);
 
@@ -1122,6 +1109,7 @@ class AppHelper extends Helper {
 
     /**
      *
+     * <code>
      *  <div class="linkDiv">
      *      <a href="/bindery/products/just-facts-ma-39-am-notebook/gallery/id:388">
      *          <img title="Special material option"
@@ -1132,6 +1120,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/just-facts/gallery/id:388">Just-the-Facts</a>
      *      <p>You  ...</p>
      *  </div>
+     * </code>
      *
      * @param type $exhibit
      * @param type $path
