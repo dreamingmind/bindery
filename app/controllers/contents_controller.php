@@ -567,7 +567,8 @@ class ContentsController extends AppController {
 
         $most_recent = $this->findBlogTarget($conditions);
         $this->set('most_recent',$most_recent);
-        
+        $this->set('blog_title', $most_recent[0]['Content']['heading']);
+
     }
     
     /**

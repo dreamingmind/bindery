@@ -18,8 +18,7 @@
     <?php echo $html->charset(); ?>
     <!-- TITLE --><title>
         <?php
-        __("Don's Cake Page: ");
-        echo $title_for_layout;
+        echo "Don Drake's Bench Marks: $blog_title";
         ?>
     </title>
     <?php
