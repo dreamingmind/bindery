@@ -54,10 +54,14 @@ class Workshop extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-                'ContentCollection',
+                'ContentCollection' => array(
+                'className' => 'ContentCollection',
+                'foreignKey' => 'content_id'
+            ),
                 'Request'
 	);
-        
+     
+
 //        /**
 //         * @var array $upcoming_sessions sessions records, now and future plus related date data
 //         */

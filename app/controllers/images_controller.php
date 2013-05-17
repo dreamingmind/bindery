@@ -210,7 +210,10 @@ class ImagesController extends AppController {
 
            // Check the Upload folder and set upload realted properties
            $this->Image->Behaviors->Upload->setImageDirectory('Image', 'img_file', 'img/images');
-           $this->Image->ingest_images(); //this is in Upload behavior which reads the upolad folder
+           $records = $this->Image->find('all',array(
+               'fields'=>'Image.img_file',
+                   'contain'=>false));
+           $this->Image->ingest_images($records); //this is in Upload behavior which reads the upolad folder
 
            // these will be false or arrays of file data from the upload folder
            $this->set('disallowed',$this->disallowed = $this->Image->Behaviors->Upload->disallowed);
