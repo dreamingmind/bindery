@@ -90,6 +90,13 @@ class ContentCollection extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'Workshop' => array(
+			'className' => 'Workshop',
+			'foreignKey' => 'content_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'Collection' => array(
 			'className' => 'Collection',
 			'foreignKey' => 'collection_id',

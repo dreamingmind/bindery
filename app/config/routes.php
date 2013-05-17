@@ -112,6 +112,8 @@ Router::connect('/:static', array(
                 array ('controller'=>'contents','action'=>'art'));
         Router::connect('/workshops',
                 array ('controller'=>'workshops','action'=>'upcoming'));
+        Router::connect('/workshops/*',
+                array ('controller'=>'workshops','action'=>'detail'));
         
 
         
