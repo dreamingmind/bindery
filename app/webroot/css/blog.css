@@ -290,7 +290,7 @@ input#searchInput {
 div#detail{
     position: relative;
 }
-#detail img{
+div.entry img{
     float: left;
     padding: 3px;
     margin: 5px 20px 10px 2px;
@@ -411,6 +411,9 @@ div.entryText{
 .x640y480 {
     margin-top: 460px;
     padding-top: 42px;
+}
+div.entry img.imgx640y480 {
+    margin-right: 110px;
 }
 #detail .entryText img{
     margin: 2px 0px 2px 8px;

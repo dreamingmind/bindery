@@ -653,7 +653,7 @@ div.fieldsets {
 }
 div.content {
     float: right;
-    width: 315px;
+    /*width: 315px;*/
 }
 div.content p {
     font-size: 12px;

@@ -36,10 +36,12 @@ $(document).ready(function(){
         var index = patt.exec(src);
 //        alert(size_swaps.p[index]+' : '+size_swaps.m[index]);
         if (change == '+'){
-            $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+            $('img.'+id).attr('src',src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'))
+            $('img.'+id).attr('class','scalable ' + id + ' img' + size_swaps.p[index]);
             $('div.'+id).attr('class', id+' entryText '+ size_swaps.p[index] + ' markdown');
         } else {
-            $('img.'+id).attr('src',$('img.'+id).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'));
+            $('img.'+id).attr('src',src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
+            $('img.'+id).attr('class','scalable ' + id + ' img' + size_swaps.m[index]);
             $('div.'+id).attr('class', id+' entryText '+ size_swaps.m[index] + ' markdown');
         }
 //        alert(src);
@@ -77,14 +79,14 @@ $(document).ready(function(){
             $('img.scalable').each(function(){
                 src = $(this).attr('src');
                 fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
-                $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/'));
+                $(this).attr('src',src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.p[index]+'/')).attr('class','scalable ' + fn_class + ' img' + size_swaps.p[index]);
                 $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.p[index] + ' markdown');
             });
         } else {
             $('img.scalable').each(function(){
                 src = $(this).attr('src');
                 fn_class = src.slice(src.lastIndexOf('/')+1,src.length).replace(/\./g,'').replace(/-/g,'');
-                $(this).attr('src',$(this).attr('src').replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/'))
+                $(this).attr('src',src.replace(/\/x[0-9]+y[0-9]+\//,'/'+size_swaps.m[index]+'/')).attr('class','scalable ' + fn_class + ' img' + size_swaps.m[index])
                 $('div.'+fn_class).attr('class', fn_class+' entryText '+ size_swaps.m[index] + ' markdown');
             });
         }
