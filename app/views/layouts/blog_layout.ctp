@@ -30,14 +30,14 @@
         echo $html->css('tree_admin');
     }
     echo $html->css('blog.css');
-    if (
-        $this->params['action']=='forgot' 
-        || $this->params['action']=='login'
-        || $this->params['action']=='validate_user'
-        || $this->params['action']=='opt_in')
-    {
-        echo $html->css('login');
-    }
+//    if (
+//        $this->params['action']=='forgot' 
+//        || $this->params['action']=='login'
+//        || $this->params['action']=='validate_user'
+//        || $this->params['action']=='opt_in')
+//    {
+//        echo $html->css('login');
+//    }
 //    $js->buffer("var size_swaps = $size_swaps;");
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('blog_menu');
