@@ -54,10 +54,7 @@ class Workshop extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-                'ContentCollection' => array(
-                'className' => 'ContentCollection',
-                'foreignKey' => 'content_id'
-            ),
+                'ContentCollection',
                 'Request'
 	);
      
