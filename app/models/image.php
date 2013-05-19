@@ -39,14 +39,7 @@ class Image extends AppModel {
     var $name = 'Image';
     var $displayField = 'img_file';
 
-    var $hasMany = array('Content',
-		'Workshop' => array(
-			'className' => 'Workshop',
-			'foreignKey' => 'content_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+    var $hasMany = array('Content'
 //        'Supplement'=>array(
 //            'className' => 'Supplement',
 //            'foreignKey' => 'image_id',

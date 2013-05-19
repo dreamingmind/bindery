@@ -1,8 +1,12 @@
 app/config/database.php #private stuff in here
 nbproject/
 app/webroot/img/*
+app/webroot/img/*/*
 app/.DS_Store
 .DS_Store
+/app/config/database.php
+app/tmp/cache/*
+/app/config/core.php
 <<<<<<< HEAD
 /.fseventsd/
 /.git-rewrite/
@@ -10,6 +14,10 @@ app/.DS_Store
 /.fseventsd/
 >>>>>>> d551cba9743d047a292c7f909553ba2c8e84c517
 /~/
-/app/config/database.php
-app/tmp/cache/*
-/app/config/core.php
+
+/app/webroot/img/images/upload/DSC01788.JPG
+/app/webroot/img/images/upload/DSC01794.JPG
+/app/webroot/img/images/upload/DSC01801.JPG
+/app/webroot/img/images/upload/DSC01802.JPG
+/app/webroot/img/images/upload/DSC01803.JPG
+/app/webroot/img/images/upload/DSC01816.JPG

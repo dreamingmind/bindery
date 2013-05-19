@@ -107,17 +107,9 @@ App::import('Core', array('File', 'Folder'));
         function ingest_images(&$model) {
 
             $className = $model->name;
-//            debug($className);
-//            debug($this->__fields[$model->name][$this->fieldname]['dir']);
-//            debug($this);die;
             $folderName = $this->__fields[$model->name][$this->fieldname]['dir'];
             $this->sourcePath = $folderName.DS."upload";
             $this->destPath = "$folderName/native";
-//            debug($this->sourcePath);
-//            debug($this->destPath); //die;
-            //$folderName = Inflector::tableize($className);
-//            $this->sourcePath = "img".DS."uploads".DS.$folderName;
-//            $this->destPath = "img/$folderName/native";
 
 
             $saved = array();
@@ -127,6 +119,43 @@ App::import('Core', array('File', 'Folder'));
             $this->folder = new Folder();
             $this->sourceFolder = $this->folder->tree(WWW_ROOT.$this->sourcePath, true, 'file');
             $this->destFolder = $this->folder->tree(WWW_ROOT.$this->destPath, true, 'file');
+
+            $this->s_d_compare();
+        }
+
+        /**
+         * Load an array of source images
+         * Load an array of destination images
+         *
+         * @return <type>
+         */
+        function new_up(&$model,$records) {
+
+            $className = $model->name;
+            $folderName = $this->__fields[$model->name][$this->fieldname]['dir'];
+//            $this->sourcePath = $folderName.DS."upload";
+            $this->destPath = "$folderName/native";
+
+
+            $saved = array();
+//            $failed_save = array();
+//            $missing_pic = array();
+//
+//            $this->folder = new Folder();
+//            $this->destFolder = $this->folder->tree(WWW_ROOT.$this->destPath, true, 'file');
+            foreach($this->destFolder as $index => $path){
+                $this->destFolder[$index] = str_replace(WWW_ROOT.$this->destPath, '', $path);
+                $dest[str_replace(WWW_ROOT.$this->destPath.'/', '', $path)] = $path;
+            }
+            $temps = $records;
+            foreach($temps as $index => $temp){
+                if(isset($dest[$temp['Image']['img_file']])){
+                    debug($dest[$temp['Image']['img_file']]);
+                    unset($dest[$temp['Image']['img_file']]);
+                }
+            }
+            debug($dest);
+            die;
 
             $this->s_d_compare();
         }
