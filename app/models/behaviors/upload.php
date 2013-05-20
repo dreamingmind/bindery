@@ -111,7 +111,6 @@ App::import('Core', array('File', 'Folder'));
             $this->sourcePath = $folderName.DS."upload";
             $this->destPath = "$folderName/native";
 
-
             $saved = array();
             $failed_save = array();
             $missing_pic = array();
