@@ -27,11 +27,19 @@ $file = array(     //required
     'size'=> $object->exif['FILE']['FileSize']
     );
                 echo $this->Html->image("images/upload/$fileIndex", array('style'=>'width:120px;'));
-                    
-                echo $this->element('imageForm_fileFields',array(
+
+//                this is the old upload and resize with php strategy.
+//                i'm switching to Lightroom processing
+//                echo $this->element('imageForm_fileFields',array(
+//                    'count'=>$count,
+//                    'file'=>$file
+//                ));
+                echo $this->element('imageForm_fileName',array(
                     'count'=>$count,
-                    'file'=>$file
-                ));
+                    'record'=>array(
+                        'Image'=>array(
+                            'img_file'=>$fileIndex
+                ))));
                 echo $this->element('imageForm_metaFields',array(
                     'prefix'=>array($count),
                     'record'=>array(

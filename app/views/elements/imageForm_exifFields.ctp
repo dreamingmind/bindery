@@ -21,8 +21,8 @@ if(is_object($record)){
     $recordArray['Image']['date'] = strtotime($record->exif['EXIF']['DateTimeOriginal']);
     $recordArray['Image']['width'] = $record->exif['COMPUTED']['Width'];
     $recordArray['Image']['height'] = $record->exif['COMPUTED']['Height'];
-    $record = $recordArray;
     $dateLabel = 'Date: '.$record->exif['EXIF']['DateTimeOriginal'];
+    $record = $recordArray;
 }
 $dateLabel = (isset($dateLabel)) ? $dateLabel : date('m-j-Y h:m',$record['Image']['date']);
 

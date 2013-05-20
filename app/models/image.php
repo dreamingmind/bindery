@@ -35,6 +35,7 @@
  * @package       bindery
  * @subpackage    bindery.Article
  */
+App::import('Core', array('File', 'Folder'));
 class Image extends AppModel {
     var $name = 'Image';
     var $displayField = 'img_file';
@@ -166,5 +167,128 @@ class Image extends AppModel {
         }
         return $exif;
     }
+    
+     /**
+      * Examine files in source and sort by status
+      *
+      * sort them into Disallowed, Duplicate and New (ready to go) arrays
+      */
+     function s_d_compare(){
+         $this->new = false;
+         $this->dup = false;
+         $this->disallowed = false;
+
+         foreach($this->sourceFolder as $item) {
+             $f = new File($item);
+             $f->info();
+             $name = $f->name;
+             
+             if (is_file($item)) {
+                 if (!isset($this->Behaviors->Upload->ext['.'.$f->info['extension']])) {
+                    $this->disallowed[$name] = $f;
+                    $f->reason = $f->info['extension']. ' is not allowed.';
+
+                 } elseif (file_exists($this->destPath.'/'.$name) && is_file($this->destPath.'/'.$name)) {
+                    $this->read_exif($f);
+                    $this->dup[$name] = $f;
+                    $d = new File($this->destPath.'/'.$name);
+                    $d->info();
+                    $this->read_exif($d);
+                    $this->dup[$name]->duplicate = $d;
+
+                 } else {
+                    $this->new[$name] = $f;
+                    $this->read_exif($f);
+                 }
+             } else {
+                 $this->disallowed[$f->name] = $f;
+                 $f->reason = "Disallowed because this is not a file";
+             }
+         }
+     }
+     
+     function read_exif(&$fileObj = null){
+         if($fileObj->info['extension'] != 'png'){
+            $exif = exif_read_data($fileObj->path, 'FILE', true);
+            unset($exif['EXIF']['MakerNote']);
+            $fileObj->exif = $exif;
+         } else {
+             // png files don't have exif data
+             $fileObj->exif = array(
+                 'FILE'=>array(
+                     'MimeType'=>'image/png',
+                     'FileSize'=>''
+                 ),
+                 'EXIF'=>array(
+                     'DateTimeOriginal'=>''
+                 ),
+                 'COMPUTED'=>array(
+                     'Width'=>'',
+                     'Height'=>''
+                 ));
+         }
+     }
+
+        /**
+         * Load an array of source images
+         * Load an array of destination images
+         *
+         * @return <type>
+         */
+        function ingest_images() {
+
+            $className = $this->name;
+            $folderName = 'img/images';
+            $this->sourcePath = $folderName.DS."upload";
+            $this->destPath = "$folderName/native";
+
+            $saved = array();
+            $failed_save = array();
+            $missing_pic = array();
+
+            $this->folder = new Folder();
+            $this->sourceFolder = $this->folder->tree(WWW_ROOT.$this->sourcePath, true, 'file');
+            $this->destFolder = $this->folder->tree(WWW_ROOT.$this->destPath, true, 'file');
+
+            $this->s_d_compare();
+        }
+
+        /**
+         * Load an array of source images
+         * Load an array of destination images
+         *
+         * @return <type>
+         */
+        function new_up($records) {
+
+            $className = $this->name;
+            $folderName = $this->__fields[$this->name][$this->fieldname]['dir'];
+//            $this->sourcePath = $folderName.DS."upload";
+            $this->destPath = "$folderName/native";
+
+
+            $saved = array();
+//            $failed_save = array();
+//            $missing_pic = array();
+//
+//            $this->folder = new Folder();
+//            $this->destFolder = $this->folder->tree(WWW_ROOT.$this->destPath, true, 'file');
+            foreach($this->destFolder as $index => $path){
+                $this->destFolder[$index] = str_replace(WWW_ROOT.$this->destPath, '', $path);
+                $dest[str_replace(WWW_ROOT.$this->destPath.'/', '', $path)] = $path;
+            }
+            $temps = $records;
+            foreach($temps as $index => $temp){
+                if(isset($dest[$temp['Image']['img_file']])){
+                    debug($dest[$temp['Image']['img_file']]);
+                    unset($dest[$temp['Image']['img_file']]);
+                }
+            }
+            debug($dest);
+            die;
+
+            $this->s_d_compare();
+        }
+
 }
 ?>
