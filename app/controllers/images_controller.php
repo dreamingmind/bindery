@@ -171,9 +171,9 @@ class ImagesController extends AppController {
            $this->Image->ingest_images(); //this is in Upload behavior which reads the upolad folder
 
            // these will be false or arrays of file data from the upload folder
-           $this->set('disallowed',$this->disallowed = $this->Image->Behaviors->Upload->disallowed);
-           $this->set('duplicate',  $this->duplicate = $this->Image->Behaviors->Upload->dup);
-           $this->set('new',  $this->new = $this->Image->Behaviors->Upload->new);
+           $this->set('disallowed',$this->disallowed = $this->Image->disallowed);
+           $this->set('duplicate',  $this->duplicate = $this->Image->dup);
+           $this->set('new',  $this->new = $this->Image->new);
 
            }
     }
@@ -216,9 +216,9 @@ class ImagesController extends AppController {
            $this->Image->ingest_images($records); //this is in Upload behavior which reads the upolad folder
 
            // these will be false or arrays of file data from the upload folder
-           $this->set('disallowed',$this->disallowed = $this->Image->Behaviors->Upload->disallowed);
-           $this->set('duplicate',  $this->duplicate = $this->Image->Behaviors->Upload->dup);
-           $this->set('new',  $this->new = $this->Image->Behaviors->Upload->new);
+           $this->set('disallowed',$this->disallowed = $this->Image->disallowed);
+           $this->set('duplicate',  $this->duplicate = $this->Image->dup);
+           $this->set('new',  $this->new = $this->Image->new);
 
            // Save or read page-state values
             if(isset($this->data['Image']['columns'])){
@@ -416,6 +416,7 @@ class ImagesController extends AppController {
                 \$this->new should have an array of upoload file info. <br \\>It has: <br \\>"
                     . print_r($this->new, TRUE));
             $this->set('new',false);
+        } else {
         }
         if(isset($this->data)){
 //            debug($this->data);die;
