@@ -9,7 +9,7 @@ echo $session->flash();
 <?php 
 if($new) {
     echo $this->Form->create('Image',array(
-    'type' => 'file',
+//    'type' => 'file',
     'url'=>(array ('action'=>'new_uploads', count($new))))) ;
 
     $count = 0;
@@ -20,13 +20,14 @@ if($new) {
 	<fieldset>
  		<legend><?php __("Add Image $fileIndex"); ?></legend>
 	<?php
-$file = array(     //required
-    'name'=> $fileIndex,
-    'type'=> $object->exif['FILE']['MimeType'],
-    'tmp_file'=> $object->path,
-    'size'=> $object->exif['FILE']['FileSize']
-    );
-                echo $this->Html->image("images/upload/$fileIndex", array('style'=>'width:120px;'));
+// this was active when I was actually processing images with this view
+//$file = array(     //required
+//    'name'=> $fileIndex,
+//    'type'=> $object->exif['FILE']['MimeType'],
+//    'tmp_file'=> $object->path,
+//    'size'=> $object->exif['FILE']['FileSize']
+//    );
+                echo $this->Html->image("images/upload/x160y120/$fileIndex");
 
 //                this is the old upload and resize with php strategy.
 //                i'm switching to Lightroom processing
@@ -36,9 +37,10 @@ $file = array(     //required
 //                ));
                 echo $this->element('imageForm_fileName',array(
                     'count'=>$count,
+                    'prefix'=>array($count),
                     'record'=>array(
                         'Image'=>array(
-                            'img_file'=>$fileIndex
+                            'file'=>$fileIndex
                 ))));
                 echo $this->element('imageForm_metaFields',array(
                     'prefix'=>array($count),
@@ -51,10 +53,11 @@ $file = array(     //required
                 ));
                 echo $this->element('imageForm_dataFields',array(
                     'prefix'=>array($count),
+                    'display'=>'show',
                     'record'=>array(
-                        'Image'=>array(
+//                        'Image'=>array(
                             'recent_titles'=>array('options'=>$recentTitles)
-                        )
+//                        )
                     )
                 ));
                 echo $this->element('imageForm_exifFields',array(

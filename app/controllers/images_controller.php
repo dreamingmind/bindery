@@ -411,6 +411,7 @@ class ImagesController extends AppController {
      * Handle new images that have been placed the Upload folder
      */
     function new_uploads(){
+//        $this->Image->Behaviors->disable('Upload');
         if(!is_array($this->new)){
             $this->Session->setFlash("There are no valid new images in the Upload folder. You should only use an onscreen link to come to this page.<br \\>
                 \$this->new should have an array of upoload file info. <br \\>It has: <br \\>"
@@ -429,8 +430,15 @@ class ImagesController extends AppController {
                    $hold[]=$count;
                }
            }
+           debug($delete);
+           debug($hold);
            foreach($delete as $index=>$pointer){
-                unlink($this->data[$pointer]['Image']['img_file']['tmp_file']);
+               $path = WWW_ROOT.'img'.DS.'images'.DS.'upload'.DS;
+               $thumbs = $this->Image->Behaviors->Upload->thumbs;
+                unlink($path.$this->data[$pointer]['Image']['file']);
+                foreach($thumbs as $thumb_folder){
+                    unlink($path.$thumb_folder.DS.$this->data[$pointer]['Image']['file']);
+                }
                 unset($this->data[$pointer]);
            }
            foreach($hold as $index=>$pointer){

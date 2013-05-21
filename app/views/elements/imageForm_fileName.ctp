@@ -23,21 +23,14 @@ $parameters = array(
     'post_fields' => (isset($post_fields))
         ?$post_fields
         :false,
-    'display'=> (isset($display))?$display:'show',
+    'display'=> (isset($display))?$display:'hide',
     'record'=> (isset($record))?$record:false,
     'legend'=>'Image file name',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model'=>'Image',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'img_file'
-//        'alt'=>array(
-//            'type'=>'textarea'
-//        ),
-//        'title',
-//        'recent_titles'=>array(
-//            'options'=>(isset($record)&&isset($record['recent_titles']))?$record['recent_titles']:''
-//        )
+        'file'
     )
 );
 
