@@ -411,7 +411,9 @@ class ImagesController extends AppController {
      * Handle new images that have been placed the Upload folder
      */
     function new_uploads(){
-//        $this->Image->Behaviors->disable('Upload');
+        $sourcePath = WWW_ROOT.'img'.DS.'images'.DS.'upload'.DS;
+        $destinationPath = WWW_ROOT.'img'.DS.'images'.DS;
+        $thumbs = $this->Image->Behaviors->Upload->thumbs;
         if(!is_array($this->new)){
             $this->Session->setFlash("There are no valid new images in the Upload folder. You should only use an onscreen link to come to this page.<br \\>
                 \$this->new should have an array of upoload file info. <br \\>It has: <br \\>"
@@ -430,23 +432,34 @@ class ImagesController extends AppController {
                    $hold[]=$count;
                }
            }
-           debug($delete);
-           debug($hold);
            foreach($delete as $index=>$pointer){
-               $path = WWW_ROOT.'img'.DS.'images'.DS.'upload'.DS;
-               $thumbs = $this->Image->Behaviors->Upload->thumbs;
-                unlink($path.$this->data[$pointer]['Image']['file']);
+                unlink($sourcePath.$this->data[$pointer]['Image']['file']);
                 foreach($thumbs as $thumb_folder){
-                    unlink($path.$thumb_folder.DS.$this->data[$pointer]['Image']['file']);
+                    unlink($sourcePath.$thumb_folder.DS.$this->data[$pointer]['Image']['file']);
                 }
                 unset($this->data[$pointer]);
            }
            foreach($hold as $index=>$pointer){
                unset($this->data[$pointer]);
            }
-           debug($this->data);die;
-           $this->Image->saveAll($this->data);
-           $this->redirect(array('action'=>'search',  $this->lastUpload+1));
+           if(!empty($this->data)){
+               $this->Image->Behaviors->disable('Upload');
+               $imageSet = array();
+               foreach($this->data as $index => $record){
+                   $this->data[$index]['Image']['img_file'] = $record['Image']['file'];
+                   $imageSet[] = $record['Image']['file'];
+               }
+               if($this->Image->saveAll($this->data)){
+                   foreach($imageSet as $imageFile){
+                       rename($sourcePath.$imageFile, $destinationPath.'native'.DS.$imageFile);
+                        foreach($thumbs as $thumb_folder){
+                            rename($sourcePath.$thumb_folder.DS.$imageFile, $destinationPath.'thumb'.DS.$thumb_folder.DS.$imageFile);
+                        }
+                   }
+               }
+               
+    //           $this->redirect(array('action'=>'search',  $this->lastUpload+1));
+           }
         }
         $this->set('recentTitles',  $this->Image->recentTitles);
         $this->layout = 'noThumbnailPage';
@@ -1378,7 +1391,7 @@ class ImagesController extends AppController {
                     $content_collection['ContentCollection']['content_id'] = $content_id;
                     $content_collection['ContentCollection']['collection_id'] = $collection_id;
                  $this->Image->Content->ContentCollection->create($content_collection);
-                 debug('content_collection save');
+//                 debug('content_collection save');
                 $this->Image->Content->ContentCollection->save();
                }
 //                debug($collectionIDs);
