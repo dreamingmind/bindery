@@ -12,9 +12,10 @@ echo $html->css('search_links');
 //$details = array();
 //echo $html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
-<div id="intro">
+<div id="collectionIntro">
     <?php
-    echo $html->tag('h1',$collection['Collection']['heading'], array(
+    $showToggle = $this->Html->tag('span','',array('class'=>'show'));
+    echo $html->tag('h1',$collection['Collection']['heading'] . $showToggle, array(
         'class' => 'related',
         'collection' => $collection['Collection']['id']
     ));

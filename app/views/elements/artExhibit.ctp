@@ -1,4 +1,5 @@
-<?php
+<div id="exhibit">
+    <?php
     echo $this->Html->image(
             'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
             array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
@@ -6,21 +7,21 @@
     echo $this->Html->changeCollection($this->viewVars, $record['Content']['slug'], $record['ContentCollection'][0]['collection_id']);
 //    debug($record);
     ?>
-    <style media="screen" type="text/css">
-        <!--
+<!--    <style media="screen" type="text/css">
+        
         #detail {
             position: relative;
         }
         #proseblock {
-            position: absolute;
+            /*position: absolute;*/
             z-index: 3;
-            top: <?php echo $record['Supplement']['top_val'] ?>px;
-            left: <?php echo $record['Supplement']['left_val'] ?>px;
-            width: <?php echo $record['Supplement']['width_val'] ?>px;
-            height: <?php echo $record['Supplement']['height_val'] ?>px;
+            top: <?php // echo $record['Supplement']['top_val'] ?>px;
+            left: <?php // echo $record['Supplement']['left_val'] ?>px;
+            width: <?php // echo $record['Supplement']['width_val'] ?>px;
+            height: <?php // echo $record['Supplement']['height_val'] ?>px;
         }
-        -->
-    </style>
+        
+    </style>-->
     <div id="proseblock" >
     <h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
     <div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
@@ -70,3 +71,4 @@ if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     echo '</form>';
 }
 	?>
+</div>

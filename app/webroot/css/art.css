@@ -10,7 +10,56 @@ root {
     display: block;
 }
 
+#detail {
+    position: relative;
+}
 img.scalable {
     box-shadow: 0 0 0 1px #000000, 0 0 0 10px #e5e5e5, 0 0 0 11px #802A19;
     margin: 11px;
+}
+
+#scrolling #collectionIntro > p {
+    border-right-width: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10px 20px 20px;
+    border: 2px solid white;
+    border-top:none;
+    display:block;
+}
+
+#detail > div#collectionIntro {
+    background: none repeat scroll 0 0 #CCCCDD;
+    /*border: 2px solid white;*/
+    left: 10px;
+    opacity: 0.85;
+    /*position: absolute;*/
+    /*top: 10px;*/
+    width: 550px;
+    z-index: 2;
+}
+#collectionIntro h1 {
+    background-color: #E1E1E1;
+    border: 2px solid white;
+    border-bottom: none;
+    border-top: 3px solid #802A19;
+    color: #802A19;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 20px 7px 20px;
+}
+
+div#exhibit{
+    /*position: absolute;*/
+    top: 39px;
+}
+
+.show {
+    float: right;
+    font-size: 70%;
+}
+
+#proseblock {
+    margin: 8px 0 0 20px;
+    width: 550px;
 }
