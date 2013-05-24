@@ -63,3 +63,32 @@ div#exhibit{
     margin: 8px 0 0 20px;
     width: 550px;
 }
+
+h2#exhibitTitle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#exhibitContent > p{
+    color: #666666;
+    font-size: 14px;
+    font-weight: normal;
+/*    margin: 0 75px 0 10%;
+    padding: 8px 0 15px;*/
+    padding-bottom: 5px;
+}
+
+#exhibitContent > h3, #exhibitContent > h4, #exhibitContent > h5, #exhibitContent > h6 {
+    font-family: 'lucida grande',verdana,helvetica,arial,sans-serif;
+    color: #8C4A3D;
+    font-size: 100%;
+    font-weight: bold;
+    margin: 0;
+    padding: 3px 0;
+}
+
+h4 {
+    margin-top: 50px;
+}

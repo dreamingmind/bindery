@@ -23,8 +23,8 @@
         
     </style>-->
     <div id="proseblock" >
-    <h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
-    <div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
+    <h2 id="exhibitTitle"><?php echo $record['Content']['heading'] ?></h2>
+    <div id="exhibitContent"><?php echo Markdown($record['Content']['content']) ?></div>
     </div>
 <?php
     if(!empty($details)){
@@ -50,25 +50,36 @@
 // passedArgs and params are saved from the current page
 // so the full page context can be re-established 
 // if the data gets saved properly.
-if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
-    // I create a content_id attribute for the form so the 
-    // ajax call knows what record to get for the form values
     echo $this->Form->create('Content', array(
-        'default'=>false,
+//                'default'=>false,
         'class'=>'edit',
-        'action'=>'edit_exhibit',
-        'content_id'=> $record['Content']['id']));
-    // This button gets a click function to toggle the form in/out of the page
-    echo $form->button('Edit',array('class'=>'edit','type'=>'button'));
-    echo $form->input('passedArgs',array(
-        'type'=>'hidden',
-        'value'=>  serialize($this->passedArgs)));
-    echo $form->input('params',array(
-        'type'=>'hidden',
-        'value'=>  serialize($this->params)));
-    //This is the div where the ajaxed form elements get inserted
-    echo $html->div('formContent');
+        'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
+//                'content_id'=>$entry['Content']['id']
+        ));
+    echo $this->element('editContentAjaxButton', array(
+        'slug'=>$record['Content']['slug'],
+        'id'=>$record['Content']['id']
+    ));
     echo '</form>';
-}
+//if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
+//    // I create a content_id attribute for the form so the 
+//    // ajax call knows what record to get for the form values
+//    echo $this->Form->create('Content', array(
+//        'default'=>false,
+//        'class'=>'edit',
+//        'action'=>'edit_exhibit',
+//        'content_id'=> $record['Content']['id']));
+//    // This button gets a click function to toggle the form in/out of the page
+//    echo $form->button('Edit',array('class'=>'edit','type'=>'button'));
+//    echo $form->input('passedArgs',array(
+//        'type'=>'hidden',
+//        'value'=>  serialize($this->passedArgs)));
+//    echo $form->input('params',array(
+//        'type'=>'hidden',
+//        'value'=>  serialize($this->params)));
+//    //This is the div where the ajaxed form elements get inserted
+//    echo $html->div('formContent');
+//    echo '</form>';
+//}
 	?>
 </div>

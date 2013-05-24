@@ -52,19 +52,23 @@ foreach($most_recent as $entry){
         . $html->div($cls . ' entryText ' . $size . ' markdown',Markdown($entry['Content']['content']),
         array(''/* the div attributes */)));
     
-        if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
-            // I create a content_id attribute for the form so the 
-            // ajax call knows what record to get for the form values
-            //This is the div where the ajaxed form elements get inserted
-            // This button gets a click function to toggle the form in/out of the page
-            echo $form->button('Edit',array(
-                'class'=>'edit',
-                'type'=>'button',
-                'slug'=>$most_recent[0]['Content']['slug'],
-                'content_id'=>$entry['Content']['id']
-            ));
-            echo '<div class="formContent'.$entry['Content']['id'].'"></div>';
-        }
+    echo $this->element('editContentAjaxButton', array(
+        'slug'=>$most_recent[0]['Content']['slug'],
+        'id'=>$entry['Content']['id']
+    ));
+//        if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
+//            // I create a content_id attribute for the form so the 
+//            // ajax call knows what record to get for the form values
+//            //This is the div where the ajaxed form elements get inserted
+//            // This button gets a click function to toggle the form in/out of the page
+//            echo $form->button('Edit',array(
+//                'class'=>'edit',
+//                'type'=>'button',
+//                'slug'=>$most_recent[0]['Content']['slug'],
+//                'content_id'=>$entry['Content']['id']
+//            ));
+//            echo '<div class="formContent'.$entry['Content']['id'].'"></div>';
+//        }
 }
 echo '</form>';
 ?>
