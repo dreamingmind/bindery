@@ -78,8 +78,11 @@
 //            $tocLookup = array_shift($toc);
 //                debug($toc);//die;
             $this->Html->output('<ul>');
-                $this->Html->output($html->tag('li',$html->link('The Bindery','/')));
-                $this->Html->output($html->tag('li',$html->link('Workshops','/workshops')));
+                foreach($rootMenu as $menuLine){
+                    $this->Html->output($html->tag('li',$html->link($menuLine['Navline']['name'],'/'.$menuLine['Navline']['route'])));
+                }
+//                $this->Html->output($html->tag('li',$html->link('The Bindery','/')));
+//                $this->Html->output($html->tag('li',$html->link('Workshops','/workshops')));
                 $this->Html->output('<li id="collections">'.$this->Html->link('Article Collections',array(''))
                 );
                     foreach($toc as $index => $collection){

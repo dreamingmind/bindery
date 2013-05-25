@@ -707,6 +707,26 @@ class ContentsController extends AppController {
 //        $recentPosts = $this->Content->recentNews(8);
         $this->set('recentPosts',$recentPosts);
         $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
+        $this->usergroupid = (isset($this->usergroupid)) ? $this->usergroupid : 0;
+        if ($this->username) {
+            $condition['OR'] = array(
+                array('Navigator.account' => '0'), 
+                array('Navigator.account >=' => $this->usergroupid));
+            // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
+            $access=$this->usergroupid;
+        } else {
+            $condition['Navigator.account'] = '0';
+        }
+        $rootMenu = $this->Navigator->find('all',array(
+            'conditions'=>array(
+                'Navigator.parent_id IS NULL',
+                'Navigator.publish' => 1,
+                'Navline.route NOT' => 'blog',
+            ) + $condition,
+            'order' => 'Navigator.lft ASC'
+        ));
+        $this->set('rootMenu',$rootMenu);
+//        debug($rootMenu);die;
     }
     
     /**
