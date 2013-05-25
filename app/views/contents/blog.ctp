@@ -71,4 +71,10 @@ foreach($most_recent as $entry){
 //        }
 }
 echo '</form>';
+foreach($relatedArticles as $article){
+//    debug($article);die;
+    echo $this->Html->relatedArticleBlock($this->viewVars, $article);
+//    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
+//    echo $this->Html->blogMenuBlock($article);
+}
 ?>

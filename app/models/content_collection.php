@@ -158,7 +158,8 @@ class ContentCollection extends AppModel {
                             'Content.title',
                             'Content.heading',
                             'Content.slug',
-                            'Content.content'
+                            'Content.content',
+                            'Content.created'
                         ),
                         'ContentCollection'=>array(
                             'fields'=>array(
@@ -260,7 +261,8 @@ class ContentCollection extends AppModel {
                         'Content.heading',
                         'Content.slug',
                         'Content.content',
-                        'Content.image_id'
+                        'Content.image_id',
+                        'Content.created'
                     ),
                     'Image' => array(
                         'fields' => array(
@@ -416,14 +418,33 @@ class ContentCollection extends AppModel {
      * @return array One data packet for a link block
      */
     function pullArticleLink($id){
-            //I might want to Order this to get the first/title image
-            $conditions = array('conditions'=>array(
-                'ContentCollection.id'=>$id
-            ));
-            $this->contain($this->linkContain);
-            $fields = $this->bigFields;
-            return $this->find('first', $fields+$conditions);
-        }
+        //I might want to Order this to get the first/title image
+        $conditions = array('conditions'=>array(
+            'ContentCollection.id'=>$id
+        ));
+        $this->contain($this->linkContain);
+        $fields = $this->bigFields;
+        return $this->find('first', $fields+$conditions);
+    }
+
+    /**
+     * Given a collection_id get links to $limit articles on the collection
+     * 
+     * @param integer $collection_id The collection to focus on
+     * @return array Packet of links to the articles in the collection
+     */
+    function pullRelatedArticles($collection_id){
+        $conditions = array('conditions'=>array(
+            'ContentCollection.collection_id'=>$collection_id
+        ));
+//        $this->contain($this->linkContain);
+        $this->contain($this->linkContain);
+        $fields = $this->bigFields;
+        return $this->find('all', $fields+$conditions+array(
+            'group'=>'Content.slug'
+        ));
+//        return $relatedArticles;
+    }
 }
 
 function assembleArticleList($record, $key, $content){

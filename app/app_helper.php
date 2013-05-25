@@ -881,6 +881,31 @@ class AppHelper extends Helper {
             . $adminLinks);
     //}
     }
+    function relatedArticleBlock(&$view, $article, $path = 'images/thumb/x160y120/'){
+        $clean = $this->flattenMarkdown($article['Content']['content']);
+
+        //make the heading into the <A> tag
+        $blog_uri = array(
+            'controller'=>'contents',
+            'action'=>'blog',
+            $article['ContentCollection']['collection_id'],
+            $article['Content']['slug']
+        );
+        $adminLinks = $this->assembleDateResetLinks($view, $article);
+        $adminLinks .= $this->changeCollection($view, $article['Content']['slug'], $article['Collection']['id']);
+
+        //and follow it with truncated markdown content
+        $heading_link = $this->Html->link($this->Html->truncateText($article['Content']['heading'],35),
+            $blog_uri, array('escape'=>false));
+
+
+        //assemble the image link
+        $image_link = $this->makeLinkedImage($blog_uri, $article['Content']['Image'], $path);
+
+        //and output everything in a left-floating div
+        echo $this->Html->div('linkDiv',$image_link . $heading_link . markdown($this->Html->truncateText($clean,100,array('force'=>true))) . $adminLinks);
+    //}
+    }
 
     /**
      *
