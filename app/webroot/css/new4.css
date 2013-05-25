@@ -137,6 +137,7 @@ form div {
     font-size: 20px;
     margin: 0 0 -12px 0;
     padding: 5px 5px 17px 12px;
+    clear: both;
 }
 #scrolling h2 a {
     font-weight: normal;
@@ -205,7 +206,7 @@ h2 + div a.dispatchAnchor {
     color: #802A19; /*#335f6e;*/
     padding: 6px .3em 0 .3em;
     background-color: #c0c0c0;/*#802A19;*/
-    margin-left: -.6em;
+    margin-left: -.7em;
 /*    font-weight: bold;*/
 }
 .dispatch img, .dispatch iframe {
