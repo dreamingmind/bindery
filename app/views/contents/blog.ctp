@@ -71,6 +71,14 @@ foreach($most_recent as $entry){
 //        }
 }
 echo '</form>';
+    if(!empty($parents)){
+        echo $this->Html->para('relatedPosts','This article is provides details for the following:');
+        debug($parents);
+    }
+    if(!empty($details)){
+        echo $this->Html->para('relatedPosts','For additional details, also see the following:');
+        debug($details);
+    }
     $count = 0;
     echo $this->Html->para('relatedPosts','Other articles in the Collection '.$most_recent[0]['Collection']['heading']);
     foreach($relatedArticles as $article){

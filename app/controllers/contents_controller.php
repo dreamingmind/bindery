@@ -566,6 +566,30 @@ class ContentsController extends AppController {
         }
 
         $most_recent = $this->findBlogTarget($conditions);
+        
+        // look for articles that detail this one
+        // and articles that this one details
+        $details = array();
+        $parents = array();
+        foreach($most_recent as $detail){
+            // gather any detail article specified in this ContentCollection node
+            if($detail['ContentCollection']['sub_slug'] > 0){
+                $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['sub_slug']);
+            }
+            // and check to see is this node is a detail for some other article
+            $targetParent = $this->Content->ContentCollection->find('all',array(
+                'conditions' => array(
+                    'ContentCollection.sub_slug' => $detail['ContentCollection']['id']
+                )
+            ));
+            if($targetParent){
+                // this IS a detail. Collect detail parents by their Category
+                $parents[$detail['Collection']['category_id']][] = $targetParent;
+//                debug($this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['id']));
+            }
+        }
+        $this->set('parents',$parents);
+        $this->set('details',$details);
         $this->set('relatedArticles', $this->Content->ContentCollection->pullRelatedArticles($conditions['ContentCollection.collection_id']));
         $this->set('most_recent',$most_recent);
         $this->set('blog_title', $most_recent[0]['Content']['heading']);
@@ -860,7 +884,7 @@ class ContentsController extends AppController {
             // and finally, see if we have any LIKE %pname% blog articles to offer as reprints
         }
         
-        // searh should be fixed to maintain its own default array
+        // search should be fixed to maintain its own default array
         // now we've either got a beauty shot and paginated filmstrip
         // or a set of representative projects from deeper levels
         // of this pname menu-nest
