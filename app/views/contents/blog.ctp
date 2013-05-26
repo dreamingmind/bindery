@@ -71,9 +71,22 @@ foreach($most_recent as $entry){
 //        }
 }
 echo '</form>';
-foreach($relatedArticles as $article){
+    $count = 0;
+    echo $this->Html->para('relatedPosts','Other articles in the Collection '.$most_recent[0]['Collection']['heading']);
+    foreach($relatedArticles as $article){
 //    debug($article);die;
-    echo $this->Html->relatedArticleBlock($this->viewVars, $article);
+    if($most_recent[0]['Content']['slug'] != $article['Content']['slug']){
+        $count++;
+        $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $article);
+        if($count % 2 == 1){
+            echo '<div style="clear: both;">';
+            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
+        } else {
+            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
+            echo '</div>';
+        }
+//        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+    }
 //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
 //    echo $this->Html->blogMenuBlock($article);
 }

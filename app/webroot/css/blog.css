@@ -135,32 +135,32 @@ sublist ul li a {
 }
 
 
-#navBar .linkDiv {
+#navBar .menuLinkDiv {
     text-align: left;
     height: 82px;
     border-top: thin solid #3F6D44
 }
 
-#navBar .linkDiv p.aside {
+#navBar .menuLinkDiv p.aside {
     font-size: 10px;
     color: #555;
     width: 100%;
     padding-top:2px;
 }
 
-#navBar .linkDiv a {
+#navBar .menuLinkDiv a {
     font-size: 13px;
     font-weight: bold;
     border: none;
     padding-top: 3px;
 }
 
-#navBar .linkDiv img {
+#navBar .menuLinkDiv img {
     float: left;
     padding-right: 6px;
 }
 
-.linkDiv.active {
+.menuLinkDiv.active {
     background: none repeat scroll 0 0 #DAE7C2;
     border-left: thick solid #DAE7C2;
 }
@@ -487,4 +487,15 @@ div.entry img.imgx640y480 {
 }
 #sequence_panel p{
     margin-top: 40px;
+}
+div.linkDiv {
+    clear:none;
+}
+p.relatedPosts {
+    background-color: #8C4A3D;
+    color: white;
+    font-size: 16px;
+    clear: both;
+    margin: 15px 0 5px;
+    padding: 10px;
 }

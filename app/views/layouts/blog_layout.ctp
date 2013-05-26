@@ -29,7 +29,8 @@
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
-    echo $html->css('blog.css');
+    echo $html->css('search_links');
+    echo $html->css('blog');
 //    if (
 //        $this->params['action']=='forgot' 
 //        || $this->params['action']=='login'

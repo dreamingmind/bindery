@@ -784,7 +784,7 @@ class AppHelper extends Helper {
      * Using the same data array as foundNewsBlock
      *
      * <code>
-     *  <div class="linkDiv">
+     *  <div class="menuLinkDiv">
      *      <p class="aside">Boxes: 4 days, 5 hours ago</p>
      *      <a href="/bindery/blog/60/jackson-nichol-s-forcado-portfolio">
      *          <img title="Jackson Nichol's Forcado portfolio"
@@ -819,7 +819,7 @@ class AppHelper extends Helper {
         $image_link = $this->makeLinkedImage($blog_uri, $news['Content']['Image'], $path);
 
         //and output everything in a left-floating div
-        echo $this->Html->div('linkDiv',
+        echo $this->Html->div('menuLinkDiv',
             $this->Html->para('aside',
             $this->Html->truncateText($news['Collection']['heading'],15,
                     array('exact'=>false,
@@ -903,7 +903,7 @@ class AppHelper extends Helper {
         $image_link = $this->makeLinkedImage($blog_uri, $article['Content']['Image'], $path);
 
         //and output everything in a left-floating div
-        echo $this->Html->div('linkDiv',$image_link . $heading_link . markdown($this->Html->truncateText($clean,100,array('force'=>true))) . $adminLinks);
+        return $this->Html->div('linkDiv',$image_link . $heading_link . markdown($this->Html->truncateText($clean,100,array('force'=>true))) . $adminLinks);
     //}
     }
 
