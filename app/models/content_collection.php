@@ -253,7 +253,8 @@ class ContentCollection extends AppModel {
                         'Collection.heading',
                         'Collection.slug',
                         'Collection.category_id'
-                    )
+                    ),
+                    'Category'
                 ),
                 'Content' => array(
                     'fields' => array(
@@ -425,6 +426,25 @@ class ContentCollection extends AppModel {
         $this->contain($this->linkContain);
         $fields = $this->bigFields;
         return $this->find('first', $fields+$conditions);
+    }
+
+    /**
+     * Pull data for a link of an article that has a detail
+     * 
+     * This will find the article that refers to id
+     * as a detail article.
+     * 
+     * @param integer $id ContentCollection.id
+     * @return array One data packet for a link block
+     */
+    function pullParentLink($id){
+        //I might want to Order this to get the first/title image
+        $conditions = array('conditions'=>array(
+            'ContentCollection.sub_slug'=>$id
+        ));
+        $this->contain($this->linkContain);
+        $fields = $this->bigFields;
+        return $this->find('all', $fields+$conditions);
     }
 
     /**

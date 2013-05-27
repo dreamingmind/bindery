@@ -574,20 +574,24 @@ class ContentsController extends AppController {
         foreach($most_recent as $detail){
             // gather any detail article specified in this ContentCollection node
             if($detail['ContentCollection']['sub_slug'] > 0){
-                $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['sub_slug']);
+                $details[] = $this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['sub_slug']);
             }
             // and check to see is this node is a detail for some other article
-            $targetParent = $this->Content->ContentCollection->find('all',array(
-                'conditions' => array(
-                    'ContentCollection.sub_slug' => $detail['ContentCollection']['id']
-                )
-            ));
+            $targetParent = $this->Content->ContentCollection->pullParentLink($detail['ContentCollection']['id']);
+//            $targetParent = $this->Content->ContentCollection->find('all',array(
+//                'conditions' => array(
+//                    'ContentCollection.sub_slug' => $detail['ContentCollection']['id']
+//                )
+//            ));
             if($targetParent){
                 // this IS a detail. Collect detail parents by their Category
-                $parents[$detail['Collection']['category_id']][] = $targetParent;
+                foreach($targetParent as $parent){
+                    $parents[] = $parent;
+                }
 //                debug($this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['id']));
             }
         }
+//        debug($parents);
         $this->set('parents',$parents);
         $this->set('details',$details);
         $this->set('relatedArticles', $this->Content->ContentCollection->pullRelatedArticles($conditions['ContentCollection.collection_id']));

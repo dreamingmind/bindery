@@ -71,31 +71,85 @@ foreach($most_recent as $entry){
 //        }
 }
 echo '</form>';
+    $count = 0;
     if(!empty($parents)){
-        echo $this->Html->para('relatedPosts','This article is provides details for the following:');
-        debug($parents);
-    }
-    if(!empty($details)){
-        echo $this->Html->para('relatedPosts','For additional details, also see the following:');
-        debug($details);
+        echo $this->Html->para('relatedPosts','This article provides details for the following:');
+//        debug($parents);
+        foreach($parents as $parent){
+    //    debug($article);die;
+            $count++;
+//            debug($parent);
+            $category = $parent['Collection']['Category']['name'];
+//            debug($category);
+            if($category == 'art'){
+                $linkDiv = $this->Html->foundArtBlock($this->viewVars, $parent);
+            } elseif($category == 'exhibit'){
+                $linkDiv = $this->Html->foundGalleryBlock($this->viewVars, $parent);
+            } elseif($category == 'dispatch'){
+                $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $parent);
+            }
+            if($count % 2 == 1){
+                echo '<div style="clear: both;">';
+                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
+            } else {
+                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
+                echo '</div>';
+            }
+    //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+    //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
+    //    echo $this->Html->blogMenuBlock($article);
+        }
+         if($count % 2 == 1){
+             // if we ended on an odd, we have to close the div
+             echo '</div>';
+        }
     }
     $count = 0;
-    echo $this->Html->para('relatedPosts','Other articles in the Collection '.$most_recent[0]['Collection']['heading']);
-    foreach($relatedArticles as $article){
-//    debug($article);die;
-    if($most_recent[0]['Content']['slug'] != $article['Content']['slug']){
-        $count++;
-        $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $article);
-        if($count % 2 == 1){
-            echo '<div style="clear: both;">';
-            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
-        } else {
-            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
-            echo '</div>';
+    if(!empty($details)){
+        echo $this->Html->para('relatedPosts','For additional details, also see the following:');
+        foreach($details as $detail){
+    //    debug($article);die;
+            $count++;
+            $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $detail);
+            if($count % 2 == 1){
+                echo '<div style="clear: both;">';
+                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
+            } else {
+                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
+                echo '</div>';
+            }
+    //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+    //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
+    //    echo $this->Html->blogMenuBlock($article);
         }
-//        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+         if($count % 2 == 1){
+             // if we ended on an odd, we have to close the div
+             echo '</div>';
+        }
     }
-//    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
-//    echo $this->Html->blogMenuBlock($article);
-}
+    $count = 0;
+    if(count($relatedArticles) > 1){
+        echo $this->Html->para('relatedPosts','Other articles in the Collection '.$most_recent[0]['Collection']['heading']);
+        foreach($relatedArticles as $article){
+    //    debug($article);die;
+            if($most_recent[0]['Content']['slug'] != $article['Content']['slug']){
+                $count++;
+                $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $article);
+                if($count % 2 == 1){
+                    echo '<div style="clear: both;">';
+                    echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
+                } else {
+                    echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
+                    echo '</div>';
+                }
+        //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+            }
+    //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
+    //    echo $this->Html->blogMenuBlock($article);
+        }
+         if($count % 2 == 1){
+             // if we ended on an odd, we have to close the div
+             echo '</div>';
+        }
+    }
 ?>
