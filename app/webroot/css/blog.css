@@ -253,8 +253,11 @@ input#searchInput {
         padding-top: 10px;
 	width: 800px;
 }
-#scrolling h1 {
+#scrolling h1, #scrolling h2, #scrolling h3, #scrolling h4, #scrolling h5, #scrolling h6 {
     color: #3f6d44;
+}
+#scrolling h1 {
+    /*color: #3f6d44;*/
     background-color: transparent;
     font-size: 18px;
     margin: 0;
@@ -265,16 +268,21 @@ input#searchInput {
     /*border-top: thin solid #802A19;*/
 }
 #scrolling h2 {
-    color: #3f6d44;
+    /*color: #3f6d44;*/
     background-color: transparent;
     font-size: 36px;
     margin: 0;
-    padding: 0px 15px 10px 12px;
+    padding: 0px 15px 0 12px;
     /*text-align: right;*/
     font-weight: bold;
     /*font-variant: small-caps;*/
     /*border-top: thin solid #802A19;*/
     font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+}
+.modified {
+    color: #666666;
+    font-size: 12px;
+    padding: 0 0 12px 12px;
 }
 #headerTools {
 	text-align: right;

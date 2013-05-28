@@ -566,6 +566,7 @@ class ContentsController extends AppController {
         }
 
         $most_recent = $this->findBlogTarget($conditions);
+        $last_modified = $this->getLastModified($most_recent);
         
         // look for articles that detail this one
         // and articles that this one details
@@ -596,6 +597,7 @@ class ContentsController extends AppController {
         $this->set('details',$details);
         $this->set('relatedArticles', $this->Content->ContentCollection->pullRelatedArticles($conditions['ContentCollection.collection_id']));
         $this->set('most_recent',$most_recent);
+        $this->set('last_modified',$last_modified);
         $this->set('blog_title', $most_recent[0]['Content']['heading']);
 
     }
@@ -622,13 +624,14 @@ class ContentsController extends AppController {
                 'ContentCollection.id', 
                 'ContentCollection.content_id',
                 'ContentCollection.collection_id',
+                'ContentCollection.modified',
                 'ContentCollection.sub_slug'),
             'contain'=>array(
                 'Collection'=>array(
                     'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
                 ),
                 'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug'),
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.modified','Content.slug'),
 //                    'conditions'=>array('Content.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file',
@@ -642,6 +645,25 @@ class ContentsController extends AppController {
             ),
             'conditions' => $conditions
         ));        
+    }
+    
+    /**
+     * Find the most recent modification date in an article
+     * 
+     * In array with ContentCollection and Content indexes
+     * find the most recent modification date
+     * 
+     * @param array $article The article array
+     * @return string The most recent DateTimestamp
+     */
+    function getLastModified($article){
+        $dates = array();
+        foreach($article as $block){
+            $dates[] = $block['Content']['modified'];
+            $dates[] = $block['ContentCollection']['modified'];
+        }
+        sort($dates);
+        return array_pop($dates);
     }
     
     /**

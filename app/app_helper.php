@@ -1239,5 +1239,14 @@ class AppHelper extends Helper {
         }
     }
 
+    function twoColLinks($count,$link){
+        if($count % 2 == 1){
+            echo '<div style="clear: both;">';
+            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $link);
+        } else {
+            echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $link);
+            echo '</div>';
+        }
+    }
 }
 ?>

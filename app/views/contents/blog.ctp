@@ -9,6 +9,7 @@ echo $html->tag('h1',
             'slug'=>$most_recent[0]['Content']['slug'],
             'collection'=>'collection'.$most_recent[0]['Collection']['id']))) . $html->div('related',''); 
 echo $html->tag('h2',$most_recent[0]['Content']['heading']);
+echo $this->Html->para('modified', 'Modified on '.$last_modified);
 //debug($userdata);
         // This is the admins edit form for the Content record
         // passedArgs and params are saved from the current page
@@ -73,7 +74,7 @@ foreach($most_recent as $entry){
 echo '</form>';
     $count = 0;
     if(!empty($parents)){
-        echo $this->Html->para('relatedPosts','This article provides details for the following:');
+        echo $this->Html->para('relatedPosts','The article above provides details for the following:');
 //        debug($parents);
         foreach($parents as $parent){
     //    debug($article);die;
@@ -88,16 +89,7 @@ echo '</form>';
             } elseif($category == 'dispatch'){
                 $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $parent);
             }
-            if($count % 2 == 1){
-                echo '<div style="clear: both;">';
-                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
-            } else {
-                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
-                echo '</div>';
-            }
-    //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
-    //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
-    //    echo $this->Html->blogMenuBlock($article);
+            $this->Html->twoColLinks($count, $linkDiv);
         }
          if($count % 2 == 1){
              // if we ended on an odd, we have to close the div
@@ -111,16 +103,7 @@ echo '</form>';
     //    debug($article);die;
             $count++;
             $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $detail);
-            if($count % 2 == 1){
-                echo '<div style="clear: both;">';
-                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
-            } else {
-                echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
-                echo '</div>';
-            }
-    //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
-    //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
-    //    echo $this->Html->blogMenuBlock($article);
+            $this->Html->twoColLinks($count, $linkDiv);
         }
          if($count % 2 == 1){
              // if we ended on an odd, we have to close the div
@@ -135,14 +118,7 @@ echo '</form>';
             if($most_recent[0]['Content']['slug'] != $article['Content']['slug']){
                 $count++;
                 $linkDiv = $this->Html->relatedArticleBlock($this->viewVars, $article);
-                if($count % 2 == 1){
-                    echo '<div style="clear: both;">';
-                    echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: left;"', $linkDiv);
-                } else {
-                    echo str_replace('class="linkDiv"', 'class="linkDiv" style="float: right;"', $linkDiv);
-                    echo '</div>';
-                }
-        //        echo $this->Html->relatedArticleBlock($this->viewVars, $article,'images/thumb/x75y56/');
+            $this->Html->twoColLinks($count, $linkDiv);
             }
     //    echo $this->Html->siteSearchBlogBlock($this->viewVars, $article);
     //    echo $this->Html->blogMenuBlock($article);
