@@ -38,7 +38,7 @@ echo $this->Html->image(
 <div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
 </div>
 <?php
-
+$this->Html->renderDetailLinks($details);
 // This is the admins edit form for the Content record
 // passedArgs and params are saved from the current page
 // so the full page context can be re-established 

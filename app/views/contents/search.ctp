@@ -1,6 +1,6 @@
 <?php
 if($searchResults){
-    debug($searchResults);
+//    debug($searchResults);
     foreach($searchResults as $category_name => $category_set){
         if($category_set){
             $this->set('category_name',$category_name);

@@ -27,24 +27,16 @@
     <div id="exhibitContent"><?php echo Markdown($record['Content']['content']) ?></div>
     </div>
 <?php
-    if(!empty($details)){
-        $message = (count($details) > 1) 
-            ? 'Here are ' . count($details) . ' reprints of related blog articles.'
-            : 'Here is a reprint of a related blog article.';
-        echo $this->Html->tag('h4',$message);
-        foreach($details as $detail){
-            echo $this->Html->artDetailBlock($this->viewVars, $detail,'images/thumb/x75y56/');
-//            $detail_data = explode(':', $detail);
-//            $image = $this->Html->image('images'.DS.'thumb'.DS.'x75y56'.DS.$detail_data[2]);
-////            echo $image;
-//            $link = $this->Html->link($image,
-//                    DS.'blog'.DS.$detail_data[0].DS.$detail_data[1],
-//                    array('escape'=>false,'class'=>'detaillink')
-//            );
-//            echo $link;
-        }
-        
-    }
+//    if(!empty($details)){
+//        $message = (count($details) > 1) 
+//            ? 'Here are ' . count($details) . ' reprints of related blog articles.'
+//            : 'Here is a reprint of a related blog article.';
+//        echo $this->Html->tag('h4',$message);
+//        foreach($details as $detail){
+//            echo $this->Html->artDetailBlock($this->viewVars, $detail,'images/thumb/x75y56/');
+//        }
+//    }
+    $this->Html->renderDetailLinks($details);
 //debug($this->viewVars['usergroupid']);
 // This is the admins edit form for the Content record
 // passedArgs and params are saved from the current page

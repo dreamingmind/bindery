@@ -1009,6 +1009,13 @@ class ContentsController extends AppController {
             $id = $this->discoverFirstExhibit();
         }
         $this->pullExhibit($id);
+        
+        $details = array();
+        if($this->viewVars['neighbors'][$id]['detail'] > 0){
+            $details[] = $this->Content->ContentCollection->pullArticleLink($this->viewVars['neighbors'][$id]['detail']);
+        }
+        $this->set('details',$details);
+
     }
 
     /**
