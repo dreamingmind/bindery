@@ -1504,7 +1504,12 @@ class ContentsController extends AppController {
                 }
                 $this->Session->write('qualityConditions', serialize($this->qualityConditions));
             }
-                $this->layout = 'noThumbnailPage';
+                if($this->params['data']['action'] == 'blog'){
+                    $this->readBlogTOC();
+                    $this->layout = 'blog_layout';
+                } else {
+                    $this->layout = 'noThumbnailPage';
+                }
                 $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
             } else {
                 $this->Session->delete('qualityConditions');

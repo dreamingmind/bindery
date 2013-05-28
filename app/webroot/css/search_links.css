@@ -29,7 +29,7 @@ root {
     padding-top: 10px;
 }
 div.linkDiv {
-    clear: both;
+    /*clear: both;*/
     height: 100%;
 }
 .linkDiv img{
@@ -95,4 +95,11 @@ p.aside {
     font-size: 10px;
     padding-left: 10px;
 }*/
-
+#scrolling h2#searchCategory {
+    background-color: #8C4A3D;
+    color: white;
+    font-size: 16px;
+    clear: both;
+    margin: 15px 0 5px;
+    padding: 10px;
+}

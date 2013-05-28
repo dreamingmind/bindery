@@ -497,7 +497,7 @@ div.entry img.imgx640y480 {
     margin-top: 40px;
 }
 div.linkDiv {
-    clear:none;
+    /*clear:none;*/
 }
 p.relatedPosts {
     background-color: #8C4A3D;
