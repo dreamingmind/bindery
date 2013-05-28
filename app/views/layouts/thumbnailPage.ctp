@@ -30,6 +30,7 @@
     if ( $this->params['action'] == 'manage_tree'){
         echo $html->css('tree_admin');
     }
+    echo $html->css('search_links');
     if (
         $this->params['action']=='forgot' 
         || $this->params['action']=='login'

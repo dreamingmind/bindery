@@ -106,6 +106,54 @@ class AppController extends Controller {
      */
     var $firstYear = 2012;
 
+    /**
+     * @var array $month Selection list of months for Advanced Search
+     */
+    var $month = array(
+        '00' => 'Select a Month',
+        '01' => 'January',
+        '02' => 'February',
+        '03' => 'March',
+        '04' => 'April',
+        '05' => 'May',
+        '06' => 'June',
+        '07' => 'July',
+        '08' => 'August',
+        '09' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December'
+    );
+    
+    /**
+     * @var array $season Selection list of seasons for Advanced Search
+     */
+    var $season = array(
+        '0' => 'Select',
+        '12-02' => 'Winter',
+        '03-05' => 'Spring',
+        '06-08' => 'Summer',
+        '09-11' => 'Autumn',
+        '01-02' => 'Valentine\'s',
+        '10-12' => 'Winter Holiday'
+    );
+    
+    /**
+     * @var array $week Selection list of relative weeks for Advanced Search
+     */
+    var $week = array(
+        '0' => 'Select',
+        '1' => 'This week',
+        '2' => 'Last week',
+        '2.5' => 'Since last week',
+        '3' => 'Two weeks ago',
+        '3.5' => 'Since two weeks ago',
+        '4' => 'Three weeks ago',
+        '4.5' => 'Since three weeks ago',
+        '5' => 'Four weeks ago',
+        '5.5' => 'Since four weeks ago'
+    );
+    
     function beforeFilter() {
         parent::beforeFilter();
         // These things should happen regardless of login or permission
