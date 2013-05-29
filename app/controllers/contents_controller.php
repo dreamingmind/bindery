@@ -917,9 +917,11 @@ class ContentsController extends AppController {
 
         $details = array();
         $count = 0;
-        foreach($this->viewVars['neighbors'] as $detail){
-            if($detail['detail'] > 0){
-                $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
+        if(isset($this->viewVars['neighbors'])){
+            foreach($this->viewVars['neighbors'] as $detail){
+                if($detail['detail'] > 0){
+                    $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
+                }
             }
         }
         $this->set('details',$details);
@@ -1011,7 +1013,7 @@ class ContentsController extends AppController {
         $this->pullExhibit($id);
         
         $details = array();
-        if($this->viewVars['neighbors'][$id]['detail'] > 0){
+        if(isset($this->viewVars['neighbors'][$id]['detail']) && $this->viewVars['neighbors'][$id]['detail'] > 0){
             $details[] = $this->Content->ContentCollection->pullArticleLink($this->viewVars['neighbors'][$id]['detail']);
         }
         $this->set('details',$details);

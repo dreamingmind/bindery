@@ -15,7 +15,11 @@ $(document).ready(function(){
     // div#exhibit set position: absolute;
     // if we're have a page: param, toggle the description setup
     function initStyles(){
-        $('#detail > div#collectionIntro').css('position', 'absolute');
+        if($('div#exhibit').length > 0){
+            $('#detail > div#collectionIntro').css('position', 'absolute');
+        } else {
+            $('img#NTtopTransparent').css('height','100px');
+        }
         $('div#exhibit').css('position', 'absolute');
         var uri = new String(document.location);
         $('span.show').css('cursor','pointer');
