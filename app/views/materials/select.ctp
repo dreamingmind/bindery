@@ -1,6 +1,7 @@
 <div id="wrapper">
 
     <div id="spineM" class="matPix">
+        <p>Leather color choices</p>
         
 <!--        <ul>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/saddlelthr.jpg)" title="Saddle Tan" id="l0">13</li>
@@ -16,8 +17,8 @@
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grylthr.jpg)" title="Gray" id="l10">10</li>
         </ul>-->
     </div> <!-- end of spineM (leather color thumbnails) -->
-    <br />
     <div id="boardsM" class="matPix">
+    <p id="clothPick">Cloth color choices</p>
 <!--        <ul>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/mohred.jpg)" title="Mohair Red" id="c0">12</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/olive.jpg)" title="Olive" id="c1">13</li>

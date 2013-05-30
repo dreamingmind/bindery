@@ -47,13 +47,17 @@ function doBindingChange() {
 		boards = document.getElementById('boards');
 		productDiv.removeChild(boards);
 		document.getElementById('spine').setAttribute('class','full');
-		
+		$('#clothPick').html('Cloth is only used in quarterbound designs.')
 		document.getElementById('boardsLabel').innerHTML="";
+                $('#boardsM').css('opacity','.3');
 	} else {
+		$('#clothPick').html('Cloth color choices')
+                $('#boardsM').css('opacity','1');
 		document.getElementById('spine').setAttribute('class','quarter');
 		newDiv = document.createElement('div');
 		newDiv.setAttribute('id','boards');
 		productDiv.appendChild(newDiv);
+                displayFromSix(document.getElementById('c5'));
 	}
 }
 		
