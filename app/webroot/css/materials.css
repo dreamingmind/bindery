@@ -9,16 +9,12 @@ body {
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 	/* =main site layout DIVs
 	––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-	#wrapper {
-		/*
-		background-image: url(/cs4r/mysite/images/vstripe2.jpg);
-		top:0;
-		*/
-		height: 700px;
-		width: 850px;
-		margin:20px auto;
-		position: relative;
-	}
+#wrapper {
+    height: auto;
+    margin: 50px;
+    position: relative;
+    width: 640px;
+}
 /*	#navBar {
 		font-size: 16px;
 		width:155px;
@@ -72,10 +68,14 @@ body {
 }
 
 #formatList{
-	width:auto;
-	margin-top:20px;
+	/*width:auto;*/
+    margin-top:20px;
+    width: 230px;
 }
-
+/*#formatList {
+    border: medium solid;
+    margin-top: 20px;
+}*/
 #caveat{
 	height:100%;
 	vertical-align:bottom;
@@ -90,11 +90,8 @@ body {
 /* =product preview area DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 div#case {
-	float:right;
-	margin-left:10px;
-}
-div#case {
-/*	border:thin tan solid;*/
+    left: 245px;
+    position: absolute;
 }
 
 div#case.journal {
@@ -165,6 +162,7 @@ div#spine.full {
 
 #formatList p {
 	font-size:smaller;
+        padding: 8px 0;
 }
 #caveat p {
 	font-size:x-small;
@@ -203,4 +201,9 @@ div#spine.full {
 	border:2px solid #FC3;
 	border-top:none;
 	margin:0px -1px;
+}
+input[type="radio"] {
+    margin-right: 6px;
+    clear: left;
+    margin-top: 3px;
 }
