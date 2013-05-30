@@ -56,8 +56,12 @@
     if($this->params['action']=='change_collection'){
         echo $this->Html->script('change_collection');
     }
-    if($this->params['action']=='upcoming'){
-        echo $this->Html->script('workshop');
+    if($this->params['action']=='change_collection'){
+        echo $this->Html->script('change_collection');
+    }
+    if($this->params['action']=='select'){
+        echo $this->Html->script('materials');
+        echo $this->Html->css('materials');
     }
     echo $scripts_for_layout;
     ?>

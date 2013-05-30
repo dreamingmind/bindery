@@ -36,7 +36,10 @@
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
+        Router::connect('/pages/materials',
+                array ('controller'=>'materials','action'=>'select'));
+
+        Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
 
     $staticPages = array(
         'contact',
@@ -84,8 +87,6 @@ Router::connect('/:static', array(
         Router::connect('/blog/*',
                 array ('controller'=>'contents','action'=>'blog'));
         
-//        Router::connect('/blog/:category/',
-//                array ('controller'=>'contents','action'=>'blog','category'=>null));
 //        
 //        Router::connect('/blog/:category/:pname',
 //                array ('controller'=>'contents','action'=>'blog','category'=>null,'pname'=>null));

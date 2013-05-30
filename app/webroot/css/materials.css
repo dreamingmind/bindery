@@ -1,0 +1,206 @@
+@charset "UTF-8";
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* =DIVs
+––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+	/* =main site layout DIVs
+	––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+	#wrapper {
+		/*
+		background-image: url(/cs4r/mysite/images/vstripe2.jpg);
+		top:0;
+		*/
+		height: 700px;
+		width: 850px;
+		margin:20px auto;
+		position: relative;
+	}
+/*	#navBar {
+		font-size: 16px;
+		width:155px;
+		text-align:right;
+		top:128px;
+		height: auto;
+		 border: solid #fff 1px; 
+		position: absolute;*/
+		/*left:35px;*/
+/*	}
+	.galWrapper {
+		position:absolute;
+		top:10px;
+		left:165px;*/
+		/*
+		*/
+	/*}*/
+/*	.galNav {
+		position:absolute;
+		top:0px;
+		left:15px;
+		height:auto;
+		width:640px;*/
+		/*
+		position:relative;
+		overflow:auto;
+		*/
+	/*}*/
+/*	#detail {
+		position:absolute;
+		top:130px;
+		left:175px;
+		width: 640px;
+		text-align: left;
+		padding:0;
+	}*/
+	
+	#colorLabels {
+		height:65px;
+	}
+	
+/* = material selector DIVs
+––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+.matPix {
+	width:100%;
+	height:50px;
+}
+.matList {
+	margin-bottom:6px;
+	margin-top:6px;
+}
+
+#formatList{
+	width:auto;
+	margin-top:20px;
+}
+
+#caveat{
+	height:100%;
+	vertical-align:bottom;
+}
+
+/*div#dim {
+	background-color:#FFF;
+	opacity:0.5;
+	filter:alpha(opacity=50);
+}
+*/
+/* =product preview area DIVs
+––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+div#case {
+	float:right;
+	margin-left:10px;
+}
+div#case {
+/*	border:thin tan solid;*/
+}
+
+div#case.journal {
+	width:386px;
+	height:495px;
+	/*border:thin tan solid;*/
+}
+
+div#case.notebook {
+	width:483px;
+	height:495px;
+}
+
+div#case.stenopad {
+	width:323px;
+	height:492px;
+}
+
+div#spine.quarter, div#boards {
+	margin:0px;
+	/*border:dotted thin red;*/
+}
+#case.journal div#spine.quarter, #case.notebook div#spine.quarter {
+	float:left;
+	width:25%;
+	height:100%;
+	background-image:url(../_i/fullsize/Chocolatelthr.jpg);
+}
+
+#case.journal div#boards, #case.notebook div#boards {
+	width:100%;
+	height:100%;
+	background-image:url(../_i/fullsize/drktaupe.jpg)
+}
+
+#case.stenopad div#spine.quarter {
+	width:100%;
+	height:25%;
+	background-image:url(../_i/fullsize/bbluelthr.jpg)
+}
+	
+#case.stenopad div#boards {
+	width:100%;
+	height:75%;
+	background-image:url(../_i/fullsize/bone.jpg)
+}
+
+div#spine.full {
+	height:100%;
+	width:100%;
+	background-image:url(../_i/fullsize/bbluelthr.jpg)
+}
+/* =Material List Div Content
+––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+.matList label {
+	font-size:smaller;
+}
+.matPix img{
+	margin:0px 1px 0px 0px;
+	width:57px;
+	height:50px;
+	/*border-top:medium orange solid;*/
+}
+
+#formatList label {
+	font-size:small;
+}
+
+#formatList p {
+	font-size:smaller;
+}
+#caveat p {
+	font-size:x-small;
+	color:#666;
+}
+
+#formatList strong {
+	color:black;
+	font-size:larger;
+}
+.materialLabel {
+	color:#666;
+}
+
+#spineM ul, #spineM li, #boardsM ul, #boardsM li {
+	margin:0px;
+	padding:0px;
+}
+#spineM li, #boardsM li {
+	padding:18px 0px;
+	margin: 1px;
+ 	list-style:none;
+	float:left;
+	width:56px;
+	text-align: center;
+	color:#D5D6A9;
+	font-size:10px;
+	font-weight:lighter;
+}
+#spineM li.displayed {
+	border:2px solid #fC3;
+	border-bottom:none;
+	margin:0px -1px;
+}
+#boardsM li.displayed {
+	border:2px solid #FC3;
+	border-top:none;
+	margin:0px -1px;
+}

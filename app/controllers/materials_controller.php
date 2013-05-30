@@ -15,8 +15,16 @@
  */
 class MaterialsController extends AppController {
 
-	var $name = 'Materials';
+    var $name = 'Materials';
+    
+    var $layout = 'noThumbnailPage';
 
+    function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow(
+                'select');
+        }
+        
 	function index() {
 		$this->Material->recursive = 0;
 		$this->set('materials', $this->paginate());
@@ -72,5 +80,9 @@ class MaterialsController extends AppController {
 		$this->Session->setFlash(__('Material was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        function select(){
+            
+        }
 }
 ?>

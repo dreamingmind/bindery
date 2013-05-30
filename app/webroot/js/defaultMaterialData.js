@@ -1,0 +1,31 @@
+// JavaScript Document
+leatherIn = [
+	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
+	{"id":"1","fn":"blklthr","ti":"Black"},
+	{"id":"2","fn":"bluelthr","ti":"Blue"},
+	{"id":"4","fn":"terracottalthr","ti":"Terracotta"},
+	{"id":"5","fn":"brndylthr","ti":"Burgundy"},
+	{"id":"6","fn":"chestnutlthr","ti":"Chestnut"},
+	{"id":"7","fn":"Chocolatelthr","ti":"Chocolate"},
+	{"id":"8","fn":"crimsonlthr","ti":"Crimson"},
+	{"id":"14","fn":"grnlthr","ti":"Green"},
+	{"id":"16","fn":"grylthr","ti":"Gray"},
+	{"id":"17","fn":"ltbllther","ti":"Light Blue"},
+	{"id":"24","fn":"rchbrnlthr","ti":"Rich Brown"},
+	{"id":"26","fn":"saddlelthr","ti":"Saddle Tan"}];
+clothIn = [
+	{"id":"3","fn":"bone","ti":"Bone"},
+	{"id":"9","fn":"drktaupe","ti":"Dark Taupe"},
+	{"id":"10","fn":"fltblack","ti":"Black"},
+	{"id":"11","fn":"fltburg","ti":"Burgundy"},
+	{"id":"12","fn":"forestgreen","ti":"Forest Green"},
+	{"id":"13","fn":"grey","ti":"Gray"},
+	{"id":"15","fn":"grnslub","ti":"Green Slub"},
+	{"id":"18","fn":"mohblk","ti":"Mohair Black"},
+	{"id":"19","fn":"mohblue","ti":"Mohair Blue"},
+	{"id":"20","fn":"mohbrwn","ti":"Mohair Brown"},
+	{"id":"21","fn":"mohgreen","ti":"Mohair Green"},
+	{"id":"22","fn":"mohred","ti":"Mohair Red"},
+	{"id":"23","fn":"olive","ti":"Olive"},
+	{"id":"25","fn":"redslub","ti":"Red Slub"},
+	{"id":"27","fn":"tan","ti":"Tan"}];
