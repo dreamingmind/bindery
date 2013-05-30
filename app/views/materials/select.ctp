@@ -52,11 +52,11 @@
             <label><input type="radio" name="b1" value="full" id="b1_0" />Full Leather</label>
             <label><input type="radio" name="b1" value="quarter" id="b1_1" checked="checked" /> Quarterbound</label>
         </p>
-        <p>&nbsp;Behavior modification<br />
+<!--        <p>&nbsp;Behavior modification<br />
             Simulate database-down condition:<br />
             <a href="materials.php?x=1">DB Failure</a><br />
             <a href="materials.php">DB OK</a>
-        </p>
+        </p>-->
         <div id="caveat">
             <p><strong>Colors are approximate:</strong> Leather is a natural product. Every piece  has a slightly different texture and color. Additionally, every computer monitor will display slightly different colors.</p>
         </div> <!-- end caveat div -->
