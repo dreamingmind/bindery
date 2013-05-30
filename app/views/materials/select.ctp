@@ -2,7 +2,7 @@
 
     <div id="spineM" class="matPix">
         
-        <ul>
+<!--        <ul>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/saddlelthr.jpg)" title="Saddle Tan" id="l0">13</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/bbluelthr.jpg)" title="Bright Blue" id="l1">1</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/blklthr.jpg)" title="Black" id="l2">2</li>
@@ -14,11 +14,11 @@
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/crimsonlthr.jpg)" title="Crimson" id="l8">8</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grnlthr.jpg)" title="Green" id="l9">9</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grylthr.jpg)" title="Gray" id="l10">10</li>
-        </ul>
+        </ul>-->
     </div> <!-- end of spineM (leather color thumbnails) -->
     <br />
     <div id="boardsM" class="matPix">
-        <ul>
+<!--        <ul>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/mohred.jpg)" title="Mohair Red" id="c0">12</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/olive.jpg)" title="Olive" id="c1">13</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/redslub.jpg)" title="Red Slub" id="c2">14</li>
@@ -30,7 +30,7 @@
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/forestgreen.jpg)" title="Forest Green" id="c8">5</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grey.jpg)" title="Gray" id="c9">6</li>
             <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grnslub.jpg)" title="Green Slub" id="c10">7</li>
-        </ul>
+        </ul>-->
     </div> <!-- end of boardsM (cloth color thumbnails) -->
 
     <div id="formatList">
