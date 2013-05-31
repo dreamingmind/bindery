@@ -871,12 +871,12 @@ class AppHelper extends Helper {
 
         //and output everything in a left-floating div
         return $this->Html->div('linkDiv',
-            $this->Html->para('aside',
+            $image_link
+            . $this->Html->para('aside',
             $this->Html->truncateText($news['ContentCollection'][0]['Collection']['heading'],15,
                     array('exact'=>false,
                         'ending'=>'')).': '
             . $this->Time->timeAgoInWords($news['Content']['created']))
-            . $image_link
             . $heading_link
             . $adminLinks);
     //}

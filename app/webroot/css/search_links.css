@@ -16,7 +16,7 @@ root {
     width: 830px;
 }
 .linkDiv{
-    height: 130px;
+    height: auto;
     width: 400px;
     margin-bottom: 5px;
 }
