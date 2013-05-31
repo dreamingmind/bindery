@@ -2,36 +2,9 @@
 
     <div id="spineM" class="matPix">
         <p>Leather color choices</p>
-        
-<!--        <ul>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/saddlelthr.jpg)" title="Saddle Tan" id="l0">13</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/bbluelthr.jpg)" title="Bright Blue" id="l1">1</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/blklthr.jpg)" title="Black" id="l2">2</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/bluelthr.jpg)" title="Blue" id="l3">3</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/terracottalthr.jpg)" title="Terracotta" id="l4">4</li>
-            <li class="displayed" onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/brndylthr.jpg)" title="Burgundy" id="l5">5</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/chestnutlthr.jpg)" title="Chestnut" id="l6">6</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/Chocolatelthr.jpg)" title="Chocolate" id="l7">7</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/crimsonlthr.jpg)" title="Crimson" id="l8">8</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grnlthr.jpg)" title="Green" id="l9">9</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grylthr.jpg)" title="Gray" id="l10">10</li>
-        </ul>-->
     </div> <!-- end of spineM (leather color thumbnails) -->
     <div id="boardsM" class="matPix">
     <p id="clothPick">Cloth color choices</p>
-<!--        <ul>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/mohred.jpg)" title="Mohair Red" id="c0">12</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/olive.jpg)" title="Olive" id="c1">13</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/redslub.jpg)" title="Red Slub" id="c2">14</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/tan.jpg)" title="Tan" id="c3">15</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/bone.jpg)" title="Bone" id="c4">1</li>
-            <li class="displayed" onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/drktaupe.jpg)" title="Dark Taupe" id="c5">2</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/fltblack.jpg)" title="Black" id="c6">3</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/fltburg.jpg)" title="Burgundy" id="c7">4</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/forestgreen.jpg)" title="Forest Green" id="c8">5</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grey.jpg)" title="Gray" id="c9">6</li>
-            <li onclick="doMaterialClick(this)" style="background-image:url(/bindery/img/materials/thumbsize/grnslub.jpg)" title="Green Slub" id="c10">7</li>
-        </ul>-->
     </div> <!-- end of boardsM (cloth color thumbnails) -->
 
     <div id="formatList">
@@ -53,18 +26,12 @@
             <label><input type="radio" name="b1" value="full" id="b1_0" />Full Leather</label>
             <label><input type="radio" name="b1" value="quarter" id="b1_1" checked="checked" /> Quarterbound</label>
         </p>
-<!--        <p>&nbsp;Behavior modification<br />
-            Simulate database-down condition:<br />
-            <a href="materials.php?x=1">DB Failure</a><br />
-            <a href="materials.php">DB OK</a>
-        </p>-->
         <div id="caveat">
             <p><strong>Colors are approximate:</strong> Leather is a natural product. Every piece  has a slightly different texture and color. Additionally, every computer monitor will display slightly different colors.</p>
         </div> <!-- end caveat div -->
     </div> <!-- end fomatList div -->
 
 
-</div>
 <script type="text/javascript">
 <?php if ($leather) { ?>
 var leatherIn = <?php echo $leather; ?>;
@@ -107,9 +74,189 @@ var clothIn = [
 	{"id":"27","fn":"tan","ti":"Tan"}];
 <?php } ?>     
 </script>
+</div>
 <?php 
 
 //echo "$cloth \n\n$leather";
 //print_r($_SERVER);
 //print_r($leather);
 ?>
+
+<table cool="" gridx="16" showgridx="" usegridx="" gridy="16" showgridy="" usegridy="" border="0" cellpadding="0" cellspacing="0" height="1040" width="567">
+  <tbody>
+      <tr height="640">
+        <td colspan="3" xpos="0" align="left" height="572" valign="top"><table border="1" cellpadding="3" cellspacing="2">
+            <tbody><tr>
+              <td colspan="3"><p>Goatskin<br>
+                  <span class="style9">Vegetable tanned in England exclusively for use in book binding. Selected for a soft, natural finish to please both the hand and the eye. Goatskin shows a fine grain patter and is quite durable.</span></p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/beige1.jpg" border="0" height="75" width="75"><br>
+                      Beige
+                  </div>
+              </td>
+              <td>
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/chestnutlthr.jpg" border="0" height="75" width="75"><br>
+                      Chestnut
+                  </div>
+              </td>
+              <td>
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/bluelthr.jpg" border="0" height="75" width="75"><br>
+                      Dark Blue
+                  </div>
+              </td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/terracottalthr.jpg" border="0" height="75"><br>
+                      Terra Cotta
+                  </div>
+              </td>
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/Chocolatelthr.jpg" border="0" height="75" width="75"><br>
+                      Chocolate
+                  </div>
+              </td>
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/crimsonlthr.jpg" border="0" height="75" width="75"><br>
+                      Crimson
+                  </div>
+              </td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/blklthr.jpg" border="0" height="75" width="75"><br>
+                      Black
+                  </div>
+              </td>
+              <td height="35" valign="top"><div align="center">
+                      <img src="/bindery/img/materials/thumbsize/grnlthr.jpg" border="0" height="75" width="75"><br>
+                      Dark Green
+                  </div>
+              </td>
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/saddlelthr.jpg" border="0" height="75" width="75"><br>
+                      Saddle Tan
+                  </div>
+              </td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/bbluelthr.jpg" border="0" height="75" width="75"><br>
+                      Bright blue
+                  </div>
+              </td>
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/brndylthr.jpg" border="0" height="75" width="75"><br>
+                      Burgundy
+                  </div>
+              </td>
+              <td height="35" valign="top">
+                  <div align="center">
+                      <img src="/bindery/img/materials/thumbsize/grylthr.jpg" border="0" height="75" width="75"><br>
+                      Gray
+                  </div>
+              </td>
+            </tr>
+            <tr height="110">
+              <td height="110" valign="top">
+                  <div align="center"> 
+                      <img src="/bindery/img/materials/thumbsize/rchbrnlthr.jpg" border="0" height="75" width="75"><br>
+                      Rich brown
+                  </div>
+              </td>
+              <td height="110" valign="top">
+                  <div align="center"> 
+                      <img src="/bindery/img/materials/thumbsize/ltbllther.jpg" border="0" height="75" width="75"><br>
+                      Light blue
+                  </div>
+              </td>
+              <td height="110" valign="top"><div align="center"> </div></td>
+            </tr>
+        </tbody></table></td>
+        <td colspan="2" rowspan="3" xpos="288" align="left" height="1028" valign="top"><table border="1" cellpadding="3" cellspacing="2">
+            <tbody><tr>
+              <td colspan="3" valign="top">Book cloth<br>
+              <span class="style9">The cloth I use is selected for compatibility with my other materials. Many are imported from Japan, others from Holland and Germany.</span></td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/tan.jpg" border="0" height="75" width="75"><br>
+                      Tan</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/olive.jpg" border="0" height="75" width="75"><br>
+                      Olive Green</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/mohgreen.jpg" border="0" height="75" width="75"><br>
+                      Mohair green</font></div></td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/mohblk.jpg" border="0" height="75" width="75"><br>
+                      Mohair black</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/redslub.jpg" border="0" height="75" width="75"><a href="../index.html"><br>
+                  </a><font size="-1">
+
+                  Red slub</font></div></td>
+              <td height="35" valign="top"><div align="center"> <a href="../index.html"><img src="/bindery/img/materials/thumbsize/ribbedchoc.jpg" border="0" height="75" width="75"><br>
+                  </a><font size="-1">
+                  Ribbed chocolate</font></div></td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/fltburg.jpg" border="0" height="75" width="75"><br>
+                      Burgundy</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/forestgreen.jpg" border="0" height="75" width="75"><br>
+                      Forest green</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/mohblue.jpg" border="0" height="75" width="75"><br>
+                      Mohair blue</font></div></td>
+            </tr>
+            <tr>
+              <td><div align="center"> <img src="/bindery/img/materials/thumbsize/mohred.jpg" border="0" height="75" width="75"><br>
+                      <a href="../index.html"><img src="../images/hssymbol.gif" border="0" height="16" width="19"></a><font size="-1">
+                      Mohair red</font></div></td>
+              <td valign="top"><div align="center"><img src="/bindery/img/materials/thumbsize/blkslb2.jpg" border="0" height="75" width="75"><br>
+                      <font size="-1">
+                Black slub</font></div></td>
+              <td><div align="center"> <img src="/bindery/img/materials/thumbsize/mohbrwn.jpg" border="0" height="75" width="75"><br>
+                      <font size="-1">
+                Mohair brown</font></div></td>
+            </tr>
+            <tr height="35">
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/drktaupe.jpg" border="0" height="75" width="75"><br>
+                      <font size="-1">
+                Dark taupe</font></div></td>
+              <td height="35" valign="top"><div align="center"> <img src="/bindery/img/materials/thumbsize/grnslub.jpg" border="0" height="75" width="75"><br>
+                      <font size="-1">
+                Green slub</font></div></td>
+              <td height="35" valign="top"><div align="center">
+              <img src="/bindery/img/materials/thumbsize/grey.jpg" border="0" height="75" width="75"><font size="-1">Gray</font></div></td>
+            </tr>
+        </tbody></table></td>
+        <td height="572" width="1"><spacer type="block" width="1" height="640"></spacer></td>
+      </tr>
+      <tr height="368">
+        <td colspan="3" xpos="0" align="left" height="368" valign="top"><table border="1" cellpadding="3" cellspacing="2" width="297">
+            <tbody><tr>
+              <td colspan="3" valign="top">Imitation leather<br>
+              <span class="style9">These very durable materials are typically used for very large clamshell boxes that must travel and tolerate abuse. </span></td>
+            </tr>
+            <tr>
+              <td height="117" valign="top" width="81"><div align="center"> <img src="/bindery/img/materials/thumbsize/imred2.jpg" border="0" height="75" width="75"><font size="-1">Red</font></div></td>
+              <td valign="top" width="81"><div align="center"> <img src="/bindery/img/materials/thumbsize/imbrn2.jpg" border="0" height="75" width="75"><font size="-1">Brown</font></div></td>
+              <td valign="top" width="101"><div align="center"> <img src="/bindery/img/materials/thumbsize/imblk.jpg" border="0" height="75" width="75"><br>
+                      <font size="-1">Black</font></div></td>
+            </tr>
+        </tbody></table></td>
+        <td height="368" width="1"><spacer type="block" width="1" height="368"></spacer></td>
+      </tr>
+      <tr cntrlrow="" height="1">
+       </tr>
+    </tbody></table>
