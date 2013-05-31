@@ -82,7 +82,7 @@ var clothIn = [
 //print_r($leather);
 ?>
 
-<table cool="" gridx="16" showgridx="" usegridx="" gridy="16" showgridy="" usegridy="" border="0" cellpadding="0" cellspacing="0" height="1040" width="567">
+<table  style="display:none;" cool="" gridx="16" showgridx="" usegridx="" gridy="16" showgridy="" usegridy="" border="0" cellpadding="0" cellspacing="0" height="1040" width="567">
   <tbody>
       <tr height="640">
         <td colspan="3" xpos="0" align="left" height="572" valign="top"><table border="1" cellpadding="3" cellspacing="2">
@@ -186,7 +186,7 @@ var clothIn = [
               <td height="110" valign="top"><div align="center"> </div></td>
             </tr>
         </tbody></table></td>
-        <td colspan="2" rowspan="3" xpos="288" align="left" height="1028" valign="top"><table border="1" cellpadding="3" cellspacing="2">
+            <table style="display:none;"  border="1" cellpadding="3" cellspacing="2">
             <tbody><tr>
               <td colspan="3" valign="top">Book cloth<br>
               <span class="style9">The cloth I use is selected for compatibility with my other materials. Many are imported from Japan, others from Holland and Germany.</span></td>
@@ -239,7 +239,8 @@ var clothIn = [
               <td height="35" valign="top"><div align="center">
               <img src="/bindery/img/materials/thumbsize/grey.jpg" border="0" height="75" width="75"><font size="-1">Gray</font></div></td>
             </tr>
-        </tbody></table></td>
+        </tbody></table>
+  <table style="display:none;" >
         <td height="572" width="1"><spacer type="block" width="1" height="640"></spacer></td>
       </tr>
       <tr height="368">
