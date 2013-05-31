@@ -5,7 +5,9 @@
     Description:
         Purpose of the stylesheet follows.
 */
-
+#scrolling h2 {
+    clear: none;
+}
 #feature-pic {
     height: 480px; 
     width: 830px; 
