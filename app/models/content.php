@@ -35,122 +35,120 @@
  * 
  */
 class Content extends AppModel {
-	var $name = 'Content';
-	var $validate = array(
-		'navline_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+    var $name = 'Content';
+    var $validate = array(
+        'navline_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
+    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	var $belongsTo = array(
-            'Image' => array(
-                'className' => 'Image',
-                'foreignKey' => 'image_id'
-            ));
-        
-
-        
-//        var $hasOne = array('ExhibitSupliment');
-        var $hasMany = array(
-            'ContentCollection' => array(
-                'className' => 'ContentCollection',
-                'foreignKey' => 'content_id'
-            )
-
-        );    
-        
-        var $actsAs = array('Sluggable'=>array(
-            'label'=>'heading',
-            'overwrite'=>true,
-            'dups' => 'id',
-            'translate' => true
+    var $belongsTo = array(
+        'Image' => array(
+            'className' => 'Image',
+            'foreignKey' => 'image_id'
         ));
-        var $displayField = 'heading';
-    
-        /**
-         * An array of arrays showing collections containing an image
-         * $imageCollections[image_id] = array(
-         *      'id' => collection name
-         * )
-         *
-         * @var array $imageCollection The collections containing an image
-         */
-        var $imageCollections = array();
-        
-        /**
-         * The data under Collection.slug pname where Collection->Category is dispatch
-         * 
-         * This is a standard Cake data array and is rewritten into $collectionPages
-         *
-         * @var array $collectionData
-         */
-        var $collectionData = array();
-        
-        /**
-         * Indexed by Content.id, shows all page, next and previous values
-         * 
-         * @var array $collectionNeigbors Neighbor pointers indexed by content_id
-         */
-        var $collectionNeighbors = array();
-        
-        /**
-         * An array of all content records and linked data for a collection
-         * 
-         * This is a non-standard array
-         *  [1] => Array
-         *      [collection_id] => 60
-         *      [id] => 498 //Content.id
-         *      [heading] => Lucha Libre!
-         *      [slug] => lucha-libre
-         *      [content] => This material is not the traditional...way. 
-         *      [alt] => Non-traditional cloth to be used in a binding project
-         *      [title] => Lucha Libre!
-         *      [content_collection_id] => 457
-         *      [image_id] => 846
-         *      [date] => 1359137576 //image exif date
-         *      [img_file] => DSC01670.JPG
-         *      [collections] => Array
-         *          [132] => Array //collection_id
-         *              [0] => materials //Collection.heading
-         *              [1] => materials //Collection.slug
-         *          [60] => Array
-         *              [0] => Boxes
-         *              [1] => boxes
-         *      [neighbors] => Array
-         *          [page] => 1
-         *          [count] => 2
-         *          [previous] => 562
-         *          [previous_page] => 1
-         *          [previous_count] => 1
-         *          [next] => 561
-         *          [next_page] => 1
-         *          [next_count] => 3
-         * 
-         * @var array $collectionPages
-         */
-        var $collectionPages = array();
-        
-        /**
-         * Filter for newsfeed search returns
-         * 
-         * The recentNews method will pull for a pname. But if none
-         * is provided, it would pull indiscriment and inappropriated dispatches 
-         * without this filter will make mark a menu level and its submenu 
-         * navline slugs will be the filter set to limit returns.
-         * This strategy lets recentNews to act as a submenu preview.
-         *
-         * @var string Slug at a menu level to filter newsfeed returns
-         */
-        var $recentNewsFilter = 'products';
-        
+
+//        var $hasOne = array('ExhibitSupliment');
+    var $hasMany = array(
+        'ContentCollection' => array(
+            'className' => 'ContentCollection',
+            'foreignKey' => 'content_id'
+        )
+
+    );    
+
+    var $actsAs = array('Sluggable'=>array(
+        'label'=>'heading',
+        'overwrite'=>true,
+        'dups' => 'id',
+        'translate' => true
+    ));
+    var $displayField = 'heading';
+
+    /**
+     * An array of arrays showing collections containing an image
+     * $imageCollections[image_id] = array(
+     *      'id' => collection name
+     * )
+     *
+     * @var array $imageCollection The collections containing an image
+     */
+    var $imageCollections = array();
+
+    /**
+     * The data under Collection.slug pname where Collection->Category is dispatch
+     * 
+     * This is a standard Cake data array and is rewritten into $collectionPages
+     *
+     * @var array $collectionData
+     */
+    var $collectionData = array();
+
+    /**
+     * Indexed by Content.id, shows all page, next and previous values
+     * 
+     * @var array $collectionNeigbors Neighbor pointers indexed by content_id
+     */
+    var $collectionNeighbors = array();
+
+    /**
+     * An array of all content records and linked data for a collection
+     * 
+     * This is a non-standard array
+     *  [1] => Array
+     *      [collection_id] => 60
+     *      [id] => 498 //Content.id
+     *      [heading] => Lucha Libre!
+     *      [slug] => lucha-libre
+     *      [content] => This material is not the traditional...way. 
+     *      [alt] => Non-traditional cloth to be used in a binding project
+     *      [title] => Lucha Libre!
+     *      [content_collection_id] => 457
+     *      [image_id] => 846
+     *      [date] => 1359137576 //image exif date
+     *      [img_file] => DSC01670.JPG
+     *      [collections] => Array
+     *          [132] => Array //collection_id
+     *              [0] => materials //Collection.heading
+     *              [1] => materials //Collection.slug
+     *          [60] => Array
+     *              [0] => Boxes
+     *              [1] => boxes
+     *      [neighbors] => Array
+     *          [page] => 1
+     *          [count] => 2
+     *          [previous] => 562
+     *          [previous_page] => 1
+     *          [previous_count] => 1
+     *          [next] => 561
+     *          [next_page] => 1
+     *          [next_count] => 3
+     * 
+     * @var array $collectionPages
+     */
+    var $collectionPages = array();
+
+    /**
+     * Filter for newsfeed search returns
+     * 
+     * The recentNews method will pull for a pname. But if none
+     * is provided, it would pull indiscriment and inappropriated dispatches 
+     * without this filter will make mark a menu level and its submenu 
+     * navline slugs will be the filter set to limit returns.
+     * This strategy lets recentNews to act as a submenu preview.
+     *
+     * @var string Slug at a menu level to filter newsfeed returns
+     */
+    var $recentNewsFilter = 'products';
+
     /**
      * Pull the list of Content linked to an Image record
      *
@@ -417,7 +415,7 @@ class Content extends AppModel {
      * @param int $limit How many records to pull, default 10
      * @return array The data, most recent dispatch entries, each on a different Content.heading
      */
-   function recentNews($limit=null, $pname = null){
+    function recentNews($limit=null, $pname = null){
         $limit = ($limit == null) ? 10 : $limit;
         // if no pname
         // OR if a search on slug==pname returns false
@@ -553,7 +551,6 @@ class Content extends AppModel {
         return $this->recent_news;
     }
 
-
     /**
      * Query using the user's conditions and return the processed results
      * 
@@ -577,7 +574,6 @@ class Content extends AppModel {
      * @param array $conditions Cake conditions array for the query
      * @return false|array False or the found records
      */
-    
     function siteSearch($conditions){
         
      $raw_search = $this->siteSearchRaw($conditions);

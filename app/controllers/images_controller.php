@@ -1354,6 +1354,11 @@ class ImagesController extends AppController {
 //                    debug('linked content save');
                     $this->Image->Content->save();
                     $content_id = $this->Image->Content->id;
+                    
+                    // resave to get the slug to calculate properly
+                    $content['Content']['id'] = $content_id;
+                    $this->Image->Content->create($content);
+                    $this->Image->Content->save();
                 } else {
                     $content_id = $data['Content']['linked_content'];
                 }
