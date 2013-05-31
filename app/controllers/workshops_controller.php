@@ -10,13 +10,14 @@ class WorkshopsController extends AppController {
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('upcoming');
+        $this->Auth->allow('detail');
+        $this->set('upcoming', $this->Workshop->workshops_upcoming);
+        $this->set('potential',  $this->Workshop->workshops_potential);
+        $this->set('now', $this->Workshop->workshops_now);
         }
         
         function upcoming(){
 //        debug($this->params);die;
-            $this->set('upcoming', $this->Workshop->workshops_upcoming);
-            $this->set('potential',  $this->Workshop->workshops_potential);
-            $this->set('now', $this->Workshop->workshops_now);
 //            $this->set('result_imagePath');
             $this->layout = 'noThumbnailPage';
         }
@@ -102,11 +103,11 @@ class WorkshopsController extends AppController {
                 'ContentCollection.collection_id',
                 'ContentCollection.sub_slug'),
             'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
-                ),
                 'Workshop'=>array(
-                    'fields'=>array('Workshop.id','Workshop.content','Workshop.heading','Workshop.slug'),
+                    'fields'=>array('Workshop.id','Workshop.category_id','Workshop.slug','Workshop.heading')
+                ),
+                'Content'=>array(
+                    'fields'=>array('Content.id','Content.content','Content.heading','Content.modified','Content.slug'),
 //                    'conditions'=>array('Workshop.publish'=>1),
                     'Image'=>array(
                         'fields'=>array('Image.alt','Image.title','Image.img_file',
@@ -125,127 +126,14 @@ class WorkshopsController extends AppController {
         
     function detail(){
 //        
-//        $article = $this->findWorkshopTarget($conditions);
-////        findBlogTarget() has proper blog array
-//        $this->set('most_recent',$article);
-//===================================
-        // get the pname
-        // and expand the url to full nest-length if necessary
-        $url = preg_replace(
-            array(
-                '/[\/]?page:[0-9]+/',
-                '/[\/]?id:[0-9]+/'
-            ), '', $this->params['url']['url']);
-        $target = explode('/', $url);
-        // extract the last non-page/non-id bit off the url as pname
-        $this->params['pname'] = $target[count($target)-1];
-//        debug($this->params);
-//                debug($url);
-//                                debug($target);
-        if(count($target)==2){
-            // found possible shortcut URL like
-            // /art/so-different
-            // if it is, we'll construct the true path and redirect
-            
-            // first get the tree path to the current pname
-            $nav = $this->Navigator->find('all',array(
-                'conditions'=>array(
-                    'Navline.route'=>  $this->params['pname']
-                )
-            ));
-            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
-
-            // then if it is longer that the current path, 
-            // then it was a shortcut. build and redirect
-            if(count($target) < count($nav)){
-                $path = '';
-                foreach($nav as $node){
-                    $path .= DS.$node['Navline']['route'];
-                }
-                $this->redirect($path);
-            }
-        }
+        $article = $this->findWorkshopTarget(array('Content.slug' => $this->params['pass'][0],'Workshop.category_id'=>$this->Workshop->Category->categoryNI['workshop']));
         
-        // we now have a full url and a pname
-        // get a paginated filmstrip and an beauty shot
-        $conditions = array(
-            'Collection.category_id'=>$this->Workshop->ContentCollection->Collection->Category->categoryNI['workshop'],
-            'ContentCollection.publish'=>1,'Workshop.slug'=>$this->params['pname']);
         
-        debug($this->findWorkshopTarget($conditions));die;
-
-        if(empty($this->viewVars['filmStrip'])){
-            // didn't find any Content records for pname
-            // scrap the thumbnailPage layout
-            $this->layout = 'noThumbnailPage';
-            // and get some links for nested art inside this node
-            // so we can make a landing page with links
-            $nav = $this->Navigator->find('all',array(
-                'conditions'=>array(
-                    'Navline.route'=>  $this->params['pname']
-                )
-            ));
-            
-            // since we don't have a beauty-shot gallery, lets
-            // plumb the menu-nest and show some deep links
-            $nav = $this->Navigator->children($nav[0]['Navigator']['id'], false, null, null, null, 1, 1);
-            $deepLinks = array();
-            if(!empty($nav)){
-                // found nested nodes, look for Content for them
-                foreach($nav as $node){
-                    $slug = $node['Navline']['route'];
-                    $content = $this->Content->ContentCollection->nodeMemeber($node['Navline']['route']);
-                    if($content){
-                        $deepLinks[] = $content;
-                    }
-                }
-                // should have some Content now for art/edition link construction
-                // if there are a lot, get 3 random ones for output
-                if(count($deepLinks)>3){
-                    shuffle($deepLinks);
-                    $chunk = array_chunk($deepLinks, 3);
-                    $deepLinks = $chunk[0];
-                }
-            }
-            $this->set('deepLinks',$deepLinks);
-            
-            //@todo TODO ================================ TODO
-            // and finally, see if we have any LIKE %pname% blog articles to offer as reprints
-        }
-        
-        // searh should be fixed to maintain its own default array
-        // now we've either got a beauty shot and paginated filmstrip
-        // or a set of representative projects from deeper levels
-        // of this pname menu-nest
-
-        $details = array();
-        $count = 0;
-        foreach($this->viewVars['neighbors'] as $detail){
-            if($detail['detail'] > 0){
-                $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
-            }
-        }
-        $this->set('details',$details);
-        
-        // This makes the page header
-        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
-            'conditions'=> array(
-                'Collection.category_id' => $this->categoryNI['art'],
-                'Collection.slug' => $this->params['pname']
-            ),
-            'recursive' => -1
-        )));
-        
-        $searchResults = $this->Content->siteSearch(array(
-//            'Content.heading' => $this->viewVars['collection']['Collection']['heading']
-            'Content.heading' => 'Art & Editions'
-        ));
-        $this->set('searchResults', isset($searchResults['dispatch'])?$searchResults['dispatch']:'');
-        
-        // do the data pulls for any sub_collections use ContentCollection.id
-//        debug($this->Content->ContentCollection->pullArticleLink(546));
-
+        $this->layout='noThumbnailPage';
+        $this->set('feature',  $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+        $this->set('delete',array_shift($article));
+        $this->set('article',$article);
+//        debug($article);debug($this->Workshop->workshops_all);debug($this->Workshop->workshops_potential);die;
     }
-
 }
 ?>

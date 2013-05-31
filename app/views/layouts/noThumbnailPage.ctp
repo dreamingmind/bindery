@@ -33,7 +33,7 @@
         echo $html->css('tree_admin');
     }
     if($this->params['controller']=='workshops'){
-        echo $html->css('workshop');
+        echo $this->Html->css('workshop');
     }
     if (
         $this->params['action']=='forgot'
@@ -63,6 +63,14 @@
         echo $this->Html->script('materials');
         echo $this->Html->css('materials');
     }
+    if($this->params['controller']=='workshops'){
+        echo $this->Html->script('workshop');
+        if ($this->params['action'] == 'detail'){
+            echo $this->Html->script('blog_image_zoom');
+            echo $this->Html->script('adjust_markdown');
+            echo $this->Html->script('edit_dispatch');
+    }
+}
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

@@ -155,7 +155,7 @@ class Workshop extends AppModel {
          * Includes related date data
          */
         function workshopsAll(){
-            $this->workshops_all=
+            $this->workshops_temp=
             $this->find('all', array(
                 'conditions'=>array(
                     'Workshop.category_id'=>$this->Category->categoryNI['workshop'],
@@ -234,7 +234,8 @@ class Workshop extends AppModel {
 //       die;
        }
        function workshopsSetter (){
-           foreach ($this->workshops_all as $workshop){
+           foreach ($this->workshops_temp as $workshop){
+               $this->workshops_all[$workshop['Workshop']['id']]=$workshop;
 //             for workshops_potential find those sessions with null first days
                if(empty($workshop['Session'])){
                    $this->workshops_potential[$workshop['Workshop']['id']]=$workshop;
