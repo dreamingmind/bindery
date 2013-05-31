@@ -15,8 +15,8 @@ root {
 #scrolling{
     width: 830px;
 }
-.linkDiv{
-    height: auto;
+div.linkDiv{
+    height: 130px;
     width: 400px;
     margin-bottom: 5px;
 }
@@ -28,10 +28,10 @@ root {
     float: right;
     padding-top: 10px;
 }
-div.linkDiv {
-    /*clear: both;*/
-    /*height: 100%;*/
-}
+/*div.linkDiv {
+    clear: both;
+    height: 100%;
+}*/
 .linkDiv img{
     float: left;
     margin-right: 10px;
