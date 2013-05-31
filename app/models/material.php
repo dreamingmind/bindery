@@ -58,5 +58,47 @@ class Material extends AppModel {
 			),
 		),
 	);
+        
+        var $virtualFields = array(
+            'fn'=>'file_name',
+            'ti'=>'title'
+        );
+        
+        function pullLeather(){
+            // 	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
+            return $this->flatten($this->find('all',array(
+                'fields'=>array(
+                    'id',
+                    'fn',
+                    'ti'
+                ),
+                'conditions'=>array(
+                    'category'=>'leather'
+                )
+            )));
+        }
+        
+        function pullCloth(){
+            return $this->flatten($this->find('all',array(
+                'fields'=>array(
+                    'id',
+                    'fn',
+                    'ti'
+                ),
+                'conditions'=>array(
+                    'category'=>'cloth'
+                )
+            )));
+        }
+        
+        function flatten($data){
+            if($data){
+                foreach($data as $record){
+                    $result[] = $record['Material'];
+                }
+                return $result;
+            }
+            return $data;
+        }
 }
 ?>

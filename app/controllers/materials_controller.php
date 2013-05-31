@@ -82,7 +82,13 @@ class MaterialsController extends AppController {
 	}
         
         function select(){
-            
+            $leather = $this->Material->pullLeather();
+            $cloth = $this->Material->pullCloth();
+            $this->set('leather', $leather ? json_encode($leather) : $leather);
+            $this->set('cloth', $cloth ? json_encode($cloth) : $cloth);
+//            debug(json_encode($this->viewVars['leather']));
+//            debug(json_encode($this->viewVars['cloth']));
+//            debug($this->viewVars['leather']);
         }
 }
 ?>
