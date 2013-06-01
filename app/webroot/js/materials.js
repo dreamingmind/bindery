@@ -10,6 +10,8 @@ var lStart = 8;
 var cStart = 12;
 
 function initpage() {
+    $('table').html('');
+    $('#wrapper').css('display','block');
 	initProductChange();
 	initBindingChange();
 	//initClothOver();

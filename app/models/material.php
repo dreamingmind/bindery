@@ -91,6 +91,19 @@ class Material extends AppModel {
             )));
         }
         
+        function pullImitation(){
+            return $this->flatten($this->find('all',array(
+                'fields'=>array(
+                    'id',
+                    'fn',
+                    'ti'
+                ),
+                'conditions'=>array(
+                    'category'=>'imitation'
+                )
+            )));
+        }
+        
         function flatten($data){
             if($data){
                 foreach($data as $record){
