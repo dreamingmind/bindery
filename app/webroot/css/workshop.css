@@ -168,7 +168,7 @@ div.entry{
     width: 832px; 
     margin-left: -1px; 
     border-top: 6px solid rgb(0, 61, 76); 
-    margin-top: 3px;
+    /*margin-top: 3px;*/
 }
 
 #featurePicture {

@@ -1119,7 +1119,7 @@ class AppHelper extends Helper {
             // $collection = $this->Html->para('aside','ID: '.$exhibit['ContentCollection']['0']['Content']['id'].' - '.$exhibit['Workshop']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
-            $link_uri = DS.'products'.DS.$exhibit['Workshop']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Workshop']['id'];
+            $link_uri = DS.'workshops'.DS.$exhibit['ContentCollection'][0]['Content']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Workshop']['heading'],45),$link_uri)
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
@@ -1155,7 +1155,7 @@ class AppHelper extends Helper {
             $collection = $this->Html->para('aside','ID: '.$exhibit['Content']['id'].' - '.$exhibit['Content']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
-            $link_uri = DS.'products'.DS.$exhibit['Content']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Content']['id'];
+            $link_uri = DS.'workshops'.DS.$exhibit['Content']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
                     . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link

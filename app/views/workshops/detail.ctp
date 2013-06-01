@@ -97,7 +97,7 @@ if($upcoming){
     $costLine = $this->Html->tag('h3',  implode(' // ', $costaccum),array('class'=>'featureCost'));
 
     $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $costLine . $sessionDiv;
-    echo $this->Html->css('search_links');
+//    echo $this->Html->css('search_links');
     echo $this->Html->div('',
         $this->Html->div('',$featureHtml,array(
             'id'=>'feature-overlay'
