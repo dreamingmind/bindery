@@ -685,5 +685,53 @@ SIG;
         );
         return $rangeCondition;
     }
+
+    /**
+     * Pick the article slug off end of url and expand url if necessary
+     * 
+     * Art and Workshop articles are children of some arbitrary number
+     * of menu nodes. Both may be reached directly with controller/slug
+     * url or with the full path. This code will extract the last entry
+     * in the url path and store it as a potential slug and will 
+     * check the menu path to that node. This code will build the full
+     * url path if nessecery and redirect to expand the menu.
+     */
+    function expandShortUrl(){
+        // get the pname
+        // and expand the url to full nest-length if necessary
+        $url = preg_replace(
+            array(
+                '/[\/]?page:[0-9]+/',
+                '/[\/]?id:[0-9]+/'
+            ), '', $this->params['url']['url']);
+        $target = explode('/', $url);
+        // extract the last non-page/non-id bit off the url as pname
+        $this->params['pname'] = $target[count($target)-1];
+        
+        if(count($target)==2){
+            // found possible shortcut URL like
+            // /art/so-different
+            // if it is, we'll construct the true path and redirect
+            
+            // first get the tree path to the current pname
+            $nav = $this->Navigator->find('all',array(
+                'conditions'=>array(
+                    'Navline.route'=>  $this->params['pname']
+                )
+            ));
+            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
+
+            // then if it is longer that the current path, 
+            // then it was a shortcut. build and redirect
+            if(count($target) < count($nav)){
+                $path = '';
+                foreach($nav as $node){
+                    $path .= DS.$node['Navline']['route'];
+                }
+                $this->redirect($path);
+            };
+        }
+    }
+
 }
 

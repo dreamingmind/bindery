@@ -832,41 +832,41 @@ class ContentsController extends AppController {
      * 
      */
     function art(){
-        // get the pname
-        // and expand the url to full nest-length if necessary
-        $url = preg_replace(
-            array(
-                '/[\/]?page:[0-9]+/',
-                '/[\/]?id:[0-9]+/'
-            ), '', $this->params['url']['url']);
-        $target = explode('/', $url);
-        // extract the last non-page/non-id bit off the url as pname
-        $this->params['pname'] = $target[count($target)-1];
-        
-        if(count($target)==2){
-            // found possible shortcut URL like
-            // /art/so-different
-            // if it is, we'll construct the true path and redirect
-            
-            // first get the tree path to the current pname
-            $nav = $this->Navigator->find('all',array(
-                'conditions'=>array(
-                    'Navline.route'=>  $this->params['pname']
-                )
-            ));
-            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
-
-            // then if it is longer that the current path, 
-            // then it was a shortcut. build and redirect
-            if(count($target) < count($nav)){
-                $path = '';
-                foreach($nav as $node){
-                    $path .= DS.$node['Navline']['route'];
-                }
-                $this->redirect($path);
-            };
-        }
-        
+//        // get the pname
+//        // and expand the url to full nest-length if necessary
+//        $url = preg_replace(
+//            array(
+//                '/[\/]?page:[0-9]+/',
+//                '/[\/]?id:[0-9]+/'
+//            ), '', $this->params['url']['url']);
+//        $target = explode('/', $url);
+//        // extract the last non-page/non-id bit off the url as pname
+//        $this->params['pname'] = $target[count($target)-1];
+//        
+//        if(count($target)==2){
+//            // found possible shortcut URL like
+//            // /art/so-different
+//            // if it is, we'll construct the true path and redirect
+//            
+//            // first get the tree path to the current pname
+//            $nav = $this->Navigator->find('all',array(
+//                'conditions'=>array(
+//                    'Navline.route'=>  $this->params['pname']
+//                )
+//            ));
+//            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
+//
+//            // then if it is longer that the current path, 
+//            // then it was a shortcut. build and redirect
+//            if(count($target) < count($nav)){
+//                $path = '';
+//                foreach($nav as $node){
+//                    $path .= DS.$node['Navline']['route'];
+//                }
+//                $this->redirect($path);
+//            };
+//        }
+        $this->expandShortUrl();
         // we now have a full url and a pname
         // get a paginated filmstrip and an beauty shot
         $this->gallery('art');
