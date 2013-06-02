@@ -10,7 +10,7 @@ var lStart = 8;
 var cStart = 12;
 
 function initpage() {
-    $('table').html('');
+    $('#tables').html('');
     $('#wrapper').css('display','block');
 	initProductChange();
 	initBindingChange();

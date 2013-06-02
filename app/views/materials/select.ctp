@@ -81,7 +81,7 @@ var clothIn = [
 //print_r($_SERVER);
 //print_r($leather);
 ?>
-
+<div id="tables">
 <table border="1" cellpadding="3" cellspacing="2">
     <tbody>
         <tr>
@@ -145,3 +145,4 @@ var clothIn = [
         ?>
     </tbody>
 </table>
+</div>

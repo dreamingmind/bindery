@@ -7,50 +7,14 @@ body {
 
 /* =DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-	/* =main site layout DIVs
-	––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+/* =main site layout DIVs
+––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 #wrapper {
     height: auto;
     margin: 50px;
     position: relative;
     width: 640px;
 }
-/*	#navBar {
-		font-size: 16px;
-		width:155px;
-		text-align:right;
-		top:128px;
-		height: auto;
-		 border: solid #fff 1px; 
-		position: absolute;*/
-		/*left:35px;*/
-/*	}
-	.galWrapper {
-		position:absolute;
-		top:10px;
-		left:165px;*/
-		/*
-		*/
-	/*}*/
-/*	.galNav {
-		position:absolute;
-		top:0px;
-		left:15px;
-		height:auto;
-		width:640px;*/
-		/*
-		position:relative;
-		overflow:auto;
-		*/
-	/*}*/
-/*	#detail {
-		position:absolute;
-		top:130px;
-		left:175px;
-		width: 640px;
-		text-align: left;
-		padding:0;
-	}*/
 	
 	#colorLabels {
 		height:auto;
@@ -85,12 +49,7 @@ body {
 	vertical-align:bottom;
 }
 
-/*div#dim {
-	background-color:#FFF;
-	opacity:0.5;
-	filter:alpha(opacity=50);
-}
-*/
+
 /* =product preview area DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 div#case {
@@ -210,4 +169,23 @@ input[type="radio"] {
     margin-right: 6px;
     clear: left;
     margin-top: 3px;
+}
+/*=======================================
+table on non-javascript page version
+=======================================*/
+#detail > div {
+    padding-top: 40px;
+}
+#tables td img {
+    height: 100px;
+    width: 100px;
+}
+#tables td {
+    text-align: center;
+    width: 33%;
+}
+#tables > table {
+    display: inline-block;
+    margin: 10px;
+    width: 340px;
 }
