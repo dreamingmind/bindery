@@ -35,6 +35,9 @@
     if($this->params['controller']=='workshops'){
         echo $this->Html->css('workshop');
     }
+    if($this->params['controller']=='catalogs'){
+        echo $this->Html->css('catalog');
+    }
     if (
         $this->params['action']=='forgot'
         || $this->params['action']=='login'

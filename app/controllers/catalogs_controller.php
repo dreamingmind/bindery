@@ -17,6 +17,12 @@ class CatalogsController extends AppController {
 
 	var $name = 'Catalogs';
 
+        function beforeFilter() {
+            parent::beforeFilter();
+            $this->Auth->allow(array(
+                'catalog'
+            ));
+        }
 	function index() {
 		$this->Catalog->recursive = 0;
 		$this->set('catalogs', $this->paginate());
@@ -72,5 +78,9 @@ class CatalogsController extends AppController {
 		$this->Session->setFlash(__('Catalog was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        function catalog(){
+            $this->layout = 'noThumbnailPage';
+        }
 }
 ?>

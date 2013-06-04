@@ -1,0 +1,86 @@
+#detail  {
+	position: absolute;
+	z-index: 4;
+	top: 10px;
+	left: 155px;
+	visibility: visible;
+	display: block;
+	width: 640;
+}
+#directory   { position: absolute; z-index: 2; top: 10px; left: 5px; visibility: visible; display: block }
+#drksubhead     { color: #9a3614; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }
+#drkparagraph  { color: black; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }
+#ltsubhead  { color: #e7df7e; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }
+#ltparagraph  { color: white; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }
+.option_head {	font-family: Arial, Helvetica, sans-serif;
+	font-size: x-small;
+	line-height: 18px;
+	background-color: #D0D9D7;
+	letter-spacing: normal;
+	color: #025C0D;
+	text-indent: 10px;
+	padding-left: 5px;
+	font-weight: bold;
+	padding-right: 5px;
+}
+.option_pop {font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	line-height: 18px;
+	background-color: #D0D9D7;
+	letter-spacing: normal;
+}
+.price {	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bolder;
+	color: #025C0D;
+	background-color: #EEE898;
+	text-indent: 10px;
+	border: 1px none #FFFFFF;
+}
+.table_bottom {
+font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FAF4A0;
+	background-color: #025C0D;
+	letter-spacing: normal;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0px;
+	height: 5px;
+	margin: auto;
+}
+.style2 {font-size: x-small;
+	color: #19807E;
+}
+.style4 {font-size: x-small; color: #E7F2F0; }
+.style5 {color: #025C0D}
+.style6 {font-size: 14px}
+.table_heading {font-size: 14px;
+	color: #025C0D;
+	background-color: #E7F2F0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-indent: 10px;
+	line-height: 18px;
+}
+.table_name {font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #CAEEE8;
+	background-color: #025C0D;
+	letter-spacing: normal;
+	text-align: center;
+	vertical-align: middle;
+	padding: 10px;
+	height: 50px;
+	margin: auto;
+}
+.table_price {font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bolder;
+	color: #025C0D;
+	background-color: #EEE898;
+	text-indent: 10px;
+	border: 0px none #FFFFFF;
+}
