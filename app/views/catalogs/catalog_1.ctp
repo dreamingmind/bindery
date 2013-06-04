@@ -1,33 +1,98 @@
         <div id="detail">
           <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
-<table>
-<?php
-    $i = 0;
-    $row = false;
-    $cell = false;
-    $xx = false;
-    $x = false;
-    $yy = false;
-    $y = false;
-    $r = array();
-    $scan = true;
-    $colCount = 1;
-    $colStart = $product[0]['catalogs']['xx_index'] . $product[0]['catalogs']['x_index'];
-    while($colStart != $product[$colCount]['catalogs']['xx_index'] . $product[$colCount]['catalogs']['x_index']){
-        $colCount++;
-    }
-    debug(array_chunk($product,$colCount));
-    die;
-    do{
-        if(!$row){
-            $r[] = '<tr>';
-        }
-        if(!$yy){
-            
-        }
-    }while ($i < count($product)-1);
-?>
-</table>
+            <table width="640" cellpadding="3" cellspacing="4">
+              <tr>
+                <td colspan="5" valign="middle" nowrap class="table_name"><p>Design your Dreaming Mind blank book</p></td>
+              </tr>
+              <tr>
+                <td width="15%" nowrap class="table_heading"><BR></td>
+                <td  nowrap class="table_heading qb blank">Quarter Bound</td>
+                <td  nowrap class="table_heading qb printed">Quarter Bound</td>
+                <td  nowrap class="table_heading fl blank">Full leather </td>
+                <td  nowrap class="table_heading fl printed">Full leather </td>
+              </tr>
+              <tr>
+                <td nowrap class="table_heading"><BR></td>
+                <td width="21%" nowrap class="table_heading qb blank">Blank pages </td>
+                <td width="21%" nowrap class="table_heading qb printed">Ruled pages </td>
+                <td width="21%" nowrap class="table_heading fl blank">Blank pages </td>
+                <td width="22%" nowrap class="table_heading fl printed">Ruled pages </td>
+              </tr>
+              <tr>
+                <td nowrap class="table_heading">&nbsp;</td>
+                <td colspan="4" valign="middle" nowrap class="option_pop"><span class="option_head">5.5 x 8.5 &quot; Journals</span></td>
+              </tr>
+                            <tr class="pg128 sz585">
+                <td height="24" nowrap class="table_heading">128 pages</td>
+                <td valign="middle" nowrap class="table_price pg128 sz585"><input  name="selected_p" type="radio" value="588bc">
+                    $61 <span class="style2 qb blank"> (588bc)</span> </td>
+                <td nowrap class="table_price pg128 sz585 qb printed"><input  name="selected_p" type="radio" value="588pc">
+                    $69 <span class="style2"> (588pc)</span> </td>
+                <td nowrap class="table_price pg128 sz585 fl blank"><input  name="selected_p" type="radio" value="588bl">
+                    $74 <span class="style2"> (588bl)</span> </td>
+                <td nowrap class="table_price pg128 sz585 fl printed"><input  name="selected_p" type="radio" value="588pl">
+                    $82 <span class="style2"> (588pl)</span></td>
+              </tr>
+                            <tr class="pg192 sz585">
+                <td height="24" nowrap class="table_heading">192 pages</td>
+                <td valign="middle" nowrap class="table_price sz585"><input  name="selected_p" type="radio" value="582bc">
+                    $66 <span class="style2 qb blank"> (582bc)</span> </td>
+                <td nowrap class="table_price sz585 qb printed"><input  name="selected_p" type="radio" value="582pc">
+                    $74 <span class="style2"> (582pc)</span> </td>
+                <td nowrap class="table_price sz585 fl blank"><input  name="selected_p" type="radio" value="582bl">
+                    $78 <span class="style2"> (582bl)</span> </td>
+                <td nowrap class="table_price sz585 fl printed"><input  name="selected_p" type="radio" value="582pl">
+                    $86 <span class="style2"> (582pl)</span></td>
+              </tr>
+                            <tr class="pg256 sz585">
+                <td height="24" nowrap class="table_heading">256 pages</td>
+                <td valign="middle" nowrap class="table_price sz585"><input  name="selected_p" type="radio" value="586bc">
+                    $72 <span class="style2 qb blank"> (586bc)</span> </td>
+                <td nowrap class="table_price sz585  qb printed"><input  name="selected_p" type="radio" value="586pc">
+                    $80 <span class="style2"> (586pc)</span> </td>
+                <td nowrap class="table_price sz585 fl blank"><input  name="selected_p" type="radio" value="586bl">
+                    $83 <span class="style2"> (586bl)</span> </td>
+                <td nowrap class="table_price sz585 fl printed"><input  name="selected_p" type="radio" value="586pl">
+                    $91 <span class="style2"> (586pl)</span></td>
+              </tr>
+                            <tr>
+                <td nowrap class="table_heading">&nbsp;</td>
+                <td colspan="4" valign="middle" nowrap class="option_pop"><span class="option_head">8.5 x 11&quot; Journals </span><span class="pkoptions"><span class="price"> </span> </span></td>
+              </tr>
+                            <tr class="pg128 sz811">
+                <td nowrap class="table_heading">128 pages<BR></td>
+                <td valign="middle" nowrap class="table_price pg128 sz811 qb blank"><input  name="selected_p" type="radio" value="888bc">
+                    $80   <span class="style2"> (888bc)</span></td>
+                <td nowrap class="table_price pg128 sz811 qb printed"><input  name="selected_p" type="radio" value="888pc">
+                    $88   <span class="style2"> (888pc)</span></td>
+                <td nowrap class="table_price pg128 sz811 fl blank"><input  name="selected_p" type="radio" value="888bl">
+                    $99   <span class="style2"> (888bl)</span></td>
+                <td nowrap class="table_price pg128 sz811 fl printed"><input  name="selected_p" type="radio" value="888pl">
+                    $107  <span class="style2"> (888pl)</span></td>
+              </tr>
+                            <tr class="pg192 sz811">
+                <td nowrap class="table_heading">192 pages<BR></td>
+                <td valign="middle" nowrap class="table_price sz811 qb blank"><input  name="selected_p" type="radio" value="882bc">
+                    $89   <span class="style2"> (882bc)</span></td>
+                <td nowrap class="table_price sz811 qb printed"><input  name="selected_p" type="radio" value="882pc">
+                    $97   <span class="style2"> (882pc)</span></td>
+                <td nowrap class="table_price sz811 fl blank"><input  name="selected_p" type="radio" value="882bl">
+                    $108   <span class="style2"> (882bl)</span></td>
+                <td nowrap class="table_price sz811 fl printed"><input  name="selected_p" type="radio" value="882pl">
+                    $116  <span class="style2"> (882pl)</span></td>
+              </tr>
+                            <tr class="pg256 sz811">
+                <td nowrap class="table_heading">256 pages<BR></td>
+                <td valign="middle" nowrap class="table_price sz811 qb blank"><input  name="selected_p" type="radio" value="886bc">
+                    $99   <span class="style2"> (886bc)</span></td>
+                <td nowrap class="table_price sz811 qb printed"><input  name="selected_p" type="radio" value="886pc">
+                    $107   <span class="style2"> (886pc)</span></td>
+                <td nowrap class="table_price sz811 fl blank"><input  name="selected_p" type="radio" value="886bl">
+                    $117   <span class="style2"> (886bl)</span></td>
+                <td nowrap class="table_price sz811 fl printed"><input  name="selected_p" type="radio" value="886pl">
+                    $125  <span class="style2"> (886pl)</span></td>
+              </tr>
+            </table>
               <table>
                             <tr>
                 <td class="table_heading"></td>
