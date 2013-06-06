@@ -2,30 +2,7 @@
           <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
 <table>
 <?php
-    $i = 0;
-    $row = false;
-    $cell = false;
-    $xx = false;
-    $x = false;
-    $yy = false;
-    $y = false;
-    $r = array();
-    $scan = true;
-    $colCount = 1;
-    $colStart = $product[0]['catalogs']['xx_index'] . $product[0]['catalogs']['x_index'];
-    while($colStart != $product[$colCount]['catalogs']['xx_index'] . $product[$colCount]['catalogs']['x_index']){
-        $colCount++;
-    }
-    debug(array_chunk($product,$colCount));
-    die;
-    do{
-        if(!$row){
-            $r[] = '<tr>';
-        }
-        if(!$yy){
-            
-        }
-    }while ($i < count($product)-1);
+echo $this->element('product_table',array($product),TRUE);
 ?>
 </table>
               <table>
