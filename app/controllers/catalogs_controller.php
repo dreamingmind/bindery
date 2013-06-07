@@ -16,6 +16,8 @@
 class CatalogsController extends AppController {
 
 	var $name = 'Catalogs';
+        
+        var $helpers = array('TableParser','Number');
 
         function beforeFilter() {
             parent::beforeFilter();
