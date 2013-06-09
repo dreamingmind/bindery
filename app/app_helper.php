@@ -1261,5 +1261,48 @@ class AppHelper extends Helper {
             }
         }
     }
+    
+    	function table_Headers($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
+		if (empty($data[0]) || !is_array($data[0])) {
+			$data = array($data);
+		}
+
+		if ($oddTrOptions === true) {
+			$useCount = true;
+			$oddTrOptions = null;
+		}
+
+		if ($evenTrOptions === false) {
+			$continueOddEven = false;
+			$evenTrOptions = null;
+		}
+
+		if ($continueOddEven) {
+			static $count = 0;
+		} else {
+			$count = 0;
+		}
+
+		foreach ($data as $line) {
+			$count++;
+			$cellsOut = array();
+			$i = 0;
+			foreach ($line as $cell) {
+				$cellOptions = array();
+
+				if (is_array($cell)) {
+					$cellOptions = $cell[1];
+					$cell = $cell[0];
+				} elseif ($useCount) {
+					$cellOptions['class'] = 'column-' . ++$i;
+				}
+				$cellsOut[] = sprintf($this->tags['tableheader'], $this->_parseAttributes($cellOptions), $cell);
+			}
+			$options = $this->_parseAttributes($count % 2 ? $oddTrOptions : $evenTrOptions);
+			$out[] = sprintf($this->tags['tableheaderrow'], $options, implode(' ', $cellsOut));
+		}
+		return implode("\n", $out);
+	}
+
 }
 ?>

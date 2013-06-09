@@ -7,8 +7,8 @@ echo $this->TableParser->xRow();
 foreach($this->TableParser->productChunks as $rowNumber => $chunk){
     echo $this->TableParser->yRow($rowNumber);
 }
-
 echo '</table>';
+echo $this->TableParser->setCheckboxes();
     debug($this->TableParser->xxAttributes);
     debug($this->TableParser->yyAttributes);
     debug($this->TableParser->xxExists ? 'true' : 'false');

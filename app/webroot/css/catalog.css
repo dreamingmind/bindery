@@ -93,3 +93,19 @@ font-family: Arial, Helvetica, sans-serif;
     text-indent: 10px;
     border: none;
 }
+/*================================
+form elements
+================================*/
+.filters input[type="checkbox"]{
+    float: none
+}
+.filters > div.input {
+    clear: left;
+    display: inline;
+}
+div.filters {
+    border-top: thin solid black;
+}
+div.filters:last-of-type {
+    border-bottom: thin solid black;
+}

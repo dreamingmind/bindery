@@ -113,8 +113,35 @@ class TableParserHelper extends AppHelper {
         $this->setChunkData();
         $this->initYHeaders();
         $this->Number = new NumberHelper();
+        $this->setCheckboxes();
     }
     
+    public function setCheckboxes(){
+        $xx = $yy = array();
+        foreach($this->xxHeaders as $header){
+            if(is_string($header)){
+                $xx[] = $header;
+            }
+        }
+        foreach($this->yyHeaders as $header){
+            if(is_string($header)){
+                $yy[] = $header;
+            }
+        }
+        return $this->xyCheckbox($xx).$this->xyCheckbox($yy).$this->xyCheckbox($this->xHeaders).$this->xyCheckbox($this->yHeaders);
+    }
+    
+    private function xyCheckbox($data){
+        if (!empty($data)) {
+            $headers = array_flip($data);
+            foreach ($headers as $header => $junk) {
+                $slug = Inflector::slug($header);
+                $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'checked' => 'checked', 'value' => $slug));
+            }
+            return $this->Html->div('filters', implode(' ', $check) . ' ');
+        }
+    }
+        
     /**
      * Bring the data into thte class for processing
      * 
@@ -153,10 +180,9 @@ class TableParserHelper extends AppHelper {
             $this->xxAttributes = array_flip($this->xxHeaders);
             $oldCount = 0;
             foreach ($this->xxAttributes as $xxHeader => $count) {
-                debug("header: $xxHeader count: $count oldCount: $oldCount");
                 $this->xxAttributes[$xxHeader] = array(
                     'colspan' => ($count + 1 - $oldCount),
-                    'class' => Inflector::slug($xxHeader)
+                    'class' => Inflector::slug($xxHeader) . ' xx'
                 );
                 $oldCount = $this->xxAttributes[$xxHeader]['colspan'];
             }
@@ -242,7 +268,7 @@ class TableParserHelper extends AppHelper {
             foreach ($this->yyAttributes as $yyHeader => $count) {
                 $this->yyAttributes[$yyHeader] = array(
                     'rowspan' => $count + 1 - $oldCount,
-                    'class' => Inflector::slug($yyHeader)
+                    'class' => Inflector::slug($yyHeader) . ' yy'
                 );
                 $oldCount = $this->yyAttributes[$yyHeader]['rowspan'];
             }
@@ -313,9 +339,13 @@ class TableParserHelper extends AppHelper {
      */
     public function xxRow($trOptions = null, $thOptions = null){
         if ($this->xxExists) {
-            return $this->Html->tableHeaders($this->cornerCells() + $this->xxHeaders, $trOptions, array(
-                'class'=>$this->xClass
-            ));
+//            $cells = $this->cornerCells();
+            foreach($this->xxHeaders as $header){
+                if(!empty($header)){
+                    $cells[] = array($header,  $this->xxAttributes[$header]);
+                }
+            }
+            return $this->Html->table_Headers(array($this->cornerCells() + $cells));
         }
     }
         
@@ -327,26 +357,35 @@ class TableParserHelper extends AppHelper {
      * @return string The Html for the x row
      */
     public function xRow($trOptions = null, $thOptions = null){
-        return $this->Html->tableHeaders($this->cornerCells() + $this->xHeaders, $trOptions, $thOptions);
+        foreach($this->xHeaders as $index => $header){
+            $cells[] = array($header, array('class'=>  $this->xClass[$index]));
+        }
+        return $this->Html->table_Headers(array($this->cornerCells() + $cells));
     }
     
     public function yRow($count){
-        if($this->yyExists){
-            $headerCells = array($this->yyHeaders[$count], $this->yHeaders[$count]);
+        if($this->yyExists && !empty($this->yyHeaders[$count])){
+            $headerCells = array(array(
+                array($this->yyHeaders[$count], $this->yyAttributes[$this->yyHeaders[$count]]), 
+                array($this->yHeaders[$count], array('class'=>  $this->yClass[$count]))
+            ));
         } else {
-            $headerCells = array($this->yHeaders[$count]);
+            $headerCells = array(array(array($this->yHeaders[$count], array('class'=>  $this->yClass[$count]))));
+//            debug($headerCells);
         }
-        $headers = str_replace('</tr>','',$this->Html->tableHeaders($headerCells));
+        $headers = str_replace('<th></th>','',str_replace('</tr>','',$this->Html->table_Headers($headerCells)));
+//        $headers = str_replace('</tr>','',$this->Html->table_Headers($headerCells));
         $productCells = array();
-        foreach($this->productChunks[$count] as $product){
+        foreach($this->productChunks[$count] as $index => $product){
 //            debug($product);
-            $productCells[] = 
+            $productCells[] = array(
                 $this->Number->currency($product['catalogs']['price'], 'USD', array('places'=>0))
-                . " <span>({$product['catalogs']['product_code']})</span>";
+                . " <span>({$product['catalogs']['product_code']})</span>", array(
+                'class'=> $this->yClass[$count] . $this->xClass[$index]
+                ));
         }
-        $cells = str_replace('<tr>','',$this->Html->tableCells($productCells));
+        $cells = str_replace('<tr>','',$this->Html->tableCells(array($productCells)));
         return $headers.$cells;
     }
-        
 } // end of class definition
 ?>
