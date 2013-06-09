@@ -45,6 +45,7 @@
     }
     echo $this->Html->script('jquery-1.10.0');
     echo $this->Html->script('supplement_defaults');
+    if($this->params['controller']=='catalogs'){
         echo $this->Html->css('catalog');
         echo $this->Html->script('catalog');
     }
