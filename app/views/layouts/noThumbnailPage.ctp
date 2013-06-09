@@ -35,9 +35,6 @@
     if($this->params['controller']=='workshops'){
         echo $this->Html->css('workshop');
     }
-    if($this->params['controller']=='catalogs'){
-        echo $this->Html->css('catalog');
-    }
     if (
         $this->params['action']=='forgot'
         || $this->params['action']=='login'
@@ -46,8 +43,11 @@
     {
         echo $html->css('login');
     }
-    echo $this->Html->script('jquery-1.4.2');
+    echo $this->Html->script('jquery-1.10.0');
     echo $this->Html->script('supplement_defaults');
+        echo $this->Html->css('catalog');
+        echo $this->Html->script('catalog');
+    }
     echo $this->Html->script('app');
     if ($this->params['action'] == 'art'){
         echo $html->css('art');

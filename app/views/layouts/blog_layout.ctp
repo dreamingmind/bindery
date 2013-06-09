@@ -40,7 +40,7 @@
 //        echo $html->css('login');
 //    }
 //    $js->buffer("var size_swaps = $size_swaps;");
-    echo $this->Html->script('jquery-1.4.2');
+    echo $this->Html->script('jquery-1.10.0');
     echo $this->Html->script('blog_menu');
     echo $this->Html->script('blog_image_zoom');
     echo $this->Html->script('adjust_markdown');

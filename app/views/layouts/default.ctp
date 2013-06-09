@@ -35,7 +35,7 @@
        {
         echo $html->css('login');
     }
-    echo $this->Html->script('jquery-1.4.2');
+    echo $this->Html->script('jquery-1.10.0');
     echo $scripts_for_layout;
     ?>
 </head>

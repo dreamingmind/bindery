@@ -4,7 +4,7 @@ $(document).ready(function(){
      * Bind clicks to the Edit button to toggle the form in and out of the page
      * Also lay the reference grid over the Exhibit picture
      */
-   $('form [id*=#ContentEditDispatchForm"]').find('button.edit').bind('click',function(){
+   $('form [id*="#ContentEditDispatchForm"]').find('button.edit').bind('click',function(){
        if(this.innerHTML == 'Edit'){
            loadEditForm($(this));
        } else {

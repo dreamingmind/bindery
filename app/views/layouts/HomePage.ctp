@@ -30,7 +30,7 @@
     echo $html->css('advanced-search');
     echo $html->css('search_links');
     echo $html->css('home');
-    echo $this->Html->script('jquery-1.4.2');
+    echo $this->Html->script('jquery-1.10.0');
     echo $this->Html->script('app');
     echo $scripts_for_layout;
     ?>
