@@ -39,6 +39,7 @@ class PagesController extends AppController {
  */
 	function display() {
             $this->layout = 'HomePage';
+            $this->css[] = 'home';
 		$path = func_get_args();
 
 		$count = count($path);

@@ -25,11 +25,9 @@
     </title>
     <?php
     echo $html->meta('icon');
-    echo $html->css('basic');
-    echo $html->css('new4.css');
-    echo $html->css('advanced-search');
-    echo $html->css('search_links');
-    echo $html->css('home');
+
+    echo $this->Html->css($css);
+
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('app');
     echo $scripts_for_layout;
