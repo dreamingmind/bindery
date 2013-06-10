@@ -39,7 +39,7 @@
     {
         echo $html->css('login');
     }
-    echo $this->Html->script('jquery-1.10.0');
+    echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('manage_thumbnails');
     echo $this->Html->script('jumpbox');
     echo $this->Html->script('adjust_markdown');

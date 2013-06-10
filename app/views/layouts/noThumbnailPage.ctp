@@ -43,7 +43,7 @@
     {
         echo $html->css('login');
     }
-    echo $this->Html->script('jquery-1.10.0');
+    echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('supplement_defaults');
     if($this->params['controller']=='catalogs'){
         echo $this->Html->css('catalog');
