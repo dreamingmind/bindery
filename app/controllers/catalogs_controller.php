@@ -82,9 +82,9 @@ class CatalogsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
         
-        function catalog($product){
+        function catalog(){
             $this->layout = 'noThumbnailPage';
-            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$product.'"
+            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
 order by yy_index, y_index, xx_index, x_index;'));
         }
 }
