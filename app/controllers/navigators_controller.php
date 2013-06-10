@@ -27,6 +27,8 @@ class NavigatorsController extends AppController {
         var $helpers = array(
             'TreeCrud'
         );
+        
+        var $layout = 'noThumbnailPage';
 
         /**
          * Sets variables and objects required by the Navigator index view
@@ -39,6 +41,10 @@ class NavigatorsController extends AppController {
 		parent::beforeFilter();
 		//$this->Auth->allowedActions = array('*');
 	}
+        
+        function beforeRender() {
+            parent::beforeRender();
+        }
 
         function index() {
 		$this->Navigator->recursive = 0;
@@ -158,7 +164,8 @@ class NavigatorsController extends AppController {
          * @param int $id Id of the record to edit
          */
 
-	function manage_tree($id=null) {
+        function manage_tree($id=null) {
+            $this->css[] = 'tree_admin';
             $options = $this->User->Group->find('list');
             $this->set('options',$options);
             $this->set('treecrud_data',$this->TreeCrud->tree_crud($this->{$this->modelClass}));

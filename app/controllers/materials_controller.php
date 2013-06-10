@@ -82,6 +82,7 @@ class MaterialsController extends AppController {
 	}
         
         function select(){
+            $this->css[] = 'materials';
             $leather = $this->Material->pullLeather();
             $cloth = $this->Material->pullCloth();
             $imitation = $this->Material->pullImitation();

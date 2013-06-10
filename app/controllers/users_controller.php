@@ -28,8 +28,13 @@ class UsersController extends AppController {
 	function beforeFilter() {
             $this->Auth->allow('logout','register','forgot', 'refreshHash');
             parent::beforeFilter();
+            $this->css[] = 'login';
 	}
 
+        function beforeRender() {
+            parent::beforeRender();
+        }
+        
 	function index() {
             $this->User->recursive = 0;
             $this->set('users', $this->paginate());

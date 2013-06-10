@@ -14,8 +14,12 @@ class WorkshopsController extends AppController {
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('potential',  $this->Workshop->workshops_potential);
         $this->set('now', $this->Workshop->workshops_now);
+        $this->css[] = 'workshop';
         }
         
+        function beforeRender() {
+            parent::beforeRender();
+        }
         function upcoming(){
 //        debug($this->params);die;
 //            $this->set('result_imagePath');

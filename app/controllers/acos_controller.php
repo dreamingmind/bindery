@@ -28,6 +28,12 @@ class AcosController extends AppController {
             'TreeCrud'
         );
 
+        var $layout = 'noThumbnailPage';
+
+        function beforeRender() {
+            parent::beforeRender();
+        }
+
 	function index() {
 		$this->Aco->recursive = 0;
 		$this->set('acos', $this->paginate());
@@ -91,7 +97,8 @@ class AcosController extends AppController {
 	}
 
         function manage_tree() {
-                $this->TreeCrud->tree_crud();
+            $this->css[] = 'tree_admin';
+            $this->TreeCrud->tree_crud();
         }
 
         function fix() {

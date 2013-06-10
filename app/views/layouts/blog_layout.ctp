@@ -23,22 +23,9 @@
     </title>
     <?php
     echo $html->meta('icon');
-    echo $html->css('basic');
-    echo $html->css('speech-bubbles');
-    echo $html->css('advanced-search');
-    if ( $this->params['action'] == 'manage_tree'){
-        echo $html->css('tree_admin');
-    }
-    echo $html->css('search_links');
-    echo $html->css('blog');
-//    if (
-//        $this->params['action']=='forgot' 
-//        || $this->params['action']=='login'
-//        || $this->params['action']=='validate_user'
-//        || $this->params['action']=='opt_in')
-//    {
-//        echo $html->css('login');
-//    }
+
+    echo $this->Html->css($css);
+
 //    $js->buffer("var size_swaps = $size_swaps;");
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('blog_menu');

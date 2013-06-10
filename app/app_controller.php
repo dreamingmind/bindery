@@ -65,6 +65,8 @@ class AppController extends Controller {
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text','Number');
     var $uses = array('Navigator', 'User', 'Account');
     var $record = array();
+    
+    var $css = array();
 
     /**
      * @var array company display strings
@@ -174,6 +176,23 @@ class AppController extends Controller {
         //debug();
         
     // Time to see if this user can see the requested page
+    $this->css = array('basic','advanced-search','search_links');
+    if($this->params['action'] == 'blog'){
+        $this->css[] = 'blog';
+    } else {
+        $this->css[] = 'new4';
+    }
+    //    echo $html->css('basic');
+//    echo $html->css('new4.css');
+//    echo $html->css('advanced-search');
+//    echo $html->css('search_links');
+
+    }
+    
+    function beforeRender() {
+        parent::beforeRender();
+//        debug($this->css);
+        $this->set('css', $this->css);
     }
 
     function initAccount() {

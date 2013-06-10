@@ -27,6 +27,12 @@ class ArosController extends AppController {
         var $helpers = array(
             'TreeCrud'
         );
+        
+        var $layout = 'noThumbnailPage';
+        
+        function beforeRender() {
+            parent::beforeRender();
+        }
 
 //    function beforeFilter() {
 //        parent::beforeFilter();
@@ -104,8 +110,8 @@ class ArosController extends AppController {
              * 
              */
 	function manage_tree($id=null) {
-
-                $this->TreeCrud->tree_crud();
+            $this->css[] = 'tree_admin';
+            $this->TreeCrud->tree_crud();
         }
 
         function fix() {

@@ -24,6 +24,7 @@ class CatalogsController extends AppController {
             $this->Auth->allow(array(
                 'catalog'
             ));
+        $this->css[] = 'catalog';
         }
 	function index() {
 		$this->Catalog->recursive = 0;

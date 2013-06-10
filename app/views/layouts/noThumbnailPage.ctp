@@ -25,33 +25,16 @@
     </title>
     <?php
     echo $html->meta('icon');
-    echo $html->css('basic');
-    echo $html->css('new4.css');
-    echo $html->css('advanced-search');
-    echo $html->css('search_links');
-    if ( $this->params['action'] == 'manage_tree'){
-        echo $html->css('tree_admin');
-    }
-    if($this->params['controller']=='workshops'){
-        echo $this->Html->css('workshop');
-    }
-    if (
-        $this->params['action']=='forgot'
-        || $this->params['action']=='login'
-        || $this->params['action']=='validate_user'
-        || $this->params['action']=='opt_in')
-    {
-        echo $html->css('login');
-    }
+
+    echo $this->Html->css($css);
+
     echo $this->Html->script('jquery-1.4.2');
     echo $this->Html->script('supplement_defaults');
     if($this->params['controller']=='catalogs'){
-        echo $this->Html->css('catalog');
         echo $this->Html->script('catalog');
     }
     echo $this->Html->script('app');
     if ($this->params['action'] == 'art'){
-        echo $html->css('art');
         echo $this->Html->script('art');
         echo $this->Html->script('blog_image_zoom');
         echo $this->Html->script('adjust_markdown');
@@ -65,7 +48,6 @@
     }
     if($this->params['action']=='select'){
         echo $this->Html->script('materials');
-        echo $this->Html->css('materials');
     }
     if($this->params['controller']=='workshops'){
         echo $this->Html->script('workshop');

@@ -155,6 +155,7 @@ class ImagesController extends AppController {
     var $fileError = False;
 
     function beforeRender() {
+        parent::beforeRender();
        if($this->usergroupid < 3) { // managers or administrators
 
            // Set lastUpload property

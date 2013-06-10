@@ -33,8 +33,13 @@ class AccountsController extends AppController {
 //            $this->Acl->allow("user/{$this->username}::{$this->userid}",
 //                    "UserRecord/{$this->username}::{$this->userid}");
             parent::beforeFilter();
+            $this->css[] = 'login';
 
 	}
+        
+        function beforeRender() {
+            parent::beforeRender();
+        }
 
         /**
          * ********** TO DO ************

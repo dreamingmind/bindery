@@ -7,6 +7,9 @@
 	display: block;
 	width: 640;
 }*/
+#detail {
+    width: 900px;
+}
 #directory   { position: absolute; z-index: 2; top: 10px; left: 5px; visibility: visible; display: block }
 #drksubhead     { color: #9a3614; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }
 #drkparagraph  { color: black; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular }

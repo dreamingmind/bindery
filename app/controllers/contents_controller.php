@@ -163,6 +163,9 @@ class ContentsController extends AppController {
 //        die;
     }
     
+    function beforeRender() {
+        parent::beforeRender();
+    }
 //    function pullCategory($pname, $category){
 //        $this->category = $this->Content->ContentCollection->Collection->Category->find(
 //        'all',array(
@@ -832,6 +835,8 @@ class ContentsController extends AppController {
      * 
      */
     function art(){
+        $this->css[] = 'art';
+
 //        // get the pname
 //        // and expand the url to full nest-length if necessary
 //        $url = preg_replace(
