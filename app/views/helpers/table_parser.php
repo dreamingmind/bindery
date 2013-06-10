@@ -136,7 +136,7 @@ class TableParserHelper extends AppHelper {
             $headers = array_flip($data);
             foreach ($headers as $header => $junk) {
                 $slug = Inflector::slug($header);
-                $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'checked' => 'checked', 'value' => $slug));
+                $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'value' => $slug));
             }
             return $this->Html->div('filters', implode(' ', $check) . ' ');
         }
@@ -358,7 +358,7 @@ class TableParserHelper extends AppHelper {
      */
     public function xRow($trOptions = null, $thOptions = null){
         foreach($this->xHeaders as $index => $header){
-            $cells[] = array($header, array('class'=>  $this->xClass[$index]));
+            $cells[] = array($header, array('class'=> 'x '. $this->xClass[$index]));
         }
         return $this->Html->table_Headers(array($this->cornerCells() + $cells));
     }
@@ -367,10 +367,10 @@ class TableParserHelper extends AppHelper {
         if($this->yyExists && !empty($this->yyHeaders[$count])){
             $headerCells = array(array(
                 array($this->yyHeaders[$count], $this->yyAttributes[$this->yyHeaders[$count]]), 
-                array($this->yHeaders[$count], array('class'=>  $this->yClass[$count]))
+                array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count]))
             ));
         } else {
-            $headerCells = array(array(array($this->yHeaders[$count], array('class'=>  $this->yClass[$count]))));
+            $headerCells = array(array(array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count]))));
 //            debug($headerCells);
         }
         $headers = str_replace('<th></th>','',str_replace('</tr>','',$this->Html->table_Headers($headerCells)));
