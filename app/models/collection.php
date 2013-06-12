@@ -76,7 +76,20 @@ class Collection extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)	);
+                    ),
+                'Catalog' => array(
+			'className' => 'Catalog',
+			'foreignKey' => 'collection_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+                    )                );
 
         var $actsAs = array('Sluggable'=>array(
             'label'=>'heading',

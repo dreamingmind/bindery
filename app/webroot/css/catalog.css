@@ -89,12 +89,18 @@ font-family: Arial, Helvetica, sans-serif;
 	border: 0px none #FFFFFF;
 }
 #orderform th {
-    background-color: #E7F2F0;
+    background-color: #D0D9D7;
     color: #025C0D;
     font-size: 14px;
     line-height: 18px;
     text-indent: 10px;
     border: none;
+}
+img#NTtopTransparent, img.missing {
+    height: 100px;
+}
+form table{
+    background: white;
 }
 /*================================
 form elements

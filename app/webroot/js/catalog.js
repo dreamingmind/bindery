@@ -3,11 +3,11 @@ $(document).ready(function(){
     // initials filter checkboxes
     $('.filters input[type="checkbox"]').attr('checked','checked').bind('change', function(){
         if($(this).attr('checked')){
-            $('.'+$(this).attr('id')).css('visibility','visible');
+            setting = 1;
         } else {
-            $('.'+$(this).attr('id')).css('visibility','collapse');
+            setting = .35;
         }
-//          manageXXandYY();
+            $('.'+$(this).attr('id')).css('opacity',setting);
     });
         
 }) 

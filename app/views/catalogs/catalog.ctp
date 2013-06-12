@@ -1,10 +1,9 @@
         <div id="detail">
           <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
-<table>
 <?php
 echo $this->element('product_table',array($product),TRUE);
+debug($collection);
 ?>
-</table>
               <table>
                             <tr>
                 <td class="table_heading"></td>

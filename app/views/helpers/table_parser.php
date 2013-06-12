@@ -128,7 +128,9 @@ class TableParserHelper extends AppHelper {
                 $yy[] = $header;
             }
         }
-        return $this->xyCheckbox($xx).$this->xyCheckbox($yy).$this->xyCheckbox($this->xHeaders).$this->xyCheckbox($this->yHeaders);
+//        return $this->xyCheckbox($xx).$this->xyCheckbox($yy).$this->xyCheckbox($this->xHeaders).$this->xyCheckbox($this->yHeaders);
+        return (($this->xyCheckbox($yy).$this->xyCheckbox($xx) != '') ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) : '')
+               .$this->Html->div('filters', $this->xyCheckbox($this->yHeaders) . ' &nbsp;| ' . $this->xyCheckbox($this->xHeaders));
     }
     
     private function xyCheckbox($data){
@@ -138,7 +140,8 @@ class TableParserHelper extends AppHelper {
                 $slug = Inflector::slug($header);
                 $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'value' => $slug));
             }
-            return $this->Html->div('filters', implode(' ', $check) . ' ');
+//            return $this->Html->div('filters', implode(' ', $check) . ' ');
+            return implode(' ', $check) . ' ';
         }
     }
         

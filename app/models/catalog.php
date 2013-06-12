@@ -67,5 +67,15 @@ class Catalog extends AppModel {
 			),
 		),
 	);
+	var $belongsTo = array(
+		'Collection' => array(
+			'className' => 'Collection',
+			'foreignKey' => 'collection_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
 }
 ?>
