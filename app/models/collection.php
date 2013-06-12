@@ -156,5 +156,60 @@ class Collection extends AppModel {
             }
             return $toc;
         }
+        public function getPriceTable($pname){
+            return $this->find('all', array(
+                'fields' => array(
+                    'Collection.id',
+                    'Collection.slug',
+                    'Collection.category_id'
+                ),
+                'contain' => array(
+                    'Category' => array(
+                        'fields' => array(
+                            'Category.id',
+                            'Category.name'
+                        )
+                    ),
+                    'Catalog' => array(
+                        'fields' => array(
+                            'Catalog.collection_id',
+                            'Catalog.yy_index',
+                            'Catalog.y_index',
+                            'Catalog.xx_index',
+                            'Catalog.x_index',
+                            'Catalog.price',
+                            'Catalog.product_code'
+                        ),
+                        'order' => array(
+                            'Catalog.category',
+                            'Catalog.yy_index',
+                            'Catalog.y_index',
+                            'Catalog.xx_index',
+                            'Catalog.x_index',
+//                        ),
+//                        'group' => array(
+//                            'Catalog.category'
+                        )
+                    )
+                ),
+                'conditions' => array(
+                    'Collection.slug' => $pname,
+                    'Category.name' => 'exhibit'
+                )
+                )
+            );
+//            'select 
+//                from catalogs where category = "'.$this->params['pname'].
+//                    '"order by yy_index, y_index, xx_index, x_index;'));
+//            
+//            $collection = $this->Catalog->Collection->find('all', array(
+//                ,
+//                'conditions' => array(
+//                    'Collection.slug' => $this->params['pname'],
+//                    'Collection.category_id' => $this->Catalog->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id'],
+//                    )
+//                ));
+
+        }
 }
 ?>

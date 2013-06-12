@@ -23,19 +23,7 @@ debug($collection);
                           </select>
                 </span></div></td>
                 <td valign="bottom" class="table_heading"><div align="right"><a href="#options"><img src="../gal_nav_images/m_options.jpg" width="64" height="20" border="0"></a></div></td>
-                <td class="option_pop"><div align="right"><span class="pkoptions"> <span class="style2">Ruled journal option <br>
-                    </span>
-                          <select name="rules_l" size="1" id="rules_l">
-                            <
-                            <option value="" SELECTED>Select ruling</option>
-                            <option value="1/4 rule" > 1/4&quot; rule (normal) </option>
-                            <option value="1/4 grid" > 1/4&quot; grid (normal) </option>
-                            <option value="1/5 rule" > 1/5&quot; rule (narrow) </option>
-                            <option value="1/5 grid" > 1/5&quot; grid (narrow) </option>
-                            <option value="5/32 rule" > 5/32&quot; rule (wide) </option>
-                            <option value="Other ruling" > Other ruling</option>
-                          </select>
-                </span></div></td>
+                <td class="option_pop"></td>
               </tr>
               <tr>
                 <td height="47" class="table_heading"></td>
@@ -78,28 +66,7 @@ debug($collection);
                           <option value="green slub" >Green slub</option>
                         </select>
                 </div></td>
-                <td colspan="2" valign="top" class="option_pop"><div align="right"><span class="style2">Full leather material selection <br>
-                    </span>
-                        <select name="leather_l" size="1" id="leather_l">
-                          <
-                          <option value="" SELECTED>Choose leather</option>
-                          <option value="black" >Black</option>
-                          <option value="chocolate" >Chocolate</option>
-                          <option value="rich brown" >Rich brown</option>
-                          <option value="saddle tan" >Saddle tan</option>
-                          <option value="chestnut" >Chsetnut</option>
-                          <option value="dark blue" >Dark blue</option>
-                          <option value="dark green" >Dark Green</option>
-                          <option value="Burgundy" >Burgundy</option>
-                          <option value="crimson" >Crimson</option>
-                          <option value="terra cotta" >Terra cotta</option>
-                          <option value="grey" >Grey</option>
-                          <option value="bright blue" >Bright blue</option>
-                          <option value="beige" >Beige</option>
-                          <option value="light blue" >Light blue</option>
-                          <option value="olive green" >Olive green</option>
-                        </select>
-                </div></td>
+                <td colspan="2" valign="top" class="option_pop"></td>
               </tr>
               <tr>
                 <td colspan="5" valign="top" class="table_name"><div align="right"> <span class="style4"></span>
