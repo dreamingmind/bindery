@@ -49,7 +49,7 @@ class Catalog extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+                )
 	);
 
 }

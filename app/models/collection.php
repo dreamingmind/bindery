@@ -156,8 +156,9 @@ class Collection extends AppModel {
             }
             return $toc;
         }
+        
         public function getPriceTable($pname){
-            return $this->find('all', array(
+            $result =  $this->find('all', array(
                 'fields' => array(
                     'Collection.id',
                     'Collection.slug',
@@ -178,7 +179,8 @@ class Collection extends AppModel {
                             'Catalog.xx_index',
                             'Catalog.x_index',
                             'Catalog.price',
-                            'Catalog.product_code'
+                            'Catalog.product_code',
+                            'Catalog.category'
                         ),
                         'order' => array(
                             'Catalog.category',
@@ -186,9 +188,6 @@ class Collection extends AppModel {
                             'Catalog.y_index',
                             'Catalog.xx_index',
                             'Catalog.x_index',
-//                        ),
-//                        'group' => array(
-//                            'Catalog.category'
                         )
                     )
                 ),
@@ -198,18 +197,17 @@ class Collection extends AppModel {
                 )
                 )
             );
-//            'select 
-//                from catalogs where category = "'.$this->params['pname'].
-//                    '"order by yy_index, y_index, xx_index, x_index;'));
-//            
-//            $collection = $this->Catalog->Collection->find('all', array(
-//                ,
-//                'conditions' => array(
-//                    'Collection.slug' => $this->params['pname'],
-//                    'Collection.category_id' => $this->Catalog->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id'],
-//                    )
-//                ));
-
+            
+            $package = array('Collection' => $result[0]['Collection']);
+            $base = array(0, $result[0]['Catalog'][0]['category']);
+            foreach($result[0]['Catalog'] as $index => $category){
+                if($base[1] != $category['category']){
+                    $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
+                    $base = array(0 => $index, 1 => $category['category']);
+                }
+                $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
+            }
+            return $package;
         }
 }
 ?>

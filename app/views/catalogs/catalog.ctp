@@ -2,7 +2,8 @@
           <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
 <?php
 echo $this->element('product_table',array($product),TRUE);
-debug($collection);
+debug($product);
+debug($tableSet);
 ?>
               <table>
                             <tr>

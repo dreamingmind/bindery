@@ -84,22 +84,11 @@ class CatalogsController extends AppController {
         
         function catalog(){
             $this->layout = 'noThumbnailPage';
-            debug($this->Catalog->Collection->getPriceTable($this->params['pname']));
+            $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
             $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
 order by yy_index, y_index, xx_index, x_index;'));
             
-            $collection = $this->Catalog->Collection->find('all', array(
-                'fields' => array(
-                    'Collection.heading',
-                    'Collection.slug',
-                    'Collection.text'
-                ),
-                'conditions' => array(
-                    'Collection.slug' => $this->params['pname'],
-                    'Collection.category_id' => $this->Catalog->Collection->Category->categoryNI['dispatch']//$this->category[0]['Category']['id'],
-                    )
-                ));
-            $this->set('collection',$collection);
+            $this->set('tableSet',$tableSet);
         }
 }
 ?>
