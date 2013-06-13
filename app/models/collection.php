@@ -205,7 +205,7 @@ class Collection extends AppModel {
                     $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
                     $base = array(0 => $index, 1 => $category['category']);
                 }
-                $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
+                $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index+1 - $base[0]);
             }
             return $package;
         }

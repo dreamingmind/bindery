@@ -1,9 +1,13 @@
         <div id="detail">
           <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
 <?php
-echo $this->element('product_table',array($product),TRUE);
-debug($product);
-debug($tableSet);
+foreach($tableSet['Catalog'] as $group => $products){
+  $this->set('group',$group);
+    $this->set('product',$products);
+echo $this->element('product_table',array($products),TRUE);
+}
+//debug($product);
+//debug($tableSet);
 ?>
               <table>
                             <tr>

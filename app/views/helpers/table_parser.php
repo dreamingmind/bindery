@@ -224,7 +224,7 @@ class TableParserHelper extends AppHelper {
      * @param integer $count The column/record being operated on
      */
     private function setXXHeader($count){
-        $this->xxHeaders[$count] = (empty($this->productData[$count]['catalogs']['xx_index'])) ? false : $this->productData[$count]['catalogs']['xx_index'];
+        $this->xxHeaders[$count] = (empty($this->productData[$count]['xx_index'])) ? false : $this->productData[$count]['xx_index'];
     }
     
     /**
@@ -233,7 +233,7 @@ class TableParserHelper extends AppHelper {
      * @param integer $count The column/record being operated on
      */
     private function setXHeader($count){
-        $this->xHeaders[$count] = $this->productData[$count]['catalogs']['x_index'];
+        $this->xHeaders[$count] = $this->productData[$count]['x_index'];
     }
     
     /**
@@ -297,7 +297,7 @@ class TableParserHelper extends AppHelper {
      * @param integer $count The column/record being operated on
      */
     private function setYYHeader($count){
-        $this->yyHeaders[$count] = (empty($this->productChunks[$count][0]['catalogs']['yy_index'])) ? false : $this->productChunks[$count][0]['catalogs']['yy_index'];
+        $this->yyHeaders[$count] = (empty($this->productChunks[$count][0]['yy_index'])) ? false : $this->productChunks[$count][0]['yy_index'];
     }
     
     /**
@@ -306,7 +306,7 @@ class TableParserHelper extends AppHelper {
      * @param integer $count The column/record being operated on
      */
     private function setYHeader($count){
-        $this->yHeaders[$count] = $this->productChunks[$count][0]['catalogs']['y_index'];
+        $this->yHeaders[$count] = $this->productChunks[$count][0]['y_index'];
     }
     
     /**
@@ -382,8 +382,8 @@ class TableParserHelper extends AppHelper {
         foreach($this->productChunks[$count] as $index => $product){
 //            debug($product);
             $productCells[] = array(
-                $this->Number->currency($product['catalogs']['price'], 'USD', array('places'=>0))
-                . " <span>({$product['catalogs']['product_code']})</span>", array(
+                $this->Number->currency($product['price'], 'USD', array('places'=>0))
+                . " <span>({$product['product_code']})</span>", array(
                 'class'=> $this->yClass[$count] . $this->xClass[$index]
                 ));
         }
