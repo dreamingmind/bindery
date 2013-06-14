@@ -6,6 +6,7 @@ foreach($tableSet['Catalog'] as $productCategory => $products){
     $this->set('product',$products);
 echo $this->element('product_table',array($products),TRUE);
 }
+echo $this->element('options_ruling');
 //debug($product);
 //debug($tableSet);
 ?>
@@ -13,20 +14,7 @@ echo $this->element('product_table',array($products),TRUE);
                             <tr>
                 <td class="table_heading"></td>
                 <td valign="bottom" class="table_heading"><div align="right"><a href="#options"><img src="../gal_nav_images/m_options.jpg" width="64" height="20" border="0"></a></div></td>
-                <td class="option_pop"><div align="right"><span class="pkoptions"> <span class="style2">Ruled journal option <br>
-                    </span>
-                          <select name="rules_c" size="1" id="rules_c">
-                            <
-                            <option value="" SELECTED>Select ruling</option>
-                            <option value="1/4 rule" >1/4&quot; rule (normal)</option>
-                            <option value="1/4 grid" >1/4&quot; grid (normal)</option>
-                            <option value="1/5 rule" >1/5&quot; rule (narrow)</option>
-                            <option value="1/5 grid" >1/5&quot; grid (narrow)</option>
-                            <option value="5/32 rule" >5/32&quot; rule (wide)</option>
-                            <option value="5/32 grid" >5/32 grid (wide)</option>
-                            <option value="Other ruling" >Other ruling</option>
-                          </select>
-                </span></div></td>
+                <td class="option_pop"></td>
                 <td valign="bottom" class="table_heading"><div align="right"><a href="#options"><img src="../gal_nav_images/m_options.jpg" width="64" height="20" border="0"></a></div></td>
                 <td class="option_pop"></td>
               </tr>
