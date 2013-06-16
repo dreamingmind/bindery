@@ -390,5 +390,10 @@ class TableParserHelper extends AppHelper {
         $cells = str_replace('<tr>','',$this->Html->tableCells(array($productCells)));
         return $headers.$cells;
     }
+    
+    public function tableHeading($title){
+        $ycount = $this->yyExists ? 2 : 1;
+        echo '<tr><td class="table_name" colspan = "'.(count($this->productChunks[0])+$ycount).'">'.$title.'</td></tr>';
+    }
 } // end of class definition
 ?>

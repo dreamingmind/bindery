@@ -102,6 +102,19 @@ img#NTtopTransparent, img.missing {
 form table{
     background: white;
 }
+#orderform .table_name {
+    background-color: #025C0D;
+    color: #CAEEE8;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    height: 50px;
+    letter-spacing: normal;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
 /*================================
 form elements
 ================================*/

@@ -3,6 +3,7 @@
 $this->TableParser->initialize($product);
 echo $this->TableParser->setCheckboxes();
 echo '<table>';
+echo $this->TableParser->tableHeading($productCategory);
 echo $this->TableParser->xxRow();
 echo $this->TableParser->xRow();
 foreach($this->TableParser->productChunks as $rowNumber => $chunk){
