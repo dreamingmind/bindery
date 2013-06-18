@@ -24,7 +24,12 @@ echo $this->element('options_ruling');
                     </span>
                         <select name="leather_c" size="1" id="leather_c">
                           <
-                          <option value="" SELECTED>Choose leather</option>
+               <input   name="belt" type="radio" class="option_pop" value="14" border="0">
+          No
+          <input   CHECKED name="belt" type="radio" class="option_pop" value="0" border="0">
+          <br>
+          <br>
+          Special instructions <br>                 <option value="" SELECTED>Choose leather</option>
                           <option value="black" >Black</option>
                           <option value="chocolate" >Chocolate</option>
                           <option value="rich brown" >Rich brown</option>
@@ -85,12 +90,7 @@ echo $this->element('options_ruling');
                     <p align="right"><br>
                   </p></td>
                 <td colspan="2" class="option_pop"><p align="right">Closing Belt ($14) Yes
-                        <input   name="belt" type="radio" class="option_pop" value="14" border="0">
-          No
-          <input   CHECKED name="belt" type="radio" class="option_pop" value="0" border="0">
-          <br>
-          <br>
-          Special instructions <br>
+                  
           <textarea name="instructions" cols="30" rows="5" wrap="VIRTUAL" id="instructions"></textarea>
                   </p>
                     <p align="right">&nbsp; </p></td>

@@ -107,15 +107,27 @@ class TableParserHelper extends AppHelper {
      */
     var $yyExists = false;
     
-    function initialize($products) {
-        $this->setData($products);
+    /**
+     *
+     * @var integer Number of y Header columns, 1 or 2
+     */
+    var $yColumnCount = 1;
+    
+    var $tableName = null;
+    
+    function initialize($products, $tableName) {
+        $this->setData($products, $tableName);
         $this->initXHeaders();
         $this->setChunkData();
         $this->initYHeaders();
+        $this->setYColumnCount();
         $this->Number = new NumberHelper();
-        $this->setCheckboxes();
+//        $this->setCheckboxes();
     }
     
+    private function setYColumnCount(){
+        $this->yColumnCount = $this->yyExists ? 2 : 1;
+    }
     public function setCheckboxes(){
         $xx = $yy = array();
         foreach($this->xxHeaders as $header){
@@ -129,8 +141,9 @@ class TableParserHelper extends AppHelper {
             }
         }
 //        return $this->xyCheckbox($xx).$this->xyCheckbox($yy).$this->xyCheckbox($this->xHeaders).$this->xyCheckbox($this->yHeaders);
-        return (($this->xyCheckbox($yy).$this->xyCheckbox($xx) != '') ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) : '')
+        $checkboxes = (($this->xyCheckbox($yy).$this->xyCheckbox($xx) != '') ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) : '')
                .$this->Html->div('filters', $this->xyCheckbox($this->yHeaders) . ' &nbsp;| ' . $this->xyCheckbox($this->xHeaders));
+        return '<tr><td colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$checkboxes.'</td></tr>';
     }
     
     private function xyCheckbox($data){
@@ -138,7 +151,7 @@ class TableParserHelper extends AppHelper {
             $headers = array_flip($data);
             foreach ($headers as $header => $junk) {
                 $slug = Inflector::slug($header);
-                $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'value' => $slug));
+                $check[] = $this->Form->input($slug, array('label' => $header, 'type' => 'checkbox', 'value' => $slug, 'category'=>  $this->tableName));
             }
 //            return $this->Html->div('filters', implode(' ', $check) . ' ');
             return implode(' ', $check) . ' ';
@@ -150,8 +163,9 @@ class TableParserHelper extends AppHelper {
      * 
      * @param array $data The product purchase table data
      */
-    public function setData($data){
+    public function setData($data, $tableName){
         $this->productData = $data;
+        $this->tableName = $tableName;
     }
     
     /**
@@ -185,7 +199,7 @@ class TableParserHelper extends AppHelper {
             foreach ($this->xxAttributes as $xxHeader => $count) {
                 $this->xxAttributes[$xxHeader] = array(
                     'colspan' => ($count + 1 - $oldCount),
-                    'class' => Inflector::slug($xxHeader) . ' xx'
+                    'class' => Inflector::slug($xxHeader) . ' xx ' . $this->tableName
                 );
                 $oldCount = $this->xxAttributes[$xxHeader]['colspan'];
             }
@@ -271,7 +285,7 @@ class TableParserHelper extends AppHelper {
             foreach ($this->yyAttributes as $yyHeader => $count) {
                 $this->yyAttributes[$yyHeader] = array(
                     'rowspan' => $count + 1 - $oldCount,
-                    'class' => Inflector::slug($yyHeader) . ' yy'
+                    'class' => Inflector::slug($yyHeader) . ' yy ' . $this->tableName
                 );
                 $oldCount = $this->yyAttributes[$yyHeader]['rowspan'];
             }
@@ -361,7 +375,7 @@ class TableParserHelper extends AppHelper {
      */
     public function xRow($trOptions = null, $thOptions = null){
         foreach($this->xHeaders as $index => $header){
-            $cells[] = array($header, array('class'=> 'x '. $this->xClass[$index]));
+            $cells[] = array($header, array('class'=> 'x '. $this->xClass[$index] . ' ' . $this->tableName));
         }
         return $this->Html->table_Headers(array($this->cornerCells() + $cells));
     }
@@ -370,10 +384,10 @@ class TableParserHelper extends AppHelper {
         if($this->yyExists && !empty($this->yyHeaders[$count])){
             $headerCells = array(array(
                 array($this->yyHeaders[$count], $this->yyAttributes[$this->yyHeaders[$count]]), 
-                array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count]))
+                array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count] . ' ' . $this->tableName))
             ));
         } else {
-            $headerCells = array(array(array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count]))));
+            $headerCells = array(array(array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count] . ' ' . $this->tableName))));
 //            debug($headerCells);
         }
         $headers = str_replace('<th></th>','',str_replace('</tr>','',$this->Html->table_Headers($headerCells)));
@@ -384,16 +398,15 @@ class TableParserHelper extends AppHelper {
             $productCells[] = array(
                 $this->Number->currency($product['price'], 'USD', array('places'=>0))
                 . " <span>({$product['product_code']})</span>", array(
-                'class'=> $this->yClass[$count] . $this->xClass[$index]
+                'class'=> $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName
                 ));
         }
         $cells = str_replace('<tr>','',$this->Html->tableCells(array($productCells)));
         return $headers.$cells;
     }
     
-    public function tableHeading($title){
-        $ycount = $this->yyExists ? 2 : 1;
-        echo '<tr><td class="table_name" colspan = "'.(count($this->productChunks[0])+$ycount).'">'.$title.'</td></tr>';
+    public function tableHeading(){
+        echo '<tr><td class="table_name" colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$this->tableName.'</td></tr>';
     }
 } // end of class definition
 ?>

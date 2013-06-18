@@ -1,9 +1,10 @@
 <?php
 //$table = new TableParser($product);
-$this->TableParser->initialize($product);
-echo $this->TableParser->setCheckboxes();
+//debug($product);
+$this->TableParser->initialize($product, $productCategory);
 echo '<table>';
-echo $this->TableParser->tableHeading($productCategory);
+echo $this->TableParser->tableHeading();
+echo $this->TableParser->setCheckboxes();
 echo $this->TableParser->xxRow();
 echo $this->TableParser->xRow();
 foreach($this->TableParser->productChunks as $rowNumber => $chunk){
