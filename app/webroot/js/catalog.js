@@ -14,7 +14,7 @@ $(document).ready(function(){
     });
     
     $('table').each(function(){
-        var id = $('tr[class="table"] > td').attr('id');
+        var id = $(this).find('tr[class="table"] > td').attr('id');
         $(this).find('tr[class!="table"]').attr('class',id);
     })
 })
