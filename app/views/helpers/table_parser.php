@@ -140,9 +140,11 @@ class TableParserHelper extends AppHelper {
                 $yy[] = $header;
             }
         }
-//        return $this->xyCheckbox($xx).$this->xyCheckbox($yy).$this->xyCheckbox($this->xHeaders).$this->xyCheckbox($this->yHeaders);
-        $checkboxes = (($this->xyCheckbox($yy).$this->xyCheckbox($xx) != '') ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) : '')
+        $checkboxes = (($this->xyCheckbox($yy).$this->xyCheckbox($xx) != '') 
+                ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) 
+                : '')
                .$this->Html->div('filters', $this->xyCheckbox($this->yHeaders) . ' &nbsp;| ' . $this->xyCheckbox($this->xHeaders));
+        
         return '<tr><td colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$checkboxes.'</td></tr>';
     }
     
@@ -395,18 +397,22 @@ class TableParserHelper extends AppHelper {
         $productCells = array();
         foreach($this->productChunks[$count] as $index => $product){
 //            debug($product);
-            $productCells[] = array(
-                $this->Number->currency($product['price'], 'USD', array('places'=>0))
-                . " <span>({$product['product_code']})</span>", array(
-                'class'=> $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName
-                ));
+            if ($product['product_code']) {
+                $productCells[] = array(
+                    $this->Number->currency($product['price'], 'USD', array('places' => 0))
+                    . " <span>({$product['product_code']})</span>", array(
+                        'class' => $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName
+                        ));
+            } else {
+                $productCells[] = null;
+            }
         }
         $cells = str_replace('<tr>','',$this->Html->tableCells(array($productCells)));
         return $headers.$cells;
     }
     
     public function tableHeading(){
-        echo '<tr><td class="table_name" colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$this->tableName.'</td></tr>';
+        echo '<tr class="table"><td class="table_name toggle" id ="'.$this->tableName.'"colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$this->tableName.'</td></tr>';
     }
 } // end of class definition
 ?>

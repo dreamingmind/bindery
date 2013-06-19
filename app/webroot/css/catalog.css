@@ -124,13 +124,18 @@ form elements
 .filters > div.input {
     clear: left;
     display: inline;
+    padding: 0;
+    margin: 0;
 }
-div.filters {
-    border-top: thin solid black;
+#orderform td div.filters {
+    /*border-top: thin solid black;*/
+    text-align: left;
+    padding: 0;
+    margin: 0;
 }
-div.filters:last-of-type {
+/*div.filters:last-of-type {
     border-bottom: thin solid black;
-}
+}*/
 th, td {
     display: table-cell;
 }

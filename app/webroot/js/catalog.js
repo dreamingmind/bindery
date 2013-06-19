@@ -12,5 +12,9 @@ $(document).ready(function(){
 //            $('.'+$(this).attr('id')).css('opacity',setting);
             $('.'+product+'.'+$(this).attr('id')).css('opacity',setting);
     });
-        
+    
+    $('table').each(function(){
+        var id = $('tr[class="table"] > td').attr('id');
+        $(this).find('tr[class!="table"]').attr('class',id);
+    })
 })
