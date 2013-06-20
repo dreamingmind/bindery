@@ -182,6 +182,9 @@ class AppController extends Controller {
     } else {
         $this->css[] = 'new4';
     }
+    
+    $this->scripts = array('jquery-1.4.2', 'app'); 
+     
     //    echo $html->css('basic');
 //    echo $html->css('new4.css');
 //    echo $html->css('advanced-search');
@@ -193,6 +196,37 @@ class AppController extends Controller {
         parent::beforeRender();
 //        debug($this->css);
         $this->set('css', $this->css);
+        
+        if($this->layout === 'thumbnailPage'){
+            $this->scripts = array_merge($this->scripts, array('manage_thumbnails','jumpbox','adjust_markdown', 'app'));
+            if($this->params['action'] === 'gallery'){
+                $this->scripts[] = 'edit_exhibit';
+            } elseif($this->params['action'] === 'newsfeed') {
+                $this->scripts[] = 'edit_dispatch';
+            } elseif($this->params['action'] === 'art'){
+                $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'edit_dispatch'));
+            }
+        } elseif($this->layout === 'noThumbnailPage'){
+            $this->scripts[] = 'supplement_defaults';
+            if ($this->params['action'] === 'art'){
+                $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
+            } elseif($this->params['action'] === 'change_collection'){
+                $this->scripts[] = 'change_collection';
+            } elseif($this->params['action'] === 'select'){
+                $this->scripts[] = 'materials';
+            } elseif($this->params['controller'] === 'workshops'){
+                $this->scripts[] = 'workshop';
+                if ($this->params['action'] === 'detail'){
+                    $this->scripts = array_merge($this->scripts, array('blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
+                }
+            } elseif($this->params['controller'] === 'catalogs'){
+                $this->scripts[] = 'catalog';
+            }
+        } elseif($this->layout === 'blog_layout'){
+            $this->scripts = array_merge($this->scripts, array('blog_menu', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
+        }
+            
+        $this->set('scripts', $this->scripts);
     }
 
     function initAccount() {

@@ -27,36 +27,37 @@
     echo $html->meta('icon');
 
     echo $this->Html->css($css);
+    
+    echo $this->Html->script($scripts);
 
-    echo $this->Html->script('jquery-1.4.2');
-    echo $this->Html->script('supplement_defaults');
-    if($this->params['controller']=='catalogs'){
-        echo $this->Html->script('catalog');
-    }
-    echo $this->Html->script('app');
-    if ($this->params['action'] == 'art'){
-        echo $this->Html->script('art');
-        echo $this->Html->script('blog_image_zoom');
-        echo $this->Html->script('adjust_markdown');
-        echo $this->Html->script('edit_dispatch');
-    }
-    if($this->params['action']=='change_collection'){
-        echo $this->Html->script('change_collection');
-    }
-    if($this->params['action']=='change_collection'){
-        echo $this->Html->script('change_collection');
-    }
-    if($this->params['action']=='select'){
-        echo $this->Html->script('materials');
-    }
-    if($this->params['controller']=='workshops'){
-        echo $this->Html->script('workshop');
-        if ($this->params['action'] == 'detail'){
-            echo $this->Html->script('blog_image_zoom');
-            echo $this->Html->script('adjust_markdown');
-            echo $this->Html->script('edit_dispatch');
-    }
-}
+//    echo $this->Html->script('supplement_defaults');
+//    if($this->params['controller']=='catalogs'){
+//        echo $this->Html->script('catalog');
+//    }
+//    echo $this->Html->script('app');
+//    if ($this->params['action'] == 'art'){
+//        echo $this->Html->script('art');
+//        echo $this->Html->script('blog_image_zoom');
+//        echo $this->Html->script('adjust_markdown');
+//        echo $this->Html->script('edit_dispatch');
+//    }
+//    if($this->params['action']=='change_collection'){
+//        echo $this->Html->script('change_collection');
+//    }
+//    if($this->params['action']=='change_collection'){
+//        echo $this->Html->script('change_collection');
+//    }
+//    if($this->params['action']=='select'){
+//        echo $this->Html->script('materials');
+//    }
+//    if($this->params['controller']=='workshops'){
+//        echo $this->Html->script('workshop');
+//        if ($this->params['action'] == 'detail'){
+//            echo $this->Html->script('blog_image_zoom');
+//            echo $this->Html->script('adjust_markdown');
+//            echo $this->Html->script('edit_dispatch');
+//    }
+//}
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

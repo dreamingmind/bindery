@@ -27,22 +27,8 @@
 
     echo $this->Html->css($css);
 
-    echo $this->Html->script('jquery-1.4.2');
-    echo $this->Html->script('manage_thumbnails');
-    echo $this->Html->script('jumpbox');
-    echo $this->Html->script('adjust_markdown');
-    if($this->params['action']=='gallery'){
-        echo $this->Html->script('edit_exhibit');
-    } elseif($this->params['action']=='newsfeed') {
-        echo $this->Html->script('edit_dispatch');
-    }
-    echo $this->Html->script('app');
-    if ($this->params['action'] == 'art'){
-        echo $this->Html->script('art');
-        echo $this->Html->script('blog_image_zoom');
-        echo $this->Html->script('adjust_markdown');
-        echo $this->Html->script('edit_dispatch');
-    }
+    echo $this->Html->script($scripts);
+
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

@@ -28,8 +28,8 @@
 
     echo $this->Html->css($css);
 
-    echo $this->Html->script('jquery-1.4.2');
-    echo $this->Html->script('app');
+    echo $this->Html->script($scripts);
+
     echo $scripts_for_layout;
     ?>
     <script type="text/javascript">

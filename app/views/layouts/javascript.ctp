@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><?php echo $title_for_layout; ?></title>
-    <?php echo $this->Html->script('jquery-1.4.2'); ?>
+    <?php echo $this->Html->script($scripts); ?>
     <?php echo $scripts_for_layout; ?>
     <style type="text/css">
         a.test { font-weight: bold; }
