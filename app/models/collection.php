@@ -39,6 +39,7 @@
 */
 class Collection extends AppModel {
 	var $name = 'Collection';
+        var $displayField = 'heading';
 	var $validate = array(
 		'heading' => array(
 			'notempty' => array(
@@ -62,6 +63,8 @@ class Collection extends AppModel {
 			'order' => ''
 		)
 	);
+        
+        var $hasOne = array('Edition');
 
 	var $hasMany = array(
 		'ContentCollection' => array(
