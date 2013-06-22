@@ -995,6 +995,7 @@ class ContentsController extends AppController {
      * @param string $pname The product group (normally comes in on $this->params['pname'])
      */
     function gallery($category = 'exhibit'){
+//        debug($this->passedArgs);
         // Tailor pagination to Exhibits then call for the filmStrip
         $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
         $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
@@ -1008,6 +1009,11 @@ class ContentsController extends AppController {
             );
 
         $neighbors = $this->filmstripNeighbors();
+        
+        // if we get just an id we must find which page the image is on
+        if(!isset($this->passedArgs['page']) && isset($this->passedArgs['id'])){
+            $page = $neighbors[$this->passedArgs['id']]['page'];
+        }
 
         $this->set('neighbors', $neighbors);
         $this->set('filmStrip',$this->pullFilmStrip($page));
