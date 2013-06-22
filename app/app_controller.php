@@ -212,7 +212,8 @@ class AppController extends Controller {
                 $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
             } elseif($this->params['action'] === 'change_collection'){
                 $this->scripts[] = 'change_collection';
-            } elseif($this->params['action'] === 'select'){
+//            } elseif($this->params['action'] === 'select'){
+            } elseif($this->params['action'] === 'catalog'){
                 $this->scripts[] = 'materials';
             } elseif($this->params['controller'] === 'workshops'){
                 $this->scripts[] = 'workshop';

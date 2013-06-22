@@ -16,6 +16,8 @@
 class CatalogsController extends AppController {
 
 	var $name = 'Catalogs';
+        
+        var $uses = array('Catalog', 'Material');
 
         var $helpers = array('TableParser','Number');
 
@@ -89,6 +91,23 @@ class CatalogsController extends AppController {
 //order by yy_index, y_index, xx_index, x_index;'));
             
             $this->set('tableSet',$tableSet);
+            $this->select();
+//            $this->set('materials', $this->render('select'));
+//            $this->render('catalog');
         }
+        
+        function select(){
+            $this->css[] = 'materials';
+            $leather = $this->Material->pullLeather();
+            $cloth = $this->Material->pullCloth();
+            $imitation = $this->Material->pullImitation();
+            $this->set('leather', $leather ? json_encode($leather) : $leather);
+            $this->set('cloth', $cloth ? json_encode($cloth) : $cloth);
+            $this->set('imitation', $imitation ? json_encode($imitation) : $imitation);
+//            debug(json_encode($this->viewVars['leather']));
+//            debug(json_encode($this->viewVars['cloth']));
+//            debug($this->viewVars['leather']);
+        }
+        
 }
 ?>

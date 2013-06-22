@@ -9,6 +9,7 @@ echo $this->element('product_table',array($products),TRUE);
 echo $this->element('options_ruling');
 //debug($product);
 //debug($tableSet);
+echo $this->element('select', array('leather','cloth','imitation'),true);
 ?>
               <table>
                             <tr>
@@ -29,7 +30,9 @@ echo $this->element('options_ruling');
           <input   CHECKED name="belt" type="radio" class="option_pop" value="0" border="0">
           <br>
           <br>
-          Special instructions <br>                 <option value="" SELECTED>Choose leather</option>
+          Special instructions <br>
+                        <select name="leather" size="1" id="leather">
+                          <option value="" SELECTED>Choose leather</option>
                           <option value="black" >Black</option>
                           <option value="chocolate" >Chocolate</option>
                           <option value="rich brown" >Rich brown</option>
