@@ -66,7 +66,11 @@ div#case.journal {
 div#case.notebook {
 	width:483px;
 	height:495px;
-}
+        border-top-right-radius: 25px;
+        -moz-border-radius-topright: 25px;
+        border-bottom-right-radius: 25px;
+        -moz-border-radius-bottomright: 25px;
+ 	}
 
 div#case.stenopad {
 	width:323px;
@@ -82,6 +86,13 @@ div#spine.quarter, div#boards {
 	width:25%;
 	height:100%;
 	background-image:url(../_i/fullsize/Chocolatelthr.jpg);
+}
+
+div#case.notebook, #case.notebook #spine.full {
+        border-top-right-radius: 30px;
+        -moz-border-radius-topright: 30px;
+        border-bottom-right-radius: 30px;
+        -moz-border-radius-bottomright: 30px;
 }
 
 #case.journal div#boards, #case.notebook div#boards {
