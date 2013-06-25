@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Short description for file.
  *
@@ -24,6 +25,7 @@
  * @lastmodified  $Date$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+
 /**
  * Short description for class.
  *
@@ -34,6 +36,7 @@
  * @subpackage    cake.app
  */
 class AppController extends Controller {
+
     var $components = array(
         'Acl' => array(
         ),
@@ -42,15 +45,15 @@ class AppController extends Controller {
                 'plugin' => null,
                 'controller' => 'users',
                 'action' => 'login'
-                ),
+            ),
             'logoutRedirect' => array(
                 'plugin' => null,
                 'controller' => '/'
-                ),
+            ),
             'loginRedirect' => array(
                 'plugin' => null,
                 'controller' => '/'
-                ),
+            ),
             'loginError' => "This message shows up when the wrong credentials are used",
             'authError' => "Please log in to proceed.",
             'authorize' => 'controller',
@@ -60,12 +63,10 @@ class AppController extends Controller {
         ),
         'Session',
         'Email'
-        );
-
-    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset','Markdown.Markdown','Text','Number');
+    );
+    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number');
     var $uses = array('Navigator', 'User', 'Account');
     var $record = array();
-    
     var $css = array();
 
     /**
@@ -101,7 +102,7 @@ class AppController extends Controller {
     /**
      * @var array map account 'group' values to thier group name
      */
-    var $groupnames = array('0' => 'Guest', '1'=>'administrator', '2'=>'manager', '3'=>'user' );
+    var $groupnames = array('0' => 'Guest', '1' => 'administrator', '2' => 'manager', '3' => 'user');
 
     /**
      * @var integer $firstYear The first year of archive Content/Image data for Advanced Search
@@ -126,7 +127,7 @@ class AppController extends Controller {
         '11' => 'November',
         '12' => 'December'
     );
-    
+
     /**
      * @var array $season Selection list of seasons for Advanced Search
      */
@@ -139,7 +140,7 @@ class AppController extends Controller {
         '01-02' => 'Valentine\'s',
         '10-12' => 'Winter Holiday'
     );
-    
+
     /**
      * @var array $week Selection list of relative weeks for Advanced Search
      */
@@ -155,7 +156,7 @@ class AppController extends Controller {
         '5' => 'Four weeks ago',
         '5.5' => 'Since four weeks ago'
     );
-    
+
     function beforeFilter() {
         parent::beforeFilter();
         // These things should happen regardless of login or permission
@@ -165,68 +166,62 @@ class AppController extends Controller {
         $this->splashContent = $this->pullSplash();
         $this->Auth->logoutRedirect = $this->referer('bindery', TRUE);
         $this->Email->smtpOptions = array(
-            'port'=>'465',
+            'port' => '465',
             'host' => 'ssl://mail.dreamingmind.com',
             'username' => 'ddrake@dreamingmind.com',
             'password' => 'hU_9d+4F'
         );
         $this->Email->delivery = 'smtp';
 //        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
-
         //debug();
-        
-    // Time to see if this user can see the requested page
-    $this->css = array('basic','advanced-search','search_links');
-    if($this->params['action'] == 'blog'){
-        $this->css[] = 'blog';
-    } else {
-        $this->css[] = 'new4';
-    }
-    
-    $this->scripts = array('jquery-1.4.2', 'app'); 
-     
-    //    echo $html->css('basic');
+        // Time to see if this user can see the requested page
+        $this->css = array('basic', 'advanced-search', 'search_links');
+        if ($this->params['action'] == 'blog') {
+            $this->css[] = 'blog';
+        } else {
+            $this->css[] = 'new4';
+        }
+
+        $this->scripts = array('jquery-1.4.2', 'app');
+
+        //    echo $html->css('basic');
 //    echo $html->css('new4.css');
 //    echo $html->css('advanced-search');
 //    echo $html->css('search_links');
-
     }
-    
+
     function beforeRender() {
         parent::beforeRender();
 //        debug($this->css);
         $this->set('css', $this->css);
-        
-        if($this->layout === 'thumbnailPage'){
-            $this->scripts = array_merge($this->scripts, array('manage_thumbnails','jumpbox','adjust_markdown', 'app'));
-            if($this->params['action'] === 'gallery'){
+
+        if ($this->layout === 'thumbnailPage') {
+            $this->scripts = array_merge($this->scripts, array('manage_thumbnails', 'jumpbox', 'adjust_markdown', 'app'));
+            if ($this->params['action'] === 'gallery') {
                 $this->scripts[] = 'edit_exhibit';
-            } elseif($this->params['action'] === 'newsfeed') {
+            } elseif ($this->params['action'] === 'newsfeed') {
                 $this->scripts[] = 'edit_dispatch';
-            } elseif($this->params['action'] === 'art'){
+            } elseif ($this->params['action'] === 'art') {
                 $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'edit_dispatch'));
             }
-        } elseif($this->layout === 'noThumbnailPage'){
+        } elseif ($this->layout === 'noThumbnailPage') {
             $this->scripts[] = 'supplement_defaults';
-            if ($this->params['action'] === 'art'){
+            if ($this->params['action'] === 'art') {
                 $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
-            } elseif($this->params['action'] === 'change_collection'){
+            } elseif ($this->params['action'] === 'change_collection') {
                 $this->scripts[] = 'change_collection';
-//            } elseif($this->params['action'] === 'select'){
-            } elseif($this->params['action'] === 'catalog'){
-                $this->scripts[] = 'materials';
-            } elseif($this->params['controller'] === 'workshops'){
+            } elseif ($this->params['controller'] === 'workshops') {
                 $this->scripts[] = 'workshop';
-                if ($this->params['action'] === 'detail'){
+                if ($this->params['action'] === 'detail') {
                     $this->scripts = array_merge($this->scripts, array('blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
                 }
-            } elseif($this->params['controller'] === 'catalogs'){
+            } elseif ($this->params['controller'] === 'catalogs') {
                 $this->scripts[] = 'catalog';
             }
-        } elseif($this->layout === 'blog_layout'){
+        } elseif ($this->layout === 'blog_layout') {
             $this->scripts = array_merge($this->scripts, array('blog_menu', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
         }
-            
+
         $this->set('scripts', $this->scripts);
     }
 
@@ -237,17 +232,16 @@ class AppController extends Controller {
 //            debug('in');
             $this->useractive = $userdata['useractive'] = $this->Auth->user('active');
             $this->username = $userdata['username'] = $this->Auth->user('username');
-            $this->usergroupid = $userdata['usergroupid'] =  $this->Auth->user('group_id');
+            $this->usergroupid = $userdata['usergroupid'] = $this->Auth->user('group_id');
             $this->usergroup = $userdata['usergroup'] = $this->groupnames[$this->Auth->user('group_id')];
-            $this->userid = $userdata['userid'] =  $this->Auth->user('id');
-            $this->useremail = $userdata['useremail'] =  $this->Auth->user('email');
+            $this->userid = $userdata['userid'] = $this->Auth->user('id');
+            $this->useremail = $userdata['useremail'] = $this->Auth->user('email');
             $userdata['userdata'] = $this->Auth->user();
             $userdata['userdata'] = $userdata['userdata']['User']; // compress out the extra 'User' index level
             $this->set($userdata);
-            $this->User->setAuthorizedUser($this->Auth->user());//move this data into User properties for use in the model
-        //}
+            $this->User->setAuthorizedUser($this->Auth->user()); //move this data into User properties for use in the model
+            //}
             //debug($userdata, true);
-
 //            $this->set('authedUser', true);
 //            if (!$this->Auth->user('active')) {
 //                $this->Session->setFlash('Your account has been deactivated');
@@ -257,7 +251,7 @@ class AppController extends Controller {
 //                $this->set('authedLevel', false);
 //            }
 //            if ($this->viewVars['authedUser']){
-                $this->record = $this->User->findById($this->Auth->user('id'));
+            $this->record = $this->User->findById($this->Auth->user('id'));
 //                $this->set('authedUser', $this->Auth->user());
 //                $this->set('authedLevel', $this->record['Group']['name']);
 //            }
@@ -268,25 +262,24 @@ class AppController extends Controller {
             $this->set('userdata', false);
             $this->User->setAuthorizedUser(false);
         }
-
     }
 
-    /** 
-      * Return URL-Friendly string slug
-      * @param string $string 
-      * @return string 
-      */
+    /**
+     * Return URL-Friendly string slug
+     * @param string $string
+     * @return string
+     */
     function slug($string) {
-	//Unwanted:  {UPPERCASE} ; / ? : @ & = + $ , . ! ~ * ' ( )
-	$string = strtolower($string);
-	//Strip any unwanted characters
-	$string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-	//Clean multiple dashes or whitespaces
-	$string = preg_replace("/[\s-]+/", " ", $string);
-	//Convert whitespaces and underscore to dash
-	$string = preg_replace("/[\s_]/", "-", $string);
-	return $string;
-}
+        //Unwanted:  {UPPERCASE} ; / ? : @ & = + $ , . ! ~ * ' ( )
+        $string = strtolower($string);
+        //Strip any unwanted characters
+        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+        //Clean multiple dashes or whitespaces
+        $string = preg_replace("/[\s-]+/", " ", $string);
+        //Convert whitespaces and underscore to dash
+        $string = preg_replace("/[\s_]/", "-", $string);
+        return $string;
+    }
 
     /**
      * Initialize Company description strings
@@ -304,29 +297,29 @@ class AppController extends Controller {
     function initCompany() {
         Configure::load('company');
         $this->company = Configure::read('company');
-        $this->company['workshopSignature'] = 
-<<< SIG
+        $this->company['workshopSignature'] =
+                <<< SIG
 
 {$this->company['firstName']} {$this->company['lastName']}
 {$this->company['businessName']}
 {$this->company['slogan']}
-    
+
 {$this->company['phone']}
 {$this->company['email']}
 {$this->company['siteURL']}
 {$this->company['workshopURL']}
 SIG;
 
-        $this->company['fullSignature'] = 
-<<< SIG
+        $this->company['fullSignature'] =
+                <<< SIG
 
 {$this->company['firstName']} {$this->company['lastName']}
 {$this->company['businessName']}
 {$this->company['slogan']}
-    
+
 {$this->company['phone']}
 {$this->company['email']}
-    
+
 {$this->company['siteURL']}
 {$this->company['blogURL']}
 {$this->company['productURL']}
@@ -338,7 +331,7 @@ SIG;
 
     /**
      * Pull Splash Page content if appropriate
-     * 
+     *
      * Negative indicators:
      *  page controller
      *  named or passed params
@@ -346,33 +339,33 @@ SIG;
      */
     function pullSplash() {
         // look for splash page content
-        if ((count($this->params['named'])+count($this->params['pass'])) > 0
-                || $this->params['controller'] === 'pages'){
+        if ((count($this->params['named']) + count($this->params['pass'])) > 0
+                || $this->params['controller'] === 'pages') {
             return false;
         }
-            // if named or passed params are present, we're not in
-            // a top level page that might have a splash page
-            // explode the url and search for Content. Last one is the splash content.
-            // Search from the back!!
+        // if named or passed params are present, we're not in
+        // a top level page that might have a splash page
+        // explode the url and search for Content. Last one is the splash content.
+        // Search from the back!!
         $routes = explode(DS, $this->params['url']['url']);
-        $this->splashRoute = $routes[count($routes)-1];
+        $this->splashRoute = $routes[count($routes) - 1];
     }
-    
+
     /**
      * Read the proper menus for this user
      *
      * Read the menu appropriate to an admin, manager, registered user or guest
      */
     function mainNavigation() {
-        $conditions = array('Navigator.publish'=>1);
+        $conditions = array('Navigator.publish' => 1);
         $access = 0;
 
         if ($this->username) {
             $conditions['OR'] = array(
-                array('Navigator.account' => '0'), 
+                array('Navigator.account' => '0'),
                 array('Navigator.account >=' => $this->usergroupid));
             // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
-            $access=$this->usergroupid;
+            $access = $this->usergroupid;
         } else {
             $conditions['Navigator.account'] = '0';
         }
@@ -380,45 +373,39 @@ SIG;
 //        debug($conditions);die;
         /**
          * This is the find for the nested navigation menu data set.
-         **/
-
-        if(!($group = Cache::read('group'.$access))) {
+         * */
+        if (!($group = Cache::read('group' . $access))) {
             $group = $this->Navigator->generatetreegrouped($conditions, null, '/Navline', '{n}.Navigator.parent_id', 1);
-            Cache::write('group'.$access,$group);
-    }
+            Cache::write('group' . $access, $group);
+        }
 
 
         $this->set('group', $group);
-
     }
-    
-    
+
     function isAuthorized() {
-       $id = $this->Account->findByUsername($this->username,array('fields'=>'id'));
-       //debug ($this->record);
-       if ($this->record['Group']['name'] == 'Administrator') {
+        $id = $this->Account->findByUsername($this->username, array('fields' => 'id'));
+        //debug ($this->record);
+        if ($this->record['Group']['name'] == 'Administrator') {
             //$this->set('authed','Auth logic: Administrator');
             return true;
         } elseif ($this->params['action'] == 'logout' ||
-            $this->params['action'] == 'login' ||
-            $this->params['action'] == 'register')
-        {
+                $this->params['action'] == 'login' ||
+                $this->params['action'] == 'register') {
             //$this->set('authed','Auth logic: logout/login/register');
             return true;
         } elseif ($this->Acl->check($this->Auth->user(), $this->params['controller'] . '/' . $this->params['action'])) {
-        //if ($this->Acl->check('dreamingmind', $this->params['controller'])) {
+            //if ($this->Acl->check('dreamingmind', $this->params['controller'])) {
             //$this->set('authed','Auth logic: authedLevel/params');
             return true;
         } elseif ($this->Acl->check(
-                $this->usergroup."/".$this->username."::".$this->userid,
-                "UserRecord/".$this->username."::".$this->userid)) { // this same/same comparison is not good
+                        $this->usergroup . "/" . $this->username . "::" . $this->userid, "UserRecord/" . $this->username . "::" . $this->userid)) { // this same/same comparison is not good
             //$id = $this->User->id;
 //                if () {
-                    return true; //check for authorized user to user record
+            return true; //check for authorized user to user record
 //                } else {
 //                    //return $this->Session->setFlash("failed user check");
 //                }
-
             // possibly a function to do all user account checks
         } else {
             debug($this->Auth->user());
@@ -432,51 +419,51 @@ SIG;
             return false;
         }
     }
-    
+
     /**
      * Check to see if any actual search data was sent in the post
-     * 
+     *
      * The empty form must return only the values ' ', 'search', or '0'
      * And the live form must provide at least one character beyond this set
-     * 
+     *
      * @return boolean True or False
      */
-    function verifySearchData($data){
+    function verifySearchData($data) {
         unset($data['controller']);
         unset($data['action']);
-        $pattern = array('/search/i','/ /','/0/');
-        $test = preg_replace($pattern,'',implode($this->postConditions($data)));
-        if(empty($test)){
+        $pattern = array('/search/i', '/ /', '/0/');
+        $test = preg_replace($pattern, '', implode($this->postConditions($data)));
+        if (empty($test)) {
             $this->Session->delete('qualityConditions');
             return false;
         } else {
             return true;
         }
     }
-    
+
     /**
      * Get the first day of the week contain $day
-     * 
+     *
      * This can have a boundary problem if today is Sunday. No biggy for this app though
      * @param unixtime $day A day if provided or today
      * @return unixtime Sunday of the week containing $day
      */
-    function firstOfWeek($day = null){
-        if($day==null){
+    function firstOfWeek($day = null) {
+        if ($day == null) {
             $day = time();
         }
         return strtotime('previous sunday', $day);
     }
-    
+
     /**
      * Get the last day of the week containing $day
-     * 
+     *
      * This can have a boundary problem if today is Saturday. No biggy for his app though
      * @param unixtime $day A day if provided or today
      * @return unixtime Saturday of the week containing $day
      */
-    function lastOfWeek($day = null){
-        if($day==null){
+    function lastOfWeek($day = null) {
+        if ($day == null) {
             $day = time();
         }
         return strtotime('next saturday', $day);
@@ -484,21 +471,21 @@ SIG;
 
     /**
      * Get the start/end dates of the specified week in the past
-     * 
+     *
      * Returns both sql and unix timestamps for the range
-     * Array 
+     * Array
      *  [start] => Array
      *      ['sql'] => 2013-03-14
      *      ['unix'] => 1362124799
      *  [end] => Array
      *      ['sql'] => 2013-03-14
      *      ['unix'] => 1362124799
-     * 
+     *
      * @param integer $ago Number of weeks prior to this one
      * @return array First and last day of week for specified week
      */
-    function xWeeksAgo($ago = 0){
-        $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
+    function xWeeksAgo($ago = 0) {
+        $base_day = time() - ($ago * 604800); // (7 * 24 * 60 * 60);
         $start = $this->firstOfWeek($base_day);
         $end = $start + 604800;
         $range = array(
@@ -513,24 +500,24 @@ SIG;
         );
         return $range;
     }
-    
+
     /**
      * Get the start/end dates of the range, start of week $day to end of this week
-     * 
+     *
      * Returns both sql and unix timestamps for the range
-     * Array 
+     * Array
      *  [start] => Array
      *      ['sql'] => 2013-03-14
      *      ['unix'] => 1362124799
      *  [end] => Array
      *      ['sql'] => 2013-03-14
      *      ['unix'] => 1362124799
-     * 
+     *
      * @param integer $ago Number of weeks prior to this one
      * @return array First day of past week and last day of this week
-     */    
-    function sinceXWeeksAgo($ago = 0){
-        $base_day = time() - ($ago *604800); // (7 * 24 * 60 * 60);
+     */
+    function sinceXWeeksAgo($ago = 0) {
+        $base_day = time() - ($ago * 604800); // (7 * 24 * 60 * 60);
         $start = $this->firstOfWeek($base_day);
         $end = $this->lastOfWeek(time());
         $range = array(
@@ -548,25 +535,25 @@ SIG;
 
     /**
      * Get the start/end dates of the month containing $day
-     * 
+     *
      * Returns both sql and unix timestamps for the range
-     * Array 
+     * Array
      *  [start] => Array
      *      ['sql'] => 2013-03-01
      *      ['unix'] => 1362124799
      *  [end] => Array
      *      ['sql'] => 2013-03-31
      *      ['unix'] => 1362124799
-     * 
+     *
      * @param unixtime $day A day in the month to range
      * @return array First and last day of specified month
      */
-    function monthSpan($day = null){
-        if($day == null){
+    function monthSpan($day = null) {
+        if ($day == null) {
             $day = time();
         }
-        $start = strtotime(date('Y-m-01',$day));
-        $end = strtotime(date('Y-m-t',$day));
+        $start = strtotime(date('Y-m-01', $day));
+        $end = strtotime(date('Y-m-t', $day));
         $range = array(
             'start' => array(
                 'sql' => date('Y-m-d', $start),
@@ -579,28 +566,28 @@ SIG;
         );
         return $range;
     }
-    
+
     /**
      * Get the start/end datees of the year containing $day
-     * 
+     *
      * Returns both sql and unix timestamps for the range
-     * Array 
+     * Array
      *  [start] => Array
      *      ['sql'] => 2013-01-01
      *      ['unix'] => 1362124799
      *  [end] => Array
      *      ['sql'] => 2013-12-31
      *      ['unix'] => 1362124799
-     * 
+     *
      * @param unixtime $day A day in the year to range
      * @return array First and last day of specified year
      */
-    function yearSpan($day = null){
-        if($day == null){
+    function yearSpan($day = null) {
+        if ($day == null) {
             $day = time();
         }
-        $start = strtotime(date('Y-01-01',$day));
-        $end = strtotime(date('Y-12-31',$day));
+        $start = strtotime(date('Y-01-01', $day));
+        $end = strtotime(date('Y-12-31', $day));
         $range = array(
             'start' => array(
                 'sql' => date('Y-m-d', $start),
@@ -616,18 +603,18 @@ SIG;
 
     /**
      * If Standard input is present, make a 'condition' for a search
-     * 
+     *
      * As Standard (simple) search tries:
      *  LIKE Content.heading
      *  OR
      *  LIKE Content.content
      *  OR
      *  LIKE Image.alt
-     * 
+     *
      * condition stored in $this->qualityCondition
      */
-    function buildStandardSearchConditions(){
-        if($this->data['Standard']['searchInput']!=' Search'){
+    function buildStandardSearchConditions() {
+        if ($this->data['Standard']['searchInput'] != ' Search') {
             // Build standard query
             $likeMe = "%{$this->data['Standard']['searchInput']}%";
             $this->qualityConditions = array(
@@ -635,20 +622,20 @@ SIG;
                     'Content.heading LIKE' => $likeMe,
                     'Content.content LIKE' => $likeMe,
                     'Image.alt LIKE' => $likeMe
-                 )
+                )
             );
         }
     }
-    
+
     /**
      * If Advanced text input is present, make a 'condition' for a search
-     * 
+     *
      * An Advanced search tries LIKE on the field of the same name
      * as the POSTED input. Multiple inputs are OR'd
-     * 
+     *
      * condition stored in $this->qualityCondition
      */
-    function buildAdvancedTextSearchConditions(){
+    function buildAdvancedTextSearchConditions() {
         $advancedTextConditions = false;
 
         // Assemble text conditions if they exist
@@ -656,81 +643,81 @@ SIG;
             'Content' => $this->data['Content'],
             'Image' => $this->data['Image']
         );
-        foreach($advancedTextInput as $model => $search){
-            foreach($search as $field => $input){
+        foreach ($advancedTextInput as $model => $search) {
+            foreach ($search as $field => $input) {
                 $input = trim($input);
-                if(!empty($input)){
+                if (!empty($input)) {
                     $advancedTextConditions["$model.$field LIKE"] = "%$input%";
                 }
             }
         }
         return $advancedTextConditions;
     }
-    
+
     /**
      * If Advanced date input is present, make a 'condition' for a search
-     * 
+     *
      * A date range will OR on:
      *  Content.modified
      *  Image.modified
      *  Image.date (the image files exif date)
-     * 
+     *
      * Possible ranges, one of these:
      *  Records in YEAR yyyy
      *  Records in MONTH-YEAR mm-yyyy
      *  Records in MONTH (mm of every yyyy in the data)
      *  Records in 1 week (this week through 4 weeks ago)
      *  Records in span from x weeks ago to end of this week
-     * 
+     *
      * @return array The array of OR condions, all date range searches
      */
-    function buildAdvancedDateSearchConditions(){
+    function buildAdvancedDateSearchConditions() {
         $advancedDateCondtions = false;
-        if($this->data['DateRange']['month'] != 0 || $this->data['DateRange']['year'] != 0){
+        if ($this->data['DateRange']['month'] != 0 || $this->data['DateRange']['year'] != 0) {
             // some form of month/year request
-            if($this->data['DateRange']['year'] == 0){
+            if ($this->data['DateRange']['year'] == 0) {
                 // month only request
                 $advancedDateCondtions = array();
                 $y = date('Y', time());
                 while ($y >= $this->firstYear) {
-                    $range = $this->monthSpan(strtotime($y.'-'.$this->data['DateRange']['month']));
+                    $range = $this->monthSpan(strtotime($y . '-' . $this->data['DateRange']['month']));
                     $onemonth = $this->constructDateRangeCondition($range);
                     $advancedDateCondtions = array_merge($advancedDateCondtions, $onemonth);
                     $y--;
                 }
-            } elseif ($this->data['DateRange']['month'] == 0){
+            } elseif ($this->data['DateRange']['month'] == 0) {
                 // year only request
-                $range = $this->yearSpan(strtotime($this->data['DateRange']['year'].'-01-01'));
+                $range = $this->yearSpan(strtotime($this->data['DateRange']['year'] . '-01-01'));
                 $advancedDateCondtions = $this->constructDateRangeCondition($range);
             } else {
                 // month and year request
-                $range = $this->monthSpan(strtotime($this->data['DateRange']['year'].'-'.$this->data['DateRange']['month']));
+                $range = $this->monthSpan(strtotime($this->data['DateRange']['year'] . '-' . $this->data['DateRange']['month']));
                 $advancedDateCondtions = $this->constructDateRangeCondition($range);
             }
-        } elseif($this->data['DateRange']['week'] != 0) {
+        } elseif ($this->data['DateRange']['week'] != 0) {
             // a week range request
             $offset = intval($this->data['DateRange']['week']);
-            if($this->data['DateRange']['week'] > $offset){
-                $range = $this->sinceXWeeksAgo($offset-1);
+            if ($this->data['DateRange']['week'] > $offset) {
+                $range = $this->sinceXWeeksAgo($offset - 1);
             } else {
-                $range = $this->XWeeksAgo($offset-1);
+                $range = $this->XWeeksAgo($offset - 1);
             }
             $advancedDateCondtions = $this->constructDateRangeCondition($range);
         }
         return $advancedDateCondtions;
     }
-    
+
     /**
      * Return one three-part date range condition array
-     * 
+     *
      * Though this array as written would AND search the three field,
      * code that calls this method will add an OR element later.
      * This allows multiple date ranges to be searched simultaneously.
-     * 
+     *
      * @param array $range A standard date range array
      * @return array A Cake condition array for a query
      */
-    function constructDateRangeCondition($range){
+    function constructDateRangeCondition($range) {
         //array('Post.id BETWEEN ? AND ?' => array(1,10))
         $rangeCondition = array(
             array('Content.modified BETWEEN ? AND ?' => array($range['start']['sql'], $range['end']['sql'])),
@@ -742,49 +729,50 @@ SIG;
 
     /**
      * Pick the article slug off end of url and expand url if necessary
-     * 
+     *
      * Art and Workshop articles are children of some arbitrary number
      * of menu nodes. Both may be reached directly with controller/slug
      * url or with the full path. This code will extract the last entry
-     * in the url path and store it as a potential slug and will 
+     * in the url path and store it as a potential slug and will
      * check the menu path to that node. This code will build the full
      * url path if nessecery and redirect to expand the menu.
      */
-    function expandShortUrl(){
+    function expandShortUrl() {
         // get the pname
         // and expand the url to full nest-length if necessary
         $url = preg_replace(
-            array(
-                '/[\/]?page:[0-9]+/',
-                '/[\/]?id:[0-9]+/'
-            ), '', $this->params['url']['url']);
+                array(
+            '/[\/]?page:[0-9]+/',
+            '/[\/]?id:[0-9]+/'
+                ), '', $this->params['url']['url']);
         $target = explode('/', $url);
         // extract the last non-page/non-id bit off the url as pname
-        $this->params['pname'] = $target[count($target)-1];
-        
-        if(count($target)==2){
+        $this->params['pname'] = $target[count($target) - 1];
+
+        if (count($target) == 2) {
             // found possible shortcut URL like
             // /art/so-different
             // if it is, we'll construct the true path and redirect
-            
             // first get the tree path to the current pname
-            $nav = $this->Navigator->find('all',array(
-                'conditions'=>array(
-                    'Navline.route'=>  $this->params['pname']
+            $nav = $this->Navigator->find('all', array(
+                'conditions' => array(
+                    'Navline.route' => $this->params['pname']
                 )
-            ));
-            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'],null,'1');
+                    ));
+            $nav = $this->Navigator->getpath($nav[0]['Navigator']['id'], null, '1');
 
-            // then if it is longer that the current path, 
+            // then if it is longer that the current path,
             // then it was a shortcut. build and redirect
-            if(count($target) < count($nav)){
+            if (count($target) < count($nav)) {
                 $path = '';
-                foreach($nav as $node){
-                    $path .= DS.$node['Navline']['route'];
+                foreach ($nav as $node) {
+                    $path .= DS . $node['Navline']['route'];
                 }
                 $this->redirect($path);
             };
         }
     }
+
 }
+
 ?>

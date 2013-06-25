@@ -99,6 +99,7 @@ class CatalogsController extends AppController {
 
     function select() {
         $this->css[] = 'materials';
+        $this->scripts[] = 'materials';
         $leather = $this->Material->pullLeather();
         $cloth = $this->Material->pullCloth();
         $imitation = $this->Material->pullImitation();

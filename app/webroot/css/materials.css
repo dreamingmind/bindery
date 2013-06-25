@@ -1,8 +1,8 @@
 @charset "UTF-8";
 body {
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	margin: 0px;
-	padding: 0px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    margin: 0px;
+    padding: 0px;
 }
 
 /* =DIVs
@@ -15,27 +15,27 @@ body {
     position: relative;
     width: 640px;
 }
-	
-	#colorLabels {
-		height:auto;
-	}
-	
+
+#colorLabels {
+    height:auto;
+}
+
 /* = material selector DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 .matPix {
-	width:100%;
-	height:80px;
+    width:100%;
+    height:80px;
 }
 .matPix > p {
     font-size: small;
 }
 .matList {
-	margin-bottom:6px;
-	margin-top:6px;
+    margin-bottom:6px;
+    margin-top:6px;
 }
 
 #formatList{
-	/*width:auto;*/
+    /*width:auto;*/
     margin-top:10px;
     width: 230px;
     position: relative;
@@ -45,8 +45,8 @@ body {
     margin-top: 20px;
 }*/
 #caveat{
-	height:100%;
-	vertical-align:bottom;
+    height:100%;
+    vertical-align:bottom;
 }
 
 
@@ -58,123 +58,123 @@ div#case {
 }
 
 div#case.journal {
-	width:386px;
-	height:495px;
-	/*border:thin tan solid;*/
+    width:386px;
+    height:495px;
+    /*border:thin tan solid;*/
 }
 
 div#case.notebook {
-	width:483px;
-	height:495px;
-        border-top-right-radius: 25px;
-        -moz-border-radius-topright: 25px;
-        border-bottom-right-radius: 25px;
-        -moz-border-radius-bottomright: 25px;
- 	}
+    width:483px;
+    height:495px;
+    border-top-right-radius: 25px;
+    -moz-border-radius-topright: 25px;
+    border-bottom-right-radius: 25px;
+    -moz-border-radius-bottomright: 25px;
+}
 
 div#case.stenopad {
-	width:323px;
-	height:492px;
+    width:323px;
+    height:492px;
 }
 
 div#spine.quarter, div#boards {
-	margin:0px;
-	/*border:dotted thin red;*/
+    margin:0px;
+    /*border:dotted thin red;*/
 }
 #case.journal div#spine.quarter, #case.notebook div#spine.quarter {
-	float:left;
-	width:25%;
-	height:100%;
-	background-image:url(../_i/fullsize/Chocolatelthr.jpg);
+    float:left;
+    width:25%;
+    height:100%;
+    background-image:url(../_i/fullsize/Chocolatelthr.jpg);
 }
 
 div#case.notebook, #case.notebook #spine.full {
-        border-top-right-radius: 30px;
-        -moz-border-radius-topright: 30px;
-        border-bottom-right-radius: 30px;
-        -moz-border-radius-bottomright: 30px;
+    border-top-right-radius: 30px;
+    -moz-border-radius-topright: 30px;
+    border-bottom-right-radius: 30px;
+    -moz-border-radius-bottomright: 30px;
 }
 
 #case.journal div#boards, #case.notebook div#boards {
-	width:100%;
-	height:100%;
-	background-image:url(../_i/fullsize/drktaupe.jpg)
+    width:100%;
+    height:100%;
+    background-image:url(../_i/fullsize/drktaupe.jpg)
 }
 
 #case.stenopad div#spine.quarter {
-	width:100%;
-	height:25%;
-	background-image:url(../_i/fullsize/bbluelthr.jpg)
+    width:100%;
+    height:25%;
+    background-image:url(../_i/fullsize/bbluelthr.jpg)
 }
-	
+
 #case.stenopad div#boards {
-	width:100%;
-	height:75%;
-	background-image:url(../_i/fullsize/bone.jpg)
+    width:100%;
+    height:75%;
+    background-image:url(../_i/fullsize/bone.jpg)
 }
 
 div#spine.full {
-	height:100%;
-	width:100%;
-	background-image:url(../_i/fullsize/bbluelthr.jpg)
+    height:100%;
+    width:100%;
+    background-image:url(../_i/fullsize/bbluelthr.jpg)
 }
 /* =Material List Div Content
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 .matList label {
-	font-size:smaller;
+    font-size:smaller;
 }
 .matPix img{
-	margin:0px 1px 0px 0px;
-	width:57px;
-	height:50px;
-	/*border-top:medium orange solid;*/
+    margin:0px 1px 0px 0px;
+    width:57px;
+    height:50px;
+    /*border-top:medium orange solid;*/
 }
 
 #formatList label {
-	font-size:small;
+    font-size:small;
 }
 
 #formatList p {
-	font-size:smaller;
-        padding: 8px 0;
+    font-size:smaller;
+    padding: 8px 0;
 }
 #caveat p {
-	font-size:x-small;
-	color:#666;
+    font-size:x-small;
+    color:#666;
 }
 
 #formatList strong {
-	color:black;
-	font-size:larger;
+    color:black;
+    font-size:larger;
 }
 .materialLabel {
-	color:#666;
+    color:#666;
 }
 
 #spineM ul, #spineM li, #boardsM ul, #boardsM li {
-	margin:0px;
-	padding:0px;
+    margin:0px;
+    padding:0px;
 }
 #spineM li, #boardsM li {
-	padding:18px 0px;
-	margin: 1px;
- 	list-style:none;
-	float:left;
-	width:56px;
-	text-align: center;
-	color:#D5D6A9;
-	font-size:10px;
-	font-weight:lighter;
+    padding:18px 0px;
+    margin: 1px;
+    list-style:none;
+    float:left;
+    width:56px;
+    text-align: center;
+    color:#D5D6A9;
+    font-size:10px;
+    font-weight:lighter;
 }
 #spineM li.displayed {
-	border:2px solid #fC3;
-	border-bottom:none;
-	margin:0px -1px;
+    border:2px solid #fC3;
+    border-bottom:none;
+    margin:0px -1px;
 }
 #boardsM li.displayed {
-	border:2px solid #FC3;
-	border-top:none;
-	margin:0px -1px;
+    border:2px solid #FC3;
+    border-top:none;
+    margin:0px -1px;
 }
 input[type="radio"] {
     margin-right: 6px;
