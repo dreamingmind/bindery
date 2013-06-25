@@ -92,6 +92,8 @@ class CatalogsController extends AppController {
 //order by yy_index, y_index, xx_index, x_index;'));
 
         $this->set('tableSet', $tableSet);
+        $this->set('leatherOptions', $this->Material->leatherOptionList());
+        $this->set('clothOptions', $this->Material->clothOptionList());
         $this->select();
 //            $this->set('materials', $this->render('select'));
 //            $this->render('catalog');

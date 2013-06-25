@@ -64,6 +64,28 @@ class Material extends AppModel {
             'ti'=>'title'
         );
         
+        function leatherOptionList(){
+            // can't get conditions to work
+//            $leatherOptions = $this->find('list',array(
+//                'fields' => array('Material.fn', 'Material.ti'),
+//                'conditons' => array('Material.category'=> 'leather'),
+//                'recursive' => 0
+//            ));
+            $records = $this->pullLeather();
+            foreach($records as $leather){
+                $leatherOptions[$leather['fn']] = $leather['ti'];
+            }
+            return array_merge(array('Select'), $leatherOptions);
+        }
+        
+        function clothOptionList(){
+            $records = $this->pullCloth();
+            foreach($records as $cloth){
+                $clothOptions[$cloth['fn']] = $cloth['ti'];
+            }
+            return array_merge(array('Select'), $clothOptions);
+        }
+        
         function pullLeather(){
             // 	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
             return $this->flatten($this->find('all',array(

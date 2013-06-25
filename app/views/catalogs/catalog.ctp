@@ -7,6 +7,8 @@
             echo $this->element('product_table', array($products), TRUE);
         }
         echo $this->element('options_ruling');
+        echo $this->element('options_leather',array($leatherOptions));
+        echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions));
 //debug($product);
 //debug($tableSet);
         echo $this->element('select', array('leather', 'cloth', 'imitation'), true);
