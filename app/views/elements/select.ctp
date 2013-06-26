@@ -81,7 +81,7 @@ var clothIn = [
 //print_r($_SERVER);
 //print_r($leather);
 ?>
-<div id="tables">
+<!--<div id="tables">
 <table border="1" cellpadding="3" cellspacing="2">
     <tbody>
         <tr>
@@ -90,15 +90,15 @@ var clothIn = [
           </td>
         </tr>
         <?php
-        $path = 'materials/thumbsize/';
-        $leatherList = array_chunk(json_decode($leather), 3);
-        foreach($leatherList as $row){
-            echo '<tr>';
-            foreach($row as $swatch){
-                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-            }
-            echo '</tr>';
-        }
+//        $path = 'materials/thumbsize/';
+//        $leatherList = array_chunk(json_decode($leather), 3);
+//        foreach($leatherList as $row){
+//            echo '<tr>';
+//            foreach($row as $swatch){
+//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
+//            }
+//            echo '</tr>';
+//        }
         ?>
     </tbody>
 </table>
@@ -111,15 +111,15 @@ var clothIn = [
           </td>
         </tr>
         <?php
-        $path = 'materials/thumbsize/';
-        $clothList = array_chunk(json_decode($cloth), 3);
-        foreach($clothList as $row){
-            echo '<tr>';
-            foreach($row as $swatch){
-                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-            }
-            echo '</tr>';
-        }
+//        $path = 'materials/thumbsize/';
+//        $clothList = array_chunk(json_decode($cloth), 3);
+//        foreach($clothList as $row){
+//            echo '<tr>';
+//            foreach($row as $swatch){
+//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
+//            }
+//            echo '</tr>';
+//        }
         ?>
     </tbody>
 </table>
@@ -133,16 +133,16 @@ var clothIn = [
           </td>
         </tr>
         <?php
-        $path = 'materials/thumbsize/';
-        $imitationList = array_chunk(json_decode($imitation), 3);
-        foreach($imitationList as $row){
-            echo '<tr>';
-            foreach($row as $swatch){
-                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-            }
-            echo '</tr>';
-        }
+//        $path = 'materials/thumbsize/';
+//        $imitationList = array_chunk(json_decode($imitation), 3);
+//        foreach($imitationList as $row){
+//            echo '<tr>';
+//            foreach($row as $swatch){
+//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
+//            }
+//            echo '</tr>';
+//        }
         ?>
     </tbody>
 </table>
-</div>
+</div>-->
