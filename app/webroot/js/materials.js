@@ -58,7 +58,7 @@ function doBindingChange() {
         displayFromSix(document.getElementById('c5'));
     }
 }
-		
+
 function initClothOver() {
     var li = document.getElementById('boardsM').getElementsByTagName('li');
     var i = 0;
@@ -88,23 +88,23 @@ function displayFromSix(clickNode) {
 }
 
 function doMaterialClick(clickNode) {
-	
+
     var divWorking = clickNode.parentNode.parentNode; //navigation = <li> --> <ul> --> <div>
     var sourceArray = (divWorking.id == 'spineM') ? leatherIn : clothIn ;
-    var startNode = null; 
+    var startNode = null;
     var ulNew = null;
     var ulOld = null;
     var i = clickNode.id.substring(1,clickNode.id.length);
     var idNow = clickNode.id.substring(1,clickNode.id.length);
     var originalId = clickNode.id;
-	
+
     while (idNow != 5) {
         startNode = (idNow > 5) ? divWorking.getElementsByTagName('ul')[0].firstChild.nxt : divWorking.getElementsByTagName('ul')[0].firstChild.prev;
-		
+
         ulNew = assembleDisplayList(sourceArray,startNode);
         ulOld = divWorking.getElementsByTagName('ul')[0];
         divWorking.replaceChild(ulNew,ulOld);
-		
+
         // Behavior modification processes
         idNow = clickNode.id.substring(1,clickNode.id.length);
     //		if (document.getElementById('step').checked) {
@@ -148,7 +148,7 @@ function initMaterialAlert() {
 function initListNodes() {
     buildListNodes(leatherIn,'l');
     buildListNodes(clothIn,'c');
-	
+
     ulNew = assembleDisplayList(leatherIn,leatherIn[lStart].node);
     document.getElementById('spineM').appendChild(ulNew);
     displayFromSix(document.getElementById('l5'));
@@ -175,7 +175,7 @@ function assembleDisplayList(source,startNode) {
     }
     return ulNode;
 }
-		
+
 
 function buildListNodes(listData,id) {
     //<li id="1" title="Chestnut" style="background-image:url(_i/thumbsize/bone.jpg)">7</li>
@@ -200,5 +200,5 @@ function buildListNodes(listData,id) {
         listData[i].node.nxt = listData[iNext].node;
         listData[i].node.self = listData[i];
     }
-	
+
 }

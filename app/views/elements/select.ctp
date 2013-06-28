@@ -1,4 +1,5 @@
-<div id="wrapper" style="display: none">
+<!--<div id="wrapper" style="display: none">-->
+<div id="wrapper">
 
     <div id="spineM" class="matPix">
         <p>Leather color choices</p>
