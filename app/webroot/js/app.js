@@ -20,6 +20,8 @@ $(document).ready(function(){
     }
     
     /**
+     * Set up the click on a node to control the display-toggle of another node
+     * 
      * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
      */
     function initToggles(){
@@ -29,6 +31,15 @@ $(document).ready(function(){
             });
         })
     }
+    
+    /**
+     * Set up the click of a node to control the mixed visibility of a set of nodes
+     * 
+     * Any <item option="maseter foo bar?> will make visible
+     * <item option="slave foo">, <item option="slave bar>, <item option="slave foo bar>
+     * and will make invisible any
+     * <item option="slave !foo !bar>
+     */
 
     function discardStandardSearch(){
         $('input.siteSearchInput').css('color','#999').css('font-weight','normal');
