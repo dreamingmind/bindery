@@ -49,18 +49,28 @@ $(document).ready(function(){
      * process incomming Form data (if this is used to control a form). Much better to clone 
      * nodes into multiple nameSpaces; something that can be done with js
      * once the page loads or from the View.
+     * 
+     * Possible substring matching error might be possible. Not confirmed yet.
+     * Proper coding should prevent, improper may allow.
+     * <item option="master[-nameSpace]" class="foo">
+     * may show
+     * <item option="slave[-nameSpace]" class="fooBar">
      */
     function initTogglingSets(){
-        $('[option~="master"]').each().bind('click',function(){
+        $('*[option~="master"]').each(function(){
+            $(this).bind('click',function(){
             // set nameSpace (will be '-name' or null)
             var nameSpace = $(this).attr('option').replace(/master/,'');
             // assemble a list of potentially eligible classes
-            var eligibleClassList = null; // make an array here
-            
+            var eligibleClassList = $(this).attr('class').match(/[\w]+/g); // make an array here
+            $(eligibleClassList).each(function(){
+                alert(this);
+            });
             // now hide all option= 'slave' + nameSpace
             
             // now reveal each eligible slave
             
+            })
         });
     }
 
@@ -110,4 +120,5 @@ $(document).ready(function(){
     initSiteSearchForm();
     initAdvancedSearchClick();
     initToggles();
+    initTogglingSets();
 })
