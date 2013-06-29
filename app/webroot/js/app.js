@@ -36,7 +36,7 @@ $(document).ready(function(){
      * Set up the click of a node to control the mixed visibility of a set of nodes
      * 
      * Any <item option = "master" + [-nameSpace] class = "foo bar"> will make visible
-     * <item option = "slave" + [-nameSpace] class = "foo"> OR <item option "slave" + [-nameSpace] class = "bar">
+     * <item option = "slave" + [-nameSpace] class = "foo" + ["foobar"]> OR <item option "slave" + [-nameSpace] class = "bar" + ["foobar"]>
      * and will make invisible any
      * <item option = "slave" + [-nameSpace] class != "foo"> And <item option = "slave" + [-nameSpace] class != "bar>
      * 
@@ -57,10 +57,10 @@ $(document).ready(function(){
      * <item option = "slave" + [-nameSpace] class = "fooBar">
      */
     function initTogglingSets(){
-        $('*[option~="master"]').each(function(){
+        $('*[option|="master"]').each(function(){
             $(this).bind('click',function(){
             // set nameSpace (will be '-name' or null)
-            var nameSpace = $(this).attr('option').replace(/master/,'');
+            var nameSpace = $(this).attr('option').replace(/^master/,'');
             // assemble a list of potentially eligible classes
             var eligibleClassList = $(this).attr('class').match(/[\w]+/g);
             // debug to prove proper list assembly
