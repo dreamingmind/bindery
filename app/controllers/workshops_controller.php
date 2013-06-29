@@ -135,17 +135,18 @@ class WorkshopsController extends AppController {
         //test if pname has content or is a collection
         //If No content
         //Search for 
-        $collection = $this->Workshop->find('first',array(
+        $collection = $this->Workshop->find('all',array(
             'fields'=>array(
                 'Workshop.id'
             ),
             'conditions'=>array(
               'Workshop.slug' => $this->params['pname'],
-//               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
-            )
+              'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
+            ),
+            'contain'=>false
         ));
         debug($collection);
-        debug($this->Workshop->workshops_all[$collection['Workshop']['id']]);
+        debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
         debug($this->Workshop->workshops_all);
         debug($this->Workshop->workshops_upcoming);
         debug($this->Workshop->workshops_now);
