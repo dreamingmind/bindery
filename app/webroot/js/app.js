@@ -35,11 +35,34 @@ $(document).ready(function(){
     /**
      * Set up the click of a node to control the mixed visibility of a set of nodes
      * 
-     * Any <item option="maseter foo bar?> will make visible
-     * <item option="slave foo">, <item option="slave bar>, <item option="slave foo bar>
+     * Any <item option="master[-nameSpace]" class="foo bar"> will make visible
+     * <item option="slave[-nameSpace]" class="foo"> OR <item option[-nameSpace]="slave" class="bar">
      * and will make invisible any
-     * <item option="slave !foo !bar>
+     * <item option="slave[-nameSpace]" class="!foo"> And <item option="slave[-nameSpace]" class="!bar>
+     * 
+     * First grab all <item option="slave[-nameSpace]"> and hide
+     * Then reveal each eligible item
+     * 
+     * Resist the temptation to make Masters control multiple Slave groups
+     * or to have Slaves controlled by multiple Masters. Though possible in theory
+     * this is likely to create absurd complications on the server-side when trying to
+     * process incomming Form data (if this is used to control a form). Much better to clone 
+     * nodes into multiple nameSpaces; something that can be done with js
+     * once the page loads or from the View.
      */
+    function initTogglingSets(){
+        $('[option~="master"]').each().bind('click',function(){
+            // set nameSpace (will be '-name' or null)
+            var nameSpace = $(this).attr('option').replace(/master/,'');
+            // assemble a list of potentially eligible classes
+            var eligibleClassList = null; // make an array here
+            
+            // now hide all option= 'slave' + nameSpace
+            
+            // now reveal each eligible slave
+            
+        });
+    }
 
     function discardStandardSearch(){
         $('input.siteSearchInput').css('color','#999').css('font-weight','normal');
