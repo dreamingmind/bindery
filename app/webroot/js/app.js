@@ -35,12 +35,12 @@ $(document).ready(function(){
     /**
      * Set up the click of a node to control the mixed visibility of a set of nodes
      * 
-     * Any <item option="master[-nameSpace]" class="foo bar"> will make visible
-     * <item option="slave[-nameSpace]" class="foo"> OR <item option[-nameSpace]="slave" class="bar">
+     * Any <item option = "master" + [-nameSpace] class = "foo bar"> will make visible
+     * <item option = "slave" + [-nameSpace] class = "foo"> OR <item option "slave" + [-nameSpace] class = "bar">
      * and will make invisible any
-     * <item option="slave[-nameSpace]" class="!foo"> And <item option="slave[-nameSpace]" class="!bar>
+     * <item option = "slave" + [-nameSpace] class != "foo"> And <item option = "slave" + [-nameSpace] class != "bar>
      * 
-     * First grab all <item option="slave[-nameSpace]"> and hide
+     * First grab all <item option = "slave" + [-nameSpace]> and hide
      * Then reveal each eligible item
      * 
      * Resist the temptation to make Masters control multiple Slave groups
@@ -52,9 +52,9 @@ $(document).ready(function(){
      * 
      * Possible substring matching error might be possible. Not confirmed yet.
      * Proper coding should prevent, improper may allow.
-     * <item option="master[-nameSpace]" class="foo">
+     * <item option = "master" + [-nameSpace] class = "foo">
      * may show
-     * <item option="slave[-nameSpace]" class="fooBar">
+     * <item option = "slave" + [-nameSpace] class = "fooBar">
      */
     function initTogglingSets(){
         $('*[option~="master"]').each(function(){
@@ -62,7 +62,8 @@ $(document).ready(function(){
             // set nameSpace (will be '-name' or null)
             var nameSpace = $(this).attr('option').replace(/master/,'');
             // assemble a list of potentially eligible classes
-            var eligibleClassList = $(this).attr('class').match(/[\w]+/g); // make an array here
+            var eligibleClassList = $(this).attr('class').match(/[\w]+/g);
+            // debug to prove proper list assembly
             $(eligibleClassList).each(function(){
                 alert(this);
             });
