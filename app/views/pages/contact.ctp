@@ -28,6 +28,6 @@ Fax (925) 475-6709 <br>
       <td width="1" height="1"></td>
     </tr>
   </table>
-  <p option="master" class="this that the other">&nbsp;>click 1</p>
-  <p option="slave-master" class="sthis sthat sthe sother">&nbsp;>click 2</p>
+  <p option="master" class="this that the other">click 1</p>
+  <p option="slave-master" class="sthis sthat sthe sother"><span option="master-thing" class="who what where when">click 2</span></p>
 </div>
