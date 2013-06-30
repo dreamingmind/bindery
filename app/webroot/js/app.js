@@ -63,16 +63,27 @@ $(document).ready(function(){
             var nameSpace = $(this).attr('option').replace(/^master/,'');
             // assemble a list of potentially eligible classes
             var eligibleClassList = $(this).attr('class').match(/[\w]+/g);
-            // debug to prove proper list assembly
-            $(eligibleClassList).each(function(){
-                alert(this);
-            });
             // now hide all option= 'slave' + nameSpace
-            
+            hideSlaveNodes(nameSpace);
             // now reveal each eligible slave
+            $(eligibleClassList).each(function(){
+                $('*[option="slave' + nameSpace + '"][class~="' + this + '"]').css('display', 'block');
+            });
             
             })
         });
+    }
+    
+    function hideAllSlaveNodes(){
+        $('*[option|="master"]').each(function(){
+            // set nameSpace (will be '-name' or null)
+            var nameSpace = $(this).attr('option').replace(/^master/,'');
+            hideSlaveNodes(nameSpace);
+        });
+    }
+    
+    function hideSlaveNodes(nameSpace){
+        $('*[option="slave' + nameSpace + '"]').css('display', 'none');
     }
 
     function discardStandardSearch(){
@@ -121,5 +132,6 @@ $(document).ready(function(){
     initSiteSearchForm();
     initAdvancedSearchClick();
     initToggles();
+    hideAllSlaveNodes();
     initTogglingSets();
 })
