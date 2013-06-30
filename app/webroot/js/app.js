@@ -55,6 +55,17 @@ $(document).ready(function(){
      *         Good for journals, notebooks and portfolios
      *     </span>
      * </p>
+     * 
+     * @TODO Don't just do a display:none/display:block toggle
+     *       This won't work in all cases. Add an attribute in the tag
+     *       so each one can act in its own way.
+     *       First idea - Words to parse into jquery .css() method:
+     *       toggle = "display none display block"
+     *       toggle = "opacity .3 opacity 1"
+     *       
+     * @TODO I could make the master clicks recursive so the 
+     *       slave's slaves would toggle automatically, making
+     *       the HTML code simler and less error prone
      */
     function initTogglingSets(){
         $('*[option|="master"]').each(function(){
