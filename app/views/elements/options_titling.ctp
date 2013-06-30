@@ -42,12 +42,20 @@ $parameters = array(
                 'silver' => 'Silver'
             ),
             'option' => 'slave-titling',
-            'class' => 'titling'
+            'class' => 'titling',
+            'div' => array(
+                'option' => 'slave-titling',
+                'class' => 'Hot_Stamping_and_Titling_Options'
+            )
         ),
         'title_text' => array(
             'type' => 'textarea',
             'option' => 'slave-titling',
-            'class' => 'titling'
+            'class' => 'titling',
+            'div' => array(
+                'option' => 'slave-titling',
+                'class' => 'Hot_Stamping_and_Titling_Options'
+            )
         )
     )
 );
