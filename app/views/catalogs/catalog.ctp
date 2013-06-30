@@ -5,11 +5,20 @@
             $this->set('productCategory', $productCategory);
             $this->set('product', $products);
             echo $this->element('product_table', array($products), TRUE);
+        ?>
+            <div class="<?php echo $productCategory; ?>">
+                <?php
+                // This should be a call to a method that understands
+                // which options belong to which product categories
+                    echo $this->element('options_ruling');
+                    echo $this->element('options_leather',array($leatherOptions));
+                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions));
+                    echo $this->element('options_closingBelt');
+                    echo $this->element('options_titling');
+                ?>
+            </div>
+        <?php
         }
-        echo $this->element('options_ruling');
-        echo $this->element('options_leather',array($leatherOptions));
-        echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions));
-        echo $this->element('options_closingBelt');
 //debug($product);
 //debug($tableSet);
         echo $this->element('select', array('leather', 'cloth', 'imitation'), true);
