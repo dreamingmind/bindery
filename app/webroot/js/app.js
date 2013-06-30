@@ -85,6 +85,11 @@ $(document).ready(function(){
         });
     }
     
+    /**
+     * Hide every slave node for every master
+     * 
+     * Toggling sets start out with every slave node hidden
+     */
     function hideAllSlaveNodes(){
         $('*[option|="master"]').each(function(){
             // set nameSpace (will be '-name' or null)
@@ -93,6 +98,9 @@ $(document).ready(function(){
         });
     }
     
+    /**
+     * Hide all the slave nodes for a single master
+     */
     function hideSlaveNodes(nameSpace){
         $('*[option="slave' + nameSpace + '"]').css('display', 'none');
     }
