@@ -43,18 +43,18 @@ $(document).ready(function(){
      * First grab all <item option = "slave" + [-nameSpace]> and hide
      * Then reveal each eligible item
      * 
-     * Resist the temptation to make Masters control multiple Slave groups
-     * or to have Slaves controlled by multiple Masters. Though possible in theory
-     * this is likely to create absurd complications on the server-side when trying to
-     * process incomming Form data (if this is used to control a form). Much better to clone 
-     * nodes into multiple nameSpaces; something that can be done with js
-     * once the page loads or from the View.
-     * 
-     * Possible substring matching error might be possible. Not confirmed yet.
-     * Proper coding should prevent, improper may allow.
-     * <item option = "master" + [-nameSpace] class = "foo">
-     * may show
-     * <item option = "slave" + [-nameSpace] class = "fooBar">
+     * To have a Slave node that is a Master to other nodes:
+     * <p option="slave-alpha" class="message">
+     *     <span option="master-beta" class="usage">
+     *         You can have a closing belt (click for usage)
+     *     </span>
+     * </p>
+     * In this case, the slave's slave must respond to both parents:
+     * <p option="slave-alpha" class="message">
+     *     <span option="slave-beta class="usage">
+     *         Good for journals, notebooks and portfolios
+     *     </span>
+     * </p>
      */
     function initTogglingSets(){
         $('*[option|="master"]').each(function(){
