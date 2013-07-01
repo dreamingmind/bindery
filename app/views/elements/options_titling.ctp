@@ -7,12 +7,19 @@
  * Content.alt
  * Content.title
  */
+$options = array(
+    'options' => array(
+        '1' => 'Yes',
+        '0' => 'No'
+    )
+);
 ?> 
 <?php
 $parameters = array(
+    'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
     'pre_fields' => (isset($pre_fields))?$pre_fields:'',
     'post_fields' => (isset($post_fields))?$post_fields:'',
-    'display'=> (isset($display))?$display:'hide',
+    'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
     'legend'=> (isset($legend))?$legend:'Hot Stamping and Titling Options',
     'prefix'=> (isset($prefix))?$prefix:false,
@@ -25,10 +32,7 @@ $parameters = array(
                 '1' => 'Yes',
                 '0' => 'No'
             ),
-            'default' => 0,
-            'option' => 'master-titling',
-            'setlist' => 'titling',
-            'label' => 'Title, Name or Initials?'
+            'default' => 0
         ),
         'foil-color' => array(
             'type'=> 'select',
@@ -41,24 +45,34 @@ $parameters = array(
                 'gold' => 'Gold',
                 'silver' => 'Silver'
             ),
-            'option' => 'slave-titling',
-            'class' => 'titling',
             'div' => array(
                 'option' => 'slave-titling',
-                'setList' => 'titling'
+                'setList' => 'Yes'
             )
         ),
         'title_text' => array(
             'type' => 'textarea',
-            'option' => 'slave-titling',
-            'class' => 'titling',
             'div' => array(
                 'option' => 'slave-titling',
-                'setlist' => 'titling'
+                'setlist' => 'Yes'
             )
         )
     )
 );
 
-echo $fieldset->fieldset($parameters);
+$htmlBlock =  $fieldset->fieldset($parameters);
+/**
+ * This is a rough pattern for detailing out a radio button set to act as masters
+ * it should work for checkboxes or select lists too
+ */
+$master = array(
+    'nameSpace' => '-titling',
+    'sets' => $options['options']
+);
+
+$htmlBlock = preg_replace('/(type="radio")/', "$1 option=\"master{$master['nameSpace']}\"", $htmlBlock);
+foreach($master['sets'] as $value => $set){
+    $htmlBlock = preg_replace("/(value=\"{$value}\")/", "$1 setlist=\"{$set}\"", $htmlBlock);
+}
+echo $htmlBlock;
 ?>

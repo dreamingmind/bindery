@@ -14,7 +14,9 @@
                     echo $this->element('options_leather',array($leatherOptions));
                     echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions));
                     echo $this->element('options_closingBelt');
-                    echo $this->element('options_titling');
+                    echo $this->element('options_titling',array('fieldsetOptions'=>array(
+                        'option' => 'slave-'.$productCategory, 'setlist' => 'titlingOptions'
+                    )));
                 ?>
             </div>
         <?php
