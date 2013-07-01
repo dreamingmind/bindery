@@ -27,7 +27,7 @@ $parameters = array(
             ),
             'default' => 0,
             'option' => 'master-titling',
-            'class' => 'titling',
+            'setlist' => 'titling',
             'label' => 'Title, Name or Initials?'
         ),
         'foil-color' => array(
@@ -45,7 +45,7 @@ $parameters = array(
             'class' => 'titling',
             'div' => array(
                 'option' => 'slave-titling',
-                'class' => 'Hot_Stamping_and_Titling_Options'
+                'setList' => 'titling'
             )
         ),
         'title_text' => array(
@@ -54,7 +54,7 @@ $parameters = array(
             'class' => 'titling',
             'div' => array(
                 'option' => 'slave-titling',
-                'class' => 'Hot_Stamping_and_Titling_Options'
+                'setlist' => 'titling'
             )
         )
     )

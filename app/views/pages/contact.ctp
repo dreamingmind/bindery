@@ -28,13 +28,13 @@ Fax (925) 475-6709 <br>
       <td width="1" height="1"></td>
     </tr>
   </table>
-  <p option="master" class="this the">click 1, master of this, the</p>
-  <p option="master" class="that other">click 1.5, master of that, other</p>
-  <p option="slave" class="this"><span option="master-thing" class="who">this slave, click 2 master-thing of who</span></p>
-  <p option="slave" class="this"><span option="master-thing" class="what">this slave, click 2 master-thing of what</span></p>
-  <p option="slave" class="that">that slave</p>
-  <p option="slave" class="the">the slave</p>
-  <p option="slave" class="other">other slave</p>
-  <p option="slave-thing" class="who"><span option="slave" class="this">who slave-thing and this slave</span></p>
-  <p option="slave-thing" class="what"><span option="slave" class="this">what slave-thing and this slave</span></p>
+  <p option="master" setlist="this the">click 1, master of this, the</p>
+  <p option="master" setlist="that other">click 1.5, master of that, other</p>
+  <p option="slave" setlist="this"><span option="master-thing" setlist="who">this slave, click 2 master-thing of who</span></p>
+  <p option="slave" setlist="this"><span option="master-thing" setlist="what">this slave, click 2 master-thing of what</span></p>
+  <p option="slave" setlist="that">that slave</p>
+  <p option="slave" setlist="the">the slave</p>
+  <p option="slave" setlist="other">other slave</p>
+  <p option="slave-thing" setlist="who"><span option="slave" setlist="this">who slave-thing and this slave</span></p>
+  <p option="slave-thing" setlist="what"><span option="slave" setlist="this">what slave-thing and this slave</span></p>
 </div>

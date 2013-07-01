@@ -73,12 +73,12 @@ $(document).ready(function(){
             // set nameSpace (will be '-name' or null)
             var nameSpace = $(this).attr('option').replace(/^master/,'');
             // assemble a list of potentially eligible classes
-            var eligibleClassList = $(this).attr('class').match(/[\w]+/g);
+            var eligibleSetList = $(this).attr('setlist').match(/[\w]+/g);
             // now hide all option= 'slave' + nameSpace
             hideSlaveNodes(nameSpace);
             // now reveal each eligible slave
-            $(eligibleClassList).each(function(){
-                $('*[option="slave' + nameSpace + '"][class~="' + this + '"]').css('display', 'block');
+            $(eligibleSetList).each(function(){
+                $('*[option="slave' + nameSpace + '"][setlist~="' + this + '"]').css('display', 'block');
             });
             
             })
