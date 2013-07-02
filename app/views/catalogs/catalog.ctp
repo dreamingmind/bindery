@@ -14,9 +14,9 @@
                         'option' => 'slave-'.$productCategory, 'setlist' => 'Ruled_Pages'
                     )));
 //                    echo $this->element('options_leather',array($leatherOptions));
-                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions,array('fieldsetOptions'=>array(
+                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions, 'fieldsetOptions'=>array(
                         'option' => 'slave-'.$productCategory, 'setlist' => 'Full_Leather Quarter_Bound'
-                    ))));
+                    )));
                     echo $this->element('options_closingBelt',array('fieldsetOptions'=>array(
                         'option' => 'slave-'.$productCategory, 'setlist' => 'belt'
                     )));

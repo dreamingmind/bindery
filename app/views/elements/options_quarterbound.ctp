@@ -2,9 +2,10 @@
 
 /* @var $this ViewCC */
 $parameters = array(
+    'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
     'pre_fields' => (isset($pre_fields)) ? $pre_fields : '',
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
-    'display' => (isset($display)) ? $display : 'hide',
+    'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
     'legend' => (isset($legend)) ? $legend : 'Quarter Bound Material Selection',
     'prefix' => (isset($prefix)) ? $prefix : false,
