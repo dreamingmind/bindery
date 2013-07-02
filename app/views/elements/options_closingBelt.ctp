@@ -2,6 +2,7 @@
 
 /* @var $this ViewCC */
 $parameters = array(
+    'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
     'pre_fields' => (isset($pre_fields)) ? $pre_fields : '',
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'hide',
@@ -13,7 +14,11 @@ $parameters = array(
     'fields' => array(
         'closing_belt' => array(
             'type' => 'radio',
-            'options' => array('Yes', 'No')
+            'options' => array('Yes', 'No'),
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'belt'
+            )
         )
     )
 );
