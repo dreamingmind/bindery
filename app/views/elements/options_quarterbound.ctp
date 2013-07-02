@@ -13,11 +13,19 @@ $parameters = array(
     'fields' => array(
         'leather' => array(
             'type' => 'select',
-            'options' => $leatherOptions
+            'options' => $leatherOptions,
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'Full_Leather Quarter_Bound'
+            )
         ),
         'cloth' => array(
             'type' => 'select',
-            'options' => $clothOptions
+            'options' => $clothOptions,
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'Quarter_Bound'
+            )
         )
 
     )
