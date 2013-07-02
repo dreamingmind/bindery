@@ -1,7 +1,7 @@
 <?php
 //$table = new TableParser($product);
 //debug($product);
-$this->TableParser->initialize($product, $productCategory);
+$this->TableParser->initialize($product, $productCategory, $setList);
 echo '<table>';
 echo $this->TableParser->tableHeading();
 echo $this->TableParser->setCheckboxes();

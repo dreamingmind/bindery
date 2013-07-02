@@ -1,10 +1,12 @@
 <div id="detail">
     <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
         <?php
+    debug($setlists);
         foreach ($tableSet['Catalog'] as $productCategory => $products) {
+    debug($productCategory);
             $this->set('productCategory', $productCategory);
             $this->set('product', $products);
-            echo $this->element('product_table', array($products, $productCategory, $setlists), TRUE);
+            echo $this->element('product_table', array($products, $productCategory, $setlists[$productCategory]), TRUE);
         ?>
             <div class="<?php echo $productCategory; ?>">
                 <?php

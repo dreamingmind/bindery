@@ -115,8 +115,8 @@ class TableParserHelper extends AppHelper {
     
     var $tableName = null;
     
-    function initialize($products, $tableName) {
-        $this->setData($products, $tableName);
+    function initialize($products, $tableName, $setList) {
+        $this->setData($products, $tableName, $setList);
         $this->initXHeaders();
         $this->setChunkData();
         $this->initYHeaders();
@@ -165,9 +165,10 @@ class TableParserHelper extends AppHelper {
      * 
      * @param array $data The product purchase table data
      */
-    public function setData($data, $tableName){
+    public function setData($data, $tableName, $setList){
         $this->productData = $data;
         $this->tableName = $tableName;
+        $this->setList = $setList;
     }
     
     /**
@@ -401,7 +402,9 @@ class TableParserHelper extends AppHelper {
                 $productCells[] = array(
                     $this->Number->currency($product['price'], 'USD', array('places' => 0))
                     . " <span>({$product['product_code']})</span>", array(
-                        'class' => $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName
+                        'class' => $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName,
+                        'option' => "master-{$this->tableName}",
+                        'setlist' => $this->setList . ' ' . $this->yClass[$count] . $this->xClass[$index]
                         ));
             } else {
                 $productCells[] = null;
