@@ -27,8 +27,23 @@ $parameters = array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'QuarterBound'
             )
+        ),
+        'endpapers' => array(
+            'type' => 'select',
+            'options' => $endpapers,
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'endpapers'
+            )
+        ),
+        'liners' => array(
+            'type' => 'select',
+            'options' => $clothOptions,
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'liners'
+            )
         )
-
     )
 );
 

@@ -25,6 +25,9 @@
                     echo $this->element('options_titling',array('fieldsetOptions'=>array(
                         'option' => 'slave-'.$productCategory, 'setlist' => 'titling'
                     )));
+                    echo $this->element('options_instructions',array('fieldsetOptions'=>array(
+                        'option' => 'slave-'.$productCategory, 'setlist' => 'instructions'
+                    )));
                 ?>
             </div>
         <?php
