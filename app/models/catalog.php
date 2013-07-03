@@ -62,11 +62,11 @@ class Catalog extends AppModel {
          */
         function getAllProductCategoryOptions(){
             $allOptions = array(
-                'bookbody' => 'Ruled_Pages endpapers',
-                'journals' => 'belt titling Full_Leather Quarter_Bound endpapers special Ruled_Pages',
-                'reuseable' => 'belt titling Full_Leather Quarter_Bound linermaterials special',
-                'notebooks' => 'belt titling Full_Leather Quarter_Bound linermaterials notbookpockets special',
-                'portfolios' => 'belt titling Full_Leather Quarter_Bound linermaterials portfoliopocket special',
+                'bookbody' => 'endpapers',
+                'journals' => 'belt titling endpapers special',
+                'reusable' => 'belt titling linermaterials special',
+                'notebooks' => 'belt titling linermaterials notbookpockets special',
+                'portfolios' => 'belt titling linermaterials portfoliopocket special',
                 'notepapers' => 'Ruled_Pages',
                 'mininotebooks' => 'minicasematerials minilinermaterials minipocket special'
             );

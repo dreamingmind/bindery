@@ -17,7 +17,7 @@ $parameters = array(
             'options' => $leatherOptions,
             'div' => array(
                 'option' => 'slave-'.$productCategory,
-                'setList' => 'Full_Leather Quarter_Bound'
+                'setList' => 'FullLeather QuarterBound'
             )
         ),
         'cloth' => array(
@@ -25,7 +25,7 @@ $parameters = array(
             'options' => $clothOptions,
             'div' => array(
                 'option' => 'slave-'.$productCategory,
-                'setList' => 'Quarter_Bound'
+                'setList' => 'QuarterBound'
             )
         )
 

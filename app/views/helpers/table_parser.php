@@ -404,7 +404,7 @@ class TableParserHelper extends AppHelper {
                     . " <span>({$product['product_code']})</span>", array(
                         'class' => $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName,
                         'option' => "master-{$this->tableName}",
-                        'setlist' => $this->setList . ' ' . $this->yClass[$count] . $this->xClass[$index]
+                        'setlist' => str_replace('_', '', $this->setList . ' ' .$this->yClass[$count] . $this->xClass[$index])// 
                         ));
             } else {
                 $productCells[] = null;

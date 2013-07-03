@@ -2,7 +2,8 @@
     <form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
         <?php
         foreach ($tableSet['Catalog'] as $productCategory => $products) {
-            $this->set('setList',$setlists[$productCategory]);
+            $setList = $setlists[$productCategory];
+            $this->set('setList', $setList);
             $this->set('productCategory', $productCategory);
             $this->set('product', $products);
             echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
@@ -12,11 +13,11 @@
                 // This should be a call to a method that understands
                 // which options belong to which product categories
                     echo $this->element('options_ruling',array('fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'Ruled_Pages'
+                        'option' => 'slave-'.$productCategory, 'setlist' => 'RuledPages'
                     )));
 //                    echo $this->element('options_leather',array($leatherOptions));
                     echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions, 'fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'Full_Leather Quarter_Bound'
+                        'option' => 'slave-'.$productCategory, 'setlist' => 'FullLeather QuarterBound'
                     )));
                     echo $this->element('options_closingBelt',array('fieldsetOptions'=>array(
                         'option' => 'slave-'.$productCategory, 'setlist' => 'belt'
