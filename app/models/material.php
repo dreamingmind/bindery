@@ -86,6 +86,14 @@ class Material extends AppModel {
             return array_merge(array('Select'), $clothOptions);
         }
         
+        function endpaperOptionList(){
+            $records = $this->pullEndpaper();
+            foreach($records as $endpaper){
+                $endpaperOptions[$endpaper['fn']] = $endpaper['ti'];
+            }
+            return array_merge(array('Select'), $endpaperOptions);
+        }
+        
         function pullLeather(){
             // 	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
             return $this->flatten($this->find('all',array(
@@ -96,6 +104,20 @@ class Material extends AppModel {
                 ),
                 'conditions'=>array(
                     'category'=>'leather'
+                )
+            )));
+        }
+        
+        function pullEndpaper(){
+            // 	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
+            return $this->flatten($this->find('all',array(
+                'fields'=>array(
+                    'id',
+                    'fn',
+                    'ti'
+                ),
+                'conditions'=>array(
+                    'category'=>'endpaper'
                 )
             )));
         }

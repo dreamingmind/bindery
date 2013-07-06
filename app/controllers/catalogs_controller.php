@@ -94,6 +94,7 @@ class CatalogsController extends AppController {
         $this->set('tableSet', $tableSet);
         $this->set('leatherOptions', $this->Material->leatherOptionList());
         $this->set('clothOptions', $this->Material->clothOptionList());
+        $this->set('endpaperOptions', $this->Material->endpaperOptionList());
 //        $this->select();
         $this->set('setlists', $this->Catalog->getAllProductCategoryOptions());
 //            $this->set('materials', $this->render('select'));

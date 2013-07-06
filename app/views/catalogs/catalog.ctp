@@ -8,7 +8,7 @@
             $this->set('product', $products);
             echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
         ?>
-            <div class="<?php echo $productCategory; ?>">
+            <div class="<?php echo $productCategory.'Toggle'; ?>">
                 <?php
                 // This should be a call to a method that understands
                 // which options belong to which product categories
@@ -16,7 +16,7 @@
                         'option' => 'slave-'.$productCategory, 'setlist' => 'RuledPages'
                     )));
 //                    echo $this->element('options_leather',array($leatherOptions));
-                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions, 'fieldsetOptions'=>array(
+                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions'=>array(
                         'option' => 'slave-'.$productCategory, 'setlist' => 'FullLeather QuarterBound'
                     )));
                     echo $this->element('options_closingBelt',array('fieldsetOptions'=>array(

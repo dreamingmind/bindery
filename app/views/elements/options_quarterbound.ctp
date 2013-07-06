@@ -30,7 +30,7 @@ $parameters = array(
         ),
         'endpapers' => array(
             'type' => 'select',
-            'options' => $endpapers,
+            'options' => $endpaperOptions,
             'div' => array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'endpapers'
