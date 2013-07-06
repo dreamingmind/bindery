@@ -202,7 +202,7 @@ class TableParserHelper extends AppHelper {
             foreach ($this->xxAttributes as $xxHeader => $count) {
                 $this->xxAttributes[$xxHeader] = array(
                     'colspan' => ($count + 1 - $oldCount),
-                    'class' => Inflector::slug($xxHeader) . ' xx ' . $this->tableName
+                    'class' => Inflector::slug($xxHeader) . ' xx ' //. $this->tableName
                 );
                 $oldCount = $this->xxAttributes[$xxHeader]['colspan'];
             }
@@ -288,7 +288,7 @@ class TableParserHelper extends AppHelper {
             foreach ($this->yyAttributes as $yyHeader => $count) {
                 $this->yyAttributes[$yyHeader] = array(
                     'rowspan' => $count + 1 - $oldCount,
-                    'class' => Inflector::slug($yyHeader) . ' yy ' . $this->tableName
+                    'class' => Inflector::slug($yyHeader) . ' yy ' //. $this->tableName
                 );
                 $oldCount = $this->yyAttributes[$yyHeader]['rowspan'];
             }
@@ -391,8 +391,8 @@ class TableParserHelper extends AppHelper {
             ));
         } else {
             $headerCells = array(array(array($this->yHeaders[$count], array('class'=> 'y '. $this->yClass[$count] . ' ' . $this->tableName))));
-//            debug($headerCells);
         }
+//            debug($headerCells);
         $headers = str_replace('<th></th>','',str_replace('</tr>','',$this->Html->table_Headers($headerCells)));
 //        $headers = str_replace('</tr>','',$this->Html->table_Headers($headerCells));
         $productCells = array();
@@ -411,11 +411,13 @@ class TableParserHelper extends AppHelper {
             }
         }
         $cells = str_replace('<tr>','',$this->Html->tableCells(array($productCells)));
+//        debug($headers);
+//        $headers = str_replace('<tr class="'.$this->tableName.'"', '<tr class="'.$this->tableName.'Toggle"', $headers);
         return $headers.$cells;
     }
     
     public function tableHeading(){
-        echo '<tr class="table"><td class="table_name toggle" id ="'.$this->tableName.'"colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$this->tableName.'</td></tr>';
+        echo '<tr class="table"><td class="table_name" id ="'.$this->tableName.'" colspan = "'.(count($this->productChunks[0])+$this->yColumnCount).'">'.$this->tableName.'</td></tr>';
     }
 } // end of class definition
 ?>
