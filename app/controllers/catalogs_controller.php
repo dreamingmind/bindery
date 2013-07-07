@@ -86,6 +86,9 @@ class CatalogsController extends AppController {
     }
 
     function catalog() {
+        if(isset($this->data)){
+            debug($this->data);die;
+        }
         $this->layout = 'noThumbnailPage';
         $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
 //            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
