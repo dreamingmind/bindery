@@ -1,5 +1,5 @@
 <?php
-echo $this->Form->create('Catalog', array('url' => array('controller' => 'catalogs', 'action' => 'catalog')));
+echo $this->Form->create('Catalog', array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
 //<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
         $setList = $setlists[$productCategory];

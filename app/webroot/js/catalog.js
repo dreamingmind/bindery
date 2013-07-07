@@ -25,9 +25,9 @@ $(document).ready(function(){
     initCheckboxes();
     initTableToggleHooks(); 
     // Roll up the tables to start
-//    $('td[class~="table_name"]').each(function(){
-//        $('.'+$(this).attr('id')).toggle(function(){
-//            
-//        });
-//    });
+    $('*[id*="Toggle"].toggle').each(function(){
+        $('.'+$(this).attr('id')).toggle(function(){
+            
+        });
+    });
 })

@@ -4,7 +4,7 @@
 $this->TableParser->initialize($product, $productCategory, $setList);
 echo $this->Html->para('toggle', $productCategory, array('id' => $productCategory.'Toggle'));
 echo '<table class="'.$productCategory.'Toggle">';
-echo $this->TableParser->tableHeading();
+//echo $this->TableParser->tableHeading();
 echo $this->TableParser->setCheckboxes();
 echo $this->TableParser->xxRow();
 echo $this->TableParser->xRow();
