@@ -103,6 +103,7 @@ form table{
     background: white;
 }
 p.toggle {
+    border-bottom: solid 3px #EEE898;
     cursor: pointer;
     background-color: #025C0D;
     color: #CAEEE8;
@@ -139,4 +140,42 @@ form elements
 }*/
 th, td {
     display: table-cell;
+}
+/*================================
+option form and elements
+================================*/
+div.options fieldset{
+    border: none;
+    margin: 0;
+    width: 40%;
+}
+div.options fieldset:first-of-type legend {
+    border:none;
+}
+div.options fieldset legend {
+    background: none;
+    border-top: thin solid #CCCCCC;
+    color: #AA3322;
+    font-size: 100%;
+    /*font-weight: bold;*/
+    margin-bottom: 0;
+    margin-top: -3px;
+    padding: 3px 0;
+    width: 100%;
+}
+div.options {
+    background: none repeat scroll 0 0 #DFDFDF;
+    margin-left: 5%;
+    padding-top: 10px;
+    width: 90%;
+}
+ 
+div.radio label {
+    display: inline;
+    margin: 0 20px 2px 5px;
+}
+div.options input[type="radio"] {
+    display: inline;
+    float: none;
+    width: auto;
 }

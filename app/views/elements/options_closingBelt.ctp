@@ -14,8 +14,8 @@ $parameters = array(
     'fields' => array(
         'closing_belt' => array(
             'type' => 'radio',
-            'options' => array('1' => 'Yes', '0' => 'No'),
-            array('default' => '0', 'value' => 0)
+            'options' => array('0' => 'No', '1' => 'Yes'),
+            'default' => '0', 'legend' => false
         )
     )
 );

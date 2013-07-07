@@ -21,7 +21,8 @@ $parameters = array(
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         'instructions' => array(
-            'type'=> 'textarea'
+            'type' => 'textarea',
+            'rows' => 2
         )
     )
 );

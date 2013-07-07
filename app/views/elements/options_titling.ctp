@@ -29,10 +29,11 @@ $parameters = array(
         'title_choice' => array(
             'type' => 'radio',
             'options' => array(
-                '1' => 'Yes',
-                '0' => 'No'
+                '0' => 'No',
+                '1' => 'Yes'
             ),
-            'default' => 0
+            'default' => 0,
+            'legend' => false
         ),
         'foil-color' => array(
             'type'=> 'select',
@@ -52,6 +53,7 @@ $parameters = array(
         ),
         'title_text' => array(
             'type' => 'textarea',
+            'rows' => 2,
             'div' => array(
                 'option' => 'slave-titling',
                 'setlist' => 'Yes'

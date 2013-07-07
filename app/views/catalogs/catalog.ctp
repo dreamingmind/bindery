@@ -8,7 +8,7 @@ echo $this->Form->create('Catalog', array('id' => 'orderform', 'url' => array('c
         $this->set('product', $products);
         echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
         ?>
-        <div class="<?php echo $productCategory . 'Toggle'; ?>">
+        <div class="<?php echo $productCategory . 'Toggle options'; ?>">
             <?php
             $model = $productCategory;
             // This should be a call to a method that understands
