@@ -7,30 +7,40 @@
             $this->set('productCategory', $productCategory);
             $this->set('product', $products);
             echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
-        ?>
-            <div class="<?php echo $productCategory.'Toggle'; ?>">
+            ?>
+            <div class="<?php echo $productCategory . 'Toggle'; ?>">
                 <?php
+                $model = $productCategory;
                 // This should be a call to a method that understands
                 // which options belong to which product categories
-                    echo $this->element('options_ruling',array('fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'RuledPages'
-                    )));
+                echo $this->element('options_ruling', array('fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
+                        ),
+                        'model' => $model));
 //                    echo $this->element('options_leather',array($leatherOptions));
-                    echo $this->element('options_quarterbound',array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'FullLeather QuarterBound'
-                    )));
-                    echo $this->element('options_closingBelt',array('fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'belt'
-                    )));
-                    echo $this->element('options_titling',array('fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'titling'
-                    )));
-                    echo $this->element('options_instructions',array('fieldsetOptions'=>array(
-                        'option' => 'slave-'.$productCategory, 'setlist' => 'instructions'
-                    )));
+                echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'
+                        ),
+                        'model' => $model));
+                echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'belt'
+                        ),
+                        'model' => $model));
+                echo $this->element('options_titling', array('fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'titling'
+                        ),
+                        'model' => $model));
+                echo $this->element('options_instructions', array('fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'instructions'
+                        ),
+                        'model' => $model));
+                echo $this->element('options_reusable', array('fieldsetOptions' => array(
+                        'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
+                        ),
+                        'model' => $model));
                 ?>
             </div>
-        <?php
+            <?php
         }
 //debug($product);
 //debug($tableSet);

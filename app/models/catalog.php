@@ -64,7 +64,7 @@ class Catalog extends AppModel {
             $allOptions = array(
                 'bookbody' => 'endpapers',
                 'journals' => 'belt titling endpapers instructions',
-                'reusable' => 'belt titling liners instructions',
+                'reusable' => 'belt titling liners instructions bookbody',
                 'notebooks' => 'belt titling liners notbookpockets instructions',
                 'portfolios' => 'belt titling liners portfoliopocket instructions',
                 'notepaper' => 'Ruled_Pages',
