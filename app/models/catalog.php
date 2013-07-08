@@ -62,13 +62,13 @@ class Catalog extends AppModel {
          */
         function getAllProductCategoryOptions(){
             $allOptions = array(
-                'bookbody' => 'endpapers',
-                'journals' => 'belt titling endpapers instructions order',
-                'reusable' => 'belt titling liners instructions bookbody order',
-                'notebooks' => 'belt titling liners notbookpockets instructions order',
-                'portfolios' => 'belt titling liners portfoliopocket instructions order',
-                'notepaper' => 'Ruled_Pages order',
-                'mininotebooks' => 'minicasematerials miniliners minipocket instructions order'
+                'Book_Body' => 'endpapers',
+                'Journal' => 'belt titling endpapers instructions order',
+                'Reusable_Journal' => 'belt titling liners instructions bookbody order',
+                'Notebook' => 'belt titling liners notbookpockets instructions order',
+                'Portfolio' => 'belt titling liners portfoliopocket instructions order',
+                'Notebook_Pages' => 'Ruled_Pages order',
+                'Mini_Notebook' => 'minicasematerials miniliners minipocket instructions order'
             );
             
             return $allOptions;

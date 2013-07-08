@@ -420,7 +420,7 @@ class TableParserHelper extends AppHelper {
         return array(
         $this->Number->currency($product['price'], 'USD', array('places' => 0))
         . " <span>({$product['product_code']})</span>", array(
-        'class' => $this->yClass[$count] . $this->xClass[$index] . ' ' . $this->tableName,
+        'class' => $this->tableName . ' ' . $this->yClass[$count] . $this->xClass[$index],
         'option' => "master-{$this->tableName}",
         'setlist' => str_replace('_', '', $this->setList . ' ' .$this->yClass[$count] . $this->xClass[$index])// 
         ));
