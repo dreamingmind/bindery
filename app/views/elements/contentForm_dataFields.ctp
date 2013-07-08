@@ -1,5 +1,6 @@
 <?php
-/* @var $this ViewCC */ 
+
+/* @var $this ViewCC */
 
 /**
  * Content.heading
@@ -8,20 +9,21 @@
  * Content.title
  */
 ?> 
-	<?php
+<?php
+
 $parameters = array(
-    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
-    'post_fields' => (isset($post_fields))?$post_fields:'',
-    'display'=> (isset($display))?$display:'hide',
-    'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Content data fields',
-    'prefix'=> (isset($prefix))?$prefix:false,
-    'model'=>'Content',
-    'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
-    'fields'=>array(
+    'pre_fields' => (isset($pre_fields)) ? $pre_fields : '',
+    'post_fields' => (isset($post_fields)) ? $post_fields : '',
+    'display' => (isset($display)) ? $display : 'hide',
+    'record' => (isset($record)) ? $record : false,
+    'legend' => (isset($legend)) ? $legend : 'Content data fields',
+    'prefix' => (isset($prefix)) ? $prefix : false,
+    'model' => 'Content',
+    'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
+    'fields' => array(
         'heading',
         'content' => array(
-            'type'=> 'textarea'
+            'type' => 'textarea'
         ),
         'alt',
         'title',
@@ -35,4 +37,4 @@ $parameters = array(
 );
 
 echo $fieldset->fieldset($parameters);
-	?>
+?>

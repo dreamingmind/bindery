@@ -1,4 +1,5 @@
 <?php
+
 App::import('Sanitize');
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -6,6 +7,7 @@ App::import('Sanitize');
  * @package       bindery
  * @subpackage    bindery.Article
  */
+
 /**
  * Contents Controller
  * 
@@ -38,9 +40,8 @@ App::import('Sanitize');
 class ContentsController extends AppController {
 
     var $name = 'Contents';
-        
-    var $uses = array('Content','Catalog');
-    
+    var $uses = array('Content', 'Catalog');
+
     /**
      * @var string $layout The default layout for content has the thumbnail strip at the top
      */
@@ -51,7 +52,7 @@ class ContentsController extends AppController {
      * @todo figure out how to handle the 'limit' setting for the strip. Right now it just gets set to 9, but it should be editable by the user.
      */
     var $pageLimit = 9;
-    
+
     /**
      * @var array $pageOrder The order parameter for pagination of the SlideStrip
      */
@@ -72,7 +73,7 @@ class ContentsController extends AppController {
      */
     var $pageContains = array();
 
-     /**
+    /**
      * @var array $pageConditions The conditons parameter for pagination of the SlideStrip
      */
     var $pageConditions = array();
@@ -86,7 +87,7 @@ class ContentsController extends AppController {
      * @var array|false $qualityConditions 
      */
     var $qualityConditions = false;
-    
+
     /**
      * The search conditions for pulling Categorical Result Links
      * 
@@ -96,7 +97,7 @@ class ContentsController extends AppController {
      * @var array|false $categoricalConditions 
      */
     var $categoricalConditions = false;
-    
+
     /**
      * next - the next page page (wraps to start)
      * previous - the previous page (wraps to end)
@@ -110,18 +111,18 @@ class ContentsController extends AppController {
      * @var array $pageData pagination information 
      */
     var $pageData = array();
-    
+
     /**
      *
      * @var array $collectionPage the data for this page (chunked from the full set returned from the model)
      */
     var $collectionPage = array();
-    
-    /** 
+
+    /**
      * @var array $category data from the category found for the collection
      */
     var $category = array();
-    
+
     /**
      * @var array $categoryNI list of categories name => id
      */
@@ -131,41 +132,32 @@ class ContentsController extends AppController {
      * @var array $categoryIN list of categories id => name
      */
     var $categoryIN;
-    
+
     /**
      * @var string $result_ImagePath picks the size of image in search result blocks
      */
 //    var $result_imagePath = 'images/thumb/x160y120/';
-   /** 
+    /**
      * beforeFilter
      */
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(
-                'gallery', 
-                'newsfeed', 
-                'art', 
-                'jump',
-                'products',
-                'blog',
-                'resequence',
-                'product_landing',
-                'advanced_search',
-                'search',
-                'pull_detail');
+                'gallery', 'newsfeed', 'art', 'jump', 'products', 'blog', 'resequence', 'product_landing', 'advanced_search', 'search', 'pull_detail');
         $this->categoryNI = $this->Content->ContentCollection->Collection->Category->categoryNI;
         $this->categoryIN = $this->Content->ContentCollection->Collection->Category->categoryIN;
-        }
-        
+    }
+
     function afterFilter() {
         parent::afterFilter();
 //        debug($this->viewVars);
 //        die;
     }
-    
+
     function beforeRender() {
         parent::beforeRender();
     }
+
 //    function pullCategory($pname, $category){
 //        $this->category = $this->Content->ContentCollection->Collection->Category->find(
 //        'all',array(
@@ -177,82 +169,82 @@ class ContentsController extends AppController {
 //                    'conditions'=>array('Collection.slug'=>$pname)
 //                ))));
 //    }
-    
+
     function index() {
-            $this->layout = 'noThumbnailPage';
-            $this->Content->recursive = 0;
-            $this->set('contents', $this->paginate());
+        $this->layout = 'noThumbnailPage';
+        $this->Content->recursive = 0;
+        $this->set('contents', $this->paginate());
     }
 
     function view($id = null) {
-            $this->layout = 'noThumbnailPage';
-            if (!$id) {
-                    $this->Session->setFlash(__('Invalid content', true));
-                    $this->redirect(array('action' => 'index'));
-            }
-            $this->set('content', $this->Content->read(null, $id));
+        $this->layout = 'noThumbnailPage';
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid content', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->set('content', $this->Content->read(null, $id));
     }
 
     function add() {
-            $this->layout = 'noThumbnailPage';
-            if (!empty($this->data)) {
-                    $this->Content->create();
-                    if ($this->Content->save($this->data)) {
-                            $this->Session->setFlash(__('The content has been saved', true));
-                            $this->redirect(array('action' => 'index'));
-                    } else {
-                            $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
-                    }
+        $this->layout = 'noThumbnailPage';
+        if (!empty($this->data)) {
+            $this->Content->create();
+            if ($this->Content->save($this->data)) {
+                $this->Session->setFlash(__('The content has been saved', true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
             }
-            $navlines = $this->Content->Navline->find('list');
-            $images = $this->Content->Image->find('list');
-            $this->set(compact('navlines', 'images'));
+        }
+        $navlines = $this->Content->Navline->find('list');
+        $images = $this->Content->Image->find('list');
+        $this->set(compact('navlines', 'images'));
     }
 
     function edit($id = null) {
-            $this->layout = 'noThumbnailPage';
-            if (!$id && empty($this->data)) {
-                    $this->Session->setFlash(__('Invalid content', true));
-                    $this->redirect(array('action' => 'index'));
+        $this->layout = 'noThumbnailPage';
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid content', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        if (!empty($this->data)) {
+            if ($this->Content->save($this->data)) {
+                $this->Session->setFlash(__('The content has been saved', true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
             }
-            if (!empty($this->data)) {
-                    if ($this->Content->save($this->data)) {
-                            $this->Session->setFlash(__('The content has been saved', true));
-                            $this->redirect(array('action' => 'index'));
-                    } else {
-                            $this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
-                    }
-            }
-            if (empty($this->data)) {
-                    $this->data = $this->Content->read(null, $id);
-            }
-            $images = $this->Content->Image->find('list');
-            $this->set(compact('navlines', 'images'));
+        }
+        if (empty($this->data)) {
+            $this->data = $this->Content->read(null, $id);
+        }
+        $images = $this->Content->Image->find('list');
+        $this->set(compact('navlines', 'images'));
     }
-    
+
     /**
      * Ajax Advanced Search Form
      */
-    function advanced_search(){
+    function advanced_search() {
         $this->layout = 'ajax';
         //check session for previous search data
         $y = $this->firstYear;
-        $year = array(0=>'Select');
+        $year = array(0 => 'Select');
         while ($y <= date('Y', time())) {
             $year[$y] = $y;
             $y++;
         }
-        $this->set('year',$year);
-        $this->set('month',$this->month);
-        $this->set('week',$this->week);
+        $this->set('year', $year);
+        $this->set('month', $this->month);
+        $this->set('week', $this->week);
     }
-    
+
     /**
      * Ajax editing form for Gallery Exhibits
      * 
      * @param int $id The id of the record to pull for editing
      */
-    function edit_exhibit($id=null) {
+    function edit_exhibit($id = null) {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid content', true));
 //            debug($this->referer());die;
@@ -260,7 +252,7 @@ class ContentsController extends AppController {
         }
         if (!empty($this->data)) {
 //            debug($this->data['ContentCollection'][0]);
-            
+
             $result = 0; // 0 at the end means nothing saved properly
             $result_message = '';
             //save the Content portion
@@ -270,7 +262,7 @@ class ContentsController extends AppController {
             } else {
                 $result_message = __('The content could not be saved. Please, try again.', true);
             }
-            if (isset($this->data['ContentCollection'][0]['Supplement'])){
+            if (isset($this->data['ContentCollection'][0]['Supplement'])) {
                 if ($this->Content->ContentCollection->Supplement->saveAll($this->data['ContentCollection'][0]['Supplement'])) {
                     $result_message .= __('<br />The supplements have been saved', true);
                     $result += 1;
@@ -285,46 +277,45 @@ class ContentsController extends AppController {
                 $result_message .= __("<br />The image could not be saved. Please, try again.", true);
             }
             $this->Session->setFlash($result_message);
-            if($result > 0){
-            // refresh the screen after everythign is saved
+            if ($result > 0) {
+                // refresh the screen after everythign is saved
                 $this->passedArgs = unserialize($this->data['Content']['passedArgs']);
                 $this->params = unserialize($this->data['Content']['params']);
                 $this->gallery();
-                $this->render('gallery','thumbnailPage');
-            } else{
+                $this->render('gallery', 'thumbnailPage');
+            } else {
                 // SEE ISSUE 82 FOR THE DIRECTION TO GO ON THIS SECTION
-            // if nothing saved, redraw the form
+                // if nothing saved, redraw the form
                 $packet = $this->data;
                 unset($this->data);
             }
         }
-        if(empty($this->data)){
-        $this->layout = 'ajax';
+        if (empty($this->data)) {
+            $this->layout = 'ajax';
 //        $this->layout = 'noThumbnailPage';
-            $packet = $this->Content->find('all',array(
-                'contain'=>array(
+            $packet = $this->Content->find('all', array(
+                'contain' => array(
                     'Image',
-                    'ContentCollection'=>array(
-                        'Collection' =>array(
+                    'ContentCollection' => array(
+                        'Collection' => array(
                             'Category'
                         ),
                         'Supplement'
                     )
-
                 ),
-                'conditions'=>array('Content.id'=>$id)
-            ));
-        $this->set('packet',$packet);
+                'conditions' => array('Content.id' => $id)
+                    ));
+            $this->set('packet', $packet);
         }
 //        $this->Session->setFlash('a test message');
     }
-    
+
     /**
      * Ajax editing form for newsfeed and blog dispatches
      * 
      * @param int $id The id of the record to pull for editing
      */
-    function edit_dispatch($id=null) {
+    function edit_dispatch($id = null) {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid content', true));
 //            
@@ -335,40 +326,36 @@ class ContentsController extends AppController {
             $this->params = unserialize($this->data['params']);
             $this->passedArgs = unserialize($this->data['passedArgs']);
 //            debug($this->params);//die;
-            $message = ($this->Content->saveAll($this->data['Content']))
-                ? 'Content records saved'
-                : 'Content record save failed';
-            $message .= ($this->Content->Image->saveAll($this->data['Image']))
-                ? "<br />Image records saved"
-                : "<br />Image record save failed";
+            $message = ($this->Content->saveAll($this->data['Content'])) ? 'Content records saved' : 'Content record save failed';
+            $message .= ($this->Content->Image->saveAll($this->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
-            $this->redirect('/'.$this->params['url']['url'].'/#');
+            $this->redirect('/' . $this->params['url']['url'] . '/#');
         }
-        if(empty($this->data)){
-        $this->layout = 'ajax';
+        if (empty($this->data)) {
+            $this->layout = 'ajax';
 //        $this->layout = 'noThumbnailPage';
-            $packet = $this->Content->find('all',array(
-                'contain'=>array(
+            $packet = $this->Content->find('all', array(
+                'contain' => array(
                     'Image',
-                    'ContentCollection'=>array(
-                        'Collection' =>array(
+                    'ContentCollection' => array(
+                        'Collection' => array(
                             'Category'
                         )
                     )
                 ),
-                'conditions'=>array('Content.id'=>$id)
-            ));
+                'conditions' => array('Content.id' => $id)
+                    ));
             $record[0]['Content'][$packet[0]['Content']['id']] = $packet[0]['Content'];
             $record[0]['Image'][$packet[0]['Content']['id']] = $packet[0]['Image'];
-            $this->set('linkNumber',$packet[0]['Content']['id']);
-        $this->set('packet',$record);
+            $this->set('linkNumber', $packet[0]['Content']['id']);
+            $this->set('packet', $record);
 //        // now pull unpublished images. Those are potential
 //        // inline images.
-        $iiLinks = $this->unpubImageLinks($_POST['collection'][0],$_POST['slug']);
-        $this->set('iiLinks',$iiLinks);
+            $iiLinks = $this->unpubImageLinks($_POST['collection'][0], $_POST['slug']);
+            $this->set('iiLinks', $iiLinks);
         }
 //        $this->Session->setFlash('a test message');
-        }
+    }
 
     /**
      * Given a collection_id, create markdown links for inline images
@@ -387,17 +374,17 @@ class ContentsController extends AppController {
      * @param int $collection The collection_id to query
      * @return string A block of text with all the link markdown
      */
-    function unpubImageLinks($collection,$slug){
-        $inlineImages = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array(
+    function unpubImageLinks($collection, $slug) {
+        $inlineImages = $this->Content->ContentCollection->find('all', array(
+            'fields' => array(
                 'ContentCollection.collection_id',
                 'ContentCollection.content_id',
                 'ContentCollection.publish',
                 'ContentCollection.seq'
             ),
-            'contain'=>array(
-                'Content'=>array(
-                    'fields'=>array(
+            'contain' => array(
+                'Content' => array(
+                    'fields' => array(
                         'Content.id',
                         'Content.image_id',
                         'Content.alt',
@@ -405,8 +392,8 @@ class ContentsController extends AppController {
                         'Content.content',
                         'Content.slug'
                     ),
-                    'Image'=>array(
-                        'fields'=>array(
+                    'Image' => array(
+                        'fields' => array(
                             'Image.id',
                             'Image.alt',
                             'Image.title',
@@ -418,106 +405,103 @@ class ContentsController extends AppController {
                     )
                 )
             ),
-            'conditions'=>array(
-                'Content.slug'=>$slug,
-                'ContentCollection.collection_id'=>$collection,
-                'ContentCollection.publish'=>0
+            'conditions' => array(
+                'Content.slug' => $slug,
+                'ContentCollection.collection_id' => $collection,
+                'ContentCollection.publish' => 0
             )
-        ));
+                ));
 //        debug($inlineImages);
 //        ![Final Lucha Libre hot stamp design elements][1]
 //        [1]: LLpx005.jpg "Lucha Libre!"
-        if(is_array($inlineImages)){
-        $iiLinks = 'Unpublished Image links:</br>';
-            foreach($inlineImages as $image){
+        if (is_array($inlineImages)) {
+            $iiLinks = 'Unpublished Image links:</br>';
+            foreach ($inlineImages as $image) {
                 $index = $image['Content']['Image']['id'];
-                $alt = ($image['Content']['alt']=='') ? $image['Content']['Image']['alt'] : $image['Content']['alt'];
-                $caption = ($image['Content']['content']=='') ? '' : '&lt;caption&gt;'.$image['Content']['content']."&lt;/caption&gt;\r";
+                $alt = ($image['Content']['alt'] == '') ? $image['Content']['Image']['alt'] : $image['Content']['alt'];
+                $caption = ($image['Content']['content'] == '') ? '' : '&lt;caption&gt;' . $image['Content']['content'] . "&lt;/caption&gt;\r";
                 $title = (empty($image['Content']['title'])) ? $image['Content']['Image']['title'] : $image['Content']['title'];
-                
-                $iiLinks .= 
-                    "<br />![" . $alt
-                    . "][$index]<br />" . $caption
-                    .'<br />['.$index.']: '.$image['Content']['Image']['img_file'] . ' ' .$title . "<br />";
+
+                $iiLinks .=
+                        "<br />![" . $alt
+                        . "][$index]<br />" . $caption
+                        . '<br />[' . $index . ']: ' . $image['Content']['Image']['img_file'] . ' ' . $title . "<br />";
 //                $inlineImages[$index]['image'] = $image['Content']['Image']['img_file'];
             }
         }
         return "<code>$iiLinks</code>";
     }
-    
-    
+
     function delete($id = null) {
-            $this->layout = 'noThumbnailPage';
-            if (!$id) {
-                    $this->Session->setFlash(__('Invalid id for content', true));
-                    $this->redirect(array('action'=>'index'));
-            }
-            if ($this->Content->delete($id)) {
-                    $this->Session->setFlash(__('Content deleted', true));
-                    $this->redirect(array('action'=>'index'));
-            }
-            $this->Session->setFlash(__('Content was not deleted', true));
+        $this->layout = 'noThumbnailPage';
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid id for content', true));
             $this->redirect(array('action' => 'index'));
+        }
+        if ($this->Content->delete($id)) {
+            $this->Session->setFlash(__('Content deleted', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->Session->setFlash(__('Content was not deleted', true));
+        $this->redirect(array('action' => 'index'));
     }
 
-    function sequence(){
-        $this->layout='ajax';
-        if(isset($this->data[0])){
+    function sequence() {
+        $this->layout = 'ajax';
+        if (isset($this->data[0])) {
             //save the data here
             $this->Content->ContentCollection->saveAll($this->data);
             $this->blogPage();
-            $this->render('blog','ajax');
+            $this->render('blog', 'ajax');
         } else {
-        $conditions = array(
-            'Collection.category_id'=>$this->categoryNI['dispatch']
+            $conditions = array(
+                'Collection.category_id' => $this->categoryNI['dispatch']
 //            ,'Content.publish'=>1
             );
-        
-        if(!isset($this->params['pass'][0])){
-            $most_recent = $this->readMostRecentBlog($conditions);
-            $conditions['Content.slug'] = $most_recent['Content']['slug'];
-            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
-            
-        } elseif (is_numeric($this->params['pass'][0])){
-            $conditions['ContentCollection.collection_id'] = $this->params['pass'][0];
-            
-            if (isset($this->params['pass'][1]) && is_string($this->params['pass'][1])) {
-                $conditions['Content.slug'] = $this->params['pass'][1];
-            }
-        } elseif (is_string($this->params['pass'][0])) {
-            $conditions['Content.slug'] = $this->params['pass'][0];
-            $most_recent = $this->readMostRecentBlog($conditions);
-            $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
 
-        }
+            if (!isset($this->params['pass'][0])) {
+                $most_recent = $this->readMostRecentBlog($conditions);
+                $conditions['Content.slug'] = $most_recent['Content']['slug'];
+                $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+            } elseif (is_numeric($this->params['pass'][0])) {
+                $conditions['ContentCollection.collection_id'] = $this->params['pass'][0];
+
+                if (isset($this->params['pass'][1]) && is_string($this->params['pass'][1])) {
+                    $conditions['Content.slug'] = $this->params['pass'][1];
+                }
+            } elseif (is_string($this->params['pass'][0])) {
+                $conditions['Content.slug'] = $this->params['pass'][0];
+                $most_recent = $this->readMostRecentBlog($conditions);
+                $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
+            }
 //        debug($most_recent);
 //        debug($this->params);
 //        debug($pname);die;
-        $sequence_set = $this->Content->ContentCollection->find('all',array(
-            'fields'=>array(
-                'ContentCollection.id','ContentCollection.content_id',
-                'ContentCollection.collection_id','ContentCollection.seq',
-                'ContentCollection.publish'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading'),
-//                    'conditions'=>array('Content.publish'=>1),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file')
+            $sequence_set = $this->Content->ContentCollection->find('all', array(
+                'fields' => array(
+                    'ContentCollection.id', 'ContentCollection.content_id',
+                    'ContentCollection.collection_id', 'ContentCollection.seq',
+                    'ContentCollection.publish'),
+                'contain' => array(
+                    'Collection' => array(
+                        'fields' => array('Collection.id', 'Collection.category_id', 'Collection.slug')
                     ),
-                    'ContentCollection'=>array('fields'=>array('ContentCollection.seq'))
-                )
-            ),
-            'order'=>'ContentCollection.seq ASC',
-            'conditions' => $conditions
-        ));
-        $this->set('sequence_set',$sequence_set);
+                    'Content' => array(
+                        'fields' => array('Content.id', 'Content.content', 'Content.heading'),
+//                    'conditions'=>array('Content.publish'=>1),
+                        'Image' => array(
+                            'fields' => array('Image.alt', 'Image.title', 'Image.img_file')
+                        ),
+                        'ContentCollection' => array('fields' => array('ContentCollection.seq'))
+                    )
+                ),
+                'order' => 'ContentCollection.seq ASC',
+                'conditions' => $conditions
+                    ));
+            $this->set('sequence_set', $sequence_set);
         }
     }
-    
+
     /**
      * Pull a blog aricle and return it (ajax)
      * 
@@ -525,11 +509,11 @@ class ContentsController extends AppController {
      * pull the article (probably a linked detail)
      * and return it to the page
      */
-    function pull_detail(){
+    function pull_detail() {
         debug($this->params);
         die;
     }
-        
+
     /**
      * Landing page for the blog
      * 
@@ -538,26 +522,25 @@ class ContentsController extends AppController {
      * Much more to come
      * @todo look at a sys to save the user's size pref in db or session
      */
-    function blog(){
+    function blog() {
         $this->readBlogTOC();
-        $this->layout='blog_layout';
+        $this->layout = 'blog_layout';
         $this->blogPage();
-        $this->set('size','x640y480');
+        $this->set('size', 'x640y480');
     }
-    
-    function blogPage(){
+
+    function blogPage() {
         $conditions = array(
-            'Collection.category_id'=>$this->categoryNI['dispatch'],
-            'ContentCollection.publish'=>1);
-        
-        if(!isset($this->params['pass'][0])){
+            'Collection.category_id' => $this->categoryNI['dispatch'],
+            'ContentCollection.publish' => 1);
+
+        if (!isset($this->params['pass'][0])) {
             $most_recent = $this->readMostRecentBlog($conditions);
             $conditions['Content.slug'] = $most_recent['Content']['slug'];
             $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
-            
-        } elseif (is_numeric($this->params['pass'][0])){
+        } elseif (is_numeric($this->params['pass'][0])) {
             $conditions['ContentCollection.collection_id'] = $this->params['pass'][0];
-            
+
             if (isset($this->params['pass'][1]) && is_string($this->params['pass'][1])) {
                 $conditions['Content.slug'] = $this->params['pass'][1];
             }
@@ -565,19 +548,18 @@ class ContentsController extends AppController {
             $conditions['Content.slug'] = $this->params['pass'][0];
             $most_recent = $this->readMostRecentBlog($conditions);
             $conditions['ContentCollection.collection_id'] = $most_recent['Collection']['id'];
-
         }
 
         $most_recent = $this->findBlogTarget($conditions);
         $last_modified = $this->getLastModified($most_recent);
-        
+
         // look for articles that detail this one
         // and articles that this one details
         $details = array();
         $parents = array();
-        foreach($most_recent as $detail){
+        foreach ($most_recent as $detail) {
             // gather any detail article specified in this ContentCollection node
-            if($detail['ContentCollection']['sub_slug'] > 0){
+            if ($detail['ContentCollection']['sub_slug'] > 0) {
                 $details[] = $this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['sub_slug']);
             }
             // and check to see is this node is a detail for some other article
@@ -587,24 +569,23 @@ class ContentsController extends AppController {
 //                    'ContentCollection.sub_slug' => $detail['ContentCollection']['id']
 //                )
 //            ));
-            if($targetParent){
+            if ($targetParent) {
                 // this IS a detail. Collect detail parents by their Category
-                foreach($targetParent as $parent){
+                foreach ($targetParent as $parent) {
                     $parents[] = $parent;
                 }
 //                debug($this->Content->ContentCollection->pullArticleLink($detail['ContentCollection']['id']));
             }
         }
 //        debug($parents);
-        $this->set('parents',$parents);
-        $this->set('details',$details);
+        $this->set('parents', $parents);
+        $this->set('details', $details);
         $this->set('relatedArticles', $this->Content->ContentCollection->pullRelatedArticles($conditions['ContentCollection.collection_id']));
-        $this->set('most_recent',$most_recent);
-        $this->set('last_modified',$last_modified);
+        $this->set('most_recent', $most_recent);
+        $this->set('last_modified', $last_modified);
         $this->set('blog_title', $most_recent[0]['Content']['heading']);
-
     }
-    
+
     /**
      * Return some batch of Content records sorted by article order
      * 
@@ -618,38 +599,38 @@ class ContentsController extends AppController {
      * @param array $conditions The ContentCollection conditions for the query
      * @return boolean|array A batch of Content/Image records or false
      */
-    function findBlogTarget($conditions = null){
-        if($conditions == null){
+    function findBlogTarget($conditions = null) {
+        if ($conditions == null) {
             return false;
         }
-        return $this->Content->ContentCollection->find('all',array(
-            'fields'=>array(
-                'ContentCollection.id', 
-                'ContentCollection.content_id',
-                'ContentCollection.collection_id',
-                'ContentCollection.modified',
-                'ContentCollection.sub_slug'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.modified','Content.slug'),
+        return $this->Content->ContentCollection->find('all', array(
+                    'fields' => array(
+                        'ContentCollection.id',
+                        'ContentCollection.content_id',
+                        'ContentCollection.collection_id',
+                        'ContentCollection.modified',
+                        'ContentCollection.sub_slug'),
+                    'contain' => array(
+                        'Collection' => array(
+                            'fields' => array('Collection.id', 'Collection.category_id', 'Collection.slug', 'Collection.heading')
+                        ),
+                        'Content' => array(
+                            'fields' => array('Content.id', 'Content.content', 'Content.heading', 'Content.modified', 'Content.slug'),
 //                    'conditions'=>array('Content.publish'=>1),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file',
-                            'Image.created', 'Image.date','Image.id')
-                    )
-                )
-            ),
-            'order'=>array(
-                'ContentCollection.seq ASC',
-                'ContentCollection.id ASC'
-            ),
-            'conditions' => $conditions
-        ));        
+                            'Image' => array(
+                                'fields' => array('Image.alt', 'Image.title', 'Image.img_file',
+                                    'Image.created', 'Image.date', 'Image.id')
+                            )
+                        )
+                    ),
+                    'order' => array(
+                        'ContentCollection.seq ASC',
+                        'ContentCollection.id ASC'
+                    ),
+                    'conditions' => $conditions
+                ));
     }
-    
+
     /**
      * Find the most recent modification date in an article
      * 
@@ -659,16 +640,16 @@ class ContentsController extends AppController {
      * @param array $article The article array
      * @return string The most recent DateTimestamp
      */
-    function getLastModified($article){
+    function getLastModified($article) {
         $dates = array();
-        foreach($article as $block){
+        foreach ($article as $block) {
             $dates[] = $block['Content']['modified'];
             $dates[] = $block['ContentCollection']['modified'];
         }
         sort($dates);
         return array_pop($dates);
     }
-    
+
     /**
      * Reset the modification dates of Content and Image record(s)
      * 
@@ -683,45 +664,39 @@ class ContentsController extends AppController {
      * 
      * @param $param The article slug or record id
      */
-    function resetContentDates($content_id, $slug = false){
+    function resetContentDates($content_id, $slug = false) {
         $conditions = array(
-            'Collection.category_id'=>$this->categoryNI['dispatch'],
-            'ContentCollection.publish'=>1);
-        if(intval($content_id) == $content_id && is_string($slug)){
+            'Collection.category_id' => $this->categoryNI['dispatch'],
+            'ContentCollection.publish' => 1);
+        if (intval($content_id) == $content_id && is_string($slug)) {
             $conditions['ContentCollection.collection_id'] = $content_id;
-            $conditions['Content.slug'] = $slug;            
-        } elseif(intval($content_id) == $content_id){
+            $conditions['Content.slug'] = $slug;
+        } elseif (intval($content_id) == $content_id) {
             $conditions['ContentCollection.content_id'] = $content_id;
         } else {
             $conditions = false;
             $this->Session->setFlash('Only a Content.slug or Content.id may be passed');
         }
-        if($conditions){
+        if ($conditions) {
             $result = $this->findBlogTarget($conditions);
-            if($result && !empty($result)){
+            if ($result && !empty($result)) {
                 $content = array();
                 array_walk($result, 'resetDate', &$content);
-                if(!empty($content)){
-                    
-                    $message = ($this->Content->saveAll($content['Content']))
-                        ? '<p>'. count($content['Content']).' Content record dates reset.</p>'
-                        : '<p>'. count($content['Content']).' Content record reset failed.</p>';
-                    $message .= ($this->Content->Image->saveAll($content['Image']))
-                        ? '<p>'. count($content['Image']).' Image record dates reset.</p>'
-                        : '<p>'. count($content['Image']).' Image record reset failed.</p>';
-                    $message .= ($this->Content->ContentCollection->saveAll($content['ContentCollection']))
-                        ? '<p>'. count($content['ContentCollection']).' ContentCollection record dates reset.</p>'
-                        : '<p>'. count($content['ContentCollection']).' ContentCollection record reset failed.</p>';
+                if (!empty($content)) {
+
+                    $message = ($this->Content->saveAll($content['Content'])) ? '<p>' . count($content['Content']) . ' Content record dates reset.</p>' : '<p>' . count($content['Content']) . ' Content record reset failed.</p>';
+                    $message .= ($this->Content->Image->saveAll($content['Image'])) ? '<p>' . count($content['Image']) . ' Image record dates reset.</p>' : '<p>' . count($content['Image']) . ' Image record reset failed.</p>';
+                    $message .= ($this->Content->ContentCollection->saveAll($content['ContentCollection'])) ? '<p>' . count($content['ContentCollection']) . ' ContentCollection record dates reset.</p>' : '<p>' . count($content['ContentCollection']) . ' ContentCollection record reset failed.</p>';
                 }
                 $this->Session->setFlash($message);
 //                debug($content);
             } else {
-                $this->Session->setFlash('No records were found, none were modified for the search <pre>'.  print_r($conditions, TRUE). '</pre>');
+                $this->Session->setFlash('No records were found, none were modified for the search <pre>' . print_r($conditions, TRUE) . '</pre>');
             }
         }
         $this->redirect($this->referer());
     }
-    
+
     /**
      * Read the full blog table of contents from cache or db
      * 
@@ -753,36 +728,36 @@ class ContentsController extends AppController {
      */
     function readBlogTOC() {
         $recentPosts = $this->Content->ContentCollection->recentBlog();
-        if(!($toc = Cache::read('toc'))) {
+        if (!($toc = Cache::read('toc'))) {
             $toc = $this->Content->ContentCollection->Collection->articleTOC('dispatch');
             Cache::write('toc', $toc);
         }
-        $this->set('toc',$toc);
+        $this->set('toc', $toc);
 //        $recentPosts = $this->Content->recentNews(8);
-        $this->set('recentPosts',$recentPosts);
-        $this->set('result_imagePath',  $result_imagePath = 'images/thumb/x75y56/');
+        $this->set('recentPosts', $recentPosts);
+        $this->set('result_imagePath', $result_imagePath = 'images/thumb/x75y56/');
         $this->usergroupid = (isset($this->usergroupid)) ? $this->usergroupid : 0;
         if ($this->username) {
             $condition['OR'] = array(
-                array('Navigator.account' => '0'), 
+                array('Navigator.account' => '0'),
                 array('Navigator.account >=' => $this->usergroupid));
             // User account $find_params['conditions'] = array("Navigator.account = '0' OR Navigator.account = '3'");
-            $access=$this->usergroupid;
+            $access = $this->usergroupid;
         } else {
             $condition['Navigator.account'] = '0';
         }
-        $rootMenu = $this->Navigator->find('all',array(
-            'conditions'=>array(
-                'Navigator.parent_id IS NULL',
-                'Navigator.publish' => 1,
-                'Navline.route NOT' => 'blog',
+        $rootMenu = $this->Navigator->find('all', array(
+            'conditions' => array(
+        'Navigator.parent_id IS NULL',
+        'Navigator.publish' => 1,
+        'Navline.route NOT' => 'blog',
             ) + $condition,
             'order' => 'Navigator.lft ASC'
-        ));
-        $this->set('rootMenu',$rootMenu);
+                ));
+        $this->set('rootMenu', $rootMenu);
 //        debug($rootMenu);die;
     }
-    
+
     /**
      * Discover the most recent dispatch entry (blog post)
      * 
@@ -793,20 +768,19 @@ class ContentsController extends AppController {
      * @return array The most recent blog entry
      */
     function readMostRecentBlog($conditions) {
-        return $this->Content->ContentCollection->find('first',array(
-            'fields'=>array('ContentCollection.content_id','ContentCollection.collection_id'),
-            'contain'=>array(
-                'Collection'=>array(
-                    'fields'=>array('Collection.id','Collection.category_id','Collection.slug')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.slug')
-                )
-            ),
-            'order'=>'ContentCollection.created DESC',
-            'conditions' => $conditions
-        ));
-        
+        return $this->Content->ContentCollection->find('first', array(
+                    'fields' => array('ContentCollection.content_id', 'ContentCollection.collection_id'),
+                    'contain' => array(
+                        'Collection' => array(
+                            'fields' => array('Collection.id', 'Collection.category_id', 'Collection.slug')
+                        ),
+                        'Content' => array(
+                            'fields' => array('Content.id', 'Content.content', 'Content.heading', 'Content.slug')
+                        )
+                    ),
+                    'order' => 'ContentCollection.created DESC',
+                    'conditions' => $conditions
+                ));
     }
 
     /**
@@ -817,12 +791,12 @@ class ContentsController extends AppController {
      * 
      * Much more to come
      */
-    function products(){
+    function products() {
         $this->layout = 'noThumbnailPage';
 //        $this->set('result_imagePath',  $this->result_imagePath);
 
-        $this->set('recentNews',  $this->Content->recentNews(3));
-        $this->set('recentExhibits',$this->Content->recentExhibits(3));
+        $this->set('recentNews', $this->Content->recentNews(3));
+        $this->set('recentExhibits', $this->Content->recentExhibits(3));
     }
 
     /**
@@ -834,7 +808,7 @@ class ContentsController extends AppController {
      * If no gallery content is found, it pulls three (3) representative art links from child nodes of the menu tree.
      * 
      */
-    function art(){
+    function art() {
         $this->css[] = 'art';
 
 //        // get the pname
@@ -876,45 +850,45 @@ class ContentsController extends AppController {
         // get a paginated filmstrip and an beauty shot
         $this->gallery('art');
 
-        if(empty($this->viewVars['filmStrip'])){
+        if (empty($this->viewVars['filmStrip'])) {
             // didn't find any Content records for pname
             // scrap the thumbnailPage layout
             $this->layout = 'noThumbnailPage';
             // and get some links for nested art inside this node
             // so we can make a landing page with links
-            $nav = $this->Navigator->find('all',array(
-                'conditions'=>array(
-                    'Navline.route'=>  $this->params['pname']
+            $nav = $this->Navigator->find('all', array(
+                'conditions' => array(
+                    'Navline.route' => $this->params['pname']
                 )
-            ));
-            
+                    ));
+
             // since we don't have a beauty-shot gallery, lets
             // plumb the menu-nest and show some deep links
             $nav = $this->Navigator->children($nav[0]['Navigator']['id'], false, null, null, null, 1, 1);
             $deepLinks = array();
-            if(!empty($nav)){
+            if (!empty($nav)) {
                 // found nested nodes, look for Content for them
-                foreach($nav as $node){
+                foreach ($nav as $node) {
                     $slug = $node['Navline']['route'];
                     $content = $this->Content->ContentCollection->nodeMemeber($node['Navline']['route']);
-                    if($content){
+                    if ($content) {
                         $deepLinks[] = $content;
                     }
                 }
                 // should have some Content now for art/edition link construction
                 // if there are a lot, get 3 random ones for output
-                if(count($deepLinks)>3){
+                if (count($deepLinks) > 3) {
                     shuffle($deepLinks);
                     $chunk = array_chunk($deepLinks, 3);
                     $deepLinks = $chunk[0];
                 }
             }
-            $this->set('deepLinks',$deepLinks);
-            
+            $this->set('deepLinks', $deepLinks);
+
             //@todo TODO ================================ TODO
             // and finally, see if we have any LIKE %pname% blog articles to offer as reprints
         }
-        
+
         // search should be fixed to maintain its own default array
         // now we've either got a beauty shot and paginated filmstrip
         // or a set of representative projects from deeper levels
@@ -922,35 +896,34 @@ class ContentsController extends AppController {
 
         $details = array();
         $count = 0;
-        if(isset($this->viewVars['neighbors'])){
-            foreach($this->viewVars['neighbors'] as $detail){
-                if($detail['detail'] > 0){
+        if (isset($this->viewVars['neighbors'])) {
+            foreach ($this->viewVars['neighbors'] as $detail) {
+                if ($detail['detail'] > 0) {
                     $details[$count] = $this->Content->ContentCollection->pullArticleLink($detail['detail']);
                 }
             }
         }
-        $this->set('details',$details);
-        
+        $this->set('details', $details);
+
         // This makes the page header
-        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
-            'conditions'=> array(
-                'Collection.category_id' => $this->categoryNI['art'],
-                'Collection.slug' => $this->params['pname']
-            ),
-            'recursive' => -1
-        )));
-        
+        $this->set('collection', $this->Content->ContentCollection->Collection->find('first', array(
+                    'conditions' => array(
+                        'Collection.category_id' => $this->categoryNI['art'],
+                        'Collection.slug' => $this->params['pname']
+                    ),
+                    'recursive' => -1
+                )));
+
         $searchResults = $this->Content->siteSearch(array(
 //            'Content.heading' => $this->viewVars['collection']['Collection']['heading']
             'Content.heading' => 'Art & Editions'
-        ));
-        $this->set('searchResults', isset($searchResults['dispatch'])?$searchResults['dispatch']:'');
-        
+                ));
+        $this->set('searchResults', isset($searchResults['dispatch']) ? $searchResults['dispatch'] : '');
+
         // do the data pulls for any sub_collections use ContentCollection.id
 //        debug($this->Content->ContentCollection->pullArticleLink(546));
-
     }
-    
+
     /**
      * Landing page for a major Product category
      * 
@@ -959,22 +932,22 @@ class ContentsController extends AppController {
      * Some general product descriptions
      * and some display of pricing samples or purchase links from Catalog
      */
-    function product_landing(){
+    function product_landing() {
         $this->layout = 'noThumbnailPage';
 //        $this->set('result_imagePath',  $this->result_imagePath);
-        $this->set('collection', $this->Content->ContentCollection->Collection->find('first',array(
-            'conditions'=> array(
-                'Collection.category_id' => $this->categoryNI['exhibit'],
-                'Collection.slug' => $this->params['pname']
-            ),
-            'recursive' => -1
-        )));
-        $this->set('recentNews',  $this->Content->recentNews(2,  $this->params['pname']));
-        $this->set('recentExhibit',  $this->Content->recentExhibits(2,  $this->params['pname']));
-        $sale_items = $this->Catalog->find('all',array(
-            'conditions'=>array('category'=>  $this->params['pname'])
-        ));
-        $this->set('sale_items',$sale_items);
+        $this->set('collection', $this->Content->ContentCollection->Collection->find('first', array(
+                    'conditions' => array(
+                        'Collection.category_id' => $this->categoryNI['exhibit'],
+                        'Collection.slug' => $this->params['pname']
+                    ),
+                    'recursive' => -1
+                )));
+        $this->set('recentNews', $this->Content->recentNews(2, $this->params['pname']));
+        $this->set('recentExhibit', $this->Content->recentExhibits(2, $this->params['pname']));
+        $sale_items = $this->Catalog->find('all', array(
+            'conditions' => array('category' => $this->params['pname'])
+                ));
+        $this->set('sale_items', $sale_items);
     }
 
     /**
@@ -994,41 +967,40 @@ class ContentsController extends AppController {
      * @param int $id The Exhibit to detail
      * @param string $pname The product group (normally comes in on $this->params['pname'])
      */
-    function gallery($category = 'exhibit'){
+    function gallery($category = 'exhibit') {
 //        debug($this->passedArgs);
         // Tailor pagination to Exhibits then call for the filmStrip
-        $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
-        $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
+        $id = (isset($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
+        $page = (isset($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
         $this->setExhibitFilmstripParams();
 
         $this->pageConditions = array(
-                'ContentCollection.publish' => 1,
-                'Collection.slug' => $pname,
-                'Collection.category_id' => $this->categoryNI[$category]//$this->category[0]['Category']['id']
-            );
+            'ContentCollection.publish' => 1,
+            'Collection.slug' => $pname,
+            'Collection.category_id' => $this->categoryNI[$category]//$this->category[0]['Category']['id']
+        );
 
         $neighbors = $this->filmstripNeighbors();
-        
+
         // if we get just an id we must find which page the image is on
-        if(!isset($this->passedArgs['page']) && isset($this->passedArgs['id'])){
+        if (!isset($this->passedArgs['page']) && isset($this->passedArgs['id'])) {
             $page = $neighbors[$this->passedArgs['id']]['page'];
         }
 
         $this->set('neighbors', $neighbors);
-        $this->set('filmStrip',$this->pullFilmStrip($page));
-        
+        $this->set('filmStrip', $this->pullFilmStrip($page));
+
         if (!$id) {
             $id = $this->discoverFirstExhibit();
         }
         $this->pullExhibit($id);
-        
+
         $details = array();
-        if(isset($this->viewVars['neighbors'][$id]['detail']) && $this->viewVars['neighbors'][$id]['detail'] > 0){
+        if (isset($this->viewVars['neighbors'][$id]['detail']) && $this->viewVars['neighbors'][$id]['detail'] > 0) {
             $details[] = $this->Content->ContentCollection->pullArticleLink($this->viewVars['neighbors'][$id]['detail']);
         }
-        $this->set('details',$details);
-
+        $this->set('details', $details);
     }
 
     /**
@@ -1043,54 +1015,53 @@ class ContentsController extends AppController {
      * @todo Provide some form of db-down protection
      */
     function pullExhibit($id = false) {
-        $this->set('exhibit',"This is exhibit $id.");
+        $this->set('exhibit', "This is exhibit $id.");
 //        $this->set('content',  $this->Content->find('all',array('conditions'=>array('Content.id = '=>$id))));
-        
-        if ($id) {
-        $record = $this->Content->find('first',array(
-            'conditions'=>array('Content.id'=>$id),
-            'fields'=>array('Content.image_id',
-                'Content.alt',
-                'Content.content',
-                'Content.heading',
-                'Content.slug'),
-            'contain'=>array(
-                'Image'=>array(
-                    'fields'=>array(
-                        'Image.id',
-                        'Image.img_file',
-                        'Image.mimetype',
-                        'Image.filesize',
-                        'Image.width',
-                        'Image.height',
-                        'Image.title',
-                        'Image.alt',
-                        'Image.date',
-                        'Image.upload'
-                    )                ),
-                'ContentCollection'=>array(
-                    'fields'=>array('ContentCollection.collection_id',
-                        'ContentCollection.sub_slug',
-                        'ContentCollection.publish',
-                        'ContentCollection.seq'),
-                    'Collection'=>array(
-                        'fields'=>array('Collection.id','Collection.category_id','Collection.slug','Collection.heading'),
-                        'Category'=>array(
-                            'fields'=>array('Category.id','Category.name','Category.supplement_list')
-                        )
-                    ),
-                    'Supplement'=>array(
-                        'fields'=>array(
-                            'Supplement.content_collection_id',
-                            'Supplement.type',
-                            'Supplement.data')
-                    )
 
-                )
-            ))); 
-        
-        $this->compressSupplements($record);
-        $this->set('record',$record);
+        if ($id) {
+            $record = $this->Content->find('first', array(
+                'conditions' => array('Content.id' => $id),
+                'fields' => array('Content.image_id',
+                    'Content.alt',
+                    'Content.content',
+                    'Content.heading',
+                    'Content.slug'),
+                'contain' => array(
+                    'Image' => array(
+                        'fields' => array(
+                            'Image.id',
+                            'Image.img_file',
+                            'Image.mimetype',
+                            'Image.filesize',
+                            'Image.width',
+                            'Image.height',
+                            'Image.title',
+                            'Image.alt',
+                            'Image.date',
+                            'Image.upload'
+                        )),
+                    'ContentCollection' => array(
+                        'fields' => array('ContentCollection.collection_id',
+                            'ContentCollection.sub_slug',
+                            'ContentCollection.publish',
+                            'ContentCollection.seq'),
+                        'Collection' => array(
+                            'fields' => array('Collection.id', 'Collection.category_id', 'Collection.slug', 'Collection.heading'),
+                            'Category' => array(
+                                'fields' => array('Category.id', 'Category.name', 'Category.supplement_list')
+                            )
+                        ),
+                        'Supplement' => array(
+                            'fields' => array(
+                                'Supplement.content_collection_id',
+                                'Supplement.type',
+                                'Supplement.data')
+                        )
+                    )
+                    )));
+
+            $this->compressSupplements($record);
+            $this->set('record', $record);
         }
     }
 
@@ -1101,13 +1072,11 @@ class ContentsController extends AppController {
      */
     function discoverFirstExhibit() {
 //        $this->set('introduction', "This is a gallery introduction page");
-        $this->params['named']['id'] = 
-            (isset($this->viewVars['filmStrip'][0]['Content']['id']))
-                ? $this->viewVars['filmStrip'][0]['Content']['id']
-                : false;
+        $this->params['named']['id'] =
+                (isset($this->viewVars['filmStrip'][0]['Content']['id'])) ? $this->viewVars['filmStrip'][0]['Content']['id'] : false;
         return $this->params['named']['id'];
     }
-    
+
     /**
      * Set properties for typical Exhibit query
      * 
@@ -1115,14 +1084,14 @@ class ContentsController extends AppController {
      * and sets the basic Order and Fields
      * Conditions are set in the calling method
      */
-    function setExhibitFilmstripParams(){
+    function setExhibitFilmstripParams() {
         $this->pageOrder = array(
             'ContentCollection.seq' => 'ASC',
             'ContentCollection.created' => 'DESC'
-            );
-        $this->pageFields = array (
-            'ContentCollection.seq','ContentCollection.publish','ContentCollection.created'                
-        );                
+        );
+        $this->pageFields = array(
+            'ContentCollection.seq', 'ContentCollection.publish', 'ContentCollection.created'
+        );
         $this->pageContains = array(
 //            'fields' => array(
 //                'ContentCollection.seq' => 'asc'
@@ -1133,24 +1102,24 @@ class ContentsController extends AppController {
                     'Content.id',
                     'Content.image_id',
                     'Content.alt',
-                    'Content.title',                   
+                    'Content.title',
                 ),
                 'Image' => array(
                     'fields' => array(
                         'Image.img_file',
                         'Image.alt',
                         'Image.title'
-                                )
-                            )
+                    )
+                )
             ),
             'Collection' => array(
                 'fields' => array(
-                    'Collection.heading' ,
+                    'Collection.heading',
                     'Collection.slug'
                 )
-            ));
+                ));
     }
-    
+
     /**
      * Newsfeed handler
      * 
@@ -1162,7 +1131,7 @@ class ContentsController extends AppController {
      * 
      * @return null
      */
-    function newsfeed(){
+    function newsfeed() {
         $this->layout = 'thumbnailPage';
 //        debug($_ENV);
 //        debug($_REQUEST);
@@ -1173,54 +1142,53 @@ class ContentsController extends AppController {
 //        debug($this->params);
 //        die;
         $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
-        if(isset($this->usergroupid) && $this->usergroupid < 3) {
+        if (isset($this->usergroupid) && $this->usergroupid < 3) {
             $this->newsfeedAdmin($pname);
         } else {
             $this->newsfeedPublic($pname);
         }
         $this->pageOrder = array(
-                'Content.id' => 'desc'
-            );
-        
+            'Content.id' => 'desc'
+        );
+
         // To allow proper function of 'sent' links to dispatches, 
         // the :page param should never be part of the uri since 
         // it will change over time. So if a link has an id and no
         // page, its page must be calculated so the filmstip will 
         // function properly
-        if (isset ($this->passedArgs['id']) && !isset ($this->passedArgs['page'])){
+        if (isset($this->passedArgs['id']) && !isset($this->passedArgs['page'])) {
 //            debug($this->filmstripNeighbors());
 //            debug($this->params);
 //            debug($this->passedArgs);//die;
             $n = $this->filmstripNeighbors();
-            $uri = preg_replace('/\/id:[\d]+/', '/page:'.$n[$this->passedArgs['id']]['page'].'/#id'.$this->passedArgs['id'], $this->params['url']['url']);
+            $uri = preg_replace('/\/id:[\d]+/', '/page:' . $n[$this->passedArgs['id']]['page'] . '/#id' . $this->passedArgs['id'], $this->params['url']['url']);
 //            debug($uri);die;
-            $this->redirect('/'.$uri);
+            $this->redirect('/' . $uri);
         }
         // if no page/id info is provided use the first page...
         // do these default choices really make sense now?
-        $id = (isset ($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
-        $page = (isset ($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
+        $id = (isset($this->passedArgs['id'])) ? $this->passedArgs['id'] : false;
+        $page = (isset($this->passedArgs['page'])) ? $this->passedArgs['page'] : 1;
         // I don't think you can get in here without a pname
 //        $pname = (isset($this->params['pname'])) ? $this->params['pname'] : null;
-        
         // I think this should be in beforeFilter()?
-        if($this->Session->check('filmstrip.limit')){
-           $this->pageLimit = $this->Session->read('filmstrip.limit');
+        if ($this->Session->check('filmstrip.limit')) {
+            $this->pageLimit = $this->Session->read('filmstrip.limit');
         }
-        
+
         $this->Content->pullCollection($pname, $this->pageLimit);
         $this->paginateCollection($this->Content->collectionPages, $page);
         $this->set('pageData', $this->pageData);
         $this->set('collectionPage', $this->collectionPage);
         $this->set('collectionData', $this->Content->collectionData);
-        foreach($this->collectionPage as $entry){
+        foreach ($this->collectionPage as $entry) {
             $collectionJson["id{$entry['id']}"] = $entry;
         }
         $this->set('collectionJson', $collectionJson);
         $neighbors = $this->filmstripNeighbors();
         $this->set('neighbors', $neighbors);
     }
-    
+
     /**
      * This is the landing point for a jump box request.
      * 
@@ -1239,58 +1207,58 @@ class ContentsController extends AppController {
         }
         $this->redirect($url);
     }
-    
+
     /**
      * Create the url for a jump request on a newsfeed page
      * 
      * #id references get dropped from the url and must be added, not replaced
      * @return string The url to targe the requested newsfeed image
      */
-    function jumpNewsfeed(){ 
+    function jumpNewsfeed() {
         //this is the newsfeed specific find with all the neighbor data
         $this->Content->pullCollection($this->data['pname'], $this->pageLimit);
         $patterns = '/page:[0-9]+\//';
-        $replacements = 
-            'page:'.
-            $this->Content->collectionPages[$this->data['j']-1]['neighbors']['page'].'/'
-            .'#id'.
-            $this->Content->collectionPages[$this->data['j']-1]['id'];
-        if (preg_match($patterns,  $this->data['url'])){
+        $replacements =
+                'page:' .
+                $this->Content->collectionPages[$this->data['j'] - 1]['neighbors']['page'] . '/'
+                . '#id' .
+                $this->Content->collectionPages[$this->data['j'] - 1]['id'];
+        if (preg_match($patterns, $this->data['url'])) {
             return preg_replace($patterns, $replacements, $this->data['url']);
         } else {
-            return $this->data['url']. 
-            '/page:'.
-            $this->Content->collectionPages[$this->data['j']-1]['neighbors']['page'].'/'
-            .'#id'.
-            $this->Content->collectionPages[$this->data['j']-1]['id'];
+            return $this->data['url'] .
+                    '/page:' .
+                    $this->Content->collectionPages[$this->data['j'] - 1]['neighbors']['page'] . '/'
+                    . '#id' .
+                    $this->Content->collectionPages[$this->data['j'] - 1]['id'];
         }
     }
-    
-    function jumpGallery(){
+
+    function jumpGallery() {
         $this->pageOrder = array(
-                'ContentCollection.seq' => 'asc'
-            );
+            'ContentCollection.seq' => 'asc'
+        );
         $this->pageConditions = array(
-                'Collection.slug' => $this->data['pname'],
-                'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
-            );
+            'Collection.slug' => $this->data['pname'],
+            'Collection.category_id' => $this->categoryNI['exhibit']//$this->category[0]['Category']['id']
+        );
         $neighbors = $this->filmstripNeighbors();
-        $target = array_slice($neighbors, $this->data['j']-1, 1, TRUE);
-        $key=array_keys($target);
+        $target = array_slice($neighbors, $this->data['j'] - 1, 1, TRUE);
+        $key = array_keys($target);
 
         $patterns = array();
         $patterns[0] = '/page:[0-9]+\//';
         $patterns[1] = '/id:[0-9]+/';
         $replacements = array();
-        $replacements[0] = 'page:'.$target[$key[0]]['page'].'/';
-        $replacements[1] = 'id:'.$key[0];
-        if (preg_match($patterns[0],  $this->data['url'])){
+        $replacements[0] = 'page:' . $target[$key[0]]['page'] . '/';
+        $replacements[1] = 'id:' . $key[0];
+        if (preg_match($patterns[0], $this->data['url'])) {
             return preg_replace($patterns, $replacements, $this->data['url']);
         } else {
-            return $this->data['url'].'/page:'.$target[$key[0]]['page'].'/'.'id:'.$key[0];
+            return $this->data['url'] . '/page:' . $target[$key[0]]['page'] . '/' . 'id:' . $key[0];
         }
     }
-    
+
     /**
      * count - the total number of records in the result set.
      * page - the current page displayed.
@@ -1301,21 +1269,21 @@ class ContentsController extends AppController {
      * start - number of the first record being displayed.
      * end - number of the last record being displayed.
      */
-    function paginateCollection($collectionPages, $page){
+    function paginateCollection($collectionPages, $page) {
         $this->pageData['count'] = count($collectionPages);
         $this->pageData['page'] = $page;
-        
+
         $pages = array_chunk($collectionPages, $this->pageLimit);
-        $this->collectionPage = $pages[$page-1];
+        $this->collectionPage = $pages[$page - 1];
         $this->pageData['pages'] = count($pages);
         $this->pageData['current'] = count($this->collectionPage);
         $this->pageData['start'] = $this->collectionPage[0]['neighbors']['count'];
-        $this->pageData['end'] = $this->collectionPage[$this->pageData['current']-1]['neighbors']['count'];
-       
-        $this->pageData['next'] = ($page == $this->pageData['pages']) ? 1 : $page+1;
-        $this->pageData['previous'] = ($page == 1) ? $this->pageData['pages'] : $page-1;
+        $this->pageData['end'] = $this->collectionPage[$this->pageData['current'] - 1]['neighbors']['count'];
+
+        $this->pageData['next'] = ($page == $this->pageData['pages']) ? 1 : $page + 1;
+        $this->pageData['previous'] = ($page == 1) ? $this->pageData['pages'] : $page - 1;
     }
-    
+
     /**
      * Set pagination parameters appropriate to a site manager
      * 
@@ -1332,11 +1300,11 @@ class ContentsController extends AppController {
         $this->pageContains = array(
             'Content' => array(
                 'Image',
-                ),
+            ),
             'Collection'
-            );
+        );
     }
-    
+
     /**
      * Set pagination parameters appropriate to a public visitor
      * 
@@ -1349,7 +1317,7 @@ class ContentsController extends AppController {
             'Collection.slug' => $collectionName,
             'Collection.category_id' => $this->categoryNI['dispatch']//$this->category[0]['Category']['id'],
         );
- // the public only needs enough data to build the page
+        // the public only needs enough data to build the page
         $this->pageContains = array(
             'Content' => array(
                 'fields' => array(
@@ -1385,7 +1353,7 @@ class ContentsController extends AppController {
                     'Collection.text'
                 )
             )
-            );
+        );
     }
 
     /**
@@ -1406,7 +1374,7 @@ class ContentsController extends AppController {
         return $this->paginate('ContentCollection');
         //return $this->Content->ContentCollection->find('all',array($this->pageOrder,  $this->pageConditions, $this->pageFields));
     }
-    
+
     /**
      * Discover the proper links for prev/next image for every record in a collection
      * Also store the ContentCollection.id link to detail articles
@@ -1419,36 +1387,35 @@ class ContentsController extends AppController {
         $neighbors = array();
         if ($id == null) {
             // neighbors for entire collection
-            $collection = $this->Content->ContentCollection->find('all',
-                    array(
-                        'fields'=>array('Content.id','ContentCollection.sub_slug'),
-                        'conditions'=>  $this->pageConditions,
-                        'order'=>  $this->pageOrder));
+            $collection = $this->Content->ContentCollection->find('all', array(
+                'fields' => array('Content.id', 'ContentCollection.sub_slug'),
+                'conditions' => $this->pageConditions,
+                'order' => $this->pageOrder));
 
-            $max = count($collection)-1;
+            $max = count($collection) - 1;
 
             // this is overkill
             foreach ($collection as $index => $locus) {
-                $neighbors[$locus['Content']['id']]['count'] = $index+1;
+                $neighbors[$locus['Content']['id']]['count'] = $index + 1;
                 if ($index == 0) {
                     $neighbors[$locus['Content']['id']]['previous'] = $collection[$max]['Content']['id'];
                 } else {
-                    $neighbors[$locus['Content']['id']]['previous'] = $collection[$index-1]['Content']['id'];
+                    $neighbors[$locus['Content']['id']]['previous'] = $collection[$index - 1]['Content']['id'];
                 }
                 if ($index == $max) {
                     $neighbors[$locus['Content']['id']]['next'] = $collection[0]['Content']['id'];
                 } else {
-                    $neighbors[$locus['Content']['id']]['next'] = $collection[$index+1]['Content']['id'];
+                    $neighbors[$locus['Content']['id']]['next'] = $collection[$index + 1]['Content']['id'];
                 }
-                $neighbors[$locus['Content']['id']]['page'] = intval(($index/9)+1);
+                $neighbors[$locus['Content']['id']]['page'] = intval(($index / 9) + 1);
                 $neighbors[$locus['Content']['id']]['detail'] = $locus['ContentCollection']['sub_slug'];
             }
-        }else {
+        } else {
             // neighbors for id'd record
         }
         return $neighbors;
     }
-    
+
     /**
      * Compress the supplements array into key=>value pairs
      * 
@@ -1472,21 +1439,21 @@ class ContentsController extends AppController {
      * 
      * @todo what about this multiple cont_coll record situation?
      */
-    function compressSupplements(&$record){
+    function compressSupplements(&$record) {
 
         $supplement = array();
-        
-        if ($record['ContentCollection'][0]['Collection']['Category']['supplement_list'] != 'empty'){
+
+        if ($record['ContentCollection'][0]['Collection']['Category']['supplement_list'] != 'empty') {
             //there is default supplement data, so build the array
             $supplement = unserialize($record['ContentCollection'][0]['Collection']['Category']['supplement_list']);
         }
-        
-        if (isset($record['ContentCollection'][0]['Supplement'])){
-            foreach($record['ContentCollection'][0]['Supplement'] as $entry){
+
+        if (isset($record['ContentCollection'][0]['Supplement'])) {
+            foreach ($record['ContentCollection'][0]['Supplement'] as $entry) {
                 $supplement[$entry['type']] = $entry['data'];
             }
         }
-        
+
         $record['Supplement'] = $supplement;
     }
 
@@ -1494,10 +1461,10 @@ class ContentsController extends AppController {
      * Primary site search tool
      */
     function search() {
-        if($this->verifySearchData($this->data)){
+        if ($this->verifySearchData($this->data)) {
             $this->qualityConditions = array();
             // Standard or Avanced search
-            if($this->data['Standard']['searchInput']!=' Search'){
+            if ($this->data['Standard']['searchInput'] != ' Search') {
                 // Build standard query properties
                 //  $this->qualityConditions
                 //  $this->categoricalConditions
@@ -1508,62 +1475,62 @@ class ContentsController extends AppController {
                 //  $this->categoricalConditions
                 $advancedTextConditions = $this->buildAdvancedTextSearchConditions();
                 $advancedDateConditions = $this->buildAdvancedDateSearchConditions();
-                if ($advancedTextConditions){
+                if ($advancedTextConditions) {
                     $this->qualityConditions = array(
                         'OR' => $advancedTextConditions
                     );
-                    if($advancedDateConditions){
+                    if ($advancedDateConditions) {
                         $this->qualityConditions['AND'] = array(
                             'OR' => $advancedDateConditions
                         );
                     }
-                } elseif($advancedDateConditions){
+                } elseif ($advancedDateConditions) {
                     $this->qualityConditions = array(
                         'OR' => $advancedDateConditions
                     );
                 }
                 $this->Session->write('qualityConditions', serialize($this->qualityConditions));
             }
-                if($this->params['data']['action'] == 'blog'){
-                    $this->readBlogTOC();
-                    $this->layout = 'blog_layout';
-                } else {
-                    $this->layout = 'noThumbnailPage';
-                }
-                $this->set('searchResults',($this->Content->siteSearch($this->qualityConditions)));
+            if ($this->params['data']['action'] == 'blog') {
+                $this->readBlogTOC();
+                $this->layout = 'blog_layout';
             } else {
-                $this->Session->delete('qualityConditions');
-                $this->Session->setFlash('Did you click that accidentally? There were no search terms included. Try again?');
-                $this->redirect($this->referer());
-            } 
+                $this->layout = 'noThumbnailPage';
+            }
+            $this->set('searchResults', ($this->Content->siteSearch($this->qualityConditions)));
+        } else {
+            $this->Session->delete('qualityConditions');
+            $this->Session->setFlash('Did you click that accidentally? There were no search terms included. Try again?');
+            $this->redirect($this->referer());
+        }
     }
-    
+
 }
-    /**
-     * array_walk function to reset the mod dates of Content records
-     * 
-     * 
-     * 
-     * @param array Content array with Image children, automatic in array_walk
-     * @param int $key This is automatically discovered by array_walk
-     */
-    function resetDate(&$record, $key, $content){
+
+/**
+ * array_walk function to reset the mod dates of Content records
+ * 
+ * 
+ * 
+ * @param array Content array with Image children, automatic in array_walk
+ * @param int $key This is automatically discovered by array_walk
+ */
+function resetDate(&$record, $key, $content) {
 //        debug($key);
 //        debug($record);
-        $content['Content'][$key]['id'] = $record['Content']['id'];
-        $content['Image'][$key]['id'] = $record['Content']['Image']['id'];
-        $content['ContentCollection'][$key]['id'] = $record['ContentCollection']['id'];
-        $content['Content'][$key]['modified'] =
+    $content['Content'][$key]['id'] = $record['Content']['id'];
+    $content['Image'][$key]['id'] = $record['Content']['Image']['id'];
+    $content['ContentCollection'][$key]['id'] = $record['ContentCollection']['id'];
+    $content['Content'][$key]['modified'] =
             $content['Content'][$key]['created'] =
-            $content['Image'][$key]['modified'] = 
+            $content['Image'][$key]['modified'] =
             $content['Image'][$key]['created'] =
             $content['ContentCollection'][$key]['modified'] =
             $content['ContentCollection'][$key]['created'] =
-                (!empty($record['Content']['Image']['date']))
-                ? date('Y-m-d H-i-s', $record['Content']['Image']['date'])
-                : $record['Content']['Image']['created']
-        ;
+            (!empty($record['Content']['Image']['date'])) ? date('Y-m-d H-i-s', $record['Content']['Image']['date']) : $record['Content']['Image']['created']
+    ;
 //        $content['Content'][$key]['old'] = $record['Content']['modified'];
 //        $content['Image'][$key]['old'] = $record['Content']['Image']['created'];
-    }
+}
+
 ?>

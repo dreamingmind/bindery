@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id$ */
 /**
  * Short description for file.
@@ -31,33 +32,32 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-	Router::connect('/home', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+Router::connect('/home', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-        Router::connect('/pages/materials',
-                array ('controller'=>'materials','action'=>'select'));
+Router::connect('/pages/materials', array('controller' => 'materials', 'action' => 'select'));
 
-        Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
 
-    $staticPages = array(
-        'contact',
-        'intern',
-        'policies',
-        'gitpull'
-    );
+$staticPages = array(
+    'contact',
+    'intern',
+    'policies',
+    'gitpull'
+);
 
 $staticList = implode('|', $staticPages);
 
 Router::connect('/:static', array(
-        'plugin' => false,
-        'controller' => 'pages',
-        'action' => 'display'), array(
-                'static' => $staticList,
-                'pass' => array('static')
-                )
-        );
+    'plugin' => false,
+    'controller' => 'pages',
+    'action' => 'display'), array(
+    'static' => $staticList,
+    'pass' => array('static')
+        )
+);
 
 
 //        Router::connect('/products/ingest_images',
@@ -81,51 +81,40 @@ Router::connect('/:static', array(
 //        Router::connect('/kandinsky',
 //                array('controller' => 'products', 'action' => 'art', 'pass' => array('kate_jordahl','kandinsky')));
 
-        Router::connect('/sequence/*',
-                array ('controller'=>'contents','action'=>'sequence'));
+Router::connect('/sequence/*', array('controller' => 'contents', 'action' => 'sequence'));
 
-        Router::connect('/blog/*',
-                array ('controller'=>'contents','action'=>'blog'));
-        
+Router::connect('/blog/*', array('controller' => 'contents', 'action' => 'blog'));
+
 //        
 //        Router::connect('/blog/:category/:pname',
 //                array ('controller'=>'contents','action'=>'blog','category'=>null,'pname'=>null));
 //        
 //        Router::connect('/blog/:pname',
 //                array ('controller'=>'contents','action'=>'blog','pname'=>null));
-        
-        Router::connect('/products',
-                array ('controller'=>'contents','action'=>'products','pname'=>null));
-        
-        Router::connect('/products/:pname',
-                array ('controller'=>'contents','action'=>'product_landing','pname'=>null));
-        
-        Router::connect('/products/:pname/gallery/*',
-                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
-        
-        Router::connect('/products/:pname/newsfeed/*',
-        array ('controller'=>'contents','action'=>'newsfeed','pname'=>null));
-                
-        Router::connect('/products/:pname/purchase',
-        array ('controller'=>'catalogs','action'=>'catalog','pname'=>null));
-                
-        Router::connect('/products/:pname/*',
-                array ('controller'=>'contents','action'=>'gallery','pname'=>null));
-        
-        Router::connect('/art/*',
-                array ('controller'=>'contents','action'=>'art'));
-        Router::connect('/workshops',
-                array ('controller'=>'workshops','action'=>'upcoming'));
-        Router::connect('/workshops/*',
-                array ('controller'=>'workshops','action'=>'detail'));
-        
 
-        
+Router::connect('/products', array('controller' => 'contents', 'action' => 'products', 'pname' => null));
+
+Router::connect('/products/:pname', array('controller' => 'contents', 'action' => 'product_landing', 'pname' => null));
+
+Router::connect('/products/:pname/gallery/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
+
+Router::connect('/products/:pname/newsfeed/*', array('controller' => 'contents', 'action' => 'newsfeed', 'pname' => null));
+
+Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
+
+Router::connect('/products/:pname/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
+
+Router::connect('/art/*', array('controller' => 'contents', 'action' => 'art'));
+Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'upcoming'));
+Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
+
+
+
 //        Router::connect('/admin/:controller',
 //                array('controller'=>':controller', 'action'=>'index'));
 //        
 //        Router::connect('/admin/:controller/:action/*',
 //                array('controller'=>':controller', 'action'=>':action'));
 
-	Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
+Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
 ?>

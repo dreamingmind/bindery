@@ -1,88 +1,116 @@
 <?php
+
 class WorkshopsController extends AppController {
 
-	var $name = 'Workshops';
-        /**
-         * @var string $result_ImagePath picks the size of image in search result blocks
-         */
+    var $name = 'Workshops';
 
-        
+    /**
+     * @var string $result_ImagePath picks the size of image in search result blocks
+     */
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('upcoming');
         $this->Auth->allow('detail');
-        $this->set('upcoming', $this->Workshop->workshops_upcoming);
-        $this->set('potential',  $this->Workshop->workshops_potential);
-        $this->set('now', $this->Workshop->workshops_now);
         $this->css[] = 'workshop';
-        }
-        
-        function beforeRender() {
-            parent::beforeRender();
-        }
-        function upcoming(){
+    }
+
+    function beforeRender() {
+        parent::beforeRender();
+    }
+
+    function upcoming() {
 //        debug($this->params);die;
 //            $this->set('result_imagePath');
-            $this->layout = 'noThumbnailPage';
+        $this->Workshop->workshopsFeatured();
+        $this->removeFeaturedDuplicate();
+        $this->set('featured', $this->Workshop->workshops_featured);
+        $this->set('upcoming', $this->Workshop->workshops_upcoming);
+        $this->set('potential', $this->Workshop->workshops_potential);
+        $this->set('now', $this->Workshop->workshops_now);
+        //unset the fetured element from the appropriate returned data
+        $this->layout = 'noThumbnailPage';
+    }
+    
+    function removeFeaturedDuplicate() {
+        if (isset($this->Workshop->workshops_featured['source'])){
+            $source=$this->Workshop->workshops_featured['source'];
+            unset($this->Workshop->workshops_featured['source']);
+            debug(array_keys($this->Workshop->workshops_featured));
+            $key=array_keys($this->Workshop->workshops_featured);
+            debug($key[0]);debug($source);
+            switch ($source){
+                case "workshops_now":
+                    unset($this->Workshop->workshops_now[$key[0]]);
+                break;
+                case "workshops_potential":                    
+                    unset($this->Workshop->workshops_potential[$key[0]]);
+                break;
+                case "workshops upcoming":
+                    unset($this->Workshop->workshops_upcoming[$key[0]]);
+                break;
+            }
         }
+        
+    }
 
-	function index() {
-		$this->Workshop->recursive = 0;
-		$this->set('workshops', $this->paginate('Workshop'));
-                debug($this->viewVars['workshops']);die;
-	}
+    function index() {
+        $this->Workshop->recursive = 0;
+        $this->set('workshops', $this->paginate('Workshop'));
+        debug($this->viewVars['workshops']);
+        die;
+    }
 
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid workshop', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('workshop', $this->Workshop->read(null, $id));
-	}
+    function view($id = null) {
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid workshop', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->set('workshop', $this->Workshop->read(null, $id));
+    }
 
-	function add() {
-		if (!empty($this->data)) {
-			$this->Workshop->create();
-			if ($this->Workshop->save($this->data)) {
-				$this->Session->setFlash(__('The workshop has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The workshop could not be saved. Please, try again.', true));
-			}
-		}
-	}
+    function add() {
+        if (!empty($this->data)) {
+            $this->Workshop->create();
+            if ($this->Workshop->save($this->data)) {
+                $this->Session->setFlash(__('The workshop has been saved', true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The workshop could not be saved. Please, try again.', true));
+            }
+        }
+    }
 
-	function edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid workshop', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		if (!empty($this->data)) {
-			if ($this->Workshop->save($this->data)) {
-				$this->Session->setFlash(__('The workshop has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The workshop could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Workshop->read(null, $id);
-		}
-	}
+    function edit($id = null) {
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid workshop', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        if (!empty($this->data)) {
+            if ($this->Workshop->save($this->data)) {
+                $this->Session->setFlash(__('The workshop has been saved', true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The workshop could not be saved. Please, try again.', true));
+            }
+        }
+        if (empty($this->data)) {
+            $this->data = $this->Workshop->read(null, $id);
+        }
+    }
 
-	function delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for workshop', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		if ($this->Workshop->delete($id)) {
-			$this->Session->setFlash(__('Workshop deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Workshop was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
- 
+    function delete($id = null) {
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid id for workshop', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        if ($this->Workshop->delete($id)) {
+            $this->Session->setFlash(__('Workshop deleted', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->Session->setFlash(__('Workshop was not deleted', true));
+        $this->redirect(array('action' => 'index'));
+    }
+
     /**
      * Return some batch of Content records sorted by article order
      * 
@@ -96,45 +124,45 @@ class WorkshopsController extends AppController {
      * @param array $conditions The ContentCollection conditions for the query
      * @return boolean|array A batch of Content/Image records or false
      */
-    function findWorkshopTarget($conditions = null){
-        if($conditions == null){
+    function findWorkshopTarget($conditions = null) {
+        if ($conditions == null) {
             return false;
         }
-        return $this->Workshop->ContentCollection->find('all',array(
-            'fields'=>array(
-                'ContentCollection.id', 
-                'ContentCollection.content_id',
-                'ContentCollection.collection_id',
-                'ContentCollection.sub_slug'),
-            'contain'=>array(
-                'Workshop'=>array(
-                    'fields'=>array('Workshop.id','Workshop.category_id','Workshop.slug','Workshop.heading')
-                ),
-                'Content'=>array(
-                    'fields'=>array('Content.id','Content.content','Content.heading','Content.modified','Content.slug'),
+        return $this->Workshop->ContentCollection->find('all', array(
+                    'fields' => array(
+                        'ContentCollection.id',
+                        'ContentCollection.content_id',
+                        'ContentCollection.collection_id',
+                        'ContentCollection.sub_slug'),
+                    'contain' => array(
+                        'Workshop' => array(
+                            'fields' => array('Workshop.id', 'Workshop.category_id', 'Workshop.slug', 'Workshop.heading')
+                        ),
+                        'Content' => array(
+                            'fields' => array('Content.id', 'Content.content', 'Content.heading', 'Content.modified', 'Content.slug'),
 //                    'conditions'=>array('Workshop.publish'=>1),
-                    'Image'=>array(
-                        'fields'=>array('Image.alt','Image.title','Image.img_file',
-                            'Image.created', 'Image.date','Image.id')
-                    )
-                )
-            ),
-            'order'=>array(
-                'ContentCollection.seq ASC',
-                'ContentCollection.id ASC'
-            ),
-            'conditions' => $conditions
-        ));        
+                            'Image' => array(
+                                'fields' => array('Image.alt', 'Image.title', 'Image.img_file',
+                                    'Image.created', 'Image.date', 'Image.id')
+                            )
+                        )
+                    ),
+                    'order' => array(
+                        'ContentCollection.seq ASC',
+                        'ContentCollection.id ASC'
+                    ),
+                    'conditions' => $conditions
+                ));
     }
 
-        
-    function detail(){
+    function detail() {
 //        
-        $this->layout='noThumbnailPage';
+        $this->layout = 'noThumbnailPage';
         $this->expandShortUrl();
         //test if pname has content or is a collection
         //If No content
         //Search for 
+<<<<<<< Updated upstream
         $collection = $this->Workshop->find('all',array(
             'fields'=>array(
                 'Workshop.id'
@@ -145,17 +173,31 @@ class WorkshopsController extends AppController {
             ),
             'contain'=>false
         ));
+=======
+        $collection = $this->Workshop->find('first', array(
+            'fields' => array(
+                'Workshop.id'
+            ),
+            'conditions' => array(
+                'Workshop.slug' => $this->params['pname'],
+                'Workshop.role' => 'workshop'
+//               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
+            )
+                ));
+>>>>>>> Stashed changes
         debug($collection);
         debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
         debug($this->Workshop->workshops_all);
         debug($this->Workshop->workshops_upcoming);
         debug($this->Workshop->workshops_now);
         debug($this->params);
-        $article = $this->findWorkshopTarget(array('Content.slug' => $this->params['pname'],'Workshop.category_id'=>$this->Workshop->Category->categoryNI['workshop']));
-        $this->set('feature',  $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
-        $this->set('delete',array_shift($article));
-        $this->set('article',$article);
+        $article = $this->findWorkshopTarget(array('Content.slug' => $this->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+        $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+        $this->set('delete', array_shift($article));
+        $this->set('article', $article);
 //        debug($article);debug($this->Workshop->workshops_all);debug($this->Workshop->workshops_potential);die;
     }
+
 }
+
 ?>
