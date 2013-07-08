@@ -155,7 +155,7 @@ div.options fieldset:first-of-type legend {
 div.options fieldset legend {
     background: none;
     border-top: thin solid #CCCCCC;
-    color: #AA3322;
+    color: #025C0D;
     font-size: 100%;
     /*font-weight: bold;*/
     margin-bottom: 0;
@@ -164,7 +164,7 @@ div.options fieldset legend {
     width: 100%;
 }
 div.options {
-    background: none repeat scroll 0 0 #DFDFDF;
+    background: none repeat scroll 0 0 #D0D9D7;
     margin-left: 5%;
     padding-top: 10px;
     width: 90%;

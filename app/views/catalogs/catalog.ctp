@@ -1,5 +1,5 @@
 <?php
-echo $this->Form->create('Catalog', array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
+echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
 //<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
         $setList = $setlists[$productCategory];
@@ -13,6 +13,7 @@ echo $this->Form->create('Catalog', array('id' => 'orderform', 'url' => array('c
             $model = $productCategory;
             // This should be a call to a method that understands
             // which options belong to which product categories
+            echo $this->Form->button('Order', array('option' => 'slave-' . $productCategory, 'setlist' => 'order'));
             echo $this->element('options_ruling', array('fieldsetOptions' => array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
                 ),
