@@ -118,7 +118,7 @@ p.toggle {
     vertical-align: middle;
 }
 /*================================
-form elements
+table form elements
 ================================*/
 .filters input[type="checkbox"]{
     float: none
@@ -140,6 +140,20 @@ form elements
 }*/
 th, td {
     display: table-cell;
+}
+td > label {
+/*    background-color: #EEE898;
+    border: 0 none #FFFFFF;*/
+    display: inline;
+    color: #025C0D;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-left: 10px;
+}
+td > input[type="radio"] {
+    display: inline;
+    float: none;
+    width: auto;
 }
 /*================================
 option form and elements
