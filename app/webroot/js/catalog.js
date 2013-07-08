@@ -22,8 +22,15 @@ $(document).ready(function(){
         })
     }
     
+    function initProductSelections(){
+        $('td > input[type="radio"]').bind('click', function(){
+            alert($(this).parent().attr('class'));
+        })
+    }
+    
     initCheckboxes();
     initTableToggleHooks(); 
+    initProductSelections();
     // Roll up the tables to start
     $('*[id*="Toggle"].toggle').each(function(){
         $('.'+$(this).attr('id')).toggle(function(){
