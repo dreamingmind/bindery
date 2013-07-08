@@ -24,7 +24,7 @@ $(document).ready(function(){
     
     function initProductSelections(){
         $('td > input[type="radio"]').bind('click', function(){
-            alert($(this).parent().attr('class'));
+//            alert($(this).parent().attr('class'));
         })
     }
     
