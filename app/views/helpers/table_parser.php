@@ -142,7 +142,9 @@ class TableParserHelper extends AppHelper {
         $checkboxes = (($this->xyCheckbox($yy) . $this->xyCheckbox($xx) != '') ? $this->Html->div('filters', $this->xyCheckbox($yy) . '&nbsp;| ' . $this->xyCheckbox($xx)) : '')
                 . $this->Html->div('filters', $this->xyCheckbox($this->yHeaders) . ' &nbsp;| ' . $this->xyCheckbox($this->xHeaders));
 
-        return '<tr><td colspan = "' . (count($this->productChunks[0]) + $this->yColumnCount) . '">' . $checkboxes . '</td></tr>';
+        return '<tr>
+            <td><p class="filter">Use these controls to<br />filter the table content</p></td>
+            <td colspan = "' . (count($this->productChunks[0]) + $this->yColumnCount - 1) . '">' . $checkboxes . '</td></tr>';
     }
 
     private function xyCheckbox($data) {

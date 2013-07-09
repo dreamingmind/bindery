@@ -28,23 +28,29 @@ $(document).ready(function(){
         })
     }
     
+    function initTableReveal(){
+        // roll up the tables to start
+        // and put some instructions in their toggle bar
+        $('*[id*="Toggle"].toggle').each(function(){
+            $('.'+$(this).attr('id')).toggle(function(){
+
+            });
+            $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
+            $(this).bind('click', function(){
+                if($(this).children('span.instruction').html() == ' (Click to expand)'){
+                    $(this).children('span.instruction').html(' (Click to collapse)<span class="normal">Choose an item below to see design options.</span>')
+                    $(this).css('height', '40px');
+                } else {
+                    $(this).children('span.instruction').html(' (Click to expand)')
+                    $(this).css('height', '20px');
+                }
+            })
+        });
+    }
+    
     initCheckboxes();
     initTableToggleHooks(); 
     initProductSelections();
-    // Roll up the tables to start
-    $('*[id*="Toggle"].toggle').each(function(){
-        $('.'+$(this).attr('id')).toggle(function(){
-            
-        });
-        $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
-        $(this).bind('click', function(){
-            if($(this).children('span.instruction').html() == ' (Click to expand)'){
-                $(this).children('span.instruction').html(' (Click to collapse)<span class="normal">Choose an item below to see design options.</span>')
-                $(this).css('height', '40px');
-            } else {
-                $(this).children('span.instruction').html(' (Click to expand)')
-                $(this).css('height', '20px');
-            }
-        })
-    });
+    initTableReveal();
+    
 })
