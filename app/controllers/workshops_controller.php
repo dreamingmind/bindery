@@ -162,18 +162,6 @@ class WorkshopsController extends AppController {
         //test if pname has content or is a collection
         //If No content
         //Search for 
-<<<<<<< Updated upstream
-        $collection = $this->Workshop->find('all',array(
-            'fields'=>array(
-                'Workshop.id'
-            ),
-            'conditions'=>array(
-              'Workshop.slug' => $this->params['pname'],
-              'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
-            ),
-            'contain'=>false
-        ));
-=======
         $collection = $this->Workshop->find('first', array(
             'fields' => array(
                 'Workshop.id'
@@ -184,7 +172,6 @@ class WorkshopsController extends AppController {
 //               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
             )
                 ));
->>>>>>> Stashed changes
         debug($collection);
         debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
         debug($this->Workshop->workshops_all);
