@@ -425,7 +425,7 @@ class TableParserHelper extends AppHelper {
         return array(
             $productRadio . ' ' . $productCode
             , array(
-                'class' => $this->tableName . ' ' . $this->yClass[$count] . $this->xClass[$index],
+                'class' => $this->tableName . $this->yClass[$count] . $this->xClass[$index],
                 'option' => "master-{$this->tableName}",
                 'setlist' => str_replace('_', '', $this->setList . ' ' . $this->yClass[$count] . $this->xClass[$index])// 
                 ));

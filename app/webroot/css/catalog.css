@@ -182,7 +182,7 @@ div.options fieldset{
 div.options fieldset:first-of-type legend {
     border:none;
 }
-div.options fieldset legend {
+div.options fieldset legend, p.optionTitle {
     background: none;
     border-top: thin solid #CCCCCC;
     color: #025C0D;
@@ -192,6 +192,14 @@ div.options fieldset legend {
     margin-top: -3px;
     padding: 3px 0;
     width: 100%;
+}
+p.optionTitle {
+    background-color: #C0C8C6;
+    border: medium none;
+    font-size: 115%;
+    font-weight: bold;
+    padding: 12px;
+    width: 96%;
 }
 div.options {
     background: none repeat scroll 0 0 #D0D9D7;
