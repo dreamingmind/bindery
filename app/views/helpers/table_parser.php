@@ -396,7 +396,7 @@ class TableParserHelper extends AppHelper {
         $productCells = array();
         foreach ($this->productChunks[$count] as $index => $product) {
 //            debug($product);
-            if ($product['product_code']) {
+            if ($product['product_code'] != NULL) {
                 $productCells[] = $this->productRadio($product, $count, $index);
             } else {
                 $productCells[] = null;

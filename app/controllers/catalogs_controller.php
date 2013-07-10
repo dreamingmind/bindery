@@ -91,6 +91,7 @@ class CatalogsController extends AppController {
         }
         $this->layout = 'noThumbnailPage';
         $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
+//        debug($tableSet);die;
 //            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
 //order by yy_index, y_index, xx_index, x_index;'));
 

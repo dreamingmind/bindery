@@ -48,9 +48,15 @@ $(document).ready(function(){
         });
     }
     
+    function initProductRadios(){
+        $('table[class*="Toggle"]').find('input[type="radio"]').bind('click', function(){
+            alert($(this).parent().attr('class'));
+        });
+    }
+    
     initCheckboxes();
     initTableToggleHooks(); 
     initProductSelections();
     initTableReveal();
-    
+    initProductRadios();
 })

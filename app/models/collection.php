@@ -176,6 +176,8 @@ class Collection extends AppModel {
                     ),
                     'Catalog' => array(
                         'fields' => array(
+                            'Catalog.table_sequence',
+                            'Catalog.column_sequence',
                             'Catalog.collection_id',
                             'Catalog.yy_index',
                             'Catalog.y_index',
@@ -186,10 +188,12 @@ class Collection extends AppModel {
                             'Catalog.category'
                         ),
                         'order' => array(
+                            'Catalog.table_sequence',
                             'Catalog.category',
                             'Catalog.yy_index',
                             'Catalog.y_index',
                             'Catalog.xx_index',
+//                            'Catalog.column_sequence',
                             'Catalog.x_index',
                         )
                     )
