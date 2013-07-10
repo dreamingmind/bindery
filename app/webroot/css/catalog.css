@@ -196,7 +196,7 @@ div.options fieldset legend, p.optionTitle {
 p.optionTitle {
     background-color: #C0C8C6;
     border: medium none;
-    font-size: 115%;
+    /*font-size: 115%;*/
     font-weight: bold;
     padding: 12px;
     width: 96%;
@@ -216,4 +216,8 @@ div.options input[type="radio"] {
     display: inline;
     float: none;
     width: auto;
+}
+.orderButton{
+    float:left;
+    margin: 10px;
 }

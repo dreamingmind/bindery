@@ -8,15 +8,15 @@ echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('contr
         $this->set('product', $products);
         echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
         ?>
-        <div class="<?php echo $productCategory . 'Toggle options'; ?>" setlist="order" option="slave-<?php echo $productCategory; ?>">
+        <div class="<?php echo $productCategory . 'Toggle options'; ?>">
             <?php
             $model = $productCategory;
+            echo $this->Form->button('Order', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
             echo $this->Html->para('optionTitle','',array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'order'
                 ));
             // This should be a call to a method that understands
             // which options belong to which product categories
-            echo $this->Form->button('Order', array('option' => 'slave-' . $productCategory, 'setlist' => 'order'));
             echo $this->element('options_ruling', array('fieldsetOptions' => array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
                 ),

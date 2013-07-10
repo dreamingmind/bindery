@@ -62,7 +62,7 @@ class Catalog extends AppModel {
          */
         function getAllProductCategoryOptions(){
             $allOptions = array(
-                'Book_Body' => 'endpapers',
+                'Book_Body' => 'endpapers order',
                 'Journal' => 'belt titling endpapers instructions order',
                 'Reusable_Journal' => 'belt titling liners instructions bookbody order',
                 'Notebook' => 'belt titling liners notbookpockets instructions order',
