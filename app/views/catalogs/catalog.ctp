@@ -2,6 +2,7 @@
 echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
 //<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
+echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
         $setList = $setlists[$productCategory];
         $this->set('setList', $setList);
         $this->set('productCategory', $productCategory);
@@ -11,7 +12,7 @@ echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('contr
         <div class="<?php echo $productCategory . 'Toggle options'; ?>">
             <?php
             $model = $productCategory;
-            echo $this->Form->button('Order', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
+            echo $this->Form->button('Add to cart', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
             echo $this->Html->para('optionTitle','',array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'order'
                 ));
@@ -43,6 +44,7 @@ echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('contr
                 ),
                 'model' => $model));
             ?>
+        </form>
         </div>
         <?php
     }
@@ -67,4 +69,4 @@ echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('contr
                     <span class="style4">Quote price is an estimate and does not include shipping or sales tax (for CA residents)</span> </div></td>
         </tr>
     </table>
-<?php echo $this->Form->end('Submit'); ?>
+<?php // echo $this->Form->end('Submit'); ?>
