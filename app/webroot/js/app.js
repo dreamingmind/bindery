@@ -162,23 +162,16 @@ $(document).ready(function(){
      * 
      * display:none inputs may also contain data, but not 
      * stuff we need for this product, filter it out.
+     * 
+     * Carry all other form data because we'll be back
+     * on page in a sec and want to restore everything
+     * 
+     * @TODO Since we're coming back, make this AJAX?
      */
     function submitProductOrder(divObject){
-        
-    }
-    
-    /**
-     * Tell the user to only spec one product at a time
-     * 
-     * Adding a product to the cart looses all set inputs
-     * on a page. If some choices have been made but the 
-     * user starts another product, warn them
-     * 
-     * User is toggling open a table. If another is 
-     * open, warn them, otherwise let it open
-     */
-    function messageOneProductAtATime(){
-        
+        serializeUnusedForms();
+        cleanupUnusedFields();
+        // now submit form to the server
     }
     
     initSiteSearchForm();
