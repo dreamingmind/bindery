@@ -15,9 +15,8 @@
 //    $feature = $potential[$featurekey];
 //    unset($potential[$featurekey]);
 //}
-debug($upcoming);
-debug(array_keys($featured));
-
+//debug($upcoming);
+//debug(array_keys($featured));
 
 $featureHtml = '';
 $workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'], array('id' => 'featureHeading'));

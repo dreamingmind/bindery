@@ -85,7 +85,8 @@ class Workshop extends AppModel {
                 $this->find('all', array(
             'conditions' => array(
                 'Workshop.category_id' => $this->Category->categoryNI['workshop'],
-                'Workshop.publish' => 1
+                'Workshop.publish' => 1,
+                'Workshop.role' => 'workshop'
             ),
             'order' => 'Workshop.heading',
             'fields' => array('id', 'heading', 'text', 'role', 'category_id', 'slug'),
