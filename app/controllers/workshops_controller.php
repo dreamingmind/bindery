@@ -23,7 +23,8 @@ class WorkshopsController extends AppController {
 //            $this->set('result_imagePath');
         $this->Workshop->workshopsFeatured();
         $this->removeFeaturedDuplicate();
-        $this->set('featured', $this->Workshop->workshops_featured);
+        $key=array_keys($this->Workshop->workshops_featured);
+        $this->set('feature', $this->Workshop->workshops_featured[$key[0]]);
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('potential', $this->Workshop->workshops_potential);
         $this->set('now', $this->Workshop->workshops_now);
@@ -35,9 +36,9 @@ class WorkshopsController extends AppController {
         if (isset($this->Workshop->workshops_featured['source'])){
             $source=$this->Workshop->workshops_featured['source'];
             unset($this->Workshop->workshops_featured['source']);
-            debug(array_keys($this->Workshop->workshops_featured));
+//            debug(array_keys($this->Workshop->workshops_featured));
             $key=array_keys($this->Workshop->workshops_featured);
-            debug($key[0]);debug($source);
+//            debug($key[0]);debug($source);
             switch ($source){
                 case "workshops_now":
                     unset($this->Workshop->workshops_now[$key[0]]);
@@ -168,8 +169,8 @@ class WorkshopsController extends AppController {
             ),
             'conditions' => array(
                 'Workshop.slug' => $this->params['pname'],
-                'Workshop.role' => 'workshop'
-//               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
+//                'Workshop.role' => 'workshop'
+               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
             )
                 ));
         debug($collection);
