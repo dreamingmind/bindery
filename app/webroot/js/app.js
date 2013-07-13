@@ -149,48 +149,49 @@ $(document).ready(function(){
     }
     
     /**
-     * Set click function for prodcut order buttons
+     * Set click function for prodcut Add-to-Cart buttons
      */
-    function initProductOrderButtons(){
+    function initAddToCartButtons(){
         $('button.orderButton').bind('click', function(event){
             event.preventDefault();
-            submitProductOrder($(this).parent().parent());
+            submitAddToCart($(this).parent().parent());
         })
     }
 
     /**
-     * Submit the visible inputs associated with a product via AJAX
+     * Ask server to add product to cart, show resulting message
      * 
-     * The div contains all the user data. The visible 
-     * inputs contain the data appropriate to this product. 
+     * Ajax call
      * 
-     * display:none inputs may also contain data, but not 
-     * stuff we need for this product, filter it out.
+     * @todo construct the url properly
      */
-    function submitProductOrder(form){
+    function submitAddToCart(form){
         var url = '/bindery/catalogs/order/blah';
-        var order = serializeVisibleFields(form);
-//        var order = serializeVisibleFields(divObject);
+        var order = $(form).serialize();
         // now make the ajax call
-        var posting = $.post(url, order);
-        displayNewOrderMessage(posting.responseText);
-//        $.post(url, function(){alert('sigh sigh')});
-        alert('huh?');
+        displayAddToCartMessage('Adding your item to the cart . . .');
+        var posting = $.post(url, order, function(){
+            displayAddToCartMessage(posting.responseText);
+        });
     }
     
     /**
+     * Strip the form down to relevant fields and serialize
      * 
+     * @todo remove unecessary fields
      */
     function serializeVisibleFields(form){
+        // massage the form here
         return $(form).serialize();
     }
     
     /**
+     * After product add-to-cart ajax, put return message on page
      * 
+     * @todo decide on a final plan for messaging
      */
-    function displayNewOrderMessage(data){
+    function displayAddToCartMessage(data){
         $('div.AJAXmessage').empty().append('<p>'+data+'</p>');
-        alert('sigh');
     }
     
     initSiteSearchForm();
@@ -198,5 +199,5 @@ $(document).ready(function(){
     initToggles();
     hideAllSlaveNodes();
     initTogglingSets();
-    initProductOrderButtons();
+    initAddToCartButtons();
 })
