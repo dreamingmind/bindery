@@ -166,10 +166,10 @@ $(document).ready(function(){
      * @todo construct the url properly
      */
     function submitAddToCart(form){
-        var url = '/bindery/catalogs/order/blah';
-        var order = $(form).serialize();
-        // now make the ajax call
         displayAddToCartMessage('Adding your item to the cart . . .');
+        var url = '/bindery/catalogs/order/blah';
+        var order = serializeVisibleFields(form);
+        // now make the ajax call
         var posting = $.post(url, order, function(){
             displayAddToCartMessage(posting.responseText);
         });
