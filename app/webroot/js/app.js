@@ -150,28 +150,34 @@ $(document).ready(function(){
     
     /**
      * Set click function for prodcut Add-to-Cart buttons
+     * 
      */
     function initAddToCartButtons(){
         $('button.orderButton').bind('click', function(event){
             event.preventDefault();
-            submitAddToCart($(this).parent().parent());
+            // even if the button is down-tree, we need its form
+            submitAddToCart($(this).parents('form'));
         })
     }
 
     /**
-     * Ask server to add product to cart, show resulting message
+     * Ask server to add productName to cart, show resulting message
      * 
      * Ajax call
+     * Expects form#orderformUniqeProductName as this form
+     * and and will target div.messageUniqeProductName with the message
+     * Also, necessary fields will have name~="UniqueProductName"
      * 
      * @todo construct the url properly
      */
     function submitAddToCart(form){
-        displayAddToCartMessage('Adding your item to the cart . . .');
+        var productName = $(form).attr('id').replace(/orderform/,'');
+        displayAddToCartMessage('Adding your item to the cart . . .', productName);
         var url = '/bindery/catalogs/order/blah';
-        var order = serializeVisibleFields(form);
+        var order = serializeVisibleFields(form, productName);
         // now make the ajax call
         var posting = $.post(url, order, function(){
-            displayAddToCartMessage(posting.responseText);
+            displayAddToCartMessage(posting.responseText, productName);
         });
     }
     
@@ -180,18 +186,19 @@ $(document).ready(function(){
      * 
      * @todo remove unecessary fields
      */
-    function serializeVisibleFields(form){
+    function serializeVisibleFields(form, productName){
         // massage the form here
-        return $(form).serialize();
+        var fields = $(form).find('*[name~="'+productName+'"]');
+        return $(fields).serialize();
     }
     
     /**
-     * After product add-to-cart ajax, put return message on page
+     * After productName add-to-cart ajax, put return message on page
      * 
      * @todo decide on a final plan for messaging
      */
-    function displayAddToCartMessage(data){
-        $('div.AJAXmessage').empty().append('<p>'+data+'</p>');
+    function displayAddToCartMessage(data, productName){
+        $('div.'+productName+'message').empty().append('<p>'+data+'</p>');
     }
     
     initSiteSearchForm();

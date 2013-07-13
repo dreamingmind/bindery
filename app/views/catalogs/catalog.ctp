@@ -1,9 +1,9 @@
 <?php
-echo '<div class="AJAXmessage"></div>';
-echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'order')));
+
+//echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'order')));
 //<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
-echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
+        echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
         $this->set('setList', $setList);
         $this->set('productCategory', $productCategory);
@@ -19,6 +19,7 @@ echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url
                 ));
             // This should be a call to a method that understands
             // which options belong to which product categories
+            echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
             echo $this->element('options_ruling', array('fieldsetOptions' => array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
                 ),
