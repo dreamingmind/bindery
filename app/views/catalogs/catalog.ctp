@@ -1,5 +1,6 @@
 <?php
-echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));
+echo '<div class="AJAXmessage"></div>';
+echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'order')));
 //<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
 echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'catalog')));

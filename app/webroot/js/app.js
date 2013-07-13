@@ -148,30 +148,49 @@ $(document).ready(function(){
         initAdvancedSearchClick();
     }
     
+    /**
+     * Set click function for prodcut order buttons
+     */
     function initProductOrderButtons(){
-        $('button.orderButton').bind('click', function(){
-            submitProductOrder($(this).parent());
+        $('button.orderButton').bind('click', function(event){
+            event.preventDefault();
+            submitProductOrder($(this).parent().parent());
         })
     }
 
     /**
-     * Submit the visible inputs associated with a product
+     * Submit the visible inputs associated with a product via AJAX
      * 
      * The div contains all the user data. The visible 
      * inputs contain the data appropriate to this product. 
      * 
      * display:none inputs may also contain data, but not 
      * stuff we need for this product, filter it out.
-     * 
-     * Carry all other form data because we'll be back
-     * on page in a sec and want to restore everything
-     * 
-     * @TODO Since we're coming back, make this AJAX?
      */
-    function submitProductOrder(divObject){
-        serializeUnusedForms();
-        cleanupUnusedFields();
-        // now submit form to the server
+    function submitProductOrder(form){
+        var url = '/bindery/catalogs/order/blah';
+        var order = serializeVisibleFields(form);
+//        var order = serializeVisibleFields(divObject);
+        // now make the ajax call
+        var posting = $.post(url, order);
+        displayNewOrderMessage(posting.responseText);
+//        $.post(url, function(){alert('sigh sigh')});
+        alert('huh?');
+    }
+    
+    /**
+     * 
+     */
+    function serializeVisibleFields(form){
+        return $(form).serialize();
+    }
+    
+    /**
+     * 
+     */
+    function displayNewOrderMessage(data){
+        $('div.AJAXmessage').empty().append('<p>'+data+'</p>');
+        alert('sigh');
     }
     
     initSiteSearchForm();

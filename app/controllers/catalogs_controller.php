@@ -24,7 +24,8 @@ class CatalogsController extends AppController {
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(array(
-            'catalog'
+            'catalog',
+            'order'
         ));
         $this->css[] = 'catalog';
     }
@@ -103,6 +104,26 @@ class CatalogsController extends AppController {
         $this->set('setlists', $this->Catalog->getAllProductCategoryOptions());
 //            $this->set('materials', $this->render('select'));
 //            $this->render('catalog');
+    }
+    
+    /**
+     * Save product specs for later and add product to shopping cart
+     * 
+     * Return an HTML fragemnt. This was an AJAX call
+     */
+    function order($dat = 'my data'){
+        $this->layout = 'ajax';
+        $product = $this->data; //pick off the pertinent array elements here
+//        $this->SpecdProducts->memorizeSpecs($product);
+//        $result = $this->addToCart($product);
+        $result = true;
+        if (isset($this->data)) {
+            //prepare SUCCESS return message
+            $this->set('data', $this->data);
+        } else {
+            //prepare FAILURE return message
+            $this->set('data', $dat);
+        }
     }
 
     function select() {
