@@ -159,7 +159,7 @@ $(document).ready(function(){
             var fieldsets = $(this).parents('form').find('fieldset:visible > div > div:visible, td > input[type="radio"]').clone();
             var form = $(this).parents('form').clone();
             form.empty().append(fieldsets);
-            submitAddToCart(form);
+            submitAddToCart(form, this);
         })
     }
 
@@ -173,7 +173,9 @@ $(document).ready(function(){
      * 
      * @todo construct the url properly
      */
-    function submitAddToCart(form){
+    function submitAddToCart(form, button){
+        var formObject = buildFormObjectFrom(button);
+        alert(formObject.name);
         var productName = $(form).attr('id').replace(/orderform/,'');
         displayAddToCartMessage('Adding your item to the cart . . .', productName);
         var url = '/bindery/catalogs/order/blah';
@@ -182,6 +184,18 @@ $(document).ready(function(){
         var posting = $.post(url, order, function(){
             displayAddToCartMessage(posting.responseText, productName);
         });
+    }
+    
+    /**
+     * Create the values and element sets we'll need for an add-to-cart process
+     * 
+     * Given any form element, use its parent form
+     */
+    function buildFormObjectFrom(formElement){
+        var obj = new Object();
+        obj.originalForm = $(formElement).parents('form');
+        obj.name = $(obj.originalForm).attr('id').replace(/orderform/,'');
+        return obj
     }
     
     /**
