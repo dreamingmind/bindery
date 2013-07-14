@@ -155,8 +155,11 @@ $(document).ready(function(){
     function initAddToCartButtons(){
         $('button.orderButton').bind('click', function(event){
             event.preventDefault();
-            // even if the button is down-tree, we need its form
-            submitAddToCart($(this).parents('form'));
+            // pass only visible fieldsets, others don't apply for this product
+            var fieldsets = $(this).parents('form').find('fieldset:visible > div > div:visible, td > input[type="radio"]').clone();
+            var form = $(this).parents('form').clone();
+            form.empty().append(fieldsets);
+            submitAddToCart(form);
         })
     }
 
@@ -187,9 +190,8 @@ $(document).ready(function(){
      * @todo remove unecessary fields
      */
     function serializeVisibleFields(form, productName){
-        // massage the form here
-        var fields = $(form).find('*[name~="'+productName+'"]');
-        return $(fields).serialize();
+//        return form
+        return $(form).find('*[name*="'+productName+'"]').serialize();
     }
     
     /**
@@ -198,7 +200,7 @@ $(document).ready(function(){
      * @todo decide on a final plan for messaging
      */
     function displayAddToCartMessage(data, productName){
-        $('div.'+productName+'message').empty().append('<p>'+data+'</p>');
+        $('div.'+productName+'message').empty().append(data);
     }
     
     initSiteSearchForm();
