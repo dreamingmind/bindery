@@ -17,6 +17,11 @@
             echo $this->Html->para('optionTitle','',array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'order'
                 ));
+            echo $this->Form->input($productCategory.'.description', array(
+                'class' => 'forcedData',
+                'type' => 'hidden',
+                'value' => 'empty'
+            ));
             // This should be a call to a method that understands
             // which options belong to which product categories
             echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message

@@ -195,7 +195,7 @@ $(document).ready(function(){
         obj.formClone = $(obj.originalForm).clone();
         $(obj.formClone).empty();
         
-        obj.inputClone = $(obj.originalForm).find('fieldset:visible > div > div:visible, td > input[type="radio"], .forcedData').clone();
+        obj.inputClone = $(obj.originalForm).find('fieldset:visible > div > div:visible, td > input[type="radio"], input[id*=Description]').clone();
         $(obj.formClone).append(obj.inputClone);
         obj.serializedClone = $(obj.formClone).serialize();
         

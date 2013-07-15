@@ -52,6 +52,7 @@ $(document).ready(function(){
         $('table[class*="Toggle"]').find('input[type="radio"]').bind('click', function(){
             var title = $(this).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
             $('p.optionTitle').html(title);
+            $('input[id*="Description"]').attr('value', title);
         });
     }
     
