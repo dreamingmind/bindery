@@ -92,6 +92,8 @@ Router::connect('/blog/*', array('controller' => 'contents', 'action' => 'blog')
 //        Router::connect('/blog/:pname',
 //                array ('controller'=>'contents','action'=>'blog','pname'=>null));
 
+Router::connect('/catalogs/order', array('controller' => 'catalogs', 'action' => 'order'));
+
 Router::connect('/products', array('controller' => 'contents', 'action' => 'products', 'pname' => null));
 
 Router::connect('/products/:pname', array('controller' => 'contents', 'action' => 'product_landing', 'pname' => null));
