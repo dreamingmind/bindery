@@ -15,17 +15,13 @@ $parameters = array(
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Instructions',
+    'legend'=> (isset($legend))?$legend:'Email',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'instructions' => array(
-            'type' => 'textarea',
-            'rows' => 2,
-            'label' => false
+        'email' => array('label' => false)
         )
-    )
 );
 
 echo $fieldset->fieldset($parameters);

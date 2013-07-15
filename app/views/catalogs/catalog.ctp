@@ -20,6 +20,12 @@
             // This should be a call to a method that understands
             // which options belong to which product categories
             echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
+            echo $this->element('email', array('fieldsetOptions' => array(
+                    'option' => 'slave-' . $productCategory, 'setlist' => 'order'
+                ),
+                'model' => $model,
+                'record' => array($model => array('email' => (isset($useremail))?$useremail:''))));
+//                    echo $this->element('options_leather',array($leatherOptions));
             echo $this->element('options_ruling', array('fieldsetOptions' => array(
                     'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
                 ),
