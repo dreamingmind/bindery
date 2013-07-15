@@ -182,7 +182,7 @@ class AppController extends Controller {
             $this->css[] = 'new4';
         }
 
-        $this->scripts = array('jquery-1.4.2', 'app');
+        $this->scripts = array('jquery-1.4.2', 'jquery.fix.clone', 'app');
 
         //    echo $html->css('basic');
 //    echo $html->css('new4.css');

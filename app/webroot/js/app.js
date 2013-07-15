@@ -155,11 +155,7 @@ $(document).ready(function(){
     function initAddToCartButtons(){
         $('button.orderButton').bind('click', function(event){
             event.preventDefault();
-            // pass only visible fieldsets, others don't apply for this product
-            var fieldsets = $(this).parents('form').find('fieldset:visible > div > div:visible, td > input[type="radio"]').clone();
-            var form = $(this).parents('form').clone();
-            form.empty().append(fieldsets);
-            submitAddToCart(form, this);
+            submitAddToCart(this);
         })
     }
 
@@ -173,16 +169,13 @@ $(document).ready(function(){
      * 
      * @todo construct the url properly
      */
-    function submitAddToCart(form, button){
+    function submitAddToCart(button){
         var formObject = buildFormObjectFrom(button);
-        alert(formObject.name);
-        var productName = $(form).attr('id').replace(/orderform/,'');
-        displayAddToCartMessage('Adding your item to the cart . . .', productName);
+        displayAddToCartMessage('Adding your item to the cart . . .', formObject.name);
         var url = '/bindery/catalogs/order/blah';
-        var order = serializeVisibleFields(form, productName);
         // now make the ajax call
-        var posting = $.post(url, order, function(){
-            displayAddToCartMessage(posting.responseText, productName);
+        var posting = $.post(url, formObject.serializedClone, function(){
+            displayAddToCartMessage(posting.responseText, formObject.name);
         });
     }
     
@@ -193,19 +186,20 @@ $(document).ready(function(){
      */
     function buildFormObjectFrom(formElement){
         var obj = new Object();
+        
         obj.originalForm = $(formElement).parents('form');
+        
         obj.name = $(obj.originalForm).attr('id').replace(/orderform/,'');
+        obj.messageContainer = $('div.'+obj.name+'message');
+        
+        obj.formClone = $(obj.originalForm).clone();
+        $(obj.formClone).empty();
+        
+        obj.inputClone = $(obj.originalForm).find('fieldset:visible > div > div:visible, td > input[type="radio"], .forcedData').clone();
+        $(obj.formClone).append(obj.inputClone);
+        obj.serializedClone = $(obj.formClone).serialize();
+        
         return obj
-    }
-    
-    /**
-     * Strip the form down to relevant fields and serialize
-     * 
-     * @todo remove unecessary fields
-     */
-    function serializeVisibleFields(form, productName){
-//        return form
-        return $(form).find('*[name*="'+productName+'"]').serialize();
     }
     
     /**
