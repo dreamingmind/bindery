@@ -1,27 +1,12 @@
 <?php
 
-///**
-// * This section determines which workshop to feature
-// */
-////  If there is a current workshop, use it
-//if ($now) {
-//    $feature = $now;
-////  Else, pick off the first upcoming workshop and remove it from the array
-//} elseif ($upcoming) {
-//    $feature = array_shift($upcoming);
-////  Else, choose a random potential workshop and remove if from the array
-//} else {
-//    $featurekey = array_rand($potential);
-//    $feature = $potential[$featurekey];
-//    unset($potential[$featurekey]);
-//}
-//debug($upcoming);
-//debug(array_keys($featured));
+//Display the featured workshop using the workshopFeature element
+
 echo $this->element('workshopFeature');
 
 //  Two column bottom half of screen
 //  Could present upcoming and potential workshops, if no upcoming, present two columns of potential
-//
+
 if ($upcoming) {
     $leftheading = 'Upcoming Workshops';
     $rightheading = 'Potential Workshops';
@@ -46,6 +31,4 @@ foreach ($potentialcontent[1] as $workshop) {
     echo $html->foundWorkshopBlock($this->viewVars, $workshop);
 }
 echo '</div>';
-
-//debug($userdata);
 ?>
