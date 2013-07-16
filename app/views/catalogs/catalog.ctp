@@ -1,7 +1,4 @@
 <?php
-
-//echo $this->Form->create(false, array('id' => 'orderform', 'url' => array('controller' => 'catalogs', 'action' => 'order')));
-//<form action=" " method="post" enctype="multipart/form-data" name="orderform" id="orderform">
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
@@ -9,61 +6,21 @@
         $this->set('productCategory', $productCategory);
         $this->set('product', $products);
         echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
-        ?>
-        <div class="<?php echo $productCategory . 'Toggle options'; ?>">
-            <?php
-            $model = $productCategory;
-            echo $this->Form->button('Add to cart', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
-            echo $this->Html->para('optionTitle','',array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'order'
-                ));
-            echo $this->Form->input($productCategory.'.description', array(
-                'class' => 'forcedData',
-                'type' => 'hidden',
-                'value' => 'empty'
-            ));
-            // This should be a call to a method that understands
-            // which options belong to which product categories
-            echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
-            echo $this->element('email', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'order'
-                ),
-                'model' => $model,
-                'record' => array($model => array('email' => (isset($useremail))?$useremail:''))));
-//                    echo $this->element('options_leather',array($leatherOptions));
-            echo $this->element('options_ruling', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
-                ),
-                'model' => $model));
-//                    echo $this->element('options_leather',array($leatherOptions));
-            echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'
-                ),
-                'model' => $model));
-            echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'belt'
-                ),
-                'model' => $model));
-            echo $this->element('options_titling', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'titling'
-                ),
-                'model' => $model));
-            echo $this->element('options_instructions', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'instructions'
-                ),
-                'model' => $model));
-            echo $this->element('options_reusable', array('fieldsetOptions' => array(
-                    'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
-                ),
-                'model' => $model));
-            ?>
-        </form>
-        </div>
-        <?php
+
+        echo $this->element('options_all', array(
+            $productCategory,
+            'useremail' => (isset($useremail))?$useremail:'',
+            $leatherOptions,
+            $clothOptions,
+            $endpaperOptions
+            ),
+            TRUE
+        );
+?>
+    </form>
+<?php
     }
-//debug($product);
-//debug($tableSet);
-    ?>
+?>
     <table>
         <tr>
             <td colspan="5" valign="top" class="table_name"><div align="right"> <span class="style4"></span>
@@ -82,4 +39,3 @@
                     <span class="style4">Quote price is an estimate and does not include shipping or sales tax (for CA residents)</span> </div></td>
         </tr>
     </table>
-<?php // echo $this->Form->end('Submit'); ?>
