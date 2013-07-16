@@ -187,6 +187,49 @@ class WorkshopsController extends AppController {
         $this->set('article', $article);
 //        debug($article);debug($this->Workshop->workshops_all);debug($this->Workshop->workshops_potential);die;
     }
+/**
+ * Ajax editing form for workshops
+ * 
+ * This function borrowed from contents_controller (was edit_dispatch)
+ * 
+ * @param int $id
+ */
+    function edit_workshop($id = null) {
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid content', true));
+        }
+        if (!empty($this->data)) {
+            $this->params = unserialize($this->data['params']);
+            $this->passedArgs = unserialize($this->data['passedArgs']);
+            $message = ($this->Content->saveAll($this->data['Content'])) ? 'Content records saved' : 'Content record save failed';
+            $message .= ($this->Content->Image->saveAll($this->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
+            $this->Session->setFlash($message);
+            $this->redirect('/' . $this->params['url']['url'] . '/#');
+        }
+        if (empty($this->data)) {
+            $this->layout = 'ajax';
+            $packet = $this->Content->find('all', array(
+                'contain' => array(
+                    'Image',
+                    'ContentCollection' => array(
+                        'Workshop' => array( //changed from 'Collection' to 'Workshop'
+                            'Category'
+                        )
+                    )
+                ),
+                'conditions' => array('Content.id' => $id)
+                    ));
+            $record[0]['Content'][$packet[0]['Content']['id']] = $packet[0]['Content'];
+            $record[0]['Image'][$packet[0]['Content']['id']] = $packet[0]['Image'];
+            $this->set('linkNumber', $packet[0]['Content']['id']);
+            $this->set('packet', $record);
+//        // now pull unpublished images. Those are potential
+//        // inline images.
+            $iiLinks = $this->unpubImageLinks($_POST['collection'][0], $_POST['slug']);
+            $this->set('iiLinks', $iiLinks);
+        }
+//        $this->Session->setFlash('a test message');
+    }
 
 }
 
