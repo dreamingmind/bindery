@@ -167,20 +167,22 @@ class WorkshopsController extends AppController {
             'fields' => array(
                 'Workshop.id'
             ),
+            'contain' => false,
             'conditions' => array(
                 'Workshop.slug' => $this->params['pname'],
 //                'Workshop.role' => 'workshop'
                'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
             )
                 ));
-        debug($collection);
-        debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
-        debug($this->Workshop->workshops_all);
-        debug($this->Workshop->workshops_upcoming);
-        debug($this->Workshop->workshops_now);
-        debug($this->params);
+//        debug($collection);
+//        debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
+//        debug($this->Workshop->workshops_all);
+//        debug($this->Workshop->workshops_upcoming);
+//        debug($this->Workshop->workshops_now);
+//        debug($this->params);
         $article = $this->findWorkshopTarget(array('Content.slug' => $this->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+        $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('delete', array_shift($article));
         $this->set('article', $article);
 //        debug($article);debug($this->Workshop->workshops_all);debug($this->Workshop->workshops_potential);die;
