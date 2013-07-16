@@ -1,149 +1,75 @@
-<!--<div id="wrapper" style="display: none">-->
-<div id="wrapper">
-
-    <div id="spineM" class="matPix">
-        <p>Leather color choices</p>
-    </div> <!-- end of spineM (leather color thumbnails) -->
-    <div id="boardsM" class="matPix">
-    <p id="clothPick">Cloth color choices</p>
-    </div> <!-- end of boardsM (cloth color thumbnails) -->
-
-    <div id="formatList">
-        <div id="case" class="journal">
-            <div id="spine" class="quarter"></div> <!-- end of spine div (leather choice display)-->
-            <div id="boards"></div> <!-- end of boards div (cloth choice display)-->
-        </div> <!-- end of case div (product/material choice display)-->
-
-        <div id="colorLabels">
-            <p><span class="materialLabel" id="spineLabel"></span><br /><span class="materialLabel" id="boardsLabel"></span></p>
-        </div> <!-- end of colorLabels div (material color name display) -->
-
-        <p id="products">
-            <label><input type="radio" name="fl1" value="journal" id="fl1_0"  checked="checked"/>Journal</label>
-            <label><input type="radio" name="fl1" value="notebook" id="fl1_1" />Notebook</label>
-            <label><input type="radio" name="fl1" value="stenopad" id="fl1_2" />Steno Pad</label>
-        </p>
-        <p id="binding">
-            <label><input type="radio" name="b1" value="full" id="b1_0" />Full Leather</label>
-            <label><input type="radio" name="b1" value="quarter" id="b1_1" checked="checked" /> Quarterbound</label>
-        </p>
-        <div id="caveat">
-            <p><strong>Colors are approximate:</strong> Leather is a natural product. Every piece  has a slightly different texture and color. Additionally, every computer monitor will display slightly different colors.</p>
-        </div> <!-- end caveat div -->
-    </div> <!-- end fomatList div -->
-
-
-<script type="text/javascript">
-<?php if ($leather) { ?>
-var leatherIn = <?php echo $leather; ?>;
-<?php } else { ?>
-var leatherAlert = "The database is down. This is a default set of leather and may not reflect all currently available choices.";
-var leatherIn = [
-	{"id":"0","fn":"bbluelthr","ti":"Bright Blue"},
-	{"id":"1","fn":"blklthr","ti":"Black"},
-	{"id":"2","fn":"bluelthr","ti":"Blue"},
-	{"id":"4","fn":"terracottalthr","ti":"Terracotta"},
-	{"id":"5","fn":"brndylthr","ti":"Burgundy"},
-	{"id":"6","fn":"chestnutlthr","ti":"Chestnut"},
-	{"id":"7","fn":"Chocolatelthr","ti":"Chocolate"},
-	{"id":"8","fn":"crimsonlthr","ti":"Crimson"},
-	{"id":"14","fn":"grnlthr","ti":"Green"},
-	{"id":"16","fn":"grylthr","ti":"Gray"},
-	{"id":"17","fn":"ltbllther","ti":"Light Blue"},
-	{"id":"24","fn":"rchbrnlthr","ti":"Rich Brown"},
-	{"id":"26","fn":"saddlelthr","ti":"Saddle Tan"}];
-<?php } ?>     
-<?php if ($cloth) { ?>
-var clothIn = <?php echo $cloth; ?>;
-<?php } else { ?>
-var clothAlert = "The database is down. This is a default set of cloth and may not reflect all currently available choices.";
-var clothIn = [
-	{"id":"3","fn":"bone","ti":"Bone"},
-	{"id":"9","fn":"drktaupe","ti":"Dark Taupe"},
-	{"id":"10","fn":"fltblack","ti":"Black"},
-	{"id":"11","fn":"fltburg","ti":"Burgundy"},
-	{"id":"12","fn":"forestgreen","ti":"Forest Green"},
-	{"id":"13","fn":"grey","ti":"Gray"},
-	{"id":"15","fn":"grnslub","ti":"Green Slub"},
-	{"id":"18","fn":"mohblk","ti":"Mohair Black"},
-	{"id":"19","fn":"mohblue","ti":"Mohair Blue"},
-	{"id":"20","fn":"mohbrwn","ti":"Mohair Brown"},
-	{"id":"21","fn":"mohgreen","ti":"Mohair Green"},
-	{"id":"22","fn":"mohred","ti":"Mohair Red"},
-	{"id":"23","fn":"olive","ti":"Olive"},
-	{"id":"25","fn":"redslub","ti":"Red Slub"},
-	{"id":"27","fn":"tan","ti":"Tan"}];
-<?php } ?>     
-</script>
-</div>
-<?php 
-
-//echo "$cloth \n\n$leather";
-//print_r($_SERVER);
-//print_r($leather);
+<?php
+/**
+ * Self-contained product option div
+ * 
+ * The option sets are controlled by an external Master element
+ * who's setlist attribute will reveal the appropriate groups.
+ * 
+ * The setlist values common to every product in a productCategory
+ * can be looked up in Catalog Model. Products within the group
+ * will have additional setlist values. They're in the catalogs table
+ * as yyindex, yindex, xxindex, and xindex values for each specific product
+ * 
+ * The catalogController's catalog action puts together a page that makes
+ * all this work.
+ * 
+ * app.js does the master/slave reveals.
+ * catalog.js manages ajax submission of this data.
+ * Catalog.js also extends the master/slave filtering
+ * and only submits the visible elements, the valid options
+ * for this specific product.
+ * 
+ * <form>
+ *      master: an input carrying the product number
+ *          Clicking this passes setlist values to this Element
+ *          This input also gets submited with the Element inputs
+ *      This Element
+ * </form>
+ */
+    echo $this->Html->div($productCategory . 'Toggle options', null);
+    $model = $productCategory;
+    echo $this->Form->button('Add to cart', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
+    echo $this->Html->para('optionTitle','',array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
+        ));
+    echo $this->Form->input($productCategory.'.description', array(
+        'class' => 'forcedData',
+        'type' => 'hidden',
+        'value' => 'empty'
+    ));
+    // This should be a call to a method that understands
+    // which options belong to which product categories
+    echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
+    echo $this->element('email', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
+        ),
+        'model' => $model,
+        'record' => array($model => array('email' => $useremail))));
+//                    echo $this->element('options_leather',array($leatherOptions));
+    echo $this->element('options_ruling', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
+        ),
+        'model' => $model));
+//                    echo $this->element('options_leather',array($leatherOptions));
+    echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'
+        ),
+        'model' => $model));
+    echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'belt'
+        ),
+        'model' => $model));
+    echo $this->element('options_titling', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'titling'
+        ),
+        'model' => $model));
+    echo $this->element('options_instructions', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'instructions'
+        ),
+        'model' => $model));
+    echo $this->element('options_reusable', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
+        ),
+        'model' => $model));
 ?>
-<!--<div id="tables">
-<table border="1" cellpadding="3" cellspacing="2">
-    <tbody>
-        <tr>
-          <td colspan="3"><p>Goatskin<br />
-              <span class="style9">Vegetable tanned in England exclusively for use in book binding. Selected for a soft, natural finish to please both the hand and the eye. Goatskin shows a fine grain patter and is quite durable.</span></p>
-          </td>
-        </tr>
-        <?php
-//        $path = 'materials/thumbsize/';
-//        $leatherList = array_chunk(json_decode($leather), 3);
-//        foreach($leatherList as $row){
-//            echo '<tr>';
-//            foreach($row as $swatch){
-//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-//            }
-//            echo '</tr>';
-//        }
-        ?>
-    </tbody>
-</table>
-
-<table border="1" cellpadding="3" cellspacing="2">
-    <tbody>
-        <tr>
-          <td colspan="3"><p>Book Cloth<br />
-              <span class="style9">The cloth I use is selected for compatibility with my other materials. Many are imported from Japan, others from Holland and Germany.</span></p>
-          </td>
-        </tr>
-        <?php
-//        $path = 'materials/thumbsize/';
-//        $clothList = array_chunk(json_decode($cloth), 3);
-//        foreach($clothList as $row){
-//            echo '<tr>';
-//            foreach($row as $swatch){
-//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-//            }
-//            echo '</tr>';
-//        }
-        ?>
-    </tbody>
-</table>
-
-
-<table border="1" cellpadding="3" cellspacing="2">
-    <tbody>
-        <tr>
-          <td colspan="3"><p>Imitation Leather<br />
-              <span class="style9">These very durable materials are typically used for very large clamshell boxes that must travel and tolerate abuse.</span></p>
-          </td>
-        </tr>
-        <?php
-//        $path = 'materials/thumbsize/';
-//        $imitationList = array_chunk(json_decode($imitation), 3);
-//        foreach($imitationList as $row){
-//            echo '<tr>';
-//            foreach($row as $swatch){
-//                echo'<td>'.$this->Html->image($path.$swatch->fn.'.jpg').'<br />'.$swatch->ti.'</td>';
-//            }
-//            echo '</tr>';
-//        }
-        ?>
-    </tbody>
-</table>
-</div>-->
+</div>
