@@ -1,25 +1,4 @@
 @charset "UTF-8";
-body {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    margin: 0px;
-    padding: 0px;
-}
-
-/* =DIVs
-––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-/* =main site layout DIVs
-––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-#wrapper {
-    height: auto;
-    margin: 50px;
-    position: relative;
-    width: 640px;
-}
-
-#colorLabels {
-    height:auto;
-}
-
 /* = material selector DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 .matPix {
@@ -52,12 +31,19 @@ body {
 
 /* =product preview area DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+div.options{
+    position: relative;
+}
 div#case {
-    left: 245px;
+    background: none repeat scroll 0 0 red;
+    height: 130px;
+    left: 350px;
     position: absolute;
+    top: 70px;
+    width: 100px;
 }
 
-div#case.journal {
+div#case.Journal {
     width:386px;
     height:495px;
     /*border:thin tan solid;*/
@@ -81,7 +67,7 @@ div#spine.quarter, div#boards {
     margin:0px;
     /*border:dotted thin red;*/
 }
-#case.journal div#spine.quarter, #case.notebook div#spine.quarter {
+#case.Journal div#spine.quarter, #case.notebook div#spine.quarter {
     float:left;
     width:25%;
     height:100%;
@@ -95,7 +81,7 @@ div#case.notebook, #case.notebook #spine.full {
     -moz-border-radius-bottomright: 30px;
 }
 
-#case.journal div#boards, #case.notebook div#boards {
+#case.Journal div#boards, #case.notebook div#boards {
     width:100%;
     height:100%;
     background-image:url(../_i/fullsize/drktaupe.jpg)
@@ -117,86 +103,4 @@ div#spine.full {
     height:100%;
     width:100%;
     background-image:url(../_i/fullsize/bbluelthr.jpg)
-}
-/* =Material List Div Content
-––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-.matList label {
-    font-size:smaller;
-}
-.matPix img{
-    margin:0px 1px 0px 0px;
-    width:57px;
-    height:50px;
-    /*border-top:medium orange solid;*/
-}
-
-#formatList label {
-    font-size:small;
-}
-
-#formatList p {
-    font-size:smaller;
-    padding: 8px 0;
-}
-#caveat p {
-    font-size:x-small;
-    color:#666;
-}
-
-#formatList strong {
-    color:black;
-    font-size:larger;
-}
-.materialLabel {
-    color:#666;
-}
-
-#spineM ul, #spineM li, #boardsM ul, #boardsM li {
-    margin:0px;
-    padding:0px;
-}
-#spineM li, #boardsM li {
-    padding:18px 0px;
-    margin: 1px;
-    list-style:none;
-    float:left;
-    width:56px;
-    text-align: center;
-    color:#D5D6A9;
-    font-size:10px;
-    font-weight:lighter;
-}
-#spineM li.displayed {
-    border:2px solid #fC3;
-    border-bottom:none;
-    margin:0px -1px;
-}
-#boardsM li.displayed {
-    border:2px solid #FC3;
-    border-top:none;
-    margin:0px -1px;
-}
-input[type="radio"] {
-    margin-right: 6px;
-    clear: left;
-    margin-top: 3px;
-}
-/*=======================================
-table on non-javascript page version
-=======================================*/
-#detail > div {
-    padding-top: 40px;
-}
-#tables td img {
-    height: 100px;
-    width: 100px;
-}
-#tables td {
-    text-align: center;
-    width: 33%;
-}
-#tables > table {
-    display: inline-block;
-    margin: 10px;
-    width: 340px;
 }

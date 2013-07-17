@@ -71,5 +71,6 @@
             'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
         ),
         'model' => $model));
+    echo $this->element('options_productDiagram', array($productCategory), TRUE);
 ?>
 </div>
