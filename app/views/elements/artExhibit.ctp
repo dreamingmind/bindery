@@ -48,30 +48,10 @@
         'action'=>'edit_dispatch'//.DS.$entry['Content']['id'],
 //                'content_id'=>$entry['Content']['id']
         ));
-    echo $this->element('editContentAjaxButton', array(
+    echo $this->element('content_AjaxEdit_editRequestButton', array(
         'slug'=>$record['Content']['slug'],
         'id'=>$record['Content']['id']
     ));
     echo '</form>';
-//if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
-//    // I create a content_id attribute for the form so the 
-//    // ajax call knows what record to get for the form values
-//    echo $this->Form->create('Content', array(
-//        'default'=>false,
-//        'class'=>'edit',
-//        'action'=>'edit_exhibit',
-//        'content_id'=> $record['Content']['id']));
-//    // This button gets a click function to toggle the form in/out of the page
-//    echo $form->button('Edit',array('class'=>'edit','type'=>'button'));
-//    echo $form->input('passedArgs',array(
-//        'type'=>'hidden',
-//        'value'=>  serialize($this->passedArgs)));
-//    echo $form->input('params',array(
-//        'type'=>'hidden',
-//        'value'=>  serialize($this->params)));
-//    //This is the div where the ajaxed form elements get inserted
-//    echo $html->div('formContent');
-//    echo '</form>';
-//}
 	?>
 </div>

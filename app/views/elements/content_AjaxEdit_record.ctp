@@ -16,7 +16,7 @@ if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
     echo $this->Form->create('Content', array(
 //                'default'=>false,
         'class'=>'edit',
-        'action'=>'edit_workshop' //this was changed from 'edit_dispatch'
+        'action'=>'edit_dispatch' //this was changed from 'edit_dispatch'
         ));
     echo $form->input('passedArgs',array(
         'type'=>'hidden',

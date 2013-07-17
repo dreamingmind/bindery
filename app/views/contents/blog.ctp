@@ -53,7 +53,7 @@ foreach($most_recent as $entry){
         . $html->div($cls . ' entryText ' . $size . ' markdown',Markdown($entry['Content']['content']),
         array(''/* the div attributes */)));
     
-    echo $this->element('editContentAjaxButton', array(
+    echo $this->element('content_AjaxEdit_editRequestButton', array(
         'slug'=>$most_recent[0]['Content']['slug'],
         'id'=>$entry['Content']['id']
     ));

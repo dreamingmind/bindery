@@ -50,22 +50,20 @@ foreach ($feature['Session'] as $wksession) {
 //        '<button class="register">Register: Session 2 - $120</button>',
 //        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20 2013, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
 //    );
+
+//Setup the feature inset to show existing sessions, if any, and allow users to request a new date
+$sessions = '';
 if (isset($feature['Session'][0])) {
     $sessions = implode('', $accum);
-//    $sessions = $this->element('workshop_date_request', array(
-//        'heading' => $feature['Workshop']['heading'],
-//        'id' => $feature['Workshop']['id']));
-} else {
-    $sessions = $this->element('workshop_date_request', array(
-        'heading' => $feature['Workshop']['heading'],
-        'id' => $feature['Workshop']['id']));
-//    $sessions = implode('', $accum);
 }
+$sessions .= $this->element('workshop_date_request', array(
+    'heading' => $feature['Workshop']['heading'],
+    'id' => $feature['Workshop']['id']));
+
 $sessionDiv = $this->Html->div('', $sessions, array('id' => 'featuredSession'));
 $costLine = $this->Html->tag('h3', implode(' // ', $costaccum), array('class' => 'featureCost'));
 
 $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $costLine . $sessionDiv;
-//    echo $this->Html->css('search_links');
 echo $this->Html->div('', $this->Html->div('', $featureHtml, array(
             'id' => 'feature-overlay'
         )), array(
