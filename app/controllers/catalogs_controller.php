@@ -28,6 +28,7 @@ class CatalogsController extends AppController {
             'order'
         ));
         $this->css[] = 'catalog';
+        $this->css[] = 'materials';
     }
 
     function index() {
