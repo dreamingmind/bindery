@@ -3,6 +3,12 @@
 //debug($article);
 //debug($feature);
 
+//Provide head tag to sead javascript elements for editing
+echo $html->tag('h1',$feature['ContentCollection'][0]['Collection']['heading'], array(
+    'class' => 'related',
+    'collection' => $feature['ContentCollection'][0]['Collection']['id']
+));
+
 //Display the detail workshop
 echo $this->element('workshopFeature');
 

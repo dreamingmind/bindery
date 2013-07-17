@@ -201,18 +201,18 @@ class WorkshopsController extends AppController {
         if (!empty($this->data)) {
             $this->params = unserialize($this->data['params']);
             $this->passedArgs = unserialize($this->data['passedArgs']);
-            $message = ($this->Content->saveAll($this->data['Content'])) ? 'Content records saved' : 'Content record save failed';
-            $message .= ($this->Content->Image->saveAll($this->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
+            $message = ($this->Workshop->ContentCollection->Content->saveAll($this->data['Content'])) ? 'Content records saved' : 'Content record save failed';
+            $message .= ($this->Workshop->ContentCollection->Content->Image->saveAll($this->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
             $this->redirect('/' . $this->params['url']['url'] . '/#');
         }
         if (empty($this->data)) {
             $this->layout = 'ajax';
-            $packet = $this->Content->find('all', array(
+            $packet = $this->Workshop->ContentCollection->Content->find('all', array(
                 'contain' => array(
                     'Image',
                     'ContentCollection' => array(
-                        'Workshop' => array( //changed from 'Collection' to 'Workshop'
+                        'Collection' => array( //changed from 'Collection' to 'Workshop'
                             'Category'
                         )
                     )
