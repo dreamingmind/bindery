@@ -214,6 +214,9 @@ table td.actions a {
 	margin: 0px 6px;
 	padding:2px 5px;
 }
+.cake-sql-log  {
+	display: none;
+}
 .cake-sql-log table {
 	background: #f4f4f4;
 }

@@ -6,8 +6,11 @@
 //Display the detail workshop
 echo $this->element('workshopFeature');
 
+//Display content collection edit button
+echo $this->Html->changeCollection($this->viewVars, $feature['ContentCollection'][0]['Content']['slug'], $feature['ContentCollection'][0]['Collection']['id']);
+
 //Open Admin Edit Form
-echo $this->element('content_AjaxEdit_record');
+echo $this->element('content_AjaxEdit_openForm');
 
 //Provide button to edit the feature element - array elements stolen from artExhibit 51-54
 echo $this->element('content_AjaxEdit_editRequestButton', array(
@@ -31,11 +34,15 @@ foreach ($article as $index => $entry) {
             . "\n"
             . $html->div($cls . ' entryText x320y240 markdown', Markdown($entry['Content']['content']), array(''/* the div attributes */)));
 
-//    Provide button to edit article elements - array elements stolen from artExhibit 51-54
+    //Display the content collection edit button
+//    debug($entry);
+    echo $this->Html->changeCollection($this->viewVars, $entry['Content']['slug'], $entry['Workshop']['id']);
+
+    //    Provide button to edit article elements - array elements stolen from artExhibit 51-54
     echo $this->element('content_AjaxEdit_editRequestButton', array(
         'slug'=>$article[$index]['Content']['slug'],
         'id'=>$article[$index]['Content']['id']
-    ));
+        ));
 }
 //Close Admin Edit Form
 echo $this->element('content_AjaxEdit_closeForm'); //was echo </form>;
