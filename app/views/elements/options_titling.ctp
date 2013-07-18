@@ -2,10 +2,6 @@
 /* @var $this ViewCC */ 
 
 /**
- * Content.heading
- * Content.content
- * Content.alt
- * Content.title
  */
 $options = array(
     'options' => array(
@@ -30,7 +26,7 @@ $parameters = array(
             'type' => 'radio',
             'options' => array(
                 '0' => 'No',
-                '1' => 'Yes'
+                '1' => 'Yes' // These get modified by code at the bottom of this page
             ),
             'default' => 0,
             'legend' => false

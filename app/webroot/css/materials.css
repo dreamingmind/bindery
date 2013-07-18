@@ -31,15 +31,22 @@
 
 /* =product preview area DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+div#diagram{
+    left: 333px;
+    position: absolute;
+    top: 58px;    
+    width:437px;
+    height:540px;
+    padding: 0;
+    background-color: #ccc;
+}
+
 div.options{
     position: relative;
 }
 div#case {
     background: none repeat scroll 0 0 red;
     height: 130px;
-    left: 350px;
-    position: absolute;
-    top: 70px;
     width: 100px;
 }
 
