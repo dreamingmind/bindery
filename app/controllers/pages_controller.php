@@ -60,7 +60,8 @@ class PagesController extends AppController {
                 $records = $this->Content->find('all',array(
                     'fields'=>array('id'),
                     'recursive'=>0,
-                    'conditions'=>array('slug LIKE' => '%home%')
+                    'conditions'=>array('slug LIKE' => '%home%'),
+                    'order' => array('Content.modified DESC')
                 ));
 //                debug($records);die;
                 $target = rand(0, count($records)-1);
