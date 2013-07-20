@@ -97,6 +97,7 @@ class CatalogsController extends AppController {
 //            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
 //order by yy_index, y_index, xx_index, x_index;'));
 
+        $this->scripts[] = 'product_diagram';
         $this->set('tableSet', $tableSet);
         $this->set('leatherOptions', $this->Material->leatherOptionList());
         $this->set('clothOptions', $this->Material->clothOptionList());
