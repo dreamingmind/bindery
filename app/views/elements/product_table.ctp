@@ -3,7 +3,7 @@
 //debug($product);
 $this->TableParser->initialize($product, $productCategory, $setList);
 echo $this->Html->para('toggle', Inflector::humanize($productCategory), array('id' => $productCategory.'Toggle'));
-echo '<table class="'.$productCategory.'Toggle">';
+echo '<table id="'.$productCategory.'" class="'.$productCategory.'Toggle">';
 //echo $this->TableParser->tableHeading();
 echo $this->TableParser->setCheckboxes();
 echo $this->TableParser->xxRow();
