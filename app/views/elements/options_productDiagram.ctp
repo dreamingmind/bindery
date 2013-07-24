@@ -1,6 +1,7 @@
 <?php
 echo $this->Html->div('', NULL, array(
     'id' => 'diagram',
+    'class' => $productCategory,
     'setlist' => 'order',
     'option' => 'slave-'.$productCategory));
     echo $this->Html->div($productCategory, NULL, array('id' => 'case'));

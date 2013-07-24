@@ -33,7 +33,7 @@ $(document).ready(function(){
         // and put some instructions in their toggle bar
         $('*[id*="Toggle"].toggle').each(function(){
             $('.'+$(this).attr('id')).toggle(function(){
-
+                
             });
             $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
             $(this).bind('click', function(){
@@ -47,17 +47,32 @@ $(document).ready(function(){
             })
         });
     }
-    
+
+    function diagramDiv(div){
+//        alert(productCategory);
+        var x = parseInt($(div).css('width'));
+        var y = parseInt($(div).css('height'));
+        var z = $(div).children('div').length;
+        alert(z);
+        this.width = function(){ return x };
+        this.height = function(){ return y };
+        this.layers = function(){ return z };
+        this.toString = function(){ return ('The DIV is ' + this.width() + 'px wide, ' + this.height() + 'px tall, and contains ' + this.layers() + ' layers.') };
+    }
+
+
     function initProductRadios(){
-        var productCategory = $('table[class*="Toggle"]').attr('id');
-        alert(productCategory);
         $('table[class*="Toggle"]').find('input[type="radio"]').bind('click', function(){
             var title = $(this).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
             $('p.optionTitle').html(title);
             $('input[id*="Description"]').attr('value', title);
+            var productCategory = $(this).parents('table').attr('id');
+//            diagram = new diagramDiv($('div#diagram[class="'+productCategory+'"]'));
+            productDiagram = $('div#diagram[class="'+productCategory+'"]');
+            diagramDiv(productDiagram);
         });
     }
-    
+ 
     initCheckboxes();
     initTableToggleHooks(); 
     initProductSelections();
