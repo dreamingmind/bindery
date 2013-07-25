@@ -102,9 +102,10 @@ class CatalogsController extends AppController {
         $endpaperOptions =  $this->Material->endpaperOptionList();
         // get data listing core options for the various product categories
         $setlists =  $this->Catalog->getAllProductCategoryOptions();
+        // prepare json data for the prodcut diagrams
+        $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($this->params['pname']));
 
-        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists'));
-        $this->set('block', 'var parts = "some data";');
+        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists', 'diagramData'));
     }
     
     /**

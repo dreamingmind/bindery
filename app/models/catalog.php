@@ -94,5 +94,39 @@ class Catalog extends AppModel {
             
             return $result;
         }
+        
+        function getDiagramData($pname){
+           $raw = $this->find('all', array(
+                'fields' => array(
+                    'Catalog.product_group',
+                    'Catalog.category',
+                    'Catalog.collection_id'
+                ),
+                'group' => array('Catalog.product_group'),
+                'conditions' => array('Collection.heading' => $pname),
+                'contain' => array(
+                    'Collection' => array(
+                        'fields' => array(
+                            'Collection.id',
+                            'Collection.heading'
+                        )
+                    ),
+                    'Diagram' => array(
+                        'fields' => array(
+                            'Diagram.x',
+                            'Diagram.y',
+                            'Diagram.part',
+                            'Diagram.product_group'
+                        )
+                    )
+                )
+            ));
+            $diagramData = array();
+            foreach ($raw as $group) {
+                $diagramData[$group['Catalog']['category']][$group['Diagram']['product_group']][$group['Diagram']['part']] = $group['Diagram'];
+            }
+            return $diagramData;
+        }
+
 }
 ?>

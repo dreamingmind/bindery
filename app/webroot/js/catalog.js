@@ -53,11 +53,8 @@ $(document).ready(function(){
         var x = parseInt($(div).css('width'));
         var y = parseInt($(div).css('height'));
         var z = $(div).children('div').length;
-        alert(z);
-        this.width = function(){ return x };
-        this.height = function(){ return y };
-        this.layers = function(){ return z };
-        this.toString = function(){ return ('The DIV is ' + this.width() + 'px wide, ' + this.height() + 'px tall, and contains ' + this.layers() + ' layers.') };
+        alert(diagramData['Book_Body']['5.5 x 8.5 Bookbody']['case']['x']);
+//        var layers()
     }
 
 

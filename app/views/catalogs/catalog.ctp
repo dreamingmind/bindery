@@ -1,4 +1,5 @@
 <?php
+    echo $this->Html->wrapScriptBlock($diagramData);
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
