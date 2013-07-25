@@ -48,12 +48,14 @@ $(document).ready(function(){
         });
     }
 
-    function diagramDiv(div){
+    function diagramDiv(div, targetProduct){
 //        alert(productCategory);
-        var x = parseInt($(div).css('width'));
-        var y = parseInt($(div).css('height'));
-        var z = $(div).children('div').length;
-        alert(diagramData['Book_Body']['5.5 x 8.5 Bookbody']['case']['x']);
+        var divX = parseInt($(div).css('width'));
+        var divY = parseInt($(div).css('height'));
+        var z = $(diagramData[targetProduct]).length;
+        var x = diagramData[targetProduct]['case']['x'];
+        var y = diagramData[targetProduct]['case']['y'];
+        alert('x='+x+' y='+y+' z='+z);
 //        var layers()
     }
 
@@ -65,8 +67,9 @@ $(document).ready(function(){
             $('input[id*="Description"]').attr('value', title);
             var productCategory = $(this).parents('table').attr('id');
 //            diagram = new diagramDiv($('div#diagram[class="'+productCategory+'"]'));
-            productDiagram = $('div#diagram[class="'+productCategory+'"]');
-            diagramDiv(productDiagram);
+            var productDiagram = $('div#diagram[class="'+productCategory+'"]');
+            var targetProduct = $(this).attr('diagram');
+            diagramDiv(productDiagram, targetProduct);
         });
     }
  

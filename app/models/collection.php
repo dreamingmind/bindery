@@ -185,7 +185,8 @@ class Collection extends AppModel {
                             'Catalog.x_index',
                             'Catalog.price',
                             'Catalog.product_code',
-                            'Catalog.category'
+                            'Catalog.category',
+                            'Catalog.product_group'
                         ),
                         'order' => array(
                             'Catalog.table_sequence',

@@ -102,7 +102,7 @@ class Catalog extends AppModel {
                     'Catalog.category',
                     'Catalog.collection_id'
                 ),
-                'group' => array('Catalog.product_group'),
+//                'group' => array('Catalog.product_group'),
                 'conditions' => array('Collection.heading' => $pname),
                 'contain' => array(
                     'Collection' => array(
@@ -123,7 +123,7 @@ class Catalog extends AppModel {
             ));
             $diagramData = array();
             foreach ($raw as $group) {
-                $diagramData[$group['Catalog']['category']][$group['Diagram']['product_group']][$group['Diagram']['part']] = $group['Diagram'];
+                $diagramData[$group['Diagram']['product_group']][$group['Diagram']['part']] = $group['Diagram'];
             }
             return $diagramData;
         }

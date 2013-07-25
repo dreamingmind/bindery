@@ -421,13 +421,13 @@ class TableParserHelper extends AppHelper {
 //        die;
         $productCode = " <span>({$product['product_code']})</span>";
         $productRadio = $this->Form->radio(
-                "$this->tableName.product", array($product['product_code'] => $this->Number->currency($product['price'], 'USD', array('places' => 0))), array('legend' => false, 'value' => 0));
+                "$this->tableName.product", array($product['product_code'] => $this->Number->currency($product['price'], 'USD', array('places' => 0))), array('legend' => false, 'value' => 0, 'diagram' => $product['product_group']));
         return array(
             $productRadio . ' ' . $productCode
             , array(
                 'class' => $this->tableName . $this->yClass[$count] . $this->xClass[$index],
                 'option' => "master-{$this->tableName}",
-                'setlist' => str_replace('_', '', $this->setList . ' ' . $this->yClass[$count] . $this->xClass[$index])// 
+                'setlist' => str_replace('_', '', $this->setList . ' ' . $this->yClass[$count] . $this->xClass[$index])
                 ));
     }
 
