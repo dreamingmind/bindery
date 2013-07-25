@@ -1304,5 +1304,14 @@ class AppHelper extends Helper {
 		return implode("\n", $out);
 	}
 
+        function wrapScriptBlock($block){
+            return sprintf(
+                '<script type="text/javascript">
+                //<![CDATA[
+                %s
+                //]]>
+                </script>
+                ', $block);
+        }
 }
 ?>
