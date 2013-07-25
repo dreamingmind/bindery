@@ -125,6 +125,7 @@ class Catalog extends AppModel {
             foreach ($raw as $group) {
                 $diagramData[$group['Diagram']['product_group']][$group['Diagram']['part']] = $group['Diagram'];
             }
+            
             return $diagramData;
         }
 

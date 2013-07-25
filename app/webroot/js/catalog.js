@@ -52,7 +52,13 @@ $(document).ready(function(){
 //        alert(productCategory);
         var divX = parseInt($(div).css('width'));
         var divY = parseInt($(div).css('height'));
-        var z = $(diagramData[targetProduct]).length;
+        var count = 0;
+        for (var x in diagramData[targetProduct]) {
+            if (diagramData[targetProduct].hasOwnProperty(x)) {
+               ++count;
+            }
+        }
+        var z = count;
         var x = diagramData[targetProduct]['case']['x'];
         var y = diagramData[targetProduct]['case']['y'];
         alert('x='+x+' y='+y+' z='+z);
