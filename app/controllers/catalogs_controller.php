@@ -92,20 +92,19 @@ class CatalogsController extends AppController {
             debug($this->data);die;
         }
         $this->layout = 'noThumbnailPage';
-        $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
-//        debug($tableSet);die;
-//            $this->set('product',$this->Catalog->query('select yy_index, y_index, xx_index, x_index, price, product_code from catalogs where category = "'.$this->params['pname'].'"
-//order by yy_index, y_index, xx_index, x_index;'));
-
         $this->scripts[] = 'product_diagram';
-        $this->set('tableSet', $tableSet);
-        $this->set('leatherOptions', $this->Material->leatherOptionList());
-        $this->set('clothOptions', $this->Material->clothOptionList());
-        $this->set('endpaperOptions', $this->Material->endpaperOptionList());
-//        $this->select();
-        $this->set('setlists', $this->Catalog->getAllProductCategoryOptions());
-//            $this->set('materials', $this->render('select'));
-//            $this->render('catalog');
+        
+        // get the table data for pname
+        $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
+        // get the select lists for the options
+        $leatherOptions =  $this->Material->leatherOptionList();
+        $clothOptions =  $this->Material->clothOptionList();
+        $endpaperOptions =  $this->Material->endpaperOptionList();
+        // get data listing core options for the various product categories
+        $setlists =  $this->Catalog->getAllProductCategoryOptions();
+
+        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists'));
+        $this->set('block', 'var parts = "some data";');
     }
     
     /**
