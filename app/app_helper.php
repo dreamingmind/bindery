@@ -1304,14 +1304,22 @@ class AppHelper extends Helper {
 		return implode("\n", $out);
 	}
 
-        function wrapScriptBlock($block){
+        /**
+         * Take some javascrit an wrap it for inclusion on an HTML page
+         * 
+         * If no code is provided, use the code accumulated by AppController
+         * 
+         * @param string $jsGlobal The javascript code to be wrapped
+         * @return string The javascrit block for inclusion on a page
+         */
+        function wrapScriptBlock($code){
             return sprintf(
                 '<script type="text/javascript">
                 //<![CDATA[
                 %s
                 //]]>
                 </script>
-                ', $block);
+                ', $code);
         }
 }
 ?>
