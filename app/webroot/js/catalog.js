@@ -1,3 +1,162 @@
+    /**
+     * Calculate positions and sizes for diagram parts setting page css
+     */
+    function diagramDiv(div, targetProduct){
+        
+        // analyze the diagramData left by the server
+        var layers = getDiagramLayers(targetProduct);
+
+        // prepare our main data object and intialize its core values
+        var params = new Object
+        params.layerNames = layers;
+        params.layerCount = layers.length;
+        params.div = div;
+        params.targetProduct = targetProduct;
+        setDiagramParams(params);
+        
+        for (var layer in params.layerSizes){
+            alert('The div is '+params.divSize.width+' by '+params.divSize.height+'.\rLayer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.')
+        }
+        alert('layer '+params.layerCount+' is '+params.layerNames[params.layerCount-1]+' and there are '+params.layerCount+' layers.');
+        alert('The div is '+params.divSize.width+' by '+params.divSize.height);
+        alert('The liveArea is '+params.liveArea.width+' by '+params.liveArea.height);
+        alert('margin = '+params.margin);
+//        calculateLiveArea(liveArea);
+//        var z = count;
+//        var x = diagramData[targetProduct]['case']['x'];
+//        var y = diagramData[targetProduct]['case']['y'];
+//        alert('x='+x+' y='+y+' z='+z);
+        
+        
+//        var layers()
+    }
+    
+    /**
+     * Scale a number by a factor
+     * 
+     * If round = true return an integer
+     * otherwise return a float
+     */
+    function scaleTo(original, factor, round){
+        if(typeof(round)==='undefined') round=true;
+        if (round) {
+            return parseInt(original * factor);
+        } else {
+            return original * factor;
+        }
+    }
+    
+    /**
+     * Return an assembled size ojbect
+     */
+    function size(obj, width, height){
+        obj['width'] = width;
+        obj['height'] = height;
+    }
+    
+    /**
+     * return an assembled point object
+     */
+    function point(obj, x, y){
+        obj['x'] = x;
+        obj['y'] = y;
+    }
+    
+    /**
+     * calc the diagram div's baseline parameters
+     * 
+     * Set the margin and offset starting % values
+     * Calculate the actual pixel values for both
+     * Assumes the first layer is going to be the largest
+     */
+    function setDiagramParams(params){
+        
+        // establish some baseline control relationships
+        params['offsetMinPercent'] = .1; // layer offset is least 10% of the container div's narrow dimension
+        params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
+        params['marginPercent'] = .03; // margin is 3%
+        
+        // create a divSize object, the diagram wrapper div
+        params.divSize = new Object();
+        size(params.divSize, parseInt($(params.div).css('width')), parseInt($(params.div).css('height')));
+        
+        // workout the actual margin in pixels
+        if (params.divSize.width < params.divSize.height) {
+            params['margin'] = scaleTo(params.divSize.width, params.marginPercent);
+        } else {
+            params['margin'] = scaleTo(params.divSize.height, params.marginPercent);
+        }
+        
+        // set the live-area size for the div
+        params.liveArea = new Object();
+        size(params.liveArea, params.divSize.width - (params.margin * 2), params.divSize.height - (params.margin * 2))
+        
+        // determine the limiting dimension for scaling the layers
+        // one direction (the true one) will have minimum offsets
+        // and the other will have larger offests (up to offsetMax)
+        params.scaleLimitBy = new Object();
+        hz = diagramData[params.targetProduct][params.layerNames[0]]['x'] / params.liveArea.width;
+        vrt = diagramData[params.targetProduct][params.layerNames[0]]['y'] / params.liveArea.height;
+        if (hz > vrt) {
+            point(params.scaleLimitBy, true, false); // x = true, y = false
+            params.limitDirection = 'width';
+            params.looseDirection = 'length';
+            params.limitCoordinate = 'x';
+            params.looseCoordinate = 'y';
+        } else {
+            point(params.scaleLimitBy, false, true); // x = false, y = true
+            params.limitDirection = 'width';
+            params.looseDirection = 'length';
+            params.limitCoordinate = 'x';
+            params.looseCoordinate = 'y';
+        }
+        
+        // caluculate the pixels used by offsetting in the limiting direction
+        // work out both single offest and total offset
+        params[params.limitDirection+'Offset'] = scaleTo(params.liveArea[params.limitDirection], params.offsetMinPercent);
+        params[params.limitDirection+'OffsetTotal'] = params[params.limitDirection+'Offset'] * (params.layerCount -1);
+        
+        // calculate the factor to use when scaling the layers
+        params.scale = new Object();
+        params.scale = (params.liveArea[params.limitDirection] - params[params.limitDirection+'OffsetTotal']) / diagramData[params.targetProduct][params.layerNames[0]][params.limitCoordinate];
+        
+        // work through all the layers and set each one's actual size
+        params.layerSizes = new Object();
+        count = 0;
+        while (count < params.layerCount) {
+            pixelSize = new Object();
+            size(pixelSize, 
+                scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['x']), params.scale),
+                scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['y']), params.scale)
+            );
+            params.layerSizes[params.layerNames[count]] = new Object();
+            params.layerSizes[params.layerNames[count]]['size'] = pixelSize;
+            diagramData[params.targetProduct][params.layerNames[count]]['size'] = pixelSize;
+            count++;
+        }
+        
+        // now work out the loose direcion offset values
+//        size
+//        offset = scaleTo(params.liveArea[params.looseDirection], params.offsetMinPercent);
+//        offsetmax = 
+//        params[params.looseDirection+'Offset'] = scaleTo(params.liveArea[params.looseDirection], params.offsetMinPercent);
+//        params[params.looseDirection+'OffsetTotal'] = params[params.looseDirection+'Offset'] * (params.layerCount -1);
+        
+    }
+    
+    function getDiagramLayers(targetProduct){
+        var count = 0;
+        var layer = new Array();
+        for (var x in diagramData[targetProduct]) {
+            if (diagramData[targetProduct].hasOwnProperty(x)) {
+                layer[count] = x;
+               ++count;
+               
+            }
+        }
+        return layer;
+    }
+    
 $(document).ready(function(){
 
     function initCheckboxes(){
@@ -48,22 +207,6 @@ $(document).ready(function(){
         });
     }
 
-    function diagramDiv(div, targetProduct){
-//        alert(productCategory);
-        var divX = parseInt($(div).css('width'));
-        var divY = parseInt($(div).css('height'));
-        var count = 0;
-        for (var x in diagramData[targetProduct]) {
-            if (diagramData[targetProduct].hasOwnProperty(x)) {
-               ++count;
-            }
-        }
-        var z = count;
-        var x = diagramData[targetProduct]['case']['x'];
-        var y = diagramData[targetProduct]['case']['y'];
-        alert('x='+x+' y='+y+' z='+z);
-//        var layers()
-    }
 
 
     function initProductRadios(){
