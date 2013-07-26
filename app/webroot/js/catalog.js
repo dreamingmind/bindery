@@ -21,7 +21,8 @@ Layer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide a
 Width offest = '+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
 Height offest = '+params.heightOffset+'/'+params.heightOffsetTotal+'.\n\
 There are '+params.layerCount+' layers.\n\
-Margin = '+params.margin+' and 2*margin='+params.margin*2);
+Side margins = '+params.margin.width+' and 2*margin='+params.margin.width*2+'.\n\
+Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2);
         }
 //        alert('layer '+params.layerCount+' is '+params.layerNames[params.layerCount-1]+' and there are '+params.layerCount+' layers.');
 //        alert('The div is '+params.divSize.width+' by '+params.divSize.height);
@@ -80,22 +81,25 @@ Margin = '+params.margin+' and 2*margin='+params.margin*2);
         // establish some baseline control relationships
         params['offsetMinPercent'] = .1; // layer offset is least 10% of the container div's narrow dimension
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
-        params['marginPercent'] = .03; // margin is 3%
+        params['marginPercent'] = .08; // margin is 3%
         
         // create a divSize object, the diagram wrapper div
         params.divSize = new Object();
         size(params.divSize, parseInt($(params.div).css('width')), parseInt($(params.div).css('height')));
         
         // workout the actual margin in pixels
+        var margin = new Object();
         if (params.divSize.width < params.divSize.height) {
-            params['margin'] = scaleTo(params.divSize.width, params.marginPercent);
+            var value = scaleTo(params.divSize.width, params.marginPercent)
         } else {
-            params['margin'] = scaleTo(params.divSize.height, params.marginPercent);
+            var value = scaleTo(params.divSize.height, params.marginPercent)
         }
+        size(margin, value, value);
+        params['margin'] = margin;
         
         // set the live-area size for the div
         params.liveArea = new Object();
-        size(params.liveArea, params.divSize.width - (params.margin * 2), params.divSize.height - (params.margin * 2))
+        size(params.liveArea, params.divSize.width - (params.margin.width * 2), params.divSize.height - (params.margin.height * 2))
         
         // determine the limiting dimension for scaling the layers
         // one direction (the true one) will have minimum offsets
@@ -156,6 +160,20 @@ Margin = '+params.margin+' and 2*margin='+params.margin*2);
             params[params.looseDirection+'Offset'] = remainder;
             params[params.looseDirection+'OffsetTotal'] = remainder;
         }
+        
+        // the loose direction may not reach from margin to margin
+        // if that is the case, adjust the margins to center things
+        if (params.layerCount > 1) {
+            var content = params[params.looseDirection+'OffsetTotal'] + params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+        } else {
+            var content = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+        }
+        var remainder = params.liveArea[params.looseDirection] - content;
+        if (remainder > 0) {
+            remainder = parseInt(remainder/2);
+            params.margin[params.looseDirection] += remainder;
+        }
+        
     }
     
     function getDiagramLayers(targetProduct){
