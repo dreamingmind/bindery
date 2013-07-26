@@ -15,12 +15,18 @@
         setDiagramParams(params);
         
         for (var layer in params.layerSizes){
-            alert('The div is '+params.divSize.width+' by '+params.divSize.height+'.\rLayer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.')
+            alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
+The live area is '+params.liveArea.width+' by '+params.liveArea.height+'. \n\
+Layer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.\n\
+Width offest = '+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
+Height offest = '+params.heightOffset+'/'+params.heightOffsetTotal+'.\n\
+There are '+params.layerCount+' layers.\n\
+Margin = '+params.margin+' and 2*margin='+params.margin*2);
         }
-        alert('layer '+params.layerCount+' is '+params.layerNames[params.layerCount-1]+' and there are '+params.layerCount+' layers.');
-        alert('The div is '+params.divSize.width+' by '+params.divSize.height);
-        alert('The liveArea is '+params.liveArea.width+' by '+params.liveArea.height);
-        alert('margin = '+params.margin);
+//        alert('layer '+params.layerCount+' is '+params.layerNames[params.layerCount-1]+' and there are '+params.layerCount+' layers.');
+//        alert('The div is '+params.divSize.width+' by '+params.divSize.height);
+//        alert('The liveArea is '+params.liveArea.width+' by '+params.liveArea.height);
+//        alert('margin = '+params.margin);
 //        calculateLiveArea(liveArea);
 //        var z = count;
 //        var x = diagramData[targetProduct]['case']['x'];
@@ -95,36 +101,41 @@
         // one direction (the true one) will have minimum offsets
         // and the other will have larger offests (up to offsetMax)
         params.scaleLimitBy = new Object();
-        hz = diagramData[params.targetProduct][params.layerNames[0]]['x'] / params.liveArea.width;
-        vrt = diagramData[params.targetProduct][params.layerNames[0]]['y'] / params.liveArea.height;
+        var hz = diagramData[params.targetProduct][params.layerNames[0]]['x'] / params.liveArea.width;
+        var vrt = diagramData[params.targetProduct][params.layerNames[0]]['y'] / params.liveArea.height;
         if (hz > vrt) {
             point(params.scaleLimitBy, true, false); // x = true, y = false
             params.limitDirection = 'width';
-            params.looseDirection = 'length';
+            params.looseDirection = 'height';
             params.limitCoordinate = 'x';
             params.looseCoordinate = 'y';
         } else {
             point(params.scaleLimitBy, false, true); // x = false, y = true
-            params.limitDirection = 'width';
-            params.looseDirection = 'length';
-            params.limitCoordinate = 'x';
-            params.looseCoordinate = 'y';
+            params.limitDirection = 'height';
+            params.looseDirection = 'width';
+            params.limitCoordinate = 'y';
+            params.looseCoordinate = 'x';
         }
         
         // caluculate the pixels used by offsetting in the limiting direction
         // work out both single offest and total offset
-        params[params.limitDirection+'Offset'] = scaleTo(params.liveArea[params.limitDirection], params.offsetMinPercent);
-        params[params.limitDirection+'OffsetTotal'] = params[params.limitDirection+'Offset'] * (params.layerCount -1);
+        if (params.layerCount > 1) {
+            params[params.limitDirection+'Offset'] = scaleTo(params.liveArea[params.limitDirection], params.offsetMinPercent);
+            params[params.limitDirection+'OffsetTotal'] = params[params.limitDirection+'Offset'] * (params.layerCount -1);
+        } else {
+            params[params.limitDirection+'Offset'] = 0;
+            params[params.limitDirection+'OffsetTotal'] = 0;
+        }
         
         // calculate the factor to use when scaling the layers
         params.scale = new Object();
-        params.scale = (params.liveArea[params.limitDirection] - params[params.limitDirection+'OffsetTotal']) / diagramData[params.targetProduct][params.layerNames[0]][params.limitCoordinate];
+        params.scale = (params.liveArea[params.limitDirection] - params[params.limitDirection+'OffsetTotal']) / parseFloat(diagramData[params.targetProduct][params.layerNames[0]][params.limitCoordinate]);
         
         // work through all the layers and set each one's actual size
         params.layerSizes = new Object();
-        count = 0;
+        var count = 0;
         while (count < params.layerCount) {
-            pixelSize = new Object();
+            var pixelSize = new Object();
             size(pixelSize, 
                 scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['x']), params.scale),
                 scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['y']), params.scale)
@@ -136,12 +147,15 @@
         }
         
         // now work out the loose direcion offset values
-//        size
-//        offset = scaleTo(params.liveArea[params.looseDirection], params.offsetMinPercent);
-//        offsetmax = 
-//        params[params.looseDirection+'Offset'] = scaleTo(params.liveArea[params.looseDirection], params.offsetMinPercent);
-//        params[params.looseDirection+'OffsetTotal'] = params[params.looseDirection+'Offset'] * (params.layerCount -1);
-        
+        var looseSize = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+        if (params.layerCount > 1) {
+            params[params.looseDirection+'OffsetTotal'] = params.liveArea[params.looseDirection] - looseSize;
+            params[params.looseDirection+'Offset'] = params[params.looseDirection+'OffsetTotal'] / (params.layerCount - 1);        
+        } else {
+            var remainder = params.liveArea[params.looseDirection] - looseSize;
+            params[params.looseDirection+'Offset'] = remainder;
+            params[params.looseDirection+'OffsetTotal'] = remainder;
+        }
     }
     
     function getDiagramLayers(targetProduct){
