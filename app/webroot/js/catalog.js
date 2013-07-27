@@ -3,36 +3,24 @@
      */
     function diagramDiv(div, productGroup){
         
-        writeLayerCssRule('case');
         // prepare our main data object 
         var params = new Object
 
         // intialize its core values
         setDiagramDefaults(params, div, productGroup);
         initializeDiagram(params);
+        createDiagramCssRules(params);
         
-        for (var layer in params.layerSizes){
-alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
-The live area is '+params.liveArea.width+' by '+params.liveArea.height+'. \n\
-Layer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.\n\
-Width offest = '+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
-Height offest = '+params.heightOffset+'/'+params.heightOffsetTotal+'.\n\
-There are '+params.layerCount+' layers.\n\
-Side margins = '+params.margin.width+' and 2*margin='+params.margin.width*2+'.\n\
-Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2);
-        }
-//        alert('layer '+params.layerCount+' is '+params.layerNames[params.layerCount-1]+' and there are '+params.layerCount+' layers.');
-//        alert('The div is '+params.divSize.width+' by '+params.divSize.height);
-//        alert('The liveArea is '+params.liveArea.width+' by '+params.liveArea.height);
-//        alert('margin = '+params.margin);
-//        calculateLiveArea(liveArea);
-//        var z = count;
-//        var x = diagramData[productGroup]['case']['x'];
-//        var y = diagramData[productGroup]['case']['y'];
-//        alert('x='+x+' y='+y+' z='+z);
-        
-        
-//        var layers()
+//        for (var layer in params.layerSizes){
+//alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
+//The live area is //'+params.liveArea.width+' by '+params.liveArea.height+'. \n\
+//Layer //'+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.\n\
+//Width offest = //'+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
+//Height offest = //'+params.heightOffset+'/'+params.heightOffsetTotal+'.\n\
+//There are //'+params.layerCount+' layers.\n\
+//Side margins = //'+params.margin.width+' and 2*margin='+params.margin.width*2+'.\n\
+//Top/Bot margins = //'+params.margin.height+' and 2*margin='+params.margin.height*2);
+//        }
     }
     
     /**
@@ -41,12 +29,13 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
     function setDiagramDefaults(params, div, productGroup){
 
         // establish some baseline control relationships
-        params['offsetMinPercent'] = .1; // layer offset is least 10% of the container div's narrow dimension
+        params['offsetMinPercent'] = .05; // layer offset is least 10% of the container div's narrow dimension
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
         params['marginPercent'] = .08; // margin is 3%
         
         // store the DOM object and the product_group name
         params.div = div;
+        params.product = $(div).attr('class');
         params.productGroup = productGroup;
         
         // analyze the diagramData left by the server for the product component layers to diagram
@@ -90,6 +79,23 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
         
         // Center the diagram in the loose direction
         adjustLooseMargin(params);        
+    }
+    
+    /**
+     * Create styles to control the diagram layers
+     */
+    function createDiagramCssRules(params){
+        var rules = '';
+        var count = 0;
+        while (count < params.layerCount) {
+            rules = rules + writeLayerCssRule(params, count);
+            count++;
+        }
+        $('head').append('<style id="diagramStyle" type="text/css"><!--\n\
+'+rules+' --></style>');
+//        var sheet = $('#diagramStyle');
+        // write rule for this layer
+        // end loop
     }
     
     /**
@@ -227,24 +233,37 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
         }
     }
 
-    function writeLayerCssRule(layerId){
-//        var rule = 
-//'#%s.%s {\n\
-//    position: absolute;\n\
-//    top: %d;\n\
-//    left: %d;\n\
-//    height: %d;\n\
-//    width: %d\n\
-//}';
+    function writeLayerCssRule(params, count){
+        var color = new Array('blue', 'green', 'grey', 'maroon', 'orange');
+//div#case.Journal {
+//    height: 495px;
+//    left: 30px;
+//    padding: 0;
+//    position: absolute;
+//    top: 30px;
+//    width: 386px;
+//}
+        var layer = params.layerNames[count];
+        var product = params.product
+        var left = (count * params.widthOffset) + params.margin.width;
+        var top = count * params.heightOffset + params.margin.height;
+        var width = params.layerSizes[params.layerNames[count]]['size']['width'];
+        var height = params.layerSizes[params.layerNames[count]]['size']['height'];
+        var zindex = 700 - (20*count);
+        var backcolor = color[count];
         var rule = 
-'#{0}.{1} {\n\
+'div#{0}.{1} {\n\
     position: absolute;\n\
-    top: {2};\n\
-    left: {3};\n\
-    height: {4};\n\
-    width: {5}\n\
-}';
-        alert(rule.format(layerId,'journals',9,10,11,12));
+    padding: 0;\n\
+    left: {2}px;\n\
+    top: {3}px;\n\
+    width: {4}px;\n\
+    height: {5}px;\n\
+    z-index: {6};\n\
+    background-color: {7};\n\
+}\n\
+';
+        return (rule.format(layer, product, left, top, width, height, zindex, backcolor));
         
     }
     
