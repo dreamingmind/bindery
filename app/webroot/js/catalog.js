@@ -1,84 +1,18 @@
-/**
- * General purpose Graphic coordinate methods
- * ======================================================
- */
-/**
- * Scale a number by a factor
- * 
- * If round = true return an integer
- * otherwise return a float
- */
-function scaleTo(original, factor, round){
-    if(typeof(round)==='undefined') round=true;
-    if (round) {
-        return parseInt(original * factor);
-    } else {
-        return original * factor;
-    }
-}
-
-/**
- * Return an assembled size ojbect
- */
-function size(obj, width, height){
-    obj['width'] = width;
-    obj['height'] = height;
-}
-
-/**
- * return an assembled point object
- */
-function point(obj, x, y){
-    obj['x'] = x;
-    obj['y'] = y;
-}
-/**
- * End eneral purpose Graphic coordinate methods
- * ======================================================
- */
-    
-/**
- * General purpose String methods
- * ======================================================
- */
-/**
- * Add sprintf() behavior to strings
- * targets in format string = {1}, {2}, {n...}
- */
-//first, checks if it isn't implemented yet
-if (!String.prototype.format) {
-  String.prototype.format = function() {
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
-      ;
-    });
-  };
-}
-/**
- * End eneral purpose String methods
- * ======================================================
- */
     /**
      * Calculate positions and sizes for diagram parts setting page css
      */
-    function diagramDiv(div, targetProduct){
+    function diagramDiv(div, productGroup){
         
-        // analyze the diagramData left by the server
-        var layers = getDiagramLayers(targetProduct);
-
-        // prepare our main data object and intialize its core values
+        writeLayerCssRule('case');
+        // prepare our main data object 
         var params = new Object
-        params.layerNames = layers;
-        params.layerCount = layers.length;
-        params.div = div;
-        params.targetProduct = targetProduct;
-        setDiagramParams(params);
+
+        // intialize its core values
+        setDiagramDefaults(params, div, productGroup);
+        initializeDiagram(params);
         
         for (var layer in params.layerSizes){
-            alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
+alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
 The live area is '+params.liveArea.width+' by '+params.liveArea.height+'. \n\
 Layer '+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.\n\
 Width offest = '+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
@@ -93,12 +27,32 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
 //        alert('margin = '+params.margin);
 //        calculateLiveArea(liveArea);
 //        var z = count;
-//        var x = diagramData[targetProduct]['case']['x'];
-//        var y = diagramData[targetProduct]['case']['y'];
+//        var x = diagramData[productGroup]['case']['x'];
+//        var y = diagramData[productGroup]['case']['y'];
 //        alert('x='+x+' y='+y+' z='+z);
         
         
 //        var layers()
+    }
+    
+    /**
+     * Set diagram div's default values
+     */
+    function setDiagramDefaults(params, div, productGroup){
+
+        // establish some baseline control relationships
+        params['offsetMinPercent'] = .1; // layer offset is least 10% of the container div's narrow dimension
+        params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
+        params['marginPercent'] = .08; // margin is 3%
+        
+        // store the DOM object and the product_group name
+        params.div = div;
+        params.productGroup = productGroup;
+        
+        // analyze the diagramData left by the server for the product component layers to diagram
+        params.layerNames = getDiagramLayers(productGroup);
+        params.layerCount = params.layerNames.length;
+        
     }
     
     /**
@@ -108,15 +62,10 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
      * Calculate the actual pixel values for both
      * Assumes the first layer is going to be the largest
      */
-    function setDiagramParams(params){
-
-        // establish some baseline control relationships
-        params['offsetMinPercent'] = .1; // layer offset is least 10% of the container div's narrow dimension
-        params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
-        params['marginPercent'] = .08; // margin is 3%
+    function initializeDiagram(params){
         
         // work out divSize, margin, liveArea
-        setDiagramWrapper(params)
+        initializeDiagramWrapper(params)
 
         // work out:
         // limitDirection, looseDirection ('width' or 'height')
@@ -150,7 +99,7 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
      * margin
      * liveArea
      **/
-    function setDiagramWrapper(params){
+    function initializeDiagramWrapper(params){
         
         // create a divSize object, the diagram wrapper div
         params.divSize = new Object();
@@ -200,8 +149,8 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
         // one direction (the true one) will have minimum offsets
         // and the other will have larger offests (up to offsetMax)
         params.scaleLimitBy = new Object();
-        var hz = diagramData[params.targetProduct][params.layerNames[0]]['x'] / params.liveArea.width;
-        var vrt = diagramData[params.targetProduct][params.layerNames[0]]['y'] / params.liveArea.height;
+        var hz = diagramData[params.productGroup][params.layerNames[0]]['x'] / params.liveArea.width;
+        var vrt = diagramData[params.productGroup][params.layerNames[0]]['y'] / params.liveArea.height;
         if (hz > vrt) {
             point(params.scaleLimitBy, true, false); // x = true, y = false
             params.limitDirection = 'width';
@@ -253,7 +202,7 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
      */
     function setScaleFactor(params){
         params.scale = new Object();
-        params.scale = (params.liveArea[params.limitDirection] - params[params.limitDirection+'OffsetTotal']) / parseFloat(diagramData[params.targetProduct][params.layerNames[0]][params.limitCoordinate]);
+        params.scale = (params.liveArea[params.limitDirection] - params[params.limitDirection+'OffsetTotal']) / parseFloat(diagramData[params.productGroup][params.layerNames[0]][params.limitCoordinate]);
     }
     
     /**
@@ -268,12 +217,12 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
         while (count < params.layerCount) {
             var pixelSize = new Object();
             size(pixelSize, 
-                scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['x']), params.scale),
-                scaleTo(parseFloat(diagramData[params.targetProduct][params.layerNames[0]]['y']), params.scale)
+                scaleTo(parseFloat(diagramData[params.productGroup][params.layerNames[0]]['x']), params.scale),
+                scaleTo(parseFloat(diagramData[params.productGroup][params.layerNames[0]]['y']), params.scale)
             );
             params.layerSizes[params.layerNames[count]] = new Object();
             params.layerSizes[params.layerNames[count]]['size'] = pixelSize;
-            diagramData[params.targetProduct][params.layerNames[count]]['size'] = pixelSize;
+            diagramData[params.productGroup][params.layerNames[count]]['size'] = pixelSize;
             count++;
         }
     }
@@ -295,7 +244,7 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
     height: {4};\n\
     width: {5}\n\
 }';
-        alert(rule.format(layerId,'case','journals',9,10,11,12));
+        alert(rule.format(layerId,'journals',9,10,11,12));
         
     }
     
@@ -303,15 +252,15 @@ Top/Bot margins = '+params.margin.height+' and 2*margin='+params.margin.height*2
      * Scan json block to see how many diagram layers
      * 
      * Server writes data to json diagramData
-     * targetProduct is Diagram.product_group and Catalog.product_group (link)
+     * productGroup is Diagram.product_group and Catalog.product_group (link)
      * json array is custom composed by Catalog Model
      * layers are primary diagramed product surfaces, case, liner, etc.
      */
-    function getDiagramLayers(targetProduct){
+    function getDiagramLayers(productGroup){
         var count = 0;
         var layer = new Array();
-        for (var x in diagramData[targetProduct]) {
-            if (diagramData[targetProduct].hasOwnProperty(x)) {
+        for (var x in diagramData[productGroup]) {
+            if (diagramData[productGroup].hasOwnProperty(x)) {
                 layer[count] = x;
                ++count;
                
@@ -370,8 +319,6 @@ $(document).ready(function(){
         });
     }
 
-
-
     function initProductRadios(){
         $('table[class*="Toggle"]').find('input[type="radio"]').bind('click', function(){
             var title = $(this).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
@@ -380,8 +327,8 @@ $(document).ready(function(){
             var productCategory = $(this).parents('table').attr('id');
 //            diagram = new diagramDiv($('div#diagram[class="'+productCategory+'"]'));
             var productDiagram = $('div#diagram[class="'+productCategory+'"]');
-            var targetProduct = $(this).attr('diagram');
-            diagramDiv(productDiagram, targetProduct);
+            var productGroup = $(this).attr('diagram');
+            diagramDiv(productDiagram, productGroup);
         });
     }
  
