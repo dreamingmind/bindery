@@ -201,6 +201,10 @@
             params[params.looseDirection+'Offset'] = remainder;
             params[params.looseDirection+'OffsetTotal'] = remainder;
         }
+        if (params[params.looseDirection+'Offset'] > params.layerSizes[params.layerNames[0]]['size'][params.looseDirection]*params.offsetMaxPercent) {
+            params[params.looseDirection+'Offset'] = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection]*params.offsetMaxPercent;
+            params[params.looseDirection+'OffsetTotal'] = params[params.looseDirection+'Offset'] * (params.layerCount - 1);
+        }
      }
      
     /**
