@@ -14,7 +14,7 @@
 //        for (var layer in params.layerSizes){
 //alert('The div is '+params.divSize.width+' by '+params.divSize.height+'. \n\
 //The live area is //'+params.liveArea.width+' by '+params.liveArea.height+'. \n\
-//Layer //'+layer+' is set to '+params.layerSizes[layer]['size']['width']+'px wide and '+params.layerSizes[layer]['size']['height']+'px tall.\n\
+//Layer //'+layer+' is set to '+params.layerSizes[layer]['width']+'px wide and '+params.layerSizes[layer]['height']+'px tall.\n\
 //Width offest = //'+params.widthOffset+'/'+params.widthOffsetTotal+'.\n\
 //Height offest = //'+params.heightOffset+'/'+params.heightOffsetTotal+'.\n\
 //There are //'+params.layerCount+' layers.\n\
@@ -133,9 +133,9 @@
         // the loose direction may not reach from margin to margin
         // if that is the case, adjust the margins to center things
         if (params.layerCount > 1) {
-            var content = params[params.looseDirection+'OffsetTotal'] + params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+            var content = params[params.looseDirection+'OffsetTotal'] + params.layerSizes[params.layerNames[0]][params.looseDirection];
         } else {
-            var content = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+            var content = params.layerSizes[params.layerNames[0]][params.looseDirection];
         }
         var remainder = params.liveArea[params.looseDirection] - content;
         if (remainder > 0) {
@@ -192,7 +192,7 @@
      */
      function setLooseOffset(params){
         // now work out the loose direcion offset values
-        var looseSize = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection];
+        var looseSize = params.layerSizes[params.layerNames[0]][params.looseDirection];
         if (params.layerCount > 1) {
             params[params.looseDirection+'OffsetTotal'] = params.liveArea[params.looseDirection] - looseSize;
             params[params.looseDirection+'Offset'] = params[params.looseDirection+'OffsetTotal'] / (params.layerCount - 1);        
@@ -201,8 +201,8 @@
             params[params.looseDirection+'Offset'] = remainder;
             params[params.looseDirection+'OffsetTotal'] = remainder;
         }
-        if (params[params.looseDirection+'Offset'] > params.layerSizes[params.layerNames[0]]['size'][params.looseDirection]*params.offsetMaxPercent) {
-            params[params.looseDirection+'Offset'] = params.layerSizes[params.layerNames[0]]['size'][params.looseDirection]*params.offsetMaxPercent;
+        if (params[params.looseDirection+'Offset'] > params.layerSizes[params.layerNames[0]][params.looseDirection]*params.offsetMaxPercent) {
+            params[params.looseDirection+'Offset'] = params.layerSizes[params.layerNames[0]][params.looseDirection]*params.offsetMaxPercent;
             params[params.looseDirection+'OffsetTotal'] = params[params.looseDirection+'Offset'] * (params.layerCount - 1);
         }
      }
@@ -231,7 +231,7 @@
                 scaleTo(parseFloat(diagramData[params.productGroup][params.layerNames[0]]['y']), params.scale)
             );
             params.layerSizes[params.layerNames[count]] = new Object();
-            params.layerSizes[params.layerNames[count]]['size'] = pixelSize;
+            params.layerSizes[params.layerNames[count]] = pixelSize;
             diagramData[params.productGroup][params.layerNames[count]]['size'] = pixelSize;
             count++;
         }
@@ -251,8 +251,8 @@
         var product = params.product
         var left = (count * params.widthOffset) + params.margin.width;
         var top = count * params.heightOffset + params.margin.height;
-        var width = params.layerSizes[params.layerNames[count]]['size']['width'];
-        var height = params.layerSizes[params.layerNames[count]]['size']['height'];
+        var width = params.layerSizes[params.layerNames[count]]['width'];
+        var height = params.layerSizes[params.layerNames[count]]['height'];
         var zindex = 700 - (20*count);
         var backcolor = color[count];
         var rule = 
