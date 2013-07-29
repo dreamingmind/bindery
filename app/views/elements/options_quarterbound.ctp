@@ -18,7 +18,8 @@ $parameters = array(
             'div' => array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'FullLeather QuarterBound'
-            )
+            ),
+            'material' => 'leather' //this target diagram div background image
         ),
         'cloth' => array(
             'type' => 'select',
@@ -26,7 +27,8 @@ $parameters = array(
             'div' => array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'QuarterBound'
-            )
+            ),
+            'material' => 'cloth' //this target diagram div background image
         ),
         'endpapers' => array(
             'type' => 'select',
@@ -34,7 +36,8 @@ $parameters = array(
             'div' => array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'endpapers'
-            )
+            ),
+            'material' => 'endpaper' //this target diagram div background image
         ),
         'liners' => array(
             'type' => 'select',
@@ -42,7 +45,8 @@ $parameters = array(
             'div' => array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'liners'
-            )
+            ),
+            'material' => 'cloth' //this target diagram div background image
         )
     )
 );

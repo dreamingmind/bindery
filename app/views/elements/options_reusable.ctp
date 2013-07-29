@@ -33,7 +33,8 @@ $parameters = array(
 ,
         'endpapers' => array(
             'type' => 'select',
-            'options' => $endpaperOptions
+            'options' => $endpaperOptions,
+            'material' => 'endpaper' //this target diagram div background image
 //            ,
 //            'div' => array(
 //                'option' => 'slave-'.$productCategory,

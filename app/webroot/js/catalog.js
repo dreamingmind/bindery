@@ -1,5 +1,14 @@
     /**
      * Calculate positions and sizes for diagram parts setting page css
+     * 
+     * Strucure:
+     * Wrapper Div containing
+     *    multipler Layer Divs displaying a major desing surface material properly proportioned
+     *        containing secondary design Component Divs showing material and properly proportioned
+     * Layer Divs IDs are are not unique :-( but not causing problems
+     * Layers and Coponents are slaved to both table-radios and option inputs for visibility control
+     * Layers and Components have a div 'material' attribute. This connects
+     * them to input 'material' attribute which will set the div background images.
      */
     function diagramDiv(div, productGroup){
         

@@ -95,6 +95,26 @@ class Catalog extends AppModel {
             return $result;
         }
         
+        /**
+         * Data describing product part sizes to aid in diagram construction
+         *
+         * catalog.js requires data regarding the diagrams to be constructed
+         * this returns all the data. The data is left in array form for
+         * possible secondary use. The controller action catalog() makes it
+         * into json for inclusion in the page.
+         *   [8Cover] => Array
+         *      [case] => Array
+         *              [x] => 8.625
+         *              [y] => 11.25
+         *              [part] => case
+         *              [product_group] => 8Cover
+         *      [liner] => Array
+         *              [x] => 8.625
+         *              ...
+         *
+         * @param string $pname A product collection name
+         * @return array 
+         */
         function getDiagramData($pname){
            $raw = $this->find('all', array(
                 'fields' => array(

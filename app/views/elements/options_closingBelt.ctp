@@ -24,7 +24,8 @@ $parameters = array(
             'default' => '0',
             'legend' => false,
             'option' => 'master-belt', // controls the diagram area belt div
-            'setlist' => 'belt'
+            'setlist' => 'belt',
+            'material' => 'leather' //this target diagram div background image
         )
     )
 );

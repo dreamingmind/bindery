@@ -9,22 +9,26 @@ echo $this->Html->div('', NULL, array(
     echo $this->Html->div($productCategory, NULL, array(
         'id' => 'case',
         'option' => 'slave-'.$productCategory,
-        'setlist' => 'FullLeather QuarterBound'
+        'setlist' => 'FullLeather QuarterBound',
+        'material' => 'leather'
         ));
         // the boards layer shows the cloth portion of a quarterbound case
         echo $this->Html->div('empty', '', array(
             'id' => 'boards',
             'option' => 'slave-'.$productCategory,
-            'setlist' => 'QuarterBound'));
+            'setlist' => 'QuarterBound',
+            'material' => 'cloth'));
         // belt and beltloop show the closing belt components
         echo $this->Html->div('empty', '',array(
             'id' => 'belt',
             'option' => 'slave-belt',
-            'setlist' => 'Yes'));
+            'setlist' => 'Yes',
+            'material' => 'leather'));
         echo $this->Html->div('empty', '',array(
             'id' => 'beltloop',
             'option' => 'slave-belt',
-            'setlist' => 'Yes'));
+            'setlist' => 'Yes',
+            'material' => 'leather'));
     echo '</div>';
     
     // The liner shows cloth liners
@@ -37,12 +41,14 @@ echo $this->Html->div('', NULL, array(
     echo $this->Html->div($productCategory, NULL, array(
         'id' => 'endpaper',
         'option' => 'slave-'.$productCategory,
-        'setlist' => 'endpapers'));
+        'setlist' => 'endpapers',
+        'material' => 'endpaper'));
     echo '</div>';
-    echo $this->Html->div($productCategory, NULL, array(
-        'id' => 'page',
-        'option' => 'slave-'.$productCategory,
-        'setlist' => 'BlankPages RuledPages'));
-    echo '</div>';
+//    echo $this->Html->div($productCategory, NULL, array(
+//        'id' => 'page',
+//        'option' => 'slave-'.$productCategory,
+//        'setlist' => 'BlankPages RuledPages',
+//        'material' => 'paper'));
+//    echo '</div>';
 echo '</div>';
 ?>

@@ -14,7 +14,8 @@ $parameters = array(
     'fields' => array(
         'leather' => array(
             'type' => 'select',
-            'options' => $leatherOptions
+            'options' => $leatherOptions,
+            'material' => 'leather' //this target diagram div background image
         )
     )
 );
