@@ -29,6 +29,7 @@
     echo $this->Html->css($css);
     
     echo $this->Html->script($scripts);
+    echo $this->Html->wrapScriptBlock($imagePath);
 
 //    echo $this->Html->script('supplement_defaults');
 //    if($this->params['controller']=='catalogs'){

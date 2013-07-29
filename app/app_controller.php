@@ -183,6 +183,7 @@ class AppController extends Controller {
         }
 
         $this->scripts = array('jquery-1.4.2', 'jquery.fix.clone', 'app');
+        $this->set('imagePath', "\rvar imagePath = '/bindery/app/webroot/img/';"); 
 
         //    echo $html->css('basic');
 //    echo $html->css('new4.css');
