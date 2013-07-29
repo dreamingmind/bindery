@@ -363,10 +363,29 @@ $(document).ready(function(){
             diagramDiv(productDiagram, productGroup);
         });
     }
+    
+    /**
+     * Link selects to divs for background replacement in diagrams
+     */
+    function initMaterialImages(){
+        var optionDiv = $('div.options').each(function(){
+            var diagram = $('div#diagram');
+            $(this).find('select').each(function(){
+                if ($(this).attr('material') != undefined) {
+                    $(this).bind('change', function(){
+                        var material = $(this).attr('material');
+                        var product = $(this).parent().attr('option').replace('slave-','');
+                        $(diagram).find('div.'+product+'[material="'+material+'"]').css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
+                    });
+                }
+            });
+        });
+    }
  
     initCheckboxes();
-    initTableToggleHooks(); 
+    initTableToggleHooks();
     initProductSelections();
     initTableReveal();
     initProductRadios();
+    initMaterialImages();
 })
