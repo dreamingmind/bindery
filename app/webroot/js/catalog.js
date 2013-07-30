@@ -100,8 +100,13 @@
             rules = rules + writeLayerCssRule(params, count);
             count++;
         }
-        $('head').append('<style id="diagramStyle" type="text/css"><!--\n\
-'+rules+' --></style>');
+        if ($('style#diagramStyle.'+params.product).length == 0) {
+        $('head').append('<style id="diagramStyle" class="'+params.product+'" type="text/css"><!--\n\
+'+rules+' --></style>');            
+        } else {
+        $('style#diagramStyle.'+params.product).replaceWith('<style id="diagramStyle" class="'+params.product+'" type="text/css"><!--\n\
+'+rules+' --></style>');            
+        }
 //        var sheet = $('#diagramStyle');
         // write rule for this layer
         // end loop
