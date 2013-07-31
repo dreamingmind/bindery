@@ -380,7 +380,8 @@ $(document).ready(function(){
                     $(this).bind('change', function(){
                         var material = $(this).attr('material');
                         var product = $(this).parent().attr('option').replace('slave-','');
-                        $(diagram).find('div.'+product+'[material="'+material+'"]').css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
+                        $(diagram).find('div.'+product+'[material="'+material+'"]')
+                            .css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
                     });
                 }
             });

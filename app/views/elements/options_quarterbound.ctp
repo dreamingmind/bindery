@@ -28,7 +28,7 @@ $parameters = array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'QuarterBound'
             ),
-            'material' => 'cloth' //this target diagram div background image
+            'material' => 'cloth board' //this target diagram div background image
         ),
         'endpapers' => array(
             'type' => 'select',
@@ -46,7 +46,7 @@ $parameters = array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'liners'
             ),
-            'material' => 'cloth' //this target diagram div background image
+            'material' => 'cloth liners' //this target diagram div background image
         )
     )
 );

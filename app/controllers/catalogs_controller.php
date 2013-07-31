@@ -100,6 +100,7 @@ class CatalogsController extends AppController {
         $leatherOptions =  $this->Material->leatherOptionList();
         $clothOptions =  $this->Material->clothOptionList();
         $endpaperOptions =  $this->Material->endpaperOptionList();
+        $endpaperOptions =  $this->Material->clothOptionList();
         // get data listing core options for the various product categories
         $setlists =  $this->Catalog->getAllProductCategoryOptions();
         // prepare json data for the prodcut diagrams

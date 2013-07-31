@@ -13,18 +13,18 @@ echo $this->Html->div('', NULL, array(
         'material' => 'leather'
         ));
         // the boards layer shows the cloth portion of a quarterbound case
-        echo $this->Html->div('empty', '', array(
+        echo $this->Html->div($productCategory, '', array(
             'id' => 'boards',
             'option' => 'slave-'.$productCategory,
             'setlist' => 'QuarterBound',
-            'material' => 'cloth'));
+            'material' => 'cloth board'));
         // belt and beltloop show the closing belt components
-        echo $this->Html->div('empty', '',array(
+        echo $this->Html->div($productCategory, '',array(
             'id' => 'belt',
             'option' => 'slave-belt',
             'setlist' => 'Yes',
             'material' => 'leather'));
-        echo $this->Html->div('empty', '',array(
+        echo $this->Html->div($productCategory, '',array(
             'id' => 'beltloop',
             'option' => 'slave-belt',
             'setlist' => 'Yes',
@@ -32,11 +32,14 @@ echo $this->Html->div('', NULL, array(
     echo '</div>';
     
     // The liner shows cloth liners
-    echo $this->Html->div($productCategory, NULL, array('id' => 'liner'));
-        echo $this->Html->div('empty', '', array('id' => 'front'));
-        echo $this->Html->div('empty', '', array('id' => 'frontPocket'));
-        echo $this->Html->div('empty', '', array('id' => 'back'));
-        echo $this->Html->div('empty', '', array('id' => 'backPocket'));
+    echo $this->Html->div($productCategory, NULL, array(
+        'id' => 'liner',
+        'material' => 'cloth liners',
+        'tile' => 'Interior liners\rtypically match the cover cloth\rin in a quarterbound design.'));
+//        echo $this->Html->div('empty', '', array('id' => 'front'));
+//        echo $this->Html->div('empty', '', array('id' => 'frontPocket'));
+//        echo $this->Html->div('empty', '', array('id' => 'back'));
+//        echo $this->Html->div('empty', '', array('id' => 'backPocket'));
     echo '</div>';
     echo $this->Html->div($productCategory, NULL, array(
         'id' => 'endpaper',

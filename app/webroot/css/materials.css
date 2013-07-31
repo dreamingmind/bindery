@@ -88,19 +88,19 @@ div#case.notebook, #case.notebook #spine.full {
     -moz-border-radius-bottomright: 30px;
 }
 
-#case.Journal div#boards, #case.notebook div#boards {
+/*#case.Journal div#boards, #case.notebook div#boards {
     width:100%;
     height:100%;
     background-image:url(../_i/fullsize/drktaupe.jpg)
-}
+}*/
 
-#case.stenopad div#spine.quarter {
+/*#case.stenopad div#spine.quarter {
     width:100%;
     height:25%;
     background-image:url(../_i/fullsize/bbluelthr.jpg)
-}
+}*/
 
-#case.stenopad div#boards {
+/*#case.stenopad div#boards {
     width:100%;
     height:75%;
     background-image:url(../_i/fullsize/bone.jpg)
@@ -109,5 +109,26 @@ div#case.notebook, #case.notebook #spine.full {
 div#spine.full {
     height:100%;
     width:100%;
-    background-image:url(../_i/fullsize/bbluelthr.jpg)
+    background-image:url(../_i/fullsize/bbluelthr.jpg)*/
+/*}*/
+div#case.Journal > div#boards, div#case.Reusable_Journal > div#boards, div#case.Notebook > div#boards, div#case.Portfolio > div#boards {
+    width: 75%;
+    height: 100%;
+    margin-left: 25%;
+}
+ div#case.Small_Portfolio > div#boards, div#case.Mini_Notebook > div#boards {
+    width: 100%;
+    height: 75%;
+}
+div.Notebook {
+    border-radius: 3px 25px 25px 3px;
+    -moz-border-radius: 3px 25px 25px 3px;
+}
+div#diagram, div#diagram div, div#diagram div div{
+padding: 0;
+}
+div#diagram > div {
+    border-bottom: 0.5px solid #888;
+    border-right: 1px solid #8888;
+    box-shadow: 2px 2px 5px #333333;
 }
