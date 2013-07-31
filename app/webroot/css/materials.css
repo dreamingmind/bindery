@@ -139,29 +139,29 @@ div.Journal, div.Reusable_Journal {
 div#diagram, div#diagram div, div#diagram div div{
 padding: 0;
 }
-div#diagram > div, div#belt, div#beltloop {
+div#diagram > div, div#belt, div#beltloop, div#penloop {
     border-bottom: 1px solid #888888;
     border-right: 1px solid #888888;
-    box-shadow: 2px 2px 5px #333333;
+    box-shadow: 2px 2px 8px #333333;
 }
 div#belt {
     border-radius: 30% 2px 2px 30%;
     -moz-border-radius: 30% 2px 2px 30%;
-    height: 6.5%;
-    left: 0;
-    margin-left: 51%;
-    margin-top: 62.5%;
+/*    height: 6.5%;
+    left: 0;*/
+/*    margin-left: 51%;
+    margin-top: 62.5%;*/
     position: absolute;
-    top: 0;
-    width: 50%;
+/*    top: 0;
+    width: 50%;*/
 }
-div#beltloop {
-    height: 7.5%;
+div#beltloop, div#penloop {
+/*    height: 7.5%;
     left: 0;
-    margin: 62% 87%;
+    margin: 62% 87%;*/
     position: absolute;
-    top: 0;
-    width: 5.5%;
+/*    top: 0;
+    width: 5.5%;*/
     border-radius: 2px;
     -moz-border-radius: 2px;
 }

@@ -41,6 +41,11 @@
         params['offsetMinPercent'] = .05; // layer offset is least 10% of the container div's narrow dimension
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
         params['marginPercent'] = .08; // margin is 3%
+        params['beltHeightPercent'] = .07; // relative to case
+        params['beltWidthPercent'] = .45; // relative to case
+        // belt loop size will serve for pen loops too
+        params['beltloopWidthPercent'] = .6; // relative to belt height
+        params['beltloopHeightAdjustment'] = 4; // pixesl relative to belt height
         
         // store the DOM object and the product_group name
         params.div = div;
@@ -50,6 +55,9 @@
         // analyze the diagramData left by the server for the product component layers to diagram
         params.layerNames = getDiagramLayers(productGroup);
         params.layerCount = params.layerNames.length;
+        
+        // make a css rule container for later use
+        params.componentRules = new Object();
         
     }
     
@@ -87,7 +95,17 @@
         setLooseOffset(params);
         
         // Center the diagram in the loose direction
-        adjustLooseMargin(params);        
+        adjustLooseMargin(params);    
+        
+        // calculate the size and position of the closing belt parts
+        determineClosingBeltSpecs(params);
+        params.componentRules = writeComponentCssRule(params, 'belt')
+        // the size will serve for pen loops too.
+        determineBeltLoopSpecs(params);
+        params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
+        determinePenLoopSpecs(params);
+        params.componentRules = params.componentRules + writeComponentCssRule(params, 'penloop');
+        
     }
     
     /**
@@ -100,6 +118,7 @@
             rules = rules + writeLayerCssRule(params, count);
             count++;
         }
+        rules = rules + params.componentRules;
         if ($('style#diagramStyle.'+params.product).length == 0) {
         $('head').append('<style id="diagramStyle" class="'+params.product+'" type="text/css"><!--\n\
 '+rules+' --></style>');            
@@ -110,6 +129,70 @@
 //        var sheet = $('#diagramStyle');
         // write rule for this layer
         // end loop
+    }
+    
+    /**
+     * Create size and position specs for a closing belt loops
+     */
+    function determineBeltLoopSpecs(params){
+        params.beltloop = new Object;
+                size(params.beltloop, 
+                parseInt(params.belt.height * params.beltloopWidthPercent), 
+                parseInt(params.belt.height + params.beltloopHeightAdjustment));
+        point(params.beltloop, 
+                parseInt(params.belt.x + (params.belt.width * .75)),
+                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
+    }
+    
+    /**
+     * Set size and position for pen loops
+     */
+    function determinePenLoopSpecs(params){
+        params.penloop = new Object;
+                size(params.penloop, 
+                parseInt(params.beltloop.width), 
+                parseInt(params.beltloop.height));
+        point(params.penloop, 
+                parseInt(params.baseSize.width - params.beltloop.width + 2),
+                parseInt(params.beltloop.height * 1.7));
+    }
+    
+    /**
+     * Create size and position specs for a closing belt
+     */
+    function determineClosingBeltSpecs(params){
+        params.belt = new Object();
+        params.belt.loop = new Object;
+        
+        size(params.belt, 
+                parseInt(params.baseSize.width * params.beltWidthPercent), 
+                parseInt(params.baseSize.height * params.beltHeightPercent));
+        point(params.belt, 
+                parseInt(params.baseSize.width - params.belt.width + 2),
+                parseInt((params.baseSize.height / 2) - (params.belt.height / 2)));
+    }
+    
+
+    function writeComponentCssRule(params, componentName){
+        var layer = componentName;
+        var product = params.product
+        var left = params[componentName].x;
+        var top = params[componentName].y;
+        var width = params[componentName].width;
+        var height = params[componentName].height;
+//        var zindex = 700 - (20*count);
+//        var backcolor = color[count];
+        var rule = 
+'div#{0}.{1} {\n\
+    position: absolute;\n\
+    left: {2}px;\n\
+    top: {3}px;\n\
+    width: {4}px;\n\
+    height: {5}px;\n\
+}\n\
+';
+        return (rule.format(layer, product, left, top, width, height));
+        
     }
     
     /**
@@ -240,6 +323,8 @@
         var count = 0;
         while (count < params.layerCount) {
             var pixelSize = new Object();
+            // umm... this is setting everything to the first layers aspect ratio...
+            // saves css tweaks so leave it for now.
             size(pixelSize, 
                 scaleTo(parseFloat(diagramData[params.productGroup][params.layerNames[0]]['x']), params.scale),
                 scaleTo(parseFloat(diagramData[params.productGroup][params.layerNames[0]]['y']), params.scale)
@@ -247,6 +332,10 @@
             params.layerSizes[params.layerNames[count]] = new Object();
             params.layerSizes[params.layerNames[count]] = pixelSize;
             diagramData[params.productGroup][params.layerNames[count]]['size'] = pixelSize;
+            if (count == 0) {
+                // make this easier to look up later
+                params.baseSize = pixelSize;
+            }
             count++;
         }
     }

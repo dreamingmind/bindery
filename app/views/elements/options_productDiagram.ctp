@@ -36,10 +36,11 @@ echo $this->Html->div('', NULL, array(
         'id' => 'liner',
         'material' => 'cloth liners',
         'tile' => 'Interior liners\rtypically match the cover cloth\rin in a quarterbound design.'));
-//        echo $this->Html->div('empty', '', array('id' => 'front'));
-//        echo $this->Html->div('empty', '', array('id' => 'frontPocket'));
-//        echo $this->Html->div('empty', '', array('id' => 'back'));
-//        echo $this->Html->div('empty', '', array('id' => 'backPocket'));
+        echo $this->Html->div($productCategory, '',array(
+            'id' => 'penloop',
+            'option' => 'slave-belt',
+            'setlist' => 'Yes',
+            'material' => 'leather'));
     echo '</div>';
     echo $this->Html->div($productCategory, NULL, array(
         'id' => 'endpaper',
