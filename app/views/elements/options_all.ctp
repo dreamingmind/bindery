@@ -39,6 +39,7 @@
     ));
     // This should be a call to a method that understands
     // which options belong to which product categories
+    echo $this->element('options_productDiagram', array($productCategory), TRUE);
     echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
     echo $this->element('email', array('fieldsetOptions' => array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'
@@ -71,6 +72,5 @@
             'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
         ),
         'model' => $model));
-    echo $this->element('options_productDiagram', array($productCategory), TRUE);
 ?>
 </div>

@@ -206,6 +206,14 @@ div.options {
     margin-left: 5%;
     padding-top: 10px;
     width: 90%;
+/*background: #b3bead;  Old browsers */
+background: -moz-linear-gradient(top,  #b3bead 0%, #d0d9d7 60%, #ffffff 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b3bead), color-stop(60%,#d0d9d7), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #b3bead 0%,#d0d9d7 60%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #b3bead 0%,#d0d9d7 60%,#ffffff 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #b3bead 0%,#d0d9d7 60%,#ffffff 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #b3bead 0%,#d0d9d7 60%,#ffffff 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3bead', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
  
 div.radio label {

@@ -252,7 +252,7 @@
     }
 
     function writeLayerCssRule(params, count){
-        var color = new Array('blue', 'green', 'grey', 'maroon', 'orange');
+//        var color = new Array('blue', 'green', 'grey', 'maroon', 'orange');
 //div#case.Journal {
 //    height: 495px;
 //    left: 30px;
@@ -268,7 +268,7 @@
         var width = params.layerSizes[params.layerNames[count]]['width'];
         var height = params.layerSizes[params.layerNames[count]]['height'];
         var zindex = 700 - (20*count);
-        var backcolor = color[count];
+//        var backcolor = color[count];
         var rule = 
 'div#{0}.{1} {\n\
     position: absolute;\n\
@@ -278,10 +278,9 @@
     width: {4}px;\n\
     height: {5}px;\n\
     z-index: {6};\n\
-    background-color: {7};\n\
 }\n\
 ';
-        return (rule.format(layer, product, left, top, width, height, zindex, backcolor));
+        return (rule.format(layer, product, left, top, width, height, zindex));
         
     }
     

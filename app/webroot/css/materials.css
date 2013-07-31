@@ -32,20 +32,22 @@
 /* =product preview area DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
 div#diagram{
-    left: 333px;
-    position: absolute;
-    top: 58px;    
+    /*left: 333px;*/
+    /*position: absolute;*/
+    position: relative;
+    float: right;
+    /*top: 58px;*/    
     width:437px;
     height:540px;
     padding: 0;
-    background-color: #ccc;
+    /*background-color: #D0D9D7;*/
 }
 
 div.options{
     position: relative;
 }
 div#case {
-    background: none repeat scroll 0 0 red;
+    /*background: none repeat scroll 0 0 red;*/
     height: 130px;
     width: 100px;
 }
@@ -115,6 +117,8 @@ div#case.Journal > div#boards, div#case.Reusable_Journal > div#boards, div#case.
     width: 75%;
     height: 100%;
     margin-left: 25%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
  div#case.Small_Portfolio > div#boards, div#case.Mini_Notebook > div#boards {
     width: 100%;
@@ -124,11 +128,40 @@ div.Notebook {
     border-radius: 3px 25px 25px 3px;
     -moz-border-radius: 3px 25px 25px 3px;
 }
+div.Portfolio {
+    border-radius: 3px 18px 18px 3px;
+    -moz-border-radius: 3px 18px 18px 3px;
+}
+div.Journal, div.Reusable_Journal {
+    border-radius: 4% 3px 4% 3px;
+    -moz-border-radius: 4% 3px 4% 3px;
+}
 div#diagram, div#diagram div, div#diagram div div{
 padding: 0;
 }
-div#diagram > div {
-    border-bottom: 0.5px solid #888;
-    border-right: 1px solid #8888;
+div#diagram > div, div#belt, div#beltloop {
+    border-bottom: 1px solid #888888;
+    border-right: 1px solid #888888;
     box-shadow: 2px 2px 5px #333333;
+}
+div#belt {
+    border-radius: 30% 2px 2px 30%;
+    -moz-border-radius: 30% 2px 2px 30%;
+    height: 6.5%;
+    left: 0;
+    margin-left: 51%;
+    margin-top: 62.5%;
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
+div#beltloop {
+    height: 7.5%;
+    left: 0;
+    margin: 62% 87%;
+    position: absolute;
+    top: 0;
+    width: 5.5%;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
 }
