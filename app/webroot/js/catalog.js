@@ -38,9 +38,9 @@
     function setDiagramDefaults(params, div, productGroup){
 
         // establish some baseline control relationships
-        params['offsetMinPercent'] = .05; // layer offset is least 10% of the container div's narrow dimension
+        params['offsetMinPercent'] = .09; // layer offset is least 10% of the container div's narrow dimension
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
-        params['marginPercent'] = .08; // margin is 3%
+        params['marginPercent'] = .05; // margin is 3%
         params['beltHeightPercent'] = .07; // relative to case
         params['beltWidthPercent'] = .45; // relative to case
         // belt loop size will serve for pen loops too

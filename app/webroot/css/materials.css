@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* = material selector DIVs
 ––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-.matPix {
+/*.matPix {
     width:100%;
     height:80px;
 }
@@ -14,19 +14,19 @@
 }
 
 #formatList{
-    /*width:auto;*/
+    width:auto;
     margin-top:10px;
     width: 230px;
     position: relative;
 }
-/*#formatList {
+#formatList {
     border: medium solid;
     margin-top: 20px;
-}*/
+}
 #caveat{
     height:100%;
     vertical-align:bottom;
-}
+}*/
 
 
 /* =product preview area DIVs
@@ -43,11 +43,11 @@ div#diagram{
     /*background-color: #D0D9D7;*/
 }
 
-div.options{
+/*div.options{
     position: relative;
 }
 div#case {
-    /*background: none repeat scroll 0 0 red;*/
+    background: none repeat scroll 0 0 red;
     height: 130px;
     width: 100px;
 }
@@ -55,26 +55,26 @@ div#case {
 div#case.Journal {
     width:386px;
     height:495px;
-    /*border:thin tan solid;*/
-}
+    border:thin tan solid;
+}*/
 
-div#case.notebook {
+/*div#case.notebook {
     width:483px;
     height:495px;
     border-top-right-radius: 25px;
     -moz-border-radius-topright: 25px;
     border-bottom-right-radius: 25px;
     -moz-border-radius-bottomright: 25px;
-}
+}*/
 
-div#case.stenopad {
+/*div#case.stenopad {
     width:323px;
     height:492px;
-}
+}*/
 
-div#spine.quarter, div#boards {
+/*div#spine.quarter, div#boards {
     margin:0px;
-    /*border:dotted thin red;*/
+    border:dotted thin red;
 }
 #case.Journal div#spine.quarter, #case.notebook div#spine.quarter {
     float:left;
@@ -88,7 +88,7 @@ div#case.notebook, #case.notebook #spine.full {
     -moz-border-radius-topright: 30px;
     border-bottom-right-radius: 30px;
     -moz-border-radius-bottomright: 30px;
-}
+}*/
 
 /*#case.Journal div#boards, #case.notebook div#boards {
     width:100%;
@@ -119,6 +119,8 @@ div#case.Journal > div#boards, div#case.Reusable_Journal > div#boards, div#case.
     margin-left: 25%;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    border-left: 1px #888 dotted;
+    border-right: 1px #888 solid;
 }
  div#case.Small_Portfolio > div#boards, div#case.Mini_Notebook > div#boards {
     width: 100%;
