@@ -38,7 +38,7 @@ echo $this->Html->div('', NULL, array(
         'tile' => 'Interior liners\rtypically match the cover cloth\rin in a quarterbound design.'));
         echo $this->Html->div($productCategory, '',array(
             'id' => 'penloop',
-            'option' => 'slave-belt',
+            'option' => 'slave-penloop',
             'setlist' => 'Yes',
             'material' => 'leather'));
     echo '</div>';

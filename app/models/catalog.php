@@ -69,8 +69,8 @@ class Catalog extends AppModel {
                 'Book_Body' => 'endpapers order',
                 'Journal' => 'belt titling endpapers instructions order',
                 'Reusable_Journal' => 'belt titling liners instructions bookbody order',
-                'Notebook' => 'belt titling liners notbookpockets instructions order',
-                'Portfolio' => 'belt titling liners portfoliopocket instructions order',
+                'Notebook' => 'belt titling liners notbookpockets instructions order penloop',
+                'Portfolio' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Notebook_Pages' => 'Ruled_Pages order',
                 'Mini_Notebook' => 'minicasematerials miniliners minipocket instructions order'
             );

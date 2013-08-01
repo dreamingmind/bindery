@@ -56,6 +56,10 @@
             'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'
         ),
         'model' => $model));
+    echo $this->element('options_penLoop', array('fieldsetOptions' => array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'penloop'
+        ),
+        'model' => $model));
     echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'belt'
         ),
