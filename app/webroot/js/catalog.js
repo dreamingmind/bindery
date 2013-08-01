@@ -467,13 +467,24 @@ $(document).ready(function(){
                 if ($(this).attr('material') != undefined) {
                     $(this).bind('change', function(){
                         var material = $(this).attr('material');
-                        var product = $(this).parent().attr('option').replace('slave-','');
+                        var product = $(this).parents('fieldset').attr('option').replace('slave-','');
                         $(diagram).find('div.'+product+'[material="'+material+'"]')
                             .css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
+                        // cover material may be controlling liners too
+                        if (material == 'cloth board') {
+                            if (!$(this).parent('div').siblings('.radio').children('*[value="1"]').attr('checked')){
+                                $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').val($(this).val());
+                                $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').trigger('change');
+                            }
+                        }
                     });
                 }
             });
         });
+    }
+    
+    function initLinerRadios(){
+        
     }
  
     initCheckboxes();

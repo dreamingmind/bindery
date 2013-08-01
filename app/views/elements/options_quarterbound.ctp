@@ -1,6 +1,13 @@
 <?php
 
 /* @var $this ViewCC */
+$options = array(
+    'options' => array(
+        '0' => 'Match liners to cover',
+        '1' => 'Set liner cloth'
+    )
+);
+
 $parameters = array(
     'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
     'pre_fields' => (isset($pre_fields)) ? $pre_fields : '',
@@ -30,6 +37,20 @@ $parameters = array(
             ),
             'material' => 'cloth board' //this target diagram div background image
         ),
+        // this one has some hacky tricks. See comments at the end
+        'uniqueliner' => array(
+            'type' => 'radio',
+            'options' => $options['options'],
+//            'options' => array(
+//                '0' => 'Match liners to cover',
+//                '1' => 'Set liner cloth' // These get modified by code at the bottom of this page
+//                ),
+            'legend' => false,
+            'div' => array(
+                'option' => 'slave-'.$productCategory,
+                'setList' => 'QuarterBound'
+            )
+        ),
         'endpapers' => array(
             'type' => 'select',
             'options' => $endpaperOptions,
@@ -43,13 +64,43 @@ $parameters = array(
             'type' => 'select',
             'options' => $clothOptions,
             'div' => array(
-                'option' => 'slave-'.$productCategory,
-                'setList' => 'liners'
+                'option' => 'slave-uniqueliner',
+                'setList' => 'Set'
             ),
             'material' => 'cloth liners' //this target diagram div background image
         )
     )
 );
 
-echo $fieldset->fieldset($parameters);
+if ($parameters['model'] == 'Journal') {
+    unset($parameters['fields']['uniqueliner']);
+}
+
+$htmlBlock =  $fieldset->fieldset($parameters);
+
+if ($parameters['model'] != 'Journal'){
+    //debug($htmlBlock);die;
+    /**
+     * This is a rough pattern for detailing out a radio button set to act as masters
+     * it should work for checkboxes or select lists too
+     */
+    $master = array(
+        'nameSpace' => '-uniqueliner',
+        'sets' => $options['options']
+    );
+
+    $htmlBlock = preg_replace('/(type="radio")/', "$1 option=\"master{$master['nameSpace']}\"", $htmlBlock);
+    foreach($master['sets'] as $value => $set){
+        $htmlBlock = preg_replace("/(value=\"{$value}\")/", "$1 setlist=\"{$set}\"", $htmlBlock);
+    }
+
+}
+echo $htmlBlock;
+/** UNIQUE LINER
+ * To tie cover cloth and liner cloth together by default, this radio
+ * button supressess the liner cloth. But journals have cloth on the 
+ * cover without the liner. So, Journals unset uniqueliner to prevent
+ * this feature from showing up.
+ * 
+ */
 ?>
