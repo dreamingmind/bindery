@@ -57,7 +57,7 @@
         params.layerCount = params.layerNames.length;
         
         // make a css rule container for later use
-        params.componentRules = new Object();
+        params.componentRules = '';
         
     }
     
@@ -99,7 +99,7 @@
         
         // calculate the size and position of the closing belt parts
         determineClosingBeltSpecs(params);
-        params.componentRules = writeClosingBeltCss(params);
+        writeClosingBeltCss(params);
 
         determinePenLoopSpecs(params);
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'penloop');
@@ -186,9 +186,39 @@
     }
     
     /**
+     * Create size and position specs for a closing belt
+     */
+    function specVerticalBelt(params){
+        params.belt = new Object();
+        params.belt.loop = new Object;
+        
+        size(params.belt, 
+                parseInt(params.baseSize.width * params.beltWidthPercent), 
+                parseInt(params.baseSize.height * params.beltHeightPercent));
+        point(params.belt, 
+                parseInt(params.baseSize.width - params.belt.width + 2),
+                parseInt((params.baseSize.height / 2) - (params.belt.height / 2)));
+        
+        specVerticalBeltLoop(params);
+    }
+    
+    /**
+     * Create size and position specs for a horizontal closing belt's loop
+     */
+    function specVerticalBeltLoop(params){
+        params.beltloop = new Object;
+                size(params.beltloop, 
+                parseInt(params.belt.height * params.beltloopWidthPercent), 
+                parseInt(params.belt.height + params.beltloopHeightAdjustment));
+        point(params.beltloop, 
+                parseInt(params.belt.x + (params.belt.width * .75)),
+                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
+    }
+    
+    /**
      * Prep the belt css and put it on the output queue
      */
-    function writeClosingBeltSpecs(params){
+    function writeClosingBeltCss(params){
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'belt')
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
     }
