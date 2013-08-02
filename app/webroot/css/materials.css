@@ -1,36 +1,7 @@
 @charset "UTF-8";
-/* = material selector DIVs
-––––––––––––––––––––––––––––––––––––––––––––––––*/ 
-/*.matPix {
-    width:100%;
-    height:80px;
-}
-.matPix > p {
-    font-size: small;
-}
-.matList {
-    margin-bottom:6px;
-    margin-top:6px;
-}
-
-#formatList{
-    width:auto;
-    margin-top:10px;
-    width: 230px;
-    position: relative;
-}
-#formatList {
-    border: medium solid;
-    margin-top: 20px;
-}
-#caveat{
-    height:100%;
-    vertical-align:bottom;
-}*/
-
-
-/* =product preview area DIVs
-––––––––––––––––––––––––––––––––––––––––––––––––*/ 
+/*==================================
+Diagram baseline settings
+====================================*/
 div#diagram{
     /*left: 333px;*/
     /*position: absolute;*/
@@ -38,83 +9,11 @@ div#diagram{
     float: right;
     /*top: 58px;*/    
     width:437px;
-    height:540px;
+    height:500px;
     padding: 0;
     /*background-color: #D0D9D7;*/
 }
 
-/*div.options{
-    position: relative;
-}
-div#case {
-    background: none repeat scroll 0 0 red;
-    height: 130px;
-    width: 100px;
-}
-
-div#case.Journal {
-    width:386px;
-    height:495px;
-    border:thin tan solid;
-}*/
-
-/*div#case.notebook {
-    width:483px;
-    height:495px;
-    border-top-right-radius: 25px;
-    -moz-border-radius-topright: 25px;
-    border-bottom-right-radius: 25px;
-    -moz-border-radius-bottomright: 25px;
-}*/
-
-/*div#case.stenopad {
-    width:323px;
-    height:492px;
-}*/
-
-/*div#spine.quarter, div#boards {
-    margin:0px;
-    border:dotted thin red;
-}
-#case.Journal div#spine.quarter, #case.notebook div#spine.quarter {
-    float:left;
-    width:25%;
-    height:100%;
-    background-image:url(../_i/fullsize/Chocolatelthr.jpg);
-}
-
-div#case.notebook, #case.notebook #spine.full {
-    border-top-right-radius: 30px;
-    -moz-border-radius-topright: 30px;
-    border-bottom-right-radius: 30px;
-    -moz-border-radius-bottomright: 30px;
-}*/
-
-/*#case.Journal div#boards, #case.notebook div#boards {
-    width:100%;
-    height:100%;
-    background-image:url(../_i/fullsize/drktaupe.jpg)
-}*/
-
-/*#case.stenopad div#spine.quarter {
-    width:100%;
-    height:25%;
-    background-image:url(../_i/fullsize/bbluelthr.jpg)
-}*/
-
-/*#case.stenopad div#boards {
-    width:100%;
-    height:75%;
-    background-image:url(../_i/fullsize/bone.jpg)
-}
-
-div#spine.full {
-    height:100%;
-    width:100%;
-    background-image:url(../_i/fullsize/bbluelthr.jpg)*/
-/*==================================
-Diagram baseline settings
-====================================*/
 div#diagram, div#diagram div{
     padding: 0;
     margin: 0;
