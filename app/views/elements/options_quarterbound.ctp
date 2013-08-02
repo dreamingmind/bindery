@@ -64,8 +64,8 @@ $parameters = array(
             'type' => 'select',
             'options' => $clothOptions,
             'div' => array(
-                'option' => 'slave-uniqueliner',
-                'setList' => 'Set'
+                'option' => 'slave-uniqueliner slave-'.$productCategory,
+                'setList' => 'Set FullLeather'
             ),
             'material' => 'cloth liners' //this target diagram div background image
         )
@@ -74,6 +74,7 @@ $parameters = array(
 
 if ($parameters['model'] == 'Journal') {
     unset($parameters['fields']['uniqueliner']);
+    unset($parameters['fields']['liners']);
 }
 
 $htmlBlock =  $fieldset->fieldset($parameters);

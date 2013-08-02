@@ -73,9 +73,8 @@ class Catalog extends AppModel {
                 'Portfolio' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Top_Opening' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Notebook_Pages' => 'Ruled_Pages order',
-                'Mini_Notebook' => 'minicasematerials miniliners minipocket instructions order'
+                'Mini_Notebook' => 'liners pocket instructions order'
             );
-            
             return $allOptions;
         }
 

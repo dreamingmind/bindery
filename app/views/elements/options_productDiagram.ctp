@@ -21,12 +21,12 @@ echo $this->Html->div('', NULL, array(
         // belt and beltloop show the closing belt components
         echo $this->Html->div($productCategory, '',array(
             'id' => 'belt',
-            'option' => 'slave-belt',
+            'option' => "slave-belt$productCategory",
             'setlist' => 'Yes',
             'material' => 'leather'));
         echo $this->Html->div($productCategory, '',array(
             'id' => 'beltloop',
-            'option' => 'slave-belt',
+            'option' => "slave-belt$productCategory",
             'setlist' => 'Yes',
             'material' => 'leather'));
     echo '</div>';
@@ -38,7 +38,7 @@ echo $this->Html->div('', NULL, array(
         'tile' => 'Interior liners\rtypically match the cover cloth\rin in a quarterbound design.'));
         echo $this->Html->div($productCategory, '',array(
             'id' => 'penloop',
-            'option' => 'slave-penloop',
+            'option' => "slave-penloop$productCategory",
             'setlist' => 'Yes',
             'material' => 'leather'));
     echo '</div>';

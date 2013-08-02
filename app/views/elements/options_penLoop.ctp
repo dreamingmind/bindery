@@ -23,7 +23,7 @@ $parameters = array(
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',
             'legend' => false,
-            'option' => 'master-penloop', // controls the diagram area belt div
+            'option' => 'master-penloop'.$model, // controls the diagram area belt div
             'setlist' => 'penloop',
             'material' => 'leather' //this target diagram div background image
         ),
@@ -35,7 +35,7 @@ $parameters = array(
                 '3/8' => '3/8"'
             ),
             'div' => array(
-                'option' => 'slave-penloop',
+                'option' => 'slave-penloop'.$model,
                 'setList' => 'Yes'
             )
         )
@@ -48,7 +48,7 @@ $htmlBlock =  $fieldset->fieldset($parameters);
  * it should work for checkboxes or select lists too
  */
 $master = array(
-    'nameSpace' => '-penloop',
+    'nameSpace' => '-penloop'.$model,
     'sets' => $options['options']
 );
 

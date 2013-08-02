@@ -23,7 +23,7 @@ $parameters = array(
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',
             'legend' => false,
-            'option' => 'master-belt', // controls the diagram area belt div
+            'option' => 'master-belt'.$model, // controls the diagram area belt div
             'setlist' => 'belt',
             'material' => 'leather' //this target diagram div background image
         )
@@ -36,7 +36,7 @@ $htmlBlock =  $fieldset->fieldset($parameters);
  * it should work for checkboxes or select lists too
  */
 $master = array(
-    'nameSpace' => '-belt',
+    'nameSpace' => '-belt'.$model,
     'sets' => $options['options']
 );
 
