@@ -99,10 +99,8 @@
         
         // calculate the size and position of the closing belt parts
         determineClosingBeltSpecs(params);
-        params.componentRules = writeComponentCssRule(params, 'belt')
-        // the size will serve for pen loops too.
-        determineBeltLoopSpecs(params);
-        params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
+        params.componentRules = writeClosingBeltCss(params);
+
         determinePenLoopSpecs(params);
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'penloop');
         
@@ -132,19 +130,6 @@
     }
     
     /**
-     * Create size and position specs for a closing belt loops
-     */
-    function determineBeltLoopSpecs(params){
-        params.beltloop = new Object;
-                size(params.beltloop, 
-                parseInt(params.belt.height * params.beltloopWidthPercent), 
-                parseInt(params.belt.height + params.beltloopHeightAdjustment));
-        point(params.beltloop, 
-                parseInt(params.belt.x + (params.belt.width * .75)),
-                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
-    }
-    
-    /**
      * Set size and position for pen loops
      */
     function determinePenLoopSpecs(params){
@@ -158,9 +143,22 @@
     }
     
     /**
-     * Create size and position specs for a closing belt
+     * Work out which belt to make and make it
+     * 
+     * Could be horizontal, could be vertical
+     * Make the right one and its loop
      */
     function determineClosingBeltSpecs(params){
+        if (params.product == 'Top_Opening') {
+            specVerticalBelt(params);
+        } else {
+            specHorizontalBelt(params);
+        }
+    }
+    /**
+     * Create size and position specs for a closing belt
+     */
+    function specHorizontalBelt(params){
         params.belt = new Object();
         params.belt.loop = new Object;
         
@@ -170,9 +168,31 @@
         point(params.belt, 
                 parseInt(params.baseSize.width - params.belt.width + 2),
                 parseInt((params.baseSize.height / 2) - (params.belt.height / 2)));
+        
+        specHorizontalBeltLoop(params);
     }
     
-
+    /**
+     * Create size and position specs for a horizontal closing belt's loop
+     */
+    function specHorizontalBeltLoop(params){
+        params.beltloop = new Object;
+                size(params.beltloop, 
+                parseInt(params.belt.height * params.beltloopWidthPercent), 
+                parseInt(params.belt.height + params.beltloopHeightAdjustment));
+        point(params.beltloop, 
+                parseInt(params.belt.x + (params.belt.width * .75)),
+                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
+    }
+    
+    /**
+     * Prep the belt css and put it on the output queue
+     */
+    function writeClosingBeltSpecs(params){
+        params.componentRules = params.componentRules + writeComponentCssRule(params, 'belt')
+        params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
+    }
+    
     function writeComponentCssRule(params, componentName){
         var layer = componentName;
         var product = params.product
