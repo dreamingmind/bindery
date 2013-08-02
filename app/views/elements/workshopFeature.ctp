@@ -1,10 +1,12 @@
 <?php
+
 /**
  * This element handles the creation of the feature element on upcoming and detail pages
  * 
  */
 $featureHtml = '';
-$workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'], array('id' => 'featureHeading'));
+$detaillink = $this->Html->link(' See Detail Article',array('action'=>'detail',$feature['Workshop']['slug']));
+$workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'].$detaillink, array('id' => 'featureHeading'));
 $workshopPicture = $this->Html->image(
         "images/thumb/x160y120/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}", array('id' => 'featurePicture'));
 $workshopContent = TextHelper::truncate(Markdown($feature['ContentCollection'][0]['Content']['content']), 550);
@@ -50,7 +52,6 @@ foreach ($feature['Session'] as $wksession) {
 //        '<button class="register">Register: Session 2 - $120</button>',
 //        '<p class="day"><time datetime="2013-9-20 7:00:00">September 20 2013, 7:00</time><span class="am">AM</span> - 3:00<span class="pm">PM</span>',
 //    );
-
 //Setup the feature inset to show existing sessions, if any, and allow users to request a new date
 $sessions = '';
 if (isset($feature['Session'][0])) {
