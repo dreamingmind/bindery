@@ -112,50 +112,6 @@ class WorkshopsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-    /**
-     * Return some batch of Content records sorted by article order
-     * 
-     * These are pulled for ContentCollection context so there may be
-     * more be a variety of results.
-     * $condition can look at 
-     *      ContentCollection
-     *      Collection
-     *      Content
-     * 
-     * @param array $conditions The ContentCollection conditions for the query
-     * @return boolean|array A batch of Content/Image records or false
-     */
-    function findWorkshopTarget($conditions = null) {
-        if ($conditions == null) {
-            return false;
-        }
-        return $this->Workshop->ContentCollection->find('all', array(
-                    'fields' => array(
-                        'ContentCollection.id',
-                        'ContentCollection.content_id',
-                        'ContentCollection.collection_id',
-                        'ContentCollection.sub_slug'),
-                    'contain' => array(
-                        'Workshop' => array(
-                            'fields' => array('Workshop.id', 'Workshop.category_id', 'Workshop.slug', 'Workshop.heading')
-                        ),
-                        'Content' => array(
-                            'fields' => array('Content.id', 'Content.content', 'Content.heading', 'Content.modified', 'Content.slug'),
-//                    'conditions'=>array('Workshop.publish'=>1),
-                            'Image' => array(
-                                'fields' => array('Image.alt', 'Image.title', 'Image.img_file',
-                                    'Image.created', 'Image.date', 'Image.id')
-                            )
-                        )
-                    ),
-                    'order' => array(
-                        'ContentCollection.seq ASC',
-                        'ContentCollection.id ASC'
-                    ),
-                    'conditions' => $conditions
-                ));
-    }
-
     function detail() {
 //        
         $this->layout = 'noThumbnailPage';
@@ -170,22 +126,14 @@ class WorkshopsController extends AppController {
             'contain' => false,
             'conditions' => array(
                 'Workshop.slug' => $this->params['pname'],
-//                'Workshop.role' => 'workshop'
                'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
             )
                 ));
-//        debug($collection);
-//        debug($this->Workshop->workshops_all[$collection[0]['Workshop']['id']]);
-//        debug($this->Workshop->workshops_all);
-//        debug($this->Workshop->workshops_upcoming);
-//        debug($this->Workshop->workshops_now);
-//        debug($this->params);
-        $article = $this->findWorkshopTarget(array('Content.slug' => $this->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+        $article = $this->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $this->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('delete', array_shift($article));
         $this->set('article', $article);
-//        debug($article);debug($this->Workshop->workshops_all);debug($this->Workshop->workshops_potential);die;
     }
 /**
  * Ajax editing form for workshops
@@ -240,5 +188,7 @@ class WorkshopsController extends AppController {
             debug($this->data);
         }
     }   
+
+        
 }
 ?>

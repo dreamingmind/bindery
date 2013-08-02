@@ -2,9 +2,8 @@
 
 //debug($article);
 //debug($feature);
-
 //Provide head tag to sead javascript elements for editing
-echo $html->tag('h1',$feature['ContentCollection'][0]['Collection']['heading'], array(
+echo $html->tag('h1', $feature['ContentCollection'][0]['Collection']['heading'], array(
     'class' => 'related',
     'collection' => $feature['ContentCollection'][0]['Collection']['id']
 ));
@@ -20,9 +19,9 @@ echo $this->element('content_AjaxEdit_openForm');
 
 //Provide button to edit the feature element - array elements stolen from artExhibit 51-54
 echo $this->element('content_AjaxEdit_editRequestButton', array(
-        'slug'=>$feature['ContentCollection'][0]['Content']['slug'],
-        'id'=>$feature['ContentCollection'][0]['Content']['id']
-    ));
+    'slug' => $feature['ContentCollection'][0]['Content']['slug'],
+    'id' => $feature['ContentCollection'][0]['Content']['id']
+));
 
 //Display articles related to this workshop
 foreach ($article as $index => $entry) {
@@ -46,9 +45,9 @@ foreach ($article as $index => $entry) {
 
     //    Provide button to edit article elements - array elements stolen from artExhibit 51-54
     echo $this->element('content_AjaxEdit_editRequestButton', array(
-        'slug'=>$article[$index]['Content']['slug'],
-        'id'=>$article[$index]['Content']['id']
-        ));
+        'slug' => $article[$index]['Content']['slug'],
+        'id' => $article[$index]['Content']['id']
+    ));
 }
 //Close Admin Edit Form
 echo $this->element('content_AjaxEdit_closeForm'); //was echo </form>;

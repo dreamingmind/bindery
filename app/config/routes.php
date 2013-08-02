@@ -109,6 +109,7 @@ Router::connect('/products/:pname/*', array('controller' => 'contents', 'action'
 Router::connect('/art/*', array('controller' => 'contents', 'action' => 'art'));
 Router::connect('/workshops/test', array('controller' => 'workshops', 'action' => 'test'));
 Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'upcoming'));
+Router::connect('/workshops/edit_session/*', array('controller' => 'workshops', 'action' => 'edit_session'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 
 

@@ -62,5 +62,14 @@ class SessionsController extends AppController {
 		$this->Session->setFlash(__('Session was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+
+        function edit_session($slug){
+            $this->layout = 'noThumbnailPage';
+            $article = $this->Session->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $slug, 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+            $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+
+    }
+
+        
 }
 ?>
