@@ -51,6 +51,24 @@ $parameters = array(
                 'setList' => 'QuarterBound'
             )
         ),
+        'liner' => array(
+            'type' => 'select',
+            'options' => $clothOptions,
+            'div' => array(
+            'option' => 'slave-'.$productCategory,
+            'setList' => 'FullLeather'
+            ),
+            'material' => 'cloth liners'
+        ),
+        'liners' => array(
+            'type' => 'select',
+            'options' => $clothOptions,
+            'div' => array(
+                'option' => 'slave-uniqueliner',
+                'setList' => 'Set'
+            ),
+            'material' => 'cloth liners',
+        ),
         'endpapers' => array(
             'type' => 'select',
             'options' => $endpaperOptions,
@@ -59,22 +77,22 @@ $parameters = array(
                 'setList' => 'endpapers'
             ),
             'material' => 'endpaper' //this target diagram div background image
-        ),
-        'liners' => array(
-            'type' => 'select',
-            'options' => $clothOptions,
-            'div' => array(
-                'option' => 'slave-uniqueliner slave-'.$productCategory,
-                'setList' => 'Set FullLeather'
-            ),
-            'material' => 'cloth liners' //this target diagram div background image
         )
     )
 );
 
+/**
+ * Things are getting a bit complicated.
+ * 
+ * I've got one liner field slaved to FullLeather
+ * and the liners field slaved to the radios on QuarterBound
+ * Journals have none of this. Just kill all the liner stuff.
+ */
+
 if ($parameters['model'] == 'Journal') {
     unset($parameters['fields']['uniqueliner']);
     unset($parameters['fields']['liners']);
+    unset($parameters['fields']['liner']);
 }
 
 $htmlBlock =  $fieldset->fieldset($parameters);
