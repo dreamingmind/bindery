@@ -41,11 +41,11 @@
         params['offsetMinPercent'] = .09; // layer offset is least 10% of the container div's narrow dimension
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
         params['marginPercent'] = .05; // margin is 3%
-        params['beltHeightPercent'] = .07; // relative to case
-        params['beltWidthPercent'] = .45; // relative to case
+        params['beltThicknessPercent'] = .07; // relative to case
+        params['beltLengthPercent'] = .45; // relative to case
         // belt loop size will serve for pen loops too
-        params['beltloopWidthPercent'] = .6; // relative to belt height
-        params['beltloopHeightAdjustment'] = 4; // pixesl relative to belt height
+        params['beltloopThicknessPercent'] = .6; // relative to belt height
+        params['beltloopCapacityAdjustment'] = 4; // pixesl relative to belt height
         
         // store the DOM object and the product_group name
         params.div = div;
@@ -100,6 +100,9 @@
         // calculate the size and position of the closing belt parts
         determineClosingBeltSpecs(params);
         writeClosingBeltCss(params);
+        
+        // special rule for top opening cases
+        writeTopOpeningCss(params);
 
         determinePenLoopSpecs(params);
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'penloop');
@@ -163,8 +166,8 @@
         params.belt.loop = new Object;
         
         size(params.belt, 
-                parseInt(params.baseSize.width * params.beltWidthPercent), 
-                parseInt(params.baseSize.height * params.beltHeightPercent));
+                parseInt(params.baseSize.width * params.beltLengthPercent), 
+                parseInt(params.baseSize.height * params.beltThicknessPercent));
         point(params.belt, 
                 parseInt(params.baseSize.width - params.belt.width + 2),
                 parseInt((params.baseSize.height / 2) - (params.belt.height / 2)));
@@ -178,11 +181,11 @@
     function specHorizontalBeltLoop(params){
         params.beltloop = new Object;
                 size(params.beltloop, 
-                parseInt(params.belt.height * params.beltloopWidthPercent), 
-                parseInt(params.belt.height + params.beltloopHeightAdjustment));
+                parseInt(params.belt.height * params.beltloopThicknessPercent), 
+                parseInt(params.belt.height + params.beltloopCapacityAdjustment));
         point(params.beltloop, 
                 parseInt(params.belt.x + (params.belt.width * .75)),
-                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
+                parseInt(params.belt.y - (params.beltloopCapacityAdjustment / 2)));
     }
     
     /**
@@ -193,11 +196,11 @@
         params.belt.loop = new Object;
         
         size(params.belt, 
-                parseInt(params.baseSize.width * params.beltWidthPercent), 
-                parseInt(params.baseSize.height * params.beltHeightPercent));
+                parseInt(params.baseSize.width * params.beltThicknessPercent), 
+                parseInt(params.baseSize.height * params.beltLengthPercent));
         point(params.belt, 
-                parseInt(params.baseSize.width - params.belt.width + 2),
-                parseInt((params.baseSize.height / 2) - (params.belt.height / 2)));
+                parseInt((params.baseSize.width / 2) - (params.belt.width / 2)),
+                parseInt(params.baseSize.height - params.belt.height + 2));
         
         specVerticalBeltLoop(params);
     }
@@ -208,21 +211,32 @@
     function specVerticalBeltLoop(params){
         params.beltloop = new Object;
                 size(params.beltloop, 
-                parseInt(params.belt.height * params.beltloopWidthPercent), 
-                parseInt(params.belt.height + params.beltloopHeightAdjustment));
+                parseInt(params.belt.width + params.beltloopCapacityAdjustment),
+                parseInt(params.belt.width * params.beltloopThicknessPercent));
         point(params.beltloop, 
-                parseInt(params.belt.x + (params.belt.width * .75)),
-                parseInt(params.belt.y - (params.beltloopHeightAdjustment / 2)));
+                parseInt(params.belt.x - (params.beltloopCapacityAdjustment / 2)),
+                parseInt(params.belt.y + (params.belt.height * .75)));
     }
     
     /**
      * Prep the belt css and put it on the output queue
      */
     function writeClosingBeltCss(params){
-        params.componentRules = params.componentRules + writeComponentCssRule(params, 'belt')
-        params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
-    }
+            params.componentRules = params.componentRules + writeComponentCssRule(params, 'belt')
+            params.componentRules = params.componentRules + writeComponentCssRule(params, 'beltloop');
+        }
     
+    /**
+     * Check for Top Opening products, write position rule
+     */
+    function writeTopOpeningCss(params){
+        if (params.product == 'Top_Opening' || params.product == 'Mini_Notebook') {
+            params.boards = new Object();
+            size(params.boards, params.baseSize.width, params.baseSize.height * .75);
+            point(params.boards, 0, params.baseSize.height - params.boards.height);
+            params.componentRules = params.componentRules + writeComponentCssRule(params, 'boards');
+        }
+    }
     function writeComponentCssRule(params, componentName){
         var layer = componentName;
         var product = params.product

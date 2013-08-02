@@ -183,7 +183,7 @@ div#belt {
     border-radius: 30% 2px 2px 30%;
     -moz-border-radius: 30% 2px 2px 30%;
 }
-div#vbelt {
+div#case.Top_Opening div#belt {
     border-radius: 30% 30% 2px 2px;
     -moz-border-radius: 30% 30% 2px 2px;
 }
