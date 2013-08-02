@@ -107,6 +107,7 @@ Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', '
 Router::connect('/products/:pname/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
 
 Router::connect('/art/*', array('controller' => 'contents', 'action' => 'art'));
+Router::connect('/workshops/test', array('controller' => 'workshops', 'action' => 'test'));
 Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'upcoming'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 

@@ -18,21 +18,18 @@ $parameters = array(
     'record' => (isset($record)) ? $record : false,
     'legend' => (isset($legend)) ? $legend : 'Content data fields',
     'prefix' => (isset($prefix)) ? $prefix : false,
-    'model' => 'Content',
+    'model' => 'Workshop',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
-        'heading',
-        'content' => array(
+        'id',
+        'title',
+        'description' => array(
             'type' => 'textarea'
         ),
-        'alt',
-        'title',
-//        'publish'=> array(
-//            'type'=>'radio',
-//            'options'=> array(
-//                '1'=>'Publish', '0'=>'Hold' 
-//            )
-//         )
+        'hours',
+        'Sessions.title',
+        'Sessions.first_day',
+        'Sessions.last_day'
     )
 );
 

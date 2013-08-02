@@ -323,13 +323,15 @@ class ContentsController extends AppController {
 //            $this->redirect($this->referer());
         }
         if (!empty($this->data)) {
+//            debug($this->data);die;
             $this->params = unserialize($this->data['params']);
             $this->passedArgs = unserialize($this->data['passedArgs']);
 //            debug($this->params);//die;
             $message = ($this->Content->saveAll($this->data['Content'])) ? 'Content records saved' : 'Content record save failed';
             $message .= ($this->Content->Image->saveAll($this->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
-            $this->redirect('/' . $this->params['url']['url'] . '/#');
+//            $this->redirect('/' . $this->params['url']['url'] . '/#'); Why did we do a /# here?
+            $this->redirect('/' . $this->params['url']['url']);
         }
         if (empty($this->data)) {
             $this->layout = 'ajax';
