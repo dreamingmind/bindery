@@ -230,7 +230,15 @@ class WorkshopsController extends AppController {
         }
 //        $this->Session->setFlash('a test message');
     }
+/*
+ * Test
+ * 
+ */
 
+    function test(){
+        if(isset($this->data)){
+            debug($this->data);
+        }
+    }   
 }
-
 ?>

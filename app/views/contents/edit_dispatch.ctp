@@ -1,7 +1,7 @@
 <?php
 
 //echo '<DIV class="formContent">';
-//debug($packet);
+//debug($packet[0]);
     echo $session->flash();
 //    $linkNumber = $packet[0]['Content']['id'];
 //    echo $this->Html->div('', $this->element('supplementForm_dataFields',array(
