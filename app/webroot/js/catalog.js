@@ -46,6 +46,9 @@
         // belt loop size will serve for pen loops too
         params['beltloopThicknessPercent'] = .6; // relative to belt height
         params['beltloopCapacityAdjustment'] = 4; // pixesl relative to belt height
+        params['vertBeltThicknessPercent'] = .11;
+        params['vertBeltLengthPercent'] = .35; // relative to case
+
         
         // store the DOM object and the product_group name
         params.div = div;
@@ -196,8 +199,8 @@
         params.belt.loop = new Object;
         
         size(params.belt, 
-                parseInt(params.baseSize.width * params.beltThicknessPercent), 
-                parseInt(params.baseSize.height * params.beltLengthPercent));
+                parseInt(params.baseSize.width * (params.vertBeltThicknessPercent)), 
+                parseInt(params.baseSize.height * params.vertBeltLengthPercent));
         point(params.belt, 
                 parseInt((params.baseSize.width / 2) - (params.belt.width / 2)),
                 parseInt(params.baseSize.height - params.belt.height + 2));
@@ -212,7 +215,7 @@
         params.beltloop = new Object;
                 size(params.beltloop, 
                 parseInt(params.belt.width + params.beltloopCapacityAdjustment),
-                parseInt(params.belt.width * params.beltloopThicknessPercent));
+                parseInt(params.belt.width * params.beltloopThicknessPercent*1.5));
         point(params.beltloop, 
                 parseInt(params.belt.x - (params.beltloopCapacityAdjustment / 2)),
                 parseInt(params.belt.y + (params.belt.height * .75)));
