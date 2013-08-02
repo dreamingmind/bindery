@@ -3,7 +3,6 @@
 	<fieldset>
  		<legend><?php __('Add Session'); ?></legend>
 	<?php
-		echo $this->Form->input('workshop_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('cost');
 		echo $this->Form->input('participants');

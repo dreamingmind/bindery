@@ -3,7 +3,6 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('workshop_id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('cost');?></th>
 			<th><?php echo $this->Paginator->sort('participants');?></th>
@@ -24,9 +23,6 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $session['Session']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($session['Workshop']['title'], array('controller' => 'workshops', 'action' => 'view', $session['Workshop']['id'])); ?>
-		</td>
 		<td><?php echo $session['Session']['title']; ?>&nbsp;</td>
 		<td><?php echo $session['Session']['cost']; ?>&nbsp;</td>
 		<td><?php echo $session['Session']['participants']; ?>&nbsp;</td>

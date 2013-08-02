@@ -4,7 +4,6 @@
  		<legend><?php __('Edit Session'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('workshop_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('cost');
 		echo $this->Form->input('participants');

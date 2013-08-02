@@ -5,7 +5,7 @@
  * 
  */
 $featureHtml = '';
-$detaillink = $this->Html->link(' See Detail Article',array('action'=>'detail',$feature['Workshop']['slug']));
+$detaillink = ($this->params['action']=='upcoming') ? $this->Html->link(' See Detail Article',array('action'=>'detail',$feature['Workshop']['slug'])) : '';
 $workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'].$detaillink, array('id' => 'featureHeading'));
 $workshopPicture = $this->Html->image(
         "images/thumb/x160y120/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}", array('id' => 'featurePicture'));
