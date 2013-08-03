@@ -77,6 +77,20 @@ class Catalog extends AppModel {
             );
             return $allOptions;
         }
+        
+        function getPrintingPrices(){
+            $smallPageCost = .06;
+            $largePageCost = .08;
+            $overhead = 2;
+            return $this->printPrice =  array(
+                '588' => intval(128 * $smallPageCost)+$overhead,
+                '582' => intval(192 * $smallPageCost)+$overhead,
+                '586' => intval(256 * $smallPageCost)+$overhead,
+                '888' => intval(128 * $largePageCost)+$overhead,
+                '882' => intval(192 * $largePageCost)+$overhead,
+                '886' => intval(256 * $largePageCost)+$overhead
+                );
+        }
 
         /**
          * Return a single setlit attribute string

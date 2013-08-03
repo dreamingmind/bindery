@@ -13,7 +13,7 @@ $parameters = array(
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
-    'legend' => (isset($legend)) ? $legend : 'Pen Loop',
+    'legend' => (isset($legend)) ? $legend : 'Pen Loop <span class="plus"></span>',
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
@@ -22,6 +22,8 @@ $parameters = array(
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',
+            'price' => 7,
+            'oldprice' => 0,
             'legend' => false,
             'option' => 'master-penloop'.$model, // controls the diagram area belt div
             'setlist' => 'penloop',

@@ -11,13 +11,17 @@ $options = array(
 );
 ?> 
 <?php
+$titleCaveat = $this->Html->para(
+        'caveat', 
+        '<strong>*</strong> Titling is difficult to estimate without some discussion. The price added here is for <strong>initials</strong> or a <strong>short name</strong> in one location.',
+        array('option' => 'slave-titling', 'setList' => 'Yes'));
 $parameters = array(
     'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
-    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
+    'pre_fields' => $titleCaveat,
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Hot Stamping and Titling Options',
+    'legend'=> (isset($legend))?$legend:'Titling Options <span class="plus"></span>',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
@@ -29,7 +33,9 @@ $parameters = array(
                 '1' => 'Yes' // These get modified by code at the bottom of this page
             ),
             'default' => 0,
-            'legend' => false
+            'legend' => false,
+            'price' => 15,
+            'oldprice' => 0
         ),
         'foil-color' => array(
             'type'=> 'select',

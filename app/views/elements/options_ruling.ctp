@@ -15,7 +15,7 @@ $parameters = array(
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Page Ruling Options',
+    'legend'=> (isset($legend))?$legend:'Page Ruling Options  <span class="plus"></span>',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
@@ -31,7 +31,9 @@ $parameters = array(
                 '5/32 rule' => '5/32" rule (wide)',
                 '5/32 grid' => '5/32" grid (wide)',
                 'Other ruling' => 'Other ruling'
-            )
+            ),
+            'price' => 'x',
+            'oldprice' => 0
         )
     )
 );

@@ -32,6 +32,10 @@
     echo $this->Html->para('optionTitle','',array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'
         ));
+    echo $this->Html->para('caveat', '<strong>*</strong> All colors and proportions are approximations.',array(
+            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
+        ));
+
     echo $this->Form->input($productCategory.'.description', array(
         'class' => 'forcedData',
         'type' => 'hidden',
@@ -42,39 +46,20 @@
     echo $this->element('options_productDiagram', array($productCategory), TRUE);
     echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
     echo $this->element('email', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
-        ),
-        'model' => $model,
-        'record' => array($model => array('email' => $useremail))));
-//                    echo $this->element('options_leather',array($leatherOptions));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
     echo $this->element('options_ruling', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'
-        ),
-        'model' => $model));
-//                    echo $this->element('options_leather',array($leatherOptions));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'),'model' => $model));
     echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'),'model' => $model));
     echo $this->element('options_penLoop', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'penloop'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'penloop'),'model' => $model));
     echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'belt'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'belt'),'model' => $model));
     echo $this->element('options_titling', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'titling'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'titling'),'model' => $model));
     echo $this->element('options_instructions', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'instructions'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'instructions'),'model' => $model));
     echo $this->element('options_reusable', array('fieldsetOptions' => array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'
-        ),
-        'model' => $model));
+        'option' => 'slave-' . $productCategory, 'setlist' => 'bookbody'),'model' => $model));
 ?>
 </div>

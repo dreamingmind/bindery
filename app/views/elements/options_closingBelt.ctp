@@ -13,7 +13,7 @@ $parameters = array(
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
-    'legend' => (isset($legend)) ? $legend : 'Closing Belt',
+    'legend' => (isset($legend)) ? $legend : 'Closing Belt <span class="plus"></span>',
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
@@ -21,6 +21,8 @@ $parameters = array(
         'closing_belt' => array(
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
+            'price' => 16,
+            'oldprice' => 0,
             'default' => '0',
             'legend' => false,
             'option' => 'master-belt'.$model, // controls the diagram area belt div

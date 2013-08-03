@@ -88,6 +88,7 @@ class CatalogsController extends AppController {
     }
 
     function catalog() {
+//        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->data)){
             debug($this->data);die;
         }
@@ -105,8 +106,9 @@ class CatalogsController extends AppController {
         $setlists =  $this->Catalog->getAllProductCategoryOptions();
         // prepare json data for the prodcut diagrams
         $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($this->params['pname']));
+        $pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
 
-        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists', 'diagramData'));
+        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists', 'diagramData', 'pagePricing'));
     }
     
     /**
