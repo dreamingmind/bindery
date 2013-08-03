@@ -42,12 +42,12 @@
         params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
         params['marginPercent'] = .05; // margin is 3%
         params['beltThicknessPercent'] = .07; // relative to case
+        params['vertBeltThicknessPercent'] = .11;
         params['beltLengthPercent'] = .45; // relative to case
+        params['vertBeltLengthPercent'] = .35; // relative to case
         // belt loop size will serve for pen loops too
         params['beltloopThicknessPercent'] = .6; // relative to belt height
         params['beltloopCapacityAdjustment'] = 4; // pixesl relative to belt height
-        params['vertBeltThicknessPercent'] = .11;
-        params['vertBeltLengthPercent'] = .35; // relative to case
 
         
         // store the DOM object and the product_group name
