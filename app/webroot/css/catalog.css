@@ -225,12 +225,20 @@ div.options input[type="radio"] {
     float: none;
     width: auto;
 }
-.orderButton{
-    float:left;
-    margin: 10px;
+
+.orderButton {
+    background: none repeat scroll 0 0 bisque;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 30px;
+    margin: 4px 6px;
 }
 .caveat {
     color: maroon;
     font-size: 10px;
     padding: 0 8px 12px;
+}
+.super {
+    font-size: 15px;
+    padding: 10px 0 0 10px;
 }

@@ -1,6 +1,7 @@
 <?php
-    echo $this->Html->wrapScriptBlock($diagramData . ";\r" . $pagePricing);
+    $jsPriceObjects = '';
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
+        $jsPriceObjects .= "\r$productCategory = new Object();";
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
         $this->set('setList', $setList);
@@ -20,6 +21,7 @@
 ?>
     </form>
 <?php
+    echo $this->Html->wrapScriptBlock($diagramData . ";\r" . $pagePricing . $jsPriceObjects);
     }
 ?>
     <table>

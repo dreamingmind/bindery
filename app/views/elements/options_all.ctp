@@ -32,7 +32,7 @@
     echo $this->Html->para('optionTitle','',array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'
         ));
-    echo $this->Html->para('caveat', '<strong>*</strong> All colors and proportions are approximations.',array(
+    echo $this->Html->para('caveat super', '<strong>*</strong> All colors and proportions are approximations.',array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'
         ));
 

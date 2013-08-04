@@ -21,7 +21,7 @@ $parameters = array(
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend:'Titling Options <span class="plus"></span>',
+    'legend'=> (isset($legend))?$legend:'Titling Options',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,

@@ -4,7 +4,8 @@
 #fixedNav {
 	margin: 0px auto 0px auto;
 	padding: 5px 0px 0px 25px;
-	position: fixed;
+/*	position: fixed;*/
+	position: absolute;
 	left: auto;
 	top: 0px;
 	right: auto;
@@ -16,7 +17,8 @@
 #NTfixedNav {
 	margin: 0px auto 0px auto;
 	padding: 5px 0px 0px 25px;
-	position: fixed;
+/*	position: fixed;*/
+	position: absolute;
 	left: auto;
 	top: 0px;
 	right: auto;

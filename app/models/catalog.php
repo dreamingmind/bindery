@@ -78,6 +78,51 @@ class Catalog extends AppModel {
             return $allOptions;
         }
         
+        /**
+         * Cost options to track on the purchase page
+         * 
+         * These will serve as the property maps for purchase
+         * cost items in the on-page javascript. There will also
+         * be functions to watch the relevant inputs and update
+         * the properties.
+         */
+        function getCostOptions(){
+            $allCostOptions = array(
+                'Journal' => array('belt', 'title'),
+                'Reusable_Journal' => array('belt', 'title', 'bookbody'),
+                'Notebook' => array('belt', 'title', 'penloop'),
+                'Portfolio' => array('belt', 'title', 'penloop'),
+                'Top_Opening' => array('belt', 'title', 'penloop')
+            );
+            return $allCostOptions;
+        }
+        
+        /**
+         * Which products should get a diagram div
+         * 
+         * I could make each one carry a list of div layers
+         * (and componenets) to include in the diagram
+         */
+        function productDiagrams(){
+            $productDiagramMap = array(
+                'Journal' => TRUE,
+                'Reusable_Journal' => TRUE,
+                'Notebook' => TRUE,
+                'Portfolio' => TRUE,
+                'Book_Body' => FALSE,
+                'Top_Opening' => TRUE,
+                'Notebook_Pages' => FALSE,
+                'Mini_Notebook' => TRUE
+            );
+            return $productDiagramMap;
+        }
+        
+        /**
+         * A lookup table to include on reusable journal page
+         * to aid in calculating a bookbody price.
+         * 
+         * @return array The price lookup table
+         */
         function getPrintingPrices(){
             $smallPageCost = .06;
             $largePageCost = .08;
