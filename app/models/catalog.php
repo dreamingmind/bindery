@@ -88,11 +88,11 @@ class Catalog extends AppModel {
          */
         function getCostOptions(){
             $allCostOptions = array(
-                'Journal' => array('belt', 'title'),
-                'Reusable_Journal' => array('belt', 'title', 'bookbody'),
-                'Notebook' => array('belt', 'title', 'penloop'),
-                'Portfolio' => array('belt', 'title', 'penloop'),
-                'Top_Opening' => array('belt', 'title', 'penloop')
+                'Journal' => array('product', 'belt', 'title'),
+                'Reusable_Journal' => array('product', 'belt', 'title', 'bookbody'),
+                'Notebook' => array('product', 'belt', 'title', 'penloop'),
+                'Portfolio' => array('product', 'belt', 'title', 'penloop'),
+                'Top_Opening' => array('product', 'belt', 'title', 'penloop')
             );
             return $allCostOptions;
         }

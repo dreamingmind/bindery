@@ -1,7 +1,6 @@
 <?php
-    $jsPriceObjects = '';
+    echo $this->Html->wrapScriptBlock($diagramData . ";\r" . $pagePricing);
     foreach ($tableSet['Catalog'] as $productCategory => $products) {
-        $jsPriceObjects .= "\r$productCategory = new Object();";
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
         $this->set('setList', $setList);
@@ -11,17 +10,17 @@
 
         echo $this->element('options_all', array(
             $productCategory,
-            'useremail' => (isset($useremail))?$useremail:'',
+            'useremail' => (isset($useremail)) ? $useremail : '',
             $leatherOptions,
             $clothOptions,
-            $endpaperOptions
+            $endpaperOptions,
+            $diagramMap // tells which products get diagrams. Used for element options_productDiagram
             ),
             TRUE
         );
 ?>
     </form>
 <?php
-    echo $this->Html->wrapScriptBlock($diagramData . ";\r" . $pagePricing . $jsPriceObjects);
     }
 ?>
     <table>

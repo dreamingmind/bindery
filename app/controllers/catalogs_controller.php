@@ -106,9 +106,13 @@ class CatalogsController extends AppController {
         $setlists =  $this->Catalog->getAllProductCategoryOptions();
         // prepare json data for the prodcut diagrams
         $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($this->params['pname']));
+        $diagramMap = $this->Catalog->ProductDiagrams();
+        $costOptions = $this->Catalog->getCostOptions();
         $pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
+        
 
-        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists', 'diagramData', 'pagePricing'));
+        $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',
+                'diagramData', 'pagePricing', 'diagramMap', 'costOptions'));
     }
     
     /**
