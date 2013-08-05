@@ -449,20 +449,70 @@ z-index: {6};\n\
  * layers are primary diagramed product surfaces, case, liner, etc.
  */
 function getDiagramLayers(productGroup){
-        var count = 0;
-        var layer = new Array();
-        for (var x in diagramData[productGroup]) {
-            if (diagramData[productGroup].hasOwnProperty(x)) {
-                layer[count] = x;
-               ++count;
-               
-            }
+    var count = 0;
+    var layer = new Array();
+    for (var x in diagramData[productGroup]) {
+        if (diagramData[productGroup].hasOwnProperty(x)) {
+            layer[count] = x;
+           ++count;
+
         }
-        return layer;
     }
-  
+    return layer;
+}
+
+/**
+ * Read the page inputs and establish proper view state
+ */
+function establishAppropriatePageState(){
+    storeCatalogHandles();
+//    var count = 0;
+//    for (var product in catalog.productNames) {
+//        detectPreviousProductPick(product);
+//    }
+    
+}
+
+/**
+ * Place the DOM elements in the catalog map object
+ * 
+ * Just to make code easier to read and write
+ */
+function storeCatalogHandles(){
+//    var count = 0;
+    for (var product in catalog.productNames) {
+        // store handles for one product
+        catalog.productNames[product]['toggle'] = $('p#'+product+'Toggle');
+        catalog.productNames[product]['table'] = $('table#'+product);
+        catalog.productNames[product]['productRadios'] = $('table#'+product).find('input[type="radio"]');
+        catalog.productNames[product]['options'] = $('div.options.'+product+'Toggle');
+    }
+}
+
+/**
+ * Estblish proper page state if a product is selected
+ * 
+ * Look in a particular product matrix and if there is
+ * a selection, go through the process that creates
+ * the proper display state.
+ */
+function detectPreviousProductPick(product){
+    var radios = catalog.handle.productRadios;
+    var count = 0;
+    for (var radio in radios){
+        if ($(radio).attr('checked')){
+            catalog[product]['handle']['productRadio'] = $(radio);
+            revealTable(product);
+            $(radio).trigger('click');
+            triggerOptions(product);
+            updatePriceDisplay(product);
+        }
+    }
+}
+
 function productRadioClick(e){
     var radioObject = e.currentTarget;
+    $(radioObject).attr('checked','checked');
     var title = $(radioObject).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
     var price = '<span class="price">$'+$(radioObject).attr('price')+'</span><span class="caveat">Estimate</span> ';
     $(radioObject).parents('table').siblings('div.options').find('p.optionTitle').html(price + title);
@@ -597,4 +647,5 @@ $(document).ready(function(){
     initMaterialImages();
     initClosingBeltRadio();
     initTitlingRadio();
+    establishAppropriatePageState();
 })

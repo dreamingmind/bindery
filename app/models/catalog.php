@@ -57,6 +57,19 @@ class Catalog extends AppModel {
 	);
         
         /**
+         * Master list of what options carry cost for products
+         *
+         * @var array
+         */
+        var $allCostOptions = array(
+                'Journal' => array('product', 'belt', 'title'),
+                'Reusable_Journal' => array('product', 'belt', 'title', 'bookbody'),
+                'Notebook' => array('product', 'belt', 'title', 'penloop'),
+                'Portfolio' => array('product', 'belt', 'title', 'penloop'),
+                'Top_Opening' => array('product', 'belt', 'title', 'penloop')
+            );
+
+        /**
          * Return the list of setlist attribute values for every product category
          * 
          * These will be the option inputs to reveal when a given product category
@@ -79,22 +92,30 @@ class Catalog extends AppModel {
         }
         
         /**
-         * Cost options to track on the purchase page
+         * Create the Catalog Object Map for on-page javascript
          * 
-         * These will serve as the property maps for purchase
-         * cost items in the on-page javascript. There will also
-         * be functions to watch the relevant inputs and update
-         * the properties.
+         * This will be the object to guide price calcs
+         * and provide convenience handles to page elements
          */
-        function getCostOptions(){
-            $allCostOptions = array(
-                'Journal' => array('product', 'belt', 'title'),
-                'Reusable_Journal' => array('product', 'belt', 'title', 'bookbody'),
-                'Notebook' => array('product', 'belt', 'title', 'penloop'),
-                'Portfolio' => array('product', 'belt', 'title', 'penloop'),
-                'Top_Opening' => array('product', 'belt', 'title', 'penloop')
-            );
-            return $allCostOptions;
+        function getCatalogMap($dataSet){
+            $catalog = array();
+            foreach ($dataSet['Catalog'] as $product => $data){
+                if (isset($this->allCostOptions[$product])){
+                    $catalog['productNames'][$product] = array(
+                        'toggle' => false,
+                        'table' => false,
+                        'productRadios' => false
+                    );
+                    $catalog[$product] = array();
+                    foreach ($this->allCostOptions[$product] as $costNode) {
+                        $catalog[$product][$costNode] = array(
+                            'price' => false,
+                            'handle' => false);
+                    }
+                    
+                }
+            }
+            return $catalog;
         }
         
         /**
