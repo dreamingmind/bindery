@@ -109,7 +109,7 @@ class Catalog extends AppModel {
                     $catalog[$product] = array();
                     foreach ($this->allCostOptions[$product] as $costNode) {
                         $catalog[$product][$costNode] = array(
-                            'price' => false,
+                            'price' => 0,
                             'handle' => false);
                     }
                     

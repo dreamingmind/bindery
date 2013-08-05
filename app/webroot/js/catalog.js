@@ -486,6 +486,8 @@ function storeCatalogHandles(){
         catalog.productNames[product]['table'] = $('table#'+product);
         catalog.productNames[product]['productRadios'] = $('table#'+product).find('input[type="radio"]');
         catalog.productNames[product]['options'] = $('div.options.'+product+'Toggle');
+        catalog.productNames[product]['titleNode'] = $(catalog.productNames[product]['options']).find('p.optionTitle');
+        catalog.productNames[product]['titleInput'] = $(catalog.productNames[product]['options']).find('input[id*="Description"]');
     }
 }
 
@@ -510,16 +512,69 @@ function detectPreviousProductPick(product){
     }
 }
 
+/**
+ * Sum the current price
+ * 
+ * Make a sum and span property
+ */
+function priceSum(product){
+    var price = 0;
+    for (var costNode in catalog[product]) {
+        price += parseInt(catalog[product][costNode]['price']);
+    }
+    catalog.productNames[product]['sum'] = price;
+    return catalog.productNames[product]['priceSpan'] = '<span class="price">$' + price + '</span><span class="caveat">Estimate</span> ';
+}
+
+function makeProductTitle(product){
+    return catalog.productNames[product]['title'] = $(catalog[product]['product']['handle']).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
+}
+
+function writePricedTitle(product){
+    var price = priceSum(product);
+    var title = makeProductTitle(product);
+    // write the title to the page
+    $(catalog.productNames[product]['titleNode']).html(price + title);
+    // write the title to a form input for delivery to the server
+    $(catalog.productNames[product]['titleInput']).attr('value', title);
+    
+}
+
+/**
+ * Record the handle and price for one option in a product
+ * 
+ * Assumes the option node has a price attribute with the $ price
+ * Assumes the catalog.product.nodeName is part of param-node id
+ */
+function recordOptionState(product, name, inputObj){
+//    var name = determineOptionNodeName(product, inputObj)
+    catalog[product][name]['handle'] = inputObj;
+    switch (name){
+        case ('product') :
+            catalog[product][name]['price'] = $(inputObj).attr('price');
+            break;
+        case ('belt'):
+        case ('title'):
+        case ('penloop'):
+            catalog[product][name]['price'] = $(inputObj).val() * $(inputObj).attr('price');
+    }
+}
+
+//function determineOptionNodeName(product, inputObj){
+//    for (var name in catalog[product]) {
+//        if ($(inputObj).)
+//    }
+//}
+
 function productRadioClick(e){
     var radioObject = e.currentTarget;
-    $(radioObject).attr('checked','checked');
-    var title = $(radioObject).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
-    var price = '<span class="price">$'+$(radioObject).attr('price')+'</span><span class="caveat">Estimate</span> ';
-    $(radioObject).parents('table').siblings('div.options').find('p.optionTitle').html(price + title);
-    $('input[id*="Description"]').attr('value', title);
-    var productCategory = $(radioObject).parents('table').attr('id');
-//            diagram = new diagramDiv($('div#diagram[class="'+productCategory+'"]'));
-    var productDiagram = $('div#diagram[class="'+productCategory+'"]');
+    var product = $(radioObject).parents('table').attr('id');
+    
+    // write the catalog object entries
+    recordOptionState(product, 'product', radioObject);
+    writePricedTitle(product);
+     
+    var productDiagram = $('div#diagram[class="'+product+'"]');
     var productGroup = $(radioObject).attr('diagram');
     diagramDiv(productDiagram, productGroup);
 }
@@ -580,33 +635,38 @@ $(document).ready(function(){
     
     function initClosingBeltRadio(){
         $('.input.Closing_Belt').bind('click', function(){
-            var price = new Object;
-            price.now = $(this).val() * $(this).attr('price');
-            price.old = $(this).parent('div').attr('oldprice');
-            $(this).parent('div').attr('oldprice', price.now);
-            $(this).parents('fieldset').children('legend').html('Closing Belt <span class="plus">+$'+price.now+'</span>');
-            var divObject = $(this).parents('div.options');
-            updatePrice(price, this);
+            var product = $(this).parents('form').children('table').attr('id');
+            
+            // write the catalog object entries
+            recordOptionState(product, 'belt', this);
+            writePricedTitle(product);
+            
+            $(this).parents('fieldset').children('legend').html('Closing Belt <span class="plus">+$'+catalog[product]['belt']['price']+'</span>');
         })
     }
     
     function initTitlingRadio(){
         $('.input.Titling_Options').bind('click', function(){
-            var price = new Object;
-            price.now = $(this).val() * $(this).attr('price');
-            price.old = $(this).parent('div').attr('oldprice');
-            $(this).parent('div').attr('oldprice', price.now);
-            $(this).parents('fieldset').children('legend').html('Titling Options <span class="plus">+$'+price.now+'</span>');
-            updatePrice(price, this);
+            var product = $(this).parents('form').children('table').attr('id');
+            
+            // write the catalog object entries
+            recordOptionState(product, 'title', this);
+            writePricedTitle(product);
+            
+            $(this).parents('fieldset').children('legend').html('Titling Options <span class="plus">+$'+catalog[product]['title']['price']+'</span>');
         })
     }
     
-    function updatePrice(price, radioObject){
-        var divObject = $(radioObject).parents('div.options');
-        var currentPrice = parseInt($(divObject).find('span.price').html().match(/\d+/));
-        currentPrice = currentPrice - price.old + price.now;
-        alert(currentPrice);
-        alert(parseInt($(divObject).find('span.price').html().match(/\d+/)));
+    function initPenloopRadio(){
+        $('.input.Pen_Loop').bind('click', function(){
+            var product = $(this).parents('form').children('table').attr('id');
+            
+            // write the catalog object entries
+            recordOptionState(product, 'penloop', this);
+            writePricedTitle(product);
+            
+            $(this).parents('fieldset').children('legend').html('PenLoop <span class="plus">+$'+catalog[product]['penloop']['price']+'</span>');
+        })
     }
     
     /**
@@ -647,5 +707,6 @@ $(document).ready(function(){
     initMaterialImages();
     initClosingBeltRadio();
     initTitlingRadio();
+    initPenloopRadio();
     establishAppropriatePageState();
 })
