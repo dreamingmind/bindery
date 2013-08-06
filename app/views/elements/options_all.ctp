@@ -27,14 +27,15 @@
  * </form>
  */
     echo $this->Html->div($productCategory . 'Toggle options', null);
+    echo $this->Html->caveatDiv($caveat['materials']);
     $model = $productCategory;
     echo $this->Form->button('Add to cart', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));
     echo $this->Html->para('optionTitle','',array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'
         ));
-    echo $this->Html->para('caveat super', '<strong>*</strong> All colors and proportions are approximations.',array(
-            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
-        ));
+//    echo $this->Html->para('caveat super', '<strong>*</strong> All colors and proportions are approximations.',array(
+//            'option' => 'slave-' . $productCategory, 'setlist' => 'order'
+//        ));
 
     echo $this->Form->input($productCategory.'.description', array(
         'class' => 'forcedData',

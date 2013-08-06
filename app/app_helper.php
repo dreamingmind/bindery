@@ -1321,5 +1321,12 @@ class AppHelper extends Helper {
                 </script>
                 ', $code);
         }
+        
+        function caveatSpan($message){
+            return sprintf('<p><span class="caveat">%s</span></p>', $message);
+        }
+        function caveatDiv($message){
+            return sprintf('<div id="caveat" class="toggle">%s</div>', $this->caveatSpan($message));
+        }
 }
 ?>

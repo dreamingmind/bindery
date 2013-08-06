@@ -6,7 +6,7 @@ if ($diagramMap[$productCategory]) {
         'setlist' => 'order',
         'option' => 'slave-'.$productCategory));
 
-        // The case layer shows leather for full leather or quarterbound
+// The case layer shows leather for full leather or quarterbound
         echo $this->Html->div($productCategory, NULL, array(
             'id' => 'case',
             'option' => 'slave-'.$productCategory,

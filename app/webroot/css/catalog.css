@@ -202,6 +202,7 @@ p.optionTitle {
     width: 96%;
 }
 div.options {
+    position: relative;
     background: none repeat scroll 0 0 #D0D9D7;
     margin-left: 5%;
     padding-top: 10px;
@@ -241,4 +242,31 @@ div.options input[type="radio"] {
 .super {
     font-size: 15px;
     padding: 10px 0 0 10px;
+}
+/*p#caveat.toggle {
+    background: none repeat scroll 0 0 transparent;
+    color: #334455;
+    font-weight: normal;
+    text-align: left;
+}*/
+#caveat > p {
+    font-size: 200%;
+    font-weight: 900;
+}
+div#caveat {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: khaki;
+    background-image: url("/bindery/app/webroot/img/caveat.png");
+    background-position: -22px 3px;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border: thin outset buttonshadow;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    left: -37px;
+    margin-right: -33px;
+    padding: 12px 5px 18px 25px;
+    position: absolute;
+    top: 20px;
 }
