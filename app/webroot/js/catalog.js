@@ -557,9 +557,42 @@ function recordOptionState(product, name, inputObj){
         case ('title'):
         case ('penloop'):
             catalog[product][name]['price'] = $(inputObj).val() * $(inputObj).attr('price');
+            break;
+        case ('bookbody'):
+            lookupBookbodyPrice(product, inputObj);
+            break;
     }
 }
 
+function lookupBookbodyPrice(product, inputObj){
+            // this time inputObj includes three selects
+            // there are two required values before I can calc
+            var required = true;
+            for (i=0; i < inputObj.length; i++) {
+                required = $(inputObj[i]).val() == -1 ? false : required;
+            }
+            if (required) {
+                // The first char of the (cover) product number
+                var one = ($(catalog[product]['product']['handle']).val())[0];
+                // The third char of the page count (the first select)
+                var two = ($(inputObj[0]).val())[2];
+                // and the code for printed or blank (the second select)
+                switch ($(inputObj[1]).val()) {
+                    case ('blank'):
+                        var three = 'bk';
+                        break;
+                    case ('Other'):
+                        var three = 'x';
+                        break;
+                    default :
+                        var three = 'pk';
+                        break
+                }
+                catalog[product]['bookbody']['price'] = parseInt(pagePricing[one+'8'+two+three]);
+            } else {
+                catalog[product]['bookbody']['price'] = 0;
+            }    
+}
 //function determineOptionNodeName(product, inputObj){
 //    for (var name in catalog[product]) {
 //        if ($(inputObj).)
@@ -635,7 +668,7 @@ $(document).ready(function(){
     
     function initClosingBeltRadio(){
         $('.input.Closing_Belt').bind('click', function(){
-            var product = $(this).parents('form').children('table').attr('id');
+            var product = determineProduct(this);
             
             // write the catalog object entries
             recordOptionState(product, 'belt', this);
@@ -647,7 +680,7 @@ $(document).ready(function(){
     
     function initTitlingRadio(){
         $('.input.Titling_Options').bind('click', function(){
-            var product = $(this).parents('form').children('table').attr('id');
+            var product = determineProduct(this);
             
             // write the catalog object entries
             recordOptionState(product, 'title', this);
@@ -659,7 +692,7 @@ $(document).ready(function(){
     
     function initPenloopRadio(){
         $('.input.Pen_Loop').bind('click', function(){
-            var product = $(this).parents('form').children('table').attr('id');
+            var product = determineProduct(this);
             
             // write the catalog object entries
             recordOptionState(product, 'penloop', this);
@@ -667,6 +700,21 @@ $(document).ready(function(){
             
             $(this).parents('fieldset').children('legend').html('PenLoop <span class="plus">+$'+catalog[product]['penloop']['price']+'</span>');
         })
+    }
+    
+    function initBookbodySelects(){
+        $('select.Bookbody').bind('change', function(){
+            var product = determineProduct(this);
+            
+            // write the catalog object entries
+            // this one sends all necessary inputs, not just the clicked one
+            recordOptionState(product, 'bookbody', $(catalog.productNames[product]['options']).find('.Bookbody'));
+            writePricedTitle(product);
+        })
+    }
+    
+    function determineProduct(optionNode){
+        return $(optionNode).parents('form').children('table').attr('id');
     }
     
     /**
@@ -708,5 +756,6 @@ $(document).ready(function(){
     initClosingBeltRadio();
     initTitlingRadio();
     initPenloopRadio();
+    initBookbodySelects();
     establishAppropriatePageState();
 })

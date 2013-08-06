@@ -66,7 +66,10 @@ class Catalog extends AppModel {
                 'Reusable_Journal' => array('product', 'belt', 'title', 'bookbody'),
                 'Notebook' => array('product', 'belt', 'title', 'penloop'),
                 'Portfolio' => array('product', 'belt', 'title', 'penloop'),
-                'Top_Opening' => array('product', 'belt', 'title', 'penloop')
+                'Top_Opening' => array('product', 'belt', 'title', 'penloop'),
+                'Mini_Notebook' => array('product'),
+                'Book_Body' => array('product'),
+                'Notebook_Pages' => array('product')
             );
 
         /**
@@ -81,7 +84,8 @@ class Catalog extends AppModel {
             $allOptions = array(
                 'Book_Body' => 'endpapers order',
                 'Journal' => 'belt titling endpapers instructions order',
-                'Reusable_Journal' => 'belt titling liners instructions bookbody order',
+                // reusable gets endpaper because there are selects for a bookbody in its option list
+                'Reusable_Journal' => 'belt titling liners instructions bookbody order endpapers',
                 'Notebook' => 'belt titling liners notbookpockets instructions order penloop',
                 'Portfolio' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Top_Opening' => 'belt titling liners portfoliopocket instructions order penloop',
@@ -145,17 +149,27 @@ class Catalog extends AppModel {
          * @return array The price lookup table
          */
         function getPrintingPrices(){
-            $smallPageCost = .06;
-            $largePageCost = .08;
-            $overhead = 2;
-            return $this->printPrice =  array(
-                '588' => intval(128 * $smallPageCost)+$overhead,
-                '582' => intval(192 * $smallPageCost)+$overhead,
-                '586' => intval(256 * $smallPageCost)+$overhead,
-                '888' => intval(128 * $largePageCost)+$overhead,
-                '882' => intval(192 * $largePageCost)+$overhead,
-                '886' => intval(256 * $largePageCost)+$overhead
-                );
+            $raw = $this->find('all', array(
+                'fields' => array('Catalog.product_code', 'Catalog.price'),
+                'conditions' => array('Catalog.category' => 'Book_Body')
+            ));
+            $this->printPrice = array();
+            foreach ($raw as $entry) {
+                $this->printPrice[$entry['Catalog']['product_code']] = $entry['Catalog']['price'];
+            }
+            return $this->printPrice;
+            
+//            $smallPageCost = .06;
+//            $largePageCost = .08;
+//            $overhead = 2;
+//            return $this->printPrice =  array(
+//                '588' => intval(128 * $smallPageCost)+$overhead,
+//                '582' => intval(192 * $smallPageCost)+$overhead,
+//                '586' => intval(256 * $smallPageCost)+$overhead,
+//                '888' => intval(128 * $largePageCost)+$overhead,
+//                '882' => intval(192 * $largePageCost)+$overhead,
+//                '886' => intval(256 * $largePageCost)+$overhead
+//                );
         }
 
         /**
