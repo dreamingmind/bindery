@@ -162,7 +162,8 @@ class AppController extends Controller {
         // These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array
         Configure::load('caveat');
-        $this->set('caveat', Configure::read('caveat'));
+        $this->caveat = Configure::read('caveat');
+        $this->set('caveat', $this->caveat);
 
         $this->initAccount(); //set all properties describing the logged in user (or not)
         $this->mainNavigation(); //get the account appropriate full, potential menu record set

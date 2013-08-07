@@ -108,10 +108,11 @@ class CatalogsController extends AppController {
         $diagramMap = $this->Catalog->ProductDiagrams();
         
         // prepare javascript for the page
+        $caveat = 'var caveat = ' . json_encode($this->caveat);
         $catalog = 'var catalog = ' . json_encode($this->Catalog->getcatalogMap($tableSet));
         $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($this->params['pname']));
         $pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
-        $js = "$catalog\r$diagramData\r$pagePricing";
+        $js = "$catalog\r$diagramData\r$pagePricing\r$caveat";
         
 
         $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',

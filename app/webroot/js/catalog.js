@@ -488,6 +488,7 @@ function storeCatalogHandles(){
         catalog.productNames[product]['options'] = $('div.options.'+product+'Toggle');
         catalog.productNames[product]['titleNode'] = $(catalog.productNames[product]['options']).find('p.optionTitle');
         catalog.productNames[product]['titleInput'] = $(catalog.productNames[product]['options']).find('input[id*="Description"]');
+        catalog.productNames[product]['caveatNode'] = $(catalog.productNames[product]['options']).find('div.caveatWrapper');
     }
 }
 
@@ -537,7 +538,21 @@ function writePricedTitle(product){
     $(catalog.productNames[product]['titleNode']).html(price + title);
     // write the title to a form input for delivery to the server
     $(catalog.productNames[product]['titleInput']).attr('value', title);
-    
+    // Write the current caveats to the page
+    writeCaveatSet(product);
+}
+
+function writeCaveatSet(product){
+    var outputPattern = '<p><span class="caveat">{0}</span></p>';
+    var target = catalog.productNames[product]['caveat'];
+    var caveatOut = outputPattern.format(caveat[target]);
+    for (var option in catalog[product]) {
+        target = catalog[product][option]['caveat']
+        if (target) {
+            caveatOut = outputPattern.format(caveat[target]) + caveatOut;
+        }
+    }
+    $(catalog.productNames[product]['caveatNode']).html(caveatOut);
 }
 
 /**
@@ -553,15 +568,31 @@ function recordOptionState(product, name, inputObj){
         case ('product') :
             catalog[product][name]['price'] = $(inputObj).attr('price');
             break;
-        case ('belt'):
         case ('title'):
+            setRadioStylePrice(product, name);
+            setRadioStyleCaveat(product, name, 'titling');
+            break;
+        case ('belt'):
+            setRadioStylePrice(product, name)
+            break;
         case ('penloop'):
-            catalog[product][name]['price'] = $(inputObj).val() * $(inputObj).attr('price');
+            setRadioStylePrice(product, name);
+            setRadioStyleCaveat(product, name, 'penloop');
             break;
         case ('bookbody'):
             lookupBookbodyPrice(product, inputObj);
             break;
     }
+}
+
+function setRadioStylePrice(product, name){
+    var obj = catalog[product][name]['handle'];
+    catalog[product][name]['price'] = $(obj).val() * $(obj).attr('price');
+}
+
+function setRadioStyleCaveat(product, name, caveat){
+    var obj = catalog[product][name]['handle'];
+    catalog[product][name]['caveat'] = ($(obj).val() == '1') ? caveat : false;
 }
 
 function lookupBookbodyPrice(product, inputObj){

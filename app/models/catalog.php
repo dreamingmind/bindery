@@ -108,13 +108,15 @@ class Catalog extends AppModel {
                     $catalog['productNames'][$product] = array(
                         'toggle' => false,
                         'table' => false,
-                        'productRadios' => false
+                        'productRadios' => false,
+                        'caveat' => 'materials' // the baseline caveat for all products
                     );
                     $catalog[$product] = array();
                     foreach ($this->allCostOptions[$product] as $costNode) {
                         $catalog[$product][$costNode] = array(
                             'price' => 0,
-                            'handle' => false);
+                            'handle' => false,
+                            'caveat' => false);
                     }
                     
                 }

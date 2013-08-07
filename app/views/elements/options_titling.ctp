@@ -11,13 +11,13 @@ $options = array(
 );
 ?> 
 <?php
-$titleCaveat = $this->Html->para(
-        'caveat', 
-        '<strong>*</strong> Titling is difficult to estimate without some discussion. The price added here is for <strong>initials</strong> or a <strong>short name</strong> in one location.',
-        array('option' => 'slave-titling', 'setList' => 'Yes'));
+//$titleCaveat = $this->Html->para(
+//        'caveat', 
+//        '<strong>*</strong> Titling is difficult to estimate without some discussion. The price added here is for <strong>initials</strong> or a <strong>short name</strong> in one location.',
+//        array('option' => 'slave-titling', 'setList' => 'Yes'));
 $parameters = array(
     'fieldsetOptions'=>(isset($fieldsetOptions))?$fieldsetOptions:'',
-    'pre_fields' => $titleCaveat,
+    'pre_fields' => (isset($pre_fields))?$pre_fields:'',
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
