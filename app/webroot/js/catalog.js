@@ -38,9 +38,9 @@ function diagramDiv(div, productGroup){
 function setDiagramDefaults(params, div, productGroup){
 
     // establish some baseline control relationships
-    params['offsetMinPercent'] = .09; // layer offset is least 10% of the container div's narrow dimension
+    params['offsetMinPercent'] = .08; // layer offset is least 10% of the container div's narrow dimension
     params['offsetMaxPercent'] = .75; // layer offset is at most 75% of the layer's size
-    params['marginPercent'] = .05; // margin is 3%
+    params['marginPercent'] = .08; // margin is 3%
     params['beltThicknessPercent'] = .07; // relative to case
     params['vertBeltThicknessPercent'] = .11;
     params['beltLengthPercent'] = .45; // relative to case
@@ -698,7 +698,7 @@ $(document).ready(function(){
     }
     
     function initClosingBeltRadio(){
-        $('.input.Closing_Belt').bind('click', function(){
+        $('.input.Closing_Belt[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
             
             // write the catalog object entries
@@ -710,7 +710,7 @@ $(document).ready(function(){
     }
     
     function initTitlingRadio(){
-        $('.input.Titling_Options').bind('click', function(){
+        $('.input.Titling_Options[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
             
             // write the catalog object entries
@@ -722,7 +722,7 @@ $(document).ready(function(){
     }
     
     function initPenloopRadio(){
-        $('.input.Pen_Loop').bind('click', function(){
+        $('.input.Pen_Loop[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
             
             // write the catalog object entries

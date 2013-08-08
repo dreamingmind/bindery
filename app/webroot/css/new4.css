@@ -668,14 +668,14 @@ div.content fieldset > div {
     display: none;
     background-color: none;
 }
-.input.select > label, label[for*='ImageHeading'] {
+.input.select > label, label[for*="ImageHeading"], label {
     display: inline-block;
     margin-right: 5px;
     text-align: right;
-    width: 55px;
+    width: 20%;
 }
-.input.select > select, #ImageHeading {
-    width: 200px;
+.input.select > select, #ImageHeading, input {
+    width: 75%;
 }
 label[for*='ImageTreatment'], label[for*='ImageMasterTreatment'] {
     margin: 5px 0 5px 5px;

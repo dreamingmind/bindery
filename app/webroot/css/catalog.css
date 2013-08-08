@@ -204,14 +204,15 @@ div.options fieldset:first-of-type legend {
     width: 100%;
 }*/
 div.options fieldset legend {
-    background: linear-gradient(to left, #B3BEAD 0%, #D0D9D7 85%, khaki 80%) repeat scroll 0 0 transparent;
+    background: linear-gradient(to bottom, #B3BEAD 0%, #D0D9D7 85%, khaki 80%) repeat scroll 0 0 transparent;
     border-top: thin solid #999999;
     color: #025C0D;
     font-size: 72%;
     margin-bottom: 0;
     margin-top: -3px;
-    padding: 3px 5px;
+    padding: 3px 4px 3px 12px;
     width: 100%;
+    border-radius: 5px 5px 5px 5px;
 }
 
 p.optionTitle {
@@ -302,4 +303,10 @@ div#caveat > div.caveatWrapper {
 }
 div.caveatWrapper > p {
     margin-bottom: 4px;
+}
+.input.radio {
+    padding-left: 23%;
+}
+table tr td {
+    padding: 5px 3px;
 }

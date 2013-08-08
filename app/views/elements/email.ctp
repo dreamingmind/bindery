@@ -21,8 +21,7 @@ $parameters = array(
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         'name',
-        'email',
-        'phone'
+        'email'
         )
 );
 
