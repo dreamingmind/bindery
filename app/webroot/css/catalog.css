@@ -182,25 +182,47 @@ div.options fieldset{
 div.options fieldset:first-of-type legend {
     border:none;
 }
-div.options fieldset legend, p.optionTitle {
+/*div.options fieldset legend, p.optionTitle {
     background: none;
     border-top: thin solid #CCCCCC;
     color: #025C0D;
     font-size: 100%;
-    /*font-weight: bold;*/
+    font-weight: bold;
     margin-bottom: 0;
     margin-top: -3px;
     padding: 3px 0;
     width: 100%;
+}*/
+/*div.options fieldset legend {
+    background: linear-gradient(to left, #B3BEAD 0%, #D0D9D7 60%, #ffffff 100%) repeat scroll 0 0 transparent;
+    border-top: thin solid #999999;
+    color: #025C0D;
+    font-size: 69%;
+    margin-bottom: 0;
+    margin-top: -3px;
+    padding: 3px 5px;
+    width: 100%;
+}*/
+div.options fieldset legend {
+    background: linear-gradient(to left, #B3BEAD 0%, #D0D9D7 85%, khaki 80%) repeat scroll 0 0 transparent;
+    border-top: thin solid #999999;
+    color: #025C0D;
+    font-size: 72%;
+    margin-bottom: 0;
+    margin-top: -3px;
+    padding: 3px 5px;
+    width: 100%;
 }
+
 p.optionTitle {
     background-color: #C0C8C6;
-    border: medium none;
-    /*font-size: 115%;*/
+    border: thin outset buttonshadow;
+    font-size: 100%;
     font-weight: bold;
     padding: 12px;
     width: 96%;
 }
+
 div.options {
     position: relative;
     background: none repeat scroll 0 0 #D0D9D7;
@@ -226,18 +248,19 @@ div.options input[type="radio"] {
     float: none;
     width: auto;
 }
-
 .orderButton {
-    background: none repeat scroll 0 0 bisque;
+    background: none repeat scroll 0 0 khaki;
+    border: thin outset buttonshadow;
     border-radius: 5px 5px 5px 5px;
     float: left;
     height: 30px;
-    margin: 4px 6px;
+    margin: 8px 6px;
+    padding: 5px;
 }
 .caveat {
     color: maroon;
     font-size: 10px;
-    padding: 0 8px 12px;
+    padding: 0 8px;
     display: none;
 }
 .super {
@@ -257,23 +280,26 @@ div.options input[type="radio"] {
 div#caveat {
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: khaki;
+    background-color: khaki; /* toggle to dark orange on new content */
     background-image: url("/bindery/app/webroot/img/caveat.png");
-    background-position: -22px 3px;
+    background-position: -23px 1px;
     background-repeat: no-repeat;
     background-size: auto auto;
     border: thin outset buttonshadow;
-    border-radius: 3px 3px 3px 3px;
+    border-radius: 5px;
     cursor: pointer;
-    left: -37px;
+    left: -27px;
     margin-right: -33px;
-    padding: 12px 5px 18px 25px;
+    padding: 12px 5px 10px 25px;
     position: absolute;
-    top: 20px;
+    top: -7px;
 }
-div#caveat > div.caveatWraper {
+div#caveat > div.caveatWrapper {
     background: none;
     padding: 0;
     margin: 0;
     position: relative;
+}
+div.caveatWrapper > p {
+    margin-bottom: 4px;
 }

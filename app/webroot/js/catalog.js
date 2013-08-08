@@ -543,7 +543,7 @@ function writePricedTitle(product){
 }
 
 function writeCaveatSet(product){
-    var outputPattern = '<p><span class="caveat">{0}</span></p>';
+    var outputPattern = '<p><span class="caveat"> - {0}</span></p>';
     var target = catalog.productNames[product]['caveat'];
     var caveatOut = outputPattern.format(caveat[target]);
     for (var option in catalog[product]) {
@@ -787,6 +787,6 @@ $(document).ready(function(){
     initClosingBeltRadio();
     initTitlingRadio();
     initPenloopRadio();
-    initBookbodySelects();
+//    initBookbodySelects();
     establishAppropriatePageState();
 })
