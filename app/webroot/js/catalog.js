@@ -467,9 +467,15 @@ function getDiagramLayers(productGroup){
 function establishAppropriatePageState(){
     storeCatalogHandles();
 //    var count = 0;
-//    for (var product in catalog.productNames) {
-//        detectPreviousProductPick(product);
-//    }
+    catalog.productNames.live = new Object();
+    // Compile a list of products selected previously
+    for (var product in catalog.productNames) {
+        detectPreviousProductPick(product);
+    }
+    // Render the page sections to match the previous inputs
+    for (var product in catalog.productNames.live) {
+        renderProduct(product);
+    }
     
 }
 
@@ -495,22 +501,43 @@ function storeCatalogHandles(){
 /**
  * Estblish proper page state if a product is selected
  * 
- * Look in a particular product matrix and if there is
- * a selection, go through the process that creates
- * the proper display state.
+ * If a product variant has been select in the radio matrix
+ * go through the price and diagram rendering clicks indicated
+ * in the form to make the page match the inputs
  */
-function detectPreviousProductPick(product){
-    var radios = catalog.handle.productRadios;
-    var count = 0;
-    for (var radio in radios){
-        if ($(radio).attr('checked')){
-            catalog[product]['handle']['productRadio'] = $(radio);
-            revealTable(product);
-            $(radio).trigger('click');
-            triggerOptions(product);
-            updatePriceDisplay(product);
+function renderProduct(product) {
+    var list = catalog.productNames;
+    if (list.live[product]) {
+        $(list[product]['toggle']).trigger('click');
+        $(list.live[product]).trigger('click');
+        var selects = $(list[product]['options']).find('select').filter(':visible');
+        for (var select in selects) {
+            $(select).trigger('change');
+        }
+        var radios = $(list[product]['options']).find('[type="radio"]').filter(':visible');
+        for (var radio in radios) {
+            if(radios[radio].checked) {
+                $(radios[radio]).trigger('click');
+            }
         }
     }
+}
+/**
+ * See if a specific product matrix has a selected item
+ * 
+ * This will indicate existing form data. User has refreshed
+ * page and had made selections, or we came her with data
+ * specifying a product and need to render the diagram and title
+ */
+function detectPreviousProductPick(product){
+    var radios = catalog.productNames[product]['productRadios'];
+    for (var radio in radios){
+        if (radios[radio].checked) {
+            catalog.productNames.live[product] =  radios[radio];
+            return;
+        }
+    }
+    catalog.productNames.live[product] =  false;
 }
 
 /**
