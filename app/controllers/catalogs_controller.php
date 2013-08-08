@@ -104,7 +104,7 @@ class CatalogsController extends AppController {
         $endpaperOptions =  $this->Material->clothOptionList();
         // get data listing core options for the various product categories
         $setlists =  $this->Catalog->getAllProductCategoryOptions();
-        // tell the view what diagram frameworks to include
+        // tell the view what diagram scaffolds to include
         $diagramMap = $this->Catalog->ProductDiagrams();
         
         // prepare javascript for the page

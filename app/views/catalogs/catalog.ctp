@@ -2,13 +2,11 @@
 
     echo $this->Html->wrapScriptBlock($js);
     
-    foreach ($tableSet['Catalog'] as $productCategory => $products) {
+    foreach ($tableSet['Catalog'] as $productCategory => $product) {
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
-        $this->set('setList', $setList);
-        $this->set('productCategory', $productCategory);
-        $this->set('product', $products);
-        echo $this->element('product_table', array($products, $productCategory, $setList), TRUE);
+        $this->set(compact('setList', 'productCategory', 'product'));
+        echo $this->element('product_table', array($product, $productCategory, $setList), TRUE);
 
         echo $this->element('options_all', array(
             $productCategory,
@@ -25,7 +23,7 @@
 <?php
     }
 ?>
-    <table>
+<!--    <table>
         <tr>
             <td colspan="5" valign="top" class="table_name"><div align="right"> <span class="style4"></span>
                     <a href=""> <img src="../gal_nav_images/reset.jpg" name="Reset" border="0" ></a> <span class="style5">
@@ -42,4 +40,4 @@
                     </span><br>
                     <span class="style4">Quote price is an estimate and does not include shipping or sales tax (for CA residents)</span> </div></td>
         </tr>
-    </table>
+    </table>-->
