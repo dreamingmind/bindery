@@ -189,6 +189,12 @@ class WorkshopsController extends AppController {
         }
     }   
 
-        
+    function edit_session($slug){
+    $this->layout = 'noThumbnailPage';
+    $article = $this->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $slug, 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+    $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+
+    }
+    
 }
 ?>
