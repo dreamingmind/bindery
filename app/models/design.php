@@ -10,6 +10,13 @@ class Design extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Supplement' => array(
+			'className' => 'Supplement',
+			'foreignKey' => 'supplement_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 }

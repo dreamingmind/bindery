@@ -26,6 +26,9 @@ class DesignsController extends AppController {
 				$this->Session->setFlash(__('The design could not be saved. Please, try again.', true));
 			}
 		}
+		$users = $this->Design->User->find('list');
+		$supplements = $this->Design->Supplement->find('list');
+		$this->set(compact('users', 'supplements'));
 	}
 
 	function edit($id = null) {
@@ -44,6 +47,9 @@ class DesignsController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Design->read(null, $id);
 		}
+		$users = $this->Design->User->find('list');
+		$supplements = $this->Design->Supplement->find('list');
+		$this->set(compact('users', 'supplements'));
 	}
 
 	function delete($id = null) {

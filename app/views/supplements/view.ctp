@@ -16,16 +16,6 @@
 			<?php echo $supplement['Supplement']['created']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Image'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($supplement['Image']['img_file'], array('controller' => 'images', 'action' => 'view', $supplement['Image']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Collection'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($supplement['Collection']['heading'], array('controller' => 'collections', 'action' => 'view', $supplement['Collection']['id'])); ?>
-			&nbsp;
-		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Type'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $supplement['Supplement']['type']; ?>
@@ -34,6 +24,11 @@
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Data'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $supplement['Supplement']['data']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Content Collection'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $this->Html->link($supplement['ContentCollection']['Content.heading'], array('controller' => 'content_collections', 'action' => 'view', $supplement['ContentCollection']['id'])); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -45,10 +40,6 @@
 		<li><?php echo $this->Html->link(__('Delete Supplement', true), array('action' => 'delete', $supplement['Supplement']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $supplement['Supplement']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Supplements', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Supplement', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Collections', true), array('controller' => 'collections', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Collection', true), array('controller' => 'collections', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>

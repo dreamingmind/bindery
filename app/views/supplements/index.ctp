@@ -5,10 +5,9 @@
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('image_id');?></th>
-			<th><?php echo $this->Paginator->sort('collection_id');?></th>
 			<th><?php echo $this->Paginator->sort('type');?></th>
 			<th><?php echo $this->Paginator->sort('data');?></th>
+			<th><?php echo $this->Paginator->sort('content_collection_id');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -23,14 +22,11 @@
 		<td><?php echo $supplement['Supplement']['id']; ?>&nbsp;</td>
 		<td><?php echo $supplement['Supplement']['modified']; ?>&nbsp;</td>
 		<td><?php echo $supplement['Supplement']['created']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($supplement['Image']['img_file'], array('controller' => 'images', 'action' => 'view', $supplement['Image']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($supplement['Collection']['heading'], array('controller' => 'collections', 'action' => 'view', $supplement['Collection']['id'])); ?>
-		</td>
 		<td><?php echo $supplement['Supplement']['type']; ?>&nbsp;</td>
 		<td><?php echo $supplement['Supplement']['data']; ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($supplement['ContentCollection']['id'], array('controller' => 'content_collections', 'action' => 'view', $supplement['ContentCollection']['id'])); ?>
+		</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $supplement['Supplement']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $supplement['Supplement']['id'])); ?>
@@ -57,10 +53,6 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Supplement', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Images', true), array('controller' => 'images', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Image', true), array('controller' => 'images', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Collections', true), array('controller' => 'collections', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Collection', true), array('controller' => 'collections', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Content Collections', true), array('controller' => 'content_collections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Content Collection', true), array('controller' => 'content_collections', 'action' => 'add')); ?> </li>
 	</ul>
