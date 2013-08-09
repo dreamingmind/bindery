@@ -1,4 +1,5 @@
 <?php
+echo $this->Html->para('', 'It\'s not easy to price truely custom work without some discussion. However, choose from the '.count($tableSet['Catalog']).' product categories below and I\'ll give it a try.');
 
     echo $this->Html->wrapScriptBlock($js);
     
