@@ -82,10 +82,11 @@ class Catalog extends AppModel {
          */
         function getAllProductCategoryOptions(){
             $allOptions = array(
-                'Book_Body' => 'endpapers order',
-                'Journal' => 'belt titling endpapers instructions order',
+                'Book_Body' => 'endpaper order',
+                'Journal' => 'belt titling endpaper instructions order',
                 // reusable gets endpaper because there are selects for a bookbody in its option list
-                'Reusable_Journal' => 'belt titling liners instructions bookbody order endpapers',
+//                'Reusable_Journal' => 'belt titling liners instructions bookbody order endpapers',
+                'Reusable_Journal' => 'belt titling liners instructions order',
                 'Notebook' => 'belt titling liners notbookpockets instructions order penloop',
                 'Portfolio' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Top_Opening' => 'belt titling liners portfoliopocket instructions order penloop',
@@ -136,7 +137,7 @@ class Catalog extends AppModel {
                 'Reusable_Journal' => TRUE,
                 'Notebook' => TRUE,
                 'Portfolio' => TRUE,
-                'Book_Body' => FALSE,
+                'Book_Body' => TRUE,
                 'Top_Opening' => TRUE,
                 'Notebook_Pages' => FALSE,
                 'Mini_Notebook' => TRUE

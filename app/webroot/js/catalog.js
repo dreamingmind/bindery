@@ -594,6 +594,7 @@ function recordOptionState(product, name, inputObj){
     switch (name){
         case ('product') :
             catalog[product][name]['price'] = $(inputObj).attr('price');
+            catalog[product][name]['caveat'] = 'Normal';
             break;
         case ('title'):
             setRadioStylePrice(product, name);
@@ -606,9 +607,10 @@ function recordOptionState(product, name, inputObj){
             setRadioStylePrice(product, name);
             setRadioStyleCaveat(product, name, 'penloop');
             break;
-        case ('bookbody'):
-            lookupBookbodyPrice(product, inputObj);
-            break;
+//        bookbody ordering in Reusable Journals is suspended for now
+//        case ('bookbody'):
+//            lookupBookbodyPrice(product, inputObj);
+//            break;
     }
 }
 
@@ -622,35 +624,40 @@ function setRadioStyleCaveat(product, name, caveat){
     catalog[product][name]['caveat'] = ($(obj).val() == '1') ? caveat : false;
 }
 
-function lookupBookbodyPrice(product, inputObj){
-            // this time inputObj includes three selects
-            // there are two required values before I can calc
-            var required = true;
-            for (i=0; i < inputObj.length; i++) {
-                required = $(inputObj[i]).val() == -1 ? false : required;
-            }
-            if (required) {
-                // The first char of the (cover) product number
-                var one = ($(catalog[product]['product']['handle']).val())[0];
-                // The third char of the page count (the first select)
-                var two = ($(inputObj[0]).val())[2];
-                // and the code for printed or blank (the second select)
-                switch ($(inputObj[1]).val()) {
-                    case ('blank'):
-                        var three = 'bk';
-                        break;
-                    case ('Other'):
-                        var three = 'x';
-                        break;
-                    default :
-                        var three = 'pk';
-                        break
-                }
-                catalog[product]['bookbody']['price'] = parseInt(pagePricing[one+'8'+two+three]);
-            } else {
-                catalog[product]['bookbody']['price'] = 0;
-            }    
-}
+
+//function lookupBookbodyPrice(product, inputObj){
+//            // this time inputObj includes three selects
+//            // there are two required values before I can calc
+//            var required = true;
+//            for (i=0; i < inputObj.length; i++) {
+//                required = $(inputObj[i]).val() == -1 ? false : required;
+//            }
+//            if (required) {
+//                // The first char of the (cover) product number
+//                var one = ($(catalog[product]['product']['handle']).val())[0];
+//                // The third char of the page count (the first select)
+//                var two = ($(inputObj[0]).val())[2];
+//                // and the code for printed or blank (the second select)
+//                switch ($(inputObj[1]).val()) {
+//                    case ('blank'):
+//                        var three = 'bk';
+//                        break;
+//                    case ('Other'):
+//                        var three = 'x';
+//                        break;
+//                    default :
+//                        var three = 'pk';
+//                        break
+//                }
+//                catalog[product]['bookbody']['price'] = parseInt(pagePricing[one+'8'+two+three]);
+//                catalog[product]['bookbody']['caveat'] = false;
+//            } else {
+//                catalog[product]['bookbody']['price'] = 0;
+//                catalog[product]['bookbody']['caveat'] = 'partialBookbody';
+//            }    
+//}
+
+
 //function determineOptionNodeName(product, inputObj){
 //    for (var name in catalog[product]) {
 //        if ($(inputObj).)
@@ -760,16 +767,16 @@ $(document).ready(function(){
         })
     }
     
-    function initBookbodySelects(){
-        $('select.Bookbody').bind('change', function(){
-            var product = determineProduct(this);
-            
-            // write the catalog object entries
-            // this one sends all necessary inputs, not just the clicked one
-            recordOptionState(product, 'bookbody', $(catalog.productNames[product]['options']).find('.Bookbody'));
-            writePricedTitle(product);
-        })
-    }
+//    function initBookbodySelects(){
+//        $('select.Bookbody').bind('change', function(){
+//            var product = determineProduct(this);
+//            
+//            // write the catalog object entries
+//            // this one sends all necessary inputs, not just the clicked one
+//            recordOptionState(product, 'bookbody', $(catalog.productNames[product]['options']).find('.Bookbody'));
+//            writePricedTitle(product);
+//        })
+//    }
     
     function determineProduct(optionNode){
         return $(optionNode).parents('form').children('table').attr('id');

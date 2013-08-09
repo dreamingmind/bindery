@@ -52,6 +52,8 @@
         'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'),'model' => $model));
     echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'),'model' => $model));
+    echo $this->element('options_endpaper', array($endpaperOptions, 'fieldsetOptions' => array(
+        'option' => 'slave-' . $productCategory, 'setlist' => 'endpaper'),'model' => $model));
     echo $this->element('options_penLoop', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'penloop'),'model' => $model));
     echo $this->element('options_closingBelt', array('fieldsetOptions' => array(

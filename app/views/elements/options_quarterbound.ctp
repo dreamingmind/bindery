@@ -68,15 +68,15 @@ $parameters = array(
                 'setList' => 'Set'
             ),
             'material' => 'cloth liners',
-        ),
-        'endpapers' => array(
-            'type' => 'select',
-            'options' => $endpaperOptions,
-            'div' => array(
-                'option' => 'slave-'.$productCategory,
-                'setList' => 'endpapers'
-            ),
-            'material' => 'endpaper' //this target diagram div background image
+//        ),
+//        'endpapers' => array(
+//            'type' => 'select',
+//            'options' => $endpaperOptions,
+//            'div' => array(
+//                'option' => 'slave-'.$productCategory,
+//                'setList' => 'endpapers'
+//            ),
+//            'material' => 'endpaper' //this target diagram div background image
         )
     )
 );

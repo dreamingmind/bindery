@@ -48,7 +48,7 @@ if ($diagramMap[$productCategory]) {
         echo $this->Html->div($productCategory, NULL, array(
             'id' => 'endpaper',
             'option' => 'slave-'.$productCategory,
-            'setlist' => 'endpapers',
+            'setlist' => 'endpaper',
             'material' => 'endpaper'));
         echo '</div>';
     //    echo $this->Html->div($productCategory, NULL, array(
