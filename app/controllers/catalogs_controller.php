@@ -18,7 +18,7 @@
 class CatalogsController extends AppController {
 
     var $name = 'Catalogs';
-    var $uses = array('Catalog', 'Material');
+    var $uses = array('Catalog', 'Material', 'Design');
     var $helpers = array('TableParser', 'Number');
 
     function beforeFilter() {
