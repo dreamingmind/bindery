@@ -52,18 +52,18 @@
     }
     echo $this->element('email', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
-    echo $this->element('options_ruling', array('fieldsetOptions' => array(
-        'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'),'model' => $model));
     echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'),'model' => $model));
+    echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
+        'option' => 'slave-' . $productCategory, 'setlist' => 'belt'),'model' => $model));
     echo $this->element('options_endpaper', array($endpaperOptions, 'fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'endpaper'),'model' => $model));
+    echo $this->element('options_ruling', array('fieldsetOptions' => array(
+        'option' => 'slave-' . $productCategory, 'setlist' => 'RuledPages'),'model' => $model));
     echo $this->element('options_page_count', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'pagecount'),'model' => $model));
     echo $this->element('options_penLoop', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'penloop'),'model' => $model));
-    echo $this->element('options_closingBelt', array('fieldsetOptions' => array(
-        'option' => 'slave-' . $productCategory, 'setlist' => 'belt'),'model' => $model));
     echo $this->element('options_titling', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'titling'),'model' => $model));
     echo $this->element('options_instructions', array('fieldsetOptions' => array(

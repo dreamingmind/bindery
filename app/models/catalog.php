@@ -58,8 +58,15 @@ class Catalog extends AppModel {
         
         /**
          * Master list of what options carry cost for products
+         * 
+         * This array guides construction of the 'catalog' object on the page.
+         * 'catalog' is the javascript object that guides pricing and caveat
+         * elements on the page, providing the user with context and feedback
+         * 
+         * If an option carries a cost, it must be included here and 
+         * js handlers must be attached to its input to integrate it on the page
          *
-         * @var array
+         * @var array 
          */
         var $allCostOptions = array(
                 'Journal' => array('product', 'belt', 'title'),
@@ -101,6 +108,8 @@ class Catalog extends AppModel {
          * 
          * This will be the object to guide price calcs
          * and provide convenience handles to page elements
+         * @param array $dataSet an array with product names as a key
+         * @return array destined to be a js object to guide page display
          */
         function getCatalogMap($dataSet){
             $catalog = array();

@@ -1,9 +1,14 @@
 /**
+ *======================================
+ * This section handles form preparation of the product diagram scaffold
+ * =====================================
+ */
+/**
  * Calculate positions and sizes for diagram parts setting page css
  * 
  * Strucure:
  * Wrapper Div containing
- *    multipler Layer Divs displaying a major desing surface material properly proportioned
+ *    multipler Layer Divs displaying a major design surface material properly proportioned
  *        containing secondary design Component Divs showing material and properly proportioned
  * Layer Divs IDs are are not unique :-( but not causing problems
  * Layers and Coponents are slaved to both table-radios and option inputs for visibility control
@@ -209,7 +214,7 @@ function specVerticalBelt(params){
 }
 
 /**
- * Create size and position specs for a horizontal closing belt's loop
+ * Create size and position specs for a vertical closing belt's loop
  */
 function specVerticalBeltLoop(params){
     params.beltloop = new Object;
@@ -240,6 +245,12 @@ function writeTopOpeningCss(params){
         params.componentRules = params.componentRules + writeComponentCssRule(params, 'boards');
     }
 }
+
+/**
+ * Write a typical size/position rule for a diagramed component
+ * 
+ * Layers use a different rule writer
+ */
 function writeComponentCssRule(params, componentName){
     var layer = componentName;
     var product = params.product
@@ -407,16 +418,12 @@ function scaleEachLayer(params){
     }
 }
 
+/**
+ * Write a typical size/position rule for a diagram layer
+ * 
+ * Components use a different rule writer
+ */
 function writeLayerCssRule(params, count){
-//        var color = new Array('blue', 'green', 'grey', 'maroon', 'orange');
-//div#case.Journal {
-//    height: 495px;
-//    left: 30px;
-//    padding: 0;
-//    position: absolute;
-//    top: 30px;
-//    width: 386px;
-//}
     var layer = params.layerNames[count];
     var product = params.product
     var left = (count * params.widthOffset) + params.margin.width;
@@ -461,6 +468,11 @@ function getDiagramLayers(productGroup){
     return layer;
 }
 
+/**
+ *======================================
+ * This section handles form input interactions
+ * =====================================
+ */
 /**
  * Read the page inputs and establish proper view state
  */
@@ -554,10 +566,24 @@ function priceSum(product){
     return catalog.productNames[product]['priceSpan'] = '<span class="price">$' + price + '</span><span class="caveat">Estimate</span> ';
 }
 
+/**
+ * Create and store the products title
+ * 
+ * Esentially crunch down all the table x and y
+ * headers into a single string
+ */
 function makeProductTitle(product){
     return catalog.productNames[product]['title'] = $(catalog[product]['product']['handle']).parent().attr('class').replace(/([\d])+_([\d])+/g, '$1.$2').replace(/ /g, ' - ').replace(/_/g, ' ');
 }
 
+/**
+ * The whole title/caveat enchilada
+ * 
+ * Sum the price
+ * Make the title
+ * Put title on the page
+ * Call for the caveat process too
+ */
 function writePricedTitle(product){
     var price = priceSum(product);
     var title = makeProductTitle(product);
@@ -569,6 +595,13 @@ function writePricedTitle(product){
     writeCaveatSet(product);
 }
 
+/**
+ * Build up the caveat strings and output them
+ * 
+ * make the caveats indicated by the catalog oject
+ * flag the div with alert color if necessary
+ * place the package on the page
+ */
 function writeCaveatSet(product){
     var outputPattern = '<p><span class="caveat"> - {0}</span></p>';
     var target = catalog.productNames[product]['caveat'];
@@ -598,24 +631,24 @@ function writeCaveatSet(product){
  * Assumes the option node has a price attribute with the $ price
  * Assumes the catalog.product.nodeName is part of param-node id
  */
-function recordOptionState(product, name, inputObj){
-//    var name = determineOptionNodeName(product, inputObj)
-    catalog[product][name]['handle'] = inputObj;
-    switch (name){
+function recordOptionState(product, option, inputObj){
+//    var option = determineOptionNodeName(product, inputObj)
+    catalog[product][option]['handle'] = inputObj;
+    switch (option){
         case ('product') :
-            catalog[product][name]['price'] = $(inputObj).attr('price');
-            catalog[product][name]['caveat'] = 'Normal';
+            catalog[product][option]['price'] = $(inputObj).attr('price');
+            catalog[product][option]['caveat'] = 'Normal';
             break;
         case ('title'):
-            setRadioStylePrice(product, name);
-            setRadioStyleCaveat(product, name, 'titling');
+            setRadioStylePrice(product, option);
+            setRadioStyleCaveat(product, option, 'titling');
             break;
         case ('belt'):
-            setRadioStylePrice(product, name)
+            setRadioStylePrice(product, option)
             break;
         case ('penloop'):
-            setRadioStylePrice(product, name);
-            setRadioStyleCaveat(product, name, 'penloop');
+            setRadioStylePrice(product, option);
+            setRadioStyleCaveat(product, option, 'penloop');
             break;
 //        bookbody ordering in Reusable Journals is suspended for now
 //        case ('bookbody'):
@@ -624,14 +657,30 @@ function recordOptionState(product, name, inputObj){
     }
 }
 
-function setRadioStylePrice(product, name){
-    var obj = catalog[product][name]['handle'];
-    catalog[product][name]['price'] = $(obj).val() * $(obj).attr('price');
+/**
+ * Store the price +/- inicated by a radio button choice
+ * 
+ * This is for yes/no options which carry a $ charge.
+ * Yes = value 1
+ * No = value 0
+ * price attribute carries the charge
+ */
+function setRadioStylePrice(product, option){
+    var obj = catalog[product][option]['handle'];
+    catalog[product][option]['price'] = $(obj).val() * $(obj).attr('price');
 }
 
-function setRadioStyleCaveat(product, name, caveat){
-    var obj = catalog[product][name]['handle'];
-    catalog[product][name]['caveat'] = ($(obj).val() == '1') ? caveat : false;
+/**
+ * Some options create uncertainty, flag them for caveats
+ * 
+ * A radio button option may introduce uncertainty into pricing
+ * For those cases, a call gets made to flag the catalog object
+ * with a caveat index. Later this will be used to construct 
+ * the full caveat block
+ */
+function setRadioStyleCaveat(product, option, caveat){
+    var obj = catalog[product][option]['handle'];
+    catalog[product][option]['caveat'] = ($(obj).val() == '1') ? caveat : false;
 }
 
 
@@ -674,6 +723,13 @@ function setRadioStyleCaveat(product, name, caveat){
 //    }
 //}
 
+/**
+ * main product radiobutton matrix selection process
+ * 
+ * When the user select a new product in the table,
+ * run the radio button through the price/caveat system
+ * the build the appropriate diagram
+ */
 function productRadioClick(e){
     var radioObject = e.currentTarget;
     var product = $(radioObject).parents('table').attr('id');
@@ -689,6 +745,11 @@ function productRadioClick(e){
 
 $(document).ready(function(){
 
+    /**
+     * Make the checkboxes reduce the opacity of portions of the table
+     * 
+     * A simple visual filter
+     */
     function initCheckboxes(){
         // initials filter checkboxes
         $('.filters input[type="checkbox"]').attr('checked','checked').bind('change', function(){
@@ -704,6 +765,13 @@ $(document).ready(function(){
         });
     }
     
+    /**
+     * Populate class attributes to make toggling elements
+     * 
+     * Get the id of one cell in the table and set
+     * all the rows to that class. Makes rows the elements that
+     * respond to the toggle which shows/hides the table
+     */
     function initTableToggleHooks(){
         $('table').each(function(){
             var id = $(this).find('tr[class="table"] > td').attr('id');
@@ -717,6 +785,13 @@ $(document).ready(function(){
 //        })
 //    }
     
+    /**
+     * Set up the banner that shows/hides the product matrix
+     * 
+     * The table gets hidden to start.
+     * Set up some instructions to display for the two
+     * visibility conditions
+     */
     function initTableReveal(){
         // roll up the tables to start
         // and put some instructions in their toggle bar
@@ -737,10 +812,16 @@ $(document).ready(function(){
         });
     }
 
+    /**
+     * bind the handler to product matrix radio buttons
+     */
     function initProductRadios(){
         $('table[class*="Toggle"]').find('input[type="radio"]').bind('click', productRadioClick);
     }
     
+    /**
+     * Bind the handler to closing belt option radio buttons
+     */
     function initClosingBeltRadio(){
         $('.input.Closing_Belt[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
@@ -753,6 +834,9 @@ $(document).ready(function(){
         })
     }
     
+    /**
+     * Bind the handler to closing titling option radio buttons
+     */
     function initTitlingRadio(){
         $('.input.Titling_Options[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
@@ -765,6 +849,9 @@ $(document).ready(function(){
         })
     }
     
+    /**
+     * Bind the handler to closing pen loop option radio buttons
+     */
     function initPenloopRadio(){
         $('.input.Pen_Loop[type="radio"]').bind('click', function(){
             var product = determineProduct(this);
@@ -777,6 +864,8 @@ $(document).ready(function(){
         })
     }
     
+    // this is supressed for now in favor of ordering from the separate book body product matrix
+    // price and caveat problems were cascading down from this approach
 //    function initBookbodySelects(){
 //        $('select.Bookbody').bind('change', function(){
 //            var product = determineProduct(this);
@@ -788,10 +877,18 @@ $(document).ready(function(){
 //        })
 //    }
     
+    /**
+     * Given an option input node, discover which product it belongs to
+     */
     function determineProduct(optionNode){
         return $(optionNode).parents('form').children('table').attr('id');
     }
     
+    /**
+     * Bind a handler to the caveat asterisk click
+     * 
+     * It also acts as a standard toggler
+     */
     function initCaveatClick(){
         $('div#caveat').bind('click',function(){
             $(this).css('background-color', 'khaki')
