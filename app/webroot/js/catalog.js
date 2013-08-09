@@ -579,8 +579,18 @@ function writeCaveatSet(product){
             caveatOut = outputPattern.format(caveat[target]) + caveatOut;
         }
     }
+    var oldlength = ($(catalog.productNames[product]['caveatNode']).html()).length;
+    if (caveatOut.length > oldlength) {
+        $('div#caveat').css('background-color', 'orange');
+    } else if (caveatOut.length < oldlength) {
+        $('div#caveat').css('background-color', 'khaki');
+    }
     $(catalog.productNames[product]['caveatNode']).html(caveatOut);
 }
+
+//function resetCaveatColor(){
+//        $('div#caveat').css('background-color', 'khaki');
+//}
 
 /**
  * Record the handle and price for one option in a product
@@ -782,6 +792,12 @@ $(document).ready(function(){
         return $(optionNode).parents('form').children('table').attr('id');
     }
     
+    function initCaveatClick(){
+        $('div#caveat').bind('click',function(){
+            $(this).css('background-color', 'khaki')
+        });
+    }
+    
     /**
      * Link selects to divs for background replacement in diagrams
      */
@@ -821,6 +837,8 @@ $(document).ready(function(){
     initClosingBeltRadio();
     initTitlingRadio();
     initPenloopRadio();
+    initCaveatClick();
+//    $('div#caveat').bind('click','resetCaveatColor');
 //    initBookbodySelects();
     establishAppropriatePageState();
 })
