@@ -125,6 +125,7 @@ class CatalogsController extends AppController {
      * Return an HTML fragemnt. This was an AJAX call
      */
     function order($dat = 'my data'){
+            debug($this->data);die;
         $this->layout = 'ajax';
         $product = $this->data; //pick off the pertinent array elements here
 //        $this->SpecdProducts->memorizeSpecs($product);
@@ -135,7 +136,7 @@ class CatalogsController extends AppController {
             $this->set('data', $this->data);
         } else {
             //prepare FAILURE return message
-            $this->set('data', $dat);
+            $this->set('data', $this->data);
         }
     }
 
