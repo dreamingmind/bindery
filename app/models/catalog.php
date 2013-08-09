@@ -86,7 +86,7 @@ class Catalog extends AppModel {
                 'Journal' => 'belt titling endpaper instructions order',
                 // reusable gets endpaper because there are selects for a bookbody in its option list
 //                'Reusable_Journal' => 'belt titling liners instructions bookbody order endpapers',
-                'Reusable_Journal' => 'belt titling liners instructions order',
+                'Reusable_Journal' => 'belt titling liners instructions order pagecount',
                 'Notebook' => 'belt titling liners notbookpockets instructions order penloop',
                 'Portfolio' => 'belt titling liners portfoliopocket instructions order penloop',
                 'Top_Opening' => 'belt titling liners portfoliopocket instructions order penloop',
