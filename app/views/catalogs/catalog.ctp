@@ -1,7 +1,7 @@
 <?php
 echo $this->Html->para('', 'It\'s not easy to price truely custom work without some discussion. However, choose from the '.count($tableSet['Catalog']).' product categories below and I\'ll give it a try.');
 
-    echo $this->Html->wrapScriptBlock($js);
+echo $this->Html->wrapScriptBlock($js);
     
     foreach ($tableSet['Catalog'] as $productCategory => $product) {
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));

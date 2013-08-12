@@ -125,13 +125,24 @@ class CatalogsController extends AppController {
      * Return an HTML fragemnt. This was an AJAX call
      */
     function order($dat = 'my data'){
-            debug($this->data);die;
+//            debug($this->data);die;
         $this->layout = 'ajax';
         $product = $this->data; //pick off the pertinent array elements here
 //        $this->SpecdProducts->memorizeSpecs($product);
 //        $result = $this->addToCart($product);
         $result = true;
         if (isset($this->data)) {
+            $data = array(
+                'Design' => array(
+                    'data' => serialize($this->data)
+                )
+            );
+            if ($this->Design->save($data)) {
+                $message = 'Success';
+            } else {
+                $message = 'Failure';
+            }
+            debug($message);
             //prepare SUCCESS return message
             $this->set('data', $this->data);
         } else {

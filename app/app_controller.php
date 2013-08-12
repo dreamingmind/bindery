@@ -156,6 +156,8 @@ class AppController extends Controller {
         '5' => 'Four weeks ago',
         '5.5' => 'Since four weeks ago'
     );
+    
+    var $scripts = '';
 
     function beforeFilter() {
         parent::beforeFilter();
