@@ -204,7 +204,7 @@ div.options fieldset:first-of-type legend {
     width: 100%;
 }*/
 div.options fieldset legend {
-    background: linear-gradient(to bottom, #B3BEAD 0%, #D0D9D7 85%, khaki 80%) repeat scroll 0 0 transparent;
+    background: linear-gradient(to bottom, #B3BEAD 0%, #e0e9e7 30%, #FFFFFF 70%) repeat scroll 0 0 transparent;
     border-top: thin solid #999999;
     color: #025C0D;
     font-size: 72%;
