@@ -25,10 +25,11 @@ class PaypalComponent extends Object {
 	// Sandbox paypal API config
 	public $sandboxConfig = array(
 		'webscr' => 'https://www.sandbox.paypal.com/webscr/',
-		'endpoint' => 'https://api-3t.sandbox.paypal.com/nvp/',
+		'endpoint' => 'https://api-3t.sandbox.paypal.com/nvp',
 		'password' => '1373758950',
 		'email' => 'ddrake@dreamingmind.com',
-		'signature' => 'ANrlbMXUo-yfF9kuWKgOWz14dWXXAVBcsQbD2taAL.Oggcvgh8C7SfR1'
+                'user' => 'ddrake-facilitator_api1.dreamingmind.com',
+		'signature' => 'ANrIbMXUo-yfF9kuWKgOWz14dWXXAVBcsQbD2taAL.Oggcvgh8C7SfR1'
 	);
 
 	// API version
@@ -41,7 +42,7 @@ class PaypalComponent extends Object {
 	public $cancelUrl = '';
 
 	// Default Currency code
-	public $currencyCode = 'GBP';
+	public $currencyCode = 'USD';
 
 	//The amount of the transaction For example, EUR 2.000,00 must be specified as 2000.00 or 2,000.00.	
 	public $amount = null;
@@ -216,7 +217,7 @@ class PaypalComponent extends Object {
 		// Build the NVPs (Named value pairs)	
 		$doExpressCheckoutPaymentNvp = array(
 			'METHOD' => 'DoExpressCheckoutPayment' ,
-			'USER' => $this->config['email'],
+			'USER' => $this->config['user'],
 			'PWD' => $this->config['password'],									
 			'SIGNATURE' => $this->config['signature'],
 			'VERSION' => $this->apiVersion,
@@ -255,7 +256,7 @@ class PaypalComponent extends Object {
 		    	'AMT' => $this->amount,
 		    	'CURRENCYCODE' => $this->currencyCode,
 		    	'IPADDRESS' => $this->ipAddress,
-		    	'USER' => $this->config['email'],
+		    	'USER' => $this->config['user'],
 			'PWD' => $this->config['password'],									
 			'SIGNATURE' => $this->config['signature'],
 			
@@ -291,6 +292,39 @@ class PaypalComponent extends Object {
 		return $this->handleResponse($response);
 				
 	}
+        
+        public function addToCart(){
+            $addToCartNvp = array(
+                'METHOD' => 'BMCreateButton',
+                'SIGNATURE' => $this->config['signature'],
+                'USER' => $this->config['user'],
+                'PWD' => $this->config['password'],									
+                'VERSION' => $this->apiVersion,
+                'BUTTONCODE' => 'ENCRYPTED',
+                'BUTTONTYPE' => 'CART',
+                'CURRENCYCODE' => $this->currencyCode,
+//                'business' => $this->config['email'],
+                'L_BUTTONVAR0' => 'amount=140.00',
+                'L_BUTTONVAR1' => 'item_name=Quarter Bound, 256 Page Journal',
+                'L_BUTTONVAR2' => 'item_number=886bc',
+                'L_BUTTONVAR3' => 'on0=Leather',
+                'L_BUTTONVAR4' => 'os0=Crimson',
+                'L_BUTTONVAR5' => 'on1=Cloth',
+                'L_BUTTONVAR6' => 'os1=Bone',
+                'L_BUTTONVAR7' => 'on2=Closing Belt',
+                'L_BUTTONVAR8' => 'os2=Yes',
+                'L_BUTTONVAR9' => 'on3=Endpapers',
+                'L_BUTTONVAR10' => 'os3=Sand'
+            );
+            
+		// HTTPSocket class		
+		$httpSocket = new HttpSocket();	
+
+		// Post the NVPs to the relevent endpoint
+		$response = $httpSocket->post($this->config['endpoint'] , $addToCartNvp);
+                
+                return $this->handleResponse($response);
+        }
 
 
 	/**
