@@ -239,8 +239,15 @@ $(document).ready(function(){
         displayAddToCartMessage('Adding your item to the cart . . .', formObject.name);
         var url = '/bindery/catalogs/order/blah';
         // now make the ajax call
+//        var posting = $.post(url, formObject.serializedClone, function(){
+//            displayAddToCartMessage(posting.responseText, formObject.name);
+//        });
         var posting = $.post(url, formObject.serializedClone, function(){
-            displayAddToCartMessage(posting.responseText, formObject.name);
+            location.assign(posting.responseText);
+//            displayAddToCartMessage(posting.responseText, formObject.name);
+//        })
+//        .done(function(posting.responseText){
+//            alert(posting.responseText);
         });
     }
     
@@ -273,6 +280,8 @@ $(document).ready(function(){
      * @todo decide on a final plan for messaging
      */
     function displayAddToCartMessage(data, productName){
+//        alert(data);
+//        location.assign(data);
         $('div.'+productName+'message').empty().append(data);
     }
     

@@ -326,6 +326,14 @@ class PaypalComponent extends Object {
                 return $this->handleResponse($response);
         }
 
+        /**
+         * Place Html vars into L_BUTTONVARx array
+         * 
+         * @param type $vars An array containing the Html vars to store
+         */
+        public function varsFromHtmlVars($vars){
+            
+        }
 
 	/**
 	 * Handle PayPal response. Returns parsed array or throws exception
