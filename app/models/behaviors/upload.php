@@ -28,7 +28,7 @@ App::import('Core', array('File', 'Folder'));
      var $destFolder = null;
 
      public function setup(&$model, $settings = array()) {
-         parent::setup(&$model, $settings);
+         parent::setup($model, $settings);
          foreach ($settings as $key=>$val){
             $this->fieldname = $key;
             continue;

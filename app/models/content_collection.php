@@ -360,7 +360,7 @@ class ContentCollection extends AppModel {
             )
                 ));
         $content[] = 'Link an article';
-        array_walk($rawList, 'assembleArticleList', &$content);
+        array_walk($rawList, 'assembleArticleList', $content);
         return $content;
     }
 

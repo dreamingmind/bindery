@@ -683,7 +683,7 @@ class ContentsController extends AppController {
             $result = $this->findBlogTarget($conditions);
             if ($result && !empty($result)) {
                 $content = array();
-                array_walk($result, 'resetDate', &$content);
+                array_walk($result, 'resetDate', $content);
                 if (!empty($content)) {
 
                     $message = ($this->Content->saveAll($content['Content'])) ? '<p>' . count($content['Content']) . ' Content record dates reset.</p>' : '<p>' . count($content['Content']) . ' Content record reset failed.</p>';
