@@ -102,7 +102,7 @@ Router::connect('/products/:pname/gallery/*', array('controller' => 'contents', 
 
 Router::connect('/products/:pname/newsfeed/*', array('controller' => 'contents', 'action' => 'newsfeed', 'pname' => null));
 
-Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
+//Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
 
 Router::connect('/products/:pname/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
 

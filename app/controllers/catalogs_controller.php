@@ -20,6 +20,7 @@ class CatalogsController extends AppController {
     var $name = 'Catalogs';
     var $uses = array('Catalog', 'Material', 'Design');
     var $helpers = array('TableParser', 'Number');
+    public $components = array('Paypal');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -87,7 +88,7 @@ class CatalogsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-    function catalog() {
+    function catalog($product) {
 //        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->data)){
             debug($this->data);die;
@@ -96,7 +97,7 @@ class CatalogsController extends AppController {
         $this->scripts[] = 'product_diagram';
         
         // get the table data for pname
-        $tableSet = ($this->Catalog->Collection->getPriceTable($this->params['pname']));
+        $tableSet = ($this->Catalog->Collection->getPriceTable($product));
         // get the select lists for the options
         $leatherOptions =  $this->Material->leatherOptionList();
         $clothOptions =  $this->Material->clothOptionList();
@@ -110,7 +111,7 @@ class CatalogsController extends AppController {
         // prepare javascript for the page
         $caveat = 'var caveat = ' . json_encode($this->caveat);
         $catalog = 'var catalog = ' . json_encode($this->Catalog->getcatalogMap($tableSet));
-        $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($this->params['pname']));
+        $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($product));
         $pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
         $js = "$catalog\r$diagramData\r$pagePricing\r$caveat";
         
@@ -142,9 +143,14 @@ class CatalogsController extends AppController {
             } else {
                 $message = 'Failure';
             }
-            debug($message);
+//            debug($message);
             //prepare SUCCESS return message
             $this->set('data', $this->data);
+            $result = $this->Paypal->addToCart();
+            $websitecode = $result['WEBSITECODE'];
+            $emaillink = $result['EMAILLINK'];
+            $this->set('emaillink', $emaillink);
+//            $this->redirect($emaillink, );
         } else {
             //prepare FAILURE return message
             $this->set('data', $this->data);
