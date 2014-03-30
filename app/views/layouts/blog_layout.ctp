@@ -62,7 +62,7 @@
             echo $form->siteSearch($searchController); // creates DIV id=siteSearch 
             ?>
             <div id="navBar">
-            <?
+            <?php
 //            $tocLookup = array_shift($toc);
 //                debug($toc);//die;
             $this->Html->output('<ul>');
