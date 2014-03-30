@@ -100,23 +100,24 @@ $(document).ready(function(){
     /**
      * Set up the click of a node to control the mixed visibility of a set of nodes
      * 
-     * Any <item option = "master" + [-nameSpace] class = "foo bar"> will make visible
-     * <item option = "slave" + [-nameSpace] class = "foo" + ["foobar"]> OR <item option "slave" + [-nameSpace] class = "bar" + ["foobar"]>
-     * and will make invisible any
-     * <item option = "slave" + [-nameSpace] class != "foo"> And <item option = "slave" + [-nameSpace] class != "bar>
+     * Any <item option = "master" + [-nameSpace] setlist = "foo bar"> 
+     * will make VISIBLE
+     * <item option = "slave" + [-nameSpace] setlist = "foo" + " baz"> || <item option "slave" + [-nameSpace] setlist = "bar" + " baz">
+     * and will make INVISIBLE any
+     * <item option = "slave" + [-nameSpace] setlist != "foo"> && <item option = "setlist" + [-nameSpace] class != "bar">
      * 
      * First grab all <item option = "slave" + [-nameSpace]> and hide
      * Then reveal each eligible item
      * 
      * To have a Slave node that is a Master to other nodes:
-     * <p option="slave-alpha" class="message">
-     *     <span option="master-beta" class="usage">
+     * <p option="slave-alpha" setlist="message">
+     *     <span option="master-beta" setlist="usage">
      *         You can have a closing belt (click for usage)
      *     </span>
      * </p>
      * In this case, the slave's slave must respond to both parents:
-     * <p option="slave-alpha" class="message">
-     *     <span option="slave-beta class="usage">
+     * <p option="slave-alpha" setlist="message">
+     *     <span option="slave-beta setlist="usage">
      *         Good for journals, notebooks and portfolios
      *     </span>
      * </p>
@@ -280,8 +281,6 @@ $(document).ready(function(){
      * @todo decide on a final plan for messaging
      */
     function displayAddToCartMessage(data, productName){
-//        alert(data);
-//        location.assign(data);
         $('div.'+productName+'message').empty().append(data);
     }
     
