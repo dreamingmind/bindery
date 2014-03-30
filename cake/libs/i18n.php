@@ -5,12 +5,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -321,8 +321,10 @@ class I18n extends Object {
 			$this->__domains[$domain][$this->__lang][$this->category] = array();
 			return $domain;
 		}
-
-		if ($head = $this->__domains[$domain][$this->__lang][$this->category][""]) {
+		
+		if (isset($this->__domains[$domain][$this->__lang][$this->category][""])) {
+			$head = $this->__domains[$domain][$this->__lang][$this->category][""];
+			
 			foreach (explode("\n", $head) as $line) {
 				$header = strtok($line,":");
 				$line = trim(strtok("\n"));

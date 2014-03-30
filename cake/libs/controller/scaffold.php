@@ -7,12 +7,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.controller
@@ -223,7 +223,7 @@ class Scaffold extends Object {
 	function __scaffoldView($params) {
 		if ($this->controller->_beforeScaffold('view')) {
 
-			$message = __(sprintf("No id set for %s::view()", Inflector::humanize($this->modelKey)), true);
+			$message = sprintf(__("No id set for %s::view()", true), Inflector::humanize($this->modelKey));
 			if (isset($params['pass'][0])) {
 				$this->ScaffoldModel->id = $params['pass'][0];
 			} elseif ($this->_validSession) {
@@ -540,7 +540,7 @@ class Scaffold extends Object {
  * Scaffold View.
  *
  * @package       cake
- * @subpackage    cake.cake.libs.controller
+ * @subpackage    cake.cake.libs.view
 */
 if (!class_exists('ThemeView')) {
 	App::import('View', 'Theme');
@@ -549,7 +549,8 @@ if (!class_exists('ThemeView')) {
 /**
  * ScaffoldView provides specific view file loading features for scaffolded views.
  *
- * @package cake.libs.view
+ * @package       cake
+ * @subpackage    cake.cake.libs.view
  */
 class ScaffoldView extends ThemeView {
 

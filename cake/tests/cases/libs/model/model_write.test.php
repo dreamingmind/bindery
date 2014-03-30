@@ -7,12 +7,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.model
@@ -2674,7 +2674,7 @@ class ModelWriteTest extends BaseModelTest {
 		$this->assertEqual(count($result['Tag']), 2);
 		$this->assertEqual($result['Tag'][0]['tag'], 'tag1');
 		$this->assertEqual(count($result['Comment']), 1);
-		$this->assertEqual(count($result['Comment'][0]['comment']['Article comment']), 1);
+		$this->assertEqual(count($result['Comment'][0]['comment']), 1);
 	}
 
 /**
@@ -3051,7 +3051,8 @@ class ModelWriteTest extends BaseModelTest {
 					'published' => 'Y',
 					'user_id' => 1
 			))
-		), array('validate' => 'only'));
+		), array('validate' => 'first'));
+		$this->assertFalse($result);
 	}
 
 /**
@@ -3890,13 +3891,25 @@ class ModelWriteTest extends BaseModelTest {
 	}
 
 /**
- * testProductUpdateAllWithForeignKey
+ * test updateAll with empty values.
+ *
+ * @return void
+ */
+	function testUpdateAllEmptyValues() {
+		$this->loadFixtures('Author', 'Post');
+		$model = new Author();
+		$result = $model->updateAll(array('user' => '""'));
+		$this->assertTrue($result);
+	}
+
+/**
+ * testUpdateAllWithJoins
  *
  * @link http://code.cakephp.org/tickets/view/69
  * @access public
  * @return void
  */
-	function testProductUpdateAll() {
+	function testUpdateAllWithJoins() {
 		$this->skipIf(
 			$this->db->config['driver'] == 'postgres',
 			'%s Currently, there is no way of doing joins in an update statement in postgresql'
@@ -3941,13 +3954,13 @@ class ModelWriteTest extends BaseModelTest {
 	}
 
 /**
- * testProductUpdateAllWithoutForeignKey
+ * testUpdateAllWithoutForeignKey
  *
  * @link http://code.cakephp.org/tickets/view/69
  * @access public
  * @return void
  */
-    function testProductUpdateAllWithoutForeignKey() {
+    function testUpdateAllWithoutForeignKey() {
 		$this->skipIf(
 			$this->db->config['driver'] == 'postgres',
 			'%s Currently, there is no way of doing joins in an update statement in postgresql'

@@ -5,12 +5,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -275,7 +275,7 @@ class Router {
 		}
 		$defaults += array('plugin' => null);
 		if (empty($options['action'])) {
-			$defaults += array('action' => 'index'); 
+			$defaults += array('action' => 'index');
 		}
 		$routeClass = 'CakeRoute';
 		if (isset($options['routeClass'])) {
@@ -326,10 +326,10 @@ class Router {
  * Router::connectNamed(
  *    array('page' => array('action' => 'index', 'controller' => 'pages')),
  *    array('default' => false, 'greedy' => false)
- * ); 
+ * );
  * }}}
  *
- * @param array $named A list of named parameters. Key value pairs are accepted where values are 
+ * @param array $named A list of named parameters. Key value pairs are accepted where values are
  *    either regex strings to match, or arrays as seen above.
  * @param array $options Allows to control all settings: separator, greedy, reset, default
  * @return array
@@ -612,7 +612,7 @@ class Router {
 
 /**
  * Takes parameter and path information back from the Dispatcher, sets these
- * parameters as the current request parameters that are merged with url arrays 
+ * parameters as the current request parameters that are merged with url arrays
  * created later in the request.
  *
  * @param array $params Parameters and path information
@@ -626,6 +626,7 @@ class Router {
 		$params[0] = array_merge($defaults, (array)$params[0]);
 		$params[1] = array_merge($defaults, (array)$params[1]);
 		list($self->__params[], $self->__paths[]) = $params;
+
 		if (count($self->__paths)) {
 			if (isset($self->__paths[0]['namedArgs'])) {
 				foreach ($self->__paths[0]['namedArgs'] as $arg => $value) {
@@ -691,7 +692,7 @@ class Router {
 	}
 
 /**
- * Reloads default Router settings.  Resets all class variables and 
+ * Reloads default Router settings.  Resets all class variables and
  * removes all connected routes.
  *
  * @access public
@@ -740,7 +741,7 @@ class Router {
  * - A combination of controller/action - the method will find url for it.
  *
  * There are a few 'special' parameters that can change the final URL string that is generated
- * 
+ *
  * - `base` - Set to false to remove the base path from the generated url. If your application
  *   is not in the root directory, this can be used to generate urls that are 'cake relative'.
  *   cake relative urls are required when using requestAction.
@@ -821,7 +822,7 @@ class Router {
 				} elseif (isset($url[$prefix]) && !$url[$prefix]) {
 					unset($url[$prefix]);
 				}
-				if (isset($url[$prefix]) && strpos($url['action'], $prefix) === 0) {
+				if (isset($url[$prefix]) && strpos($url['action'], $prefix . '_') === 0) {
 					$url['action'] = substr($url['action'], strlen($prefix) + 1);
 				}
 			}
@@ -852,7 +853,7 @@ class Router {
 			}
 			$output = str_replace('//', '/', $base . '/' . $output);
 		} else {
-			if (((strpos($url, '://')) || (strpos($url, 'javascript:') === 0) || (strpos($url, 'mailto:') === 0)) || (!strncmp($url, '#', 1))) {
+			if (((strpos($url, '://')) !== false || (strpos($url, 'javascript:') === 0) || (strpos($url, 'mailto:') === 0)) || (!strncmp($url, '#', 1))) {
 				return $url;
 			}
 			if (empty($url)) {
@@ -947,7 +948,14 @@ class Router {
 
 		if (!empty($named)) {
 			foreach ($named as $name => $value) {
-				$output .= '/' . $name . $this->named['separator'] . $value;
+				if (is_array($value)) {
+					$flattend = Set::flatten($value, '][');
+					foreach ($flattend as $namedKey => $namedValue) {
+						$output .= '/' . $name . "[$namedKey]" . $this->named['separator'] . $namedValue;
+					}
+				} else {
+					$output .= '/' . $name . $this->named['separator'] . $value;
+				}
 			}
 		}
 		return $output;
@@ -1239,7 +1247,8 @@ class Router {
  * Not normally created as a standalone.  Use Router::connect() to create
  * Routes for your application.
  *
- * @package cake.libs
+ * @package       cake
+ * @subpackage    cake.cake.libs
  * @since 1.3.0
  * @see Router::connect()
  */
@@ -1454,8 +1463,8 @@ class CakeRoute {
 	}
 
 /**
- * Apply persistent parameters to a url array. Persistant parameters are a special 
- * key used during route creation to force route parameters to persist when omitted from 
+ * Apply persistent parameters to a url array. Persistant parameters are a special
+ * key used during route creation to force route parameters to persist when omitted from
  * a url array.
  *
  * @param array $url The array to apply persistent parameters to.
@@ -1609,12 +1618,13 @@ class CakeRoute {
  * Plugin short route, that copies the plugin param to the controller parameters
  * It is used for supporting /:plugin routes.
  *
- * @package cake.libs
+ * @package       cake
+ * @subpackage    cake.cake.libs
  */
 class PluginShortRoute extends CakeRoute {
 
 /**
- * Parses a string url into an array.  If a plugin key is found, it will be copied to the 
+ * Parses a string url into an array.  If a plugin key is found, it will be copied to the
  * controller parameter
  *
  * @param string $url The url to parse

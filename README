@@ -1,10 +1,28 @@
-Bindery is the business website for Dreaming Mind Studio, a hand book bindery.
+CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC. Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
 
-It's a purpose built CMS that builds galleries, news feeds, workshop descriptions and other presentations.
-The most basic unit of information is an Image.
-An Image hasMany Content so it can be described in various ways.
-Content hasAndBelongsToMany Collections through ContentCollection
+The Cake Software Foundation - promoting development related to CakePHP
+http://cakefoundation.org/
 
-This structure forces a picture-based approach to presenting information
+CakePHP - the rapid development PHP framework
+http://www.cakephp.org
 
-For information: Don Drake, ddrake@dreamingmind.com
+Cookbook - user documentation for learning about CakePHP
+http://book.cakephp.org
+
+API - quick reference to CakePHP
+http://api.cakephp.org
+
+The Bakery - everything CakePHP
+http://bakery.cakephp.org
+
+The Show - live and archived podcasts about CakePHP and more
+http://live.cakephp.org
+
+CakePHP TV - screen casts from events and video tutorials
+http://tv.cakephp.org
+
+CakePHP Google Group - community mailing list and forum
+http://groups.google.com/group/cake-php
+
+#cakephp on irc.freenode.net - chat with CakePHP developers
+irc://irc.freenode.net/cakephp
