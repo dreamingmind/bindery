@@ -13,8 +13,9 @@
  * @package       bindery
  * @subpackage    bindery.Data
  */
-App::import('Behavior', array('MeioUpload'));
-App::import('Core', array('File', 'Folder'));
+App::uses('MeioUpload', 'Model/Behavior');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
 
 //debug(array_flip(get_included_files()));
 //http://amparchive.dreamingmind.com/help/index.php?title=DMCakeSite:Upload_Extension

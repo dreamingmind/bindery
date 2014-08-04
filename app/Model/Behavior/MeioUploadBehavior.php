@@ -12,7 +12,8 @@
  * @package bindery
  * @subpackage bindery.Data
  */
-App::import('Core', array('File', 'Folder'));
+App::uses('File', 'Utility');
+App::uses('Folder', 'Utility');
 
 class MeioUploadBehavior extends ModelBehavior {
 /**

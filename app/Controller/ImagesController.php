@@ -1456,7 +1456,7 @@ class ImagesController extends AppController {
         debug($this->Image->Behaviors->Upload->dup);
         debug($this->Image->Behaviors->Upload->new);
         die;
-        App::import('Helper','Html');
+        App::uses('Html', 'Helper');
     }
 
 }

@@ -35,7 +35,9 @@
  * @package       bindery
  * @subpackage    bindery.Article
  */
-App::import('Core', array('File', 'Folder'));
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 class Image extends AppModel {
     var $name = 'Image';
     var $displayField = 'img_file';
@@ -45,7 +47,9 @@ class Image extends AppModel {
                 'foreignKey' => 'image_id'
             ));
 
-    /*
+			public $allTitles = array();
+			public $recentTitles = array();
+			/*
      * Modified version of Meio Upload Behavior
      * The modification changes the directory structure,
      * adds configuration control for more phpThumb options
@@ -58,29 +62,29 @@ class Image extends AppModel {
      * $this->actsAs['Upload']['img_file']['dir'] = 'img/exhibits'
      * is assumed to be the method from inside this Class
      */
-    var $actsAs = array(
-        'Upload' => array(
-            'img_file' => array(
-                'dir' => 'img/images',
-                'create_directory' => false,
-                'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/png'),
-                'allowed_ext' => array('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'),
-                'thumbnailQuality' => 100, // Global Thumbnail Quality
-                'minHeight' => 54,
-                'zoomCrop' => True,
-                'thumbsizes' => array(
-                    'x54y54'=> array ('width' => 54, 'height' => 54,'opt'=>array('q'=>100, 'zc'=>'C')),
-                    'x75y56' => array ('width' => 75, 'height' => 56),
-                    'x160y120' => array ('width' => 160, 'height' => 120),
-                    'x320y240' => array ('width' => 320, 'height' => 240),
-                    'x500y375' => array ('width' => 500, 'height' => 375),
-                    'x640y480' => array ('width' => 640, 'height' => 480),
-                    'x800y600' => array ('width' => 800, 'height' => 600),
-                    'x1000y750' => array ('width' => 1000, 'height' => 750)
-                ),
-            )
-        )
-    );
+//    var $actsAs = array(
+//        'Upload' => array(
+//            'img_file' => array(
+//                'dir' => 'img/images',
+//                'create_directory' => false,
+//                'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/png'),
+//                'allowed_ext' => array('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'),
+//                'thumbnailQuality' => 100, // Global Thumbnail Quality
+//                'minHeight' => 54,
+//                'zoomCrop' => True,
+//                'thumbsizes' => array(
+//                    'x54y54'=> array ('width' => 54, 'height' => 54,'opt'=>array('q'=>100, 'zc'=>'C')),
+//                    'x75y56' => array ('width' => 75, 'height' => 56),
+//                    'x160y120' => array ('width' => 160, 'height' => 120),
+//                    'x320y240' => array ('width' => 320, 'height' => 240),
+//                    'x500y375' => array ('width' => 500, 'height' => 375),
+//                    'x640y480' => array ('width' => 640, 'height' => 480),
+//                    'x800y600' => array ('width' => 800, 'height' => 600),
+//                    'x1000y750' => array ('width' => 1000, 'height' => 750)
+//                ),
+//            )
+//        )
+//    );
     
     function __construct() {
         parent::__construct();

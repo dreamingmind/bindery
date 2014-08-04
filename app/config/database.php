@@ -89,7 +89,7 @@ class DATABASE_CONFIG {
 //		'prefix' => '',
 //	);
 	var $default = array(
-		'driver' => 'mysql',
+		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'bindery.e.dreamingmind.com',
 //		'port' => '/private/tmp/mysql.sock',

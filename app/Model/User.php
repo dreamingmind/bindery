@@ -180,7 +180,7 @@ class User extends AppModel {
          * @param array $results The found data
          * @return array $results The found data
          */
-        function afterFind($results) {
+        function afterFind($results, $primary = false) {
             //debug($results);
             foreach ($results as $key => $val) {
                 if (isset($val['User']['validate']) && $val['User']['validate'] == 'pending') {
@@ -326,7 +326,7 @@ class User extends AppModel {
          *
          * @return array The id field of the Group record that is parent to user $this->data
          */
-        function beforeSave() {
+        function beforeSave($options = array()) {
 //            debug($this->data);
             //debug($this->userdata);
             if (!$this->userdata) {

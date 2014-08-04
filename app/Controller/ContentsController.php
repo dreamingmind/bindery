@@ -1,6 +1,6 @@
 <?php
 
-App::import('Sanitize');
+App::uses('Sanitize', 'Utility');
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *

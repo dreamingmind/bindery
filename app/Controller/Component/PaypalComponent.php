@@ -6,7 +6,7 @@
 //  Created by Rob Mcvey on 2011-12-03.
 //  Copyright 2011 Rob Mcvey. All rights reserved.
 // 
-App::import('HttpSocket');
+App::uses('HttpSocket', 'Network/Http');
 
 class PaypalComponent extends Component {
 

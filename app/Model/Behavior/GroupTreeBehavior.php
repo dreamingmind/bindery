@@ -5,7 +5,7 @@
  * @package       bindery
  * @subpackage    bindery.Daa
  */
-App::import('Behavior', array('Tree'));
+App::uses('TreeBehavior', 'Model/Behavior');
 
 /**
  * GroupTree Behavior

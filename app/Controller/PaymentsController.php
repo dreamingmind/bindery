@@ -3,7 +3,7 @@
 * Example usuage of Paypal Component
 *
 */
-App::import('AppController', 'Controller');
+App::uses('AppController', 'Controller');
 
 class PaymentsController extends AppController {
 

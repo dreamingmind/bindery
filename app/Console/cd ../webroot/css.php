@@ -37,7 +37,7 @@ if (!class_exists('File')) {
  * @return unknown
  */
 	function make_clean_css($path, $name) {
-		App::import('Vendor', 'csspp' . DS . 'csspp');
+		App::uses('Vendor', 'csspp' . DS . 'csspp');
 		$data = file_get_contents($path);
 		$csspp = new csspp();
 		$output = $csspp->compress($data);

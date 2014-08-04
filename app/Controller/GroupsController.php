@@ -107,7 +107,7 @@ class GroupsController extends AppController {
 				$root = $root[0];
 			}   
 
-			App::import('Core', 'File');
+			App::uses('File', 'Utility');
 			$Controllers = Configure::listObjects('controller');
 			$appIndex = array_search('App', $Controllers);
 			if ($appIndex !== false ) {
@@ -176,7 +176,7 @@ class GroupsController extends AppController {
 		}
 
 		function _getClassMethods($ctrlName = null) {
-			App::import('Controller', $ctrlName);
+			App::uses($ctrlName, 'Controller');
 			if (strlen(strstr($ctrlName, '.')) > 0) {
 				// plugin's controller
 				$num = strpos($ctrlName, '.');
@@ -244,7 +244,8 @@ class GroupsController extends AppController {
 	 *
 	 */
 		function _getPluginControllerNames() {
-			App::import('Core', 'File', 'Folder');
+			App::uses('File', 'Utility');
+			App::uses('Folder', 'Utility');
 			$paths = Configure::getInstance();
 			$folder =& new Folder();
 			$folder->cd(APP . 'plugins');
@@ -270,7 +271,7 @@ class GroupsController extends AppController {
 					// Get the controller name
 					$file = Inflector::camelize(substr($file, 0, strlen($file)-strlen('_controller.php')));
 					if (!preg_match('/^'. Inflector::humanize($pluginName). 'App/', $file)) {
-						if (!App::import('Controller', $pluginName.'.'.$file)) {
+						if (!App::uses($pluginName.'.'.$file, 'Controller')) {
 							debug('Error importing '.$file.' for plugin '.$pluginName);
 						} else {
 							/// Now prepend the Plugin name ...

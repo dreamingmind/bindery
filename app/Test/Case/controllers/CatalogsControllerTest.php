@@ -1,6 +1,6 @@
 <?php
 /* Catalogs Test cases generated on: 2013-01-22 21:44:58 : 1358919898*/
-App::import('Controller', 'Catalogs');
+App::uses('Catalogs', 'Controller');
 
 class TestCatalogsController extends CatalogsController {
 	var $autoRender = false;
