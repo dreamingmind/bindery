@@ -100,7 +100,7 @@ class TestParser {
     function accept() {
     }
     
-    function a() {
+    function array() {
     }
     
     function b() {
