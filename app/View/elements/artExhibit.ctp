@@ -24,7 +24,7 @@
     </style>-->
     <div id="proseblock" >
     <h2 id="exhibitTitle"><?php echo $record['Content']['heading'] ?></h2>
-    <div id="exhibitContent"><?php echo Markdown($record['Content']['content']) ?></div>
+    <div id="exhibitContent"><?php echo $this->Markdown->transform($record['Content']['content']) ?></div>
     </div>
 <?php
 //    if(!empty($details)){

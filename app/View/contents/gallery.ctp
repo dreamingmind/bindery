@@ -35,7 +35,7 @@ echo $this->Html->image(
 </style>
 <div id="proseblock" >
 <h1 class="proseblockheadstyle" id="<?php echo $record['Supplement']['headstyle'] ?>"><?php echo $record['Content']['heading'] ?></h1>
-<div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo Markdown($record['Content']['content']) ?></div>
+<div class="proseblockpgraphstyle markdown" id="<?php echo $record['Supplement']['pgraphstyle'] ?>"><?php echo $this->Markdown->transform($record['Content']['content']) ?></div>
 </div>
 <?php
 // This is the admins edit form for the Content record

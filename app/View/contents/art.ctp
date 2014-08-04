@@ -19,7 +19,7 @@ echo $this->Html->css('search_links');
         'class' => 'related',
         'collection' => $collection['Collection']['id']
     ));
-    echo Markdown($collection['Collection']['text']);
+    echo $this->Markdown->transform($collection['Collection']['text']);
     ?>
  </div>
 <?php

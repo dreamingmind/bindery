@@ -13,7 +13,7 @@ echo $this->Html->image('transparent.png', array('id'=>'noThumbTransparent'));
 <div id="intro">
     <?php
     echo $this->Html->tag('h1',$this->request->params['pname']);
-    echo Markdown($collection['Collection']['text']);
+    echo $this->Markdown->transform($collection['Collection']['text']);
     ?>
  </div>
 <div class="Col2Left">

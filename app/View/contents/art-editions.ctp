@@ -18,7 +18,7 @@ echo $this->Html->image('transparent.png', array('id'=>'noThumbTransparent'));
         'class' => 'related',
         'collection' => $collection['Collection']['id']
     ));
-    echo Markdown($collection['Collection']['text']);
+    echo $this->Markdown->transform($collection['Collection']['text']);
     ?>
  </div>
 <?php
