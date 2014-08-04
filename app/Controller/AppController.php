@@ -358,7 +358,9 @@ SIG;
         // a top level page that might have a splash page
         // explode the url and search for Content. Last one is the splash content.
         // Search from the back!!
-        $routes = explode(DS, $this->params['url']['url']);
+//		debug($this->params);
+//        $routes = explode(DS, $this->params['url']['url']);
+        $routes = explode(DS, $this->request->url);
         $this->splashRoute = $routes[count($routes) - 1];
     }
 

@@ -76,7 +76,7 @@
 		echo $this->Form->input('url',array(
                     'type'=>'hidden',
                     'name'=>'data[url]',
-                    'value'=> '/'.$this->request->params['url']['url'])); //need the slash for a proper path in the redirect
+                    'value'=> '/'.$this->request->url)); //need the slash for a proper path in the redirect
                 echo $this->Form->end();?>
 
             </div>
@@ -101,8 +101,8 @@
             <div id="navBar">
                 <?php
                     //This hack takes care of the empty 'home' route
-                    $this->request->params['url']['url'] = ($this->request->params['url']['url'] == '/') ? 'pages' : $this->request->params['url']['url'];
-                    echo $this->Menu->NavigationMenu($group, array_flip(explode('/', $this->request->params['url']['url'])));
+                    $this->request->params['url']['url'] = ($this->request->url == '/') ? 'pages' : $this->request->url;
+                    echo $this->Menu->NavigationMenu($group, array_flip(explode('/', $this->request->url)));
                     //echo $this->Menu->NavigationMenu2($group, array_flip(explode('/', $this->request->params['url']['url'])));
                 ?>
             </div>  <!-- end of navBar, Main Navigation Menu -->
