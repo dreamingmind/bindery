@@ -61,6 +61,7 @@ class AppController extends Controller {
             //'authorize' => 'crud',
             'allowedActions' => array('display')
         ),
+		'Markdown.Markdown',
         'Session',
         'Email'
     );
