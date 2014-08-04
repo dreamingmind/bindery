@@ -253,7 +253,7 @@ class SluggableBehavior extends ModelBehavior {
 	 * @param object $model Model using the behaviour
 	 * @param array $settings Settings to override for model.
 	 */
-	public function setup($model, $settings = array()) {
+	public function setup(Model $model, $settings = array()) {
 		$default = array(
 			'real' => true,
 			'label' => array('title'),
@@ -293,7 +293,7 @@ class SluggableBehavior extends ModelBehavior {
 	 * @param object $model Model about to be saved.
 	 * @return boolean true if save should proceed, false otherwise
 	 */
-	public function beforeSave($model) {
+	public function beforeSave(Model $model) {
 		$return = parent::beforeSave($model);
 		$settings = $this->settings[$model->alias];
 		$fields = (array) $settings['label'];

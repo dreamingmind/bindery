@@ -21,8 +21,8 @@ class MenuHelper extends AppHelper {
         var $menuHTML = '';
         var $route = DS;
 
-        function __construct() {
-		parent::__construct();
+        function __construct(View $View, $settings = array()) {
+		parent::__construct($View, $settings);
 	}
 	
 	function NavigationMenu($data, $liveNodes) {
