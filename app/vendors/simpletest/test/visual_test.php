@@ -264,8 +264,8 @@
         function Dummy() {
         }
 
-        function array() {
-        }
+//        function array() {
+//        }
     }
     Mock::generate('Dummy');
 
