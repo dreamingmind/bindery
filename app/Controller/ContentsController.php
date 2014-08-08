@@ -330,8 +330,8 @@ class ContentsController extends AppController {
             $message = ($this->Content->saveAll($this->request->data['Content'])) ? 'Content records saved' : 'Content record save failed';
             $message .= ($this->Content->Image->saveAll($this->request->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
-//            $this->redirect('/' . $this->request->params['url']['url'] . '/#'); Why did we do a /# here?
-            $this->redirect('/' . $this->request->params['url']['url']);
+//            $this->redirect('/' . $this->request->request->url . '/#'); Why did we do a /# here?
+            $this->redirect('/' . $this->request->request->url);
         }
         if (empty($this->request->data)) {
             $this->layout = 'ajax';
@@ -819,7 +819,7 @@ class ContentsController extends AppController {
 //            array(
 //                '/[\/]?page:[0-9]+/',
 //                '/[\/]?id:[0-9]+/'
-//            ), '', $this->request->params['url']['url']);
+//            ), '', $this->request->request->url);
 //        $target = explode('/', $url);
 //        // extract the last non-page/non-id bit off the url as pname
 //        $this->request->params['pname'] = $target[count($target)-1];
@@ -1163,7 +1163,7 @@ class ContentsController extends AppController {
 //            debug($this->request->params);
 //            debug($this->passedArgs);//die;
             $n = $this->filmstripNeighbors();
-            $uri = preg_replace('/\/id:[\d]+/', '/page:' . $n[$this->passedArgs['id']]['page'] . '/#id' . $this->passedArgs['id'], $this->request->params['url']['url']);
+            $uri = preg_replace('/\/id:[\d]+/', '/page:' . $n[$this->passedArgs['id']]['page'] . '/#id' . $this->passedArgs['id'], $this->request->request->url);
 //            debug($uri);die;
             $this->redirect('/' . $uri);
         }

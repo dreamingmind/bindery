@@ -1035,7 +1035,7 @@ class ImagesController extends AppController {
 //        debug($this->searchRecords);die;
             $this->layout = 'noThumbnailPage';
             $this->request->params['action'] = $this->searchAction;
-            $this->request->params['url']['url'] = $this->request->params['controller'].'/'.  $this->searchAction;
+            $this->request->request->url = $this->request->params['controller'].'/'.  $this->searchAction;
 //            debug($this->request->params);
 //            debug($this->searchAction);
             switch($this->searchAction){

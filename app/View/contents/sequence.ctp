@@ -38,8 +38,8 @@ if (isset($sequence_set)){
 //    $('#ContentSequenceForm').preventDefault();
     $('#sequence').bind('click', function(){
 //        data = $('#ContentSequenceForm').serialize();
-//        alert('<?php //echo $this->request->params['url']['url'] ?>');
-        $.post('<?php echo $this->request->params['url']['url'] ?>',$('#ContentSequenceForm').serialize(),function(data){
+//        alert('<?php //echo $this->request->request->url ?>');
+        $.post('<?php echo $this->request->request->url ?>',$('#ContentSequenceForm').serialize(),function(data){
             $('#detail').html(data);
         });
     })

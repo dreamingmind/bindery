@@ -152,7 +152,7 @@ class WorkshopsController extends AppController {
             $message = ($this->Workshop->ContentCollection->Content->saveAll($this->request->data['Content'])) ? 'Content records saved' : 'Content record save failed';
             $message .= ($this->Workshop->ContentCollection->Content->Image->saveAll($this->request->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
-            $this->redirect('/' . $this->request->params['url']['url'] . '/#');
+            $this->redirect('/' . $this->request->request->url . '/#');
         }
         if (empty($this->request->data)) {
             $this->layout = 'ajax';

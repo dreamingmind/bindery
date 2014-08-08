@@ -59,10 +59,10 @@
         <!-- NAVBAR DIV --><div id='navBar'>
             <?php
             //This hack takes care of the empty 'home' route
-//            $this->request->params['url']['url'] = ($this->request->params['url']['url'] == '/') ? 'pages' : $this->request->params['url']['url'];
+//            $this->request->request->url = ($this->request->request->url == '/') ? 'pages' : $this->request->request->url;
             $this->request->url = ($this->request->url == '/') ? 'pages' : $this->request->url;
             echo $this->Menu->NavigationMenu($group, array_flip(explode('/', $this->request->url)));
-            //echo $this->Menu->NavigationMenu2($group, array_flip(explode('/', $this->request->params['url']['url'])));
+            //echo $this->Menu->NavigationMenu2($group, array_flip(explode('/', $this->request->request->url)));
             ?>
         </div>
         <!-- CONTENT DIV --><div id="content">
@@ -76,7 +76,7 @@
             echo $this->Session->flash('email');
 //            debug($group[0]);
 //            debug($group);
-//            debug(array_flip(explode('/', $this->request->params['url']['url'])));
+//            debug(array_flip(explode('/', $this->request->request->url)));
 //            debug($userdata);
 //            debug($authed);
 //            debug('authed user\'s level: ' . $authedLevel);

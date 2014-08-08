@@ -117,7 +117,7 @@ class CollectionsController extends AppController {
                     ? 'Collection record saved'
                     : 'Collectin record save failed';
                 $this->Session->setFlash($message);
-//                $this->redirect('/'.$this->request->params['url']['url'].'/#');
+//                $this->redirect('/'.$this->request->request->url.'/#');
             }
             
             if(empty($this->request->data)){

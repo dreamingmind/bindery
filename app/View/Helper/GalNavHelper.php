@@ -45,7 +45,7 @@ class GalNavHelper extends HtmlHelper {
     function productGalleryThumbnails($productExhibits) {
         $page = $this->Paginator->counter('%page%');
         $c = $this->Paginator->counter('%start%');
-        $controller = explode(DS, $this->request->params['url']['url']);
+        $controller = explode(DS, $this->request->request->url);
         $product = (isset($this->request->params['pname']) && $this->request->params['pname'] != null) ? $this->request->params['pname'] . DS : null;
         $block = "";
         $cumm = '';
@@ -123,7 +123,7 @@ class GalNavHelper extends HtmlHelper {
     function productGalleryThumbnails_x($productExhibits) {
         $page = $this->Paginator->counter('%page%');
         $c = $this->Paginator->counter('%start%');
-        $controller = explode(DS, $this->request->params['url']['url']);
+        $controller = explode(DS, $this->request->request->url);
         $product = (isset($this->request->params['pname']) && $this->request->params['pname'] != null) ? $this->request->params['pname'] . DS : null;
         $block = "";
         $cumm = '';

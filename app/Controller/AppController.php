@@ -359,7 +359,7 @@ SIG;
         // explode the url and search for Content. Last one is the splash content.
         // Search from the back!!
 //		debug($this->params);
-//        $routes = explode(DS, $this->params['url']['url']);
+//        $routes = explode(DS, $this->request->url);
         $routes = explode(DS, $this->request->url);
         $this->splashRoute = $routes[count($routes) - 1];
     }
@@ -757,7 +757,7 @@ SIG;
                 array(
             '/[\/]?page:[0-9]+/',
             '/[\/]?id:[0-9]+/'
-                ), '', $this->params['url']['url']);
+                ), '', $this->request->url);
         $target = explode('/', $url);
         // extract the last non-page/non-id bit off the url as pname
         $this->params['pname'] = $target[count($target) - 1];

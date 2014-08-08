@@ -308,7 +308,7 @@ class AppHelper extends Helper {
                     array(
                         '/[\/]?page:[0-9]+/',
                         '/[\/]?id:[0-9]+/'
-                    ), '', $this->params['url']['url']);
+                    ), '', $this->request->url);
                 $link = $this->Html->link($number++ . '<br />' . $image,
                          DS.$url.DS. $page .DS.
                         'id:'.$entry['Content']['id'],
@@ -364,7 +364,7 @@ class AppHelper extends Helper {
                     array(
                         '/[\/]?page:[0-9]+/',
                         '/[\/]?id:[0-9]+/'
-                    ), '', $this->params['url']['url']);
+                    ), '', $this->request->url);
         }
 
         // Make the next PAGE link
