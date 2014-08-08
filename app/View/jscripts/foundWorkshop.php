@@ -12,7 +12,7 @@
 //            //and follow it with truncated markdown content
 //            $link_uri = DS.'products'.DS.$exhibit['Workshop']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Workshop']['id'];
 //            $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Workshop']['heading'],45),$link_uri) 
-//                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+//                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
 //            //assemble the image link
 //            $img = $this->Html->image($path.$exhibit['ContentCollection']['0']['Content']['Image']['img_file'], array(
 //    //            'id'=>'im'.$exhibit['Workshop']['Image']['id'],

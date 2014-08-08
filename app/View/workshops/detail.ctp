@@ -37,7 +37,7 @@ foreach ($article as $index => $entry) {
                 'class' => 'scalable ' . $cls)
             )
             . "\n"
-            . $this->Html->div($cls . ' entryText x320y240 markdown', Markdown($entry['Content']['content']), array(''/* the div attributes */)));
+            . $this->Html->div($cls . ' entryText x320y240 markdown', $this->Markdown->transform($entry['Content']['content']), array(''/* the div attributes */)));
 
     //Display the content collection edit button
 //    debug($entry);

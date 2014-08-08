@@ -67,7 +67,7 @@ if(isset($artedition) && !empty($artedition)){
                     'class'=>'scalable '.$cls)
             )
             ."\n"
-            . $this->Html->div($cls . ' entryText x640y480 markdown',Markdown($entry['Content']['content']),
+            . $this->Html->div($cls . ' entryText x640y480 markdown',$this->Markdown->transform($entry['Content']['content']),
             array(''/* the div attributes */)));
 
             if(isset($this->viewVars['usergroupid']) && $this->viewVars['usergroupid']<3){
