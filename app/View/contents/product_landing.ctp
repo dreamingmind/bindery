@@ -51,7 +51,7 @@ function truncateText($text, $length, $force = false, $force_length = 10){
         $count= strlen($text);
         $length = ($count<$length)?$count-10:$length;
     }
-    return TextHelper::truncate($text,$length);
+    return $this->Text->truncate($text,$length);
 }
 //debug($most_recent);
 ?>

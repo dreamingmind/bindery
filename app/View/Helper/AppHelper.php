@@ -36,7 +36,7 @@ App::uses('Helper', 'View');
  */
 class AppHelper extends Helper {
 
-    var $helpers = array ('Html','Time', 'Session', 'Form');
+    var $helpers = array ('Html','Time', 'Session', 'Form', 'Text');
 
     /**
      * @var array $month Selection list of months for Advanced Search
@@ -149,7 +149,7 @@ class AppHelper extends Helper {
             $count= strlen($text);
             $length = ($count<$length) ? $count-$force_cut : $length;
         }
-        return TextHelper::truncate($text,$length,$options);
+        return $this->Text->truncate($text,$length,$options);
     }
 
 

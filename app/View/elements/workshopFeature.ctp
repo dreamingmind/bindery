@@ -9,7 +9,7 @@ $detaillink = ($this->request->params['action']=='upcoming') ? $this->Html->link
 $workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'].$detaillink, array('id' => 'featureHeading'));
 $workshopPicture = $this->Html->image(
         "images/thumb/x160y120/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}", array('id' => 'featurePicture'));
-$workshopContent = TextHelper::truncate($this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']), 550);
+$workshopContent = $this->Text->truncate($this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']), 550);
 $sessioncount = count($feature['Session']);
 //  sprintf slugging
 $dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</span> - %s<span class="%s">%s</span>';
