@@ -36,7 +36,7 @@ App::uses('Helper', 'View');
  */
 class AppHelper extends Helper {
 
-    var $helpers = array ('Html','Time', 'Session', 'Form', 'Text');
+    var $helpers = array ('Html','Time', 'Session', 'Form', 'Text', 'Markdown');
 
     /**
      * @var array $month Selection list of months for Advanced Search
@@ -758,7 +758,7 @@ class AppHelper extends Helper {
         //and follow it with truncated markdown content
         $heading_link = $this->Html->link($this->Html->truncateText($news['Content']['heading'],45),
             $link_uri, array('escape'=>false))
-            . markdown($this->Html->truncateText($clean,100,array('force'=>true)))
+            . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)))
             . $this->Html->para('aside',"Or view as a $blog_link");
 
 
@@ -942,7 +942,7 @@ class AppHelper extends Helper {
         //and follow it with truncated markdown content
         $heading_link = $this->Html->link($this->Html->truncateText($detail['Content']['heading'],35),
             $blog_uri, array('escape'=>false))
-            . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+            . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
 
         //assemble the image link
         $image_link = $this->makeLinkedImage($blog_uri, $detail['Content']['Image'], $path);
@@ -978,13 +978,14 @@ class AppHelper extends Helper {
      * @param type $path
      */
     function foundGalleryBlock(&$view, $exhibit, $path = 'images/thumb/x160y120/'){
+		
             $clean = $this->flattenMarkdown($exhibit['Content']['content']);
             $collection = $this->Html->para('aside',$exhibit['Collection']['heading']);
             //make the heading into the <A> tag
             //and follow it with truncated markdown content
             $link_uri = DS.'products'.DS.$exhibit['Collection']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Content']['id'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Content']['Image'], $path);
 
@@ -1021,7 +1022,7 @@ class AppHelper extends Helper {
             //and follow it with truncated markdown content
             $link_uri = DS.'art'.DS.$exhibit['Collection']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Content']['Image'], $path);
             $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
@@ -1055,7 +1056,7 @@ class AppHelper extends Helper {
             //and follow it with truncated markdown content
             $link_uri = DS.'products'.DS.$exhibit['ContentCollection'][0]['Collection']['slug'].DS.'gallery'.DS.'id:'.$exhibit['Content']['id'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
             $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
@@ -1089,7 +1090,7 @@ class AppHelper extends Helper {
             //and follow it with truncated markdown content
             $link_uri = DS.'art'.DS.$exhibit['ContentCollection'][0]['Collection']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
             $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
@@ -1122,7 +1123,7 @@ class AppHelper extends Helper {
             //and follow it with truncated markdown content
             $link_uri = DS.'workshops'.DS.$exhibit['ContentCollection'][0]['Content']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Workshop']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['ContentCollection']['0']['Content']['Image'], $path);
             $exhibit['Content']=$exhibit['ContentCollection'][0]['Content'];
@@ -1158,7 +1159,7 @@ class AppHelper extends Helper {
             //and follow it with truncated markdown content
             $link_uri = DS.'workshops'.DS.$exhibit['Content']['slug'];
             $heading_link = $this->Html->link($this->Html->truncateText($exhibit['Content']['heading'],45),$link_uri)
-                    . markdown($this->Html->truncateText($clean,100,array('force'=>true)));
+                    . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true)));
             //assemble the image link
             $image_link = $this->makeLinkedImage($link_uri, $exhibit['Image'], $path);
             $adminLinks = $this->assembleDateResetLinks($view, $exhibit);
