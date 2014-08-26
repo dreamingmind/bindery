@@ -90,7 +90,7 @@ class CatalogsController extends AppController {
     }
 
     function catalog($product = null) {
-		debug($this->request->params);
+//		debug($this->request->params);
 		$product = $this->request->params['pname'];
 //        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->request->data)){
@@ -121,7 +121,7 @@ class CatalogsController extends AppController {
 
         $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',
                 'diagramMap', 'costOptions', 'js'));
-		debug('catalog');
+//		debug('catalog');
     }
     
     /**

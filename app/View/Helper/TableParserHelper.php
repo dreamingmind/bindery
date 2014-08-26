@@ -273,7 +273,11 @@ class TableParserHelper extends AppHelper {
     public function initYHeaders() {
         $count = 0;
         while ($count < count($this->productChunks)) {
+//            debug($count);
+//            debug($this->productChunks[$count]);
             $this->setYYHeader($count);
+//        debug($count);
+//        debug($this->yyHeaders);
             $this->setYHeader($count);
             $this->setYClass($count);
             $count++;
@@ -285,6 +289,7 @@ class TableParserHelper extends AppHelper {
 
     private function setYYAttributes() {
         if ($this->yyExists) {
+			debug($this->yyHeaders);
             $this->yyAttributes = array_flip($this->yyHeaders);
             $oldCount = 0;
             foreach ($this->yyAttributes as $yyHeader => $count) {
