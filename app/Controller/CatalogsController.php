@@ -8,6 +8,7 @@
  * @package       bindery
  * @subpackage    bindery.Product
  */
+App::uses('AppController', 'Controller');
 
 /**
  * Catalogs Controller
@@ -20,7 +21,7 @@ class CatalogsController extends AppController {
     var $name = 'Catalogs';
     var $uses = array('Catalog', 'Material', 'Design');
     var $helpers = array('TableParser', 'Number');
-    public $components = array('Paypal');
+//    public $components = array('Paypal');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -88,10 +89,12 @@ class CatalogsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-    function catalog($product) {
+    function catalog($product = null) {
+		debug($this->request->params);
+		$product = $this->request->params['pname'];
 //        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->request->data)){
-            debug($this->request->data);die;
+//            debug($this->request->data);die;
         }
         $this->layout = 'noThumbnailPage';
         $this->scripts[] = 'product_diagram';
@@ -118,6 +121,7 @@ class CatalogsController extends AppController {
 
         $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',
                 'diagramMap', 'costOptions', 'js'));
+		debug('catalog');
     }
     
     /**

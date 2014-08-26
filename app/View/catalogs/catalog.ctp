@@ -7,7 +7,7 @@ echo $this->Html->wrapScriptBlock($js);
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
         $setList = $setlists[$productCategory];
         $this->set(compact('setList', 'productCategory', 'product'));
-        echo $this->element('product_table', array($product, $productCategory, $setList), TRUE);
+        echo $this->element('product_table', array($product, $productCategory, $setList));
 
         echo $this->element('options_all', array(
             $productCategory,
@@ -16,8 +16,7 @@ echo $this->Html->wrapScriptBlock($js);
             $clothOptions,
             $endpaperOptions,
             $diagramMap // tells which products get diagrams. Used for element options_productDiagram
-            ),
-            TRUE
+            )
         );
 ?>
     </form>

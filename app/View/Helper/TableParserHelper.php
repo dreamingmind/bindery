@@ -18,8 +18,10 @@
  * @subpackage    bindery.Output
  */
 class TableParserHelper extends AppHelper {
+	
+	public $helpers = array('Html', 'Form');
 
-    /**
+	/**
      *
      * @var object The Html Helper
      */
@@ -119,7 +121,8 @@ class TableParserHelper extends AppHelper {
         $this->setChunkData();
         $this->initYHeaders();
         $this->setYColumnCount();
-        $this->Number = new NumberHelper();
+        $this->Number = new NumberHelper($this->_View);
+		$this->Html = new HtmlHelper($this->_View);
 //        $this->setCheckboxes();
     }
 

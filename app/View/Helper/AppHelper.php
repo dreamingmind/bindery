@@ -265,7 +265,9 @@ class AppHelper extends Helper {
 
         $li = null;
         $path = 'images'.DS.'thumb'.DS.'x54y54'.DS;
-        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['defaults']['limit'];
+//		debug(Debugger::trace());
+//		debug($paginator->params);
+        $number = 1+($paginator->params['paging']['ContentCollection']['page']-1) * $paginator->params['paging']['ContentCollection']['limit'];
         $count = 0;
         $tMin = 1;
         $tMax = count($collection);
@@ -336,6 +338,7 @@ class AppHelper extends Helper {
 
         //Now that we're out of the loop,
         //calc the next page link from the last thumbnail
+		debug($neighbors);
         $nextPageImage = $neighbors[$entry['Content']['id']]['next'];
         $nextPage = $neighbors[$nextPageImage]['page'];
 
