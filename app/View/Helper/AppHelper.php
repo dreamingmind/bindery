@@ -1301,10 +1301,10 @@ class AppHelper extends Helper {
 				} elseif ($useCount) {
 					$cellOptions['class'] = 'column-' . ++$i;
 				}
-				$cellsOut[] = sprintf($this->tags['tableheader'], $this->_parseAttributes($cellOptions), $cell);
+				$cellsOut[] = sprintf('<th%s>%s</th>', $this->_parseAttributes($cellOptions), $cell);
 			}
 			$options = $this->_parseAttributes($count % 2 ? $oddTrOptions : $evenTrOptions);
-			$out[] = sprintf($this->tags['tableheaderrow'], $options, implode(' ', $cellsOut));
+			$out[] = sprintf('<tr%s>%s</tr>', $options, implode(' ', $cellsOut));
 		}
 		return implode("\n", $out);
 	}
