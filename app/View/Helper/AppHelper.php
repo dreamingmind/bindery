@@ -338,7 +338,6 @@ class AppHelper extends Helper {
 
         //Now that we're out of the loop,
         //calc the next page link from the last thumbnail
-		debug($neighbors);
         $nextPageImage = $neighbors[$entry['Content']['id']]['next'];
         $nextPage = $neighbors[$nextPageImage]['page'];
 

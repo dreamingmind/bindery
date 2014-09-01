@@ -227,9 +227,9 @@ p.optionTitle {
 div.options {
     position: relative;
     background: none repeat scroll 0 0 #D0D9D7;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     padding-top: 10px;
-    width: 90%;
+    /*width: 90%;*/
 /*background: #b3bead;  Old browsers */
 background: -moz-linear-gradient(top,  #b3bead 0%, #d0d9d7 60%, #ffffff 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b3bead), color-stop(60%,#d0d9d7), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
