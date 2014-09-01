@@ -114,8 +114,26 @@ class TableParserHelper extends AppHelper {
      */
     var $yColumnCount = 1;
     var $tableName = null;
+	
 
     function initialize($products, $tableName, $setList) {
+		$this->productData = false;
+		$this->productChunks = false;
+		$this->xxHeaders = array();
+		$this->xxAttributes = array();
+		$this->xHeaders = array();
+		$this->yyHeaders = array();
+		$this->yyAttributes = array();
+		$this->yHeaders = array();
+		$this->xClass = array();
+		$this->yClass = array();
+		$this->columnCount = false;
+		$this->rowCount = false;
+		$this->xxExists = false;
+		$this->yyExists = false;
+		$this->yColumnCount = 1;
+		$this->tableName = null;
+		
         $this->setData($products, $tableName, $setList);
         $this->initXHeaders();
         $this->setChunkData();
