@@ -104,6 +104,8 @@ Router::connect('/products/:pname/newsfeed/*', array('controller' => 'contents',
 
 Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
 
+Router::connect('/contents/jump/*', array('controller' => 'contents', 'action' => 'jump'));
+
 Router::connect('/products/:pname/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
 
 Router::connect('/art/*', array('controller' => 'contents', 'action' => 'art'));
