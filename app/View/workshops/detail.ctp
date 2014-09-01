@@ -1,4 +1,4 @@
-<?php
+<?php //
 
 //debug($article);
 //debug($feature);
