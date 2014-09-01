@@ -307,7 +307,6 @@ class TableParserHelper extends AppHelper {
 
     private function setYYAttributes() {
         if ($this->yyExists) {
-			debug($this->yyHeaders);
             $this->yyAttributes = array_flip($this->yyHeaders);
             $oldCount = 0;
             foreach ($this->yyAttributes as $yyHeader => $count) {
