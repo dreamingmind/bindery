@@ -1,6 +1,9 @@
 @charset "UTF-8";
 /* CSS Document */
 
+.hide {
+    display: none;
+}
 #fixedNav {
 	margin: 0px auto 0px auto;
 	padding: 5px 0px 0px 25px;
@@ -53,11 +56,12 @@ img#NTtopTransparent, img.missing {
 input.siteSearchInput {
     width: 162px;
 }
-input.siteSearchButton {
+input.siteSearchButton, img.siteSearchButton {
     float: right;
     width: 21px;
     margin-right: -10px;
     margin-left: 0px;
+    cursor: pointer;
 }
 .inputBox {
 	font-size: 10px;
