@@ -276,6 +276,8 @@ class ContentCollection extends AppModel {
         )
     );
 
+	var $contain;
+	
     /**
      * Return an array of the most recently used Collections
      * 

@@ -906,7 +906,7 @@ class AppHelper extends Helper {
         $image_link = $this->makeLinkedImage($blog_uri, $article['Content']['Image'], $path);
 
         //and output everything in a left-floating div
-        return $this->Html->div('linkDiv',$image_link . $heading_link . markdown($this->Html->truncateText($clean,100,array('force'=>true))) . $adminLinks);
+        return $this->Html->div('linkDiv',$image_link . $heading_link . $this->Markdown->transform($this->Html->truncateText($clean,100,array('force'=>true))) . $adminLinks);
     //}
     }
 

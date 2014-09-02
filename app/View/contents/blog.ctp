@@ -50,7 +50,7 @@ foreach($most_recent as $entry){
                 'class'=>'scalable '.$cls . ' img'.$size)
         )
         ."\n"
-        . $this->Html->div($cls . ' entryText ' . $size . ' markdown',Markdown($entry['Content']['content']),
+        . $this->Html->div($cls . ' entryText ' . $size . ' markdown',$this->Markdown->transform($entry['Content']['content']),
         array(''/* the div attributes */)));
     
     echo $this->element('content_AjaxEdit_editRequestButton', array(
