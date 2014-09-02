@@ -204,7 +204,8 @@ div.options fieldset:first-of-type legend {
     width: 100%;
 }*/
 div.options fieldset legend {
-    background: linear-gradient(to bottom, #B3BEAD 0%, #e0e9e7 30%, #FFFFFF 70%) repeat scroll 0 0 transparent;
+    /*background: linear-gradient(to bottom, #B3BEAD 0%, #e0e9e7 30%, #FFFFFF 70%) repeat scroll 0 0 transparent;*/
+    background-color: transparent;
     border-top: thin solid #999999;
     color: #025C0D;
     font-size: 72%;
@@ -212,16 +213,16 @@ div.options fieldset legend {
     margin-top: -3px;
     padding: 3px 4px 3px 12px;
     width: 100%;
-    border-radius: 5px 5px 5px 5px;
+    /*border-radius: 5px 5px 5px 5px;*/
 }
 
 p.optionTitle {
-    background-color: #C0C8C6;
-    border: thin outset buttonshadow;
+    /*background-color: #C0C8C6;*/
+    border-bottom: thin outset buttonshadow;
     font-size: 100%;
     font-weight: bold;
     padding: 12px;
-    width: 96%;
+    width: 95%;
 }
 
 div.options {
@@ -289,7 +290,7 @@ div#caveat {
     border: thin outset buttonshadow;
     border-radius: 5px;
     cursor: pointer;
-    left: -27px;
+    left: -13px;
     margin-right: -33px;
     padding: 12px 5px 10px 25px;
     position: absolute;
@@ -309,4 +310,10 @@ div.caveatWrapper > p {
 }
 table tr td {
     padding: 5px 3px;
+}
+div.input {
+    margin: 0 0 3px;
+}
+legend.toggle {
+    cursor: pointer;
 }
