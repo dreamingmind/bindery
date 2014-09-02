@@ -26,6 +26,9 @@ class MenuHelper extends AppHelper {
 	}
 	
 	function NavigationMenu($data, $liveNodes) {
+		if ($liveNodes == array('' => 0)) {
+			$liveNodes = array('pages' => 0);
+		}
             ////$data is passed in as a reference. any changes to it here will be seen by the calling code in the array
             $this->menuArray = $data;
             $this->liveNodes = $liveNodes;
