@@ -37,7 +37,7 @@ Router::connect('/home', array('controller' => 'pages', 'action' => 'display', '
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-Router::connect('/pages/materials', array('controller' => 'materials', 'action' => 'select'));
+//Router::connect('/pages/materials', array('controller' => 'materials', 'action' => 'select'));
 
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
 
@@ -114,6 +114,8 @@ Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'up
 Router::connect('/workshops/edit_session/*', array('controller' => 'workshops', 'action' => 'edit_session'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 
+Router::connect('/users/:action/*', array('controller' => 'users', 'action' => 'login'));
+//Router::connect('/users/forgot/*', array('controller' => 'users', 'action' => 'forgot'));
 
 
 //        Router::connect('/admin/:controller',

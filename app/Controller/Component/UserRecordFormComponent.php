@@ -22,7 +22,7 @@ class UserRecordFormComponent extends Component {
 
     var $components = array('Auth');
 
-    function initialize(&$controller) {
+    function initialize(Controller $controller) {
         //$this->controller = $controller;
         //$this->model = &$controller->{$this->controller->modelClass};
     }

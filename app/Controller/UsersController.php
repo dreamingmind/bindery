@@ -138,7 +138,7 @@ class UsersController extends AppController {
     }
 
     function forgot() {
-        //debug($this->referer());
+//        debug($this->referer());
         if ($this->Auth->user() != null) {
             // A logged in user might arrive here because of
             // suspicious activity followed by a failure to
@@ -147,12 +147,15 @@ class UsersController extends AppController {
             $this->Auth->logoutRedirect=array('action'=>'forgot');
             $this->redirect(array('action'=>'logout'));
         }
+//		debug($this->request->params);
        $this->Auth->redirect(array('controller' => 'users', 'action'=>'login'));
        $mode = $this->request->params['pass'][0];
+//	   debug($mode);
        $this->set('mode', $mode);
+//	   debug($this->request->data);
        if (!empty($this->request->data)) {
            $result=($this->User->find('first', array('conditions'=>array('email' => $this->request->data['User']['email']))));
-
+//		   debug($result);
            if (!isset($result['User']) || $this->request->data['User']['email'] == NULL) {
                // couldn't find email in the db
                $this->Session->setFlash('Did not find the email '. $this->request->data['User']['email'] . '.');
@@ -181,9 +184,11 @@ class UsersController extends AppController {
                    }
 
                } else { // email failed to send. Nothing at all was accomplished
+				   debug('fail');die;
                    $this->Session->setFlash('The email could not be sent. Try again');
                }
            }
+	   debug('render');die;
        }
     }
 
@@ -264,7 +269,7 @@ class UsersController extends AppController {
      }
 
     function email($address, $mode, $result) {
-
+		debug(class_implements($this->Email));
        if ($this->request->base == '/bindery') {
          $this->Email->delivery = 'debug';
        }
@@ -275,15 +280,15 @@ class UsersController extends AppController {
        $this->Email->bcc = array('ddrake@dreamingmind.com');
        $this->Email->to = $address;
        $this->Email->subject = 'Dreaming Mind sent the information you requested';
-       if ($mode == 'username') {
-            $this->set('username', $result['User']['username']);
-            return $this->Email->send($mode, 'forgot', 'forgot_username');
-       } else {
-            $this->set('password', $this->makePassword());
+		   if ($mode == 'username') {
+			   $this->set('username', $result['User']['username']);
+			   return $this->Email->send($mode, 'forgot', 'forgot_username');
+		   } else {
+			   $this->set('password', $this->makePassword());
             return $this->Email->send($mode, 'forgot', 'forgot_password');
-       }
-     }
-
+		   }
+	   }
+   
     function makePassword() {
        $rand = '';
        for ($i = 0; $i < 3; $i++){
