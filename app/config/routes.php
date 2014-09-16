@@ -41,11 +41,11 @@ Router::connect('/home', array('controller' => 'pages', 'action' => 'display', '
 
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
 
+
 $staticPages = array(
     'contact',
     'intern',
     'policies',
-    'gitpull'
 );
 
 $staticList = implode('|', $staticPages);
@@ -114,7 +114,7 @@ Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'up
 Router::connect('/workshops/edit_session/*', array('controller' => 'workshops', 'action' => 'edit_session'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 
-Router::connect('/users/:action/*', array('controller' => 'users', 'action' => 'login'));
+Router::connect('/users/:action/*', array('controller' => 'users'));
 //Router::connect('/users/forgot/*', array('controller' => 'users', 'action' => 'forgot'));
 
 
@@ -125,4 +125,17 @@ Router::connect('/users/:action/*', array('controller' => 'users', 'action' => '
 //                array('controller'=>':controller', 'action'=>':action'));
 
 Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
+
+/**
+ * Load all plugin routes. See the CakePlugin documentation on
+ * how to customize the loading of plugin routes.
+ */
+	CakePlugin::routes();
+
+/**
+ * Load the CakePHP default routes. Only remove this if you do not want to use
+ * the built-in default routes.
+ */
+	require CAKE . 'Config' . DS . 'routes.php';
+	
 ?>

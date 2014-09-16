@@ -39,17 +39,17 @@ class User extends AppModel {
                     'rule' => 'notEmpty',
                     'message' => 'You must enter a Username',
                     'last' => true
-                ),
-                'unique' => array (
-                    'rule' => 'isUnique',
-                    'message' => 'Your chosen Username is already in use.',
-                    'last' => true
-                ),
-                'alphnum' => array(
-                    'rule' => 'alphaNumeric',
-                    'message' => 'Usernames must only contain letters and numbers.',
-                    'last' => true
                 )
+//                'unique' => array (
+//                    'rule' => 'isUnique',
+//                    'message' => 'Your chosen Username is already in use.',
+//                    'last' => true
+//                )
+//                'alphnum' => array(
+//                    'rule' => 'alphaNumeric',
+//                    'message' => 'Usernames must only contain letters and numbers.',
+//                    'last' => true
+//                )
             ),
             'email' => array(
                 'content' => array(
@@ -68,16 +68,16 @@ class User extends AppModel {
                 'message' => 'Your email addresses didn\'t match.',
                 'last' => true
             ),
-            'repeat_password' => array(
-                'rule' => array('minLength', 8),
-                'message' => 'Your password must be at least 8',
-                'last' => true
-            ),
-            'password' => array(
-                'rule' => array('minLength', 8),
-                'message' => 'Your password must be at least 8',
-                'last' => true
-            ),
+//            'repeat_password' => array(
+//                'rule' => array('minLength', 8),
+//                'message' => 'Your password must be at least 8',
+//                'last' => true
+//            ),
+//            'password' => array(
+//                'rule' => array('minLength', 8),
+//                'message' => 'Your password must be at least 8',
+//                'last' => true
+//            ),
             'pMatch' => array(
                 'rule' => array('equalTo', 'true'),
                 'message' => 'Your passwords didn\'t match',
@@ -158,15 +158,15 @@ class User extends AppModel {
          * @return void
          */
         function setAuthorizedUser($userrecord = null) {
-            $this->userdata = $userrecord['User'];
+            $this->userdata = $userrecord;
             if ($this->userdata) {
-                $this->usergroupid = $userrecord['User']['group_id'];
-                $this->useractive = $userrecord['User']['active'];
-                $this->username = $userrecord['User']['username'];
-                $this->usergroupid = $userrecord['User']['group_id'];
+                $this->usergroupid = $userrecord['Group']['id'];
+                $this->useractive = $userrecord['active'];
+                $this->username = $userrecord['username'];
+//                $this->usergroupid = $userrecord['User']['group_id'];
                 //$this->usergroup = $this->groupnames[$userrecord['User']['group_id']];
-                $this->userid = $userrecord['User']['id'];
-                $this->useremail = $userrecord['User']['email'];
+                $this->userid = $userrecord['id'];
+                $this->useremail = $userrecord['email'];
             }
         }
 

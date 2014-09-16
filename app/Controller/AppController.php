@@ -48,12 +48,17 @@ class AppController extends Controller {
             ),
             'logoutRedirect' => array(
                 'plugin' => null,
-                'controller' => '/'
+                'controller' => 'pages',
+				'action' => 'home'
             ),
             'loginRedirect' => array(
                 'plugin' => null,
-                'controller' => '/'
+                'controller' => 'pages',
+				'action' => 'home'
             ),
+			'authenticate' => array(
+				'Form'
+			),
             'loginError' => "This message shows up when the wrong credentials are used",
             'authError' => "Please log in to proceed.",
             'authorize' => 'controller',
@@ -248,7 +253,8 @@ var webroot = '". str_replace(array('app/', $_SERVER['DOCUMENT_ROOT']), '', APP)
             $this->userid = $userdata['userid'] = $this->Auth->user('id');
             $this->useremail = $userdata['useremail'] = $this->Auth->user('email');
             $userdata['userdata'] = $this->Auth->user();
-            $userdata['userdata'] = $userdata['userdata']['User']; // compress out the extra 'User' index level
+//			debug($userdata['userdata']);
+//            $userdata['userdata'] = $userdata['userdata']['User']; // compress out the extra 'User' index level
             $this->set($userdata);
             $this->User->setAuthorizedUser($this->Auth->user()); //move this data into User properties for use in the model
             //}
