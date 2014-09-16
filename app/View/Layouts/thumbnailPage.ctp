@@ -15,6 +15,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- HEAD --><head>
+<!-- View/Layouts/thumbnailPage.ctp -->
     <?php echo $this->Html->charset(); ?>
     <!-- TITLE --><title>
         <?php echo __("Don's Cake Page: ");
@@ -27,6 +28,7 @@
     echo $this->Html->css($css);
 
     echo $this->Html->script($scripts);
+	echo $this->fetch('scripts');
 
     echo $scripts_for_layout;
     ?>
