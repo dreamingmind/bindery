@@ -39,12 +39,12 @@ class UserRecordFormComponent extends Component {
      * @param array $data A reference to the controllers $this->request->data array
      */
 
-    function isPasswordMatched(&$data) {
-        $hpass = $this->Auth->password($data['User']['repeat_password']);
-        if ($hpass == $data['User']['password']) {
-            $data['User']['pMatch'] = 'true';
+    function isPasswordMatched($password, $repeat) {
+//        $hpass = $this->Auth->password($data['User']['repeat_password']);
+        if ($repeat == $password) {
+            return 'true';
         } else {
-            $data['User']['pMatch'] = 'false';
+            return 'false';
         }
     }
     
