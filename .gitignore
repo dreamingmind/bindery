@@ -5,3 +5,6 @@ app/Plugin/
 app/Config/
 nbproject
 app/webroot/img/materials
+lib/Cake/Cache/.DS_Store
+.DS_Store
+app/Plugin/Upload
