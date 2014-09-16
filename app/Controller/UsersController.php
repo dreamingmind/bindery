@@ -217,24 +217,26 @@ class UsersController extends AppController {
     }
     function register() {
 
+		debug($this->request->data);
+//		die;
          if(!empty($this->request->data)) {
             //$this->request->data['User']['group_id'] = 3;
             $this->request->data['User']['active'] = 1;
 
             // Insure matched input even if javascript failed
-            $this->UserRecordForm->isPasswordMatched($this->request->data);
+            $this->request->data['User']['pMatch'] = $this->UserRecordForm->isPasswordMatched($this->request->data['User']['password'], $this->request->data['User']['repeat_password']);
             $this->UserRecordForm->isEmailMatched($this->request->data);
 
             $this->request->data['User']['registration_date'] = date('Y-m-d h:i:s');
             $this->User->set($this->request->data);
             if ($this->User->validates(array('fieldList' =>
                 array('username', 'email', 'eMatch', 'repeat_password', 'pMatch')))) {
-                //echo 'validate ok\n';
+                echo 'validate ok\n';
                $this->User->validate = false; // validaton will fail the second time for some reason. Off then.
                if ($this->User->save()) {
                    $this->Auth->login($this->request->data);
                    $this->redirect('/');
-                   //echo 'save ok\n';
+                   echo 'save ok\n';
 
                 } else {
                    echo 'save failed\n';
@@ -243,7 +245,8 @@ class UsersController extends AppController {
                 }
 
             } else {
-
+				
+				debug($this->User->validationErrors);
                 /*
                  * Validation errors were detected. Process them here
                  */
