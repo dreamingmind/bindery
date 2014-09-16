@@ -1,0 +1,7 @@
+app/webroot/img/images/*.*
+app/webroot/img/images/*
+app/tmp/
+app/Plugin/
+app/Config/
+nbproject
+app/webroot/img/materials
