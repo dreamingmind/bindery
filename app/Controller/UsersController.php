@@ -123,12 +123,16 @@ class UsersController extends AppController {
 	}
 
 	function login() {
+		
 		if ($this->Auth->user() != null) {
 			// What's a logged in user doing here? Fix that!
-			$this->redirect(array('action' => 'logout'));
+//			$this->redirect(array('action' => 'logout'));
 		}
 //		$this->Auth->redirect($this->referer());
-		$this->Auth->login();
+		if ($this->Auth->login() && $this->request->is('post')) {
+			$this->redirect($this->Auth->redirectUrl());			
+		}
+		
 		//$this->Session->setFlash("");
 		//Auth Magic
 	}

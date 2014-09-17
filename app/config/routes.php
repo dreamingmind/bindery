@@ -114,8 +114,6 @@ Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'up
 Router::connect('/workshops/edit_session/*', array('controller' => 'workshops', 'action' => 'edit_session'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 
-Router::connect('/users/:action/*', array('controller' => 'users'));
-//Router::connect('/users/forgot/*', array('controller' => 'users', 'action' => 'forgot'));
 
 
 //        Router::connect('/admin/:controller',
