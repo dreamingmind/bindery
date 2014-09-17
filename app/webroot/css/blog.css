@@ -177,8 +177,15 @@ li.article {
 #siteSearchBox {
 	margin-top: 3px;
 	padding: 10px 0px;
-	width: 192px;
+	/*width: 192px;*/
 	margin-left: 45px;
+}
+input.siteSearchButton, img.siteSearchButton {
+    cursor: pointer;
+    float: right;
+    margin-left: 0;
+    margin-right: -18px;
+    width: 21px;
 }
 .toggleHide{
     display: none;
@@ -192,7 +199,13 @@ input.siteSearchButton {
     width: 21px;
     margin-right: -10px;
     margin-left: 0px;
-}
+background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: transparent;
+    float: right;
+    margin-left: 0;
+    margin-right: -10px;
+    width: 21px;}
 .inputBox {
 	font-size: 10px;
 	text-align: right;
