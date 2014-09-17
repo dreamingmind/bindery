@@ -322,7 +322,7 @@ class ContentsController extends AppController {
 //            debug($this->referer());die;
 //            $this->redirect($this->referer());
         }
-        if (!empty($this->request->data)) {
+        if (!empty($this->request->data) && count($this->request->data) > 2) {
 //            debug($this->request->data);die;
             $this->request->params = unserialize($this->request->data['params']);
             $this->passedArgs = unserialize($this->request->data['passedArgs']);
@@ -330,10 +330,9 @@ class ContentsController extends AppController {
             $message = ($this->Content->saveAll($this->request->data['Content'])) ? 'Content records saved' : 'Content record save failed';
             $message .= ($this->Content->Image->saveAll($this->request->data['Image'])) ? "<br />Image records saved" : "<br />Image record save failed";
             $this->Session->setFlash($message);
-//            $this->redirect('/' . $this->request->request->url . '/#'); Why did we do a /# here?
-            $this->redirect('/' . $this->request->request->url);
-        }
-        if (empty($this->request->data)) {
+            $this->redirect($this->request->referer());
+        } else {
+//        if (empty($this->request->data)) {
             $this->layout = 'ajax';
 //        $this->layout = 'noThumbnailPage';
             $packet = $this->Content->find('all', array(
