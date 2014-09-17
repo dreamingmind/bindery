@@ -1201,6 +1201,8 @@ class AppHelper extends Helper {
         return $this->Html->link($img,$uri,array('escape'=>false));
     }
     /**
+	 * 
+	 * Recieving $view, which is $this->_View->viewVars is unecessary
      *
      * @param type $view
      * @param type $news
@@ -1260,8 +1262,8 @@ class AppHelper extends Helper {
                 : 'Here is a reprint of a related blog article.';
             echo $this->Html->tag('h2',$message,array('id'=>'searchCategory'));
             foreach($details as $detail){
-                echo $this->Html->artDetailBlock($this->viewVars, $detail);
-//                echo $this->Html->artDetailBlock($this->viewVars, $detail,'images/thumb/x75y56/');
+//				debug($this->_View->viewVars);
+                echo $this->artDetailBlock($this->_View->viewVars, $detail);
             }
         }
     }
