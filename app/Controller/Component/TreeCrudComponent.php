@@ -23,6 +23,8 @@ class TreeCrudComponent extends Component {
     var $helpers = array(
         'TreeCrud'
     );
+	
+	public $model;
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -83,10 +85,10 @@ class TreeCrudComponent extends Component {
      * @return void
      * @access public
      */
-    function initialize(&$controller, $settings=array()) {
+    function initialize(Controller $controller, $settings=array()) {
         $this->controller = $controller;
-        $this->model = &$controller->{$this->controller->modelClass};
-        $this->request->data = &$controller->data;
+        $this->model = $controller->{$this->controller->modelClass};
+//        $th = $controller->data;
         $this->_set($settings);
         $this->deduceDisplayField();
     }
@@ -177,8 +179,8 @@ class TreeCrudComponent extends Component {
             'indexed_name' => "CONCAT({$this->model->alias}.{$this->model->primaryKey}, \": \", {$this->displayField})"
         );
 
-        if (isset($this->request->data)) {
-            switch ($this->request->data[$this->model->alias]['action']) {
+        if (isset($this->controller->request->data)) {
+            switch ($this->controller->request->data[$this->model->alias]['action']) {
                 case 'e': //New Element
                     $this->newTreeElement();
                     break;
@@ -217,14 +219,14 @@ class TreeCrudComponent extends Component {
         $this->treeDisplay();
 
         // tuck away all the displayField properties for page assembly/function logic
-        $this->request->data['displayField'] = array(
+        $this->controller->request->data['displayField'] = array(
             'displayField' => $this->displayField,
             'model' => $this->displayFieldModel,
             'field' => $this->displayFieldField,
             'link' => $this->displayFieldLink,
             'displayValue' => $this->displayFieldValue
         );
-        $this->request->data['primaryModel'] = $this->model->alias;
+        $this->controller->request->data['primaryModel'] = $this->model->alias;
 
         // If the name field is in primaryModel, the two input choices for new/rename name
         // text input or select input will both point to the same field. To correct
@@ -232,9 +234,9 @@ class TreeCrudComponent extends Component {
         // in the form.
         if (!$this->displayFieldLink) {
             //true means local name field so direct and select name input go to the same field
-            $this->request->data['displayField']['suffix'] = array('direct'=>'-d', 'select'=>'-s');
+            $this->controller->request->data['displayField']['suffix'] = array('direct'=>'-d', 'select'=>'-s');
         } else {
-            $this->request->data['displayField']['suffix'] = array('direct'=>'', 'select'=>'');
+            $this->controller->request->data['displayField']['suffix'] = array('direct'=>'', 'select'=>'');
         }
 
         return $this->tree_crud; //the array with all the assembled lists in it
@@ -278,7 +280,7 @@ class TreeCrudComponent extends Component {
                 
                 $distinctList = array_reverse($distinctList, true);
                 
-                $this->request->data['treeCrudList'] = array(
+                $this->controller->request->data['treeCrudList'] = array(
                     'select' => $selectList,
                     'parent' => $parentList,
                     'distinct' => $distinctList
@@ -314,7 +316,7 @@ class TreeCrudComponent extends Component {
                         0);
                 //debug($formattedTree);
 		$this->controller->set('formatted_tree',$formattedTree); //$this->model->virtualFields;
-                $this->request->data['treeCrudList']['tree'] = $formattedTree;
+                $this->controller->request->data['treeCrudList']['tree'] = $formattedTree;
 //		debug($formatted_tree);
 
                 //foreach ($formatted_tree as $key => $value) {
@@ -380,8 +382,8 @@ class TreeCrudComponent extends Component {
                 $selectField = $this->displayFieldLink."-$form";
                 
                 // while we're here, massage the data array for standard access
-                $this->request->data[$directModel][$this->displayFieldField] = $this->request->data[$directModel][$directField];
-                $this->request->data[$selectModel][$this->displayFieldLink] = $this->request->data[$selectModel][$selectField];
+                $this->controller->request->data[$directModel][$this->displayFieldField] = $this->controller->request->data[$directModel][$directField];
+                $this->controller->request->data[$selectModel][$this->displayFieldLink] = $this->controller->request->data[$selectModel][$selectField];
                 
             } else {
                 // local name in use
@@ -391,18 +393,18 @@ class TreeCrudComponent extends Component {
                 $selectField = $this->displayFieldField."-s-$form";
                 
                 // while we're here, massage the data array for standard access
-                $this->request->data[$this->model->alias][$this->displayFieldField]= 
-                        ($this->request->data[$selectModel][$selectField] != -1)
-                        ? $this->request->data[$selectModel][$selectField]
-                        : $this->request->data[$directModel][$directField];
+                $this->controller->request->data[$this->model->alias][$this->displayFieldField]= 
+                        ($this->controller->request->data[$selectModel][$selectField] != -1)
+                        ? $this->controller->request->data[$selectModel][$selectField]
+                        : $this->controller->request->data[$directModel][$directField];
             }
             $flashMessage = (
-                    $this->request->data[$selectModel][$selectField] == -1 &&
-                    $this->request->data[$directModel][$directField] == '') 
+                    $this->controller->request->data[$selectModel][$selectField] == -1 &&
+                    $this->controller->request->data[$directModel][$directField] == '') 
                     ? "Enter or select a name for your new element" : null;
             $flashMessage .= (
-                    $this->request->data[$selectModel][$selectField] != -1 &&
-                    $this->request->data[$directModel][$directField] != '')
+                    $this->controller->request->data[$selectModel][$selectField] != -1 &&
+                    $this->controller->request->data[$directModel][$directField] != '')
                     ? "You've got the new name indicated in two ways. Please clarify" : null;
 
             return $flashMessage;
@@ -410,21 +412,21 @@ class TreeCrudComponent extends Component {
         }
 
         function newTreeElement() {
-            $flashMessage = ($this->request->data[$this->model->alias]['parent_id'] == -1) ? "Select a parent for your new element. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['parent_id'] == -1) ? "Select a parent for your new element. " : null;
             $flashMessage .= $this->newNameError('e');
 
             if (!$flashMessage) {
-//                $this->setNodeParent($this->model,$this->request->data['New']['parent_id']);
-		if ($this->request->data[$this->model->alias]['parent_id']==0){
-                    unset($this->request->data[$this->model->alias]['parent_id']);
+//                $this->setNodeParent($this->model,$this->controller->request->data['New']['parent_id']);
+		if ($this->controller->request->data[$this->model->alias]['parent_id']==0){
+                    unset($this->controller->request->data[$this->model->alias]['parent_id']);
                 }
-                //debug($this->request->data);
+                //debug($this->controller->request->data);
                 // had a bit of trouble when the foreign table didn't need work
                 // so just a check and suppress it when it's not needed
-                if (isset($this->displayFieldLink) && $this->request->data[$this->displayFieldModel][$this->displayFieldField] != '') {
-                    $this->model->saveAll($this->request->data);
+                if (isset($this->displayFieldLink) && $this->controller->request->data[$this->displayFieldModel][$this->displayFieldField] != '') {
+                    $this->model->saveAll($this->controller->request->data);
                 } else {
-                    $this->model->save($this->request->data[$this->model->alias]);
+                    $this->model->save($this->controller->request->data[$this->model->alias]);
                 }
             } else {
                 $this->flashMessage($flashMessage,'new');
@@ -432,19 +434,19 @@ class TreeCrudComponent extends Component {
 	}
 
 	function renameTreeElement() {
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to rename. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to rename. " : null;
             $flashMessage .= $this->newNameError('r');
 
             if (!$flashMessage) {
-                $this->model->id = $this->request->data[$this->model->alias]['id'];
+                $this->model->id = $this->controller->request->data[$this->model->alias]['id'];
                 // had a bit of trouble when the foreign table didn't need work
                 // so just a check and suppress it when it's not needed
-                if (isset($this->displayFieldLink) && $this->request->data[$this->displayFieldModel][$this->displayFieldField] != '') {
-                    $this->model->saveAll($this->request->data);
+                if (isset($this->displayFieldLink) && $this->controller->request->data[$this->displayFieldModel][$this->displayFieldField] != '') {
+                    $this->model->saveAll($this->controller->request->data);
                 } else {
-                    $this->model->save($this->request->data[$this->model->alias]);
+                    $this->model->save($this->controller->request->data[$this->model->alias]);
                 }
-                //$this->model->saveAll($this->request->data);
+                //$this->model->saveAll($this->controller->request->data);
             } else {
                 $this->flashMessage($flashMessage,'rename');
             }
@@ -452,10 +454,10 @@ class TreeCrudComponent extends Component {
 
 	function deleteTreeElement() {
 
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to delete. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to delete. " : null;
 
             if (!$flashMessage) {
-		$this->model->id = $this->request->data[$this->model->alias]['id'];
+		$this->model->id = $this->controller->request->data[$this->model->alias]['id'];
 		$this->model->delete();
             } else {
                 $this->flashMessage($flashMessage,'delete');
@@ -464,10 +466,10 @@ class TreeCrudComponent extends Component {
 
 	function focusTreeElement() {
 
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to focus. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to focus. " : null;
 
             if (!$flashMessage) {
-		$this->model->id = $this->request->data[$this->model->alias]['id'];
+		$this->model->id = $this->controller->request->data[$this->model->alias]['id'];
 		$this->model->read();
                 //debug($this->model->data);
                 $this->controller->redirect(array('action'=>"manage_tree/lft:{$this->model->data[$this->model->alias]['lft']}/rght:{$this->model->data[$this->model->alias]['rght']}"));
@@ -477,40 +479,40 @@ class TreeCrudComponent extends Component {
 	}
 
 	function moveUpTreeElement() {
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to move. " : null;
-            $flashMessage .= ($this->request->data[$this->model->alias]['delta'] < 1) ? "Enter a positive number of steps. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to move. " : null;
+            $flashMessage .= ($this->controller->request->data[$this->model->alias]['delta'] < 1) ? "Enter a positive number of steps. " : null;
 
             if (!$flashMessage) {
-                $this->model->id = $this->request->data[$this->model->alias]['id'];
-                $this->model->moveup($this->model->id, intval($this->request->data[$this->model->alias]['delta']));
+                $this->model->id = $this->controller->request->data[$this->model->alias]['id'];
+                $this->model->moveup($this->model->id, intval($this->controller->request->data[$this->model->alias]['delta']));
             } else {
                 $this->flashMessage($flashMessage,'up');
             }
 	}
         
 	function moveDownTreeElement() {
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to move. " : null;
-            $flashMessage .= ($this->request->data[$this->model->alias]['delta'] < 1) ? "Enter a positive number of steps. " : null;
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to move. " : null;
+            $flashMessage .= ($this->controller->request->data[$this->model->alias]['delta'] < 1) ? "Enter a positive number of steps. " : null;
 
             if (!$flashMessage) {
-		$this->model->id = $this->request->data[$this->model->alias]['id'];
-		$this->model->movedown($this->model->id, intval($this->request->data[$this->model->alias]['delta']));
+		$this->model->id = $this->controller->request->data[$this->model->alias]['id'];
+		$this->model->movedown($this->model->id, intval($this->controller->request->data[$this->model->alias]['delta']));
             } else {
                 $this->flashMessage($flashMessage,'down');
             }
 	}
 
 	function asignParentTreeElement() {
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == -1) ? "Select a node to assign to a parent. " : null;
-            $flashMessage .= ($this->request->data[$this->model->alias]['parent_id'] == -1  ? "Select a parent." : null);
-            $flashMessage = ($this->request->data[$this->model->alias]['id'] == $this->request->data[$this->model->alias]['parent_id'] ?
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == -1) ? "Select a node to assign to a parent. " : null;
+            $flashMessage .= ($this->controller->request->data[$this->model->alias]['parent_id'] == -1  ? "Select a parent." : null);
+            $flashMessage = ($this->controller->request->data[$this->model->alias]['id'] == $this->controller->request->data[$this->model->alias]['parent_id'] ?
                     "A node can't be its own parent" : $flashMessage);
             if (!$flashMessage) {
-		$this->model->id = $this->request->data[$this->model->alias]['id'];
-		if ($this->request->data[$this->model->alias]['parent_id']==0){
-                    $this->request->data[$this->model->alias]['parent_id'] = null;
+		$this->model->id = $this->controller->request->data[$this->model->alias]['id'];
+		if ($this->controller->request->data[$this->model->alias]['parent_id']==0){
+                    $this->controller->request->data[$this->model->alias]['parent_id'] = null;
                 }
-		$this->model->save($this->request->data);
+		$this->model->save($this->controller->request->data);
             } else {
                 $this->flashMessage($flashMessage,'parent');
             }
