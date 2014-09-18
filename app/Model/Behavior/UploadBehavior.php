@@ -13,7 +13,7 @@
  * @package       bindery
  * @subpackage    bindery.Data
  */
-App::uses('MeioUpload', 'Model/Behavior');
+App::uses('MeioUploadBehavior', 'Model/Behavior');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
@@ -28,7 +28,7 @@ App::uses('File', 'Utility');
      
      var $destFolder = null;
 
-     public function setup(&$model, $settings = array()) {
+     public function setup(Model $model, $settings = array()) {
          parent::setup($model, $settings);
          foreach ($settings as $key=>$val){
             $this->fieldname = $key;
@@ -105,7 +105,7 @@ App::uses('File', 'Utility');
 //         *
 //         * @return <type>
 //         */
-//        function ingest_images(&$model) {
+//        function ingest_images(Model $model) {
 //
 //            $className = $model->name;
 //            $folderName = $this->__fields[$model->name][$this->fieldname]['dir'];
@@ -129,7 +129,7 @@ App::uses('File', 'Utility');
 //         *
 //         * @return <type>
 //         */
-//        function new_up(&$model,$records) {
+//        function new_up(Model $model,$records) {
 //
 //            $className = $model->name;
 //            $folderName = $this->__fields[$model->name][$this->fieldname]['dir'];
@@ -168,7 +168,7 @@ App::uses('File', 'Utility');
  * @return array
  * @access protected
  */
-    function _uploadFile(&$model) {
+    function _uploadFile(Model $model) {
         $data =& $model->data;
         $return = array();
         foreach ($this->__fields[$model->alias] as $fieldName => $options) {
@@ -266,7 +266,7 @@ App::uses('File', 'Utility');
     * @return void
     * @access protected
     */
-        function _createThumbnail(&$model, $source, $target, $fieldName, $params = array()) {
+        function _createThumbnail(Model $model, $source, $target, $fieldName, $params = array()) {
                 $params = array_merge(
                         array(
                                 'thumbnailQuality' => $this->__fields[$model->alias][$fieldName]['thumbnailQuality'],
