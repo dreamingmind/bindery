@@ -99,6 +99,8 @@ class Collection extends AppModel {
             'overwrite'=>true,
             'dups' => 'category_id'
         ));
+		
+		public $allCollections;
         
         /**
          * Return a Cake list array of all collection headings (indexed by id) grouped by category
