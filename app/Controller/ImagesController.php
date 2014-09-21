@@ -501,7 +501,20 @@ class ImagesController extends AppController {
         
         // [2] Save data if present
         if (!empty($this->request->data)) {
-//            debug($this->request->data);die;
+			
+			// *********************************
+			// HACK HACK HACK HACK HACK
+			//
+			// The form was getting mangled. This is a sad hack to reassemble the first records 
+			// image back onto the first records other data. All following records were fine.
+			// 
+			// This whole work flow is up for review. So i didn't spend time finding a proper fix 
+			// *********************************
+			if (isset($this->request->data['Image']['img_file']) && !isset($this->request->data[0]['Image']['img_file'])) {
+				$this->request->data[0]['Image']['img_file'] = $this->request->data['Image']['img_file'];
+				unset($this->request->data['Image']);
+			}
+            debug($this->request->data);
 //            debug($this->Image->actsAs['Upload']['img_file']['allowed_mime']);//die;
             $success = TRUE;
             $message = null;
@@ -553,6 +566,7 @@ class ImagesController extends AppController {
                             $success && TRUE;
                         }
                     } else {
+						debug($this->Image->validationErrors);
                         $message .= 'Failed ' . $val['Image']['img_file']['name'] . '. ';
                         $success && FALSE;
                     }
