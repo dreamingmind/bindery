@@ -200,21 +200,6 @@ CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
  * Establish constants
  * 
  */
-define("KIT", 1);
-define("FOLDER", 2);
-define("PRODUCT", 4);
-define('COMPONENT', 8);
-define("ORDER_COMPONENT", 16);
-define("INVENTORY_KIT", 32);
-define("ON_DEMAND", 64);
-define('INVENTORY_BOTH', 128);
+define ('NEWLINE', "\n");
+define ('TAB', "\t");
 
-define("PULL_KIT", 1);
-define("BROKEN_KITS", 2);
-define("LOOSE_COMPONENT", 8);
-define("KIT_COMPONENT", 16);
-define("KIT_HEADER", 32);
-
-define('IN_STOCK', 0);
-define('LOW_ITEM', 1);
-define('LOW_PRODUCT', 2);

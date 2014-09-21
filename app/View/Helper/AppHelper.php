@@ -85,8 +85,47 @@ class AppHelper extends Helper {
         '5' => 'Four weeks ago',
         '5.5' => 'Since four weeks ago'
     );
-    
-     function output($str, $tab = '') {
+
+	/**
+	 * Parse Html element options from a group array to individual arrays for each element
+	 * 
+	 * Helpers that combine multiple tags need an options array for each tag helper. 
+	 * Given a the names of expected tags in need of options, go through an array of all 
+	 * provided options and record any named sets that exist. Set an empty array for any 
+	 * that aren't explicitly provided. 
+	 * 
+	 * If none of the expected sets were provided explicitly, it is assumed they should all be 
+	 * identical and that the provided array should populate them all
+	 * 
+	 * The returned array can be extract()ed or accessed with indexes
+	 * 
+	 * @param type $tag_attrs
+	 * @param type $provided_attrs
+	 */
+	protected function parseOptions($tag_opts = array(), $provided_opts = array()) {
+		// this will later tell us if none were explicitly provided
+		$count = count($tag_opts);
+		foreach ($tag_opts as $tag) {
+			if (isset($provided_opts[$tag])) {
+				// this one was explicitly provided
+				$out_opts[$tag] = $provided_opts[$tag];
+				$count--;
+			} else {
+				// this one was not explicitly provided
+				$out_opts[$tag] = array();
+			}
+		}
+		// none were explicity provided but some options were. set them all
+		if ($count = count($tag_opts) && !empty($provided_opts)) {
+			foreach ($tag_opts as $tag) {
+				$out_opts[$tag] = $provided_opts;
+			}
+		}
+		// we have a valid options array for each tag named
+		return $out_opts;
+	}
+
+	function output($str, $tab = '') {
         echo "$tab$str\r";
     }
 
@@ -1341,5 +1380,7 @@ class AppHelper extends Helper {
                     'setlist' => 'order'
                 ));
         }
+		
+		
 }
 ?>
