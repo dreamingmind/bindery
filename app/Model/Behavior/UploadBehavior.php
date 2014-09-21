@@ -16,6 +16,8 @@
 App::uses('MeioUploadBehavior', 'Model/Behavior');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
+//App::uses('phpthumb.class', 'Vendors');
+//include_once(VENDORS . 'phpthumb.class.php');
 
 //debug(array_flip(get_included_files()));
 //http://amparchive.dreamingmind.com/help/index.php?title=DMCakeSite:Upload_Extension
@@ -275,10 +277,11 @@ App::uses('File', 'Utility');
                         $params);
 
                 // Import phpThumb class
-                App::import('Vendor', 'phpthumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
+//                App::uses('Vendor', 'phpthumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
+				include_once(APP . 'vendors/phpThumb/phpthumb.class.php');
 
                 // Configuring thumbnail settings
-                $phpThumb = new phpthumb;
+                $phpThumb = new phpthumb();
                 $phpThumb->setSourceFilename($source);
 
                 $w = isset($params['width']);
