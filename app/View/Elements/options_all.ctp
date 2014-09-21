@@ -44,7 +44,7 @@
     ));
     // This should be a call to a method that understands
     // which options belong to which product categories
-    echo $this->element('options_productDiagram', array($productCategory, $diagramMap), TRUE);
+    echo $this->element('options_productDiagram', array($productCategory, $diagramMap));
     echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
     if (isset($usergroupid) && $usergroupid < 3){
         echo $this->element('design_name', array('fieldsetOptions' => array(
