@@ -203,3 +203,4 @@ CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
 define ('NEWLINE', "\n");
 define ('TAB', "\t");
 
+App::uses('dmDebug', 'Lib');
