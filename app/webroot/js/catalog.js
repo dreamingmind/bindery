@@ -906,8 +906,9 @@ $(document).ready(function(){
                     $(this).bind('change', function(){
                         var material = $(this).attr('material');
                         var product = $(this).parents('fieldset').attr('option').replace('slave-','');
+						var image = ($(this).attr('value') == 0) ? 'transparent.png' : $(this).attr('value') + '.jpg';
                         $(diagram).find('div.'+product+'[material="'+material+'"]')
-                            .css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
+                            .css('background','url("'+imagePath+'materials/fullsize/'+ image + '")');
                         // cover material may be controlling liners too
                         if (material == 'cloth board') {
                             if (!$(this).parent('div').siblings('.radio').children('*[value="1"]').attr('checked')){
