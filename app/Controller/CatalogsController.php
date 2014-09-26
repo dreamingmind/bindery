@@ -21,7 +21,7 @@ class CatalogsController extends AppController {
     var $name = 'Catalogs';
     var $uses = array('Catalog', 'Material', 'Design');
     var $helpers = array('TableParser', 'Number');
-//    public $components = array('Paypal');
+    public $components = array('Paypal');
 
     function beforeFilter() {
         parent::beforeFilter();

@@ -97,7 +97,7 @@ class PaypalComponent extends Component {
 	 * @return void
 	 * @author Rob Mcvey
 	 **/
-	public function initialize($controller) {
+	public function initialize(Controller $controller) {
 		$this->_controller = $controller;		
 		$this->ipAddress = $_SERVER['REMOTE_ADDR'];
 		if($this->sandboxMode) {

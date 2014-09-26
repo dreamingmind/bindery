@@ -166,6 +166,7 @@ class AppController extends Controller {
     var $scripts = '';
 
     function beforeFilter() {
+		$this->layout = 'noThumbnailPage';
         parent::beforeFilter();
         // These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array

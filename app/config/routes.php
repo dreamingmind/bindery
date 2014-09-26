@@ -41,6 +41,10 @@ Router::connect('/home', array('controller' => 'pages', 'action' => 'display', '
 
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
 
+/* Paypal IPN plugin */
+Router::connect('/paypal_ipn/process', array('plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'process'));
+///* Optional Route, but nice for administration */
+Router::connect('/paypal_ipn/:action/*', array('plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'index'));
 
 $staticPages = array(
     'contact',
@@ -59,7 +63,7 @@ Router::connect('/:static', array(
         )
 );
 
-
+/* End Paypal IPN plugin */
 //        Router::connect('/products/ingest_images',
 //                array('controller' => 'products', 'action' => 'ingestImages'));
 //        Router::connect('/products/:pname/gallery/:id/:page',
