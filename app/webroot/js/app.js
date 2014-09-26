@@ -244,7 +244,8 @@ $(document).ready(function(){
 //            displayAddToCartMessage(posting.responseText, formObject.name);
 //        });
         var posting = $.post(url, formObject.serializedClone, function(){
-            location.assign(posting.responseText);
+			alert(posting.responseText);
+//            location.assign(posting.responseText);
 //            displayAddToCartMessage(posting.responseText, formObject.name);
 //        })
 //        .done(function(posting.responseText){
