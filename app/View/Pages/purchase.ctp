@@ -8,6 +8,10 @@ $products = array(
 	  <?php
 	  foreach ($products as $product) {
 		  echo $this->Html->tag('li', $this->Html->link($product, array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => $product)));
+		  
+		  // ENHANCEMENT TODO
+		  // Pull this customers past orders and show them under the proper categories
+		  
 	  }
 	  ?>
 	</ul>

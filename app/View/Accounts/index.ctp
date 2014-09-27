@@ -1,4 +1,5 @@
 <div>
+	<p>Where can I show the user's past orders? They are on the Design/Order page...</p>
 <?php
 //debug($this->request->data);
 
@@ -7,7 +8,7 @@ $record = "";
 foreach ($fields as $field) {
     $record .= $this->Html->tableCells(array($field[0], $this->request->data['User'][$field[1]]));
 }
-AppHelper::output("<table>\n$record</table>\n");
+$this->Html->output("<table>\n$record</table>\n");
 
 ?>
 </div>
