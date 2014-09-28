@@ -591,6 +591,8 @@ function writePricedTitle(product){
     $(catalog.productNames[product]['titleNode']).html(price + title);
     // write the title to a form input for delivery to the server
     $(catalog.productNames[product]['titleInput']).attr('value', title);
+	// write the new sum to the paypal button
+	
     // Write the current caveats to the page
     writeCaveatSet(product);
 }
@@ -614,13 +616,30 @@ function writeCaveatSet(product){
     }
     var oldlength = ($(catalog.productNames[product]['caveatNode']).html()).length;
     if (caveatOut.length > oldlength) {
-        $('div#caveat').css('background-color', 'orange');
+//        $('div#caveat').css('background-color', 'orange');
+        $('div#caveat').addClass('warn');
+		caveatToggle($('div#caveat'));
     } else if (caveatOut.length < oldlength) {
-        $('div#caveat').css('background-color', 'khaki');
+//        $('div#caveat').css('background-color', 'khaki');
+        $('div#caveat').removeClass('warn');
+		caveatToggle($('div#caveat'));
     }
     $(catalog.productNames[product]['caveatNode']).html(caveatOut);
 }
 
+    /**
+     * Set up the click on a specific node to control the display-toggle of another node
+     * 
+     * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
+     */
+    function caveatToggle(node){
+        $(node).off('click').on('click',function(){
+            $('.'+$(node).attr('id')).toggle(50,function(){
+                // animation complete.
+            });
+        })
+    }
+    
 //function resetCaveatColor(){
 //        $('div#caveat').css('background-color', 'khaki');
 //}
