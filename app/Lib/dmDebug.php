@@ -64,13 +64,73 @@ class dmDebug extends Object{
 			echo "<pre class=\"$togKey hide\">$ggr</pre>";
 		}
 		echo"</div>";
-		debug($dbg);
+		self::debug($dbg);
 	}
 	
 	public static function ddx($dbg, $title = false, $stack = false) {
 		self::ddd($dbg, $title, $stack);
 		die;
 	}
+	
+	/**
+ * Prints out debug information about given variable.
+ *
+ * Only runs if debug level is greater than zero.
+ *
+ * @param boolean $var Variable to show debug information for.
+ * @param boolean $showHtml If set to true, the method prints the debug data in a browser-friendly way.
+ * @param boolean $showFrom If set to true, the method prints from where the function was called.
+ * @return void
+ * @link http://book.cakephp.org/2.0/en/development/debugging.html#basic-debugging
+ * @link http://book.cakephp.org/2.0/en/core-libraries/global-constants-and-functions.html#debug
+ */
+public static function debug($var, $showHtml = null, $showFrom = true) {
+		if (Configure::read('debug') > 0) {
+			App::uses('Debugger', 'Utility');
+			$file = '';
+			$line = '';
+			$lineInfo = '';
+			if ($showFrom) {
+				$trace = Debugger::trace(array('start' => 1, 'depth' => 2, 'format' => 'array'));
+				$file = str_replace(array(CAKE_CORE_INCLUDE_PATH, ROOT), '', $trace[0]['file']);
+				$line = $trace[0]['line'];
+			}
+			$html = <<<HTML
+<div class="cake-debug-output">
+
+<pre class="cake-debug">
+%s
+</pre>
+</div>
+HTML;
+			$text = <<<TEXT
+%s
+########## DEBUG ##########
+%s
+###########################
+TEXT;
+			$template = $html;
+			if (php_sapi_name() === 'cli' || $showHtml === false) {
+				$template = $text;
+				if ($showFrom) {
+					$lineInfo = sprintf('%s (line %s)', $file, $line);
+				}
+			}
+			if ($showHtml === null && $template !== $text) {
+				$showHtml = true;
+			}
+			$var = Debugger::exportVar($var, 25);
+			if ($showHtml) {
+				$template = $html;
+				$var = h($var);
+				if ($showFrom) {
+					$lineInfo = sprintf('<span><strong>%s</strong> (line <strong>%s</strong>)</span>', $file, $line);
+				}
+			}
+			printf($template, $var);
+		}
+	}
+
 }
 
 ?>

@@ -70,7 +70,7 @@ class AppController extends Controller {
         'Session',
         'Email'
     );
-    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number');
+    var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PaypalIpn.Paypal');
     var $uses = array('Navigator', 'User', 'Account');
     var $record = array();
     var $css = array();

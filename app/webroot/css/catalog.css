@@ -296,6 +296,10 @@ div#caveat {
     position: absolute;
     top: -7px;
 }
+div#caveat.warn{
+    background-color: orange;
+    background-position: 2px -25px;
+}
 div#caveat > div.caveatWrapper {
     background: none;
     padding: 0;

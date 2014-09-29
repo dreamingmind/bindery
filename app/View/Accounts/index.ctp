@@ -1,4 +1,5 @@
 <div>
+	<p>Where can I show the user's past orders? They are on the Design/Order page...</p>
 <?php
 //debug($this->request->data);
 
