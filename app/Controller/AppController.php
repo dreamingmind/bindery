@@ -26,6 +26,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('Controller', 'Controller');
+App::uses('Biscuit', 'Lib');
 /**
  * Short description for class.
  *
@@ -38,6 +39,8 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
     var $components = array(
+		'Cookie',
+		'DebugKit.Toolbar',
         'Acl' => array(
         ),
         'Auth' => array(
@@ -71,7 +74,7 @@ class AppController extends Controller {
         'Email'
     );
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PaypalIpn.Paypal');
-    var $uses = array('Navigator', 'User', 'Account');
+    var $uses = array('Navigator', 'User', 'Account', 'Cart');
     var $record = array();
     var $css = array();
 
@@ -164,11 +167,36 @@ class AppController extends Controller {
     );
     
     var $scripts = '';
-
+	
+	public $Biscuit;
+			
     function beforeFilter() {
+		parent::beforeFilter();
+		
+		// If the user has a cookie and it doesn't match the current Session id, it means 
+		// they've been here before and may have old Cart items linked to the previous Session. 
+		// We'll move those cart items to the current sesion if they exist.
+		
+		// If cookies aren't allowed, we'll send a Flash message the first time we discover the fact
+		
+		// If a Session doesn't exist, one will be created
+		
+		// Logging in changes the Session id also, and would leave an orphan Cart, 
+		// but we take care of that problem in users->login()
+		$this->Biscuit = new Biscuit($this);
+		
+		if ($this->Biscuit->cookiesAllowed()) {
+			
+			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
+				
+				$this->Cart->move($this->Biscuit->storedSessionId(), $this->Session->id());
+				$this->Biscuit->saveSessionId();
+			}
+		}
+
 		$this->layout = 'noThumbnailPage';
-        parent::beforeFilter();
-        // These things should happen regardless of login or permission
+
+		// These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array
         Configure::load('caveat');
         $this->caveat = Configure::read('caveat');
@@ -207,7 +235,7 @@ var webroot = '". str_replace(array('app/', $_SERVER['DOCUMENT_ROOT']), '', APP)
 //    echo $html->css('search_links');
     }
 
-    function beforeRender() {
+	function beforeRender() {
         parent::beforeRender();
 //        debug($this->css);
         $this->set('css', $this->css);
