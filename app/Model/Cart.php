@@ -46,10 +46,8 @@ class Cart extends AppModel {
 		));
 		
 		if (!empty($items)) {
-			dmDebug::ddd($items, 'items');
 			$move = Hash::insert($items, '{n}.Cart.phpsession_id', $newSession);
-			dmDebug::ddd($move, 'move');
-			$this->save($move);
+			$this->saveMany($move);
 		}
 	}
 	
