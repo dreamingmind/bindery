@@ -6,6 +6,11 @@ App::uses('AppController', 'Controller');
  * @property Cart $Cart
  */
 class CartsController extends AppController {
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('index', 'view', 'add', 'edit');
+	}
 
 /**
  * index method
@@ -48,9 +53,8 @@ class CartsController extends AppController {
 			}
 		}
 		$users = $this->Cart->User->find('list');
-		$sessions = $this->Cart->Session->find('list');
 		$supplements = $this->Cart->Supplement->find('list');
-		$this->set(compact('users', 'sessions', 'supplements'));
+		$this->set(compact('users', 'supplements'));
 	}
 
 /**
@@ -76,9 +80,8 @@ class CartsController extends AppController {
 			$this->request->data = $this->Cart->find('first', $options);
 		}
 		$users = $this->Cart->User->find('list');
-		$sessions = $this->Cart->Session->find('list');
 		$supplements = $this->Cart->Supplement->find('list');
-		$this->set(compact('users', 'sessions', 'supplements'));
+		$this->set(compact('users', 'supplements'));
 	}
 
 /**

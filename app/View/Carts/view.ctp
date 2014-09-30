@@ -21,9 +21,9 @@
 			<?php echo $this->Html->link($cart['User']['username'], array('controller' => 'users', 'action' => 'view', $cart['User']['id'])); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Session'); ?></dt>
+		<dt><?php echo __('PHPSession'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($cart['Session']['title'], array('controller' => 'sessions', 'action' => 'view', $cart['Session']['id'])); ?>
+			<?php echo h($cart['Cart']['phpsession_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Design Name'); ?></dt>
@@ -52,8 +52,6 @@
 		<li><?php echo $this->Html->link(__('New Cart'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Sessions'), array('controller' => 'sessions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Session'), array('controller' => 'sessions', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Supplements'), array('controller' => 'supplements', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Supplement'), array('controller' => 'supplements', 'action' => 'add')); ?> </li>
 	</ul>

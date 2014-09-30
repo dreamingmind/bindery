@@ -25,13 +25,6 @@ class Cart extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Session' => array(
-			'className' => 'Session',
-			'foreignKey' => 'session_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Supplement' => array(
 			'className' => 'Supplement',
 			'foreignKey' => 'supplement_id',
@@ -41,12 +34,23 @@ class Cart extends AppModel {
 		)
 	);
 	
-	public function exists($sessionId) {
+	public function cartExists($sessionId) {
 		
 	}
 	
 	public function move($oldSession, $newSession) {
+		$items = $this->find('all', array(
+			'conditions' => array('phpsession_id' => $oldSession),
+			'fields' => array('id', 'phpsession_id'),
+			'contain' => FALSE
+		));
 		
+		if (!empty($items)) {
+			dmDebug::ddd($items, 'items');
+			$move = Hash::insert($items, '{n}.Cart.phpsession_id', $newSession);
+			dmDebug::ddd($move, 'move');
+			$this->save($move);
+		}
 	}
 	
 	public function clear($sessionId) {

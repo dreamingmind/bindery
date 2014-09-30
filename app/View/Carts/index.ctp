@@ -6,7 +6,7 @@
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('session_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('phpsession_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('design_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('data'); ?></th>
 			<th><?php echo $this->Paginator->sort('supplement_id'); ?></th>
@@ -21,7 +21,7 @@
 			<?php echo $this->Html->link($cart['User']['username'], array('controller' => 'users', 'action' => 'view', $cart['User']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($cart['Session']['title'], array('controller' => 'sessions', 'action' => 'view', $cart['Session']['id'])); ?>
+			<?php echo h($cart['Cart']['phpsession_id']); ?>
 		</td>
 		<td><?php echo h($cart['Cart']['design_name']); ?>&nbsp;</td>
 		<td><?php echo h($cart['Cart']['data']); ?>&nbsp;</td>
@@ -56,8 +56,6 @@
 		<li><?php echo $this->Html->link(__('New Cart'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Sessions'), array('controller' => 'sessions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Session'), array('controller' => 'sessions', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Supplements'), array('controller' => 'supplements', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Supplement'), array('controller' => 'supplements', 'action' => 'add')); ?> </li>
 	</ul>
