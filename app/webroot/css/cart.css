@@ -1,0 +1,23 @@
+/*
+CART PALLET - the floating representation of the shopping cart that appears on BUY clicks
+*/
+
+.cart.pallet {
+    border: medium solid #72673a;
+}
+.cart.pallet > p {
+    background-color: #72673a;
+    color: #dcdacf;
+    font-size: 150%;
+    font-weight: bold;
+    margin: -1.4em -1.4em 0;
+    padding: 1em;
+    text-align: center;
+}
+div.pallet {
+    background-color: #e1d7c4;
+    border: thin solid black;
+    padding: 2em;
+    position: absolute;
+}
+

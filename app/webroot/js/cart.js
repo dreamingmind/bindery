@@ -8,10 +8,10 @@ function addToCart(e) {
 	$.ajax({
 		type: "POST",
 		dataType: "HTML",
-		data: '',
+		data: postData,
 		url: webroot+'carts/addToCart',
 		success: function(data) {
-			alert('AJAX SUCCESS\n' + data);
+			$(e.currentTarget).after(data);
 		},
 		error: function(data) {
 			alert('AJAX ERROR\n' + data);

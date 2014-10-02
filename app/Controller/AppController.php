@@ -224,6 +224,7 @@ class AppController extends Controller {
         } else {
             $this->css[] = 'new4';
         }
+		$this->css[] = 'cart';
 
         $this->scripts = array('jquery-1.10.0', 'jquery.fix.clone', 'app', 'cart');
 		

@@ -57,19 +57,32 @@ class CartsController extends AppController {
 		$this->set(compact('users', 'supplements'));
 	}
 	
+	/**
+	 * Save an item to the cart
+	 * 
+	 * This will set $new to the new item's ID
+	 * and $cart to the collection of items in the cart
+	 */
 	public function addToCart() {
 		if ($this->request->is('POST')) {
 			$this->layout = 'ajax';
-		}		
+		}
+		
+		$key = $this->request->data['specs_key']; // this is the array node where the detail specs are listed
+
 		$data = array(
 			'Cart' => array(
 				'user_id' => $this->Auth->user('id'),
 				'phpsession_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
-				'data' => date('r', time())
+				'data' => date('r', time()),
+				'design_name' => $this->request->data[$key]['description'],
+				'price' => rand(100, 300)
 			)
 		);
 		
 		$this->Cart->save($data);
+		$this->set('new', $this->Cart->id);
+		$this->set('cart', $this->Cart->fetch($this->Session));
 	}
 
 /**
