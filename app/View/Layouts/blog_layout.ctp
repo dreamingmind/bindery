@@ -136,6 +136,12 @@
     <?php
     echo $this->Js->writeBuffer(); // Write cached scripts
 //    debug($collectionPage);
-    ?>
+
+	// The repository for all the js vars that get 
+	// accumulated during the visit. 
+	// jsGlobalVars fetch block ends up here
+	echo $this->element('jsGlobals');
+	
+?>
 </body>
 </html>

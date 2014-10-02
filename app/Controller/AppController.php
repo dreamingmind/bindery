@@ -226,10 +226,11 @@ class AppController extends Controller {
         }
 
         $this->scripts = array('jquery-1.4.2', 'jquery.fix.clone', 'app');
-        $this->set('imagePath', 
-"\r//app_controller beforeFilter\r
-var imagePath = '". str_replace($_SERVER['DOCUMENT_ROOT'], '', IMAGES) ."';\r
-var webroot = '". str_replace(array('app/', $_SERVER['DOCUMENT_ROOT']), '', APP) ."';\r"); 
+		
+//        $this->set('imagePath', 
+//"\r//app_controller beforeFilter\r
+//var imagePath = '". str_replace($_SERVER['DOCUMENT_ROOT'], '', IMAGES) ."';\r
+//var webroot = '". str_replace(array('app/', $_SERVER['DOCUMENT_ROOT']), '', APP) ."';\r"); 
 
         //    echo $html->css('basic');
 //    echo $html->css('new4.css');
