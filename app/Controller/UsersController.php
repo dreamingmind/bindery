@@ -132,7 +132,7 @@ class UsersController extends AppController {
 		if ($this->Auth->login() && $this->request->is('post')) {
 			// when the user logs in, they may have been working on a Cart. 
 			// if so, we'll make sure it doesn't become orphaned.
-			$this->Cart->move($this->Biscuit->storedSessionId(), $this->Session->id());
+			$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
 			$this->Biscuit->saveSessionId();
 			
 			$this->redirect($this->Auth->redirectUrl());			

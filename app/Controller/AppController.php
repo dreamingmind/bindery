@@ -184,14 +184,16 @@ class AppController extends Controller {
 		// Logging in changes the Session id also, and would leave an orphan Cart, 
 		// but we take care of that problem in users->login()
 		$this->Biscuit = new Biscuit($this);
+//		echo 'cookie:'.$this->Biscuit->storedSessionId().' | session:'.$this->Session->id();
 		
 		if ($this->Biscuit->cookiesAllowed()) {
 			
 			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
 				
-				$this->Cart->move($this->Biscuit->storedSessionId(), $this->Session->id());
+				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
 				$this->Biscuit->saveSessionId();
 			}
+			$this->set('cart', $this->Cart->fetch($this->Session));
 		}
 
 		$this->layout = 'noThumbnailPage';

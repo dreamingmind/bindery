@@ -44,6 +44,7 @@
             <p>
             <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
             </p>
+			<?php echo $this->element('Cart/cart_badge'); ?>
   	</div>
       <?php echo $this->element('image_grid_nav');
  ?>

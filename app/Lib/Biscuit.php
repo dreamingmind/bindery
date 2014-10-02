@@ -32,6 +32,7 @@ class Biscuit {
 		if (!$this->initSiteCookie()) {
 			if (!$this->Session->check('Notices.cookies')) {
 				$this->Session->setFlash('Cookies are disabled. You will have to log in to use the shopping cart');
+				$this->Session->write('Notices.cookies', TRUE);
 			}
 		}
 	}
@@ -39,11 +40,10 @@ class Biscuit {
 	/**
 	 * If cookies aren't allowed, we sent a notice. Record that so we don't do it again during this Session
 	 */
-	public function __destruct() {
-		if (!$this->allowed) {
-			$this->Session->write('Notices.cookies', TRUE);
-		}
-	}
+//	public function __destruct() {
+//		if (!$this->allowed) {
+//		}
+//	}
 
 	/**
 	 * Configure a 30 day site cookie and verify the client allows cookies
@@ -87,14 +87,27 @@ class Biscuit {
 		return $this->storedSessionId() == $this->Session->id();
 	}
 	
+	/**
+	 * Get the session id currently stored in the clients cookie
+	 * 
+	 * @return string
+	 */
 	public function storedSessionId() {
 		return $this->Cookie->read('session_id');
 	}
 	
+	/**
+	 * Get the current php session id
+	 * 
+	 * @return string
+	 */
 	public function currentSessionId() {
 		return $this->Session->id();
 	}
 	
+	/**
+	 * Save the current php session id in a cookie dreamingmind[session_id]
+	 */
 	public function saveSessionId() {
 		$this->Cookie->write('session_id', $this->Session->id());
 	}

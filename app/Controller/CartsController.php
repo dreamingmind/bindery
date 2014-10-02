@@ -9,7 +9,7 @@ class CartsController extends AppController {
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart');
 	}
 
 /**
@@ -55,6 +55,18 @@ class CartsController extends AppController {
 		$users = $this->Cart->User->find('list');
 		$supplements = $this->Cart->Supplement->find('list');
 		$this->set(compact('users', 'supplements'));
+	}
+	
+	public function addToCart() {
+		$data = array(
+			'Cart' => array(
+				'user_id' => $this->Auth->user('id'),
+				'phpsession_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
+				'data' => date('r', time())
+			)
+		);
+		
+		$this->Cart->save($data);
 	}
 
 /**

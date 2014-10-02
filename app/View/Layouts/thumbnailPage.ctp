@@ -47,6 +47,7 @@
                     <?php if(isset($_GET['a'])) { ?><a href="/dispatch/unpublished">3 Unpub'd</a> | <a href="/dispatch/upload">Upload New</a> | <?php } ?>
                     <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
                 </p>
+			<?php echo $this->element('Cart/cart_badge'); ?>
             </div>
             <div id="jumpBox">
                 <?php echo $this->Form->create('Content', array(
