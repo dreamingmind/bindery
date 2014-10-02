@@ -323,4 +323,5 @@ $(document).ready(function(){
     hideAllSlaveNodes();
     initTogglingSets();
     initAddToCartButtons();
+	bindHandlers();
 })

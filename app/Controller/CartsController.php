@@ -58,6 +58,9 @@ class CartsController extends AppController {
 	}
 	
 	public function addToCart() {
+		if ($this->request->is('POST')) {
+			$this->layout = 'ajax';
+		}		
 		$data = array(
 			'Cart' => array(
 				'user_id' => $this->Auth->user('id'),

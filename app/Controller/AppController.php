@@ -225,7 +225,7 @@ class AppController extends Controller {
             $this->css[] = 'new4';
         }
 
-        $this->scripts = array('jquery-1.4.2', 'jquery.fix.clone', 'app');
+        $this->scripts = array('jquery-1.10.0', 'jquery.fix.clone', 'app', 'cart');
 		
 //        $this->set('imagePath', 
 //"\r//app_controller beforeFilter\r

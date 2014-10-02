@@ -34,7 +34,7 @@ img#topTransparent, img.missing {
     height: 150px;
 }
 img#NTtopTransparent, img.missing {
-    height: 50px; /*for no thumbnail version*/
+    height: 73px; /*for no thumbnail version*/
 }
 
 @media (max-height: 700px) {

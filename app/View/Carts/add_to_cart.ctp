@@ -1,0 +1,1 @@
+<p>The item has been added to your cart</p>
