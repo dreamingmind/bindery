@@ -15,6 +15,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- HEAD --><head>
+<!-- View/Layouts/blog_layout.ctp -->
     <?php echo $this->Html->charset(); ?>
     <!-- TITLE --><title>
         <?php
@@ -49,6 +50,7 @@
                 <p>
                     <?php  echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
                 </p>
+			<?php echo $this->element('Cart/cart_badge'); ?>
             </div>
         <menu class='zoom'>
             <?php echo (isset($userdata['group_id']) && $userdata['group_id']==1)?'<a class="sequence_tool">Order</a> ':''; ?>
@@ -134,6 +136,12 @@
     <?php
     echo $this->Js->writeBuffer(); // Write cached scripts
 //    debug($collectionPage);
-    ?>
+
+	// The repository for all the js vars that get 
+	// accumulated during the visit. 
+	// jsGlobalVars fetch block ends up here
+	echo $this->element('jsGlobals');
+	
+?>
 </body>
 </html>

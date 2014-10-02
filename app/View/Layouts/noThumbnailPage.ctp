@@ -30,7 +30,7 @@
     
     echo $this->Html->script($scripts);
 	echo $this->fetch('scripts');
-    echo $this->Html->wrapScriptBlock($imagePath);
+//    echo $this->Html->wrapScriptBlock($imagePath);
 
 //    echo $this->Html->script('supplement_defaults');
 //    if($this->request->params['controller']=='catalogs'){
@@ -75,6 +75,7 @@
             <p>
             <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
             </p>
+			<?php echo $this->element('Cart/cart_badge'); ?>
   	</div>
       <?php echo $this->element('image_grid_nav');
  ?>
@@ -124,4 +125,12 @@
     echo $this->Js->writeBuffer(); // Write cached scripts
     ?>
 </body>
+<?php
+
+	// The repository for all the js vars that get 
+	// accumulated during the visit. 
+	// jsGlobalVars fetch block ends up here
+	echo $this->element('jsGlobals');
+	
+?>
 </html>

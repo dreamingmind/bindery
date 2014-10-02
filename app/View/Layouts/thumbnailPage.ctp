@@ -47,6 +47,7 @@
                     <?php if(isset($_GET['a'])) { ?><a href="/dispatch/unpublished">3 Unpub'd</a> | <a href="/dispatch/upload">Upload New</a> | <?php } ?>
                     <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
                 </p>
+			<?php echo $this->element('Cart/cart_badge'); ?>
             </div>
             <div id="jumpBox">
                 <?php echo $this->Form->create('Content', array(
@@ -142,4 +143,12 @@
 //    debug($collectionPage);
     ?>
 </body>
+<?php
+
+	// The repository for all the js vars that get 
+	// accumulated during the visit. 
+	// jsGlobalVars fetch block ends up here
+	echo $this->element('jsGlobals');
+	
+?>
 </html>
