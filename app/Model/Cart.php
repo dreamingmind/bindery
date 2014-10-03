@@ -10,8 +10,10 @@ App::uses('AppModel', 'Model');
  * @property Supplement $Supplement
  */
 class Cart extends AppModel {
+	
+	private $cacheName = 'cart';
 
-/**
+	/**
  * belongsTo associations
  *
  * @var array
@@ -97,44 +99,65 @@ class Cart extends AppModel {
 	 */
 	private function load($Session, $sessionId = FALSE, $deep = FALSE) {
 
+		// prepare all the conditional parameters
+		// -----------------------------------------------
 		$userId = $Session->read('Auth.User.id');
 		if (!$sessionId) {
 			$sessionId = $Session->id();
 		}
 		if ($deep) {
 			$contain = array('User', 'Supplement');
-		}
+//			$this->cacheName = $this->cacheName . '-assoc';
+		} // ---------------------------------------------
 		
+		// do the actual query in two parts
+		// -----------------------------------------------
 		$itemsAnon = $this->find('all', array(
 			'conditions' => array(
 				'session_id' => $sessionId,
 				'user_id' => ''
 			),
-			'fields' => array('id', 'session_id', 'user_id'),
 			'contain' => $deep
 		));
 //		dmDebug::logVars($this->getLastQuery(), 'anon find query for $userId='.$userId);
 
 		$itemsUser = array();
 		if (!is_null($userId)) {
-//			dmDebug::logVars($userId, 'user id for query');
 			$itemsUser = $this->find('all', array(
-				'conditions' => array (
+				'conditions' => array(
 					'user_id' => $userId,
-					'OR' => array('session_id' => '', 'session_id IS NULL')						
+					'OR' => array('session_id' => '', 'session_id IS NULL')
+
 				),
-				'fields' => array('id', 'session_id', 'user_id'),
-				'contain' => FALSE
+				'contain' => $deep
 			));
-//		dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);
+//			dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);
 		}
+		$items = array_merge($itemsAnon, $itemsUser);
+		// -----------------------------------------------
 		
-//		dmDebug::logVars($itemsAnon, 'anon items');
-//		dmDebug::logVars($itemsUser, 'user items');
-
-		return array_merge($itemsAnon, $itemsUser);
+		return $items;
 	}
-
+	
+	/**
+	 * Add the correct key values to the cache name
+	 * 
+	 * Cache is alway on the current id. If we're in the 
+	 * middle of maitenance with an old session id, that 
+	 * value will catch up before we're done.
+	 * 
+	 * @param string $name One of the cache-name properties
+	 * @param object $Session Component or Helper
+	 */
+	private function keyedCacheName($name, $Session) {
+		$userId = $Session->read('Auth.User.id');
+		if (is_null($userId)) {
+			$name = $name . '.S' . $Session->id();
+		} else {
+			$name = $name . '.U' . $userId;
+		}
+		return $name;
+	}
 
 	/**
 	 * 
@@ -147,9 +170,24 @@ class Cart extends AppModel {
 		return $this->load($Session, FALSE, $deep);
 	}
 
-
-	public function clear($sessionId) {
+	/**
+	 * Remove all the cart items for this user/session
+	 * 
+	 * @todo What kind of error trapping do we need here?
+	 *		Possibly, we could just go, and if a second 'load'
+	 *		is non-empty, we can set an alternate flash message?
+	 * @param object $Session Component or Helper
+	 */
+	public function clear($Session) {
 		
+		$items = $this->load($Session);
+		
+		if (!empty($items)) {
+			foreach ($items as $item) {
+				$this->delete($id);
+			}
+		}
+		$this->Session->setFlash('Your cart is empty.');
 	}
 	
 }
