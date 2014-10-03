@@ -4,7 +4,9 @@
  * Biscuit: Take care of setup and verification of Cookies, site wide
  * 
  * Cookies maintain the Session id which links to Cart items for users 
- * that are not logged in. 
+ * that are not logged in. When sessions change, such as when a user 
+ * closes their browser window or when they log in/out, AppController 
+ * uses Biscuit in beforeFilter to make sure cart migrate properly.
  *
  * @author dondrake
  */

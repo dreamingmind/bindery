@@ -1,9 +1,38 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('Hash', 'Utilities');
 /**
  * Cart Model
  * 
- * Shopping cart
+ * CART-VISITOR LINKING
+ * ===================================================
+ * Shopping cart are stored on either the session id or the user id 
+ * depending on the logged in state of the user. AppController is managing 
+ * the association of the cart items as the user's state changes. But Cart Model 
+ * is playing a supporting role by taking care of the actual data changes in the table.
+ * 
+ * CART CACHING
+ * ===================================================
+ * Cart model is also using caches to reduce overhead. There should be no coupling 
+ * of the cache outside this class. So just set the configs in bootstrap and you're good.
+ * 
+ * CART TABLE STRUCTURE
+ * ===================================================
+ * Specific field references are kept to a minimum to allow maximum flexibility in Cart 
+ * table structure. The required fields are:
+ *   - id
+ *   - user_id
+ *   - session_id
+ * No assumptions are made about their values. 
+ * 
+ * CART ASSOCIATIONS
+ * ===================================================
+ * this->load assumes there is a belongsTo and hasMany property 
+ * and in some circumstances uses these to contain associated data
+ * 
+ * DEPENDENCIES
+ * ===================================================
+ * Hash
  *
  * @property User $User
  * @property Session $Session
@@ -25,7 +54,9 @@ class Cart extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
+		)
+	);
+	public $hasMany = array(
 		'Supplement' => array(
 			'className' => 'Supplement',
 			'foreignKey' => 'supplement_id',
@@ -106,7 +137,7 @@ class Cart extends AppModel {
 			$sessionId = $Session->id();
 		}
 		if ($deep) {
-			$contain = array('User', 'Supplement');
+			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
 //			$this->cacheName = $this->cacheName . '-assoc';
 		} // ---------------------------------------------
 		

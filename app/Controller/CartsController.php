@@ -60,6 +60,10 @@ class CartsController extends AppController {
 	/**
 	 * Save an item to the cart
 	 * 
+	 * @todo Validate price for form data that originates with the user
+	 *		Even if we have an unmodified 'saved-spec' or 'standard-item' 
+	 *		I'll need to look up current pricing
+	 * 
 	 * This will set $new to the new item's ID
 	 * and $cart to the collection of items in the cart
 	 */
@@ -74,7 +78,7 @@ class CartsController extends AppController {
 			'Cart' => array(
 				'user_id' => $this->Auth->user('id'),
 				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
-				'data' => date('r', time()),
+				'data' => serialize($this->request->data),
 				'design_name' => $this->request->data[$key]['description'],
 				'price' => rand(100, 300)
 			)
