@@ -73,7 +73,7 @@ $(document).ready(function(){
         });
         // Select lists
         $('option[selected="selected"]').each(function(){
-            $(this).parent().attr('reset',$(this).attr('value'));
+            $(this).parent().attr('reset',$(this).val());
         })
         // Textareas
         $('textarea').each(function(){
@@ -87,8 +87,8 @@ $(document).ready(function(){
     function initFieldBehaviors(){
         // Content heading behavior: Master
         $('#ImageHeading').bind('change',function(){
-            $('.content > h4').text($(this).attr('value'));
-            $('input[id*="ContentHeading"]').val($(this).attr('value')).trigger('change')
+            $('.content > h4').text($(this).val());
+            $('input[id*="ContentHeading"]').val($(this).val()).trigger('change')
             fieldChanged(this);
         })
         
@@ -245,10 +245,10 @@ $(document).ready(function(){
                     // Probably that radio triggered this and is ok, but just in case
                     // the user hand tweaked the id...
                     if($('#Content'+recordIndex+'TreatmentRelink').attr('checked') 
-                            && field.attr('value') == ''){
+                            && field.val() == ''){
                         $('#Content'+recordIndex+'TreatmentClone').attr('checked','checked');
                     } else if($('#Content'+recordIndex+'TreatmentClone').attr('checked') 
-                            && field.attr('value') != ''){
+                            && field.val() != ''){
                         $('#Content'+recordIndex+'TreatmentRelink').attr('checked','checked');
                     }
                 }

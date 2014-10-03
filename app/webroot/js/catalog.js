@@ -574,6 +574,11 @@ function priceSum(product){
     return catalog.productNames[product]['priceSpan'] = '<span class="price">' + total + '</span><span class="caveat">Estimate</span> ';
 }
 
+/**
+ * Quantity change must multiply the price, then render the new price
+ * 
+ * @param {event} e
+ */
 function qtyChange(e) {
 	var product = determineProduct(e.currentTarget);
 	writePricedTitle(product);
@@ -971,12 +976,12 @@ $(document).ready(function(){
                     $(this).bind('change', function(){
                         var material = $(this).attr('material');
                         var product = $(this).parents('fieldset').attr('option').replace('slave-','');
-						var image = ($(this).attr('value') == 0) ? 'transparent.png' : $(this).attr('value') + '.jpg';
+						var image = ($(this).val() == 0) ? 'transparent.png' : $(this).val() + '.jpg';
                         $(diagram).find('div.'+product+'[material="'+material+'"]')
                             .css('background','url("'+imagePath+'materials/fullsize/'+ image + '")');
                         // cover material may be controlling liners too
                         if (material == 'cloth board') {
-                            if (!$(this).parent('div').siblings('.radio').children('*[value="1"]').attr('checked')){
+                            if ($(this).parent('div').siblings('.radio').children('*[value="0"]').prop('checked')){
                                 $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').val($(this).val());
                                 $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').trigger('change');
                             }

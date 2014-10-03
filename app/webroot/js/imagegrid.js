@@ -24,7 +24,7 @@ function setupReveals(){
 function initGoTo(){
     $('#ImageUploadsets').bind('change',function(){
         var loc = new String(location);
-        var upload = $('#ImageUploadsets').find(':selected').attr('value');
+        var upload = $('#ImageUploadsets').find(':selected').val();
         loc = loc.replace(/grid[\/]*[\d]*/i,'grid/' + upload);
         location.replace(loc);
     });
