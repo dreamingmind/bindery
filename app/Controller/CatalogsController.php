@@ -90,8 +90,7 @@ class CatalogsController extends AppController {
     }
 
     function catalog($product = null) {
-		dmDebug::ddd($product, 'product');
-		dmDebug::logVars($product, 'product');
+//		dmDebug::ddd($this->request->data, 'trd');
 //		debug($this->request->params);
 		$product = $this->request->params['pname'];
 //        debug($this->Catalog->getPrintingPrices());die;
@@ -132,7 +131,8 @@ class CatalogsController extends AppController {
      * Return an HTML fragemnt. This was an AJAX call
      */
     function order($dat = 'my data'){
-		dmDebug::logVars($dat, 'provided argument');
+//		dmDebug::ddd($this->request->data, 'trd');
+//		dmDebug::logVars($dat, 'provided argument');
         $this->layout = 'ajax';
         $product = $this->request->data; //pick off the pertinent array elements here
 //        $this->SpecdProducts->memorizeSpecs($product);
