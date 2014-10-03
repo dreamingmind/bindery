@@ -3,6 +3,7 @@ $(document).ready(function(){
 })
 
 function addToCart(e) {
+	e.preventDefault();
 	var postData = $(e.currentTarget).parents('form').serialize();
 	
 	$.ajax({
