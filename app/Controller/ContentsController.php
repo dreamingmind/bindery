@@ -729,9 +729,9 @@ class ContentsController extends AppController {
      */
     function readBlogTOC() {
         $recentPosts = $this->Content->ContentCollection->recentBlog();
-        if (!($toc = Cache::read('toc'))) {
+        if (!($toc = Cache::read('toc', 'default'))) {
             $toc = $this->Content->ContentCollection->Collection->articleTOC('dispatch');
-            Cache::write('toc', $toc);
+            Cache::write('toc', $toc, 'default');
         }
         $this->set('toc', $toc);
 //        $recentPosts = $this->Content->recentNews(8);

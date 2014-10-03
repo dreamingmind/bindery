@@ -426,10 +426,12 @@ SIG;
         /**
          * This is the find for the nested navigation menu data set.
          * */
-        if (!($group = Cache::read('group' . $access))) {
+        if (!($group = Cache::read('group' . $access, 'default'))) {
+//			debug('write group cache');
             $group = $this->Navigator->generatetreegrouped($conditions, null, '/Navline', '{n}.Navigator.parent_id', 1);
-            Cache::write('group' . $access, $group);
+            Cache::write('group' . $access, $group, 'default');
         }
+//		debug('if no "write group cache" above, then this was read');
 
 
         $this->set('group', $group);

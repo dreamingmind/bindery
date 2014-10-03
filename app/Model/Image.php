@@ -89,13 +89,13 @@ class Image extends AppModel {
     
     function __construct() {
         parent::__construct();
-        $recent_titles = Cache::read('recent_titles');
-        $all_titles = Cache::read('all_titles');
+        $recent_titles = Cache::read('recent_titles', 'default');
+        $all_titles = Cache::read('all_titles', 'default');
         if(!$recent_titles || !$all_titles) {
             $this->recentTitles();
             $this->allTitles();
-            Cache::write('recent_titles',$this->recentTitles);
-            Cache::write('all_titles',$this->allTitles);
+            Cache::write('recent_titles',$this->recentTitles, 'default');
+            Cache::write('all_titles',$this->allTitles, 'default');
         } else {
             $this->recentTitles = $recent_titles;
             $this->allTitles = $all_titles;
