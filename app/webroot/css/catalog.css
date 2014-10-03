@@ -225,6 +225,10 @@ p.optionTitle {
     width: 95%;
 }
 
+span.price:before {
+	content: '$'
+}
+
 div.options {
     position: relative;
     background: none repeat scroll 0 0 #D0D9D7;

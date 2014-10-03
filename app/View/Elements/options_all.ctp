@@ -49,12 +49,19 @@
     // which options belong to which product categories
     echo $this->element('options_productDiagram', array($productCategory, $diagramMap));
     echo $this->Html->div($productCategory.'message',''); // this is the ajax'd shopping cart action message
+	
+	echo $this->Form->input('specs_key', array('type' => 'hidden', 'value' => $productCategory));
+	echo $this->Form->input("$productCategory.sum", array('type' => 'hidden', 'value' => 0));
+	echo $this->Form->input("$productCategory.total", array('type' => 'hidden', 'value' => 0));
+	
     if (isset($usergroupid) && $usergroupid < 3){
         echo $this->element('design_name', array('fieldsetOptions' => array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
     }
     echo $this->element('email', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
+    echo $this->element('options_quantity', array('fieldsetOptions' => array(
+        'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('quantity' => 1))));//
     echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'FullLeather QuarterBound'),'model' => $model));
     echo $this->element('options_closingBelt', array('fieldsetOptions' => array(

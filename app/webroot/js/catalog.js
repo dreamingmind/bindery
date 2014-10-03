@@ -562,8 +562,21 @@ function priceSum(product){
     for (var costNode in catalog[product]) {
         price += parseInt(catalog[product][costNode]['price']);
     }
+	var qty = parseInt($('input[name="data['+product+'][quantity]"]').val());
+	var total = qty * price;
+	
+	$('input[name="data['+product+'][sum]"]').val(price);
+	$('input[name="data['+product+'][total]"]').val(total);
+	
     catalog.productNames[product]['sum'] = price;
-    return catalog.productNames[product]['priceSpan'] = '<span class="price">$' + price + '</span><span class="caveat">Estimate</span> ';
+    catalog.productNames[product]['total'] = total;
+	
+    return catalog.productNames[product]['priceSpan'] = '<span class="price">' + total + '</span><span class="caveat">Estimate</span> ';
+}
+
+function qtyChange(e) {
+	var product = determineProduct(e.currentTarget);
+	writePricedTitle(product);
 }
 
 /**
@@ -590,7 +603,7 @@ function writePricedTitle(product){
     // write the title to the page
     $(catalog.productNames[product]['titleNode']).html(price + title);
     // write the title to a form input for delivery to the server
-    $(catalog.productNames[product]['titleInput']).attr('value', title);
+    $(catalog.productNames[product]['titleInput']).attr('value', price + title);
 	// write the new sum to the paypal button
 	
     // Write the current caveats to the page
@@ -762,6 +775,14 @@ function productRadioClick(e){
     diagramDiv(productDiagram, productGroup);
 }
 
+/**
+ * Given an option input node, discover which product it belongs to
+ */
+function determineProduct(optionNode){
+	return $(optionNode).parents('form').children('table').attr('id');
+}
+    
+
 $(document).ready(function(){
 
     /**
@@ -895,13 +916,6 @@ $(document).ready(function(){
 //            writePricedTitle(product);
 //        })
 //    }
-    
-    /**
-     * Given an option input node, discover which product it belongs to
-     */
-    function determineProduct(optionNode){
-        return $(optionNode).parents('form').children('table').attr('id');
-    }
     
     /**
      * Bind a handler to the caveat asterisk click
