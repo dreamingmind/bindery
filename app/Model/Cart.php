@@ -42,7 +42,7 @@ class Cart extends AppModel {
 	public function cartExists($Session) {
 		$userId = $Session->read('Auth.User.id');
 			if (is_null($userId)) {
-				$cart = $this->find('first', array('conditions' => array('phpsession_id' => $Session->id())));
+				$cart = $this->find('first', array('conditions' => array('session_id' => $Session->id())));
 			} else {
 				$cart = $this->find('first', array('conditions' => array('user_id' => $userId)));
 			}
@@ -66,16 +66,17 @@ class Cart extends AppModel {
 	 */
 	public function maintain(SessionComponent $Session, $oldSession) {
 		
+		$userId = $Session->read('Auth.User.id');
 		$items = $this->load($Session, $oldSession);
 		
 		if (!empty($items)) {
 //			dmDebug::logVars($items, 'items to transform');
 	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
 			if (is_null($userId)) {
-				$i = Hash::insert($items, '{n}.Cart.phpsession_id', $Session->id());
+				$i = Hash::insert($items, '{n}.Cart.session_id', $Session->id());
 				$items = Hash::insert($i, '{n}.Cart.user_id', '');
 			} else {
-				$i = Hash::insert($items, '{n}.Cart.phpsession_id', '');
+				$i = Hash::insert($items, '{n}.Cart.session_id', '');
 				$items = Hash::insert($i, '{n}.Cart.user_id', $userId);
 			}
 //			dmDebug::logVars($items, 'items to save');
@@ -106,10 +107,10 @@ class Cart extends AppModel {
 		
 		$itemsAnon = $this->find('all', array(
 			'conditions' => array(
-				'phpsession_id' => $sessionId,
+				'session_id' => $sessionId,
 				'user_id' => ''
 			),
-			'fields' => array('id', 'phpsession_id', 'user_id'),
+			'fields' => array('id', 'session_id', 'user_id'),
 			'contain' => $deep
 		));
 //		dmDebug::logVars($this->getLastQuery(), 'anon find query for $userId='.$userId);
@@ -120,9 +121,9 @@ class Cart extends AppModel {
 			$itemsUser = $this->find('all', array(
 				'conditions' => array (
 					'user_id' => $userId,
-					'OR' => array('phpsession_id' => '', 'phpsession_id IS NULL')						
+					'OR' => array('session_id' => '', 'session_id IS NULL')						
 				),
-				'fields' => array('id', 'phpsession_id', 'user_id'),
+				'fields' => array('id', 'session_id', 'user_id'),
 				'contain' => FALSE
 			));
 //		dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);

@@ -23,7 +23,7 @@
 		</dd>
 		<dt><?php echo __('PHPSession'); ?></dt>
 		<dd>
-			<?php echo h($cart['Cart']['phpsession_id']); ?>
+			<?php echo h($cart['Cart']['session_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Design Name'); ?></dt>

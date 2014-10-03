@@ -6,7 +6,7 @@
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('phpsession_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('session_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('design_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('data'); ?></th>
 			<th><?php echo $this->Paginator->sort('supplement_id'); ?></th>
@@ -21,7 +21,7 @@
 			<?php echo $this->Html->link($cart['User']['username'], array('controller' => 'users', 'action' => 'view', $cart['User']['id'])); ?>
 		</td>
 		<td>
-			<?php echo h($cart['Cart']['phpsession_id']); ?>
+			<?php echo h($cart['Cart']['session_id']); ?>
 		</td>
 		<td><?php echo h($cart['Cart']['design_name']); ?>&nbsp;</td>
 		<td><?php echo h($cart['Cart']['data']); ?>&nbsp;</td>

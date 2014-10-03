@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('user_id');
-		echo $this->Form->input('phpsession_id', array('type' => 'text'));
+		echo $this->Form->input('session_id', array('type' => 'text'));
 		echo $this->Form->input('design_name');
 		echo $this->Form->input('data');
 		echo $this->Form->input('supplement_id', array('empty' => 'select'));

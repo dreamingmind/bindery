@@ -73,7 +73,7 @@ class CartsController extends AppController {
 		$data = array(
 			'Cart' => array(
 				'user_id' => $this->Auth->user('id'),
-				'phpsession_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
+				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
 				'data' => date('r', time()),
 				'design_name' => $this->request->data[$key]['description'],
 				'price' => rand(100, 300)
