@@ -43,5 +43,18 @@ class AppModel extends Model {
 //        }
 //        parent::__construct($id, $table, $ds);
 //    }
+	
+	/** 
+	 * Debugging aid to show the last query
+	 * 
+	 * @return string
+	 */
+	function getLastQuery()
+    {
+        $dbo = $this->getDatasource();
+        $logs = $dbo->getLog();
+        $lastLog = end($logs['log']);
+        return $lastLog['query'];
+    }
 }
 ?>
