@@ -81,6 +81,17 @@ Cache::config('default', array(
     'mask' => 0666,
 ));
 
+Cache::config('cart', array(
+	'engine' => 'File',
+	'mask' => 0666,
+	'group' => array('cart'),
+	'path' => CACHE . 'cart' . DS,
+	'prefix' => 'bindery_',
+	'duration' => '+1 hour',
+	'serialize' => TRUE
+	
+));
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -164,36 +175,36 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
-CakeLog::config('status', array(
-	'engine' => 'FileLog',
-	'types' => array('status'),
-	'file' => 'Status/status'.date('.Y.m.W')
-));
-CakeLog::config('inventory', array(
-	'engine' => 'FileLog',
-	'types' => array('inventory'),
-	'file' => 'Inventory/inventory/inventory'.date('.Y.m.W')
-));
+//CakeLog::config('status', array(
+//	'engine' => 'FileLog',
+//	'types' => array('status'),
+//	'file' => 'Status/status'.date('.Y.m.W')
+//));
+//CakeLog::config('inventory', array(
+//	'engine' => 'FileLog',
+//	'types' => array('inventory'),
+//	'file' => 'Inventory/inventory/inventory'.date('.Y.m.W')
+//));
 CakeLog::config('varlog', array(
 	'engine' => 'FileLog',
 	'types' => array('varlog'),
 	'file' => 'varlog'
 ));
-CakeLog::config('snapshot', array(
-'engine' => 'FileLog',
-'types' => array('snapshot'),
-'file' => 'Inventory/snapshot/snapshot'.date('.Y.m')
-));
-CakeLog::config('robotIO', array(
-'engine' => 'FileLog',
-'types' => array('robotIO'),
-'file' => 'Robot/robotIO'.date('.Y.m')
-));
-CakeLog::config('notificationLog', array(
-'engine' => 'FileLog',
-'types' => array('notificationLog'),
-'file' => 'Notification/notification'.date('.Y.m')
-));
+//CakeLog::config('snapshot', array(
+//'engine' => 'FileLog',
+//'types' => array('snapshot'),
+//'file' => 'Inventory/snapshot/snapshot'.date('.Y.m')
+//));
+//CakeLog::config('robotIO', array(
+//'engine' => 'FileLog',
+//'types' => array('robotIO'),
+//'file' => 'Robot/robotIO'.date('.Y.m')
+//));
+//CakeLog::config('notificationLog', array(
+//'engine' => 'FileLog',
+//'types' => array('notificationLog'),
+//'file' => 'Notification/notification'.date('.Y.m')
+//));
 
 CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
 
