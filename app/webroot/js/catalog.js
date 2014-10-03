@@ -781,7 +781,39 @@ function productRadioClick(e){
 function determineProduct(optionNode){
 	return $(optionNode).parents('form').children('table').attr('id');
 }
-    
+
+/**
+ * Manage quarterbound cover cloth details for products with liners
+ * 
+ * Notebooks and other products that have liners and the option for 
+ * quarterbound usually have matching cover and liner cloth. But I 
+ * have radio buttons to allow them the diverge. This takes special 
+ * handling to be aware of the radio button settings when they are present
+ * 
+ * @param {type} e
+ * @returns {undefined} */
+function linerChange(e) {
+	
+	// This is where I can set a list of products that have the feature
+	var allowed = {'Notebook' : true};
+	
+	var product = determineProduct(e.currentTarget);
+	if (allowed[product]) {
+		var fieldset = $(e.currentTarget).parents('fieldset');
+		var idKey = fieldset.find('legend').attr('id');
+		var f = fieldset.find('input[type="radio"]');
+		if ($(f[0]).prop('checked') == false && $(f[1]).prop('checked') == false) {
+			fieldset.find('input[id~="'+idKey+'-uniqueliner0"]').prop('checked', true);
+			$(f[0]).on('click', function() {
+				$(e.currentTarget).trigger('change');
+			})
+		}		
+		if (fieldset.find('input[type="radio"]').val() == 0) {
+			
+		}
+	}
+	
+}
 
 $(document).ready(function(){
 

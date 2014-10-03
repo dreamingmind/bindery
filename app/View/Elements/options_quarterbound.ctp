@@ -4,7 +4,7 @@
 $options = array(
     'options' => array(
         '0' => 'Match liners to cover',
-        '1' => 'Set liner cloth'
+        '1' => 'Set liner'
     )
 );
 
@@ -35,9 +35,12 @@ $parameters = array(
                 'option' => 'slave-'.$productCategory,
                 'setList' => 'QuarterBound'
             ),
-            'material' => 'cloth board' //this target diagram div background image
+            'material' => 'cloth board', //this target diagram div background image
+			'bind' => 'change.linerChange'
         ),
+		// ========================================================
         // this one has some hacky tricks. See comments at the end
+		// ========================================================
         'uniqueliner' => array(
             'type' => 'radio',
             'options' => $options['options'],
@@ -114,6 +117,8 @@ if ($parameters['model'] != 'Journal'){
     }
 
 }
+
+dmDebug::logVars($htmlBlock, 'html block');
 echo $htmlBlock;
 /** UNIQUE LINER
  * To tie cover cloth and liner cloth together by default, this radio
