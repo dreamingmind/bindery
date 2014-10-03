@@ -118,7 +118,6 @@ if ($parameters['model'] != 'Journal'){
 
 }
 
-dmDebug::logVars($htmlBlock, 'html block');
 echo $htmlBlock;
 /** UNIQUE LINER
  * To tie cover cloth and liner cloth together by default, this radio

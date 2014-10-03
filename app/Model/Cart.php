@@ -78,10 +78,10 @@ class Cart extends AppModel {
 			'fields' => array('id', 'phpsession_id', 'user_id'),
 			'contain' => FALSE
 		));
-		dmDebug::logVars($this->getLastQuery(), 'anon find query for $userId='.$userId);
+//		dmDebug::logVars($this->getLastQuery(), 'anon find query for $userId='.$userId);
 
 		if (!is_null($userId)) {
-			dmDebug::logVars($userId, 'user id for query');
+//			dmDebug::logVars($userId, 'user id for query');
 			$itemsUser = $this->find('all', array(
 				'conditions' => array (
 					'user_id' => $userId,
@@ -90,16 +90,16 @@ class Cart extends AppModel {
 				'fields' => array('id', 'phpsession_id', 'user_id'),
 				'contain' => FALSE
 			));
-		dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);
+//		dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);
 		}
 		
-		dmDebug::logVars($itemsAnon, 'anon items');
-		dmDebug::logVars($itemsUser, 'user items');
+//		dmDebug::logVars($itemsAnon, 'anon items');
+//		dmDebug::logVars($itemsUser, 'user items');
 
 		$items = array_merge($itemsAnon, $itemsUser);
 
 		if (!empty($items)) {
-			dmDebug::logVars($items, 'items to transform');
+//			dmDebug::logVars($items, 'items to transform');
 	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
 			if (is_null($userId)) {
 				$i = Hash::insert($items, '{n}.Cart.phpsession_id', $Session->id());
@@ -108,7 +108,7 @@ class Cart extends AppModel {
 				$i = Hash::insert($items, '{n}.Cart.phpsession_id', '');
 				$items = Hash::insert($i, '{n}.Cart.user_id', $userId);
 			}
-			dmDebug::logVars($items, 'items to save');
+//			dmDebug::logVars($items, 'items to save');
 			$this->saveMany($items);
 		}
 	}
