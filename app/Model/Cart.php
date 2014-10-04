@@ -40,7 +40,9 @@ App::uses('Hash', 'Utilities');
  */
 class Cart extends AppModel {
 	
-	private $cacheName = 'cart';
+	private $cacheRootName = 'cart';
+	private $cacheAssocName = 'cart-assoc';
+	private $cacheCountName = 'cart-count';
 
 	/**
  * belongsTo associations
@@ -59,13 +61,40 @@ class Cart extends AppModel {
 	public $hasMany = array(
 		'Supplement' => array(
 			'className' => 'Supplement',
-			'foreignKey' => 'supplement_id',
+			'foreignKey' => 'foreign_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
 	
+	public function afterSave($created) {
+		parent::afterSave($created);
+		$this->clearCache($this->data);
+	}
+	
+	public function beforeDelete($cascade = true) {
+		parent::beforeDelete($cascade);
+		$tmp = $this->find('first', array(
+			'conditions' => array(
+				'id' => $this->id
+			),
+			'fields' => array('user_id', 'session_id')
+		));
+		$this->clearCache($tmp);
+	}
+	
+	/**
+	 * Clear all cart caches
+	 * 
+	 * @param array $data
+	 */
+	private function clearCache($data) {
+		Cache::delete($this->cacheNameFromArray($this->cacheRootName, $data), 'cart');
+		Cache::delete($this->cacheNameFromArray($this->cacheAssocName, $data), 'cart');
+		Cache::delete($this->cacheNameFromArray($this->cacheCountName, $data), 'cart-count');
+	}
+		
 	/**
 	 * Does the logged in or anonomous user have a cart 
 	 * 
@@ -73,17 +102,11 @@ class Cart extends AppModel {
 	 * @return boolean
 	 */
 	public function cartExists($Session) {
-		$userId = $Session->read('Auth.User.id');
-			if (is_null($userId)) {
-				$cart = $this->find('first', array('conditions' => array('session_id' => $Session->id())));
-			} else {
-				$cart = $this->find('first', array('conditions' => array('user_id' => $userId)));
-			}
-			if (empty($cart)) {
-				return FALSE;
-			} else {
-				return TRUE;
-			}
+		if (empty($this->load($Session))) {
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 	
 	/**
@@ -138,34 +161,42 @@ class Cart extends AppModel {
 		}
 		if ($deep) {
 			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
-//			$this->cacheName = $this->cacheName . '-assoc';
-		} // ---------------------------------------------
+			$cacheName = $this->keyedCacheName($this->cacheAssocName, $Session);
+		} else {
+			$cacheName = $this->keyedCacheName($this->cacheRootName, $Session);
+		}
+		// ---------------------------------------------
 		
 		// do the actual query in two parts
+		// if necessary due to expired cache
 		// -----------------------------------------------
-		$itemsAnon = $this->find('all', array(
-			'conditions' => array(
-				'session_id' => $sessionId,
-				'user_id' => ''
-			),
-			'contain' => $deep
-		));
-//		dmDebug::logVars($this->getLastQuery(), 'anon find query for $userId='.$userId);
-
-		$itemsUser = array();
-		if (!is_null($userId)) {
-			$itemsUser = $this->find('all', array(
+		if (!$items = Cache::read($cacheName, 'cart')) {
+			$itemsAnon = $this->find('all', array(
 				'conditions' => array(
-					'user_id' => $userId,
-					'OR' => array('session_id' => '', 'session_id IS NULL')
-
+					'session_id' => $sessionId,
+					'user_id' => ''
 				),
 				'contain' => $deep
 			));
-//			dmDebug::logVars($this->getLastQuery(), 'user find query for $userId='.$userId);
-		}
-		$items = array_merge($itemsAnon, $itemsUser);
-		// -----------------------------------------------
+//		dmDebug::ddd($this->getLastQuery(), 'anon find query for $userId='.$userId);
+
+			$itemsUser = array();
+			if (!is_null($userId)) {
+				$itemsUser = $this->find('all', array(
+					'conditions' => array(
+						'user_id' => $userId,
+						'OR' => array('session_id' => '', 'session_id IS NULL')
+									),
+					'contain' => $deep
+				));
+//			dmDebug::ddd($this->getLastQuery(), 'user find query for $userId='.$userId);
+			}
+			$items = array_merge($itemsAnon, $itemsUser);
+			Cache::write($cacheName, $items, 'cart');
+			Cache::write($this->keyedCacheName($this->cacheCountName, $Session), count($items), 'cart-count');
+			// -----------------------------------------------
+		}		
+//		dmDebug::ddd($items, 'items');
 		
 		return $items;
 	}
@@ -191,12 +222,39 @@ class Cart extends AppModel {
 	}
 
 	/**
+	 * Return proper cache name from data array
+	 * 
+	 * @param string $name
+	 * @param array $data
+	 * @return string
+	 */
+	private function cacheKeyFromArray($name, $data) {
+		return $name . (isset($data['Cart']['session_id']) && !empty($data['Cart']['session_id'])) 
+				? '.S' . $data['Cart']['session_id'] 
+				: '.U' . $data['Cart']['user_id'];
+	}
+	/**
+	 * Fetch the count of items in the cart
+	 * 
+	 * @param object $Session
+	 * @return int
+	 */
+	public function count($Session) {
+		$cacheName = $this->keyedCacheName($this->cacheCountName, $Session);
+		if(!$count = Cache::read($cacheName, 'cart')){
+			$count = count($this->load($Session));
+		}
+		return $count;
+	}
+	
+	/**
 	 * 
 	 * 
 	 * @param object $Session Component or Helper
 	 * @param boolean $deep Contain associated data or not
 	 * @return type
 	 */
+	
 	public function fetch($Session, $deep = FALSE) {
 		return $this->load($Session, FALSE, $deep);
 	}
