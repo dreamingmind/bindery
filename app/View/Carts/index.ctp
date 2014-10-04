@@ -8,15 +8,14 @@
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('session_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('design_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('data'); ?></th>
-			<th><?php echo $this->Paginator->sort('supplement_id'); ?></th>
+			<th><?php echo $this->Html->para('toggle', 'data', array('id' => 'dataColumn')); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($carts as $cart): ?>
 	<tr>
 		<td><?php echo h($cart['Cart']['id']); ?>&nbsp;</td>
-		<td><?php echo h($cart['Cart']['created']); ?>&nbsp;</td>
-		<td><?php echo h($cart['Cart']['modified']); ?>&nbsp;</td>
+		<td><?php echo date('m-d h:i', strtotime(h($cart['Cart']['created']))); ?>&nbsp;</td>
+		<td><?php echo date('m-d h:i', strtotime(h($cart['Cart']['modified']))); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($cart['User']['username'], array('controller' => 'users', 'action' => 'view', $cart['User']['id'])); ?>
 		</td>
@@ -24,10 +23,7 @@
 			<?php echo h($cart['Cart']['session_id']); ?>
 		</td>
 		<td><?php echo h($cart['Cart']['design_name']); ?>&nbsp;</td>
-		<td><?php echo h($cart['Cart']['data']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($cart['Supplement']['id'], array('controller' => 'supplements', 'action' => 'view', $cart['Supplement']['id'])); ?>
-		</td>
+		<td><?php echo $this->Html->para('dataColumn hide', h($cart['Cart']['data'])); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $cart['Cart']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $cart['Cart']['id'])); ?>
@@ -56,7 +52,5 @@
 		<li><?php echo $this->Html->link(__('New Cart'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Supplements'), array('controller' => 'supplements', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Supplement'), array('controller' => 'supplements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

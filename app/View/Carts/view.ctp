@@ -36,11 +36,6 @@
 			<?php echo h($cart['Cart']['data']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Supplement'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($cart['Supplement']['id'], array('controller' => 'supplements', 'action' => 'view', $cart['Supplement']['id'])); ?>
-			&nbsp;
-		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -52,7 +47,5 @@
 		<li><?php echo $this->Html->link(__('New Cart'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Supplements'), array('controller' => 'supplements', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Supplement'), array('controller' => 'supplements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

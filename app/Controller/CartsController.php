@@ -53,8 +53,7 @@ class CartsController extends AppController {
 			}
 		}
 		$users = $this->Cart->User->find('list');
-		$supplements = $this->Cart->Supplement->find('list');
-		$this->set(compact('users', 'supplements'));
+		$this->set(compact('users'));
 	}
 	
 	/**
@@ -112,8 +111,7 @@ class CartsController extends AppController {
 			$this->request->data = $this->Cart->find('first', $options);
 		}
 		$users = $this->Cart->User->find('list');
-		$supplements = $this->Cart->Supplement->find('list');
-		$this->set(compact('users', 'supplements'));
+		$this->set(compact('users'));
 	}
 
 /**
