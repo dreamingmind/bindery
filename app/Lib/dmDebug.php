@@ -122,7 +122,7 @@ TEXT;
 			$var = Debugger::exportVar($var, 25);
 			if ($showHtml) {
 				$template = $html;
-				$var = h($var);
+				$var = htmlspecialchars($var);
 				if ($showFrom) {
 					$lineInfo = sprintf('<span><strong>%s</strong> (line <strong>%s</strong>)</span>', $file, $line);
 				}

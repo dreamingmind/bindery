@@ -187,6 +187,8 @@ class AppController extends Controller {
 //		echo 'cookie:'.$this->Biscuit->storedSessionId().' | session:'.$this->Session->id();
 		
 		if ($this->Biscuit->cookiesAllowed()) {
+//			dmDebug::ddd($this->Biscuit->currentSessionId(), 'current session');
+//			dmDebug::ddd($this->Session->read('Auth.User.id'), 'user id');
 			
 			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
 				
