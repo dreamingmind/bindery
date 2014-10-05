@@ -89,7 +89,13 @@ Cache::config('cart', array(
 	'prefix' => 'bindery_',
 	'duration' => '+1 hour',
 	'serialize' => TRUE
-	
+));
+
+Cache::config('cart-count', array(
+	'engine' => 'ApcCache',
+	'group' => array('cart'),
+	'prefix' => 'bindery_',
+	'duration' => '+1 hour',
 ));
 
 /**

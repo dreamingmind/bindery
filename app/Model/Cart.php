@@ -40,11 +40,48 @@ App::uses('Hash', 'Utilities');
  */
 class Cart extends AppModel {
 	
-	private $cacheRootName = 'cart';
-	private $cacheAssocName = 'cart-assoc';
-	private $cacheCountName = 'cart-count';
+	/**
+	 * Base name for cart data cache
+	 * 
+	 * Will have a key value appended to make it specific to a single cart
+	 *
+	 * @var string 
+	 */
+	private $cacheData = 'cart';
+	
+	/**
+	 * Base name for cart and associated data cache
+	 * 
+	 * Will have a key value appended to make it specific to a single cart
+	 *
+	 * @var string 
+	 */
+	private $cacheDeepData = 'cart-assoc';
+	
+	/**
+	 * Base name for cart's item-count cache
+	 * 
+	 * Will have a key value appended to make it specific to a single cart
+	 *
+	 * @var string 
+	 */
+	private $cacheCount = 'cart-count';
 
 	/**
+	 * Name of the Cache config responsible for cart data storage
+	 *
+	 * @var string 
+	 */
+	private $dataCacheConfig = 'cart';
+
+	/**
+	 * Name of the Cache config responsible for cart item-coun storage
+	 *
+	 * @var string 
+	 */
+	private $countCacheConfig = 'cart-count';
+
+/**
  * belongsTo associations
  *
  * @var array
@@ -61,18 +98,28 @@ class Cart extends AppModel {
 	public $hasMany = array(
 		'Supplement' => array(
 			'className' => 'Supplement',
-			'foreignKey' => 'foreign_id',
+			'foreignKey' => 'cart_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
 	
+	/**
+	 * After save the validity of the carts cache data is uncertain. Delete them
+	 * 
+	 * @param boolean $created
+	 */
 	public function afterSave($created) {
 		parent::afterSave($created);
 		$this->clearCache($this->data);
 	}
 	
+	/**
+	 * Cart deletions invalidate cart cache data. Delete them.
+	 * 
+	 * @param boolean $cascade
+	 */
 	public function beforeDelete($cascade = true) {
 		parent::beforeDelete($cascade);
 		$tmp = $this->find('first', array(
@@ -90,9 +137,9 @@ class Cart extends AppModel {
 	 * @param array $data
 	 */
 	private function clearCache($data) {
-		Cache::delete($this->cacheNameFromArray($this->cacheRootName, $data), 'cart');
-		Cache::delete($this->cacheNameFromArray($this->cacheAssocName, $data), 'cart');
-		Cache::delete($this->cacheNameFromArray($this->cacheCountName, $data), 'cart-count');
+		Cache::delete($this->cacheName($this->cacheData, $data), $this->dataCacheConfig);
+		Cache::delete($this->cacheName($this->cacheDeepData, $data), $this->dataCacheConfig);
+		Cache::delete($this->cacheName($this->cacheCount, $data), $this->countCacheConfig);
 	}
 		
 	/**
@@ -102,7 +149,7 @@ class Cart extends AppModel {
 	 * @return boolean
 	 */
 	public function cartExists($Session) {
-		if (empty($this->load($Session))) {
+		if (empty($this->count($Session))) {
 			return FALSE;
 		} else {
 			return TRUE;
@@ -161,16 +208,16 @@ class Cart extends AppModel {
 		}
 		if ($deep) {
 			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
-			$cacheName = $this->keyedCacheName($this->cacheAssocName, $Session);
+			$cacheName = $this->cacheName($this->cacheDeepData, $Session);
 		} else {
-			$cacheName = $this->keyedCacheName($this->cacheRootName, $Session);
+			$cacheName = $this->cacheName($this->cacheData, $Session);
 		}
 		// ---------------------------------------------
 		
 		// do the actual query in two parts
 		// if necessary due to expired cache
 		// -----------------------------------------------
-		if (!$items = Cache::read($cacheName, 'cart')) {
+		if (!$items = Cache::read($cacheName, $this->dataCacheConfig)) {
 			$itemsAnon = $this->find('all', array(
 				'conditions' => array(
 					'session_id' => $sessionId,
@@ -192,8 +239,8 @@ class Cart extends AppModel {
 //			dmDebug::ddd($this->getLastQuery(), 'user find query for $userId='.$userId);
 			}
 			$items = array_merge($itemsAnon, $itemsUser);
-			Cache::write($cacheName, $items, 'cart');
-			Cache::write($this->keyedCacheName($this->cacheCountName, $Session), count($items), 'cart-count');
+			Cache::write($cacheName, $items, $this->dataCacheConfig);
+			Cache::write($this->cacheName($this->cacheCount, $Session), count($items), $this->countCacheConfig);
 			// -----------------------------------------------
 		}		
 //		dmDebug::ddd($items, 'items');
@@ -204,35 +251,30 @@ class Cart extends AppModel {
 	/**
 	 * Add the correct key values to the cache name
 	 * 
-	 * Cache is alway on the current id. If we're in the 
-	 * middle of maitenance with an old session id, that 
-	 * value will catch up before we're done.
-	 * 
 	 * @param string $name One of the cache-name properties
-	 * @param object $Session Component or Helper
+	 * @param object|array $keySource Component or Helper | data array
 	 */
-	private function keyedCacheName($name, $Session) {
-		$userId = $Session->read('Auth.User.id');
-		if (is_null($userId)) {
-			$name = $name . '.S' . $Session->id();
+	private function cacheName($name, $keySource) {
+		if (is_object($keySource)){
+			
+			$userId = $Session->read('Auth.User.id');
+			
+			if (is_null($userId)) {
+				$name =  "$name.S{$Session->id()}";
+			} else {
+				$name =  "$name.U{$userId}";
+			}
 		} else {
-			$name = $name . '.U' . $userId;
+			
+			if (empty($keySource[$this->dataCacheConfig]['user_id'])) {
+				$name =  "$name.S{$data[$this->dataCacheConfig]['session_id']}";
+			} else {
+				$name =  "$name.U{$data[$this->dataCacheConfig]['user_id']}";
+			}
 		}
 		return $name;
 	}
 
-	/**
-	 * Return proper cache name from data array
-	 * 
-	 * @param string $name
-	 * @param array $data
-	 * @return string
-	 */
-	private function cacheKeyFromArray($name, $data) {
-		return $name . (isset($data['Cart']['session_id']) && !empty($data['Cart']['session_id'])) 
-				? '.S' . $data['Cart']['session_id'] 
-				: '.U' . $data['Cart']['user_id'];
-	}
 	/**
 	 * Fetch the count of items in the cart
 	 * 
@@ -240,8 +282,8 @@ class Cart extends AppModel {
 	 * @return int
 	 */
 	public function count($Session) {
-		$cacheName = $this->keyedCacheName($this->cacheCountName, $Session);
-		if(!$count = Cache::read($cacheName, 'cart')){
+		$cacheName = $this->cacheName($this->cacheCount, $Session);
+		if(!$count = Cache::read($cacheName, $this->dataCacheConfig)){
 			$count = count($this->load($Session));
 		}
 		return $count;
