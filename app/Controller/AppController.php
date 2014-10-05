@@ -75,7 +75,7 @@ class AppController extends Controller {
 		'Purchases'
     );
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PaypalIpn.Paypal');
-    var $uses = array('Navigator', 'User', 'Account', 'Cart');
+    var $uses = array('Navigator', 'User', 'Account');//, 'Cart'
     var $record = array();
     var $css = array();
 
@@ -196,7 +196,7 @@ class AppController extends Controller {
 				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
 				$this->Biscuit->saveSessionId();
 			}
-			$this->set('cart', $this->Cart->fetch($this->Session));
+//			$this->set('cart', $this->Cart->fetch($this->Session));
 		}
 
 		$this->layout = 'noThumbnailPage';
@@ -276,7 +276,7 @@ class AppController extends Controller {
 
         $this->set('scripts', $this->scripts);
 		
-		$this->set('purchaseCount', $this->Purchases->count());
+		$this->set('purchaseCount', $this->Purchases->itemCount());
     }
 
     function initAccount() {

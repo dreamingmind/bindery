@@ -66,27 +66,27 @@ class CartsController extends AppController {
 	 * This will set $new to the new item's ID
 	 * and $cart to the collection of items in the cart
 	 */
-	public function addToCart() {
-		if ($this->request->is('POST')) {
-			$this->layout = 'ajax';
-		}
-		
-		$key = $this->request->data['specs_key']; // this is the array node where the detail specs are listed
-
-		$data = array(
-			'Cart' => array(
-				'user_id' => $this->Auth->user('id'),
-				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
-				'data' => serialize($this->request->data),
-				'design_name' => $this->request->data[$key]['description'],
-				'price' => rand(100, 300)
-			)
-		);
-		
-		$this->Cart->save($data);
-		$this->set('new', $this->Cart->id);
-		$this->set('cart', $this->Cart->fetch($this->Session));
-	}
+//	public function addToCart() {
+//		if ($this->request->is('POST')) {
+//			$this->layout = 'ajax';
+//		}
+//		
+//		$key = $this->request->data['specs_key']; // this is the array node where the detail specs are listed
+//
+//		$data = array(
+//			'Cart' => array(
+//				'user_id' => $this->Auth->user('id'),
+//				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
+//				'data' => serialize($this->request->data),
+//				'design_name' => $this->request->data[$key]['description'],
+//				'price' => rand(100, 300)
+//			)
+//		);
+//		
+//		$this->Cart->save($data);
+//		$this->set('new', $this->Cart->id);
+//		$this->set('cart', $this->Cart->fetch($this->Session));
+//	}
 
 /**
  * edit method

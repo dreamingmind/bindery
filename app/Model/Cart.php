@@ -167,7 +167,7 @@ class Cart extends AppModel {
 	 * 
 	 * @param object $Session Component or Helper
 	 */
-	public function maintain(SessionComponent $Session, $oldSession) {
+	public function maintain($Session, $oldSession) {
 		
 		$userId = $Session->read('Auth.User.id');
 		$items = $this->load($Session, $oldSession);
@@ -257,19 +257,19 @@ class Cart extends AppModel {
 	private function cacheName($name, $keySource) {
 		if (is_object($keySource)){
 			
-			$userId = $Session->read('Auth.User.id');
+			$userId = $keySource->read('Auth.User.id');
 			
 			if (is_null($userId)) {
-				$name =  "$name.S{$Session->id()}";
+				$name =  "$name.S{$keySource->id()}";
 			} else {
 				$name =  "$name.U{$userId}";
 			}
 		} else {
 			
-			if (empty($keySource[$this->dataCacheConfig]['user_id'])) {
-				$name =  "$name.S{$data[$this->dataCacheConfig]['session_id']}";
+			if (empty($keySource['Cart']['user_id'])) {
+				$name =  "$name.S{$keySource['Cart']['session_id']}";
 			} else {
-				$name =  "$name.U{$data[$this->dataCacheConfig]['user_id']}";
+				$name =  "$name.U{$keySource['Cart']['user_id']}";
 			}
 		}
 		return $name;

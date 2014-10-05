@@ -1,9 +1,7 @@
 <?php 
-if (isset($cart)) {
-	$count = count($cart);
+if ($purchaseCount > 0) {
 	$checkout = ' | ' . $this->Html->tag('span', 'Checkout');
 } else {
-	$count = 0;
 	$checkout = '';
 }
 
@@ -11,7 +9,7 @@ echo $this->Html->div(
 		'badge',
 		$this->Html->image('cart')
 		. $this->Html->para(NULL, 
-				$this->Html->tag('span', "$count items")
+				$this->Html->tag('span', "$purchaseCount items")
 				. $checkout
 			),
 		array('id' => 'cart_badge')

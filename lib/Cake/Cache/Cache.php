@@ -113,6 +113,7 @@ class Cache {
  * @throws CacheException
  */
 	public static function config($name = null, $settings = array()) {
+//		debug(func_get_args());
 		if (is_array($name)) {
 			$settings = $name;
 		}
