@@ -71,7 +71,8 @@ class AppController extends Controller {
         ),
 		'Markdown.Markdown',
         'Session',
-        'Email'
+        'Email',
+		'Purchases'
     );
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PaypalIpn.Paypal');
     var $uses = array('Navigator', 'User', 'Account', 'Cart');
@@ -274,6 +275,8 @@ class AppController extends Controller {
         }
 
         $this->set('scripts', $this->scripts);
+		
+		$this->set('purchaseCount', $this->Purchases->count());
     }
 
     function initAccount() {
