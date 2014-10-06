@@ -1,5 +1,6 @@
 <?php
-App::uses('Biscuit', 'Lib');			
+App::uses('Biscuit', 'Lib');	
+App::uses('PurchasedProductFactory', 'Lib/PurchaseUtilities');
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,13 +14,6 @@ App::uses('Biscuit', 'Lib');
  */
 class PurchasesComponent extends Component {
 	
-	/**
-	 * The Cart Model
-	 *
-	 * @var object
-	 */
-//	private $Cart;
-
 	/**
 	 * The Request object
 	 *
@@ -36,7 +30,7 @@ class PurchasesComponent extends Component {
 	public function initialize(Controller $controller) {
 //		$this->Session = $controller->Components->load('Session');
 		$this->Cart = ClassRegistry::init('Cart');
-		$this->request = $controller->request;
+		$this->controller = $controller;
 	}
 
 	public function startup(Controller $controller) {
@@ -91,26 +85,32 @@ class PurchasesComponent extends Component {
 	 * and take appropriate action
 	 */
 	public function add() {
-		if ($this->request->is('POST')) {
-			$this->layout = 'ajax';
-			dmDebug::ddd($this->request->data, 'purchases trd');
+		if ($this->controller->request->is('POST')) {
+			$this->controller->layout = 'ajax';
+			try {
+				$this->validator = PurchasedProductFactory::makeProduct($this->controller->request->data);
+				$price = $this->validator->calculatePrice();				
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+
 		}
 		
-		$key = $this->request->data['specs_key']; // this is the array node where the detail specs are listed
+		$key = $this->controller->request->data['specs_key']; // this is the array node where the detail specs are listed
 
 		$data = array(
 			'Cart' => array(
 				'user_id' => $this->Session->read('Auth.User.id'),
 				'session_id' => ($this->Session->read('Auth.User.id') == NULL) ? $this->Session->id() : NULL,
-				'data' => serialize($this->request->data),
-				'design_name' => $this->request->data[$key]['description'],
+				'data' => serialize($this->controller->request->data),
+				'design_name' => $this->controller->request->data[$key]['description'],
 				'price' => rand(100, 300)
 			)
 		);
 		
 		$this->Cart->save($data);
-		$controller->set('new', $this->Cart->id);
-		$controller->set('cart', $this->Cart->fetch($this->Session));
+		$this->controller->set('new', $this->Cart->id);
+		$this->controller->set('cart', $this->Cart->fetch($this->Session));
 	}
 	
 	public function maintain($Session, $oldSession) {
