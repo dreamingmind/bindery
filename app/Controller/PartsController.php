@@ -6,8 +6,15 @@ App::uses('AppController', 'Controller');
  * @property Part $Part
  */
 class PartsController extends AppController {
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		if ($this->Auth->user('id')) {
+			$this->Auth->allow('index', 'view', 'add', 'edit', 'modify');
+		}
+	}
 
-/**
+	/**
  * index method
  *
  * @return void
@@ -92,5 +99,23 @@ class PartsController extends AppController {
 		}
 		$this->Session->setFlash(__('Part was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	public function modify() {
+		if ($this->request->is('post')) {
+			$this->Part->saveMany($this->request->data);
+		}
+		$products = $this->Part->find('all', array(
+			'conditions' => array('code LIKE' => '%2%.%2%'),
+			'fields' => array('code', 'name', 'price')
+		));
+		
+		foreach ($products as $index => $product) {
+//			$products[$index]['Part']['code'] = str_replace('.3', '.8', $product['Part']['code']);
+//			$products[$index]['Part']['code'] = str_replace('88', '86', $product['Part']['code']);
+//			$products[$index]['Part']['name'] = str_replace('3.75 x 6.75', '8.5 x 11', $product['Part']['name']);
+		}
+		$this->request->data = $products;
+//		dmDebug::ddd($this->request->data, 'data');
 	}
 }

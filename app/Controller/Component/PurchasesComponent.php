@@ -93,14 +93,15 @@ class PurchasesComponent extends Component {
 	public function add() {
 		if ($this->request->is('POST')) {
 			$this->layout = 'ajax';
+			dmDebug::ddd($this->request->data, 'purchases trd');
 		}
 		
 		$key = $this->request->data['specs_key']; // this is the array node where the detail specs are listed
 
 		$data = array(
 			'Cart' => array(
-				'user_id' => $this->Auth->user('id'),
-				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
+				'user_id' => $this->Session->read('Auth.User.id'),
+				'session_id' => ($this->Session->read('Auth.User.id') == NULL) ? $this->Session->id() : NULL,
 				'data' => serialize($this->request->data),
 				'design_name' => $this->request->data[$key]['description'],
 				'price' => rand(100, 300)
@@ -108,8 +109,8 @@ class PurchasesComponent extends Component {
 		);
 		
 		$this->Cart->save($data);
-		$this->set('new', $this->Cart->id);
-		$this->set('cart', $this->Cart->fetch($this->Session));
+		$controller->set('new', $this->Cart->id);
+		$controller->set('cart', $this->Cart->fetch($this->Session));
 	}
 	
 	public function maintain($Session, $oldSession) {

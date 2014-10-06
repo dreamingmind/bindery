@@ -66,7 +66,9 @@ class CartsController extends AppController {
 	 * This will set $new to the new item's ID
 	 * and $cart to the collection of items in the cart
 	 */
-//	public function addToCart() {
+	public function addToCart() {
+		$this->Purchases->add();
+	}
 //		if ($this->request->is('POST')) {
 //			$this->layout = 'ajax';
 //		}
