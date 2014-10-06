@@ -1,4 +1,5 @@
 <?php
+App::uses('Biscuit', 'Lib');			
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,6 +27,7 @@ class PurchasesComponent extends Component {
 	 */
 	private $request;
 
+	public $Biscuit;
 
 	public $components = array('Session');
 	
@@ -38,11 +40,35 @@ class PurchasesComponent extends Component {
 	}
 
 	public function startup(Controller $controller) {
+		// If the user has a cookie and it doesn't match the current Session id, it means 
+		// they've been here before and may have old Cart items linked to the previous Session. 
+		// We'll move those cart items to the current sesion if they exist.
 		
+		// If cookies aren't allowed, we'll send a Flash message the first time we discover the fact
+		
+		// If a Session doesn't exist, one will be created
+		
+		// Logging in changes the Session id also, and would leave an orphan Cart, 
+		// but we take care of that problem in users->login()
+		$this->Biscuit = new Biscuit($controller);
+//		echo 'cookie:'.$this->Biscuit->storedSessionId().' | session:'.$this->Session->id();
+		
+		if ($this->Biscuit->cookiesAllowed()) {
+//			dmDebug::ddd($this->Biscuit->currentSessionId(), 'current session');
+//			dmDebug::ddd($this->Session->read('Auth.User.id'), 'user id');
+			
+			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
+				
+				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
+				$this->Biscuit->saveSessionId();
+			}
+//			$this->set('cart', $this->Cart->fetch($this->Session));
+		}
 	}
 
 	public function beforeRender(Controller $controller) {
-		
+		$controller->set('purchaseCount', $this->itemCount());
+
 	}
 
 	public function shutDown(Controller $controller) {
@@ -84,6 +110,15 @@ class PurchasesComponent extends Component {
 		$this->Cart->save($data);
 		$this->set('new', $this->Cart->id);
 		$this->set('cart', $this->Cart->fetch($this->Session));
+	}
+	
+	public function maintain($Session, $oldSession) {
+		$this->Cart->maintain($Session, $oldSession);
+	}
+	
+	public function login() {
+		$this->maintain($this->Session, $this->Biscuit->storedSessionId());
+		$this->Biscuit->saveSessionId();
 	}
 
 }

@@ -130,10 +130,13 @@ class UsersController extends AppController {
 		}
 //		$this->Auth->redirect($this->referer());
 		if ($this->Auth->login() && $this->request->is('post')) {
+			
 			// when the user logs in, they may have been working on a Cart. 
-			// if so, we'll make sure it doesn't become orphaned.
-			$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
-			$this->Biscuit->saveSessionId();
+			// If so, we'll make sure it doesn't become orphaned.
+			// If they had a cart from a previous logged in session, it will be merged.
+			// The important concept here is that the session should now have Auth.User.id set 
+			// and there can be a new session id (not required, but acceptable).
+			$this->Purchases->login();
 			
 			$this->redirect($this->Auth->redirectUrl());			
 		}

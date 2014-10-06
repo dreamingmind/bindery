@@ -26,7 +26,6 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('Controller', 'Controller');
-App::uses('Biscuit', 'Lib');
 /**
  * Short description for class.
  *
@@ -169,36 +168,9 @@ class AppController extends Controller {
     
     var $scripts = '';
 	
-	public $Biscuit;
-			
     function beforeFilter() {
 		parent::beforeFilter();
 		
-		// If the user has a cookie and it doesn't match the current Session id, it means 
-		// they've been here before and may have old Cart items linked to the previous Session. 
-		// We'll move those cart items to the current sesion if they exist.
-		
-		// If cookies aren't allowed, we'll send a Flash message the first time we discover the fact
-		
-		// If a Session doesn't exist, one will be created
-		
-		// Logging in changes the Session id also, and would leave an orphan Cart, 
-		// but we take care of that problem in users->login()
-		$this->Biscuit = new Biscuit($this);
-//		echo 'cookie:'.$this->Biscuit->storedSessionId().' | session:'.$this->Session->id();
-		
-		if ($this->Biscuit->cookiesAllowed()) {
-//			dmDebug::ddd($this->Biscuit->currentSessionId(), 'current session');
-//			dmDebug::ddd($this->Session->read('Auth.User.id'), 'user id');
-			
-			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
-				
-				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
-				$this->Biscuit->saveSessionId();
-			}
-//			$this->set('cart', $this->Cart->fetch($this->Session));
-		}
-
 		$this->layout = 'noThumbnailPage';
 
 		// These things should happen regardless of login or permission
@@ -276,7 +248,6 @@ class AppController extends Controller {
 
         $this->set('scripts', $this->scripts);
 		
-		$this->set('purchaseCount', $this->Purchases->itemCount());
     }
 
     function initAccount() {
