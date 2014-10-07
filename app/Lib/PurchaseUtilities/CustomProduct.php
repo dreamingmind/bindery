@@ -84,7 +84,10 @@ class CustomProduct extends PurchasedProduct {
 		return $cart;
 	}
 
-	public function updateQuantity() {
+	/**
+	 * Record a simple quantity change in a cart record
+	 */
+	public function updateQuantity($id, $qty) {
 		
 	}
 }

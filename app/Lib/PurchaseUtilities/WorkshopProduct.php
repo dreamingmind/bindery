@@ -26,6 +26,10 @@ class WorkshopProduct extends PurchasedProduct {
 
 	public function cartEntry() {
 		
+	}
+
+	public function updateQuantity($id, $qty) {
+		
 	}	//put your code here
 }
 

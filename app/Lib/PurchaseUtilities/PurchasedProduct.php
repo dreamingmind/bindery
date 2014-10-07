@@ -99,7 +99,7 @@ abstract class PurchasedProduct {
 	 */
 	abstract public function cartEntry();
 	
-	abstract public function updateQuantity();
+	abstract public function updateQuantity($id, $qty);
 
 
 }

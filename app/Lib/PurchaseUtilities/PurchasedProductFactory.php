@@ -24,12 +24,12 @@ class PurchasedProductFactory {
 	// Put its name into $validator
 	
 	if (isset($data['specs_key'])) {
-		$validator = 'CustomProduct';
+		$product = 'CustomProduct';
 	} else {
-		throw new BadRequestException('Could not determine which price validator to use.');
+		throw new BadRequestException('Could not determine which product utility class to use.');
 	}
 	
-	 return new $validator($Session, $data);
+	 return new $product($Session, $data);
 	/**
 	 * I could check to see if an instance already exists and return that one
 	 * but since I'm making them with the data-to-validate as a parameter, I'm planning 
