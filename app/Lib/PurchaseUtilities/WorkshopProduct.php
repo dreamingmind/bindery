@@ -20,7 +20,11 @@ class WorkshopProduct extends PurchasedProduct {
 		
 	}
 
-	public function paypalCart($index) {
+	public function paypalCartUploadNode($index) {
+		
+	}
+
+	public function cartEntry() {
 		
 	}	//put your code here
 }

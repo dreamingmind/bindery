@@ -6,15 +6,11 @@
  */
 
 /**
- * Description of InventoryProduct
+ * Description of ReorderProduct
  *
  * @author dondrake
  */
-class InventoryProduct extends PurchasedProduct {
-	
-	public function __construct($data) {
-		parent::__construct($data);
-	}
+class ReorderProduct extends PurchasedProduct {
 	
 	public function calculatePrice() {
 		
@@ -26,7 +22,7 @@ class InventoryProduct extends PurchasedProduct {
 
 	public function cartEntry() {
 		
-	}	//put your code here
+	}	
 }
 
 ?>
