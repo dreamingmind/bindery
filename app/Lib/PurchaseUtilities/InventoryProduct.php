@@ -35,7 +35,6 @@ class InventoryProduct extends PurchasedProduct {
 
 	public function cartEntry() {
 		$cart = array('Cart' => array(
-//				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : '',
 				'session_id' => ($this->sessionId) ? $this->sessionId : '',
