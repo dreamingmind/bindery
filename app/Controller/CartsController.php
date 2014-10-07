@@ -56,19 +56,6 @@ class CartsController extends AppController {
 		$this->set(compact('users'));
 	}
 	
-	/**
-	 * Save an item to the cart
-	 * 
-	 * @todo Validate price for form data that originates with the user
-	 *		Even if we have an unmodified 'saved-spec' or 'standard-item' 
-	 *		I'll need to look up current pricing
-	 * 
-	 * This will set $new to the new item's ID
-	 * and $cart to the collection of items in the cart
-	 */
-	public function addToCart() {
-		$this->Purchases->add();
-	}
 //		if ($this->request->is('POST')) {
 //			$this->layout = 'ajax';
 //		}
@@ -136,4 +123,5 @@ class CartsController extends AppController {
 		$this->Session->setFlash(__('Cart was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
 }

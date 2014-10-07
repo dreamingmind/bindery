@@ -20,6 +20,8 @@ class PurchasesComponent extends Component {
 	public $components = array('Session');
 	
 	public $product;
+	
+	public $controller;
 
 	/**
 	 * Load the Cart Model and memorize the controller
@@ -71,6 +73,12 @@ class PurchasesComponent extends Component {
 		
 	}
 	
+	public function newBadge() {
+		$this->controller->layout = 'ajax';
+		$this->controller->render('/Elements/Cart/cart_badge');
+	}
+
+
 	/**
 	 * Return the count of items in the cart
 	 * 
@@ -78,7 +86,7 @@ class PurchasesComponent extends Component {
 	 */
 	public function itemCount() {
 		return $this->Cart->count($this->Session);
-	}
+		}
 	
 	/**
 	 * Add another item to the shopping cart

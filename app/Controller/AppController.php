@@ -66,7 +66,7 @@ class AppController extends Controller {
             'authorize' => 'controller',
             //'authorize' => 'actions',
             //'authorize' => 'crud',
-            'allowedActions' => array('display')
+            'allowedActions' => array('display', 'newBadge')
         ),
 		'Markdown.Markdown',
         'Session',
@@ -803,6 +803,28 @@ SIG;
         }
     }
     
+	/***************************************************************
+	 * UNIVERSAL PASSTHROUGH CALLS TO PURCHASES COMPONENT
+	 * Provides Cart Management
+	 ***************************************************************/
+	
+	/**
+	 * Save an item to the cart
+	 * 
+	 * This will set $new to the new item's ID
+	 * and $cart to the collection of items in the cart
+	 */
+	public function addToCart() {
+		$this->Purchases->add();
+	}
+	
+	public function newBadge() {
+		$this->Purchases->newBadge();
+	}
+
+
+
+
 }
 
 ?>

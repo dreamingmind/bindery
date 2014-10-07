@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	capturePaypal();
+//	capturePaypal();
 })
 
 function addToCart(e) {
@@ -13,6 +13,7 @@ function addToCart(e) {
 		url: webroot+'carts/addToCart',
 		success: function(data) {
 			$(e.currentTarget).after(data);
+			cartBadge();
 		},
 		error: function(data) {
 			alert('AJAX ERROR\n' + data);
@@ -20,11 +21,26 @@ function addToCart(e) {
 	})
 }
 
+ function cartBadge() {
+	$.ajax({
+		type: "GET",
+		dataType: "HTML",
+		url: webroot+'carts/newBadge',
+		success: function(data) {
+			$('#cart_badge').replaceWith(data);
+		},
+		error: function(data) {
+			alert('AJAX ERROR\n' + data);
+		}
+	})
+	 
+ }
+
 /**
  * Direct any PayPal buttons to the site cart processes
  */
-function capturePaypal() {
-	$('form[action*="paypal"]').find('input[type="submit"]').each(function(){
-		$(this).on('click'.addToCart);
-	})
-}
+//function capturePaypal() {
+//	$('form[action*="paypal"]').find('input[type="submit"]').each(function(){
+//		$(this).on('click'.addToCart);
+//	})
+//}
