@@ -88,27 +88,28 @@ class PurchasesComponent extends Component {
 		if ($this->controller->request->is('POST')) {
 			$this->controller->layout = 'ajax';
 			try {
-				$this->validator = PurchasedProductFactory::makeProduct($this->controller->request->data);
-				$price = $this->validator->calculatePrice();				
+				$this->validator = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
+				$data = $this->validator->cartEntry();	
+				dmDebug::ddd($data, 'data');
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
 			}
 
 		}
 		
-		$key = $this->controller->request->data['specs_key']; // this is the array node where the detail specs are listed
-
-		$data = array(
-			'Cart' => array(
-				'user_id' => $this->Session->read('Auth.User.id'),
-				'session_id' => ($this->Session->read('Auth.User.id') == NULL) ? $this->Session->id() : NULL,
-				'data' => serialize($this->controller->request->data),
-				'design_name' => $this->controller->request->data[$key]['description'],
-				'price' => rand(100, 300)
-			)
-		);
+//		$key = $this->controller->request->data['specs_key']; // this is the array node where the detail specs are listed
+//
+//		$data = array(
+//			'Cart' => array(
+//				'user_id' => $this->Session->read('Auth.User.id'),
+//				'session_id' => ($this->Session->read('Auth.User.id') == NULL) ? $this->Session->id() : NULL,
+//				'data' => serialize($this->controller->request->data),
+//				'design_name' => $this->controller->request->data[$key]['description'],
+//				'price' => rand(100, 300)
+//			)
+//		);
 		
-		$this->Cart->save($data);
+		$this->Cart->saveAssociated($data);
 		$this->controller->set('new', $this->Cart->id);
 		$this->controller->set('cart', $this->Cart->fetch($this->Session));
 	}

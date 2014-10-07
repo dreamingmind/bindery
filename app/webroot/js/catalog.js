@@ -608,7 +608,7 @@ function writePricedTitle(product){
     // write the title to the page
     $(catalog.productNames[product]['titleNode']).html(price + title);
     // write the title to a form input for delivery to the server
-    $(catalog.productNames[product]['titleInput']).attr('value', price + title);
+    $(catalog.productNames[product]['titleInput']).attr('value', title);
 	// write the new sum to the paypal button
 	
     // Write the current caveats to the page

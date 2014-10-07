@@ -16,7 +16,7 @@ App::uses('PurchasedProduct', 'Lib/PurchaseUtilities');
  */
 class PurchasedProductFactory {
 	
-	public static function makeProduct($data) {
+	public static function makeProduct($Session, $data) {
 	
 	// this assumes the data provides clues that are used in this 
 	// method to decide which validator should be created.
@@ -29,7 +29,7 @@ class PurchasedProductFactory {
 		throw new BadRequestException('Could not determine which price validator to use.');
 	}
 	
-	 return new $validator($data);
+	 return new $validator($Session, $data);
 	/**
 	 * I could check to see if an instance already exists and return that one
 	 * but since I'm making them with the data-to-validate as a parameter, I'm planning 
