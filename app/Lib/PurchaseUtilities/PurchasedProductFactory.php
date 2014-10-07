@@ -25,6 +25,9 @@ class PurchasedProductFactory {
 	
 	if (isset($data['specs_key'])) {
 		$product = 'CustomProduct';
+	} elseif (isset($data['cmd'])) {
+		$product = 'InventoryProduct';
+		
 	} else {
 		throw new BadRequestException('Could not determine which product utility class to use.');
 	}

@@ -220,7 +220,7 @@ class AppController extends Controller {
         $this->set('css', $this->css);
 
         if ($this->layout === 'thumbnailPage') {
-            $this->scripts = array_merge($this->scripts, array('manage_thumbnails', 'jumpbox', 'adjust_markdown', 'app'));
+            $this->scripts = array_merge($this->scripts, array('manage_thumbnails', 'jumpbox', 'adjust_markdown', 'app', 'cart'));
             if ($this->params['action'] === 'gallery') {
                 $this->scripts[] = 'edit_exhibit';
             } elseif ($this->params['action'] === 'newsfeed') {
@@ -229,7 +229,7 @@ class AppController extends Controller {
                 $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'edit_dispatch'));
             }
         } elseif ($this->layout === 'noThumbnailPage') {
-            $this->scripts[] = 'supplement_defaults';
+            $this->scripts[] = array_merge($this->scripts, array('cart', 'supplement_defaults'));
             if ($this->params['action'] === 'art') {
                 $this->scripts = array_merge($this->scripts, array('art', 'blog_image_zoom', 'adjust_markdown', 'edit_dispatch'));
             } elseif ($this->params['action'] === 'change_collection') {

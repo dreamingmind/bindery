@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+	capturePaypal();
 })
 
 function addToCart(e) {
@@ -18,5 +18,13 @@ function addToCart(e) {
 			alert('AJAX ERROR\n' + data);
 		}
 	})
+}
 
+/**
+ * Direct any PayPal buttons to the site cart processes
+ */
+function capturePaypal() {
+	$('form[action*="paypal"]').find('input[type="submit"]').each(function(){
+		$(this).on('click'.addToCart);
+	})
 }
