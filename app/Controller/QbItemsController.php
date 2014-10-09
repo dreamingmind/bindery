@@ -26,11 +26,22 @@ public $uses = array('QbItems');
     }
 
 	public function index() {
-		$source = new File(APP . 'webroot/files/list.isf');
+		$source = new File(APP . 'webroot/files/all.iff');
 		$source->open('r');
 		$dest = $this->QbItems->import($source->handle);
 		$this->set('source', $dest);
 	}
+	
+	public function import() {
+		if($this->request->is('POST')){
+			$path = $this->request->data['QbItems']['QBFile']['tmp_name'];
+			$source = new File($path);
+			$source->open('r');
+			$this->QbItems->import($source->handle);
+		}
+		
+	}
+	
 }
 
 ?>

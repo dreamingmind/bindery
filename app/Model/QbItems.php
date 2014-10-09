@@ -2,6 +2,7 @@
 
 App::uses('AppModel', 'Model');
 App::uses('Hash', 'Utilities');
+App::uses('LineTypeFactory', 'Lib/QBUtilities');
 
 /**
  * Description of QbItems
@@ -10,6 +11,9 @@ App::uses('Hash', 'Utilities');
  */
 class QbItems extends AppModel {
 	
+	public $useTable = FALSE;
+
+
 	public $filter = array (
 		'INVITEM' => NULL,
 		'NAME' => NULL,
@@ -25,6 +29,8 @@ class QbItems extends AppModel {
 		'COST' => NULL,
 		'TAXABLE' => NULL
 		);
+	
+	public $headers = array();
 	
 //	public $filter = array ('INVITEM' => NULL,
 //		'NAME' => NULL,
@@ -62,7 +68,7 @@ class QbItems extends AppModel {
 	 * @param resource $handle The handle to the item.isf file
 	 * @return array
 	 */
-	public function import($handle) {
+	public function oldImport($handle) {
 		$i = 0;
 		$dest = array();
 		$collect = array();
@@ -133,6 +139,18 @@ class QbItems extends AppModel {
 		}
 		
 		return $final;
+	}
+	
+	public function import($handle) {
+		$i=0;
+		while(($line = fgets($handle)) != FALSE && $i<25){
+			$lineType = LineTypeFactory::create($line);
+			if($lineType->skip()){
+				continue;
+			}
+			$this->headers = $lineType->execute($this->headers);
+			$i++;
+		}
 	}
 }
 ?>
