@@ -1,0 +1,323 @@
+!HDR	PROD	VER	REL	IIFVER	DATE	TIME
+HDR	QuickBooks 2014 for Macintosh	Version 15.0.5	Release R6	1	10/7/14	1412720586
+!INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	PURCHASEDESC	ACCNT	ASSETACCNT	COGSACCNT	PRICE	COST	TAXABLE	PAYMETH	TAXVEND	TAXDIST	PREFVEND	REORDERPOINT	EXTRA	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	DEP_TYPE	ISPASSEDTHRU
+INVITEM	Rent	269	0	SERV	Studio and equipment use		Fee Income			0.00	0	Y												0	N
+INVITEM	Returned Check	251	0	SERV	Returned check		Write Off			0.00	0	Y												0	N
+INVITEM	Design	211	0	SERV	"Design, layout or invention"		Sales:Retail			35.00	0	Y												0	N
+INVITEM	Editing	210	0	SERV	"Writing, text review or editing"		Sales:Retail			35.00	0	Y												0	N
+INVITEM	Instruction	165	0	SERV			Sales:Teaching			17.1428	0	Y												0	N
+INVITEM	Instruction:Workshop	167	0	SERV			Sales:Teaching			85.00	0	N												0	N
+INVITEM	Instruction:PrivateLesson	166	0	SERV			Sales:Teaching			17.1428	0	Y												0	N
+INVITEM	Research	152	0	SERV	Research		Sales:Retail			40.00	0	Y												0	N
+INVITEM	55.6	128	0	SERV	finish work		Sales:Retail			0.00	0	Y												0	N
+INVITEM	55.5	120	0	SERV	repair		Sales:Retail			20.00	0	Y												0	N
+INVITEM	Rush	115	0	SERV	Rush charge		Sales:Retail:Rush			20.0%	0	Y												0	N
+INVITEM	55.7	50	0	SERV	Printing		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Book Repair	13	0	SERV	Book repair or restoration		Fee Income			0.00	0	N												0	N
+INVITEM	Clin. Study	16	0	SERV			Fee Income			0.00	0	N												0	N
+INVITEM	Database	179	0	SERV	Database services		Fee Income			0.00	0	Y												0	N
+INVITEM	Database:DB Consult	180	0	SERV	Database Systems Consulting		Fee Income			40.00	0	Y												0	N
+INVITEM	Database:DB Design	20	0	SERV			Fee Income			35.00	0	N												0	N
+INVITEM	Database:DB Design:dm	220	0	SERV	dreamingmind licensing split		Sales:Retail			0.00	0	N												0	N
+INVITEM	Database:DB Design:curly	219	0	SERV	curly licenscing split		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Database:DB Admin	21	0	SERV			Fee Income			50.00	0	N												0	N
+INVITEM	Teaching	15	0	SERV			Fee Income			0.00	0	N												0	N
+INVITEM	Graphics	2	0	SERV	Graphics / - //01		Fee Income:Graphics			35.00	0	N												0	N
+INVITEM	Web	3	0	SERV	Web design and implementation		Fee Income:Web			35.00	0	N												0	N
+INVITEM	Framing	19	0	SERV			Sales:Retail			0.00	0	Y												0	N
+INVITEM	Wheat Starch	107	0	SERV			Sales:Retail			0.00	0	Y												0	N
+INVITEM	Scroll	270	0	PART			Sales:Retail			0.00	0	Y												0	N
+INVITEM	Button	265	0	PART	Button		Sales:Retail			3.00	0	Y												0	N
+INVITEM	Labor	257	0	PART	Binding time		Sales:Retail			35.00	0	N												0	N
+INVITEM	E6	164	0	PART	"E6 Clipboard clip, 3.5' length"		Inventory Asset:Raw Materials			0.78	0	Y												0	N
+INVITEM	PersPub	156	0	PART	Binding of customer content		Sales:Retail			0.00	0	Y												0	N
+INVITEM	PersPub:912L	236	0	PART	9x12' Leather binding		Sales:Retail			130.00	0	Y												0	N
+INVITEM	PersPub:1014L	218	0	PART	10x14 Leather binding		Sales:Retail			100.00	0	Y												0	N
+INVITEM	PersPub:5585C	160	0	PART	5.5x8.5' Cloth binding of customer content		Sales:Retail:Vanity			45.00	0	Y												0	N
+INVITEM	PersPub:5585CL	161	0	PART	"5.5x8.5 Quarter bound, customer content"		Sales:Retail:Vanity			60.00	0	Y												0	N
+INVITEM	PersPub:5585CLC	162	0	PART	"5.5x8.5 Half bound with leather corners, customer content"		Sales:Retail:Vanity			78.00	0	Y												0	N
+INVITEM	PersPub:5585L	186	0	PART	5.5 x 8.5 Custom leather binding		Sales:Retail:Vanity			0.00	0	Y												0	N
+INVITEM	PersPub:8511CL	191	0	PART	8.5x11' binding of customer content. Cloth/Leather		Sales:Retail			90.00	0	Y												0	N
+INVITEM	PersPub:8511L	171	0	PART	8.5x11' binding of customer content. Full leather		Sales:Retail			110.00	0	Y												0	N
+INVITEM	PersPub:1014C	159	0	PART	10x14' Cloth binding		Sales:Retail:Vanity			60.00	0	Y												0	N
+INVITEM	PersPub:1014CLC	158	0	PART	"10x14' Cloth & Leather binding, Quarter bound with leather corner"		Sales:Retail:Vanity			116.00	0	Y												0	N
+INVITEM	PersPub:1014CL	157	0	PART	"10x14' Cloth & Leather binding, Quarter bound"		Sales:Retail:Vanity			71.00	0	Y												0	N
+INVITEM	Editions	132	0	PART			Sales:Retail:Editions			0.00	0	Y												0	N
+INVITEM	Editions:Critique	284	0	PART	A Critique of a critique of pur reason		Sales:Retail:Editions			35.00	0	Y												0	N
+INVITEM	Editions:1PB	279	0	PART	One Poem Book - Single Copy		Sales:Retail:Editions			125.00	0	Y												0	N
+INVITEM	Editions:1PB:TN	281	0	PART	TN Income	True North % of book sale	Sales:Retail:Editions		Cost of Goods Sold:Editions	125.00	62.5	N				Jordahl Photo K								0	Y
+INVITEM	Editions:1PB:DM	280	0	PART	DM Income		Sales:Retail:Editions			125.00	0	Y												0	N
+INVITEM	Editions:1PBs	276	0	PART	One Poem Book - Subscription		Sales:Retail:Editions			190.00	0	N												0	N
+INVITEM	Editions:1PBs:TN	278	0	PART	True North Income	True North % of subscription	Sales:Retail:Editions		Cost of Goods Sold:Editions	190.00	95	N				Jordahl Photo K								0	Y
+INVITEM	Editions:1PBs:DM	277	0	PART	DM Income		Sales:Retail:Editions		Cost of Goods Sold:Editions	0.00	0	N												0	Y
+INVITEM	Editions:So Different	268	0	PART	So Different		Sales:Retail:Editions			150.00	0	N												0	N
+INVITEM	Editions:TimeLine	267	0	PART	"Nic Pavloff, Red Cross Benefit Portfolio"		Sales:Retail			450.00	0	Y												0	N
+INVITEM	Editions:SoDif	222	0	PART	So Different		Sales:Retail			85.00	0	Y												0	N
+INVITEM	Editions:Jizo	214	0	PART	Jizo limited edition		Sales:Retail			250.00	0	N												0	N
+INVITEM	Editions:Jizo:DM	216	0	PART	DM income		Sales:Retail		Cost of Goods Sold:Editions:Jizo	0.00	0	N												0	Y
+INVITEM	Editions:Jizo:JP	215	0	PART	JP income		Sales:Retail		Cost of Goods Sold:Editions:Jizo	0.00	0	N												0	Y
+INVITEM	Editions:Henri	182	0	PART	"Questing Spirit, Limited Edition: Conversations series"		Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Henri:JP	198	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Henri:DM	197	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Ruth	181	0	PART	"Afternoons with Ruth, Limited Edition: Conversations Series"	Ruth expenses	Sales:Retail		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
+INVITEM	Editions:Ruth:JP	196	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
+INVITEM	Editions:Ruth:DM	195	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
+INVITEM	Editions:Kandinsky	174	0	PART	"Walking with Kandinsky, Limited Edition: Conversations Series"	Expenses for Kandinsky	Sales:Retail		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
+INVITEM	Editions:Kandinsky:DM	194	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
+INVITEM	Editions:Kandinsky:JP	193	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
+INVITEM	Editions:Jabberwocky	173	0	PART	"Limited edition, Jabberwocky"		Sales:Retail			35.00	0	Y												0	N
+INVITEM	Editions:Amending Self	135	0	PART	"Amending Self, limited editon"		Sales:Retail:Editions			98.00	0	Y												0	N
+INVITEM	Editions:Traveler	133	0	PART	"Limited edition, 36 original photographs by Geir Jordahl"	Expenses for Traveler	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
+INVITEM	Editions:Traveler:DM	187	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
+INVITEM	Editions:Traveler:JP	188	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
+INVITEM	Editions:Traveler BdSd	168	0	PART	Traveler Broadside		Sales:Retail			300.00	0	Y												0	N
+INVITEM	Tools	121	0	PART			Sales:Retail:Tools			0.00	0	Y												0	N
+INVITEM	Tools:Awl	262	0	PART	Awl		Sales:Retail:Tools			15.00	0	Y												0	N
+INVITEM	Tools:Bm	260	0	PART	Bone folder		Sales:Retail:Tools			20.00	0	Y												0	N
+INVITEM	Tools:Bl	203	0	PART	Bone folder		Sales:Retail:Tools			25.00	0	Y												0	N
+INVITEM	Tools:Needle book	153	0	PART	needle book		Sales:Retail:Tools			12.00	0	Y												0	N
+INVITEM	Tools:Bs	122	0	PART	bone folder		Sales:Retail:Tools			15.00	0	Y												0	N
+INVITEM	Material/Supp	118	0	PART			Sales:Retail:Mat/Sup			0.00	0	Y												0	N
+INVITEM	Material/Supp:Scrap	263	0	PART	Offcuts and recycled bits		Sales:Retail:Mat/Sup			1.00	0	Y												0	N
+INVITEM	Material/Supp:Leather	26	0	PART			Sales:Retail:Mat/Sup			0.00	0	Y												0	N
+INVITEM	Material/Supp:wcts	147	0	PART	"hand printed watercolor guest book pages, title single"		Sales:Retail:Mat/Sup			4.20	0	Y												0	N
+INVITEM	Material/Supp:wcfs	146	0	PART	"hand printed watercolor guest book pages, full single"		Sales:Retail:Mat/Sup			4.40	0	Y												0	N
+INVITEM	Material/Supp:wctd	145	0	PART	"hand printed watercolor guest book pages, title duplex"		Sales:Retail:Mat/Sup			7.70	0	Y												0	N
+INVITEM	Material/Supp:wcfd	144	0	PART	"hand printed watercolor guest book pages, full duplex"		Sales:Retail:Mat/Sup			7.90	0	Y												0	N
+INVITEM	Material/Supp:Material	117	0	PART	Materials sale		Sales:Retail:Mat/Sup			1.00	0	Y												0	N
+INVITEM	Material/Supp:PVA	106	0	PART			Sales:Retail:Mat/Sup			0.00	0	Y												0	N
+INVITEM	Guest Book	98	0	PART			Sales:Retail:Guestbooks			0.00	0	Y												0	N
+INVITEM	Options	59	0	PART	Optional feature		Sales:Retail:Options			0.00	0	Y												0	N
+INVITEM	Options:DivP	274	0	PART	"Divider Panel, cloth covered board (enter sq ft)"		Sales:Retail:Options			7.50	0	N												0	N
+INVITEM	Options:BW	273	0	PART	Book Well (pricing formulat needed		Sales:Retail:Options			30.00	0	N												0	N
+INVITEM	Options:63.1	254	0	PART	Elastic closing band		Sales:Retail			3.50	0	N												0	N
+INVITEM	Options:59.5	226	0	PART	Card window		Sales:Retail			15.00	0	Y												0	N
+INVITEM	Options:17.3	150	0	PART	round corner gilding per linear inch		Sales:Retail:Options			1.00	0	Y												0	N
+INVITEM	Options:17.2	149	0	PART	edge gilding per square inch		Sales:Retail:Options			0.50	0	Y												0	N
+INVITEM	Options:59.3	143	0	PART	bookmark		Sales:Retail:Options			3.00	0	Y												0	N
+INVITEM	Options:59.4	25	0	PART	zipper pocket		Sales:Retail:Options			24.00	0	Y												0	N
+INVITEM	Options:63	113	0	PART	Closing Belt		Sales:Retail:Options			14.00	0	Y												0	N
+INVITEM	Options:17.1	112	0	PART	Embossing Die		Sales:Retail:Options			20.00	0	Y												0	N
+INVITEM	Options:69	102	0	PART	Handles		Sales:Retail:Options			25.00	0	Y												0	N
+INVITEM	Options:59.2	104	0	PART	Pen Loop		Sales:Retail:Options			5.00	0	Y												0	N
+INVITEM	Options:59.1	110	0	PART	Card Pocket		Sales:Retail:Options			7.00	0	Y												0	N
+INVITEM	Options:Spine Detail	72	0	PART	Spine stitch or button detail		Sales:Retail:Options			25.00	0	Y												0	N
+INVITEM	Options:Book Mark	71	0	PART	Bound in book mark		Sales:Retail:Options			4.00	0	Y												0	N
+INVITEM	Options:17	32	0	PART	Embossing		Sales:Retail:Options			9.00	0	Y												0	N
+INVITEM	Photo Albums	56	0	PART	hand bound photo albums		Sales:Retail:Photo Albums			0.00	0	Y												0	N
+INVITEM	Photo Albums:10MQ	126	0	PART	hand bound photo album		Sales:Retail:Photo Albums			270.00	0	Y												0	N
+INVITEM	Photo Albums:Deckles	70	0	PART	Page/Interleave deckles		Sales:Retail:Photo Albums			0.75	0	Y												0	N
+INVITEM	Photo Albums:Interleaves	69	0	PART	Interleave pages		Sales:Retail:Photo Albums			1.75	0	Y												0	N
+INVITEM	Photo Albums:Pages	68	0	PART	Pages		Sales:Retail:Photo Albums			4.75	0	Y												0	N
+INVITEM	Photo Albums:TS1010	67	0	PART	TrueStep for 10x10 images		Sales:Retail:Photo Albums			93.00	0	Y												0	N
+INVITEM	Printed Pages	55	0	PART	printed page products		Sales:Retail:Printed Pages			0.00	0	Y												0	N
+INVITEM	Printed Pages:g58	234	0	PART	"5.5 x 8.5 Printed guest book pages, 1 signature"		Sales:Retail			2.00	0	N												0	N
+INVITEM	Printed Pages:wag35	233	0	PART	3.375x5.575 Week at a glance page set		Sales:Retail			5.00	0	N												0	N
+INVITEM	Printed Pages:bdb35	232	0	PART	3.375x5.575 Birthday book page set		Sales:Retail			10.00	0	Y												0	N
+INVITEM	Printed Pages:23.301	202	0	PART	3.75x6.75 address pages		Sales:Retail			12.00	0	Y												0	N
+INVITEM	Printed Pages:29.3	151	0	PART	3.75x6.75 activity list		Sales:Retail:Printed Pages			10.00	0	Y												0	N
+INVITEM	Printed Pages:23.501	95	0	PART	"8.5 x 5.5 address/phone, 50 pgs"		Sales:Retail:Printed Pages			12.00	0	Y												0	N
+INVITEM	Printed Pages:24.3	94	0	PART	3.75 x 6.75 notepaper		Sales:Retail:Printed Pages			12.00	0	Y												0	N
+INVITEM	Printed Pages:29.5	90	0	PART	Activity List		Sales:Retail:Printed Pages			12.00	0	Y												0	N
+INVITEM	Printed Pages:21.5	33	0	PART	"Weekly Calendar 1 page, 5.5 x 8.5"		Sales:Retail:Printed Pages			16.00	0	Y												0	N
+INVITEM	Printed Pages:24.8	34	0	PART	"100 sheets, Notepaper"		Sales:Retail:Printed Pages			28.00	0	Y												0	N
+INVITEM	Printed Pages:21.3	36	0	PART	3.75x6.75 Weekly Calendar		Sales:Retail:Printed Pages			14.00	0	Y												0	N
+INVITEM	Printed Pages:21.52	37	0	PART	5.5x8.5 2page weekly calendar		Sales:Retail:Printed Pages			18.00	0	Y												0	N
+INVITEM	Printed Pages:24.5	38	0	PART	5.5x8.5 Notepaper		Sales:Retail:Printed Pages			16.00	0	Y												0	N
+INVITEM	Boxes	54	0	PART	Hand bound boxes		Sales:Retail:Boxes			0.00	0	Y												0	N
+INVITEM	Boxes:1319RL	272	0	PART	13x19 Rail box with magnetic closure		Sales:Retail:Boxes			116.00	0	Y												0	N
+INVITEM	Boxes:96C	239	0	PART	Special Box		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Boxes:Phase box	223	0	PART	Phase box		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Boxes:icc	207	0	PART	Alligator bisiness card case		Sales:Retail			60.00	0	Y												0	N
+INVITEM	Boxes:bcc	206	0	PART	Alligator business card case		Sales:Retail			40.00	0	Y												0	N
+INVITEM	Boxes:64C	134	0	PART	Cloth slipcase		Sales:Retail:Boxes			0.00	0	Y												0	N
+INVITEM	Boxes:64L	127	0	PART	Slip case		Sales:Retail:Boxes			0.00	0	Y												0	N
+INVITEM	Boxes:65	76	0	PART	Leather CD/DVD case		Sales:Retail:Boxes			90.00	0	Y												0	N
+INVITEM	Boxes:64.1L	75	0	PART	Full leather VHS case		Sales:Retail:Boxes			60.00	0	Y												0	N
+INVITEM	Boxes:97L	44	0	PART	Clamshell Box		Sales:Retail:Boxes			0.00	0	Y												0	N
+INVITEM	Boxes:97C	45	0	PART	"Clamshell Box, Cloth"		Sales:Retail:Boxes			0.00	0	Y												0	N
+INVITEM	Portfolio	53	0	PART	Hand bound portfolio		Sales:Retail:Portfolio			0.00	0	Y												0	N
+INVITEM	Portfolio:594C	253	0	PART	"6x9 Steno Pad Portfolio, quarter bound"		Sales:Retail			53.00	0	N												0	N
+INVITEM	Portfolio:592L	250	0	PART	8.5 x 5.5 full leather portfolio		Sales:Retail			77.00	0	Y												0	N
+INVITEM	Portfolio:592C	248	0	PART	8.5x5.5 quarter bound porfolio		Sales:Retail			66.00	0	Y												0	N
+INVITEM	Portfolio:755x3 Folio	229	0	PART	3 Panel folio for 7 x 5.5 mats		Sales:Retail			10.00	0	Y												0	N
+INVITEM	Portfolio:594L	142	0	PART	6x9 Steno Pad Portfolio		Sales:Retail:Portfolio			76.00	0	Y												0	N
+INVITEM	Portfolio:893L	129	0	PART	8.5X14 leather portfolio		Sales:Retail:Portfolio			112.00	0	Y												0	N
+INVITEM	Portfolio:593L	125	0	PART	4x8 Reporters notebook		Sales:Retail:Portfolio			59.00	0	Y												0	N
+INVITEM	Portfolio:892C	31	0	PART	8.5x11 Leather and cloth portfolio		Sales:Retail:Portfolio			83.00	0	Y												0	N
+INVITEM	Portfolio:599C	101	0	PART	Special Portfolio		Sales:Retail:Portfolio			0.00	0	Y												0	N
+INVITEM	Portfolio:599L	64	0	PART	Custom Portfolio		Sales:Retail:Portfolio			0.00	0	Y												0	N
+INVITEM	Portfolio:892L	28	0	PART	"Portfolio, Full Leather, 8-1/2 x 11"		Sales:Retail:Portfolio			101.00	0	Y												0	N
+INVITEM	Notebook	52	0	PART	Hand bound notebook		Sales:Retail:Notebook			0.00	0	Y												0	N
+INVITEM	Notebook:61C	258	0	PART	6 x 9.5 quater bound notebook		Sales:Retail			96.00	0	Y												0	N
+INVITEM	Notebook:31C	255	0	PART	"3.75x6.75 6-ring notebook,"		Sales:Retail			77.00	0	Y												0	N
+INVITEM	Notebook:3475GL	177	0	PART	3x4.75' Gator/Goat Notebook		Sales:Retail:Notebook			90.00	0	Y												0	N
+INVITEM	Notebook:35G	140	0	PART	"3x5' full gator notebook, goat liners"		Sales:Retail:Notebook			118.00	0	Y												0	N
+INVITEM	Notebook:36LC	163	0	PART	3x6' leather notebook with cloth liner		Sales:Retail:Notebook			62.00	0	Y												0	N
+INVITEM	Notebook:36L	138	0	PART	3x6' goatskin notebook		Sales:Retail:Notebook			72.00	0	Y												0	N
+INVITEM	Notebook:36GL	137	0	PART	3x6' Gator/Goat notebook		Sales:Retail:Notebook			93.00	0	Y												0	N
+INVITEM	Notebook:36G	139	0	PART	"3x6' full gator notebook, goat liner"		Sales:Retail:Notebook			129.00	0	Y												0	N
+INVITEM	Notebook:365L	185	0	PART	3x6.5 goatskin notebook		Sales:Retail:Notebook			76.00	0	Y												0	N
+INVITEM	Notebook:365GL	175	0	PART	3x6' Gator/Goat notebook		Sales:Retail:Notebook			99.00	0	Y												0	N
+INVITEM	Notebook:37GL	178	0	PART	3x7' Gator/Goat Notebook		Sales:Retail:Notebook			101.00	0	Y												0	N
+INVITEM	Notebook:375GL	176	0	PART	3x7.5' Gator/Goat notebook		Sales:Retail:Notebook			104.00	0	Y												0	N
+INVITEM	Notebook:38GL	231	0	PART	"3x8' gator/goat notebook, goat liner"		Sales:Retail			130.00	0	Y												0	N
+INVITEM	Notebook:304C	224	0	PART	Compact Note Book		Sales:Retail			76.00	0	Y												0	N
+INVITEM	Notebook:305L	65	0	PART	"3.75x6.75x.75 cap, 6 ring. Leather"		Sales:Retail:Notebook			72.00	0	Y												0	N
+INVITEM	Notebook:505C	183	0	PART	"3/4' capacity notebook for 5.5 x 8.5' paper, cloth/leather"		Sales:Retail:Notebook			90.00	0	Y												0	N
+INVITEM	Notebook:505L	96	0	PART	"8.5 x 5.5 x 3/4' Notebook, Leather"		Sales:Retail:Notebook			93.00	0	Y												0	N
+INVITEM	Notebook:51C	252	0	PART	Cloth and leather notebook for 5.5x8.5 content		Sales:Retail:Notebook			92.00	0	N												0	N
+INVITEM	Notebook:51L	39	0	PART	All leather notebook for 5.5x8.5 content		Sales:Retail:Notebook			101.00	0	Y												0	N
+INVITEM	Notebook:515C	184	0	PART	"Cloth/Leather notebook for 5.5x8.5' paper, 1.5' capacity"		Sales:Retail:Notebook			96.00	0	Y												0	N
+INVITEM	Notebook:515L	154	0	PART	"Notebook for 8.5x5.5 paper, 1.5' capacity, full leather"		Sales:Retail:Notebook			104.00	0	Y												0	N
+INVITEM	Notebook:605L	105	0	PART	"6x9.5 leather notebook, 3/4' capacity"		Sales:Retail:Notebook			101.00	0	Y												0	N
+INVITEM	Notebook:61L	116	0	PART	"Notebook for 6x9.5' paper, 3 ring, full leather"		Sales:Retail:Notebook			103.00	0	Y												0	N
+INVITEM	Notebook:71L	58	0	PART	"A5 all leather notebook, 6 ring, 1' capacity"		Sales:Retail:Notebook			97.00	0	Y												0	N
+INVITEM	Notebook:715L	57	0	PART	"A5 all leather notebook, 6 ring, 1.5' capacity"		Sales:Retail:Notebook			102.00	0	Y												0	N
+INVITEM	Notebook:805C	225	0	PART	"8.5x11x3/4' Notebook, Quarter bound"		Sales:Retail			108.00	0	Y												0	N
+INVITEM	Notebook:805L	80	0	PART	"8.5x11x3/4, notebook"		Sales:Retail:Notebook			122.00	0	Y												0	N
+INVITEM	Notebook:81C	63	0	PART	8.5x11x1'cap. leather/cloth		Sales:Retail:Notebook			104.00	0	Y												0	N
+INVITEM	Notebook:81L	93	0	PART	"8.5x11 full leather notebook, 1' 3-ring mechanism"		Sales:Retail:Notebook			129.00	0	Y												0	N
+INVITEM	Notebook:815C	99	0	PART	"8.5x11 notebook, 1.5 capacity"		Sales:Retail:Notebook			109.00	0	Y												0	N
+INVITEM	Notebook:815L	87	0	PART	"8.5xll Notebook, 1.5' ring"		Sales:Retail:Notebook			128.00	0	Y												0	N
+INVITEM	Notebook:820C	103	0	PART	8.5x11 2' cloth and leather notebook		Sales:Retail:Notebook			120.00	0	Y												0	N
+INVITEM	Notebook:820L	78	0	PART	"Notebook, 8.5 x 11, 2' ring"		Sales:Retail:Notebook			133.00	0	Y												0	N
+INVITEM	Notebook:830L	108	0	PART	"Full leather notebook, 8.5x11x3'capacity"		Sales:Retail:Notebook			140.00	0	Y												0	N
+INVITEM	Notebook:308L	40	0	PART	Small Note Book		Sales:Retail:Notebook			75.00	0	Y												0	N
+INVITEM	Notebook:302L	41	0	PART	Mini Address Book		Sales:Retail:Notebook			68.00	0	Y												0	N
+INVITEM	Notebook:304L	42	0	PART	Compact Note Book		Sales:Retail:Notebook			80.00	0	Y												0	N
+INVITEM	Notebook:31L	47	0	PART	3.75x6.75 6-ring leather notebook		Sales:Retail:Notebook			76.00	0	Y												0	N
+INVITEM	Included	48	0	PART	Construction detail		Sales:Retail			0.00	0	Y												0	N
+INVITEM	53	35	0	PART	Hugh Stump Fine Binding Swatch Packet		Sales:Retail:Notebook			2.00	0	Y												0	N
+INVITEM	Journals	4	0	PART	Handbound book		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:588BL	266	0	PART	"5.5 x 8.5' 128 blank pages, full leather"		Sales:Retail			74.00	0	Y												0	N
+INVITEM	Journals:886BC	261	0	PART	"8.5 x 11' Blank Journal, Quarterbound cloth and leather"		Sales:Retail:Journal			99.00	0	N												0	N
+INVITEM	Journals:350BDC	246	0	PART	3.375 x 5.375 Quarter Bound  Birthday Book		Sales:Retail			60.00	0	N												0	N
+INVITEM	Journals:350BDL	245	0	PART	3.375 x 5.375 Full Leather Birthday Book		Sales:Retail			79.00	0	N												0	N
+INVITEM	Journals:580BDC	244	0	PART	5.5 x 8.5 Quarter Bound Birthday Book		Sales:Retail			97.00	0	N												0	N
+INVITEM	Journals:580BDL	243	0	PART	5.5 x 8.5 Full Leather Birthday Book		Sales:Retail			112.00	0	N												0	N
+INVITEM	Journals:880BDC	242	0	PART	8.5 x 11 Quarter Bound Birthday book		Sales:Retail			128.00	0	N												0	N
+INVITEM	Journals:880BDL	241	0	PART	8.5 x 11 Full Leather Birthday book		Sales:Retail			155.00	0	N												0	N
+INVITEM	Journals:584C	238	0	PART	8.5 x 5.5 Journal Cover		Sales:Retail			56.00	0	Y												0	N
+INVITEM	Journals:584L	109	0	PART	8.5 x 5.5 Journal Cover		Sales:Retail:Journal			60.00	0	Y												0	N
+INVITEM	Journals:588pk	131	0	PART	"8.5x5.5, 198pg printed bookbody"		Sales:Retail:Journal			22.00	0	Y												0	N
+INVITEM	Journals:582PK	172	0	PART	192 page printed book body		Sales:Retail			34.00	0	Y												0	N
+INVITEM	Journals:586BK	61	0	PART	5.5x8.5 256 page blank book body		Sales:Retail:Journal			33.00	0	Y												0	N
+INVITEM	Journals:586PK	79	0	PART	5.5x8.5 Printed Bookbody		Sales:Retail:Journal			28.00	0	Y												0	N
+INVITEM	Journals:884C	235	0	PART	8.5 x 11 quarter bound reuseable journal cover		Sales:Retail			72.00	0	Y												0	N
+INVITEM	Journals:884L	85	0	PART	8.5x11 Journal Cover		Sales:Retail:Journal			88.00	0	Y												0	N
+INVITEM	Journals:888BK	213	0	PART	"8.5 x 11 book body, 128 blank pages"		Sales:Retail			37.00	0	Y												0	N
+INVITEM	Journals:888PK	77	0	PART	8.5x11 Printed Bookbody		Sales:Retail:Journal			33.00	0	Y												0	N
+INVITEM	Journals:882BK	192	0	PART	8.5x11x192 page blank journal body		Sales:Retail			41.00	0	Y												0	N
+INVITEM	Journals:882PK	249	0	PART	8.5 x 11 x 192 ruled book body		Sales:Retail			39.00	0	Y												0	N
+INVITEM	Journals:886BK	212	0	PART	8.5 x 11' blank book bodie		Sales:Retail			46.00	0	Y												0	N
+INVITEM	Journals:886PK	86	0	PART	8.5x11 printed bookbody		Sales:Retail:Journal			48.00	0	Y												0	N
+INVITEM	Journals:891PK	30	0	PART	"128 pg diary insert, week at a glance"		Sales:Retail:Journal			33.00	0	Y												0	N
+INVITEM	Journals:588BC	51	0	PART	5.5x8.5 128 page leather and cloth blank journal		Sales:Retail:Journal			61.00	0	Y												0	N
+INVITEM	Journals:588PC	66	0	PART	"5.5x8.5 128 pg, printed, leather/cloth"		Sales:Retail:Journal			69.00	0	Y												0	N
+INVITEM	Journals:588PL	237	0	PART	"8.5x5.5 full leather journal, ruled"		Sales:Retail			82.00	0	Y												0	N
+INVITEM	Journals:582BC	228	0	PART	5.5 x 8.5 x 192 pg quarter bound journal		Sales:Retail			66.00	0	Y												0	N
+INVITEM	Journals:582PC	29	0	PART	5.5x8.5 192pg cloth and leather journal		Sales:Retail:Journal			74.00	0	Y												0	N
+INVITEM	Journals:582BL	247	0	PART	"8.5 x 5.5 x 192pg, full leather journal"		Sales:Retail			78.00	0	Y												0	N
+INVITEM	Journals:582PL	240	0	PART	"8.5 x 5.5 x 192pg, ruled, full leather journal"		Sales:Retail			86.00	0	Y												0	N
+INVITEM	Journals:586BC	46	0	PART	"Journal 5.5x8.5, 256 blank pages, leather and cloth"		Sales:Retail:Journal			72.00	0	Y												0	N
+INVITEM	Journals:586PC	97	0	PART	"5.5 x 8.5 leather & cloth, ruled journal"		Sales:Retail:Journal			80.00	0	Y												0	N
+INVITEM	Journals:586BL	141	0	PART	"8.5x5.5 blank, full leather journal"		Sales:Retail:Journal			83.00	0	Y												0	N
+INVITEM	Journals:586PL	91	0	PART	"5.5x8.5, 256 page printed journal, all leather"		Sales:Retail:Journal			91.00	0	Y												0	N
+INVITEM	Journals:888PC	81	0	PART	8.5x11x128 page journal		Sales:Retail:Journal			88.00	0	Y												0	N
+INVITEM	Journals:888BL	227	0	PART	"8.5 x 11 blank journal, full leather"		Sales:Retail			99.00	0	Y												0	N
+INVITEM	Journals:888PL	130	0	PART	"8.5x11, 198 page full leather journal"		Sales:Retail:Journal			107.00	0	Y												0	N
+INVITEM	Journals:882BC	230	0	PART	"8.5 x 11' 192pg quarter bound journal, blank pages"		Sales:Retail			89.00	0	Y												0	N
+INVITEM	Journals:882PC	124	0	PART	8.5x11 printed cloth/leather journal		Sales:Retail:Journal			97.00	0	Y												0	N
+INVITEM	Journals:882BL	136	0	PART	"8.5x11, 192 pg journal"		Sales:Retail:Journal			108.00	0	Y												0	N
+INVITEM	Journals:882PL	84	0	PART	8.5x11x192 page ruled journal		Sales:Retail:Journal			116.00	0	Y												0	N
+INVITEM	Journals:886PC	43	0	PART	"8.5x11 leather & cloth, ruled journal"		Sales:Retail:Journal			107.00	0	Y												0	N
+INVITEM	Journals:886BL	111	0	PART	8.5 x 11' blank leather journal		Sales:Retail:Journal			117.00	0	Y												0	N
+INVITEM	Journals:886PL	83	0	PART	8.5x11x256 page journal		Sales:Retail:Journal			125.00	0	Y												0	N
+INVITEM	Journals:580PK	89	0	PART	special printed bookbody		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:580BC	114	0	PART	"5.5x8.5 Custom bound blank book, full leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:580PC	155	0	PART	"5.5 x 8.5 Custom bound book, printed, cloth & leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:580BL	92	0	PART	"5.5x8.5 Custom bound blank book, full leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:580PL	60	0	PART	"5.5 x 8.5 Custom bound book, printed, full leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:590BL	74	0	PART	Special Journal		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:571L	119	0	PART	Binding		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:880BC	123	0	PART	"8.5x11 Custom blank book, cloth and leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:880PC	82	0	PART	8.5x11 bound book		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:880BL	73	0	PART	8.5x11 Custom leather journal		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:880PL	62	0	PART	"8.5 x 11 Custom Binding, printed, full leather"		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:891L	49	0	PART	"Full leather, bound diary"		Sales:Retail:Journal			120.00	0	Y												0	N
+INVITEM	Journals:lp	209	0	PART	"Full cloth journal w/letterpress ruling, close-out"		Sales:Retail			25.00	0	Y												0	N
+INVITEM	Journals:fc	208	0	PART	"Full cloth journal, close-out"		Sales:Retail			20.00	0	Y												0	N
+INVITEM	Journals:ssb	205	0	PART	"Single signature blank journal, quarter bound"		Sales:Retail:Journal			20.00	0	Y												0	N
+INVITEM	Journals:ssl	204	0	PART	"Single signature ruled journal, quater bound"		Sales:Retail:Journal			25.00	0	Y												0	N
+INVITEM	Cost of Materials	17	0	PART	Cost of raw materials consumed		Cost of Goods Sold			0.00	0	Y												0	N
+INVITEM	Paper	11	0	PART			Cost of Goods Sold:Photo Albums			0.00	0	N												0	N
+INVITEM	Sample	14	0	PART	Binding Samples		Sales:Retail			0.00	0	Y												0	N
+INVITEM	HS Credit	100	0	OTHC	Previous overpayment to Hugh Stump.		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Parking	9	0	OTHC	Parking fee		Other Current Assets:Cash			0.00	0	Y	Cash											0	N
+INVITEM	Shipping	5	0	OTHC	Shipping		Other Charges:Shipping			0.00	0	N												0	N
+INVITEM	Reimb Subt	18	0	SUBT	Reimbursable Expenses Subtotal						0	N						REXPSUBTOT						0	N
+INVITEM	Subtotal	12	0	SUBT	========= SUBTOTAL =========						0	N												0	N
+INVITEM	dt	264	0	DISC	discount sales tax		Sales:Retail:Tools			-9.75%	0	N												0	N
+INVITEM	Discount	6	0	DISC			Sales Discounts			-10.0%	0	Y												0	N
+INVITEM	Discount:Tax included (B)	275	0	DISC	"(at 9, 1/1.09)"		Sales Discounts			-8.25688%	0	Y												0	N
+INVITEM	Discount:Tax included (A)	271	0	DISC	"(at 8.75, 1/1.0875)"		Sales Discounts			-8.046%	0	Y												0	N
+INVITEM	Commission	169	0	DISC	Commission to seller		Cost of Goods Sold:Editions			-40.00	0	Y												0	N
+INVITEM	Payment	27	0	PMT			Bank Accounts:Wells Fargo Checking				0	N												1	N
+INVITEM	PayPal Fee	24	0	PMT	Transaction Fee		Bank Accounts:PayPal				0	N	EFT											1	N
+INVITEM	PayPal Div	23	0	PMT	PayPal Money Market Dividend		Bank Accounts:PayPal				0	N	EFT											1	N
+INVITEM	PayPal Signup	22	0	PMT	Bonus for member signup		Bank Accounts:PayPal				0	N	EFT											1	N
+INVITEM	For Resale	170	0	COMPTAX			Sales Tax Payable			0.00	0	N												0	N
+INVITEM	CA Sales Tax	7	0	COMPTAX	Sales Tax		Sales Tax Payable			9.0%	0	N		State Board of Equalization										0	N
+INVITEM	No Sales Tax	8	0	COMPTAX	Non Taxable item or service		Sales Tax Payable			0.00	0	N												0	N
+INVITEM	Out of State	1	0	COMPTAX	"Out-of-state sale, exempt from sales tax"		Sales Tax Payable			0.0%	0	N												0	N
+!INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	TOPRINT	EXTRA	QNTY	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5
+!ENDGRP
+INVITEM	1pc	283	0	GRP	One Poem Book - single copy	N							
+INVITEM	Editions:1PB:DM	280	0	PART		N		0.5					
+INVITEM	Editions:1PB:TN	281	0	PART		N		0.5					
+ENDGRP
+INVITEM	1ps	282	0	GRP	One Poem Book - subcription	N							
+INVITEM	Editions:1PBs:DM	277	0	PART		N		0.5					
+INVITEM	Editions:1PBs:TN	278	0	PART		N		0.5					
+ENDGRP
+INVITEM	Rebinding	259	0	GRP	"Remove old binding, repair book, create new binding"	N							
+INVITEM	Labor	257	0	PART		N		2					
+ENDGRP
+INVITEM	MT	256	0	GRP	materials	N							
+INVITEM	Material/Supp	118	0	PART		N							
+ENDGRP
+INVITEM	curly/dm	221	0	GRP	"curly, dreamingmind splits"	N							
+INVITEM	Database:DB Design:curly	219	0	SERV		N		0.5					
+INVITEM	Database:DB Design:dm	220	0	SERV		N		0.5					
+ENDGRP
+INVITEM	Ji	217	0	GRP	"Jizo, Limited Edition"	N							
+INVITEM	Editions:Jizo:DM	216	0	PART		N		0.5					
+INVITEM	Editions:Jizo:JP	215	0	PART		N		0.5					
+ENDGRP
+INVITEM	Ru	201	0	GRP	"Afternoons with Ruth, Limited Edition: Conversations Series"	N							
+INVITEM	Editions:Ruth:JP	196	0	PART		N		0.5					
+INVITEM	Editions:Ruth:DM	195	0	PART		N		0.5					
+ENDGRP
+INVITEM	KanB	200	0	GRP	"Walking with Kandinsky, broadside"	N							
+INVITEM	Editions:Kandinsky:JP	193	0	PART		N							
+INVITEM	Editions:Kandinsky:DM	194	0	PART		N							
+ENDGRP
+INVITEM	Kan	199	0	GRP	"Walking with Kandinsky, limited edition"	N							
+INVITEM	Editions:Kandinsky:JP	193	0	PART		N		0.5					
+INVITEM	Editions:Kandinsky:DM	194	0	PART		N		0.5					
+ENDGRP
+INVITEM	TrvB	190	0	GRP	Traveler Broadside	N							
+INVITEM	Editions:Traveler:JP	188	0	PART		N		0.815					
+INVITEM	Editions:Traveler:DM	187	0	PART		N		0.185					
+ENDGRP
+INVITEM	Trv	189	0	GRP	"Limited edition, 36 original photographs by Geir Jordahl"	N							
+INVITEM	Editions:Traveler:JP	188	0	PART		N		0.5					
+INVITEM	Editions:Traveler:DM	187	0	PART		N		0.5					
+ENDGRP
+INVITEM	Total	148	0	GRP		Y							
+ENDGRP
+INVITEM	Binding	88	0	GRP	Binding project description	N							
+ENDGRP
+INVITEM	Reimb Group	10	0	GRP	Total Reimbursable Expenses	N	REXPGROUP						
+ENDGRP
