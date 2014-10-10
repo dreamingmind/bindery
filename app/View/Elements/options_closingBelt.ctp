@@ -1,4 +1,9 @@
 <?php
+App::uses('QBModel', 'Lib/QBUtilities');
+
+$name = 'Options:63'; // CLOSING BELT
+$item = QBModel::InvItem('NAME', $name);
+
 
 /* @var $this ViewCC */
 $options = array(
@@ -13,12 +18,14 @@ $parameters = array(
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
-    'legend' => (isset($legend)) ? $legend : 'Closing Belt',
+    'legend' => (isset($legend)) ? $legend : $item['INVITEM']['DESC'],
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
-        'closing_belt' => array(
+        $name => array(
+			'label' => $item['INVITEM']['DESC'],
+            'price' => $item['INVITEM']['PRICE'],
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
             'price' => 16,

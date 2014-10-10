@@ -1,4 +1,8 @@
 <?php
+App::uses('QBModel', 'Lib/QBUtilities');
+
+$name = 'Options:59.2'; // PEN LOOP
+$item = QBModel::InvItem('NAME', $name);
 
 /* @var $this ViewCC */
 $options = array(
@@ -13,16 +17,17 @@ $parameters = array(
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
-    'legend' => (isset($legend)) ? $legend : 'Pen Loop',
+    'legend' => (isset($legend)) ? $legend : $item['INVITEM']['DESC'],
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
-        'pen_loop' => array(
+        $name => array(
+			'label' => $item['INVITEM']['DESC'],
+            'price' => $item['INVITEM']['PRICE'],
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',
-            'price' => 7,
             'oldprice' => 0,
             'legend' => false,
             'option' => 'master-penloop'.$model, // controls the diagram area belt div
