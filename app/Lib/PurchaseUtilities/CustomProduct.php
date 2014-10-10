@@ -50,6 +50,7 @@ class CustomProduct extends PurchasedProduct {
 	}
 	
 	public function calculatePrice() {
+		parent::calculatePrice();
 //		dmDebug::ddd($this->data, 'the data to calculate a price from');
 	}
 

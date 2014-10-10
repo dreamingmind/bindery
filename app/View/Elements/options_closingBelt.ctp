@@ -1,5 +1,4 @@
 <?php
-App::uses('QBModel', 'Lib/QBUtilities');
 
 $name = 'Options:63'; // CLOSING BELT
 $item = QBModel::InvItem('NAME', $name);

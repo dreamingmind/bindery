@@ -98,6 +98,16 @@ Cache::config('cart-count', array(
 	'duration' => '+1 hour',
 ));
 
+Cache::config('qb', array(
+	'engine' => 'File',
+	'mask' => 0666,
+	'group' => 'qb',
+	'path' => CACHE . 'qb' . DS,
+	'prefix' => 'dm_',
+	'duration' => '+1 week',
+	'serialize' => TRUE
+));
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -222,3 +232,4 @@ define ('NEWLINE', "\n");
 define ('TAB', "\t");
 
 App::uses('dmDebug', 'Lib');
+App::uses('QBModel', 'Lib/QBUtilities');

@@ -1,5 +1,7 @@
 <?php
-/* @var $this ViewCC */ 
+
+$name = 'Options:17'; // CLOSING BELT
+$item = QBModel::InvItem('NAME', $name);
 
 /**
  */
@@ -26,7 +28,9 @@ $parameters = array(
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-        'title_choice' => array(
+        $name => array(
+			'label' => $item['INVITEM']['DESC'],
+            'price' => $item['INVITEM']['PRICE'], // $15
             'type' => 'radio',
             'options' => array(
                 '0' => 'No',
@@ -34,7 +38,6 @@ $parameters = array(
             ),
             'default' => 0,
             'legend' => false,
-            'price' => 15,
             'oldprice' => 0
         ),
         'foil-color' => array(

@@ -55,6 +55,16 @@ abstract class PurchasedProduct {
 	protected $sessionId = FALSE;
 	
 	/**
+	 * The price lookup table from quickbooks Item List iff export
+	 * 
+	 * The list will have the full NAME as key and PRICE as value
+	 *
+	 * @var array
+	 */
+	protected $qbPrices;
+
+
+	/**
 	 * Set properties for the concrete classes
 	 * 
 	 * @param type $data
@@ -78,7 +88,9 @@ abstract class PurchasedProduct {
 	 * 
 	 * @return float The calculated price
 	 */
-	abstract public function calculatePrice();
+	protected function calculatePrice() {
+		$this->lookup();
+	}
 
 	/**
 	 * Tentative // 
@@ -101,6 +113,12 @@ abstract class PurchasedProduct {
 	
 	abstract public function updateQuantity($id, $qty);
 
+	private function lookup() {
+		if (!isset($this->qbPrices)) {
+			$this->qbPrices = QBModel::priceList();
+		}
+		return $this->qbPrices;
+	}
 
 }
 
