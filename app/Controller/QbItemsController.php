@@ -25,6 +25,9 @@ public $uses = array('QbItems');
 //		}		
     }
 
+	/**
+	 * Import quickbooks business data to support customer and product features on the site
+	 */
 	public function import() {
 		if($this->request->is('POST')){
 			$path = $this->request->data['QbItems']['QBFile']['tmp_name'];
