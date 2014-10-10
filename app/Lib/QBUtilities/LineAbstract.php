@@ -76,11 +76,14 @@ abstract class LineAbstract {
 	/**
 	 * Memorize the current line (read from the file) and store the parent Model so we can set properties up there
 	 * 
+	 * Some version of quickbook started quoting fields. 
+	 * We get rid of those double quotes before and after the tab delimiters
+	 * 
 	 * @param object $Model
 	 * @param string $line
 	 */
 	public function __construct($Model, $line){
-		$this->line = trim($line, " \r\n");
+		$this->line = preg_replace('/\t"|"\t/', "\t", trim($line, " \r\n"));
 		$this->Model = $Model;
 	}
 	
