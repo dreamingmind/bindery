@@ -1,0 +1,272 @@
+!HDR	PROD	VER	REL	IIFVER	DATE	TIME
+HDR	QuickBooks 2014 for Macintosh	Version 15.0.5	Release R6	1	10/8/14	1412802411
+!ACCNT	NAME	REFNUM	TIMESTAMP	ACCNTTYPE	OBAMOUNT	DESC	ACCNUM	SCD	EXTRA
+ACCNT	Bank Accounts	105	0	BANK	0.00			0	
+ACCNT	Bank Accounts:WFMktRate	191	0	BANK	632.62	Wells Fargo Market Rate		0	
+ACCNT	Bank Accounts:WFTx	190	0	BANK	0.00	Wells Fargo Tax Savings		0	
+ACCNT	Bank Accounts:WFOp	189	0	BANK	"15,345.94"	Wells Fargo Operating Acct		0	
+ACCNT	Bank Accounts:Wells Fargo Checking	103	0	BANK	20.00	Primary Checking Acount		0	
+ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts	174	0	BANK	0.00			0	
+ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Home	172	0	BANK	0.00			0	
+ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:JordahlPhoto	170	0	BANK	0.00			0	
+ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Materials	145	0	BANK	0.00			0	
+ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Available Funds	146	0	BANK	0.00			0	
+ACCNT	Bank Accounts:PayPal	117	0	BANK	"3,394.42"			0	
+ACCNT	Bank Accounts:PayPal:sum subacounts	175	0	BANK	0.00			0	
+ACCNT	Bank Accounts:PayPal:sum subacounts:HomeSavings	180	0	BANK	0.00	acct to hold home cash		0	
+ACCNT	Bank Accounts:PayPal:sum subacounts:Materials	169	0	BANK	0.00			0	
+ACCNT	Bank Accounts:PayPal:sum subacounts:LongHome	171	0	BANK	0.00	long term saving for home		0	
+ACCNT	Bank Accounts:PayPal:sum subacounts:Sales Tax	167	0	BANK	0.00	savings for tax payment		0	
+ACCNT	Bank Accounts:PayPal:sum subacounts:IRA save	176	0	BANK	0.00			0	
+ACCNT	Other Income	118	0	EXINC	-0.41			0	
+ACCNT	Other Income: Tax refund	139	0	EXINC	"-1,736.72"			0	
+ACCNT	Other Income:PayPal Earnings	119	0	EXINC	"-1,455.95"	"PayPal Divs, Earns, etc."		0	
+ACCNT	Other Income:IRA Earnings	120	0	EXINC	0.00			0	
+ACCNT	Other Income:Interest Income	3	0	EXINC	-3.09	Interest Income	7015	303	
+ACCNT	Other Expenses	2	0	EXEXP	0.00	Other Expenses	8015	302	
+ACCNT	Estimates	132	0	NONPOSTING	0.00		4	0	
+ACCNT	Purchase Orders	95	0	NONPOSTING	0.00		2	0	PURCHORDER
+!INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	PURCHASEDESC	ACCNT	ASSETACCNT	COGSACCNT	PRICE	COST	TAXABLE	PAYMETH	TAXVEND	TAXDIST	PREFVEND	REORDERPOINT	EXTRA	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	DEP_TYPE	ISPASSEDTHRU
+INVITEM	Rent	269	0	SERV	Studio and equipment use		Fee Income			0.00	0	Y												0	N
+INVITEM	Returned Check	251	0	SERV	Returned check		Write Off			0.00	0	Y												0	N
+INVITEM	Design	211	0	SERV	"Design, layout or invention"		Sales:Retail			35.00	0	Y												0	N
+INVITEM	Editing	210	0	SERV	"Writing, text review or editing"		Sales:Retail			35.00	0	Y												0	N
+INVITEM	Instruction	165	0	SERV			Sales:Teaching			17.1428	0	Y												0	N
+INVITEM	Instruction:Workshop	167	0	SERV			Sales:Teaching			85.00	0	N												0	N
+INVITEM	Instruction:PrivateLesson	166	0	SERV			Sales:Teaching			17.1428	0	Y												0	N
+INVITEM	Research	152	0	SERV	Research		Sales:Retail			40.00	0	Y												0	N
+INVITEM	55.6	128	0	SERV	finish work		Sales:Retail			0.00	0	Y												0	N
+INVITEM	55.5	120	0	SERV	repair		Sales:Retail			20.00	0	Y												0	N
+INVITEM	Rush	115	0	SERV	Rush charge		Sales:Retail:Rush			20.0%	0	Y												0	N
+INVITEM	55.7	50	0	SERV	Printing		Sales:Retail			0.00	0	Y												0	N
+INVITEM	Book Repair	13	0	SERV	Book repair or restoration		Fee Income			0.00	0	N												0	N
+INVITEM	Clin. Study	16	0	SERV			Fee Income			0.00	0	N												0	N
+INVITEM	Database	179	0	SERV	Database services		Fee Income			0.00	0	Y												0	N
+INVITEM	Database:DB Consult	180	0	SERV	Database Systems Consulting		Fee Income			40.00	0	Y												0	N
+INVITEM	Database:DB Design	20	0	SERV			Fee Income			35.00	0	N												0	N
+INVITEM	Database:DB Design:dm	220	0	SERV	dreamingmind licensing split		Sales:Retail			0.00	0	N												0	N
+!INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	TOPRINT	EXTRA	QNTY	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5
+!ENDGRP
+INVITEM	SHOULD NOT FUCKING BE HERE	283	0	GRP	One Poem Book - single copy	N							
+INVITEM	Editions:1PB:DM	280	0	PART		N		0.5					
+INVITEM	Editions:1PB:TN	281	0	PART		N		0.5					
+ENDGRP
+INVITEM	1ps	282	0	GRP	One Poem Book - subcription	N							
+INVITEM	Editions:1PBs:DM	277	0	PART		N		0.5					
+INVITEM	Editions:1PBs:TN	278	0	PART		N		0.5					
+ENDGRP
+INVITEM	Rebinding	259	0	GRP	"Remove old binding, repair book, create new binding"	N							
+INVITEM	Labor	257	0	PART		N		2					
+ENDGRP
+INVITEM	MT	256	0	GRP	materials	N							
+INVITEM	Material/Supp	118	0	PART		N							
+ENDGRP
+INVITEM	curly/dm	221	0	GRP	"curly, dreamingmind splits"	N							
+INVITEM	Database:DB Design:curly	219	0	SERV		N		0.5					
+INVITEM	Database:DB Design:dm	220	0	SERV		N		0.5					
+ENDGRP
+INVITEM	Ji	217	0	GRP	"Jizo, Limited Edition"	N							
+INVITEM	Editions:Jizo:DM	216	0	PART		N		0.5					
+INVITEM	Editions:Jizo:JP	215	0	PART		N		0.5					
+ENDGRP
+INVITEM	Ru	201	0	GRP	"Afternoons with Ruth, Limited Edition: Conversations Series"	N							
+INVITEM	Editions:Ruth:JP	196	0	PART		N		0.5					
+INVITEM	Editions:Ruth:DM	195	0	PART		N		0.5					
+ENDGRP
+INVITEM	KanB	200	0	GRP	"Walking with Kandinsky, broadside"	N							
+INVITEM	Editions:Kandinsky:JP	193	0	PART		N							
+INVITEM	Editions:Kandinsky:DM	194	0	PART		N							
+ENDGRP
+INVITEM	Kan	199	0	GRP	"Walking with Kandinsky, limited edition"	N							
+INVITEM	Editions:Kandinsky:JP	193	0	PART		N		0.5					
+INVITEM	Editions:Kandinsky:DM	194	0	PART		N		0.5					
+ENDGRP
+INVITEM	TrvB	190	0	GRP	Traveler Broadside	N							
+INVITEM	Editions:Traveler:JP	188	0	PART		N		0.815					
+INVITEM	Editions:Traveler:DM	187	0	PART		N		0.185					
+ENDGRP
+INVITEM	Trv	189	0	GRP	"Limited edition, 36 original photographs by Geir Jordahl"	N							
+INVITEM	Editions:Traveler:JP	188	0	PART		N		0.5					
+INVITEM	Editions:Traveler:DM	187	0	PART		N		0.5					
+ENDGRP
+INVITEM	Total	148	0	GRP		Y							
+ENDGRP
+INVITEM	Binding	88	0	GRP	Binding project description	N							
+ENDGRP
+INVITEM	Reimb Group	10	0	GRP	Total Reimbursable Expenses	N	REXPGROUP						
+ENDGRP
+!CLASS	NAME	REFNUM	TIMESTAMP
+CLASS	Materials	14	0
+CLASS	Binding	2	0
+CLASS	Consult	13	0
+CLASS	DB	9	0
+CLASS	Edition	4	0
+CLASS	Finished Book	1	0
+CLASS	Instruction	8	0
+CLASS	PersPub	6	0
+CLASS	Rebinding	7	0
+CLASS	Rent	12	0
+CLASS	Resale	3	0
+CLASS	Show	10	0
+CLASS	Teaching	11	0
+CLASS	Tools	5	0
+!CTYPE	NAME	REFNUM	TIMESTAMP
+CTYPE	Wholesale	2	0
+CTYPE	Retail	1	0
+!CUST	NAME	REFNUM	TIMESTAMP	BADDR1	BADDR2	BADDR3	BADDR4	BADDR5	SADDR1	SADDR2	SADDR3	SADDR4	SADDR5	PHONE1	PHONE2	FAXNUM	EMAIL	CONT1	CONT2	CTYPE	TERMS	TAXABLE	LIMIT	RESALENUM	REP	TAXITEM	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	JOBDESC	JOBTYPE	JOBSTATUS	JOBSTART	JOBPROJEND	JOBEND
+CUST	"Lauber, Jack"	1413	0	Jack Lauber	3419 McElroy Ct	Eau Claire WI 54701			Jack Lauber	3419 McElroy Ct	Eau Claire WI 54701											Y				Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Shamji, Farhad"	1412	0	Farhad Shamji	3720 76 Ave NW	Edmonton AB T5Y0L7			Farhad Shamji	3720 76 Ave NW	Edmonton AB T5Y0L7											Y				Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Bird, Lindsey"	1411	0	Lindsey Bird	11201 Arbor Wood Dr	"Louisville, KY 40299"	United States				Lindsey Bird	11201 Arbor Wood Dr	"Louisville, KY 40299\nUnited States"									Y				Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Wylde, Nanette"	1410	0	"Wylde, Nanette"																		Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Mignot, Emmanuel"	1409	0	"Mignot, Emmanuel"																		Y																												0	0/0/0	0/0/0	0/0/0
+CUST	"Watson, Sonya"	1407	0	Sonya Watson	Art Director: 615.327.7999	m: 615.351.9165	swatson@seigenthaler.com		Sonya Watson	Art Director: 615.327.7999	m: 615.351.9165	swatson@seigenthaler.com									Due on receipt	Y			Ref<Ref>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Kim, Helen"	1406	0	Helen Kim	415.425.7782	helen.x.kim@att.net			Helen Kim	415.425.7782	helen.x.kim@att.net											Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"McCloskey, Robin"	1405	0	Robin McCloskey	ronbinmccloskey@comcast.net				Robin McCloskey	ronbinmccloskey@comcast.net											Due on receipt	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Herman, Ron"	1404	0	Ron Herman	890 Somerset Ct	San Carlos CA 94070			Ron Herman	890 Somerset Ct	San Carlos CA 94070										Paid	Y			K&G J<K&G>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Bellaver, Helen"	1403	0	Helen Bellaver					Helen Bellaver													Y				Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Zelikow, Carolyn"	1060	0	Carolyn Zelikow	811 Village Rd	Charlottesville VA 22903			Carolyn Zelikow	811 Village Rd	Charlottesville VA 22903										Paid	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Zeller, Karen"	1022	0	Karen Zeller					Karen Zeller												Due on receipt	Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Zorovich, Ms. Sabrina"	371	0	Ms. Sabrina Zorovich	382 Mulry Lane	Lawrence NY 11559			Ms. Sabrina Zorovich	382 Mulry Lane	Lawrence NY 11559											N											6161																	0	0/0/0	0/0/0	0/0/0
+!VTYPE	NAME	REFNUM	TIMESTAMP
+VTYPE	1099 contractor	1	0
+VTYPE	Consultant	2	0
+VTYPE	Tax agency	3	0
+VTYPE	Supplies	4	0
+VTYPE	Materials	5	0
+!VEND	NAME	REFNUM	TIMESTAMP	PRINTAS	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	VTYPE	CONT1	CONT2	PHONE1	PHONE2	FAXNUM	EMAIL	NOTE	TAXID	LIMIT	TERMS	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	1099
+VEND	1800flowers	1151	0		1800flowers																																					N
+VEND	3M Shop	1105	0		3M Shop																																					N
+VEND	A Mano Press	856	0		A Mano Press																																					N
+VEND	A Moment in Time	763	0		A Moment in Time																																					N
+VEND	Aaron Brothers	54	0		Aaron Brothers	7151 Regional St	"Dublin, CA 94568"																																			N
+VEND	Abebooks.com	658	0		Abebooks.com																																					N
+VEND	Abes of Maine	1321	0		Abes of Maine																																					N
+VEND	Academic Super Store	852	0		Academic Super Store																																					N
+VEND	Acceris	911	0		Acceris																																					N
+VEND	"Worley, Yvonne"	816	0		Yvonne Worley						Yvonne Worley											Ms.		Yvonne		Worley																N
+VEND	Worthington Group	1055	0		Worthington Group																																					N
+VEND	www.earthlink.net	180	0		www.earthlink.net																																					N
+VEND	www.imagesupplyhouse.com	691	0		www.imagesupplyhouse.com																																					N
+VEND	"Yaron, David"	713	0		"Yaron, David"																																					N
+VEND	Zinio.com	1323	0		Zinio.com																																					N
+!EMP	NAME	REFNUM	TIMESTAMP	INIT	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	SSNO	PHONE1	PHONE2	EMAIL	NOTEPAD	FIRSTNAME	MIDINIT	LASTNAME	SALUTATION	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	HIDDEN
+EMP	Ad	611	0		A d												Ad																	N
+EMP	Book Arts-l	218	0		B A l												Book Arts-l																	N
+EMP	"Drake, Don A"	20	0		Don A. Drake	5664 Sun Ridge Ct.	"Castro Valley, CA 94552"			553-23-3569	(510) 727-9131				Don	A	Drake	Mr.																N
+EMP	HS	228	0		Hugh Stump Legacy Customer												HS																	N
+EMP	HS+	238	0		H S +	Through Hugh but not his cutomers											HS+																	N
+EMP	K&G J	687	0		Geir Jordahl												K&G J																	N
+EMP	OliveHyde	683	0		Olive Hyde Gallery												OliveHyde																	N
+EMP	"Rajan, Tara"	1168	0		Tara Rajan										Tara		Rajan																	N
+EMP	Ref	758	0		R e f												Ref																	N
+EMP	Web	101	0		W e b												Web																	N
+EMP	"Yedinak, Bryan"	662	0		Modernbook	949 University Ave	Palo Alto CA 94301								Bryan		Yedinak																	N
+!OTHERNAME	NAME	REFNUM	TIMESTAMP	BADDR1	BADDR2	BADDR3	BADDR4	BADDR5	PHONE1	PHONE2	FAXNUM	EMAIL	CONT1	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME
+OTHERNAME	AARP	710	0	AARP															
+OTHERNAME	Alameda County Clerk-Recorder	596	0	Alameda County Clerk-Recorder	1106 Madison Street Rm136	Oakland CA 94607													
+OTHERNAME	Albertsons	189	0	Albertsons															
+OTHERNAME	American Express	29	0	American Express												American Express			
+OTHERNAME	Baker's Square	149	0	Baker's Square															
+OTHERNAME	"Barnaby, Ltd"	1400	0	"Barnaby, Ltd"															
+OTHERNAME	BART	116	0	BART															
+OTHERNAME	California Lawyers for the Arts	107	0	California Lawyers for the Arts	Fort Mason Center	"Building C, Room 255"	"San Francisco, CA 94123"												
+OTHERNAME	Canyon Middle School	562	0	Canyon Middle School															
+OTHERNAME	carpetland	200	0	carpetland															
+OTHERNAME	Westside Wholesale Inc	1045	0	Westside Wholesale Inc															
+OTHERNAME	WFOperating	1326	0	WFOperating															
+OTHERNAME	Wherehouse Music	162	0	Wherehouse Music															
+OTHERNAME	Wikimedia Foundation	1398	0	Wikimedia Foundation															
+OTHERNAME	World Nails	204	0	World Nails															
+!SHIPMETH	NAME	REFNUM	TIMESTAMP
+SHIPMETH	Airborne	1	0
+SHIPMETH	Delivered	7	0
+SHIPMETH	DHL	2	0
+SHIPMETH	email	8	0
+SHIPMETH	Federal Express	3	0
+SHIPMETH	P/U	6	0
+SHIPMETH	sh	9	0
+SHIPMETH	UPS	4	0
+SHIPMETH	US Mail	5	0
+!PAYMETH	NAME	REFNUM	TIMESTAMP
+PAYMETH	5978	13	0
+PAYMETH	773	12	0
+PAYMETH	American Express	1	0
+PAYMETH	Art in trade	8	0
+PAYMETH	Cash	2	0
+PAYMETH	Check	3	0
+PAYMETH	Discover	4	0
+PAYMETH	EFT	7	0
+PAYMETH	HS Credit	9	0
+PAYMETH	Master Card	5	0
+PAYMETH	Money Order	11	0
+PAYMETH	PayPal	10	0
+PAYMETH	VISA	6	0
+!INVMEMO	NAME	REFNUM	TIMESTAMP
+INVMEMO	"$32.53 credit remaining. Thanks, Don"	9	0
+INVMEMO	All work is complete!	3	0
+INVMEMO	It's been a pleasure working with you!	4	0
+INVMEMO	Please remit to above address.	1	0
+INVMEMO	Thank you for your business.	2	0
+INVMEMO	Thanks Al!	6	0
+INVMEMO	Thanks for thinking of me	7	0
+INVMEMO	Thanks for your payment	8	0
+INVMEMO	We appreciate your prompt payment.	5	0
+!TERMS	NAME	REFNUM	TIMESTAMP	DUEDAYS	MINDAYS	DISCPER	DISCDAYS	TERMSTYPE
+TERMS	1% 10 Net 30	5	0	30	0	1	10	0
+TERMS	2% 10 Net 30	6	0	30	0	2	10	0
+TERMS	50% Dep 50% Del	13	0	0	0	0	0	0
+TERMS	Credit Card	8	0	0	0	0	0	0
+TERMS	Due on confirm.	10	0	0	0	0	0	0
+TERMS	Due on receipt	4	0	0	0	0	0	0
+TERMS	For Approval	9	0	0	0	0	0	0
+TERMS	Net 15	1	0	15	0	0	0	0
+TERMS	Net 30	2	0	30	0	0	0	0
+TERMS	Net 60	3	0	60	0	0	0	0
+TERMS	Net 90	11	0	90	0	0	0	0
+TERMS	Paid	7	0	0	0	0	0	0
+TERMS	Pending	12	0	0	0	0	0	0
+TERMS	Quote	14	0	0	0	0	0	0
+!BUD	ACCNT	PERIOD	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	STARTDATE	CLASS	CUSTOMER
+BUD	Fee Income	MONTH									"-2,500.00"	"-2,000.00"	"-5,500.00"	"-4,000.00"	1/1/2001		
+BUD	Telephone	MONTH	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	1/1/2002		
+BUD	Telephone	MONTH	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	1/1/2001		
+BUD	Professional Fees	MONTH	0.00	65.00	0.00	65.00	0.00	70.00	0.00	70.00	0.00	65.00	0.00	65.00	1/1/2002		
+BUD	Professional Fees	MONTH	100.00	100.00	100.00	100.00	100.00	100.00	100.00	100.00	100.00	100.00	100.00	100.00	1/1/2001		
+BUD	Automobile Expense	MONTH	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	1/1/2001		
+BUD	Insurance	MONTH						624.00							1/1/2001		
+BUD	Postage and Delivery	MONTH	20.00	21.00	50.00	60.00	70.00	60.00	60.00	50.00	28.00	29.00	30.00	31.00	1/1/2002		
+BUD	Contributions	MONTH		200.00									200.00		1/1/2002		
+BUD	Taxes	MONTH	300.00			300.00			300.00			300.00			1/1/2002		
+BUD	Contributions	MONTH		200.00									200.00		1/1/2001		
+BUD	Supplies	MONTH	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	1/1/2002		
+BUD	Postage and Delivery	MONTH	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	1/1/2001		
+BUD	Insurance	MONTH						624.00							1/1/2002		
+BUD	Supplies	MONTH	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	1/1/2001		
+BUD	Cost of Goods Sold	MONTH	"1,133.00"	784.00	"1,220.00"	436.00	87.00	436.00	697.00	697.00	784.00	958.00	958.00	523.00	1/1/2003		
+BUD	Sales:Retail	MONTH		"-1,500.00"											1/1/2003	Binding	"Webster, Diana"
+BUD	Automobile Expense	MONTH	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	1/1/2002		
+BUD	Sales:Retail	MONTH		-400.00	-700.00	"-1,000.00"	"-1,300.00"	"-1,600.00"	"-1,900.00"	"-1,200.00"	"-1,380.00"	"-1,587.00"	"-1,825.05"	"-2,098.81"	1/1/2002		
+BUD	Sales	MONTH	"-4,162.00"	"-2,882.00"	"-4,482.00"	"-1,601.00"	"-3,200.00"	"-1,601.00"	"-2,561.00"	"-2,561.00"	"-2,882.00"	"-3,522.00"	"-3,522.00"	"-1,921.00"	1/1/2003		
+BUD	Advertising:Web Site	MONTH	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	1/1/2003		
+BUD	Advertising	MONTH	35.00	35.00	"1,035.00"	"1,035.00"	35.00	"1,035.00"	35.00	35.00	35.00	35.00	35.00	35.00	1/1/2002		
+BUD	Cost of Goods Sold:Printed Pages	MONTH						200.00	200.00	400.00	400.00	400.00	400.00	400.00	1/1/1999		
+BUD	Travel & Ent	MONTH			300.00			300.00				400.00			1/1/2002		
+BUD	Inventory Asset:Raw Materials	MONTH	100.00	115.00	132.25	152.09	174.90	201.14	231.31	266.01	305.91	351.80	404.57	465.26	1/1/2002		
+BUD	Travel & Ent	MONTH								800.00					1/1/2001		
+BUD	Inventory Asset:Raw Materials	MONTH											750.00		1/1/2001		
+BUD	Telephone	MONTH	195.00	78.00	207.00	77.00	208.00	78.00	140.00	140.00	140.00	140.00	140.00	140.00	1/1/2003		
+BUD	Fee Income	MONTH	"-2,000.00"	"-2,000.00"	"-2,000.00"	"-2,000.00"									1/1/2002		
+!TODO	REFNUM	ISDONE	DATE	DESC
+!VEHICLE	NAME	REFNUM	DESC	
+!SALESREP	INIT	REFNUM	NAME	TYPE	
+SALESREP	Ad	9	Ad	Employee	N
+SALESREP	BA	4	Book Arts-l	Employee	N
+SALESREP	DAD	10	"Drake, Don A"	Employee	N
+SALESREP	HS	3	HS	Employee	N
+SALESREP	HS+	5	HS+	Employee	N
+SALESREP	K&G	11	K&G J	Employee	N
+SALESREP	Mod	6	"Yedinak, Bryan"	Employee	N
+SALESREP	OH	7	OliveHyde	Employee	N
+SALESREP	Ref	2	Ref	Employee	N
+SALESREP	TR	8	"Rajan, Tara"	Employee	N
+SALESREP	Web	1	Web	Employee	N

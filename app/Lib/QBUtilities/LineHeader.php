@@ -8,20 +8,26 @@ App::uses('LineAbstract', 'Lib/QBUtilities');
  * @author jasont
  */
 class LineHeader extends LineAbstract {
-	
-	public function __construct($line) {
-		parent::__construct($line);
+		
+	public function execute() {
+		$this->loadModel($this->alias());
+		$this->Model->db->deleteAll(array(1=>1));
+		$this->Model->header = $this->data();
 	}
 	
-	public function execute($header) {
-		return $this->data();
-	}
-
-	protected function model() {
-		if(!isset($this->model)){
+	protected function alias() {
+		if(!isset($this->alias)){
 			$this->parseLine();
 		}
-		return str_replace('!', '', $this->model);
+		return str_replace('!', '', $this->alias);
+	}
+	
+	protected function loadModel($alias) {
+		$this->Model->db = ClassRegistry::init($alias);
+		$this->Model->db->useTable = $alias;
+		$this->Model->db->table = $alias;
+		$this->Model->db->tableToModel = array($alias => $alias);
+		$this->Model->db->useDbConfig = 'qb';
 	}
 }
 

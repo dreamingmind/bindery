@@ -8,21 +8,26 @@ abstract class LineAbstract {
 	
 	protected $line;
 	
-	protected $model;
+	protected $Model;
+	
+	protected $alias;
 	
 	protected $data = array();
 	
+	protected $db;
+	
 	protected $skip = array('HDR', 'BUD', 'INVITEM', 'EMP', 'ENDGRP', 'TRNS', 'SPL', 'TODO', 'VEHICLE', 'SALESREP');
 	
-	public function __construct($line){
-		$this->line = $line;
+	public function __construct($Model, $line){
+		$this->line = trim($line, " \r\n");
+		$this->Model = $Model;
 	}
 	
-	abstract public function execute($header);
+	abstract public function execute();
 	
-	protected function skip() {
-		if(in_array($this->model(), $this->skip)){
-			if($this-model() == 'INVITEM' && count($this->data()) > 15){
+	public function skip() {
+		if(in_array($this->alias(), $this->skip)){
+			if($this->alias() == 'INVITEM' && count($this->data()) > 15){
 				return FALSE;
 			}
 			return TRUE;
@@ -30,7 +35,7 @@ abstract class LineAbstract {
 		return FALSE;
 	}
 	
-	abstract protected function model();
+	abstract protected function alias();
 	
 	protected function data() {
 		if(!isset($this->data)){
@@ -41,7 +46,7 @@ abstract class LineAbstract {
 
 	protected function parseLine() {
 		$this->data = explode("\t", $this->line);
-		$this->model = array_shift($this->data);
+		$this->alias = array_shift($this->data);
 	}
 }
 

@@ -9,21 +9,17 @@ App::uses('LineAbstract', 'Lib/QBUtilities');
  */
 class LineData extends LineAbstract {
 	
-	public function __construct($line) {
-		parent::__construct($line);
+	public function execute() {
+		$saveData = array_combine($this->Model->header, $this->data());
+		$this->Model->db->create();
+		$this->Model->db->save($saveData);
 	}
 	
-	public function execute($header) {
-		echo '<p>DATA:' . $this->line . '</p>';
-		// do some stuff to save the data
-		return $header;
-	}
-	
-	protected function model() {
-		if(!isset($this->model)){
+	protected function alias() {
+		if(!isset($this->alias)){
 			$this->parseLine();
 		}
-		return $this->model;
+		return $this->alias;
 	}
 	
 }
