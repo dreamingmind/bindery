@@ -1,6 +1,7 @@
 <?php
 
 App::uses('LineAbstract', 'Lib/QBUtilities');
+App::uses('QBModel', 'Lib/QBUtilities');
 
 /**
  * LineHeader: Concrete Class to do tasks specific to header lines from an iff File
@@ -44,11 +45,7 @@ class LineHeader extends LineAbstract {
 	 * @param string $alias Name of the Model/Table
 	 */
 	protected function loadModel($alias) {
-		$this->Model->db = ClassRegistry::init($alias);
-		$this->Model->db->useTable = $alias;
-		$this->Model->db->table = $alias;
-		$this->Model->db->tableToModel = array($alias => $alias);
-		$this->Model->db->useDbConfig = 'qb';
+		$this->Model->db = QBModel::init($alias);
 	}
 }
 
