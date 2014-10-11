@@ -62,6 +62,15 @@ abstract class PurchasedProduct {
 	 * @var array
 	 */
 	protected $qbPrices;
+	
+	/**
+	 * The price lookup table from quickbooks Item List iff export
+	 * 
+	 * The list will have the product code as key and PRICE as value
+	 *
+	 * @var array
+	 */
+	protected $qbCodePrices;
 
 
 	/**
@@ -88,9 +97,7 @@ abstract class PurchasedProduct {
 	 * 
 	 * @return float The calculated price
 	 */
-	protected function calculatePrice() {
-		$this->lookup();
-	}
+	abstract protected function calculatePrice();
 
 	/**
 	 * Tentative // 
@@ -113,11 +120,17 @@ abstract class PurchasedProduct {
 	
 	abstract public function updateQuantity($id, $qty);
 
-	private function lookup() {
-		if (!isset($this->qbPrices)) {
+	/**
+	 * Set up both versions of the price lookups
+	 * 
+	 * One is keyed with the full NAME, the other with just the item code (last name node)
+	 * Sample name (Editions:Collab:KJ:Conversation:song)
+	 */
+	protected function lookup() {
+		if (!isset($this->qbPrices) || !isset($this->qbCodePrices)) {
 			$this->qbPrices = QBModel::priceList();
+			$this->qbCodePrices = QBModel::priceList(TRUE);
 		}
-		return $this->qbPrices;
 	}
 
 }

@@ -13,7 +13,7 @@
  *	// table row/column filter checkboxes - not relevant to product specifications
  *	'Ruled_Pages' => 'Ruled_Pages',
  * 
- *	// The sellected prodcut and all relevant specifications
+ *	// The sellected product and all relevant specifications
  *	'Journal' => array(
  *		'product' => '888bl',
  *		// specification fields
@@ -50,7 +50,30 @@ class CustomProduct extends PurchasedProduct {
 	}
 	
 	public function calculatePrice() {
-		parent::calculatePrice();
+		if (!isset($this->data[$this->product]) || !isset($this->data[$this->product]['product'])) {
+			
+		}
+		$this->lookup(); // set the lookup properties
+		
+		// how many of this item was ordered
+		$quantity = isset($this->data[$this->product]['quantity']) ? $this->data[$this->product]['quantity'] : 1;
+		
+		// the product field contains the code of the chosen product
+		$price = $this->qbCodePrices[ strtoupper($this->data[$this->product]['product']) ];
+		
+		// options are yes/no radio buttons and the node is the full NAME from qb
+		foreach ($this->data[$this->product] as $name => $choice)  {
+			if (stristr($name, 'Option')) {
+				if ($choice === '1') {
+					$price += isset($this->qbPrices[$name]) ? $this->qbPrices[$name] : 0;
+				}
+			}
+		}
+		
+		return $price * $quantity;
+		
+		// no other price bits to cherry pick at this time
+		
 //		dmDebug::ddd($this->data, 'the data to calculate a price from');
 	}
 
@@ -67,10 +90,11 @@ class CustomProduct extends PurchasedProduct {
 	 * @return array The data to save
 	 */
 	public function cartEntry() {
+		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
 		$cart = array('Cart' => array(
 				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
 				'type' => $this->type,
-				'user_id' => ($this->userId) ? $this->userId : '',
+				'user_id' => ($this->userId) ? $this->userId : NULL,
 				'session_id' => ($this->sessionId) ? $this->sessionId : '',
 				'design_name' => $this->data[$this->product]['description'],
 				'price' => $this->calculatePrice()
@@ -82,6 +106,7 @@ class CustomProduct extends PurchasedProduct {
 				)				
 			)
 		);
+		dmDebug::ddd($cart['Cart']['price'], 'fin price');
 		return $cart;
 	}
 

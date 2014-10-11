@@ -64,16 +64,32 @@ class QBModel {
 	/**
 	 * Return the queried or cached price list
 	 * 
-	 * This is all the items in INVITEM keyed: NAME => PRICE
+	 * This is all the items in INVITEM keyed: NAME => PRICE 
+	 * or if $code is TRUE, code => PRICE. 
+	 * code is the last portion of the NAME excluding all parent categories
+	 * sample NAME [ Editions:Collab:KJ:Conversation:song ]
 	 * 
+	 * @param boolean $code key the array with only the last portion of NAME (the item code)
 	 * @return array
 	 */
-	public static function priceList() {
+	public static function priceList($code = FALSE) {
+		
 		if (!$prices = Cache::read('qbPrices', 'qb')) {
 			$db = self::init('INVITEM');
 			$prices = $db->find('list', array('fields' => array('NAME', 'PRICE')));
-			Cache::write('qbPrices', $this->qbPrices, 'qb');
-		}		
+			Cache::write('qbPrices', $prices, 'qb');
+		}
+		if ($code) {
+			if (!$codePrices = Cache::read('qbCodePrices', 'qb')) {
+				$codePrices = array();
+				foreach ($prices as $name => $price) {
+					$nodes = explode(':', $name);
+					$codePrices[array_pop($nodes)] = $price;
+				}
+				Cache::write('qbCodePrices', $codePrices, 'qb');
+			}
+			$prices = $codePrices;
+		}
 		return $prices;
 	}
 }

@@ -24,10 +24,9 @@ $parameters = array(
     'fields' => array(
         $name => array(
 			'label' => $item['INVITEM']['DESC'],
-            'price' => $item['INVITEM']['PRICE'],
+            'price' => $item['INVITEM']['PRICE'], // 16
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
-            'price' => 16,
             'default' => '0',
             'legend' => false,
             'option' => 'master-belt'.$model, // controls the diagram area belt div
