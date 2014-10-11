@@ -108,6 +108,16 @@ Cache::config('qb', array(
 	'serialize' => TRUE
 ));
 
+Cache::config('catalog', array(
+	'engine' => 'File',
+	'mask' => 0666,
+	'group' => 'catalog',
+	'path' => CACHE . 'catalog' . DS,
+	'prefix' => 'dm_',
+	'duration' => '+1 week',
+	'serialize' => TRUE
+));
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *

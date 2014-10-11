@@ -34,6 +34,8 @@ public $uses = array('QbItems');
 			$source = new File($path);
 			$source->open('r');
 			$this->QbItems->import($source->handle);
+			Cache::clearGroup('catalog', 'catalog');
+			Cache::clearGroup('qb', 'qb');
 		}
 		
 	}

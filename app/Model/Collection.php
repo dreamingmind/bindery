@@ -163,61 +163,88 @@ class Collection extends AppModel {
         }
         
         public function getPriceTable($pname){
-            $result =  $this->find('all', array(
-                'fields' => array(
-                    'Collection.id',
-                    'Collection.slug',
-                    'Collection.category_id'
-                ),
-                'contain' => array(
-                    'Category' => array(
-                        'fields' => array(
-                            'Category.id',
-                            'Category.name'
-                        )
-                    ),
-                    'Catalog' => array(
-                        'fields' => array(
-                            'Catalog.table_sequence',
-                            'Catalog.column_sequence',
-                            'Catalog.collection_id',
-                            'Catalog.yy_index',
-                            'Catalog.y_index',
-                            'Catalog.xx_index',
-                            'Catalog.x_index',
-                            'Catalog.price',
-                            'Catalog.product_code',
-                            'Catalog.category',
-                            'Catalog.product_group'
-                        ),
-                        'order' => array(
-                            'Catalog.table_sequence',
-                            'Catalog.category',
-                            'Catalog.yy_index',
-                            'Catalog.y_index',
-                            'Catalog.xx_index',
+
+			$cacheKey = "catalog_{$pname}_custom_purchase";
+			
+			if (!$package = Cache::read($cacheKey, 'catalog')) {
+				$result = $this->find('all', array(
+					'fields' => array(
+						'Collection.id',
+						'Collection.slug',
+						'Collection.category_id'
+					),
+					'contain' => array(
+						'Category' => array(
+							'fields' => array(
+								'Category.id',
+								'Category.name'
+							)
+						),
+						'Catalog' => array(
+							'fields' => array(
+								'Catalog.table_sequence',
+								'Catalog.column_sequence',
+								'Catalog.collection_id',
+								'Catalog.yy_index',
+								'Catalog.y_index',
+								'Catalog.xx_index',
+								'Catalog.x_index',
+								'Catalog.price',
+								'Catalog.product_code',
+								'Catalog.category',
+								'Catalog.product_group'
+							),
+							'order' => array(
+								'Catalog.table_sequence',
+								'Catalog.category',
+								'Catalog.yy_index',
+								'Catalog.y_index',
+								'Catalog.xx_index',
 //                            'Catalog.column_sequence',
-                            'Catalog.x_index',
-                        )
-                    )
-                ),
-                'conditions' => array(
-                    'Collection.slug' => $pname,
-                    'Category.name' => 'exhibit'
-                )
-                )
-            );
-            
-            $package = array('Collection' => $result[0]['Collection']);
-            $base = array(0, $result[0]['Catalog'][0]['category']);
-            foreach($result[0]['Catalog'] as $index => $category){
-                if($base[1] != $category['category']){
-                    $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
-                    $base = array(0 => $index, 1 => $category['category']);
-                }
-                $package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index+1 - $base[0]);
-            }
+								'Catalog.x_index',
+							)
+						)
+					),
+					'conditions' => array(
+						'Collection.slug' => $pname,
+						'Category.name' => 'exhibit'
+					)
+						)
+				);
+
+
+				$result[0]['Catalog'] = $this->substituteQbPrices($result[0]['Catalog']);
+
+
+				$package = array('Collection' => $result[0]['Collection']);
+				$base = array(0, $result[0]['Catalog'][0]['category']);
+				foreach ($result[0]['Catalog'] as $index => $category) {
+					if ($base[1] != $category['category']) {
+						$package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index - $base[0]);
+						$base = array(0 => $index, 1 => $category['category']);
+					}
+					$package['Catalog'][$base[1]] = array_slice($result[0]['Catalog'], $base[0], $index + 1 - $base[0]);
+				}
+				Cache::write($cacheKey, $package, 'catalog');
+			}
             return $package;
         }
+		
+		/**
+		 * Update the catalog entries with the current prices from quickbooks
+		 * 
+		 * @param array $catalogs The collection of catalog entries
+		 * @return array
+		 */
+		public function substituteQbPrices($catalogs) {
+			$qbCodePrices = QBModel::priceList(TRUE);
+			foreach ($catalogs as $index => $catalog) {
+//				dmDebug::ddd($catalog, 'catalog');
+				if (!empty($catalogs[$index]['product_code']) && isset($qbCodePrices[strtoupper($catalogs[$index]['product_code'])])) {
+					$catalogs[$index]['price'] = $qbCodePrices[strtoupper($catalogs[$index]['product_code'])];
+				}				
+			}
+			return $catalogs;
+		}
 }
 ?>
