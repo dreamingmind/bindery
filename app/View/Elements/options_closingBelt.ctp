@@ -17,13 +17,16 @@ $parameters = array(
     'post_fields' => (isset($post_fields)) ? $post_fields : '',
     'display' => (isset($display)) ? $display : 'show',
     'record' => (isset($record)) ? $record : false,
+	// legend is controlling the input class and this class is part of the 
+	// selector that making this a cost option. Break this and the pricing 
+	// for this option breaks. Must be Closing Belt
     'legend' => (isset($legend)) ? $legend : $item['INVITEM']['DESC'],
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
         $name => array(
-			'label' => $item['INVITEM']['DESC'],
+			'label' => $item['INVITEM']['DESC'], 
             'price' => $item['INVITEM']['PRICE'], // 16
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),

@@ -66,6 +66,9 @@ class Catalog extends AppModel {
          * If an option carries a cost, it must be included here and 
          * js handlers must be attached to its input to integrate it on the page
          *
+		 * There is no magic to these labels. When a specific input is found on the page 
+		 * one of these labels is chosen and sent to a data object that controls pricing. 
+		 * Its a pretty fragile an hand-code dependent system.
          * @var array 
          */
         var $allCostOptions = array(
@@ -78,7 +81,7 @@ class Catalog extends AppModel {
                 'Book_Body' => array('product'),
                 'Notebook_Pages' => array('product')
             );
-
+		
         /**
          * Return the list of setlist attribute values for every product category
          * 

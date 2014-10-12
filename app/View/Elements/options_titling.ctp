@@ -23,6 +23,9 @@ $parameters = array(
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))?$display:'show',
     'record'=> (isset($record))?$record:false,
+	// legend is controlling the input 'class' and this class is part of the 
+	// selector that is making this a cost option. Break this and the pricing 
+	// for this option breaks. Must be Titling Options
     'legend'=> (isset($legend))?$legend:'Titling Options',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
