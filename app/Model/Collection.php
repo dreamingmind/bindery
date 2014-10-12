@@ -162,6 +162,23 @@ class Collection extends AppModel {
             return $toc;
         }
         
+		/**
+		 * Retrieve the product data for a group of products to make a catalog/purchase page
+		 * 
+		 * These are the pages with the product radio button grids 
+		 * and the full options forms with diagrams
+		 * 
+		 * This pulls the product grid data and goes through several 
+		 * transformation processes to prepare it for output.
+		 * 
+		 * Amoung the transformations is replacement of price data with 
+		 * current quickbook pricing for the products
+		 * 
+		 * The data is cached.
+		 * 
+		 * @param string $pname The product group name
+		 * @return array
+		 */
         public function getPriceTable($pname){
 
 			$cacheKey = "catalog_{$pname}_custom_purchase";

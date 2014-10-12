@@ -157,20 +157,29 @@ class Catalog extends AppModel {
         /**
          * A lookup table to include on reusable journal page
          * to aid in calculating a bookbody price.
+		 * 
+		 * Transfer in current prices from quickbooks
+		 * 
+		 * This query is cached
          * 
          * @return array The price lookup table
          */
         function getPrintingPrices(){
-            $raw = $this->find('all', array(
-                'fields' => array('Catalog.product_code', 'Catalog.price'),
-                'conditions' => array('Catalog.category' => 'Book_Body')
-            ));
-            $this->printPrice = array();
-            foreach ($raw as $entry) {
-                $this->printPrice[$entry['Catalog']['product_code']] = $entry['Catalog']['price'];
-            }
-            return $this->printPrice;
-            
+			if (!$this->printPrices = Cache::read('printprices', 'catalog')) {
+				$raw = $this->find('all', array(
+					'fields' => array('Catalog.product_code', 'Catalog.price'),
+					'conditions' => array('Catalog.category' => 'Book_Body')
+				));
+
+			$qbCodePrices = QBModel::priceList(TRUE);
+
+				$this->printPrice = array();
+				foreach ($raw as $entry) {
+					$this->printPrice[$entry['Catalog']['product_code']] = $qbCodePrices[strtoupper($entry['Catalog']['product_code'])];
+				}
+				Cache::write('printprices', $this->printPrice, 'catalog');
+			}            
+			return $this->printPrice;
 //            $smallPageCost = .06;
 //            $largePageCost = .08;
 //            $overhead = 2;
