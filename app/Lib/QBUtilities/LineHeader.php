@@ -22,6 +22,11 @@ class LineHeader extends LineAbstract {
 		$this->loadModel($this->alias());
 		$this->Model->db->deleteAll(array(1=>1));
 		$this->Model->header = $this->data();
+		$this->Model->useDbConfig = 'qb';
+		$this->Model->useTable = $this->alias();
+		$this->Model->schema();
+//		debug($this->Model->_schema);
+
 	}
 	
 	/**
