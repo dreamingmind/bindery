@@ -16,20 +16,10 @@ class LineData extends LineAbstract {
 	 * calculated and created earlier when the Header line was detected
 	 */
 	public function execute() {
-//		if ($this->Model->alias != 'QbItems') {
-//			foreach ($this->Model->header as $index => $header) {
-//				debug($this->Model->_schema[$header]);
-//				debug($this->data[$index]);
-////				debug("{$this->Model->alias} :: {$header}");
-//			}
-//				debug($this->Model->data);
-//			die;
-//		}		
-		debug($this->data());
-		$saveData = array_combine($this->Model->header, $this->clean_data());
-		debug($this->data);
+		$data = array_combine($this->Model->header, $this->data());
+		$cleanData = $this->Model->dataQC->clean($data);
 		$this->Model->db->create();
-		$this->Model->db->save($saveData);
+		$this->Model->db->save($cleanData);
 	}
 	
 	/**

@@ -39,6 +39,7 @@ abstract class LineAbstract {
 	 * The model/table that this line belongs to
 	 * 
 	 * The first column of each line names the model/table
+	 * This is the model/table that will be in Model->db
 	 *
 	 * @var string
 	 */
@@ -53,15 +54,6 @@ abstract class LineAbstract {
 	 * @var array
 	 */
 	protected $data = array();
-	
-	/**
-	 * The actual Model/Table that will receive the data
-	 * 
-	 * Calculated and generated on the fly from the Alias recorded in each line
-	 *
-	 * @var Model Object
-	 */
-	protected $db;
 	
 	/**
 	 * Model/Table lines to ignore
@@ -82,7 +74,7 @@ abstract class LineAbstract {
 	 * @param object $Model
 	 * @param string $line
 	 */
-	public function __construct($Model, $line){
+	public function __construct(QbItems $Model, $line){
 		$this->line = preg_replace('/\t"|"\t/', "\t", trim($line, " \r\n"));
 		$this->Model = $Model;
 	}
