@@ -36,6 +36,14 @@ class QbItems extends AppModel {
 	public $headers = array();
 	
 	/**
+	 * The tools to insure the data can be safely stored in the table fields
+	 *
+	 * @var object
+	 */
+	public $dataQC;
+
+
+	/**
 	 * Read an iff file and store its data into data tables
 	 * 
 	 * The tables need to be defined first, but everything else is automatic. 

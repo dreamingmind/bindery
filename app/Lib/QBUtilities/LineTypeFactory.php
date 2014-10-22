@@ -10,7 +10,7 @@ App::uses('LineHeader', 'Lib/QBUtilities');
 App::uses('LineData', 'Lib/QBUtilities');
 
 /**
- * Return an object appropriate to the kind of line read from the iff file
+ * Return an object appropriate to the kind of line read from the iif file
  * 
  * The lines will be Header lines that start with a '!' 
  * Or data lines that match the column count of the headers

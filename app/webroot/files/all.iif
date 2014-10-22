@@ -1,45 +1,45 @@
 !HDR	PROD	VER	REL	IIFVER	DATE	TIME
-HDR	QuickBooks 2014 for Macintosh	Version 15.0.5	Release R6	1	10/8/14	1412802411
+HDR	QuickBooks 2014 for Macintosh	Version 15.0.5	Release R6	1	10/21/14	1413943210
 !ACCNT	NAME	REFNUM	TIMESTAMP	ACCNTTYPE	OBAMOUNT	DESC	ACCNUM	SCD	EXTRA
 ACCNT	Bank Accounts	105	0	BANK	0.00			0	
 ACCNT	Bank Accounts:WFMktRate	191	0	BANK	632.62	Wells Fargo Market Rate		0	
 ACCNT	Bank Accounts:WFTx	190	0	BANK	0.00	Wells Fargo Tax Savings		0	
-ACCNT	Bank Accounts:WFOp	189	0	BANK	"15345.94"	Wells Fargo Operating Acct		0	
+ACCNT	Bank Accounts:WFOp	189	0	BANK	"15,345.94"	Wells Fargo Operating Acct		0	
 ACCNT	Bank Accounts:Wells Fargo Checking	103	0	BANK	20.00	Primary Checking Acount		0	
 ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts	174	0	BANK	0.00			0	
 ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Home	172	0	BANK	0.00			0	
 ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:JordahlPhoto	170	0	BANK	0.00			0	
 ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Materials	145	0	BANK	0.00			0	
 ACCNT	Bank Accounts:Wells Fargo Checking:sum subacounts:Available Funds	146	0	BANK	0.00			0	
-ACCNT	Bank Accounts:PayPal	117	0	BANK	"3394.42"			0	
+ACCNT	Bank Accounts:PayPal	117	0	BANK	"3,394.42"			0	
 ACCNT	Bank Accounts:PayPal:sum subacounts	175	0	BANK	0.00			0	
 ACCNT	Bank Accounts:PayPal:sum subacounts:HomeSavings	180	0	BANK	0.00	acct to hold home cash		0	
 ACCNT	Bank Accounts:PayPal:sum subacounts:Materials	169	0	BANK	0.00			0	
 ACCNT	Bank Accounts:PayPal:sum subacounts:LongHome	171	0	BANK	0.00	long term saving for home		0	
 ACCNT	Bank Accounts:PayPal:sum subacounts:Sales Tax	167	0	BANK	0.00	savings for tax payment		0	
 ACCNT	Bank Accounts:PayPal:sum subacounts:IRA save	176	0	BANK	0.00			0	
-ACCNT	Accounts Receivable	93	0	AR	"7100.47"		1200	0	
+ACCNT	Accounts Receivable	93	0	AR	"7,262.80"		1200	0	
 ACCNT	Inventory Asset	51	0	OCASSET	0.00		1120	0	INVENTORYASSET
 ACCNT	Inventory Asset:Finished Books	115	0	OCASSET	0.00	Material cost of books		0	
-ACCNT	Inventory Asset:Raw Materials	76	0	OCASSET	"10483.22"			0	
+ACCNT	Inventory Asset:Raw Materials	76	0	OCASSET	"10,483.22"			0	
 ACCNT	Inventory Asset:Raw Materials:Consumables	113	0	OCASSET	0.00	"Board, adhesives, mull, etc."		0	
 ACCNT	Inventory Asset:Raw Materials:Secondary Aesthetic	112	0	OCASSET	0.00	"Ribbon, yarn, foil, etc."		0	
 ACCNT	Inventory Asset:Raw Materials:Primary Aesthetic	111	0	OCASSET	331.75	"Cloth, paper and endpapers"		0	
 ACCNT	Other Current Assets	107	0	OCASSET	273.64			0	
 ACCNT	Other Current Assets:Temp Transfer < Home	181	0	OCASSET	0.00	Home $ to paypal		0	
 ACCNT	Other Current Assets:Cash	96	0	OCASSET	0.00	Before DM had credit cards		0	
-ACCNT	Other Current Assets:Undeposited Funds	92	0	OCASSET	"1239.57"		1499	0	UNDEPOSIT
+ACCNT	Other Current Assets:Undeposited Funds	92	0	OCASSET	"1,239.57"		1499	0	UNDEPOSIT
 ACCNT	Accumulated Depreciation	101	0	FIXASSET	0.00			0	
 ACCNT	Fixed Assets	97	0	FIXASSET	0.00			0	
 ACCNT	Fixed Assets:Small Tools	67	0	FIXASSET	773.19	Small manufacturing tools	6890	0	
 ACCNT	Fixed Assets:Computer Equipment	89	0	FIXASSET	0.00			0	
-ACCNT	Fixed Assets:Equipment	91	0	FIXASSET	"-2125.50"			0	
+ACCNT	Fixed Assets:Equipment	91	0	FIXASSET	"-2,125.50"			0	
 ACCNT	Fixed Assets:Office/Shop Furnishings	53	0	FIXASSET	26.29			0	
 ACCNT	Earned Discount	116	0	OASSET	0.00			0	
 ACCNT	Other Assets	98	0	OASSET	-249.04			0	
-ACCNT	Accounts Payable	94	0	AP	"-2125.63"		2000	0	
+ACCNT	Accounts Payable	94	0	AP	"-2,125.63"		2000	0	
 ACCNT	Credit Card Accounts	106	0	CCARD	191.66			0	
-ACCNT	Credit Card Accounts:CapOneBusPlat	197	0	CCARD	"2135.47"			0	
+ACCNT	Credit Card Accounts:CapOneBusPlat	197	0	CCARD	"2,135.47"			0	
 ACCNT	Credit Card Accounts:Macy's	184	0	CCARD	0.00			0	
 ACCNT	Credit Card Accounts:MilesOne Visa	140	0	CCARD	0.00			0	
 ACCNT	Credit Card Accounts:Chase	128	0	CCARD	0.00	Replacement card		0	
@@ -49,140 +49,140 @@ ACCNT	Credit Card Accounts:American Express	108	0	CCARD	0.00	Corporate Optima Pl
 ACCNT	Credit Card Accounts:Citibank Master Card	104	0	CCARD	0.00	Home Master Card		0	
 ACCNT	Transfer to home	183	0	OCLIAB	0.00			0	
 ACCNT	Ohter Current Liablility	182	0	OCLIAB	0.00			0	
-ACCNT	Payment to Hugh Stump	130	0	OCLIAB	0.00	"10 gross sales, his customer"		0	
-ACCNT	Sales Tax Payable	70	0	OCLIAB	-439.73	SR CH 97570873	2200	0	SALESTAX
-ACCNT	Draw	185	0	EQUITY	"5785.75"			0	
+ACCNT	Payment to Hugh Stump	130	0	OCLIAB	0.00	"10% gross sales, his customer"		0	
+ACCNT	Sales Tax Payable	70	0	OCLIAB	-443.06	SR CH 97570873	2200	0	SALESTAX
+ACCNT	Draw	185	0	EQUITY	"5,785.75"			0	
 ACCNT	Draw:House Addition	186	0	EQUITY	0.00			0	
-ACCNT	Draw:House Addition:Construction Cost	188	0	EQUITY	"2150.00"			0	
+ACCNT	Draw:House Addition:Construction Cost	188	0	EQUITY	"2,150.00"			0	
 ACCNT	Draw:House Addition:Professional Services	187	0	EQUITY	0.00			0	
-ACCNT	Opening Bal Equity	85	0	EQUITY	"74667.24"		3000	0	OPENBAL
+ACCNT	Opening Bal Equity	85	0	EQUITY	"74,667.24"		3000	0	OPENBAL
 ACCNT	Owner's Capital	37	0	EQUITY	0.00	Owner's Capital		0	
 ACCNT	Owner's Capital:IRA contributions	124	0	EQUITY	0.00			0	
 ACCNT	Owner's Capital:Investments	38	0	EQUITY	0.00	Investments		0	
 ACCNT	Retained Earnings	1	0	EQUITY	0.00	Retained Earnings	3900	0	RETEARNINGS
-ACCNT	Fee Income	71	0	INC	"-81292.11"	Fee Income		0	
-ACCNT	Fee Income:Graphics	72	0	INC	"-109497.30"	Graphic design or production		0	
-ACCNT	Fee Income:Web	73	0	INC	"-1052.90"	Web design and implementation		0	
+ACCNT	Fee Income	71	0	INC	"-81,292.11"	Fee Income		0	
+ACCNT	Fee Income:Graphics	72	0	INC	"-109,497.30"	Graphic design or production		0	
+ACCNT	Fee Income:Web	73	0	INC	"-1,052.90"	Web design and implementation		0	
 ACCNT	Other Charges	86	0	INC	0.00			0	
 ACCNT	Other Charges:Sales Tax	88	0	INC	0.00	State Sales Tax		338	
-ACCNT	Other Charges:Shipping	87	0	INC	"-10065.40"	Shipping charges		0	
+ACCNT	Other Charges:Shipping	87	0	INC	"-10,090.40"	Shipping charges		0	
 ACCNT	Sales	40	0	INC	0.00	Sales Income	4010	293	
-ACCNT	Sales:Teaching	165	0	INC	"-2689.70"			0	
-ACCNT	Sales:Retail	41	0	INC	"-55268.23"	Retail Sales	4030	293	
-ACCNT	Sales:Retail:Rush	164	0	INC	"-1542.16"			0	
+ACCNT	Sales:Teaching	165	0	INC	"-2,689.70"			0	
+ACCNT	Sales:Retail	41	0	INC	"-55,268.23"	Retail Sales	4030	293	
+ACCNT	Sales:Retail:Rush	164	0	INC	"-1,542.16"			0	
 ACCNT	Sales:Retail:Guestbooks	163	0	INC	-268.00			0	
-ACCNT	Sales:Retail:Mat/Sup	162	0	INC	"-5170.99"			0	
-ACCNT	Sales:Retail:Tools	161	0	INC	"-2904.69"			0	
-ACCNT	Sales:Retail:Editions	160	0	INC	"-19885.15"			0	
-ACCNT	Sales:Retail:Options	159	0	INC	"-29263.72"			0	
-ACCNT	Sales:Retail:Photo Albums	158	0	INC	"-8395.25"			0	
-ACCNT	Sales:Retail:Journal	157	0	INC	"-54978.97"			0	
-ACCNT	Sales:Retail:Notebook	156	0	INC	"-58123.40"			0	
-ACCNT	Sales:Retail:Portfolio	155	0	INC	"-20184.00"			0	
-ACCNT	Sales:Retail:Boxes	154	0	INC	"-48739.00"			0	
-ACCNT	Sales:Retail:Printed Pages	153	0	INC	"-6294.23"			0	
-ACCNT	Sales:Retail:Vanity	39	0	INC	"-4300.76"			0	
+ACCNT	Sales:Retail:Mat/Sup	162	0	INC	"-5,170.99"			0	
+ACCNT	Sales:Retail:Tools	161	0	INC	"-2,904.69"			0	
+ACCNT	Sales:Retail:Editions	160	0	INC	"-19,885.15"			0	
+ACCNT	Sales:Retail:Options	159	0	INC	"-29,272.72"			0	
+ACCNT	Sales:Retail:Photo Albums	158	0	INC	"-8,395.25"			0	
+ACCNT	Sales:Retail:Journal	157	0	INC	"-55,075.97"			0	
+ACCNT	Sales:Retail:Notebook	156	0	INC	"-58,123.40"			0	
+ACCNT	Sales:Retail:Portfolio	155	0	INC	"-20,184.00"			0	
+ACCNT	Sales:Retail:Boxes	154	0	INC	"-48,739.00"			0	
+ACCNT	Sales:Retail:Printed Pages	153	0	INC	"-6,322.23"			0	
+ACCNT	Sales:Retail:Vanity	39	0	INC	"-4,300.76"			0	
 ACCNT	Sales:Scrap	42	0	INC	0.00	Scrap Sales	4050	293	
 ACCNT	Sales:Wholesale	43	0	INC	0.00	Wholesale Sales	4070	293	
-ACCNT	Sales Discounts	44	0	INC	"7616.39"	Sales Discounts	4090	293	
-ACCNT	Cost of Purchase	131	0	COGS	"3793.82"	"2 yr, 10 payment to Hugh"		0	
-ACCNT	Shipping Costs	127	0	COGS	"12960.19"			0	
-ACCNT	Cost of Goods Sold	45	0	COGS	"61394.19"	Cost of Goods Sold	5000	0	COGS
-ACCNT	Cost of Goods Sold:Vanity	148	0	COGS	"1080.42"	customer content		0	
+ACCNT	Sales Discounts	44	0	INC	"7,616.39"	Sales Discounts	4090	293	
+ACCNT	Cost of Purchase	131	0	COGS	"3,793.82"	"2 yr, 10% payment to Hugh"		0	
+ACCNT	Shipping Costs	127	0	COGS	"12,960.19"			0	
+ACCNT	Cost of Goods Sold	45	0	COGS	"61,394.19"	Cost of Goods Sold	5000	0	COGS
+ACCNT	Cost of Goods Sold:Vanity	148	0	COGS	"1,080.42"	customer content		0	
 ACCNT	Cost of Goods Sold:Material Resale	144	0	COGS	45.00	direct sale of supplies		0	
 ACCNT	Cost of Goods Sold:Editions	141	0	COGS	60.00			0	
 ACCNT	Cost of Goods Sold:Editions:Jizo	173	0	COGS	12.71			0	
-ACCNT	Cost of Goods Sold:Editions:Henri	147	0	COGS	"1305.21"			0	
-ACCNT	Cost of Goods Sold:Editions:Ruth	168	0	COGS	"1697.65"			0	
+ACCNT	Cost of Goods Sold:Editions:Henri	147	0	COGS	"1,305.21"			0	
+ACCNT	Cost of Goods Sold:Editions:Ruth	168	0	COGS	"1,697.65"			0	
 ACCNT	Cost of Goods Sold:Editions:Jabberwocky	166	0	COGS	3.05			0	
-ACCNT	Cost of Goods Sold:Editions:Kandinsky	151	0	COGS	"4221.11"			0	
+ACCNT	Cost of Goods Sold:Editions:Kandinsky	151	0	COGS	"4,221.11"			0	
 ACCNT	Cost of Goods Sold:Editions:Darger	150	0	COGS	34.31			0	
 ACCNT	Cost of Goods Sold:Editions:DHunter	149	0	COGS	16.61			0	
-ACCNT	Cost of Goods Sold:Editions:Traveler	143	0	COGS	"9714.51"			0	
+ACCNT	Cost of Goods Sold:Editions:Traveler	143	0	COGS	"9,714.51"			0	
 ACCNT	Cost of Goods Sold:Editions:Amending Self	142	0	COGS	235.28			0	
-ACCNT	Cost of Goods Sold:Inventory Adjustment	138	0	COGS	"1200.00"	result of manual inventory		0	
-ACCNT	Cost of Goods Sold:Embossing Die	129	0	COGS	"1166.55"			0	
-ACCNT	Cost of Goods Sold:Journal	125	0	COGS	"1727.41"			0	
-ACCNT	Cost of Goods Sold:Notebook	122	0	COGS	"2679.49"			0	
+ACCNT	Cost of Goods Sold:Inventory Adjustment	138	0	COGS	"1,200.00"	result of manual inventory		0	
+ACCNT	Cost of Goods Sold:Embossing Die	129	0	COGS	"1,166.55"			0	
+ACCNT	Cost of Goods Sold:Journal	125	0	COGS	"1,727.41"			0	
+ACCNT	Cost of Goods Sold:Notebook	122	0	COGS	"2,679.49"			0	
 ACCNT	Cost of Goods Sold:Portfolio	123	0	COGS	376.39			0	
 ACCNT	Cost of Goods Sold:Boxes	4	0	COGS	945.82			0	
 ACCNT	Cost of Goods Sold:Options	90	0	COGS	109.88			0	
 ACCNT	Cost of Goods Sold:Photo Albums	69	0	COGS	868.32			0	
 ACCNT	Cost of Goods Sold:Services	81	0	COGS	4.70			0	
-ACCNT	Cost of Goods Sold:Consumables	79	0	COGS	"10214.13"			0	
+ACCNT	Cost of Goods Sold:Consumables	79	0	COGS	"10,214.13"			0	
 ACCNT	Cost of Goods Sold:Labor	82	0	COGS	0.00			0	
 ACCNT	Cost of Goods Sold:Printing	80	0	COGS	0.00			0	
 ACCNT	Cost of Goods Sold:Printed Pages	78	0	COGS	478.79			0	
-ACCNT	Equipment	192	0	EXP	"24929.16"	Equipment purchases		0	
+ACCNT	Equipment	192	0	EXP	"24,929.16"	Equipment purchases		0	
 ACCNT	Equipment:Furnishings	196	0	EXP	181.09	Furniture for bindery		0	
-ACCNT	Equipment:Bindery Equipment	195	0	EXP	"1719.59"	Equipment		0	
-ACCNT	Equipment:Printer	194	0	EXP	"1755.46"	Output devices		0	
-ACCNT	Equipment:Computer	193	0	EXP	"6484.18"	"hardware, network, storage"		0	
-ACCNT	Write Off	179	0	EXP	"5783.98"	Write Off Accounts Receivable		305	
-ACCNT	Wages	152	0	EXP	"101647.37"			297	
+ACCNT	Equipment:Bindery Equipment	195	0	EXP	"1,719.59"	Equipment		0	
+ACCNT	Equipment:Printer	194	0	EXP	"1,755.46"	Output devices		0	
+ACCNT	Equipment:Computer	193	0	EXP	"6,484.18"	"hardware, network, storage"		0	
+ACCNT	Write Off	179	0	EXP	"5,783.98"	Write Off Accounts Receivable		305	
+ACCNT	Wages	152	0	EXP	"101,647.37"			297	
 ACCNT	Education	74	0	EXP	379.00			0	
 ACCNT	Manufacturing Cost	77	0	EXP	18.47			0	
-ACCNT	Advertising	83	0	EXP	"3789.48"			0	
+ACCNT	Advertising	83	0	EXP	"3,789.48"			0	
 ACCNT	Advertising:Event	126	0	EXP	245.80	Show/Event		0	
 ACCNT	Advertising:Memberships	135	0	EXP	413.97	Community visibility/network		0	
 ACCNT	Advertising:Dies	134	0	EXP	74.60	Company logo dies and stamps		0	
 ACCNT	Advertising:Catalog	133	0	EXP	299.92	make and mail catalogs		0	
 ACCNT	Advertising:Sample books	114	0	EXP	61.30			0	
-ACCNT	Advertising:Web Site	100	0	EXP	"4412.87"			0	
-ACCNT	Advertising:Printing and Reproduction	21	0	EXP	"2070.83"	Printing and Reproduction	6265	302	
+ACCNT	Advertising:Web Site	100	0	EXP	"4,412.87"			0	
+ACCNT	Advertising:Printing and Reproduction	21	0	EXP	"2,070.83"	Printing and Reproduction	6265	302	
 ACCNT	Amortization Expense	46	0	EXP	0.00	Amortization Expense	6030	0	
 ACCNT	Automobile Expense	5	0	EXP	929.61	Automobile Expense	6115	306	
-ACCNT	Automobile Expense:Gas	109	0	EXP	"7624.45"			0	
-ACCNT	Bank Service Charges	6	0	EXP	"2513.24"	Bank Service Charges	6125	302	
+ACCNT	Automobile Expense:Gas	109	0	EXP	"7,624.45"			0	
+ACCNT	Bank Service Charges	6	0	EXP	"2,513.24"	Bank Service Charges	6125	302	
 ACCNT	Bank Service Charges:Wells Fargo fee	137	0	EXP	134.00			0	
 ACCNT	Bank Service Charges:PayPal Fee	136	0	EXP	131.46			0	
 ACCNT	Cash Discounts	7	0	EXP	0.00	Cash Discounts	6135	296	
 ACCNT	Commisions	84	0	EXP	69.60			0	
-ACCNT	Contract Labor	47	0	EXP	"20705.75"	Contract Labor	6190	561	
-ACCNT	Contributions	8	0	EXP	"2193.42"	Contributions	6145	0	
+ACCNT	Contract Labor	47	0	EXP	"20,705.75"	Contract Labor	6190	561	
+ACCNT	Contributions	8	0	EXP	"2,193.42"	Contributions	6145	0	
 ACCNT	Depreciation Expense	9	0	EXP	0.00	Depreciation Expense	6155	0	
 ACCNT	Dues and Subscriptions	10	0	EXP	755.92	Dues and Subscriptions	6165	302	
 ACCNT	Equipment Rental	11	0	EXP	0.00	Equipment Rental	6175	299	
-ACCNT	Freight and Delivery	48	0	EXP	"3759.64"	Freight and Delivery	6260	302	
-ACCNT	Insurance	12	0	EXP	"8165.79"	Insurance	6185	310	
+ACCNT	Freight and Delivery	48	0	EXP	"3,759.64"	Freight and Delivery	6260	302	
+ACCNT	Insurance	12	0	EXP	"8,165.79"	Insurance	6185	310	
 ACCNT	Insurance:Disability Insurance	13	0	EXP	0.00	Disability Insurance	6195	310	
 ACCNT	Insurance:Liability Insurance	49	0	EXP	0.00	Liability Insurance	6410	310	
 ACCNT	Insurance:Work Comp	50	0	EXP	0.00	Workman's Compensation	6420	310	
 ACCNT	Interest Expense	14	0	EXP	155.54	Interest Expense	6205	312	
-ACCNT	Interest Expense:Finance Charge	15	0	EXP	"3126.33"	Finance Charge	6215	312	
+ACCNT	Interest Expense:Finance Charge	15	0	EXP	"3,126.33"	Finance Charge	6215	312	
 ACCNT	Interest Expense:Loan Interest	16	0	EXP	0.00	Loan Interest Expense	6225	312	
 ACCNT	Interest Expense:Mortgage	17	0	EXP	0.00	Mortgage Interest	6375	311	
 ACCNT	Licenses and Permits	18	0	EXP	29.00	Licenses	6235	316	
 ACCNT	Miscellaneous	19	0	EXP	205.01	Miscellaneous	6245	302	
-ACCNT	Postage and Delivery	20	0	EXP	"1761.25"	Postage and Delivery	6255	302	
+ACCNT	Postage and Delivery	20	0	EXP	"1,761.25"	Postage and Delivery	6255	302	
 ACCNT	Professional Development	54	0	EXP	0.00	Professional Development	6630	302	
 ACCNT	Professional Fees	22	0	EXP	481.20	Professional Fees	6275	298	
-ACCNT	Professional Fees:Accounting	55	0	EXP	"1725.00"	Accounting Fees	6650	298	
-ACCNT	Professional Fees:Consulting	56	0	EXP	"6059.50"	Consulting Expense	6655	298	
-ACCNT	Professional Fees:Legal Fees	23	0	EXP	"8173.73"	Legal Fees	6285	298	
-ACCNT	Reference Materials	57	0	EXP	"1185.55"	Reference Materials	6680	302	
+ACCNT	Professional Fees:Accounting	55	0	EXP	"1,725.00"	Accounting Fees	6650	298	
+ACCNT	Professional Fees:Consulting	56	0	EXP	"6,059.50"	Consulting Expense	6655	298	
+ACCNT	Professional Fees:Legal Fees	23	0	EXP	"8,173.73"	Legal Fees	6285	298	
+ACCNT	Reference Materials	57	0	EXP	"1,185.55"	Reference Materials	6680	302	
 ACCNT	Rent	24	0	EXP	0.00	Rent	6295	300	
 ACCNT	Repairs	25	0	EXP	651.52	Repairs and Maintenance	6305	315	
 ACCNT	Repairs:Building Repairs	26	0	EXP	0.00	Building Repairs	6315	315	
 ACCNT	Repairs:Computer Repairs	27	0	EXP	0.00	Computer Repairs	6325	315	
 ACCNT	Repairs:Equipment Repairs	28	0	EXP	89.85	Equipment Repairs	6335	315	
-ACCNT	Supplies	58	0	EXP	"1661.78"	Supplies	6770	301	
-ACCNT	Supplies:Shop/Studio	75	0	EXP	"9171.09"			0	
+ACCNT	Supplies	58	0	EXP	"1,661.78"	Supplies	6770	301	
+ACCNT	Supplies:Shop/Studio	75	0	EXP	"9,171.09"			0	
 ACCNT	Supplies:Marketing	59	0	EXP	0.00	Marketing Supplies	6780	301	
 ACCNT	Supplies:Medical	61	0	EXP	0.00	Medical Supplies	6785	301	
-ACCNT	Supplies:Office	60	0	EXP	"5841.93"	Office Supplies	6790	301	
-ACCNT	Supplies:Office:Software	110	0	EXP	"5452.81"			0	
+ACCNT	Supplies:Office	60	0	EXP	"5,841.93"	Office Supplies	6790	301	
+ACCNT	Supplies:Office:Software	110	0	EXP	"5,452.81"			0	
 ACCNT	Taxes	62	0	EXP	197.31	Taxes	6820	316	
-ACCNT	Taxes:Federal	63	0	EXP	"13843.00"	Federal Taxes	6830	316	
+ACCNT	Taxes:Federal	63	0	EXP	"13,843.00"	Federal Taxes	6830	316	
 ACCNT	Taxes:Local	64	0	EXP	262.97	Local Taxes	6840	316	
 ACCNT	Taxes:Property	65	0	EXP	0.00	Property Taxes	6850	316	
-ACCNT	Taxes:Sales Taxes	102	0	EXP	"1353.74"			0	
-ACCNT	Taxes:State	66	0	EXP	"1375.00"	State Taxes	6860	316	
-ACCNT	Telephone	29	0	EXP	"12102.11"	Telephone	6345	318	
+ACCNT	Taxes:Sales Taxes	102	0	EXP	"1,353.74"			0	
+ACCNT	Taxes:State	66	0	EXP	"1,375.00"	State Taxes	6860	316	
+ACCNT	Telephone	29	0	EXP	"12,102.11"	Telephone	6345	318	
 ACCNT	Telephone:TollFree	178	0	EXP	19.26			0	
 ACCNT	Telephone:Long Distance	177	0	EXP	213.30			0	
 ACCNT	Travel & Ent	30	0	EXP	380.77	Travel and Entertainment	6355	0	
-ACCNT	Travel & Ent:Lodging	121	0	EXP	"1094.31"			0	
+ACCNT	Travel & Ent:Lodging	121	0	EXP	"1,094.31"			0	
 ACCNT	Travel & Ent:Entertainment	31	0	EXP	553.48	Entertainment	6365	294	
 ACCNT	Travel & Ent:Meals	32	0	EXP	398.59	Meals	6375	294	
 ACCNT	Travel & Ent:Travel	33	0	EXP	723.99	Travel	6385	317	
@@ -191,8 +191,8 @@ ACCNT	Utilities	34	0	EXP	0.00	Utilities	6395	318
 ACCNT	Utilities:Gas and Electric	35	0	EXP	0.00	Gas and Electric	6405	318	
 ACCNT	Utilities:Water	36	0	EXP	0.00	Water	6415	318	
 ACCNT	Other Income	118	0	EXINC	-0.41			0	
-ACCNT	Other Income: Tax refund	139	0	EXINC	"-1736.72"			0	
-ACCNT	Other Income:PayPal Earnings	119	0	EXINC	"-1455.95"	"PayPal Divs, Earns, etc."		0	
+ACCNT	Other Income: Tax refund	139	0	EXINC	"-1,736.72"			0	
+ACCNT	Other Income:PayPal Earnings	119	0	EXINC	"-1,455.95"	"PayPal Divs, Earns, etc."		0	
 ACCNT	Other Income:IRA Earnings	120	0	EXINC	0.00			0	
 ACCNT	Other Income:Interest Income	3	0	EXINC	-3.09	Interest Income	7015	303	
 ACCNT	Other Expenses	2	0	EXEXP	0.00	Other Expenses	8015	302	
@@ -209,7 +209,7 @@ INVITEM	Instruction:PrivateLesson	166	0	SERV			Sales:Teaching			17.1428	0	Y					
 INVITEM	Research	152	0	SERV	Research		Sales:Retail			40.00	0	Y												0	N
 INVITEM	55.6	128	0	SERV	finish work		Sales:Retail			0.00	0	Y												0	N
 INVITEM	55.5	120	0	SERV	repair		Sales:Retail			20.00	0	Y												0	N
-INVITEM	Rush	115	0	SERV	Rush charge		Sales:Retail:Rush			20.0	0	Y												0	N
+INVITEM	Rush	115	0	SERV	Rush charge		Sales:Retail:Rush			20.0%	0	Y												0	N
 INVITEM	55.7	50	0	SERV	Printing		Sales:Retail			0.00	0	Y												0	N
 INVITEM	Book Repair	13	0	SERV	Book repair or restoration		Fee Income			0.00	0	N												0	N
 INVITEM	Clin. Study	16	0	SERV			Fee Income			0.00	0	N												0	N
@@ -243,10 +243,10 @@ INVITEM	PersPub:1014CL	157	0	PART	"10x14' Cloth & Leather binding, Quarter bound
 INVITEM	Editions	132	0	PART			Sales:Retail:Editions			0.00	0	Y												0	N
 INVITEM	Editions:Critique	284	0	PART	A Critique of a critique of pur reason		Sales:Retail:Editions			35.00	0	Y												0	N
 INVITEM	Editions:1PB	279	0	PART	One Poem Book - Single Copy		Sales:Retail:Editions			125.00	0	Y												0	N
-INVITEM	Editions:1PB:TN	281	0	PART	TN Income	True North  of book sale	Sales:Retail:Editions		Cost of Goods Sold:Editions	125.00	62.5	N				Jordahl Photo K								0	Y
+INVITEM	Editions:1PB:TN	281	0	PART	TN Income	True North % of book sale	Sales:Retail:Editions		Cost of Goods Sold:Editions	125.00	62.5	N				Jordahl Photo K								0	Y
 INVITEM	Editions:1PB:DM	280	0	PART	DM Income		Sales:Retail:Editions			125.00	0	Y												0	N
 INVITEM	Editions:1PBs	276	0	PART	One Poem Book - Subscription		Sales:Retail:Editions			190.00	0	N												0	N
-INVITEM	Editions:1PBs:TN	278	0	PART	True North Income	True North  of subscription	Sales:Retail:Editions		Cost of Goods Sold:Editions	190.00	95	N				Jordahl Photo K								0	Y
+INVITEM	Editions:1PBs:TN	278	0	PART	True North Income	True North % of subscription	Sales:Retail:Editions		Cost of Goods Sold:Editions	190.00	95	N				Jordahl Photo K								0	Y
 INVITEM	Editions:1PBs:DM	277	0	PART	DM Income		Sales:Retail:Editions		Cost of Goods Sold:Editions	0.00	0	N												0	Y
 INVITEM	Editions:So Different	268	0	PART	So Different		Sales:Retail:Editions			150.00	0	N												0	N
 INVITEM	Editions:TimeLine	267	0	PART	"Nic Pavloff, Red Cross Benefit Portfolio"		Sales:Retail			450.00	0	Y												0	N
@@ -254,20 +254,20 @@ INVITEM	Editions:SoDif	222	0	PART	So Different		Sales:Retail			85.00	0	Y								
 INVITEM	Editions:Jizo	214	0	PART	Jizo limited edition		Sales:Retail			250.00	0	N												0	N
 INVITEM	Editions:Jizo:DM	216	0	PART	DM income		Sales:Retail		Cost of Goods Sold:Editions:Jizo	0.00	0	N												0	Y
 INVITEM	Editions:Jizo:JP	215	0	PART	JP income		Sales:Retail		Cost of Goods Sold:Editions:Jizo	0.00	0	N												0	Y
-INVITEM	Editions:Henri	182	0	PART	"Questing Spirit, Limited Edition: Conversations series"		Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
-INVITEM	Editions:Henri:JP	198	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
-INVITEM	Editions:Henri:DM	197	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Song	182	0	PART	"Song Within, Limited Edition: Conversations series"		Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Song:JP	198	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
+INVITEM	Editions:Song:DM	197	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Henri	600.00	0	Y												0	Y
 INVITEM	Editions:Ruth	181	0	PART	"Afternoons with Ruth, Limited Edition: Conversations Series"	Ruth expenses	Sales:Retail		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
 INVITEM	Editions:Ruth:JP	196	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
 INVITEM	Editions:Ruth:DM	195	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Ruth	600.00	0	Y												0	Y
-INVITEM	Editions:Kandinsky	174	0	PART	"Walking with Kandinsky, Limited Edition: Conversations Series"	Expenses for Kandinsky	Sales:Retail		Cost of Goods Sold:Editions:Kandinsky	"1400.00"	0	Y												0	Y
-INVITEM	Editions:Kandinsky:DM	194	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1400.00"	0	Y												0	Y
-INVITEM	Editions:Kandinsky:JP	193	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1400.00"	0	Y												0	Y
+INVITEM	Editions:Kandinsky	174	0	PART	"Walking with Kandinsky, Limited Edition: Conversations Series"	Expenses for Kandinsky	Sales:Retail		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
+INVITEM	Editions:Kandinsky:DM	194	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
+INVITEM	Editions:Kandinsky:JP	193	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Kandinsky	"1,400.00"	0	Y												0	Y
 INVITEM	Editions:Jabberwocky	173	0	PART	"Limited edition, Jabberwocky"		Sales:Retail			35.00	0	Y												0	N
-INVITEM	Editions:Amending Self	135	0	PART	"Amending Self, limited editon"		Sales:Retail:Editions			98.00	0	Y												0	N
-INVITEM	Editions:Traveler	133	0	PART	"Limited edition, 36 original photographs by Geir Jordahl"	Expenses for Traveler	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2000.00"	0	Y												0	Y
-INVITEM	Editions:Traveler:DM	187	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2000.00"	0	Y												0	Y
-INVITEM	Editions:Traveler:JP	188	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2000.00"	0	Y												0	Y
+INVITEM	Editions:Amending Self	135	0	PART	"Amending Self, limited editon"		Sales:Retail:Editions			125.00	0	Y												0	N
+INVITEM	Editions:Traveler	133	0	PART	"Limited edition, 36 original photographs by Geir Jordahl"	Expenses for Traveler	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
+INVITEM	Editions:Traveler:DM	187	0	PART	DM income	DM expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
+INVITEM	Editions:Traveler:JP	188	0	PART	JP income	JP expenses	Sales:Retail:Editions		Cost of Goods Sold:Editions:Traveler	"2,000.00"	0	Y												0	Y
 INVITEM	Editions:Traveler BdSd	168	0	PART	Traveler Broadside		Sales:Retail			300.00	0	Y												0	N
 INVITEM	Tools	121	0	PART			Sales:Retail:Tools			0.00	0	Y												0	N
 INVITEM	Tools:Awl	262	0	PART	Awl		Sales:Retail:Tools			15.00	0	Y												0	N
@@ -294,14 +294,14 @@ INVITEM	Options:17.3	150	0	PART	round corner gilding per linear inch		Sales:Reta
 INVITEM	Options:17.2	149	0	PART	edge gilding per square inch		Sales:Retail:Options			0.50	0	Y												0	N
 INVITEM	Options:59.3	143	0	PART	bookmark		Sales:Retail:Options			3.00	0	Y												0	N
 INVITEM	Options:59.4	25	0	PART	zipper pocket		Sales:Retail:Options			24.00	0	Y												0	N
-INVITEM	Options:63	113	0	PART	Closing Belt		Sales:Retail:Options			14.00	0	Y												0	N
-INVITEM	Options:17.1	112	0	PART	Embossing Die		Sales:Retail:Options			20.00	0	Y												0	N
+INVITEM	Options:63	113	0	PART	Closing Belt		Sales:Retail:Options			16.00	0	Y												0	N
+INVITEM	Options:17.1	112	0	PART	Embossing Die		Sales:Retail:Options			40.00	0	Y												0	N
 INVITEM	Options:69	102	0	PART	Handles		Sales:Retail:Options			25.00	0	Y												0	N
-INVITEM	Options:59.2	104	0	PART	Pen Loop		Sales:Retail:Options			5.00	0	Y												0	N
+INVITEM	Options:59.2	104	0	PART	Pen Loop		Sales:Retail:Options			7.00	0	Y												0	N
 INVITEM	Options:59.1	110	0	PART	Card Pocket		Sales:Retail:Options			7.00	0	Y												0	N
 INVITEM	Options:Spine Detail	72	0	PART	Spine stitch or button detail		Sales:Retail:Options			25.00	0	Y												0	N
 INVITEM	Options:Book Mark	71	0	PART	Bound in book mark		Sales:Retail:Options			4.00	0	Y												0	N
-INVITEM	Options:17	32	0	PART	Embossing		Sales:Retail:Options			9.00	0	Y												0	N
+INVITEM	Options:17	32	0	PART	Titling		Sales:Retail:Options			9.00	0	Y												0	N
 INVITEM	Photo Albums	56	0	PART	hand bound photo albums		Sales:Retail:Photo Albums			0.00	0	Y												0	N
 INVITEM	Photo Albums:10MQ	126	0	PART	hand bound photo album		Sales:Retail:Photo Albums			270.00	0	Y												0	N
 INVITEM	Photo Albums:Deckles	70	0	PART	Page/Interleave deckles		Sales:Retail:Photo Albums			0.75	0	Y												0	N
@@ -388,6 +388,8 @@ INVITEM	Notebook:31L	47	0	PART	3.75x6.75 6-ring leather notebook		Sales:Retail:N
 INVITEM	Included	48	0	PART	Construction detail		Sales:Retail			0.00	0	Y												0	N
 INVITEM	53	35	0	PART	Hugh Stump Fine Binding Swatch Packet		Sales:Retail:Notebook			2.00	0	Y												0	N
 INVITEM	Journals	4	0	PART	Handbound book		Sales:Retail:Journal			0.00	0	Y												0	N
+INVITEM	Journals:582BK	286	0	PART	5.5x8.5 192 page blank book body		Sales:Retail:Journal			30.00	0	Y												0	N
+INVITEM	Journals:588BK	285	0	PART	5.5x8.5 128 page blank book body		Sales:Retail:Journal			28.00	0	Y												0	N
 INVITEM	Journals:588BL	266	0	PART	"5.5 x 8.5' 128 blank pages, full leather"		Sales:Retail			74.00	0	Y												0	N
 INVITEM	Journals:886BC	261	0	PART	"8.5 x 11' Blank Journal, Quarterbound cloth and leather"		Sales:Retail:Journal			99.00	0	N												0	N
 INVITEM	Journals:350BDC	246	0	PART	3.375 x 5.375 Quarter Bound  Birthday Book		Sales:Retail			60.00	0	N												0	N
@@ -398,7 +400,7 @@ INVITEM	Journals:880BDC	242	0	PART	8.5 x 11 Quarter Bound Birthday book		Sales:R
 INVITEM	Journals:880BDL	241	0	PART	8.5 x 11 Full Leather Birthday book		Sales:Retail			155.00	0	N												0	N
 INVITEM	Journals:584C	238	0	PART	8.5 x 5.5 Journal Cover		Sales:Retail			56.00	0	Y												0	N
 INVITEM	Journals:584L	109	0	PART	8.5 x 5.5 Journal Cover		Sales:Retail:Journal			60.00	0	Y												0	N
-INVITEM	Journals:588pk	131	0	PART	"8.5x5.5, 198pg printed bookbody"		Sales:Retail:Journal			22.00	0	Y												0	N
+INVITEM	Journals:588PK	131	0	PART	"8.5x5.5, 198pg printed bookbody"		Sales:Retail:Journal			22.00	0	Y												0	N
 INVITEM	Journals:582PK	172	0	PART	192 page printed book body		Sales:Retail			34.00	0	Y												0	N
 INVITEM	Journals:586BK	61	0	PART	5.5x8.5 256 page blank book body		Sales:Retail:Journal			33.00	0	Y												0	N
 INVITEM	Journals:586PK	79	0	PART	5.5x8.5 Printed Bookbody		Sales:Retail:Journal			28.00	0	Y												0	N
@@ -456,19 +458,19 @@ INVITEM	Parking	9	0	OTHC	Parking fee		Other Current Assets:Cash			0.00	0	Y	Cash	
 INVITEM	Shipping	5	0	OTHC	Shipping		Other Charges:Shipping			0.00	0	N												0	N
 INVITEM	Reimb Subt	18	0	SUBT	Reimbursable Expenses Subtotal						0	N						REXPSUBTOT						0	N
 INVITEM	Subtotal	12	0	SUBT	========= SUBTOTAL =========						0	N												0	N
-INVITEM	dt	264	0	DISC	discount sales tax		Sales:Retail:Tools			-9.75	0	N												0	N
-INVITEM	Discount	6	0	DISC			Sales Discounts			-10.0	0	Y												0	N
-INVITEM	Discount:Tax included (B)	275	0	DISC	"(at 9, 1/1.09)"		Sales Discounts			-8.25688	0	Y												0	N
-INVITEM	Discount:Tax included (A)	271	0	DISC	"(at 8.75, 1/1.0875)"		Sales Discounts			-8.046	0	Y												0	N
+INVITEM	dt	264	0	DISC	discount sales tax		Sales:Retail:Tools			-9.75%	0	N												0	N
+INVITEM	Discount	6	0	DISC			Sales Discounts			-10.0%	0	Y												0	N
+INVITEM	Discount:Tax included (B)	275	0	DISC	"(at 9, 1/1.09)"		Sales Discounts			-8.25688%	0	Y												0	N
+INVITEM	Discount:Tax included (A)	271	0	DISC	"(at 8.75, 1/1.0875)"		Sales Discounts			-8.046%	0	Y												0	N
 INVITEM	Commission	169	0	DISC	Commission to seller		Cost of Goods Sold:Editions			-40.00	0	Y												0	N
 INVITEM	Payment	27	0	PMT			Bank Accounts:Wells Fargo Checking				0	N												1	N
 INVITEM	PayPal Fee	24	0	PMT	Transaction Fee		Bank Accounts:PayPal				0	N	EFT											1	N
 INVITEM	PayPal Div	23	0	PMT	PayPal Money Market Dividend		Bank Accounts:PayPal				0	N	EFT											1	N
 INVITEM	PayPal Signup	22	0	PMT	Bonus for member signup		Bank Accounts:PayPal				0	N	EFT											1	N
 INVITEM	For Resale	170	0	COMPTAX			Sales Tax Payable			0.00	0	N												0	N
-INVITEM	CA Sales Tax	7	0	COMPTAX	Sales Tax		Sales Tax Payable			9.0	0	N		State Board of Equalization										0	N
+INVITEM	CA Sales Tax	7	0	COMPTAX	Sales Tax		Sales Tax Payable			9.0%	0	N		State Board of Equalization										0	N
 INVITEM	No Sales Tax	8	0	COMPTAX	Non Taxable item or service		Sales Tax Payable			0.00	0	N												0	N
-INVITEM	Out of State	1	0	COMPTAX	"Out-of-state sale, exempt from sales tax"		Sales Tax Payable			0.0	0	N												0	N
+INVITEM	Out of State	1	0	COMPTAX	"Out-of-state sale, exempt from sales tax"		Sales Tax Payable			0.0%	0	N												0	N
 !INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	TOPRINT	EXTRA	QNTY	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5
 !ENDGRP
 INVITEM	1pc	283	0	GRP	One Poem Book - single copy	N							
@@ -566,8 +568,8 @@ CUST	"Griffin, Marcela"	1374	0	Marcela Griffin	39230 Sundale Dr	Fremont CA			Mar
 CUST	"Jones, Kay"	1373	0	Kay Jones	1911 Huxley Ct	San Jose CA 95125			Kay Jones	1911 Huxley Ct	San Jose CA 95125											Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Carnahan, Susan"	1372	0	Susan Carnahan	1105 Rosefield Way	Menlo Park CA 94025-5571			Susan Carnahan	1105 Rosefield Way	Menlo Park CA 94025-5571											Y				Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Herzog, Tina"	1371	0	Tina Herzog	353 Patterson Drive	"Monrovia, CA 91016"			Tina Herzog	353 Patterson Drive	"Monrovia, CA 91016"											Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Aaland, Mikkel"	1264	0	Mikkel Aaland					Mikkel Aaland												50 Dep 50 Del	Y			Ref<Ref>Employee	For Resale																								4	0/0/0	0/0/0	0/0/0
-CUST	"Abernathey, Harvey"	1287	0	Harvey Abernathey	37 Presidio Dr	Novato CA 94949			Harvey Abernathey	37 Presidio Dr	Novato CA 94949										50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Aaland, Mikkel"	1264	0	Mikkel Aaland					Mikkel Aaland												50% Dep 50% Del	Y			Ref<Ref>Employee	For Resale																								4	0/0/0	0/0/0	0/0/0
+CUST	"Abernathey, Harvey"	1287	0	Harvey Abernathey	37 Presidio Dr	Novato CA 94949			Harvey Abernathey	37 Presidio Dr	Novato CA 94949										50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Abraham, Anthony"	1086	0	Anthony Abraham	Stanford GSB C4C	1226 Elmwood Ave 1W	"Evanston, IL 60202"	USA	Anthony Abraham	Stanford GSB C4C	1226 Elmwood Ave 1W	"Evanston, IL 60202"	USA								Paid	Y			Web<Web>Employee	Out of State			Stanford Graduate School of Business	Anthony		Abraham																		0	0/0/0	0/0/0	0/0/0
 CUST	AC Coin and Slot Company	109	0	AC Coin and Slot Company	201 West Decatur	"Pleasantville, NJ  08232"																Y																												0	0/0/0	0/0/0	0/0/0
 CUST	"Adams, Ms. Maurianne"	419	0	Ms. Maurianne Adams	14 Beston Street	Amherst MA 01002			Ms. Maurianne Adams	14 Beston Street	Amherst MA 01002											N											171																	0	0/0/0	0/0/0	0/0/0
@@ -609,7 +611,7 @@ CUST	Bay Area Book Artists	437	0	Bay Area Book Artists	c/o Foothill College Attn
 CUST	"Beals, Sharon"	1300	0	Sharon Beals					Sharon Beals												Due on receipt	Y			Ref<Ref>Employee	For Resale																								0	0/0/0	0/0/0	0/0/0
 CUST	"Beckwith, Cliff"	1027	0	Cliff Beckwith	611 E Steeple Chase Rd	Pleasant Garden NC 27313			Cliff Beckwith	611 E Steeple Chase Rd	Pleasant Garden NC 27313										Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Behrens, Mr. Eric"	320	0	Mr. Eric Behrens	1 News Plaza	Peoria IL 61643			Mr. Eric Behrens	1 News Plaza	Peoria IL 61643											N							The Peoria Journal Star				15410																	0	0/0/0	0/0/0	0/0/0
-CUST	"Belew, Michael"	1307	0	Michael Belew	1171 McKinley St	"Redwood City, Ca 94061"			Michael Belew	1171 McKinley St	"Redwood City, Ca 94061"										2 10 Net 30	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Belew, Michael"	1307	0	Michael Belew	1171 McKinley St	"Redwood City, Ca 94061"			Michael Belew	1171 McKinley St	"Redwood City, Ca 94061"										2% 10 Net 30	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Bell, Karen"	540	0	Karen Bell	Sterling Bank	600 Montgomery St 40th Floor	"San Francisco, CA"		Karen Bell	Sterling Bank	600 Montgomery St 40th Floor	"San Francisco, CA"						Karen Bell			Due on confirm.	Y			Book Arts-l<BA>Employee	CA Sales Tax		Ms		Karen		Bell																		0	0/0/0	0/0/0	0/0/0
 CUST	"Bennett, Ben"	251	0	Ben Bennett	Box DRR Rough Rock Trading Post	Chinle AZ 86503			Ben Bennett	Box DRR Rough Rock Trading Post	Chinle AZ 86503			602 728 3538				Ben Bennett		Retail	Due on receipt	Y			HS<HS>Employee			Mr	Rough Rock Community School	Ben		Bennett	3840																	0	0/0/0	0/0/0	0/0/0
 CUST	"Berendt, John"	876	0	John Berendt	135 West 87th Street	"New York, NY 10024"			John Berendt	135 West 87th Street	"New York, NY 10024"										Due on receipt	Y			Ref<Ref>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
@@ -620,14 +622,14 @@ CUST	"Beyelia, Cherise"	1241	0	Cherise Beyelia	cherise@blissfuldesires4u.com				
 CUST	"Bhata, Gulshan"	456	0	Gulshan Bhata	135 Coronado Ave	Los Altos CA 94022			Gulshan Bhata	135 Coronado Ave	Los Altos CA 94022							Gulshan Bhata				Y			"Drake, Don A<DAD>Employee"	CA Sales Tax				Gulshan		Bhata																		0	0/0/0	0/0/0	0/0/0
 CUST	"Bill, Jose"	884	0	Jose Bil	240 Ponderosa Ct	"Euraka, CA 95503"			Jose Bil	240 Ponderosa Ct	"Euraka, CA 95503"										Due on receipt	Y			Ad<Ad>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Bingham, Edna"	779	0	Edna Bingham	368 Bryan Dr	Alamo CA 94507			Edna Bingham	368 Bryan Dr	Alamo CA 94507											Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Binzoni, Lisa"	1174	0	"Binzoni, Lisa"	510 333 5472				will pick up												50 Dep 50 Del	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Binzoni, Lisa"	1174	0	"Binzoni, Lisa"	510 333 5472				will pick up												50% Dep 50% Del	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Bird, J"	458	0	J Bird	936 Wildwood Ave	Daly City CA			J Bird	936 Wildwood Ave	Daly City CA			650 270 9098				J Bird			Net 15	Y			"Drake, Don A<DAD>Employee"	CA Sales Tax				J		Bird																		0	0/0/0	0/0/0	0/0/0
 CUST	"Bishop, John"	538	0	John Bishop	Media Generation	2825 SE Harrison St	Portland OR 97214		John Bishop	Media Generation	2825 SE Harrison St	Portland OR 97214									Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	Black Entertainment Television	477	0	Black Entertainment Television	Robert Ambrosini	One BET Plaza	1235 W Street NE	Washington DC 20018-1211	Black Entertainment Television	Robert Ambrosini	One BET Plaza	1235 W Street NE	Washington DC 20018-1211					Robert Ambrosini	Theresa Watkins			Y							Black Entertainment Television	Robert		Ambrosini																		0	0/0/0	0/0/0	0/0/0
 CUST	"Blair, Timothy"	1252	0	Timothy Blair	809 Murray Hill Rd	Fayettevill NC 28314-2627			Timothy Blair	809 Murray Hill Rd	Fayettevill NC 28314-2627										Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Blakeslee, D.E."	382	0	D.E. Blakeslee	1103 AA	Amsterdam			D.E. Blakeslee	1103 AA	Amsterdam											N							Echtenstein 540				9785																	0	0/0/0	0/0/0	0/0/0
 CUST	"Blatz, KC"	919	0	KC Blatz																		Y				Out of State																								0	0/0/0	0/0/0	0/0/0
-CUST	"Bliss, Marian"	1308	0	"Bliss, Marian"																	50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Bliss, Marian"	1308	0	"Bliss, Marian"																	50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Bloome, Ms. Christine"	307	0	Ms. Christine Bloome	247 Meadow Road	Santa Cruz CA 95060			Ms. Christine Bloome	247 Meadow Road	Santa Cruz CA 95060											N											16484																	0	0/0/0	0/0/0	0/0/0
 CUST	"Bodenhamer, Nina"	1081	0	Nina Bodenhamer	1001 Belvedere Ct	Fort Collins CO 80525			Nina Bodenhamer	1001 Belvedere Ct	Fort Collins CO 80525										Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Bogoni, Irene"	253	0	Irene Bogoni	340 Riverside Dr Penthouse	New York NY 10025			Irene Bogoni	340 Riverside Dr Penthouse	New York NY 10025			212 662 2318		212 662 3653		Irene Bogoni		Retail	Due on receipt	N			HS<HS>Employee	Out of State		Mrs		Irene		Bogoni	5418																	0	0/0/0	0/0/0	0/0/0
@@ -720,7 +722,7 @@ CUST	"Cortese, Christine"	901	0	Christine Cortese	PO Box 333	Jacumba CA 91934			
 CUST	"Cortez, Kate"	1316	0	"Cortez, Kate"																		Y																												0	0/0/0	0/0/0	0/0/0
 CUST	"Cox, Ronald"	1037	0	Ronald Cox	"626 Old Main St.\nRocky Hill, CT 06067"				Ronald Cox	"626 Old Main St.\nRocky Hill, CT 06067"											Paid	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Cox, Terry"	471	0	Terry Cox	"PO Box 5, 703 Route 63"	Westmorland NH 03467			Terry Cox	"PO Box 5, 703 Route 63"	Westmorland NH 03467			603 399 7704		603 399 7119		Terry Cox			Due on receipt	Y			HS<HS>Employee	Out of State		Mr	Cox Woodworking	Terry		Cox																		0	0/0/0	0/0/0	0/0/0
-CUST	"Cramer, Charlie"	1336	0	Charlie Cramer																	50 Dep 50 Del	Y			K&G J<K&G>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Cramer, Charlie"	1336	0	Charlie Cramer																	50% Dep 50% Del	Y			K&G J<K&G>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Crawford Harvie,Kim"	1039	0	Kim Crawford Harvie	Arlington St Church	351 Boylston St	Boston MA 02116		Kim Crawford Harvie	Arlington St Church	351 Boylston St	Boston MA 02116									Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Creighton, Michael"	907	0	Michael Creighton	120 Jewel View	"Columbia Falls, MT 59912"			Michael Creighton	120 Jewel View	"Columbia Falls, MT 59912"										Paid	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Cronin, Mr. John C."	375	0	Mr. John C. Cronin	224 Marlborough Street	Boston MA 02116			Mr. John C. Cronin	224 Marlborough Street	Boston MA 02116											N											1809																	0	0/0/0	0/0/0	0/0/0
@@ -874,7 +876,7 @@ CUST	"Hatten, John"	674	0	John Hatten	PO Box 14647	Fremont CA 54539			John Hatte
 CUST	"Hawkins, Mr. E. B."	288	0	Mr. E. B. Hawkins	700 Hillendale Road	Chadds Ford PA 19317			Mr. E. B. Hawkins	700 Hillendale Road	Chadds Ford PA 19317											N							Personal				1047																	0	0/0/0	0/0/0	0/0/0
 CUST	"Hawthorne, Ms.  Judith P."	322	0	Ms.  Judith P. Hawthorne	"PO Box 38, Lower Dover Road"	Marlboro VT 05344			Ms.  Judith P. Hawthorne	"PO Box 38, Lower Dover Road"	Marlboro VT 05344											N											987																	0	0/0/0	0/0/0	0/0/0
 CUST	"Hayes, Deborah"	1125	0	"Hayes, Deborah"																		Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Hayes, Scott"	1087	0	Scott Hayes	To Come				Scott Hayes	To Come											50 Dep 50 Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Hayes, Scott"	1087	0	Scott Hayes	To Come				Scott Hayes	To Come											50% Dep 50% Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	Hayward Area Recreation and Park District	1261	0	Hayward Area Recreation and Park Distric																		Y			"Drake, Don A<DAD>Employee"	For Resale																								0	0/0/0	0/0/0	0/0/0
 CUST	"Heard, Ms. Diane"	280	0	Ms. Diane Heard	600 North Dary Ashford TA 3064	Houston TX 77079			Ms. Diane Heard	600 North Dary Ashford TA 3064	Houston TX 77079											N			HS<HS>Employee	Out of State			Conoco				13784																	0	0/0/0	0/0/0	0/0/0
 CUST	Heart of Darkness	534	0																			Y																										Heart of Darkness graphic novel serialization	Edition	0	6/10/3	0/0/0	0/0/0
@@ -891,7 +893,7 @@ CUST	"Henderson, Cindy"	1013	0	Cindy Henderson	Magner Sanborn	121 S Wall St	Spok
 CUST	"Henderson, Kris"	460	0	"Henderson, Kris"																		Y			"Drake, Don A<DAD>Employee"	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Henderson, Mr. Mike"	294	0	Mr. Mike Henderson	164 Ora Court	Marina CA 93933			Mr. Mike Henderson	164 Ora Court	Marina CA 93933											N			HS<HS>Employee	Out of State							12965																	0	0/0/0	0/0/0	0/0/0
 CUST	Henri	761	0	Henri																		Y																												0	0/0/0	0/0/0	0/0/0
-CUST	"Herrera, Germán"	1338	0	Germán Herrera	65A Miraflores Ave.	"San Rafael, CA 949"			Germán Herrera	65A Miraflores Ave.	"San Rafael, CA 949"										50 Dep 50 Del	Y		97-618312	Ref<Ref>Employee	For Resale																								0	0/0/0	0/0/0	0/0/0
+CUST	"Herrera, Germán"	1338	0	Germán Herrera	65A Miraflores Ave.	"San Rafael, CA 949"			Germán Herrera	65A Miraflores Ave.	"San Rafael, CA 949"										50% Dep 50% Del	Y		97-618312	Ref<Ref>Employee	For Resale																								0	0/0/0	0/0/0	0/0/0
 CUST	"Herrera, Kristin"	1365	0	Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"			Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"										Due on receipt	Y			Web<Web>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Herrera, Kristin:LargeFormat"	1366	0	Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"			Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"										Due on receipt	Y			Web<Web>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Herrera, Kristin:RangeEstimate"	903	0	Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"			Kristin Herrera	225 Coleman Drive	"San Rafael, CA 94901"										Due on receipt	Y			Web<Web>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
@@ -959,7 +961,7 @@ CUST	"Kast, Herb A"	160	0	Herb Kast.																	Paid	Y			"Drake, Don A<DAD>
 CUST	"Katchian, Sonia"	842	0	Ms Sonia Katchian	Photo Shuttle	1501 Ford Rd #37	Chapel Hill NC 27516		Ms Sonia Katchian	Photo Shuttle	1501 Ford Rd #37	Chapel Hill NC 27516									Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Katheder, Mr. Thomas"	380	0	Mr. Thomas Katheder	1375 Buena Vista Dr. Legal 4/N	Lake Buena Vista FL 32830			Mr. Thomas Katheder	1375 Buena Vista Dr. Legal 4/N	Lake Buena Vista FL 32830											N							Walt Disney World Co				7589																	0	0/0/0	0/0/0	0/0/0
 CUST	"Kato, Robert"	1280	0	Robert Kato	2036 Lexington Ave	San Mateo CA 94402-4030			Robert Kato	2036 Lexington Ave	San Mateo CA 94402-4030										Due on receipt	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Kavass, Kisa"	1083	0	Kisa Kavass	1217 Montpier Dr	Franklin TN 37069			Kisa Kavass	1217 Montpier Dr	Franklin TN 37069										50 Dep 50 Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Kavass, Kisa"	1083	0	Kisa Kavass	1217 Montpier Dr	Franklin TN 37069			Kisa Kavass	1217 Montpier Dr	Franklin TN 37069										50% Dep 50% Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Kayes, James"	630	0	James Kayes	640 Fox Hollow	De Kalb IL 60115			James Kayes	640 Fox Hollow	De Kalb IL 60115										Paid	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Keating, Louise"	868	0	Louise Keating	10370 Lindsay Ave	Cupertino CA 95014-4518			Louise Keating	10370 Lindsay Ave	Cupertino CA 95014-4518											Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Kelley, Leonard"	803	0	Leonard Kelley	1233 Ridge Dr	South Charleston WV 25309			Leonard Kelley	1233 Ridge Dr	South Charleston WV 25309										Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
@@ -1100,7 +1102,7 @@ CUST	"Moon, Beth"	1357	0	"Moon, Beth"																	Due on receipt	Y			Ref<Ref
 CUST	"Moore, Amanda"	938	0	"Moore, Amanda"	"Sunrise Windows, LTD"	200 Enterprise Drive	"Temperance, MI 48182"		Lance Eller	"Sunrise Windows, LTD"	200 Enterprise Drive	"Temperance, MI 48182"									Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Moore, John"	980	0	John Moore	195 Walingford Dr	"Pittsburgh, PA 15237"			John Moore	195 Walingford Dr	"Pittsburgh, PA 15237"										Paid	Y			Ad<Ad>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Morgan, Sally"	531	0	"Morgan, Sally"	1009 Miramontes St	"Half Moon Bay, CA 94019-1948"			"Morgan, Sally"	1009 Miramontes St	"Half Moon Bay, CA 94019-1948"										Paid	Y			Book Arts-l<BA>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
-CUST	"Morgan, Sheila"	1313	0	"Morgan, Sheila"																	50 Dep 50 Del	Y			"Drake, Don A<DAD>Employee"	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Morgan, Sheila"	1313	0	"Morgan, Sheila"																	50% Dep 50% Del	Y			"Drake, Don A<DAD>Employee"	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Mori, Nancy"	780	0	"Mori, Nancy"																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Morris, Julie"	1082	0	"Morris, Julie"																	Due on receipt	Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Morrow, Mr. Darrell C."	272	0	Mr. Darrell C. Morrow	"1001 Fannin Street, #3401"	Houston TX 77002			Mr. Darrell C. Morrow	"1001 Fannin Street, #3401"	Houston TX 77002											N											7674																	0	0/0/0	0/0/0	0/0/0
@@ -1122,7 +1124,7 @@ CUST	"Nelson, Jandy"	1182	0	Jandy Nelson	104 Peralta	San Francisco CA			Jandy Ne
 CUST	"Neporent, Mark"	859	0	Mark Neporent	Cerberus Capital Management	299 Park Ave 22nd Fl	New York NY 10171		Mark Neporent	Cerberus Capital Management	299 Park Ave 22nd Fl	New York NY 10171									Due on receipt	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Ngamvilaipun, Terayuth"	1135	0	"Ngamvilaipun, Terayuth"																		Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Nichols, Gail"	970	0	"Nichols, Gail"																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Nichols, Jackson"	1335	0	Jackson Nichols					Jackson Nichols												50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Nichols, Jackson"	1335	0	Jackson Nichols					Jackson Nichols												50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Nielsen, Dana"	527	0	Dana Nielsen	2110 Grant	"Evanston, IL 60208"			Dana Nielsen	2110 Grant	"Evanston, IL 60208"							Dana Nielsen			Due on confirm.	Y			HS<HS>Employee	Out of State				Dana		Nielsen																		0	0/0/0	0/0/0	0/0/0
 CUST	"Nii, Penny P"	566	0	"Nii, Penny P"																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Norman, Michael"	676	0	Michael Norman	123 Wildwood Ave	Upper Montclair NJ 07043			Michael Norman	123 Wildwood Ave	Upper Montclair NJ 07043										Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
@@ -1134,7 +1136,7 @@ CUST	O'Farrell	964	0	O'Farrell																		Y																												0	0
 CUST	O'Farrell V.L.	965	0	O'Farrell V.L.																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"O'Neill, Patrick"	770	0	Patrick O'Neill	981 Underwood Ave	Atlanta GA 30316			Patrick O'Neill	981 Underwood Ave	Atlanta GA 30316										Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Ogado, Marcy"	756	0	Marcy Ogado	Beacon Hill Showrooms	San Francisco CA																Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Oliphant, Laura"	1363	0	Laura Oliphant	262 Hillsdale Way	Emerald Hills CA 94602			Laura Oliphant	262 Hillsdale Way	Emerald Hills CA 94602										50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Oliphant, Laura"	1363	0	Laura Oliphant	262 Hillsdale Way	Emerald Hills CA 94602			Laura Oliphant	262 Hillsdale Way	Emerald Hills CA 94602										50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	Olive-Hyde Gallery	682	0	Olive-Hyde Gallery																	Due on receipt	Y			OliveHyde<OH>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Olson, Garth"	767	0	Garth Olson	8520 Williwa Ave	Anchorage AK 99504			Garth Olson	8520 Williwa Ave	Anchorage AK 99504										Paid	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Oquendo, Mr. John"	389	0	Mr. John Oquendo	23 South Portland Avenue	Brooklyn NY 11217			Mr. John Oquendo	23 South Portland Avenue	Brooklyn NY 11217											N											10627																	0	0/0/0	0/0/0	0/0/0
@@ -1205,7 +1207,7 @@ CUST	"Rice, Debbie"	1155	0	Debbie Rice	6015 Harley Rd	"Middletown, MD 21769"			D
 CUST	"Richardson, Charles"	470	0	Charles Richardson	78 Chestnut Hill Road	Newton MA 02467			Charles Richardson	78 Chestnut Hill Road	Newton MA 02467							Charles C Richardson			Due on receipt	Y			HS<HS>Employee	Out of State		Dr		Charles	C	Richardson																		0	0/0/0	0/0/0	0/0/0
 CUST	"Rickenbacker, Mr. Barney"	318	0	Mr. Barney Rickenbacker	"1 Exchange Plaza, #706"	Raleigh NC 27601			Mr. Barney Rickenbacker	"1 Exchange Plaza, #706"	Raleigh NC 27601											N											12045																	0	0/0/0	0/0/0	0/0/0
 CUST	"Ridinger, Robin"	503	0	Robin Ridinger	1414 6th St	Santa Monica CA 90401			Robin Ridinger	1414 6th St	Santa Monica CA 90401										Due on confirm.	Y			HS<HS>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Rindocks, Leslie"	815	0	Leslie Rindocks	P. O. Box 1013	Davidson NC 20836			Leslie Rindocks	619 Lorimer Rd.	Davidson NC 20836										50 Dep 50 Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
+CUST	"Rindocks, Leslie"	815	0	Leslie Rindocks	P. O. Box 1013	Davidson NC 20836			Leslie Rindocks	619 Lorimer Rd.	Davidson NC 20836										50% Dep 50% Del	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Rinehart, Ann"	789	0	Ann Rinehart	"300 Deer Valley Rd., 2A"	"San Rafael, CA   94903"			Ann Rinehart	"300 Deer Valley Rd., 2A"	"San Rafael, CA   94903"			415-444-0647							Due on receipt	Y			Web<Web>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Ritter, Mr. Chris"	304	0	Mr. Chris Ritter	754 Elm Street	El Cerrito CA 94530			Mr. Chris Ritter	754 Elm Street	El Cerrito CA 94530											N											5168																	0	0/0/0	0/0/0	0/0/0
 CUST	"Roberts, Brandice"	1157	0	"Roberts, Brandice"					Richard Roberts	3705 Hilldale Drive NE	Cleveland TN 37312										Due on receipt	Y			Ad<Ad>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
@@ -1244,7 +1246,7 @@ CUST	"Schmidt, Peter"	833	0	Peter Schmidt	4615 Skelly Rd.	"Toledo, OH 43623"			P
 CUST	"Schomberg, Annie"	774	0	"Schomberg, Annie"																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Schur, Mr. Mike"	396	0	Mr. Mike Schur	3316 Harts Run Road	Glenshaw PA 15116			Mr. Mike Schur	3316 Harts Run Road	Glenshaw PA 15116											N											6394																	0	0/0/0	0/0/0	0/0/0
 CUST	"Schwartz, Alan"	871	0	Alan Schwartz					Alan Schwartz												Due on receipt	Y			Ad<Ad>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
-CUST	"Schwartz, Margrit"	1304	0	"Schwartz, Margrit"																	50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Schwartz, Margrit"	1304	0	"Schwartz, Margrit"																	50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Schwedhelm, Deb"	1311	0	Deb Schwedhelm	3307 W Granada St	Tampa FL 33629			Deb Schwedhelm	3307 W Granada St	Tampa FL 33629										Due on confirm.	Y			Ref<Ref>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Scott, Linda"	464	0	Linda Scott	Conoco Phillips	600 North Dary Ashford TA 3064	Houston TX 77079		Linda Scott	Conoco Phillips	600 North Dary Ashford TA 3064	Houston TX 77079						Linda Scott			Due on receipt	Y			HS<HS>Employee	Out of State			ConocoPhillips	Linda		Scott																		0	0/0/0	0/0/0	0/0/0
 CUST	"Sealy, Ms. Suzanne"	311	0	Ms. Suzanne Sealy	"575 Madison Avenue, 23rd floor"	New York NY 10022			Ms. Suzanne Sealy	"575 Madison Avenue, 23rd floor"	New York NY 10022										Due on receipt	N			HS<HS>Employee	Out of State			William B. May				5499																	0	0/0/0	0/0/0	0/0/0
@@ -1314,7 +1316,7 @@ CUST	"Sween, Ms. Margaret Scott"	323	0	Ms. Margaret Scott Sween	5311 Kirby Drive
 CUST	"Swensson, Frances"	1159	0	"Swensson, Frances"																		Y																												0	0/0/0	0/0/0	0/0/0
 CUST	"Szafranski, Robert"	1226	0	Robert Szafranski	10410 Willowisp Dr	Houston TX 77035			Robert Szafranski	10410 Willowisp Dr	Houston TX 77035											Y				Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Taatgen, Niels"	918	0	Niels Taatgen	324 Carnegie Pl.	Pittsburgh PA 15208			Niels Taatgen	324 Carnegie Pl.	Pittsburgh PA 15208										Due on receipt	Y			Ad<Ad>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
-CUST	"Talbot, Autumn"	1334	0	Autumn Talbot	(415) 722-4751																50 Dep 50 Del	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Talbot, Autumn"	1334	0	Autumn Talbot	(415) 722-4751																50% Dep 50% Del	Y			Ref<Ref>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Talton, Ms. Susan W."	321	0	Ms. Susan W. Talton	327 The Arcade	Cleveland OH 44114			Ms. Susan W. Talton	327 The Arcade	Cleveland OH 44114											N											816																	0	0/0/0	0/0/0	0/0/0
 CUST	"Tammer, Laine"	1224	0	"Tammer, Laine"																		Y			Book Arts-l<BA>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Tang, Benjiman"	1115	0	"Tang, Benjiman"																		Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
@@ -1340,7 +1342,7 @@ CUST	"Tsur, Nitza"	1123	0	"Tsur, Nitza"																		Y			K&G J<K&G>Employee	
 CUST	"Turbow, Jason"	554	0	"Turbow, Jason"	2507 Harris Ave	El Cerito CA 94530			"Turbow, Jason"	2507 Harris Ave	El Cerito CA 94530							Jjason Turbow			Due on receipt	Y			"Drake, Don A<DAD>Employee"	CA Sales Tax				Jason		Turbow																		0	0/0/0	0/0/0	0/0/0
 CUST	"Underdown, Sonya"	1286	0	Sonya Underdown	510 783 8848	icyc2@yahoo.com			Sonya Underdown	510 783 8848	icyc2@yahoo.com											Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	unknown	863	0	unknown																		Y			Book Arts-l<BA>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
-CUST	"Uren, Robin"	1305	0	"Uren, Robin"																	50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Uren, Robin"	1305	0	"Uren, Robin"																	50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Valdez, Jose"	739	0	Mr Jose Valdez	115 West 71st St #5A	New York NY 10023			Mr Jose Valdez	115 West 71st St #5A	New York NY 10023										Due on receipt	Y			HS<HS>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Valen, Mr. David L."	415	0	Mr. David L. Valen	9001 Cedarlake Road	St. Louis Park MN 55441			Mr. David L. Valen	9001 Cedarlake Road	St. Louis Park MN 55441											N							Westwood Lutheran Church				14332																	0	0/0/0	0/0/0	0/0/0
 CUST	"van de Woestijne, Johanna"	1317	0	Johanna van de Woestijne	"13840 Ciceroni Lane\nLos Altos Hills, CA"																	Y				CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
@@ -1390,7 +1392,7 @@ CUST	"Wong, Caroline"	786	0	"Wong, Caroline"																		Y			Book Arts-l<BA
 CUST	"Wood, Brian"	951	0	Brian Wood	358 N Old Manor	Wichita KS 67208			Brian Wood	358 N Old Manor	Wichita KS 67208										Paid	Y			Web<Web>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Wood, Julie"	595	0	Julie Wood	"San Francisco, CA"				Julie Wood	"San Francisco, CA"											Due on confirm.	Y			Web<Web>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Wood, Ms. Priscilla J."	388	0	Ms. Priscilla J. Wood	860 Autumn Path  Bayside	Milwaukee WI 53217			Ms. Priscilla J. Wood	860 Autumn Path  Bayside	Milwaukee WI 53217											N							c/o Dorothy M. Wood				12925																	0	0/0/0	0/0/0	0/0/0
-CUST	"Wooster, Rachel"	1361	0	Rachel Wooster	220 Mounain St	Boulder Creek CA 95006			Rachel Wooster	220 Mounain St	Boulder Creek CA 95006										50 Dep 50 Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
+CUST	"Wooster, Rachel"	1361	0	Rachel Wooster	220 Mounain St	Boulder Creek CA 95006			Rachel Wooster	220 Mounain St	Boulder Creek CA 95006										50% Dep 50% Del	Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Wozny, Constance"	637	0	Constance Wozny	PO Box 3	Eastwood KY 40018			Constance Wozny	PO Box 3	Eastwood KY 40018										Due on receipt	Y			Book Arts-l<BA>Employee	Out of State																								0	0/0/0	0/0/0	0/0/0
 CUST	"Wright, Cassandra"	1113	0	"Wright, Cassandra"																		Y			K&G J<K&G>Employee	CA Sales Tax																								0	0/0/0	0/0/0	0/0/0
 CUST	"Wright, Mr. Forest E."	330	0	Mr. Forest E. Wright	PO Box 445	Murrieta CA 92564			Mr. Forest E. Wright	PO Box 445	Murrieta CA 92564											N											11874																	0	0/0/0	0/0/0	0/0/0
@@ -1612,7 +1614,7 @@ VEND	JAI*ASW	695	0		JAI*ASW																																					N
 VEND	James Heagy Company	99	0		James Heagy Company																																					N
 VEND	Jaroslav Hanslik	1396	0		Jaroslav Hanslik																																					N
 VEND	Jason Tempestini	234	0		Jason Tempestini	1107 Fountain St	Alameda CA 94501											551-65-3304																								Y
-VEND	JCPaper	44	0	JCPaper	JCPaper	POBox 49052	San Jose CA 95161-9052			Materials	Sheila Ewart		800 527 2737				244635		"-1000.00"	2 10 Net 30			JCPaper																			N
+VEND	JCPaper	44	0	JCPaper	JCPaper	POBox 49052	San Jose CA 95161-9052			Materials	Sheila Ewart		800 527 2737				244635		"-1,000.00"	2% 10 Net 30			JCPaper																			N
 VEND	Jo Federigo's Rest.	173	0		Jo Federigo's Rest.																																					N
 VEND	"Jo-Ann Fabrics and Crafts, San Ramon"	8	0	Jo-Ann Fabrics and Crafts	Jo-Ann Fabrics and Crafts	2425 San Ramon Valley Blvd.	"San Ramon, CA 94583"																Jo-Ann Fabrics and Crafts																			N
 VEND	Joan Small Manoonigian	474	0		Joan Small Manoonigian	759 Maplewood Place	Palo Alto CA 94303																																			N
@@ -1995,9 +1997,9 @@ INVMEMO	Thanks for thinking of me	7	0
 INVMEMO	Thanks for your payment	8	0
 INVMEMO	We appreciate your prompt payment.	5	0
 !TERMS	NAME	REFNUM	TIMESTAMP	DUEDAYS	MINDAYS	DISCPER	DISCDAYS	TERMSTYPE
-TERMS	1 10 Net 30	5	0	30	0	1	10	0
-TERMS	2 10 Net 30	6	0	30	0	2	10	0
-TERMS	50 Dep 50 Del	13	0	0	0	0	0	0
+TERMS	1% 10 Net 30	5	0	30	0	1	10	0
+TERMS	2% 10 Net 30	6	0	30	0	2	10	0
+TERMS	50% Dep 50% Del	13	0	0	0	0	0	0
 TERMS	Credit Card	8	0	0	0	0	0	0
 TERMS	Due on confirm.	10	0	0	0	0	0	0
 TERMS	Due on receipt	4	0	0	0	0	0	0
@@ -2010,7 +2012,7 @@ TERMS	Paid	7	0	0	0	0	0	0
 TERMS	Pending	12	0	0	0	0	0	0
 TERMS	Quote	14	0	0	0	0	0	0
 !BUD	ACCNT	PERIOD	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	STARTDATE	CLASS	CUSTOMER
-BUD	Fee Income	MONTH									"-2500.00"	"-2000.00"	"-5500.00"	"-4000.00"	1/1/2001		
+BUD	Fee Income	MONTH									"-2,500.00"	"-2,000.00"	"-5,500.00"	"-4,000.00"	1/1/2001		
 BUD	Telephone	MONTH	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	44.00	1/1/2002		
 BUD	Telephone	MONTH	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	39.00	1/1/2001		
 BUD	Professional Fees	MONTH	0.00	65.00	0.00	65.00	0.00	70.00	0.00	70.00	0.00	65.00	0.00	65.00	1/1/2002		
@@ -2025,20 +2027,20 @@ BUD	Supplies	MONTH	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	5
 BUD	Postage and Delivery	MONTH	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	20.00	1/1/2001		
 BUD	Insurance	MONTH						624.00							1/1/2002		
 BUD	Supplies	MONTH	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	58.00	1/1/2001		
-BUD	Cost of Goods Sold	MONTH	"1133.00"	784.00	"1220.00"	436.00	87.00	436.00	697.00	697.00	784.00	958.00	958.00	523.00	1/1/2003		
-BUD	Sales:Retail	MONTH		"-1500.00"											1/1/2003	Binding	"Webster, Diana"
+BUD	Cost of Goods Sold	MONTH	"1,133.00"	784.00	"1,220.00"	436.00	87.00	436.00	697.00	697.00	784.00	958.00	958.00	523.00	1/1/2003		
+BUD	Sales:Retail	MONTH		"-1,500.00"											1/1/2003	Binding	"Webster, Diana"
 BUD	Automobile Expense	MONTH	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	67.00	1/1/2002		
-BUD	Sales:Retail	MONTH		-400.00	-700.00	"-1000.00"	"-1300.00"	"-1600.00"	"-1900.00"	"-1200.00"	"-1380.00"	"-1587.00"	"-1825.05"	"-2098.81"	1/1/2002		
-BUD	Sales	MONTH	"-4162.00"	"-2882.00"	"-4482.00"	"-1601.00"	"-3200.00"	"-1601.00"	"-2561.00"	"-2561.00"	"-2882.00"	"-3522.00"	"-3522.00"	"-1921.00"	1/1/2003		
+BUD	Sales:Retail	MONTH		-400.00	-700.00	"-1,000.00"	"-1,300.00"	"-1,600.00"	"-1,900.00"	"-1,200.00"	"-1,380.00"	"-1,587.00"	"-1,825.05"	"-2,098.81"	1/1/2002		
+BUD	Sales	MONTH	"-4,162.00"	"-2,882.00"	"-4,482.00"	"-1,601.00"	"-3,200.00"	"-1,601.00"	"-2,561.00"	"-2,561.00"	"-2,882.00"	"-3,522.00"	"-3,522.00"	"-1,921.00"	1/1/2003		
 BUD	Advertising:Web Site	MONTH	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	63.00	1/1/2003		
-BUD	Advertising	MONTH	35.00	35.00	"1035.00"	"1035.00"	35.00	"1035.00"	35.00	35.00	35.00	35.00	35.00	35.00	1/1/2002		
+BUD	Advertising	MONTH	35.00	35.00	"1,035.00"	"1,035.00"	35.00	"1,035.00"	35.00	35.00	35.00	35.00	35.00	35.00	1/1/2002		
 BUD	Cost of Goods Sold:Printed Pages	MONTH						200.00	200.00	400.00	400.00	400.00	400.00	400.00	1/1/1999		
 BUD	Travel & Ent	MONTH			300.00			300.00				400.00			1/1/2002		
 BUD	Inventory Asset:Raw Materials	MONTH	100.00	115.00	132.25	152.09	174.90	201.14	231.31	266.01	305.91	351.80	404.57	465.26	1/1/2002		
 BUD	Travel & Ent	MONTH								800.00					1/1/2001		
 BUD	Inventory Asset:Raw Materials	MONTH											750.00		1/1/2001		
 BUD	Telephone	MONTH	195.00	78.00	207.00	77.00	208.00	78.00	140.00	140.00	140.00	140.00	140.00	140.00	1/1/2003		
-BUD	Fee Income	MONTH	"-2000.00"	"-2000.00"	"-2000.00"	"-2000.00"									1/1/2002		
+BUD	Fee Income	MONTH	"-2,000.00"	"-2,000.00"	"-2,000.00"	"-2,000.00"									1/1/2002		
 !TODO	REFNUM	ISDONE	DATE	DESC
 !VEHICLE	NAME	REFNUM	DESC	
 !SALESREP	INIT	REFNUM	NAME	TYPE	

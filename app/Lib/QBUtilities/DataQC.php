@@ -42,10 +42,10 @@ class DataQC {
 
 
 	/**
+	 * Sculpt data to match destination table fields
 	 * 
-	 * @param type $data
-	 * @param type $schema
-	 * @return array
+	 * @param array $data Assoc array of data to clean
+	 * @return array The clean and ready to save data
 	 */
 	public function clean($source){
 		
@@ -61,9 +61,11 @@ class DataQC {
 	}
 	
 	/**
+	 * Construct with the Models schema info
 	 * 
-	 * @param array $data
-	 * @param array $schema
+	 * Also make a quick access 'type' lookup
+	 * 
+	 * @param array $schema Models field schema information
 	 * @return void
 	 */
 	public function __construct($schemas) {	
@@ -74,20 +76,6 @@ class DataQC {
 		return $this;
 	}
 
-		
-	/**
-	 * Make the current $this->data vals match their destination field types and specs
-	 * 
-	 * @return array
-	 */
-//	public function clean_data(){
-//		foreach ($this->Model->header as $field => $header) {
-//			$schema = $this->Model->_schema[$header];
-//			$this->data[$field] = $this->{$schema['type']}($schema, $field);
-//		}
-//		return $this->data;
-//	}
-	
 	/**
 	 * Insure proper float values for the db
 	 * 
