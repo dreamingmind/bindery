@@ -30,6 +30,7 @@ class QBModel {
 		$model->table = $alias;
 		$model->tableToModel = array($alias => $alias);
 		$model->useDbConfig = 'qb';
+		$model->schema();
 		return $model;
 	}
 	

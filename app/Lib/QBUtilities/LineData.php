@@ -16,9 +16,10 @@ class LineData extends LineAbstract {
 	 * calculated and created earlier when the Header line was detected
 	 */
 	public function execute() {
-		$saveData = array_combine($this->Model->header, $this->data());
+		$data = array_combine($this->Model->header, $this->data());
+		$cleanData = $this->Model->dataQC->clean($data);
 		$this->Model->db->create();
-		$this->Model->db->save($saveData);
+		$this->Model->db->save($cleanData);
 	}
 	
 	/**

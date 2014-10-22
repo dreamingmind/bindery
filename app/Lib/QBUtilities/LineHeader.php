@@ -2,6 +2,7 @@
 
 App::uses('LineAbstract', 'Lib/QBUtilities');
 App::uses('QBModel', 'Lib/QBUtilities');
+App::uses('DataQC', 'Lib/QBUtilities');
 
 /**
  * LineHeader: Concrete Class to do tasks specific to header lines from an iff File
@@ -22,6 +23,7 @@ class LineHeader extends LineAbstract {
 		$this->loadModel($this->alias());
 		$this->Model->db->deleteAll(array(1=>1));
 		$this->Model->header = $this->data();
+		$this->Model->dataQC = new DataQC($this->Model->db->_schema);
 	}
 	
 	/**
