@@ -6,7 +6,11 @@
  */
 
 /**
- * Description of PriceValidator
+ * PurchasedProduct is the base class for the all product variants
+ * 
+ * The range of options and the way information is stored about 
+ * products and services is highly variable. So one concrete implementation 
+ * of this base class exists for each of the variants.
  *
  * @author dondrake
  */

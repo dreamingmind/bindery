@@ -3,6 +3,7 @@ App::uses('CustomProduct', 'Lib/PurchaseUtilities');
 App::uses('InventoryProduct', 'Lib/PurchaseUtilities');
 App::uses('WorkshopProduct', 'Lib/PurchaseUtilities');
 App::uses('PurchasedProduct', 'Lib/PurchaseUtilities');
+App::uses('VariationProduct', 'Lib/PurchaseUtilities');
 
 /*
  * To change this template, choose Tools | Templates
@@ -25,8 +26,18 @@ class PurchasedProductFactory {
 	
 	if (isset($data['specs_key'])) {
 		$product = 'CustomProduct';
+		
 	} elseif (isset($data['cmd'])) {
 		$product = 'InventoryProduct';
+		
+	} elseif ('workshop' === TRUE) {
+		$product = 'WorkshopProduct';
+		
+	} elseif ('purchased' === TRUE) {
+		$product = 'PurchasedProduct';
+		
+	} elseif ('variation' === TRUE) {
+		$product = 'VariationProduct';
 		
 	} else {
 		throw new BadRequestException('Could not determine which product utility class to use.');

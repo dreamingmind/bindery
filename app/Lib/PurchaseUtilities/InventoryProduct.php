@@ -1,8 +1,10 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * InventoryProduct Utility manages purchase of a product that has no options or variations
+ * 
+ * I'm expecting these to be Limited Editions where there is no variant version, 
+ * shelf items and seconds where you get what I have.
  */
 
 /**

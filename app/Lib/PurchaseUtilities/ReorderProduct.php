@@ -1,8 +1,8 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * ReorderProduct Utitlity handle recovery of information about previously spec'd products
+ * 
  */
 
 /**
@@ -26,7 +26,8 @@ class ReorderProduct extends PurchasedProduct {
 
 	public function updateQuantity($id, $qty) {
 		
-	}	
+	}
+	
 }
 
 ?>
