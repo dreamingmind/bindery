@@ -86,10 +86,33 @@ class PurchasesComponent extends Component {
 	 */
 	public function itemCount() {
 		return $this->Cart->count($this->Session);
-		}
+	}
+		
+	/**
+	 * Does the logged in or anonomous user have a cart 
+	 * 
+	 * @return boolean
+	 */
+	public function exists() {
+		return $this->Cart->cartExists($this->Session);
+	}
+	
 	
 	/**
+	 * Delete an item
+	 * 
+	 * @param string $id
+	 */
+	public function delete($id) {
+		$this->Cart->delete($id);
+	}
+
+
+	/**
 	 * Add another item to the shopping cart
+	 * 
+	 * Makes the new Cart record id available at $new
+	 * Makes the Cart data and linked data available at $cart
 	 * 
 	 */
 	public function add() {
@@ -104,7 +127,7 @@ class PurchasesComponent extends Component {
 			}
 		}
 		$this->controller->set('new', $this->Cart->id);
-		$this->controller->set('cart', $this->Cart->fetch($this->Session));
+		$this->controller->set('cart', $this->Cart->fetch($this->Session, TRUE));
 	}
 	
 	/**

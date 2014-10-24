@@ -1,25 +1,31 @@
 <?php
-foreach ($cart as $item) {
-	if ($item['Cart']['id'] == $new) {
-		$this->start('new');
-			echo $this->Html->para(NULL, "{$item['Cart']['price']} : {$item['Cart']['design_name']}");
-		$this->end();
-	} else {
-		$this->append('existing');
-			echo $this->Html->tag('li', "{$item['Cart']['price']} : {$item['Cart']['design_name']}\n\t\t\t");
-		$this->end();
-	}
-}
+$cartClass = 'cart_pallet';
+
+//dmDebug::ddd($cart, 'cart');
+echo $this->element('Cart/cart_ui', array(
+	'cartClass' => $cartClass));
+
+//foreach ($cart as $item) {
+//	if ($item['Cart']['id'] == $new) {
+//		$this->start('new');
+//			echo $this->Html->para(NULL, "{$item['Cart']['price']} : {$item['Cart']['design_name']}");
+//		$this->end();
+//	} else {
+//		$this->append('existing');
+//			echo $this->Html->tag('li', "{$item['Cart']['price']} : {$item['Cart']['design_name']}\n\t\t\t");
+//		$this->end();
+//	}
+//}
 ?>
 
-<div class="cart pallet">
+<!--<div class="cart pallet">
 	<p>Shopping Cart</p>
 	<div class='new'>
-		<?php echo $this->fetch('new'); ?>
+		//<?php // echo $this->fetch('new'); ?>
 	</div>
 	<div class='existing'>
 		<ol>
-			<?php echo $this->fetch('existing'); ?>
+			//<?php // echo $this->fetch('existing'); ?>
 		</ol>
 	</div>
 	<div class='tools'>
@@ -27,7 +33,7 @@ foreach ($cart as $item) {
 		<button class='checkout'>Checkout</button>
 	</div>
 	<div>
-		<?php dmDebug::ddd($this->request->data, 'posted data'); ?>
-		<?php dmDebug::ddd($cart, 'cart data'); ?>
+		//<?php // dmDebug::ddd($this->request->data, 'posted data'); ?>
+		//<?php // dmDebug::ddd($cart, 'cart data'); ?>
 	</div>
-</div>
+</div>-->

@@ -124,4 +124,11 @@ class CartsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	
+	/**
+	 * Add to cart is in AppController so cart actions can be done anywhere
+	 */
+	public function addToCart() {
+		parent::addToCart();
+	}
+	
 }
