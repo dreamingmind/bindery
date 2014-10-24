@@ -7,6 +7,9 @@ App::uses('AppController', 'Controller');
  */
 class CartsController extends AppController {
 	
+	public $helpers = array('PurchasedProduct');
+
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart');
