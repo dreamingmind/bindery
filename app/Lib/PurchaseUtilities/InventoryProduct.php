@@ -26,8 +26,16 @@ class InventoryProduct extends PurchasedProduct {
 ////		debug($this->product, 'product');
 //	}
 	
+	/**
+	 * Calculate the price of a single unit of the product
+	 * 
+	 * Cart stores Price (for a unit) and Quanity. 
+	 * Total (price * quantity) is a virtual field.
+	 * 
+	 * @return float
+	 */
 	public function calculatePrice() {
-		// PSUEDO CODE ! ! ! DO NOT USE
+		// PSUEDO CODE ! ! ! DO NOT USE ******!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!*********
 		return $this->data['amount'];
 	}
 
@@ -41,7 +49,8 @@ class InventoryProduct extends PurchasedProduct {
 				'user_id' => ($this->userId) ? $this->userId : '',
 				'session_id' => ($this->sessionId) ? $this->sessionId : '',
 				'design_name' => $this->data['item_number'] . ' - ' . $this->data['item_name'],
-				'price' => $this->calculatePrice()
+				'price' => $this->calculatePrice(),
+				'quantity' => 1 // ******!!!!!!!!!!!********* PSUEDO CODE ! ! ! DO NOT USE ******!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!*********
 			),
 			'Supplement' => array(
 				array(

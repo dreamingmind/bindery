@@ -99,6 +99,9 @@ abstract class PurchasedProduct {
 	/**
 	 * Given form data from the user, generate a trustworthy price for the item
 	 * 
+	 * Cart stores Price (for a unit) and Quanity. 
+	 * Total (price * quantity) is a virtual field.
+	 * 
 	 * @return float The calculated price
 	 */
 	abstract protected function calculatePrice();

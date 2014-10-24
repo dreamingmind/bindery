@@ -105,6 +105,11 @@ class Cart extends AppModel {
 		)
 	);
 	
+	public $virtualFields = array(
+		'total' => 'Cart.price * Cart.quantity'
+	);
+
+
 	/**
 	 * After save the validity of the carts cache data is uncertain. Delete them
 	 * 

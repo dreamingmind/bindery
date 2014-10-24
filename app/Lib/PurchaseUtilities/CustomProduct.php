@@ -49,6 +49,14 @@ class CustomProduct extends PurchasedProduct {
 //		debug($this->product, 'product');
 	}
 	
+	/**
+	 * Calculate the price of a single unit of the product
+	 * 
+	 * Cart stores Price (for a unit) and Quanity. 
+	 * Total (price * quantity) is a virtual field.
+	 * 
+	 * @return float
+	 */
 	public function calculatePrice() {
 		if (!isset($this->data[$this->product]) || !isset($this->data[$this->product]['product'])) {
 			
@@ -70,7 +78,7 @@ class CustomProduct extends PurchasedProduct {
 			}
 		}
 		
-		return $price * $quantity;
+		return $price;
 		
 		// no other price bits to cherry pick at this time
 		
@@ -97,7 +105,8 @@ class CustomProduct extends PurchasedProduct {
 				'user_id' => ($this->userId) ? $this->userId : NULL,
 				'session_id' => ($this->sessionId) ? $this->sessionId : '',
 				'design_name' => $this->data[$this->product]['description'],
-				'price' => $this->calculatePrice()
+				'price' => $this->calculatePrice(),
+				'quantity' => $this->data[$this->product]['quantity']
 			),
 			'Supplement' => array(
 				array(
