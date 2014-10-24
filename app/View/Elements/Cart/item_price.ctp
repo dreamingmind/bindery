@@ -1,5 +1,10 @@
 	<div class="item_price">
-		<p class="q_calc">
-			<?php echo $this->Form->input("{$item['Cart']['id']}.Cart.quantity") ?> 
+		<p class="item_calc">
+			<?php echo $helper->itemQuantity($item); ?> 
+			at 
+			<?php echo $helper->itemPrice($item); ?> 
+		</p>
+		<p class="line_total">
+			$<?php echo $helper->itemTotal($item); ?> 
 		</p>
 	</div>

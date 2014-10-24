@@ -8,6 +8,9 @@
 		<?php echo $helper->optionList($item, $class); ?> 		
 	</div>
 
-	<?php echo $this->element('Cart/item_price', array('item' => $item)); ?> 
+	<div class="item_tools">
+		<?php echo $this->element('Cart/item_price', array('item' => $item, 'helper' => $helper)); ?>
+	</div>
+	 
 
 </div>

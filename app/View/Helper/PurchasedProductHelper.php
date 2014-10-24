@@ -52,5 +52,25 @@ class PurchasedProductHelper extends AppHelper {
 				$this->Html->link($action, '', array('class' => 'tool', 'bind' => 'itemDetailToggle')));
 		}
 	}
+	
+	public function itemQuantity($item) {
+		return $this->Form->input(
+				"{$item['Cart']['id']}.Cart.quantity",
+				array(
+					'label' => FALSE,
+					'div' => FALSE,
+					'bind' => 'change.itemQuantityChange',
+					'value' => $item['Cart']['quantity']
+				)
+			);
+	}
+	
+	public function itemPrice($item) {
+		return $this->Html->tag('span', $item['Cart']['price'], array('class' => 'price'));
+	}
+
+	public function itemTotal($item) {
+		return $this->Html->tag('span', $item['Cart']['price'], array('class' => 'total'));
+	}
 
 }
