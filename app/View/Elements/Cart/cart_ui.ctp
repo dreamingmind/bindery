@@ -39,7 +39,7 @@ $json = json_encode($cart);
 <script type=\"text/javascript\">
 	//<![CDATA[
 	// Data pack for expand/collapse of item sections
-	var data = <?php echo $json ?>;
+	var toggleData = <?php echo json_encode($helper->toggleData) ?>;
 	//]]>
 </script>
 	

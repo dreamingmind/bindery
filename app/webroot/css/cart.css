@@ -71,8 +71,16 @@ div#cart_pallet {
 			display: block;
 		}
 		
+		div#cart_pallet > div.item_detail > div.item_tools {
+			height: 25px;
+		}
+		
 			div#cart_pallet > div.item_detail > div.item_tools > * {
 				display: inline-block;
+			}
+
+			div#cart_pallet > div.item_detail > div.item_tools > div.item_price {
+				float: right;
 			}
 
 				div#cart_pallet > div.item_detail > div.item_tools > div.item_price > * {
@@ -111,7 +119,7 @@ a.tool:hover {
     font-weight: bold;
     text-decoration: underline;
 }
-div[class*="item_"] > p.tools {
+div#cart_pallet > div > p.tools {
     text-align: right;
     margin: 0 0 .2em;
 }

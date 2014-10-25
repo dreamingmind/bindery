@@ -26,18 +26,29 @@ class PurchasedProductHelper extends AppHelper {
 	 * @var array
 	 */
 	public $modeToggleData;
+	
+	public $toggleData = array();
 
 //	abstract public function itemText($item, $mode);
 //
 	public function designName($item, $mode) {
+		$summary = $this->Html->tag('h1', String::truncate($item['Cart']['design_name'], 40), array('class' => 'design_name'));
+		$full = $this->Html->tag('h1', $item['Cart']['design_name'], array('class' => 'design_name'));
+		$this->storeToggleData($item, 'design_name', $summary, $full);
+		
 		if ($mode === 'item_summary') {
-			$text = String::truncate($item['Cart']['design_name'], 40);
+			$text = $summary;
 		} else {
-			$text = $item['Cart']['design_name'];
+			$text = $full;
 		}
-		return $this->Html->tag('h1', $text);
+		return $text;
 	}
 	
+	public function storeToggleData($item, $group, $summary, $full) {
+		$this->toggleData[$item['Cart']['id']][$group] = array('summary' => $summary, 'full' => $full);
+	}
+
+
 	public function blub($item, $mode) {
 		
 	}
@@ -46,10 +57,10 @@ class PurchasedProductHelper extends AppHelper {
 		
 	}
 	
-	public function modeToggle($action, $isNewItem = FALSE) {
+	public function modeToggle($item, $action, $isNewItem = FALSE) {
 		if (!$isNewItem) {
 			return $this->Html->para('tools', 
-				$this->Html->link($action, '', array('class' => 'tool', 'bind' => 'itemDetailToggle')));
+				$this->Html->link($action, $item['Cart']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
 		}
 	}
 	
@@ -70,7 +81,7 @@ class PurchasedProductHelper extends AppHelper {
 	}
 
 	public function itemTotal($item) {
-		return $this->Html->tag('span', $item['Cart']['price'], array('class' => 'total'));
+		return $this->Html->tag('span', $item['Cart']['total'], array('class' => 'total'));
 	}
 
 }

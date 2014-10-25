@@ -1,7 +1,9 @@
 <?php $class = 'item_detail'; ?>
 
 <div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['Cart']['id']}" ?>">
-	<?php echo $helper->modeToggle('Collapse', $isNewItem); ?> 
+	
+	<?php echo $helper->modeToggle($item, 'Collapse', $isNewItem); ?> 
+	
 	<div class="item_text">
 		<?php echo $helper->designName($item, $class); ?> 
 		<?php echo $helper->blurb($item, $class); ?> 

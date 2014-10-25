@@ -2,7 +2,7 @@
 
 <div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['Cart']['id']}" ?>">
 	
-	<?php echo $helper->modeToggle('Expand'); ?> 
+	<?php echo $helper->modeToggle($item, 'Expand'); ?> 
 	
 	<div class="item_text">
 		<?php echo $helper->designName($item, $class); ?> 
