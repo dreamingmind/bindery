@@ -67,6 +67,23 @@ function itemDetailToggle(e) {
 	
 //	alert('Toggle display mode for item ' + id);
 }
+
+function itemQuantityChange(e) {
+	
+	
+	$.ajax({
+		type: "GET",
+		dataType: "JSON",
+		url: 'carts/update_cart/' + id + '/' + qty,
+		success: function(data) {
+			
+		},
+		error: function(data) {
+			
+		}
+	})
+
+}
 /**
  * Direct any PayPal buttons to the site cart processes
  */

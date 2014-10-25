@@ -1,39 +1,10 @@
 <?php
+/**
+ * This assembles the cart ui as a floating pallet for on-page review 
+ * immediately after a product purchase-click. 
+ * 
+ * This is a pretty bad element name. It describes the action that initiates it rather than what it is. ********************* bad naming
+ */
 $cartClass = 'cart_pallet';
 
-//dmDebug::ddd($cart, 'cart');
-echo $this->element('Cart/cart_ui', array(
-	'cartClass' => $cartClass));
-
-//foreach ($cart as $item) {
-//	if ($item['Cart']['id'] == $new) {
-//		$this->start('new');
-//			echo $this->Html->para(NULL, "{$item['Cart']['price']} : {$item['Cart']['design_name']}");
-//		$this->end();
-//	} else {
-//		$this->append('existing');
-//			echo $this->Html->tag('li', "{$item['Cart']['price']} : {$item['Cart']['design_name']}\n\t\t\t");
-//		$this->end();
-//	}
-//}
-?>
-
-<!--<div class="cart pallet">
-	<p>Shopping Cart</p>
-	<div class='new'>
-		//<?php // echo $this->fetch('new'); ?>
-	</div>
-	<div class='existing'>
-		<ol>
-			//<?php // echo $this->fetch('existing'); ?>
-		</ol>
-	</div>
-	<div class='tools'>
-		<button class="continue">Continue</button>
-		<button class='checkout'>Checkout</button>
-	</div>
-	<div>
-		//<?php // dmDebug::ddd($this->request->data, 'posted data'); ?>
-		//<?php // dmDebug::ddd($cart, 'cart data'); ?>
-	</div>
-</div>-->
+echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));

@@ -1,16 +1,15 @@
 <?php
-//App::uses('CustomProduct', 'Helper/PurchasePurchaseUtilities');
-//App::uses('InventoryProduct', 'Helper/PurchasePurchaseUtilities');
-//App::uses('WorkshopProduct', 'Helper/PurchasePurchaseUtilities');
-//App::uses('PurchasedProduct', 'Helper/PurchasePurchaseUtilities');
-//App::uses('VariationProduct', 'Helper/PurchasePurchaseUtilities');
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
+ * Base class for ProdcutHelpers
+ * 
+ * Product Helpers handle rendering of product purchase tools and displays. 
+ * Currently, the tools focus on Cart rending tasks. But it seems likely these would 
+ * expand to do button rendering for the various prodcuts too.
+ * 
+ * Cart records carry a `type` field which is used to instantiate a concrete Product Helper. 
+ * This base class comes along for the ride, supplying common code and default implementations 
+ * for methods that aren't needed in the concrete classes.
+ * 
  * CakePHP PurchasedProductHelper
  * @author dondrake
  */
@@ -29,8 +28,13 @@ class PurchasedProductHelper extends AppHelper {
 	
 	public $toggleData = array();
 
-//	abstract public function itemText($item, $mode);
-//
+	/**
+	 * Store the design name text variants and return the currently required version
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
 	public function designName($item, $mode) {
 		$summary = $this->Html->tag('h1', String::truncate($item['Cart']['design_name'], 40), array('class' => 'design_name'));
 		$full = $this->Html->tag('h1', $item['Cart']['design_name'], array('class' => 'design_name'));
@@ -44,19 +48,66 @@ class PurchasedProductHelper extends AppHelper {
 		return $text;
 	}
 	
-	public function storeToggleData($item, $group, $summary, $full) {
+	/**
+	 * Save expand/collapse item-text data for assembly into a json package
+	 * 
+	 * On a cart page, each item has a text section which displays 
+	 * design_name, blurb, and option list data describe the product ordered. 
+	 * These data may display truncated or fully expanded and this array/json obj 
+	 * will contain both versions indexed by id.node.variant 
+	 * (eg: toggleData[356][blurb][summary] = 'short tex...' or 
+	 * toggle Data[722][design_name][full] = 'Amending Self' )
+	 * 
+	 * @param array $item
+	 * @param string $group
+	 * @param string $summary
+	 * @param string $full
+	 */
+	protected function storeToggleData($item, $group, $summary, $full) {
 		$this->toggleData[$item['Cart']['id']][$group] = array('summary' => $summary, 'full' => $full);
 	}
 
 
-	public function blub($item, $mode) {
-		
+	/**
+	 * Fallback blurb creation method
+	 * 
+	 * This handles making an empty blurb node for the cart item_text section 
+	 * as a default in cases where the concrete Product doesn't have an implementation
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
+	public function blurb($item, $mode) {
+		$summary = $full = '';
+		$this->storeToggleData($item, 'blurb', $summary, $full);
+		return '';
 	}
 	
+	/**
+	 * Fallback option list creation method
+	 * 
+	 * This handles making an empty option list node for the cart item_text section 
+	 * as a default in cases where the concrete Product doesn't have an implementation
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
 	public function optionList($item, $mode) {
-		
+		$summary = $full = '';
+		$this->storeToggleData($item, 'options', $summary, $full);
+		return '';
 	}
 	
+	/**
+	 * Create the tool that initiates collapse/expand feature of cart item_text nodes
+	 * 
+	 * @param array $item
+	 * @param string $action
+	 * @param boolean $isNewItem
+	 * @return string
+	 */
 	public function modeToggle($item, $action, $isNewItem = FALSE) {
 		if (!$isNewItem) {
 			return $this->Html->para('tools', 
@@ -64,6 +115,17 @@ class PurchasedProductHelper extends AppHelper {
 		}
 	}
 	
+	/**
+	 * Create the quantity input for a cart item
+	 * 
+	 * This input will allow quantity change for the item whenever the 
+	 * cart ui is visible. It always works via ajax and will update the 
+	 * proper item display values. It will also handle removal of the 
+	 * item when the quantity is set to zero.
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
 	public function itemQuantity($item) {
 		return $this->Form->input(
 				"{$item['Cart']['id']}.Cart.quantity",
@@ -71,17 +133,56 @@ class PurchasedProductHelper extends AppHelper {
 					'label' => FALSE,
 					'div' => FALSE,
 					'bind' => 'change.itemQuantityChange',
-					'value' => $item['Cart']['quantity']
+					'value' => $item['Cart']['quantity'],
+					'cart_item_id' => $item['Cart']['id']
 				)
 			);
 	}
 	
+	/**
+	 * Create the price display-chip for a cart item
+	 * 
+	 * Price is the cost of one unit, without accounting for quantity ordered
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
 	public function itemPrice($item) {
 		return $this->Html->tag('span', $item['Cart']['price'], array('class' => 'price'));
 	}
 
+	/**
+	 * Create the 'total' display chip for a cart item
+	 * 
+	 * Total is quantity * price and will update if the quantity input changes
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
 	public function itemTotal($item) {
-		return $this->Html->tag('span', $item['Cart']['total'], array('class' => 'total'));
+		return $this->Html->tag('span', $item['Cart']['total'], array('class' => 'total', 'id' => "item_total-{$item['Cart']['id']}"));
+	}
+	
+	/**
+	 * Create the remove tool for a cart item
+	 * 
+	 * Does it's work through an ajax call
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
+	public function removeItemTool($item) {
+		return $this->Html->link('Remove', "delete/{$item['Cart']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
+	}
+	
+	/**
+	 * Provide a default implementation of the edit-request tool
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
+	public function editItemTool($item) {
+		return '';
 	}
 
 }

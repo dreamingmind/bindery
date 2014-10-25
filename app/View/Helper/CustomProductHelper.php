@@ -33,6 +33,13 @@ class CustomProductHelper extends PurchasedProductHelper {
 		
 	}
 	
+	/**
+	 * STUB METHOD FOR TESTING ************************************************************************************** Custom might not have 'blurb'. certainly not this!
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return type
+	 */
 	public function blurb($item, $mode) {
 		$text = 'This is a sample burb. I don\'t think custom items will have blurbs, but they must have an implementation of the function';
 		
@@ -48,6 +55,13 @@ class CustomProductHelper extends PurchasedProductHelper {
 		return $text;
 	}
 	
+	/**
+	 * STUB METHOD FOR TESTING ************************************************************************************** ================================= not this!
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
 	public function optionList($item, $mode) {
 		$options = array(
 			'closing belt',
