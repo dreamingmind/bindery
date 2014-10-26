@@ -1,5 +1,7 @@
 <?php 
 
+// PurchasesComponent beforeRender takes care of getting the data this needs
+
 if ($purchaseCount == 1) {
 	$label = 'item';
 } else {
