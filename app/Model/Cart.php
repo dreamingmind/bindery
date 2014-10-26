@@ -99,6 +99,7 @@ class Cart extends AppModel {
 		'Supplement' => array(
 			'className' => 'Supplement',
 			'foreignKey' => 'cart_id',
+			'dependent' => TRUE,
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

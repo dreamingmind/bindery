@@ -72,8 +72,8 @@ function itemQuantityChange(e) {
 	
 	
 	$.ajax({
-		type: "GET",
-		dataType: "JSON",
+		type: "DELETE",
+		dataType: "HTML",
 		url: 'carts/update_cart/' + id + '/' + qty,
 		success: function(data) {
 			
@@ -84,6 +84,49 @@ function itemQuantityChange(e) {
 	})
 
 }
+
+/**
+ * Remove specified cart items and refresh the screen
+ * 
+ * Removal takes a row out of the cart pallet or cart checkout page 
+ * and updates the cart badge. This may be the last page, so 
+ * special processes need to take care of that. 
+ * 
+ * @param {event} e
+ * @returns {void}
+ */
+function removeItem(e) {
+	e.preventDefault();
+	var id = $(e.currentTarget).attr('href').match(/delete\/(\d*)/)[1];
+	
+	$.ajax({
+		type: "DELETE",
+		dataType: "HTML",
+		url: webroot + 'carts/delete/' + id,
+		success: function(data) {
+			
+			// success/failure messages get placed differently in the DOM
+			var was = data.match(/was removed/);
+			var was_not = data.match(/was not removed/);
+			if (was == 'was removed') {
+				$('div#cart_item-'+id).replaceWith(data);
+				bindHandlers('#successMessage');
+			} else if (was_not == 'was not removed') {
+				$('div#cart_item-'+id).prepend(data);
+				bindHandlers('div#cart_item-'+id);
+			}
+		},
+		error: function(xhr, status, error) {
+			var exception = xhr.responseText.match(/Invalid cart/);
+			if (exception == 'Invalid cart') {
+				$('div#cart_item-'+id).html('<p>The item was not found in your cart.</p><p>You can confirm it\'s removal on checkout</p>');
+			}
+			bindHandlers('div#cart_item-'+id);
+		}
+	})
+
+}
+
 /**
  * Direct any PayPal buttons to the site cart processes
  */

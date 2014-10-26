@@ -802,7 +802,13 @@ SIG;
             };
         }
     }
-    
+	
+	protected function returnAjax($view) {
+		$this->layout = 'ajax';
+		$this->render("/Ajax/$view");
+	}
+
+
 	/***************************************************************
 	 * UNIVERSAL PASSTHROUGH CALLS TO PURCHASES COMPONENT
 	 * Provides Cart Management

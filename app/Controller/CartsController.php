@@ -12,7 +12,7 @@ class CartsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete');
 	}
 
 /**
@@ -119,12 +119,20 @@ class CartsController extends AppController {
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		$this->request->onlyAllow('post', 'delete');
+		$this->Cart->unbindModel(array('belongsTo' => array('User')));
 		if ($this->Cart->delete()) {
-			$this->Session->setFlash(__('Cart deleted'));
+			$this->Session->setFlash(__('The item was removed from your cart.'), 'f_success');
+//			$this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The item was not removed from cart. Please try again.'), 'f_error');
+		}
+		if ($this->request->is('ajax')) {
+//			$this->returnAjax('flashOut');
+			$this->layout = 'ajax';
+			$this->render("/Ajax/flashOut");
+		} else {
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('Cart was not deleted'));
-		$this->redirect(array('action' => 'index'));
 	}
 	
 	/**

@@ -94,6 +94,10 @@ function bindHandlers(target) {
 	});
 }
 
+function closeFlash() {
+	$(this).parent('div').remove();
+}
+
 
 $(document).ready(function(){
     $('#flashMessage').delay(6400).fadeOut(3200);
