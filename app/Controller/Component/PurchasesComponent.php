@@ -73,6 +73,12 @@ class PurchasesComponent extends Component {
 		
 	}
 	
+	/**
+	 * Ajax return of new cart badge
+	 * 
+	 * Call to any controller will get here through an appController pass through. 
+	 * This Components beforeRender will get the data needed for the emlement.
+	 */
 	public function newBadge() {
 		$this->controller->layout = 'ajax';
 		$this->controller->render('/Elements/Cart/cart_badge');

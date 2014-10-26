@@ -824,13 +824,16 @@ SIG;
 		$this->Purchases->add();
 	}
 	
+	/**
+	 * Ajax return of new cart badge
+	 * 
+	 * Call to any controller will use this pass through. 
+	 * PurchasesComponent's beforeRender() will get the data needed for the emlement.
+	 */
 	public function newBadge() {
 		$this->Purchases->newBadge();
 	}
-
-
-
-
+	
 }
 
 ?>
