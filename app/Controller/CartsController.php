@@ -129,7 +129,9 @@ class CartsController extends AppController {
 		if ($this->request->is('ajax')) {
 //			$this->returnAjax('flashOut');
 			$this->layout = 'ajax';
-			$this->render("/Ajax/flashOut");
+			$this->newBadge();
+			$this->set('cartBadge', $this->response->body());
+			$this->render("/Ajax/cart_remove_result");
 		} else {
 			$this->redirect(array('action' => 'index'));
 		}

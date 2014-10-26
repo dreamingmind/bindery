@@ -98,21 +98,23 @@ function itemQuantityChange(e) {
 function removeItem(e) {
 	e.preventDefault();
 	var id = $(e.currentTarget).attr('href').match(/delete\/(\d*)/)[1];
+	var cartBadge = $('#cart_badge');
 	
 	$.ajax({
 		type: "DELETE",
 		dataType: "HTML",
 		url: webroot + 'carts/delete/' + id,
 		success: function(data) {
-			
+			var newBadge = $(data).find('#cart_badge');
+			$(cartBadge).replaceWith(newBadge);
 			// success/failure messages get placed differently in the DOM
 			var was = data.match(/was removed/);
 			var was_not = data.match(/was not removed/);
 			if (was == 'was removed') {
-				$('div#cart_item-'+id).replaceWith(data);
+				$('div#cart_item-'+id).replaceWith($(data).find('div.flash'));
 				bindHandlers('#successMessage');
 			} else if (was_not == 'was not removed') {
-				$('div#cart_item-'+id).prepend(data);
+				$('div#cart_item-'+id).prepend($(data).find('div.flash'));
 				bindHandlers('div#cart_item-'+id);
 			}
 		},

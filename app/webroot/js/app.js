@@ -95,7 +95,11 @@ function bindHandlers(target) {
 }
 
 function closeFlash() {
-	$(this).parent('div').remove();
+	if ($('#cart_badge span.count').html() == '0' && $(this).parent('div').parent('div').attr('id') == 'cart_pallet') {
+		$(this).parent('div').parent('div').remove();
+	} else {
+		$(this).parent('div').remove();
+	}
 }
 
 
