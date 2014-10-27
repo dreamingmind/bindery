@@ -94,15 +94,29 @@ function bindHandlers(target) {
 	});
 }
 
+/**
+ * Close flash messages that have the new 'X' button in them
+ * 
+ * ************************************************************************************************ get rid of this badly coupled code ==========
+ * 
+ * @returns {void}
+ */
 function closeFlash() {
+	// This logic should not be here. excess coupling
 	if ($('#cart_badge span.count').html() == '0' && $(this).parent('div').parent('div').attr('id') == 'cart_pallet') {
 		$(this).parent('div').parent('div').remove();
 	} else {
+		
+		// this is all that should be here I think
 		$(this).parent('div').remove();
 	}
 }
 
-
+/**
+ * Document ready section =========================================================================
+ * ========================================================================= Document ready section
+ * 
+ */
 $(document).ready(function(){
     $('#flashMessage').delay(6400).fadeOut(3200);
 
