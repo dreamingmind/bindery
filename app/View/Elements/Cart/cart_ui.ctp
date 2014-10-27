@@ -21,7 +21,7 @@ foreach ($cart as $item) {
 	// get the helper that specializes in processing this kind of product
 	$helper = $this->Helpers->load("{$item['Cart']['type']}Product");
 	
-	$isNewItem = $item['Cart']['id'] == $new;
+	$isNewItem = $item['Cart']['id'] == isset($new) ? $new : FALSE;
 	
 	if ($isNewItem || $cartClass === 'cart_checkout') {
 		$this->start('new');
@@ -49,10 +49,7 @@ foreach ($cart as $item) {
 	<?php echo $this->fetch('button_block') // this might change to a direct element call ?>
 	
 <script type=\"text/javascript\">
-	//<![CDATA[
-	// Data pack for expand/collapse of item sections
 	var toggleData = <?php echo json_encode($helper->toggleData) ?>;
-	//]]>
 </script>
 	
 </div>

@@ -12,18 +12,18 @@ div#cart_pallet {
     padding: 1em;;
 }
 
-	div#cart_pallet * {
+	div[id*=cart_] * {
 		padding: 0;
 		margin: 0;
 	}
 	
-	div#cart_pallet > div.item_detail, div#cart_pallet > div.item_summary {
+	div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 		border-bottom: #b89b5c thin solid;
 		margin-bottom: 0.5em;
 		padding-bottom: 0.5em;
 	}
 	
-	div#cart_pallet > div > div.item_text > h1 {
+	div[id*=cart_] > div > div.item_text > h1 {
 		background-color: transparent;
 		border: medium none;
 		font-size: 14px;
@@ -33,78 +33,78 @@ div#cart_pallet {
 		padding: 0;*/
 	}
 
-	div#cart_pallet > div > div.item_text > p {
+	div[id*=cart_] > div > div.item_text > p {
 		font-size: 12px;
 		margin: 0.2em 0 0;
 		padding: 0;
 		color: #72673a;	
 	}
 
-	div#cart_pallet > div > div.item_text > ul {
+	div[id*=cart_] > div > div.item_text > ul {
 		font-size: 12px;
 		margin: 0.2em 0 0 1em;
 	}
 
-	div#cart_pallet > div > div.item_text > ul > li {
+	div[id*=cart_] > div > div.item_text > ul > li {
 		list-style: outside disc;
 	}
 	
-		div#cart_pallet > div > p.tools {
+		div[id*=cart_] > div > p.tools {
 			display: block;
 		}
 		
-		div#cart_pallet span.total {
-			vertical-align: top;
+		div[id*=cart_] span.total {
+			vertical-align: middle;
 			font-size: 24px;
 			color:#062619;
 		}
 
-		div#cart_pallet p.item_total {
+		div[id*=cart_] p.item_total {
 			margin-top: 3px;
 		}
 
-	div#cart_pallet > div.item_detail {
+	div[id*=cart_] > div.item_detail {
 		/* display settings for children */
 	}
 	
-		div#cart_pallet > div.item_detail > * {
+		div[id*=cart_] > div.item_detail > * {
 			display: block;
 		}
 		
-		div#cart_pallet > div.item_detail > div.item_tools {
+		div[id*=cart_] > div.item_detail > div.item_tools {
 			height: 25px;
 		}
 		
-			div#cart_pallet > div.item_detail > div.item_tools > * {
+			div[id*=cart_] > div.item_detail > div.item_tools > * {
 				display: inline-block;
 			}
 
-			div#cart_pallet > div.item_detail > div.item_tools > div.item_price {
+			div[id*=cart_] > div.item_detail > div.item_tools > div.item_price {
 				float: right;
 			}
 
-				div#cart_pallet > div.item_detail > div.item_tools > div.item_price > * {
+				div[id*=cart_] > div.item_detail > div.item_tools > div.item_price > * {
 					display: inline;
 				}
 
-	div#cart_pallet > div.item_summary {
+	div[id*=cart_] > div.item_summary {
 		/* display settings for children */
 	}
 
-		div#cart_pallet > div.item_summary > div.item_price,
-		div#cart_pallet > div.item_summary > div.item_text {
+		div[id*=cart_] > div.item_summary > div.item_price,
+		div[id*=cart_] > div.item_summary > div.item_text {
 			display: inline-block;
 		}
 		
-			div#cart_pallet > div.item_summary > div.item_tools > * {
+			div[id*=cart_] > div.item_summary > div.item_tools > * {
 				display: block;
 			}
 			
-			div#cart_pallet > div.item_summary > div.item_tools {
+			div[id*=cart_] > div.item_summary > div.item_tools {
 				float: right;
 			}
 
-				div#cart_pallet > div.item_summary > div.item_tools > div.item_price > * {
+				div[id*=cart_] > div.item_summary > div.item_tools > div.item_price > * {
 					display: block;
 				}
 
@@ -119,7 +119,7 @@ a.tool:hover {
     font-weight: bold;
     text-decoration: underline;
 }
-div#cart_pallet > div > p.tools {
+div[id*=cart_] > div > p.tools {
     text-align: right;
     margin: 0 0 .2em;
 }

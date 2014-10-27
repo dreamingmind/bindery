@@ -12,7 +12,7 @@ class CartsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout');
 	}
 
 /**
@@ -142,6 +142,12 @@ class CartsController extends AppController {
 	 */
 	public function addToCart() {
 		parent::addToCart();
+	}
+	
+	public function checkout() {
+		$this->layout = 'noThumbnailPage';
+		$this->set('contentDivIdAttr', 'checkout');
+		$this->set('cart', $this->Cart->fetch($this->Session, TRUE));
 	}
 	
 }

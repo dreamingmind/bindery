@@ -98,6 +98,7 @@ class CatalogsController extends AppController {
 //            debug($this->request->data);die;
         }
         $this->layout = 'noThumbnailPage';
+		$this->set('contentDivIdAttr', 'checkout');
         $this->scripts[] = 'product_diagram';
         
         // get the table data for pname

@@ -96,8 +96,8 @@
  </div> <!-- end of menuNav -->
 </div> <!-- end of absNav -->
 </div> <!-- end of fixedNav -->
-
-        <!-- CONTENT DIV --><div id="scrolling">
+<?php $idAttr = isset($contentDivIdAttr) ? $contentDivIdAttr : 'scrolling'; ?>
+        <!-- CONTENT DIV --><div id="<?php echo $idAttr; ?>">
     <?php echo $this->Html->image('transparent.png', array('id'=>'NTtopTransparent')); ?>
             <?php //if (isset($productExhibits) || $this->request->params['action'] == 'gallery') {
                 //echo $this->GalNav->productPageLinks();
