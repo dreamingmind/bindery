@@ -105,13 +105,21 @@ function removeItem(e) {
 		dataType: "HTML",
 		url: webroot + 'carts/delete/' + id,
 		success: function(data) {
+			// get rid of any remaining flash messages. multiples don't work right
+			$('div.flash').remove();
+			
+			// update the badge
 			var newBadge = $(data).find('#cart_badge');
 			$(cartBadge).replaceWith(newBadge);
+			
 			// success/failure messages get placed differently in the DOM
 			var was = data.match(/was removed/);
 			var was_not = data.match(/was not removed/);
 			if (was == 'was removed') {
 				$('div#cart_item-'+id).replaceWith($(data).find('div.flash'));
+				if (cartCount() == '0') {
+					$('#successMessage span').html('Your cart is empty.');
+				}
 				bindHandlers('#successMessage');
 			} else if (was_not == 'was not removed') {
 				$('div#cart_item-'+id).prepend($(data).find('div.flash'));

@@ -103,13 +103,17 @@ function bindHandlers(target) {
  */
 function closeFlash() {
 	// This logic should not be here. excess coupling
-	if ($('#cart_badge span.count').html() == '0' && $(this).parent('div').parent('div').attr('id') == 'cart_pallet') {
+	if (cartCount() == '0' && $(this).parent('div').parent('div').attr('id') == 'cart_pallet') {
 		$(this).parent('div').parent('div').remove();
 	} else {
 		
 		// this is all that should be here I think
 		$(this).parent('div').remove();
 	}
+}
+
+function cartCount() {
+	return $('#cart_badge span.count').html();
 }
 
 /**
