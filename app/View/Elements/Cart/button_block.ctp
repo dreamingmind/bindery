@@ -1,19 +1,17 @@
 <?php
+$href = '';
 if (isset($referer)) {
 	// coming from carts/checkout page process
-	$attr = "href='$referer'";
-} else {
-	// looking at a cart pallet on some page
-	$attr = 'bind="click.continue_shopping"';
+	$href = "href='$referer'";
 }
 ?>
 <div class="button_block">
-	<button id="continue" <?php echo $attr; ?>>Continue Shopping</button>
+	<button id="continue" <?php echo $href; ?> bind="click.continueShopping">Continue Shopping</button>
 	<div class="proceed">
 		<?php
 		if ($cartClass === 'cart_pallet') {
 			?>
-			<button>Checkout</button>
+			<button bind="click.checkout">Checkout</button>
 			<?php
 		} else {
 			?>

@@ -139,12 +139,17 @@ function removeItem(e) {
 }
 
 function continueShopping(e) {
-	if (controller+action == 'carts/checkout') {
-		location.asign($(e.currentTarget).attr('href'));
+	if (action == 'checkout/') {
+		location.assign($(e.currentTarget).attr('href'));
 	} else {
 		$('#pgMask').removeClass('cover');
 		$('div#cart_pallet').remove();
 	}
+}
+
+function checkout(e){
+	e.preventDefault();
+	location.assign(webroot + 'carts/checkout');
 }
 /**
  * Direct any PayPal buttons to the site cart processes
