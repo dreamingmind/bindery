@@ -137,5 +137,19 @@ div[id*=cart_] > div > p.tools {
     text-align: right;
 }
 
+.cart_summary > p > span.label {
+    width: 78%;
+}
+.cart_summary > p > span.amt {
+    width: 20%;
+}
+.cart_summary > p > span {
+    display: inline-block;
+    font-size: 14px;
+    text-align: right;
+}
+.cart_summary > p > span.amt:before {
+    content: "$ ";
+}
 
 

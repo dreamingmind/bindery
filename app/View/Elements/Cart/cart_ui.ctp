@@ -17,13 +17,15 @@
 // if you decide to follow these element calls.  
 
 $new = isset($new) ? $new : FALSE;
+$subTotal = 0;
 
 foreach ($cart as $item) {
 
+	$subTotal += $item['Cart']['total'];
+	$isNewItem = $item['Cart']['id'] == $new;
+	
 	// get the helper that specializes in processing this kind of product
 	$helper = $this->Helpers->load("{$item['Cart']['type']}Product");
-	
-	$isNewItem = $item['Cart']['id'] == $new;
 	
 	if ($isNewItem || $cartClass === 'cart_checkout') {
 		$this->start('new');
@@ -43,19 +45,31 @@ foreach ($cart as $item) {
 	}
 }
 ?>
-
+<!-- 
+==============================================
+This is the shopping cart output for both
+on-page pallet view of the cart
+and checkout page view of the cart
+==============================================
+-->
 <div id="<?php echo $cartClass; ?>">
 	<?php echo $this->fetch('new') ?>
 	<?php echo $this->fetch('existing') ?>
-	<?php echo $this->fetch('cart_summary') // this might change to a direct element call. ?> 
+	<?php echo $this->element('Cart/cart_summary', array('subTotal' => $subTotal)); ?> 
 	<?php echo $this->fetch('button_block') // this might change to a direct element call ?>
 
 <?php 
+
+// This section places the json object on the page which supports
+// detail toggling of cart itmes. Pallet and view require different handling.
+
+// On the checkout page, add the data to other global variables
 if ($cartClass === 'cart_checkout') {
 	$this->append('jsGlobalVars');
 		echo 'var toggleData = ' . json_encode($helper->toggleData) . ';';
 	$this->end();
 } else {
+// The pallet, on the other hand, gets the data embedded right in the html response
 ?>
 
 <script type=\"text/javascript\">
