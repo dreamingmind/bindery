@@ -15,6 +15,7 @@ function addToCart(e) {
 			$(e.currentTarget).after(data);
 			cartBadge();
 			bindHandlers('div#cart_pallet');
+			$('div#pgMask').addClass('cover');
 		},
 		error: function(data) {
 			alert('AJAX ERROR\n' + data);
@@ -137,6 +138,14 @@ function removeItem(e) {
 
 }
 
+function continueShopping(e) {
+	if (controller+action == 'carts/checkout') {
+		location.asign($(e.currentTarget).attr('href'));
+	} else {
+		$('#pgMask').removeClass('cover');
+		$('div#cart_pallet').remove();
+	}
+}
 /**
  * Direct any PayPal buttons to the site cart processes
  */

@@ -8,7 +8,8 @@ div#cart_pallet {
     border: thin solid #062619;
     position: absolute;
     width: 400px;
-    padding: 1em;;
+    padding: 1em;
+	z-index: 6000;
 }
 
 	div[id*=cart_] * {

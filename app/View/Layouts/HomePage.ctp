@@ -36,6 +36,7 @@
     </script>
 </head>
 <!-- BODY --><body>
+<div id="pgMask"></div>
 <div id="NTfixedNav">
 <div id="absNav">
   <?php echo $this->Html->image('dmboldlogo_.png', array('alt'=>'Dreaming Mind Bindery logo')); ?>

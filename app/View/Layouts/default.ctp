@@ -41,6 +41,7 @@
     ?>
 </head>
 <!-- BODY --><body>
+<div id="pgMask"></div>
     <!--CONTAINER DIV --><div id="container">
         <!-- HEADER DIV --><div id="header">
             <?php

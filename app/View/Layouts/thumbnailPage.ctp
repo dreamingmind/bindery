@@ -37,6 +37,7 @@
     </script>
 </head>
 <!-- BODY --><body>
+<div id="pgMask"></div>
     <?php // debug($this->request->params);die; ?>
 <div id="fixedNav">
     <div id="absNav">

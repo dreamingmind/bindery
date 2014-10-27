@@ -148,6 +148,7 @@ class CartsController extends AppController {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
 		$this->set('cart', $this->Cart->fetch($this->Session, TRUE));
+		$this->set('referer', $this->referer());
 	}
 	
 }
