@@ -56,7 +56,7 @@ and checkout page view of the cart
 	<?php echo $this->fetch('new') ?>
 	<?php echo $this->fetch('existing') ?>
 	<?php echo $this->element('Cart/cart_summary', array('subTotal' => $subTotal)); ?> 
-	<?php echo $this->fetch('button_block') // this might change to a direct element call ?>
+	<?php echo $this->element('Cart/button_block', array('cartClass' => $cartClass)); ?>
 
 <?php 
 

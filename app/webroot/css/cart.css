@@ -89,7 +89,7 @@ div#cart_pallet {
 
 				div[id*=cart_] > div.item_detail > div.item_tools > div.item_price > * {
 					display: inline;
-				}
+	}
 
 	div[id*=cart_] > div.item_summary {
 		/* display settings for children */
