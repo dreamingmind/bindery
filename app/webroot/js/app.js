@@ -103,8 +103,13 @@ function bindHandlers(target) {
  */
 function closeFlash() {
 	// This logic should not be here. excess coupling
-	if (cartCount() == '0' && $(this).parent('div').parent('div').attr('id') == 'cart_pallet') {
+	var cartNode = $(this).parent('div').parent('div').attr('id');
+	if (cartCount() == '0' &&  cartNode == 'cart_pallet') {
 		$(this).parent('div').parent('div').remove();
+		$('div#pgMask').removeClass('cover');
+	} else if (cartCount() == '0' &&  cartNode == 'cart_checkout'){
+		var continueButton = $('button#continue').clone(true);
+		$('div#cart_checkout').html('<p>Your cart is empty.</p>').append(continueButton);
 	} else {
 		
 		// this is all that should be here I think

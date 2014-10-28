@@ -52,14 +52,16 @@ on-page pallet view of the cart
 and checkout page view of the cart
 ==============================================
 -->
-<div id="<?php echo $cartClass; ?>">
-	<?php echo $this->fetch('new') ?>
-	<?php echo $this->fetch('existing') ?>
-	<?php echo $this->element('Cart/cart_summary', array('subTotal' => $subTotal)); ?> 
-	<?php echo $this->element('Cart/button_block', array('cartClass' => $cartClass)); ?>
+<?php
+echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
 
-<?php 
-
+	echo $this->fetch('new');
+	echo $this->fetch('existing');
+	if (count($cart) > 0) {
+		echo $this->element('Cart/cart_summary', array('subTotal' => $subTotal));
+		echo $this->element('Cart/button_block', array('cartClass' => $cartClass));
+	}
+	
 // This section places the json object on the page which supports
 // detail toggling of cart itmes. Pallet and view require different handling.
 
