@@ -69,21 +69,32 @@ function itemDetailToggle(e) {
 //	alert('Toggle display mode for item ' + id);
 }
 
-function itemQuantityChange(e) {
+function updateQuantity(e) {
 	
-	
-	$.ajax({
-		type: "DELETE",
-		dataType: "HTML",
-		url: 'carts/update_cart/' + id + '/' + qty,
-		success: function(data) {
-			
-		},
-		error: function(data) {
-			
+	var qty = $(e.currentTarget).val();
+	var id = $(e.currentTarget).attr('id').match(/\d*/)[0];
+	if ( qty == '0') {
+		var response = confirm('Setting quantity to zero will remove this item from the cart. Proceed?');
+		if (response) {
+			$('div#cart_item-'+id).find('a.tool.remove').trigger('click');
+		} else {
+			$(e.currentTarget).val(1);
 		}
-	})
+	} else {
+		$.ajax({
+			type: "UPDATE",
+			dataType: "HTML",
+			url: 'carts/update_cart/' + id + '/' + qty,
+			success: function(data) {
 
+			},
+			error: function(data) {
+
+			}
+		})
+	}
+	alert(qty);
+	alert(id);
 }
 
 /**

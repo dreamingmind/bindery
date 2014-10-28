@@ -132,7 +132,7 @@ class PurchasedProductHelper extends AppHelper {
 				array(
 					'label' => FALSE,
 					'div' => FALSE,
-					'bind' => 'change.itemQuantityChange',
+					'bind' => 'change.updateQuantity',
 					'value' => $item['Cart']['quantity'],
 					'cart_item_id' => $item['Cart']['id']
 				)

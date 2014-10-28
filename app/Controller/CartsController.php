@@ -137,6 +137,11 @@ class CartsController extends AppController {
 		}
 	}
 	
+	public function update_cart($id, $qty) {
+		
+	}
+
+
 	/**
 	 * Add to cart is in AppController so cart actions can be done anywhere
 	 */
