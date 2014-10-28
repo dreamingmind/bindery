@@ -114,6 +114,12 @@ class Cart extends AppModel {
 	/**
 	 * After save the validity of the carts cache data is uncertain. Delete them
 	 * 
+	 * After some simple saves, neither the Session nor ansufficient data array 
+	 * may be present. It this happens, try using fetchItem() to beef up 
+	 * $this->data and get this back on track. But if $this->data has either 
+	 * [Cart][user_id] or [Cart][session_id] it should be ok.
+	 * 
+	 * 
 	 * @param boolean $created
 	 */
 	public function afterSave($created) {
@@ -257,6 +263,10 @@ class Cart extends AppModel {
 	/**
 	 * Add the correct key values to the cache name
 	 * 
+	 * During afterSave, neither the Session nor ansufficient data array 
+	 * may be present. It this happens, try using fetchItem to beef up 
+	 * $this->data and get this back on track.
+	 * 
 	 * @param string $name One of the cache-name properties
 	 * @param object|array $keySource Component or Helper | data array
 	 */
@@ -273,7 +283,7 @@ class Cart extends AppModel {
 		} else {
 			
 			if (empty($keySource['Cart']['user_id'])) {
-				$name =  "$name.S{$keySource['Cart']['session_id']}";
+					$name =  "$name.S{$keySource['Cart']['session_id']}";
 			} else {
 				$name =  "$name.U{$keySource['Cart']['user_id']}";
 			}
@@ -296,7 +306,7 @@ class Cart extends AppModel {
 	}
 	
 	/**
-	 * 
+	 * Get the data for the cart belonging to this Session
 	 * 
 	 * @param object $Session Component or Helper
 	 * @param boolean $deep Contain associated data or not
@@ -305,6 +315,32 @@ class Cart extends AppModel {
 	
 	public function fetch($Session, $deep = FALSE) {
 		return $this->load($Session, FALSE, $deep);
+	}
+	
+	/**
+	 * Retrieve a single item (don't cache)
+	 * 
+	 * Among other uses, this can help make afterSave cache destruction 
+	 * operate properly. It's easy to not have the Session available after a 
+	 * save, and possibly, not even sufficient data to identify which 
+	 * caches to clear. Getting this full record can fix this problem.
+	 * 
+	 * @param string $id
+	 * @param boolean $deep
+	 * @return array
+	 */
+	public function fetchItem($id, $deep = FALSE) {
+		if ($deep) {
+			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
+		} else {
+			$contain = FALSE;
+		}
+		return $this->find('first', array(
+			'conditions' => array(
+				'Cart.id' => $id
+			),
+			'contain' => $contain
+		));
 	}
 
 	/**
@@ -327,4 +363,33 @@ class Cart extends AppModel {
 		$this->Session->setFlash('Your cart is empty.');
 	}
 	
+	/**
+	 * Calculate and return the subtotal of items in a cart
+	 * 
+	 * @param object $Session
+	 * @return float
+	 */
+	public function cartSubtotal($Session) {
+		$this->data = $this->load($Session);
+		$subtotal = 0;
+		foreach ($this->data as $item) {
+			$subtotal += $item['Cart']['total'];
+		}
+		return $subtotal;
+	}
+	
+	/**
+	 * Return the price * quantity of a single cart item
+	 * 
+	 * @param string $id
+	 * @return float
+	 */
+	public function itemTotal($id) {
+		$this->id = $id;
+		$total = $this->field('total');
+		return array('Cart' => array(
+			'id' => $id,
+			'total' => $total
+		));
+	}
 }

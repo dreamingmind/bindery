@@ -77,6 +77,8 @@ class PurchasesComponent extends Component {
 	 * Ajax return of new cart badge
 	 * 
 	 * Call to any controller will get here through an appController pass through. 
+	 * 
+	 * @param boolean $finish final render or return the render to caller
 	 */
 	public function newBadge($finish = TRUE) {
 		$this->controller->layout = 'ajax';

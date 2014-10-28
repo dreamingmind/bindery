@@ -828,8 +828,10 @@ SIG;
 	 * Ajax return of new cart badge
 	 * 
 	 * Call to any controller will use this pass through. 
+	 * 
+	 * @param boolean $finish final render or return the render to caller
 	 */
-	public function newBadge() {
+	public function newBadge($finish = TRUE) {
 		$this->Purchases->newBadge();
 	}
 	

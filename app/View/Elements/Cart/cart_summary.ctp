@@ -1,16 +1,15 @@
-
+<!--
+The summary section for a Cart display
+-->
 
 <div class="cart_summary">
 	<p>
 		<span class="label">Tax:</span>
-		<span class="amt">--</span>
+		<span class="amt" title="To be determined">--</span>
 	</p>
 	<p>
 		<span class="label">Shipping:</span>
-		<span class="amt">--</span>
+		<span class="amt" title="To be determined">--</span>
 	</p>
-	<p>
-		<span class="label">Subtotal:</span>
-		<span class="amt"><?php echo $subTotal; ?></span>
-	</p>
+	<?php echo $this->PurchasedProduct->cartSubtotal($subTotal); ?>
 </div>

@@ -184,5 +184,14 @@ class PurchasedProductHelper extends AppHelper {
 	public function editItemTool($item) {
 		return '';
 	}
+	
+	public function cartSubtotal($subtotal) {
+		echo "
+	<p>
+		<span class='label'>Subtotal:</span>
+		<span class='amt'>$subtotal</span>
+	</p>
+";
+	}
 
 }

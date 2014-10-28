@@ -73,7 +73,10 @@ function updateQuantity(e) {
 	
 	var qty = $(e.currentTarget).val();
 	var id = $(e.currentTarget).attr('id').match(/\d*/)[0];
-	if ( qty == '0') {
+	if (qty.match(/[^0-9]/)) {
+		alert('You can only set quantity to a positive number');
+		$(e.currentTarget).val(1);
+	} else if ( qty == '0') {
 		var response = confirm('Setting quantity to zero will remove this item from the cart. Proceed?');
 		if (response) {
 			$('div#cart_item-'+id).find('a.tool.remove').trigger('click');
@@ -82,9 +85,9 @@ function updateQuantity(e) {
 		}
 	} else {
 		$.ajax({
-			type: "UPDATE",
+			type: "PUT",
 			dataType: "HTML",
-			url: 'carts/update_cart/' + id + '/' + qty,
+			url: webroot+'carts/update_cart/' + id + '/' + qty,
 			success: function(data) {
 
 			},
@@ -93,8 +96,8 @@ function updateQuantity(e) {
 			}
 		})
 	}
-	alert(qty);
-	alert(id);
+//	alert(qty);
+//	alert(id);
 }
 
 /**

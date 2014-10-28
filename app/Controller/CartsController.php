@@ -12,7 +12,7 @@ class CartsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart');
 	}
 
 /**
@@ -137,8 +137,24 @@ class CartsController extends AppController {
 		}
 	}
 	
-	public function update_cart($id, $qty) {
-		
+	public function update_cart($id = NULL, $qty = NULL) {
+		if (!$this->Cart->exists($id)) {
+			throw new NotFoundException(__('Invalid cart'));
+		}
+		$this->layout = 'ajax';
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Cart->data = $this->Cart->fetchItem($id);
+			$this->Cart->data['Cart']['quantity'] = $qty;
+			
+			if ($this->Cart->save($this->Cart->data)) {
+				// needs to return the item subtotal and the cart subtotal
+				$this->set('itemTotal', $this->Cart->itemTotal($id));
+				$this->set('cartSubtotal', $this->Cart->cartSubtotal($this->Session));
+			} else {
+				$this->Session->setFlash(__('The change could not be saved. Please, try again.'));
+			}
+		}
+		$this->render('update_cart');
 	}
 
 
