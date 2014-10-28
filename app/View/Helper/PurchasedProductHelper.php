@@ -185,13 +185,13 @@ class PurchasedProductHelper extends AppHelper {
 		return '';
 	}
 	
-	public function cartSubtotal($subtotal) {
-		echo "
-	<p>
-		<span class='label'>Subtotal:</span>
-		<span class='amt'>$subtotal</span>
-	</p>
-";
-	}
+//	public function cartSubtotal($subtotal) {
+//		echo "
+//	<p>
+//		<span class='label'>Subtotal:</span>
+//		<span class='amt'>$subtotal</span>
+//	</p>
+//";
+//	}
 
 }

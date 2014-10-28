@@ -127,10 +127,9 @@ class CartsController extends AppController {
 			$this->Session->setFlash(__('The item was not removed from cart. Please try again.'), 'f_error');
 		}
 		if ($this->request->is('ajax')) {
-//			$this->returnAjax('flashOut');
 			$this->layout = 'ajax';
 			$this->newBadge();
-			$this->set('cartBadge', $this->response->body());
+			$this->set('cartSubtotal', $this->Cart->cartSubtotal($this->Session));
 			$this->render("/Ajax/cart_remove_result");
 		} else {
 			$this->redirect(array('action' => 'index'));

@@ -1,5 +1,6 @@
+<div>
 <?php
-//echo $cartBadge;
-echo $this->PurchasedProduct->itemTotal($itemTotal); 
+	echo $this->PurchasedProduct->itemTotal($itemTotal); 
+	echo $this->element('Cart/cart_subtotal', array('cartSubtotal' => $cartSubtotal));
 ?>
-<span class="amt"><?php echo $cartSubtotal; ?></span>
+</div>

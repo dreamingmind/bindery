@@ -829,10 +829,10 @@ SIG;
 	 * 
 	 * Call to any controller will use this pass through. 
 	 * 
-	 * @param boolean $finish final render or return the render to caller
+	 * @param boolean $finish final render or set up for later render
 	 */
-	public function newBadge($finish = TRUE) {
-		$this->Purchases->newBadge();
+	public function newBadge($render = FALSE) {
+		$this->Purchases->newBadge($render);
 	}
 	
 }

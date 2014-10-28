@@ -703,15 +703,16 @@ input[id*='ImageTreatment'], input[id*='ImageMasterTreatment'] {
     padding-left: 7px;
 }
 div#pgMask {
-	position: fixed;
-	z-index: 5000;
-	top: 0;
-	left: 0;
-	width: 0px;
-	height: 0px;
-	background-color: #e6dfcb;
-	opacity: .5;
+    background-color: #faf9f6;
+    height: 0;
+    left: 0;
+    opacity: 0.9;
+    position: fixed;
+    top: 0;
+    width: 0;
+    z-index: 5000;
 }
+
 div#pgMask.cover {
 	width: 2000px;
 	height: 10000px;

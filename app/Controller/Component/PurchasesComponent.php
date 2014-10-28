@@ -78,15 +78,15 @@ class PurchasesComponent extends Component {
 	 * 
 	 * Call to any controller will get here through an appController pass through. 
 	 * 
-	 * @param boolean $finish final render or return the render to caller
+	 * @param boolean render final render or set up for later render
 	 */
-	public function newBadge($finish = TRUE) {
+	public function newBadge($render = false) {
 		$this->controller->layout = 'ajax';
 		$this->controller->set('purchaseCount', $this->itemCount());
-		if ($finish) {
+		if ($render) {
 			$this->controller->render('/Elements/Cart/cart_badge');
 		} else {
-			return $this->controller->render('/Elements/Cart/cart_badge');
+			return;
 		}
 	}
 

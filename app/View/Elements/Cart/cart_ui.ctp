@@ -17,11 +17,11 @@
 // if you decide to follow these element calls.  
 
 $new = isset($new) ? $new : FALSE;
-$subTotal = 0;
+$cartSubtotal = 0;
 
 foreach ($cart as $item) {
 
-	$subTotal += $item['Cart']['total'];
+	$cartSubtotal += $item['Cart']['total'];
 	$isNewItem = $item['Cart']['id'] == $new;
 	
 	// get the helper that specializes in processing this kind of product
@@ -58,7 +58,7 @@ echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
 	echo $this->fetch('new');
 	echo $this->fetch('existing');
 	if (count($cart) > 0) {
-		echo $this->element('Cart/cart_summary', array('subTotal' => $subTotal));
+		echo $this->element('Cart/cart_summary', array('cartSubtotal' => $cartSubtotal));
 		echo $this->element('Cart/button_block', array('cartClass' => $cartClass));
 	}
 	
