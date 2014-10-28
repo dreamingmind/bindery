@@ -819,6 +819,7 @@ SIG;
 	 * 
 	 * This will set $new to the new item's ID
 	 * and $cart to the collection of items in the cart
+	 * This may be hooked up in a stupid way. CartController->addToCart() calls here ==============================================================sort me out!
 	 */
 	public function addToCart() {
 		$this->Purchases->add();

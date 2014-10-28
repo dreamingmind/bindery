@@ -136,6 +136,13 @@ class CartsController extends AppController {
 		}
 	}
 	
+	/**
+	 * Ajax process to change the quantity for a cart item
+	 * 
+	 * @param string $id
+	 * @param string $qty
+	 * @throws NotFoundException
+	 */
 	public function update_cart($id = NULL, $qty = NULL) {
 		if (!$this->Cart->exists($id)) {
 			throw new NotFoundException(__('Invalid cart'));
@@ -159,11 +166,16 @@ class CartsController extends AppController {
 
 	/**
 	 * Add to cart is in AppController so cart actions can be done anywhere
+	 * 
+	 * This seems flaky since it just loops over to PurchasesComponent->add() ============================================================= Sort me out!
 	 */
 	public function addToCart() {
 		parent::addToCart();
 	}
 	
+	/**
+	 * Transfer to the first 'checkout' process page
+	 */
 	public function checkout() {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');

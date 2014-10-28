@@ -2,6 +2,17 @@ $(document).ready(function(){
 //	capturePaypal();
 })
 
+/**
+ * Add any product to the shopping cart
+ * 
+ * The PurchasesComponent will analize the POST data and make the 
+ * concrete Product component to generate a new cart item. 
+ * The fully operational (deathstar) cart display will be returned as
+ * a floating div and placed after the clicked button. 
+ * 
+ * @param {event} e
+ * @returns {void}
+ */
 function addToCart(e) {
 	e.preventDefault();
 	var postData = $(e.currentTarget).parents('form').serialize();
@@ -21,11 +32,17 @@ function addToCart(e) {
 			
 		},
 		error: function(data) {
+			// ********************************************************************************************* This looks like stub code!
 			alert('AJAX ERROR\n' + data);
 		}
 	})
 }
 
+/**
+ * Render a new cart badge and update the page
+ * 
+ * @returns {voic}
+ */
  function cartBadge() {
 	$.ajax({
 		type: "GET",
@@ -41,6 +58,11 @@ function addToCart(e) {
 	 
  }
 
+/**
+ * Toggle cart items between Summary and Detail display
+ * 
+ * Uses the toggleData json object that was sent with the cart
+ */
 function itemDetailToggle(e) {
 	e.preventDefault();
 	var id = $(e.currentTarget).attr('href').match(/carts\/(\d*)/)[1];
@@ -113,6 +135,7 @@ function updateQuantity(e) {
 			var newSubtotal = $(data).find('p > span.cart_subtotal').html();
 			$(subtotal).html(newSubtotal);
 			
+			// the flash messages aren't being rendered or handled here. not such a good thing =======================================================fix me
 			},
 		error: function(xhr, status, error) {
 			var exception = xhr.responseText.match(/Invalid cart/);
@@ -184,6 +207,15 @@ function removeItem(e) {
 
 }
 
+/**
+ * Dismiss the shopping cart
+ * 
+ * If it's a pallet, it will be disappeared. 
+ * If we're in checkout process, we'll return to the referring page.
+ * 
+ * @param {event} e
+ * @returns {void}
+ */
 function continueShopping(e) {
 	if (action == 'checkout/') {
 		location.assign($(e.currentTarget).attr('href'));
@@ -193,6 +225,12 @@ function continueShopping(e) {
 	}
 }
 
+/**
+ * Get thee to the first checkout-process page
+ * 
+ * @param {event} e
+ * @returns {void}
+ */
 function checkout(e){
 	e.preventDefault();
 	location.assign(webroot + 'carts/checkout');
