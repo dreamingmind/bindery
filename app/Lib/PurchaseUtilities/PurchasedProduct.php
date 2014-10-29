@@ -125,6 +125,8 @@ abstract class PurchasedProduct {
 	 */
 	abstract public function cartEntry();
 	
+	abstract public function editEntry($id);
+	
 	abstract public function updateQuantity($id, $qty);
 
 	/**
