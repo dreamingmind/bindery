@@ -222,6 +222,7 @@ class Cart extends AppModel {
 			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
 			$cacheName = $this->cacheName($this->cacheDeepData, $Session);
 		} else {
+			$contain = FALSE;
 			$cacheName = $this->cacheName($this->cacheData, $Session);
 		}
 		// ---------------------------------------------
@@ -235,7 +236,7 @@ class Cart extends AppModel {
 					'session_id' => $sessionId,
 					'user_id' => ''
 				),
-				'contain' => $deep
+				'contain' => $contain
 			));
 //		dmDebug::ddd($this->getLastQuery(), 'anon find query for $userId='.$userId);
 
@@ -246,7 +247,7 @@ class Cart extends AppModel {
 						'user_id' => $userId,
 						'OR' => array('session_id' => '', 'session_id IS NULL')
 									),
-					'contain' => $deep
+					'contain' => $contain
 				));
 //			dmDebug::ddd($this->getLastQuery(), 'user find query for $userId='.$userId);
 			}
