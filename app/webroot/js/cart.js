@@ -25,6 +25,7 @@ function addToCart(e) {
 		success: function(data) {
 			$(e.currentTarget).after(data);
 			cartBadge();
+			$('div#cart_pallet').draggable();
 			bindHandlers('div#cart_pallet');
 			$('div#pgMask').addClass('cover').on('click', function(e) {
 				$('button#continue').trigger('click');
