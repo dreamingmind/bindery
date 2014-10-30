@@ -125,6 +125,10 @@ class CustomProduct extends PurchasedProduct {
 	public function updateQuantity($id, $qty) {
 		
 	}
+
+	public function editEntry($id) {
+		
+	}
 }
 
 ?>

@@ -181,6 +181,17 @@ class CatalogsController extends AppController {
 //            debug($this->viewVars['leather']);
     }
 
+	public function editProduct($source, $id) {
+		switch ($source) {
+			case 'cart':
+				$Cart = ClassRegistry::init('Cart');
+				$Cart->fetchItem($id, TRUE);
+				break;
+			default:
+				$this->Session->setFlash("The specified storage source, $source, was not found. This ordered item cannot be retrieved.", 'f_error');
+				break;
+		}
+	}
 }
 
 ?>
