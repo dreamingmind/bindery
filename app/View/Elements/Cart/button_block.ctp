@@ -15,8 +15,8 @@ if (isset($referer)) {
 			<?php
 		} else {
 			?>
-			<button>Pay by check</button>
-			<button>PayPal</button>
+			<button method='check' bind='click.pay'>Pay by check</button>
+			<button method="paypal" bind='click.pay'>PayPal</button>
 			<?php
 		}
 		?>

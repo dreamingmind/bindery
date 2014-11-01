@@ -8,11 +8,13 @@ App::uses('AppController', 'Controller');
 class CartsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct');
+	
+	public $components = array('PayPal');
 
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart', 'pay');
 	}
 
 /**
@@ -183,4 +185,51 @@ class CartsController extends AppController {
 		$this->set('referer', $this->referer());
 	}
 	
+	public function pay($method) {
+		switch ($method) {
+			case 'paypal':
+				$form = 
+				'<form style="display: none;"
+				action="https://www.paypal.com/cgi-bin/webscr" 
+				method="post"> 
+					<input type="hidden" name="add" value="1"> 
+					<input type="hidden" name="cmd" value="_cart">
+					<input type="hidden" name="business" value="ddrake@dreamingmind.com">
+					<input type="hidden" name="item_name" value="Limited Edition">
+					<input type="hidden" name="item_number" value="Jabberwocky">
+					<input type="hidden" name="amount" value="35">
+					<input type="hidden" name="return" value="http://localhost/bindery2.0/carts/paypal_ipn/return"> 
+					<input type="hidden" name="cancel_return" value="http://localhost/bindery2.0/carts/paypal_ipn/cancel"> 
+					<input type="hidden" name="bn" value="PP-ShopCartBF"> 
+					<input id="doBuy" type="image" 
+						src="gal_nav_images/tinyaddcart.jpg" 
+						border="0" name="submit" 
+						alt="Add to Cart">
+				Jabberwocky, $35
+				</form>' ;
+//				$post = array(
+//					'add' => '1', 
+//					'cmd' => '_cart',
+//					'business' => 'ddrake@dreamingmind.com',
+//					'item_name' => 'Limited Edition',
+//					'item_number' => 'Jabberwocky',
+//					'amount' => '35',
+//					'return' => 'http://dreamingmind.com/index.php', 
+//					'cancel_return' => 'http://dreamingmind.com/index.php',
+//					'bn' => 'PP-ShopCartBF'
+//				);
+//				$Http = new HttpSocket();
+//				$Http->post("https://www.sandbox.paypal.com/cgi-bin/webscr", $post);
+				echo $form;
+				exit();
+		}
+	}
+	
+	public function paypal_ipn($process) {
+		debug($process);
+		debug($this->request);
+		debug($this->PayPal);
+		debug($this->response);
+		die;
+	}
 }

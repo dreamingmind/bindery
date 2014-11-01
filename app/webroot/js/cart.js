@@ -236,6 +236,25 @@ function checkout(e){
 	e.preventDefault();
 	location.assign(webroot + 'carts/checkout');
 }
+
+function pay(e){
+	var method = $(e.currentTarget).attr('method');
+	if (method == 'paypal') {
+		$.ajax({
+			type: "GET",
+			dataType: "HTML",
+			url: webroot + 'carts/pay/paypal',
+			success: function(data) {
+				$('body').append(data);
+				$('#doBuy').trigger('click');
+			},
+			error: function(data) {
+				alert('error');
+			}
+		})
+
+	}
+}
 /**
  * Direct any PayPal buttons to the site cart processes
  */

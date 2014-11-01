@@ -167,7 +167,7 @@ class PaypalComponent extends Component {
 
 		// Post the NVPs to the relevent endpoint
 		$response = $httpSocket->post($this->config['endpoint'] , $setExpressCheckoutNvp);
-		
+		debug($response);
 		// Handle the response
 		return $this->handleResponse($response);
 
