@@ -21,7 +21,6 @@ class CatalogsController extends AppController {
     var $name = 'Catalogs';
     var $uses = array('Catalog', 'Material', 'Design');
     var $helpers = array('TableParser', 'Number');
-    public $components = array('Paypal');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -153,7 +152,7 @@ class CatalogsController extends AppController {
 //            debug($message);
             //prepare SUCCESS return message
             $this->set('data', $this->request->data);
-            $result = $this->Paypal->addToCart();
+            $result = $this->addToCart();
             $websitecode = $result['WEBSITECODE'];
             $emaillink = $result['EMAILLINK'];
             $this->set('emaillink', $emaillink);

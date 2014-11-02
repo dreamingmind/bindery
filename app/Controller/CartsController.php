@@ -8,9 +8,6 @@ App::uses('AppController', 'Controller');
 class CartsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct');
-	
-	public $components = array('PayPal');
-
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -228,7 +225,6 @@ class CartsController extends AppController {
 	public function paypal_ipn($process) {
 		debug($process);
 		debug($this->request);
-		debug($this->PayPal);
 		debug($this->response);
 		die;
 	}
