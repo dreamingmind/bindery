@@ -11,7 +11,7 @@ class CartsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart', 'pay');
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart', 'pay', 'complete', 'cancel');
 	}
 
 /**
@@ -185,47 +185,160 @@ class CartsController extends AppController {
 	public function pay($method) {
 		switch ($method) {
 			case 'paypal':
-				$form = 
-				'<form style="display: none;"
-				action="https://www.paypal.com/cgi-bin/webscr" 
-				method="post"> 
-					<input type="hidden" name="add" value="1"> 
-					<input type="hidden" name="cmd" value="_cart">
-					<input type="hidden" name="business" value="ddrake@dreamingmind.com">
-					<input type="hidden" name="item_name" value="Limited Edition">
-					<input type="hidden" name="item_number" value="Jabberwocky">
-					<input type="hidden" name="amount" value="35">
-					<input type="hidden" name="return" value="http://localhost/bindery2.0/carts/paypal_ipn/return"> 
-					<input type="hidden" name="cancel_return" value="http://localhost/bindery2.0/carts/paypal_ipn/cancel"> 
-					<input type="hidden" name="bn" value="PP-ShopCartBF"> 
-					<input id="doBuy" type="image" 
-						src="gal_nav_images/tinyaddcart.jpg" 
-						border="0" name="submit" 
-						alt="Add to Cart">
-				Jabberwocky, $35
-				</form>' ;
-//				$post = array(
-//					'add' => '1', 
-//					'cmd' => '_cart',
-//					'business' => 'ddrake@dreamingmind.com',
-//					'item_name' => 'Limited Edition',
-//					'item_number' => 'Jabberwocky',
-//					'amount' => '35',
-//					'return' => 'http://dreamingmind.com/index.php', 
-//					'cancel_return' => 'http://dreamingmind.com/index.php',
-//					'bn' => 'PP-ShopCartBF'
-//				);
-//				$Http = new HttpSocket();
-//				$Http->post("https://www.sandbox.paypal.com/cgi-bin/webscr", $post);
-				echo $form;
-				exit();
+				$data = array(
+					'transaction' => array(
+						'amount' => array(
+							'total'    => '400',
+							'currency' => 'USD'//,
+//							'details'  => array(
+//								'subtotal' => '',
+//								'tax'      => '',
+//								'shipping' => ''
+//							)
+						),
+						'description' => 'This is the total for your cart'
+					),
+					'return_urls' => array( // We must set these for Paypal payments, they are required fields
+						'cancel_url' => 'http://localhost/bindery2.0/carts/cancel',
+						'return_url' => 'http://localhost/bindery2.0/carts/complete'
+					)
+				);
+				$response = $this->Paypal->createPaypalPayment($data, 'sale');
+//				debug($response);die;
+//object(stdClass) {
+//	id => 'PAY-6L8318935M590390UKRK375I'
+//	status => 'created'
+//	created => '2014-11-01 22:24:05'
+//	modified => '2014-11-01 22:24:05'
+//	payment_method => 'paypal'
+//	type => 'sale'
+//	payer => object(stdClass) {
+//		billing_address => object(stdClass) {
+//			line1 => ''
+//			line2 => ''
+//			city => ''
+//			country_code => ''
+//			postal_code => ''
+//			state => ''
+//		}
+//		credit_card => object(stdClass) {
+//			number => ''
+//			type => ''
+//			expire_month => ''
+//			expire_year => ''
+//			first_name => ''
+//			last_name => ''
+//		}
+//		id => null
+//		email => null
+//	}
+//	approval_url => 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-5CX17020FE758673D'
+//	transaction => object(stdClass) {
+//		amount => object(stdClass) {
+//			total => '400.00'
+//			currency => 'USD'
+//			details => object(stdClass) {
+//				subtotal => '400.00'
+//			}
+//		}
+//		description => 'This is the total for your cart'
+//		sale => object(stdClass) {
+//			id => ''
+//			parent_id => ''
+//		}
+//		authorization => object(stdClass) {
+//			id => ''
+//			created => ''
+//		}
+//	}
+//	error => object(stdClass) {
+//		code => false
+//	}
+//}				
+				if ($response->status === 'created') {
+					//$response->approval_url
+//					$HTTP = new HttpSocket();
+					$this->redirect($response->approval_url);
+					exit();
+				} else {
+					exit();
+				}
 		}
 	}
 	
-	public function paypal_ipn($process) {
-		debug($process);
-		debug($this->request);
-		debug($this->response);
+	public function complete() {
+//		dmDebug::ddd($this->request->data, 'response');
+//		dmDebug::ddd($this->request, 'request');
+		$data = array(
+			'payment_id' => $this->request->query['paymentId'],
+			'id' => $this->request->query['PayerID'],
+			'token' => $this->request->query['token']
+		);
+		debug($this->Paypal->executePaypalPayment($data));
+//		query => array(
+//		'paymentId' => 'PAY-3VD75761JB929982RKRK3IVQ',
+//		'token' => 'EC-3KV968207T8081018',
+//		'PayerID' => 'E53U4PCQSMGWS'
+//		)
+		
+//		object(stdClass) {
+		//	id => 'PAY-4JT180622J636930CKRK3W5Q'
+		//	status => 'approved'
+		//	created => '2014-11-01 22:04:54'
+		//	modified => '2014-11-01 22:05:33'
+		//	payment_method => 'paypal'
+		//	type => 'sale'
+		//	payer => object(stdClass) {
+		//		billing_address => object(stdClass) {
+		//			line1 => ''
+		//			line2 => ''
+		//			city => ''
+		//			country_code => ''
+		//			postal_code => ''
+		//			state => ''
+		//		}
+		//		credit_card => object(stdClass) {
+		//			number => ''
+		//			type => ''
+		//			expire_month => ''
+		//			expire_year => ''
+		//			first_name => ''
+		//			last_name => ''
+		//		}
+		//		id => null
+		//		email => 'janespratt@dreamingmind.com'
+		//	}
+		//	approval_url => ''
+		//	transaction => object(stdClass) {
+		//		amount => object(stdClass) {
+		//			total => '400.00'
+		//			currency => 'USD'
+		//			details => object(stdClass) {
+		//				subtotal => '400.00'
+		//			}
+		//		}
+		//		description => 'This is the total for your cart'
+		//		sale => object(stdClass) {
+		//			id => '5FJ53383391210626'
+		//			parent_id => 'PAY-4JT180622J636930CKRK3W5Q'
+		//		}
+		//		authorization => object(stdClass) {
+		//			id => ''
+		//			created => ''
+		//		}
+		//	}
+		//	error => object(stdClass) {
+		//		code => false
+		//	}
+		//}
 		die;
 	}
+
+	public function cancel() {
+		dmDebug::ddd($this->request->data, 'response');
+		dmDebug::ddd($this->request, 'request');
+		die;
+	}
+
+
 }

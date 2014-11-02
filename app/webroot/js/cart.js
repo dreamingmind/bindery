@@ -240,18 +240,19 @@ function checkout(e){
 function pay(e){
 	var method = $(e.currentTarget).attr('method');
 	if (method == 'paypal') {
-		$.ajax({
-			type: "GET",
-			dataType: "HTML",
-			url: webroot + 'carts/pay/paypal',
-			success: function(data) {
-				$('body').append(data);
-				$('#doBuy').trigger('click');
-			},
-			error: function(data) {
-				alert('error');
-			}
-		})
+		location.assign(webroot + 'carts/pay/paypal');
+//		$.ajax({
+//			type: "GET",
+//			dataType: "HTML",
+//			url: webroot + 'carts/pay/paypal',
+//			success: function(data) {
+//				$('body').append(data);
+//				$('#doBuy').trigger('click');
+//			},
+//			error: function(data) {
+//				alert('error');
+//			}
+//		})
 
 	}
 }

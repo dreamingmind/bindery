@@ -1,5 +1,5 @@
 <?php 
-    echo $this->Paypal->button(
+    echo $this->Form->button(
 			'Add To Cart', 
 			array(),
 //			array('type' => 'addtocart', 'amount' => '15.00', 'item_name' => $productCategory), 
