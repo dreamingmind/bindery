@@ -86,7 +86,7 @@ class Workshop extends AppModel {
             'conditions' => array(
                 'Workshop.category_id' => $this->Category->categoryNI['workshop'],
                 'Workshop.publish' => 1,
-                'Workshop.role' => 'workshop'
+                'Workshop.role' => 'workshop' // REM this to see the LANDING records too ========================================!!!!!!!!!!!!!!!!!!
             ),
             'order' => 'Workshop.heading',
             'fields' => array('id', 'heading', 'text', 'role', 'category_id', 'slug'),
@@ -149,6 +149,7 @@ class Workshop extends AppModel {
             )
             )
         );
+//		debug($this->workshops_temp);
         $this->workshopsSetter();
     }
 

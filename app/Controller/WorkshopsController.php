@@ -23,8 +23,9 @@ class WorkshopsController extends AppController {
 //            $this->set('result_imagePath');
         $this->Workshop->workshopsFeatured();
         $this->removeFeaturedDuplicate();
-        $key=array_keys($this->Workshop->workshops_featured);
-        $this->set('feature', $this->Workshop->workshops_featured[$key[0]]);
+//        $key=array_keys($this->Workshop->workshops_featured);
+//        $this->set('feature', $this->Workshop->workshops_featured[$key[0]]);
+        $this->set('feature', $this->Workshop->workshops_featured);
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('potential', $this->Workshop->workshops_potential);
         $this->set('now', $this->Workshop->workshops_now);
@@ -129,7 +130,10 @@ class WorkshopsController extends AppController {
                'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
             )
                 ));
+//				debug($collection);die;
         $article = $this->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $this->request->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+//		debug($this->Workshop->workshops_all);
+//		debug($article);
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('delete', array_shift($article));
