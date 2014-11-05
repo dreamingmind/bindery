@@ -1,7 +1,7 @@
 <?php 
     echo $this->Form->button(
 			'Add To Cart', 
-			array(),
+//			array(),
 //			array('type' => 'addtocart', 'amount' => '15.00', 'item_name' => $productCategory), 
 			array('type' => 'submit', 'class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order', 'bind' => 'click.addToCart', 'div' => FALSE)
 		);

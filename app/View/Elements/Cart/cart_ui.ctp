@@ -18,7 +18,7 @@
 
 $new = isset($new) ? $new : FALSE;
 $cartSubtotal = 0;
-dmDebug::ddd($cart, 'cart');
+//dmDebug::ddd($cart, 'cart');
 foreach ($cart as $item) {
 
 	$cartSubtotal += $item['CartItem']['total'];
