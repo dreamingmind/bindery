@@ -92,7 +92,7 @@ Cache::config('cart', array(
 ));
 
 Cache::config('cart-count', array(
-	'engine' => 'Apc',
+	'engine' => 'File',
 	'group' => array('cart'),
 	'prefix' => 'bindery_',
 	'duration' => '+1 hour',

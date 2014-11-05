@@ -40,7 +40,7 @@ App::uses('Hash', 'Utilities');
  */
 class Cart extends AppModel {
 	
-	public $useTable = 'OrderItem';
+//	public $useTable = 'OrderItem';
 
 	/**
 	 * Base name for cart data cache
