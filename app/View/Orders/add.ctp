@@ -4,10 +4,11 @@
 		<legend><?php echo __('Add Order'); ?></legend>
 	<?php
 		echo $this->Form->input('number');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('shipid');
-		echo $this->Form->input('billid');
-		echo $this->Form->input('transactionid');
+		echo $this->Form->input('user_id', array('empty' => 'Select'));
+		echo $this->Form->input('session_id', array('type' => 'text'));
+		echo $this->Form->input('ship_id');
+		echo $this->Form->input('bill_id');
+		echo $this->Form->input('transaction_id');
 		echo $this->Form->input('tracking_number');
 		echo $this->Form->input('carrier');
 		echo $this->Form->input('method');
@@ -15,7 +16,7 @@
 		echo $this->Form->input('invoice_number');
 		echo $this->Form->input('phone');
 		echo $this->Form->input('email');
-		echo $this->Form->input('collection_id');
+		echo $this->Form->input('collection_id', array('empty' => 'Select'));
 		echo $this->Form->input('order_item_count');
 	?>
 	</fieldset>

@@ -28,17 +28,17 @@
 		</dd>
 		<dt><?php echo __('Shipid'); ?></dt>
 		<dd>
-			<?php echo h($order['Order']['shipid']); ?>
+			<?php echo h($order['Order']['ship_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Billid'); ?></dt>
 		<dd>
-			<?php echo h($order['Order']['billid']); ?>
+			<?php echo h($order['Order']['bill_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Transactionid'); ?></dt>
 		<dd>
-			<?php echo h($order['Order']['transactionid']); ?>
+			<?php echo h($order['Order']['transaction_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Tracking Number'); ?></dt>

@@ -7,9 +7,10 @@
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th><?php echo $this->Paginator->sort('number'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('shipid'); ?></th>
-			<th><?php echo $this->Paginator->sort('billid'); ?></th>
-			<th><?php echo $this->Paginator->sort('transactionid'); ?></th>
+			<th><?php echo $this->Paginator->sort('session_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('ship_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('bill_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('transaction_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('tracking_number'); ?></th>
 			<th><?php echo $this->Paginator->sort('carrier'); ?></th>
 			<th><?php echo $this->Paginator->sort('method'); ?></th>
@@ -30,9 +31,10 @@
 		<td>
 			<?php echo $this->Html->link($order['User']['username'], array('controller' => 'users', 'action' => 'view', $order['User']['id'])); ?>
 		</td>
-		<td><?php echo h($order['Order']['shipid']); ?>&nbsp;</td>
-		<td><?php echo h($order['Order']['billid']); ?>&nbsp;</td>
-		<td><?php echo h($order['Order']['transactionid']); ?>&nbsp;</td>
+		<td><?php echo h($order['Order']['session_id']); ?>&nbsp;</td>
+		<td><?php echo h($order['Order']['ship_id']); ?>&nbsp;</td>
+		<td><?php echo h($order['Order']['bill_id']); ?>&nbsp;</td>
+		<td><?php echo h($order['Order']['transaction_id']); ?>&nbsp;</td>
 		<td><?php echo h($order['Order']['tracking_number']); ?>&nbsp;</td>
 		<td><?php echo h($order['Order']['carrier']); ?>&nbsp;</td>
 		<td><?php echo h($order['Order']['method']); ?>&nbsp;</td>
