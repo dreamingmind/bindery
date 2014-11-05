@@ -21,7 +21,7 @@ function addToCart(e) {
 		type: "POST",
 		dataType: "HTML",
 		data: postData,
-		url: webroot+'carts/addToCart',
+		url: webroot+'cart_items/addToCart',
 		success: function(data) {
 			$(e.currentTarget).after(data);
 			cartBadge();
@@ -48,7 +48,7 @@ function addToCart(e) {
 	$.ajax({
 		type: "GET",
 		dataType: "HTML",
-		url: webroot+'carts/newBadge/TRUE',
+		url: webroot+'cart_items/newBadge/TRUE',
 		success: function(data) {
 			$('#cart_badge').replaceWith(data);
 		},
@@ -123,7 +123,7 @@ function updateQuantity(e) {
 		$.ajax({
 			type: "PUT",
 			dataType: "HTML",
-			url: webroot+'carts/update_cart/' + id + '/' + qty,
+			url: webroot+'cart_items/update_cart/' + id + '/' + qty,
 			success: function(data) {
 			// get rid of any remaining flash messages. multiples don't work right
 			$('div.flash').remove();
@@ -170,7 +170,7 @@ function removeItem(e) {
 	$.ajax({
 		type: "DELETE",
 		dataType: "HTML",
-		url: webroot + 'carts/delete/' + id,
+		url: webroot + 'cart_items/delete/' + id,
 		success: function(data) {
 			// get rid of any remaining flash messages. multiples don't work right
 			$('div.flash').remove();
@@ -234,17 +234,17 @@ function continueShopping(e) {
  */
 function checkout(e){
 	e.preventDefault();
-	location.assign(webroot + 'carts/checkout');
+	location.assign(webroot + 'cart_items/checkout');
 }
 
 function pay(e){
 	var method = $(e.currentTarget).attr('method');
 	if (method == 'paypal') {
-		location.assign(webroot + 'carts/pay/paypal');
+		location.assign(webroot + 'cart_items/pay/paypal');
 //		$.ajax({
 //			type: "GET",
 //			dataType: "HTML",
-//			url: webroot + 'carts/pay/paypal',
+//			url: webroot + 'cart_items/pay/paypal',
 //			success: function(data) {
 //				$('body').append(data);
 //				$('#doBuy').trigger('click');

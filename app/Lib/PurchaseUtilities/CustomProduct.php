@@ -99,7 +99,7 @@ class CustomProduct extends PurchasedProduct {
 	 */
 	public function cartEntry() {
 //		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
-		$cart = array('Cart' => array(
+		$cart = array('CartItem' => array(
 				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
@@ -115,7 +115,7 @@ class CustomProduct extends PurchasedProduct {
 				)				
 			)
 		);
-//		dmDebug::ddd($cart['Cart']['price'], 'fin price');
+//		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
 		return $cart;
 	}
 

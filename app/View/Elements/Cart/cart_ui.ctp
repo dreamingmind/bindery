@@ -18,14 +18,14 @@
 
 $new = isset($new) ? $new : FALSE;
 $cartSubtotal = 0;
-
+dmDebug::ddd($cart, 'cart');
 foreach ($cart as $item) {
 
-	$cartSubtotal += $item['Cart']['total'];
-	$isNewItem = $item['Cart']['id'] == $new;
+	$cartSubtotal += $item['CartItem']['total'];
+	$isNewItem = $item['CartItem']['id'] == $new;
 	
 	// get the helper that specializes in processing this kind of product
-	$helper = $this->Helpers->load("{$item['Cart']['type']}Product");
+	$helper = $this->Helpers->load("{$item['CartItem']['type']}Product");
 	
 	if ($isNewItem || $cartClass === 'cart_checkout') {
 		$this->start('new');

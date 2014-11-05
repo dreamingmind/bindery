@@ -1,7 +1,7 @@
 <?php
 $href = '';
 if (isset($referer)) {
-	// coming from carts/checkout page process
+	// coming from cart_items/checkout page process
 	$href = "href='$referer'";
 }
 ?>

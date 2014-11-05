@@ -38,9 +38,9 @@ App::uses('Hash', 'Utilities');
  * @property Session $Session
  * @property Supplement $Supplement
  */
-class Cart extends AppModel {
+class CartItem extends AppModel {
 	
-//	public $useTable = 'OrderItem';
+	public $useTable = 'order_items';
 
 	/**
 	 * Base name for cart data cache
@@ -100,7 +100,7 @@ class Cart extends AppModel {
 	public $hasMany = array(
 		'Supplement' => array(
 			'className' => 'Supplement',
-			'foreignKey' => 'cart_id',
+			'foreignKey' => 'order_item_id',
 			'dependent' => TRUE,
 			'conditions' => '',
 			'fields' => '',
@@ -109,7 +109,7 @@ class Cart extends AppModel {
 	);
 	
 	public $virtualFields = array(
-		'total' => 'Cart.price * Cart.quantity'
+		'total' => 'CartItem.price * CartItem.quantity'
 	);
 
 
@@ -190,11 +190,11 @@ class Cart extends AppModel {
 //			dmDebug::logVars($items, 'items to transform');
 	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
 			if (is_null($userId)) {
-				$i = Hash::insert($items, '{n}.Cart.session_id', $Session->id());
-				$items = Hash::insert($i, '{n}.Cart.user_id', '');
+				$i = Hash::insert($items, '{n}.CartItem.session_id', $Session->id());
+				$items = Hash::insert($i, '{n}.CartItem.user_id', '');
 			} else {
-				$i = Hash::insert($items, '{n}.Cart.session_id', '');
-				$items = Hash::insert($i, '{n}.Cart.user_id', $userId);
+				$i = Hash::insert($items, '{n}.CartItem.session_id', '');
+				$items = Hash::insert($i, '{n}.CartItem.user_id', $userId);
 			}
 //			dmDebug::logVars($items, 'items to save');
 			$this->saveMany($items);
@@ -210,7 +210,7 @@ class Cart extends AppModel {
 	 * @param object $Session Component or Helper
 	 * @param string $sessionId The session id if the current session is not wanted
 	 * @param boolean $deep Contain related data or not
-	 * @return array {n}.Cart.field
+	 * @return array {n}.CartItem.field
 	 */
 	private function load($Session, $sessionId = FALSE, $deep = FALSE) {
 
@@ -285,10 +285,10 @@ class Cart extends AppModel {
 			}
 		} else {
 			
-			if (empty($keySource['Cart']['user_id'])) {
-					$name =  "$name.S{$keySource['Cart']['session_id']}";
+			if (empty($keySource['CartItem']['user_id'])) {
+					$name =  "$name.S{$keySource['CartItem']['session_id']}";
 			} else {
-				$name =  "$name.U{$keySource['Cart']['user_id']}";
+				$name =  "$name.U{$keySource['CartItem']['user_id']}";
 			}
 		}
 		return $name;
@@ -340,7 +340,7 @@ class Cart extends AppModel {
 		}
 		return $this->find('first', array(
 			'conditions' => array(
-				'Cart.id' => $id
+				'CartItem.id' => $id
 			),
 			'contain' => $contain
 		));
@@ -376,7 +376,7 @@ class Cart extends AppModel {
 		$this->data = $this->load($Session);
 		$subtotal = 0;
 		foreach ($this->data as $item) {
-			$subtotal += $item['Cart']['total'];
+			$subtotal += $item['CartItem']['total'];
 		}
 		return $subtotal;
 	}
@@ -390,7 +390,7 @@ class Cart extends AppModel {
 	public function itemTotal($id) {
 		$this->id = $id;
 		$total = $this->field('total');
-		return array('Cart' => array(
+		return array('CartItem' => array(
 			'id' => $id,
 			'total' => $total
 		));

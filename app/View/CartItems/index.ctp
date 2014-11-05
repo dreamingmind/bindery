@@ -13,21 +13,21 @@
 	</tr>
 	<?php foreach ($carts as $cart): ?>
 	<tr>
-		<td><?php echo h($cart['Cart']['id']); ?>&nbsp;</td>
-		<td><?php echo date('m-d h:i', strtotime(h($cart['Cart']['created']))); ?>&nbsp;</td>
-		<td><?php echo date('m-d h:i', strtotime(h($cart['Cart']['modified']))); ?>&nbsp;</td>
+		<td><?php echo h($cart['CartItem']['id']); ?>&nbsp;</td>
+		<td><?php echo date('m-d h:i', strtotime(h($cart['CartItem']['created']))); ?>&nbsp;</td>
+		<td><?php echo date('m-d h:i', strtotime(h($cart['CartItem']['modified']))); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($cart['User']['username'], array('controller' => 'users', 'action' => 'view', $cart['User']['id'])); ?>
 		</td>
 		<td>
-			<?php echo h($cart['Cart']['session_id']); ?>
+			<?php echo h($cart['CartItem']['session_id']); ?>
 		</td>
-		<td><?php echo h($cart['Cart']['design_name']); ?>&nbsp;</td>
-		<td><?php echo $this->Html->para('dataColumn hide', h($cart['Cart']['data'])); ?>&nbsp;</td>
+		<td><?php echo h($cart['CartItem']['design_name']); ?>&nbsp;</td>
+		<td><?php echo $this->Html->para('dataColumn hide', h($cart['CartItem']['data'])); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $cart['Cart']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $cart['Cart']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $cart['Cart']['id']), null, __('Are you sure you want to delete # %s?', $cart['Cart']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $cart['CartItem']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $cart['CartItem']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $cart['CartItem']['id']), null, __('Are you sure you want to delete # %s?', $cart['CartItem']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

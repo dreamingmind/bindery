@@ -30,7 +30,7 @@ class PurchasesComponent extends Component {
 	 */
 	public function initialize(Controller $controller) {
 //		$this->Session = $controller->Components->load('Session');
-		$this->Cart = ClassRegistry::init('Cart');
+		$this->CartItem = ClassRegistry::init('CartItem');
 		$this->controller = $controller;
 	}
 
@@ -54,7 +54,7 @@ class PurchasesComponent extends Component {
 		$this->Biscuit = new Biscuit($controller);
 		if ($this->Biscuit->cookiesAllowed()) {
 			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
-				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
+				$this->CartItem->maintain($this->Session, $this->Biscuit->storedSessionId());
 				$this->Biscuit->saveSessionId();
 			}
 		}
@@ -99,7 +99,7 @@ class PurchasesComponent extends Component {
 	 * @return int
 	 */
 	public function itemCount() {
-		return $this->Cart->count($this->Session);
+		return $this->CartItem->count($this->Session);
 	}
 		
 	/**
@@ -108,7 +108,7 @@ class PurchasesComponent extends Component {
 	 * @return boolean
 	 */
 	public function exists() {
-		return $this->Cart->cartExists($this->Session);
+		return $this->CartItem->cartExists($this->Session);
 	}
 	
 	
@@ -118,7 +118,7 @@ class PurchasesComponent extends Component {
 	 * @param string $id
 	 */
 	public function delete($id) {
-		$this->Cart->delete($id);
+		$this->CartItem->delete($id);
 	}
 
 
@@ -135,13 +135,14 @@ class PurchasesComponent extends Component {
 			try {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
-				$this->Cart->saveAssociated($this->product->cartEntry());
+				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
+				$this->CartItem->saveAssociated($this->product->cartEntry());
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
 			}
 		}
-		$this->controller->set('new', $this->Cart->id);
-		$this->controller->set('cart', $this->Cart->fetch($this->Session, TRUE));
+		$this->controller->set('new', $this->CartItem->id);
+		$this->controller->set('cart', $this->CartItem->fetch($this->Session, TRUE));
 	}
 	
 	/**
@@ -151,7 +152,7 @@ class PurchasesComponent extends Component {
 	 * @param string $oldSession The last known session link for the cart
 	 */
 	public function maintain($Session, $oldSession) {
-		$this->Cart->maintain($Session, $oldSession);
+		$this->CartItem->maintain($Session, $oldSession);
 	}
 	
 	/**

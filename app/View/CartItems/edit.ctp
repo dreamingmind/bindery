@@ -1,5 +1,5 @@
 <div class="carts form">
-<?php echo $this->Form->create('Cart'); ?>
+<?php echo $this->Form->create('CartItem'); ?>
 	<fieldset>
 		<legend><?php echo __('Edit Cart'); ?></legend>
 	<?php

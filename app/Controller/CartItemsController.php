@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
  *
  * @property Cart $Cart
  */
-class CartsController extends AppController {
+class CartItemsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct');
 
@@ -20,7 +20,7 @@ class CartsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Cart->recursive = 0;
+		$this->CartItem->recursive = 0;
 		$this->set('carts', $this->paginate());
 	}
 
@@ -32,11 +32,11 @@ class CartsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Cart->exists($id)) {
+		if (!$this->CartItem->exists($id)) {
 			throw new NotFoundException(__('Invalid cart'));
 		}
-		$options = array('conditions' => array('Cart.' . $this->Cart->primaryKey => $id));
-		$this->set('cart', $this->Cart->find('first', $options));
+		$options = array('conditions' => array('Cart.' . $this->CartItem->primaryKey => $id));
+		$this->set('cart', $this->CartItem->find('first', $options));
 	}
 
 /**
@@ -47,14 +47,14 @@ class CartsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Cart->create();
-			if ($this->Cart->save($this->request->data)) {
+			if ($this->CartItem->save($this->request->data)) {
 				$this->Session->setFlash(__('The cart has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The cart could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->Cart->User->find('list');
+		$users = $this->CartItem->User->find('list');
 		$this->set(compact('users'));
 	}
 	
@@ -74,9 +74,9 @@ class CartsController extends AppController {
 //			)
 //		);
 //		
-//		$this->Cart->save($data);
-//		$this->set('new', $this->Cart->id);
-//		$this->set('cart', $this->Cart->fetch($this->Session));
+//		$this->CartItem->save($data);
+//		$this->set('new', $this->CartItem->id);
+//		$this->set('cart', $this->CartItem->fetch($this->Session));
 //	}
 
 /**
@@ -87,21 +87,21 @@ class CartsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->Cart->exists($id)) {
+		if (!$this->CartItem->exists($id)) {
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Cart->save($this->request->data)) {
+			if ($this->CartItem->save($this->request->data)) {
 				$this->Session->setFlash(__('The cart has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The cart could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Cart.' . $this->Cart->primaryKey => $id));
-			$this->request->data = $this->Cart->find('first', $options);
+			$options = array('conditions' => array('Cart.' . $this->CartItem->primaryKey => $id));
+			$this->request->data = $this->CartItem->find('first', $options);
 		}
-		$users = $this->Cart->User->find('list');
+		$users = $this->CartItem->User->find('list');
 		$this->set(compact('users'));
 	}
 
@@ -113,13 +113,13 @@ class CartsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Cart->id = $id;
-		if (!$this->Cart->exists()) {
+		$this->CartItem->id = $id;
+		if (!$this->CartItem->exists()) {
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		$this->Cart->unbindModel(array('belongsTo' => array('User')));
-		if ($this->Cart->delete()) {
+		$this->CartItem->unbindModel(array('belongsTo' => array('User')));
+		if ($this->CartItem->delete()) {
 			$this->Session->setFlash(__('The item was removed from your cart.'), 'f_success');
 //			$this->redirect(array('action' => 'index'));
 		} else {
@@ -128,7 +128,7 @@ class CartsController extends AppController {
 		if ($this->request->is('ajax')) {
 			$this->layout = 'ajax';
 			$this->newBadge();
-			$this->set('cartSubtotal', $this->Cart->cartSubtotal($this->Session));
+			$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
 			$this->render("/Ajax/cart_remove_result");
 		} else {
 			$this->redirect(array('action' => 'index'));
@@ -143,18 +143,18 @@ class CartsController extends AppController {
 	 * @throws NotFoundException
 	 */
 	public function update_cart($id = NULL, $qty = NULL) {
-		if (!$this->Cart->exists($id)) {
+		if (!$this->CartItem->exists($id)) {
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		$this->layout = 'ajax';
 		if ($this->request->is('post') || $this->request->is('put')) {
-			$this->Cart->data = $this->Cart->fetchItem($id);
-			$this->Cart->data['Cart']['quantity'] = $qty;
+			$this->CartItem->data = $this->CartItem->fetchItem($id);
+			$this->CartItem->data['Cart']['quantity'] = $qty;
 			
-			if ($this->Cart->save($this->Cart->data)) {
+			if ($this->CartItem->save($this->CartItem->data)) {
 				// needs to return the item subtotal and the cart subtotal
-				$this->set('itemTotal', $this->Cart->itemTotal($id));
-				$this->set('cartSubtotal', $this->Cart->cartSubtotal($this->Session));
+				$this->set('itemTotal', $this->CartItem->itemTotal($id));
+				$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
 			} else {
 				$this->Session->setFlash(__('The change could not be saved. Please, try again.'));
 			}
@@ -178,7 +178,7 @@ class CartsController extends AppController {
 	public function checkout() {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
-		$this->set('cart', $this->Cart->fetch($this->Session, TRUE));
+		$this->set('cart', $this->CartItem->fetch($this->Session, TRUE));
 		$this->set('referer', $this->referer());
 	}
 	

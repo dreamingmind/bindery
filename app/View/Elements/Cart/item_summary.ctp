@@ -1,6 +1,6 @@
 <?php $class = 'item_summary'; ?>
 
-<div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['Cart']['id']}" ?>">
+<div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['CartItem']['id']}" ?>">
 	
 	<?php echo $helper->modeToggle($item, 'Expand'); ?> 
 	

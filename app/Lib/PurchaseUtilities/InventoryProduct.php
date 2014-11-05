@@ -44,7 +44,7 @@ class InventoryProduct extends PurchasedProduct {
 	}
 
 	public function cartEntry() {
-		$cart = array('Cart' => array(
+		$cart = array('CartItem' => array(
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : '',
 				'session_id' => ($this->sessionId) ? $this->sessionId : '',
@@ -64,7 +64,13 @@ class InventoryProduct extends PurchasedProduct {
 
 	public function updateQuantity($id, $qty) {
 		
-	}	//put your code here
+	}
+
+	public function editEntry($id) {
+		
+	}
+
+//put your code here
 }
 
 ?>
