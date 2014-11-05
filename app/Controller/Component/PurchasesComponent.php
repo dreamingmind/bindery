@@ -135,7 +135,7 @@ class PurchasesComponent extends Component {
 			try {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
-				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
+//				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
 				$this->CartItem->saveAssociated($this->product->cartEntry());
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();

@@ -36,9 +36,9 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function designName($item, $mode) {
-		$summary = $this->Html->tag('h1', String::truncate($item['Cart']['design_name'], 40), array('class' => 'design_name'));
-		$full = $this->Html->tag('h1', $item['Cart']['design_name'], array('class' => 'design_name'));
-		$this->storeToggleData($item, 'design_name', $summary, $full);
+		$summary = $this->Html->tag('h1', String::truncate($item['CartItem']['product_name'], 40), array('class' => 'product_name'));
+		$full = $this->Html->tag('h1', $item['CartItem']['product_name'], array('class' => 'product_name'));
+		$this->storeToggleData($item, 'product_name', $summary, $full);
 		
 		if ($mode === 'item_summary') {
 			$text = $summary;
@@ -52,11 +52,11 @@ class PurchasedProductHelper extends AppHelper {
 	 * Save expand/collapse item-text data for assembly into a json package
 	 * 
 	 * On a cart page, each item has a text section which displays 
-	 * design_name, blurb, and option list data describe the product ordered. 
+	 * name, blurb, and option list data describe the product ordered. 
 	 * These data may display truncated or fully expanded and this array/json obj 
 	 * will contain both versions indexed by id.node.variant 
 	 * (eg: toggleData[356][blurb][summary] = 'short tex...' or 
-	 * toggle Data[722][design_name][full] = 'Amending Self' )
+	 * toggle Data[722][name][full] = 'Amending Self' )
 	 * 
 	 * @param array $item
 	 * @param string $group
@@ -64,7 +64,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @param string $full
 	 */
 	protected function storeToggleData($item, $group, $summary, $full) {
-		$this->toggleData[$item['Cart']['id']][$group] = array('summary' => $summary, 'full' => $full);
+		$this->toggleData[$item['CartItem']['id']][$group] = array('summary' => $summary, 'full' => $full);
 	}
 
 
@@ -111,7 +111,7 @@ class PurchasedProductHelper extends AppHelper {
 	public function modeToggle($item, $action, $isNewItem = FALSE) {
 		if (!$isNewItem) {
 			return $this->Html->para('tools', 
-				$this->Html->link($action, $item['Cart']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
+				$this->Html->link($action, $item['CartItem']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
 		}
 	}
 	
@@ -128,13 +128,13 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	public function itemQuantity($item) {
 		return $this->Form->input(
-				"{$item['Cart']['id']}.Cart.quantity",
+				"{$item['CartItem']['id']}.Cart.quantity",
 				array(
 					'label' => FALSE,
 					'div' => FALSE,
 					'bind' => 'change.updateQuantity',
-					'value' => $item['Cart']['quantity'],
-					'cart_item_id' => $item['Cart']['id']
+					'value' => $item['CartItem']['quantity'],
+					'cart_item_id' => $item['CartItem']['id']
 				)
 			);
 	}
@@ -148,7 +148,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function itemPrice($item) {
-		return $this->Html->tag('span', $item['Cart']['price'], array('class' => 'price'));
+		return $this->Html->tag('span', $item['CartItem']['price'], array('class' => 'price'));
 	}
 
 	/**
@@ -160,7 +160,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function itemTotal($item) {
-		return $this->Html->tag('span', $item['Cart']['total'], array('class' => 'total', 'id' => "item_total-{$item['Cart']['id']}"));
+		return $this->Html->tag('span', $item['CartItem']['total'], array('class' => 'total', 'id' => "item_total-{$item['CartItem']['id']}"));
 	}
 	
 	/**
@@ -172,7 +172,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function removeItemTool($item) {
-		return $this->Html->link('Remove', "delete/{$item['Cart']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
+		return $this->Html->link('Remove', "delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
 	}
 	
 	/**
