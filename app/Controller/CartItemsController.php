@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('OrderItemsController', 'Controller');
 /**
  * Carts Controller
  *
@@ -11,7 +12,7 @@ class CartItemsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'addToCart', 'delete', 'checkout', 'update_cart', 'pay', 'complete', 'cancel');
+		$this->Auth->allow();
 	}
 
 /**
@@ -33,6 +34,7 @@ class CartItemsController extends AppController {
  */
 	public function view($id = null) {
 		if (!$this->CartItem->exists($id)) {
+			dmDebug::ddd('this', 'this');
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		$options = array('conditions' => array('Cart.' . $this->CartItem->primaryKey => $id));
@@ -115,7 +117,7 @@ class CartItemsController extends AppController {
 	public function delete($id = null) {
 		$this->CartItem->id = $id;
 		if (!$this->CartItem->exists()) {
-			throw new NotFoundException(__('Invalid cart'));
+			throw new NotFoundException(__('Cart Item does not exist'));
 		}
 		$this->request->onlyAllow('post', 'delete');
 		$this->CartItem->unbindModel(array('belongsTo' => array('User')));

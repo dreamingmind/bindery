@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('OrderItem', 'Model');
 App::uses('Hash', 'Utilities');
 /**
  * Cart Model
@@ -38,7 +39,7 @@ App::uses('Hash', 'Utilities');
  * @property Session $Session
  * @property Supplement $Supplement
  */
-class CartItem extends AppModel {
+class CartItem extends OrderItem {
 	
 	public $useTable = 'order_items';
 
@@ -95,6 +96,13 @@ class CartItem extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Cart' => array(
+			'className' => 'Cart',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 	public $hasMany = array(
@@ -138,9 +146,9 @@ class CartItem extends AppModel {
 		parent::beforeDelete($cascade);
 		$tmp = $this->find('first', array(
 			'conditions' => array(
-				'id' => $this->id
+				'CartItem.id' => $this->id
 			),
-			'fields' => array('user_id', 'session_id')
+			'fields' => array('CartItem.user_id', 'CartItem.session_id')
 		));
 		$this->clearCache($tmp);
 	}
@@ -235,8 +243,8 @@ class CartItem extends AppModel {
 		if (!$items = Cache::read($cacheName, $this->dataCacheConfig)) {
 			$itemsAnon = $this->find('all', array(
 				'conditions' => array(
-					'session_id' => $sessionId,
-					'user_id' => ''
+					'CartItem.session_id' => $sessionId,
+					'CartItem.user_id' => ''
 				),
 				'contain' => $contain
 			));
@@ -246,8 +254,8 @@ class CartItem extends AppModel {
 			if (!is_null($userId)) {
 				$itemsUser = $this->find('all', array(
 					'conditions' => array(
-						'user_id' => $userId,
-						'OR' => array('session_id' => '', 'session_id IS NULL')
+						'CartItem.user_id' => $userId,
+						'OR' => array('CartItem.session_id' => '', 'CartItem.session_id IS NULL')
 									),
 					'contain' => $contain
 				));
@@ -285,10 +293,10 @@ class CartItem extends AppModel {
 			}
 		} else {
 			
-			if (empty($keySource['CartItem']['user_id'])) {
-					$name =  "$name.S{$keySource['CartItem']['session_id']}";
+			if (empty($keySource['CartItem']['CartItem.user_id'])) {
+					$name =  "$name.S{$keySource['CartItem']['CartItem.session_id']}";
 			} else {
-				$name =  "$name.U{$keySource['CartItem']['user_id']}";
+				$name =  "$name.U{$keySource['CartItem']['CartItem.user_id']}";
 			}
 		}
 		return $name;
