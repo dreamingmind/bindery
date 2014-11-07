@@ -43,12 +43,16 @@ class InventoryProduct extends PurchasedProduct {
 		
 	}
 
-	public function cartEntry() {
+	/**
+	 * 
+	 * @param string $cartId ID of the Cart header record which links this new CartItem
+	 */
+	public function cartEntry($cartId) {
 		$cart = array('CartItem' => array(
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : '',
-				'session_id' => ($this->sessionId) ? $this->sessionId : '',
-				'design_name' => $this->data['item_number'] . ' - ' . $this->data['item_name'],
+				'cart_id' => $cartId,
+				'product_name' => $this->data['item_number'] . ' - ' . $this->data['item_name'],
 				'price' => $this->calculatePrice(),
 				'quantity' => 1 // ******!!!!!!!!!!!********* PSUEDO CODE ! ! ! DO NOT USE ******!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!*********
 			),

@@ -20,14 +20,18 @@ class ReorderProduct extends PurchasedProduct {
 		
 	}
 
-	public function cartEntry() {
+	public function cartEntry($cartId) {
 		
 	}
 
 	public function updateQuantity($id, $qty) {
 		
 	}
-	
+
+	public function editEntry($id) {
+		
+	}
+
 }
 
 ?>

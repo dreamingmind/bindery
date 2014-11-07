@@ -23,13 +23,19 @@ class WorkshopProduct extends PurchasedProduct {
 		
 	}
 
-	public function cartEntry() {
+	public function cartEntry($cartId) {
 		
 	}
 
 	public function updateQuantity($id, $qty) {
 		
-	}	//put your code here
+	}
+
+	public function editEntry($id) {
+		
+	}
+
+//put your code here
 }
 
 ?>

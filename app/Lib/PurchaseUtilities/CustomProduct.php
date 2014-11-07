@@ -95,16 +95,17 @@ class CustomProduct extends PurchasedProduct {
 	 * For Custom Products, the array of data describing the option 
 	 * choices and details is stored as serialized Supplement data. 
 	 * 
+	 * @param string $cartId ID of the Cart header record which links this new CartItem
 	 * @return array The data to save
 	 */
-	public function cartEntry() {
+	public function cartEntry($cartId) {
 //		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
 		$cart = array('CartItem' => array(
 				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
+				'cart_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
-				'session_id' => ($this->sessionId) ? $this->sessionId : '',
-				'design_name' => $this->data[$this->product]['description'],
+				'product_name' => $this->data[$this->product]['description'],
 				'price' => $this->calculatePrice(),
 				'quantity' => $this->data[$this->product]['quantity']
 			),

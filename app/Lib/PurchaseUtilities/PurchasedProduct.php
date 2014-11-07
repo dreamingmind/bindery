@@ -121,9 +121,10 @@ abstract class PurchasedProduct {
 	/**
 	 * Prepare data for saving in the Cart Model
 	 * 
+	 * @param string $cartId ID of the Cart header record which links this new CartItem
 	 * @return array The data to save
 	 */
-	abstract public function cartEntry();
+	abstract public function cartEntry($cartId);
 	
 	abstract public function editEntry($id);
 	

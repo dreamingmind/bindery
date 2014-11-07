@@ -189,25 +189,25 @@ class CartItem extends OrderItem {
 	 * 
 	 * @param object $Session Component or Helper
 	 */
-	public function maintain($Session, $oldSession) {
-		
-		$userId = $Session->read('Auth.User.id');
-		$items = $this->load($Session, $oldSession);
-		
-		if (!empty($items)) {
-//			dmDebug::logVars($items, 'items to transform');
-	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
-			if (is_null($userId)) {
-				$i = Hash::insert($items, '{n}.CartItem.session_id', $Session->id());
-				$items = Hash::insert($i, '{n}.CartItem.user_id', '');
-			} else {
-				$i = Hash::insert($items, '{n}.CartItem.session_id', '');
-				$items = Hash::insert($i, '{n}.CartItem.user_id', $userId);
-			}
-//			dmDebug::logVars($items, 'items to save');
-			$this->saveMany($items);
-		}
-	}
+//	public function maintain($Session, $oldSession) {
+//		
+//		$userId = $Session->read('Auth.User.id');
+//		$items = $this->load($Session, $oldSession);
+//		
+//		if (!empty($items)) {
+////			dmDebug::logVars($items, 'items to transform');
+//	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
+//			if (is_null($userId)) {
+//				$i = Hash::insert($items, '{n}.CartItem.session_id', $Session->id());
+//				$items = Hash::insert($i, '{n}.CartItem.user_id', '');
+//			} else {
+//				$i = Hash::insert($items, '{n}.CartItem.session_id', '');
+//				$items = Hash::insert($i, '{n}.CartItem.user_id', $userId);
+//			}
+////			dmDebug::logVars($items, 'items to save');
+//			$this->saveMany($items);
+//		}
+//	}
 	
 	/**
 	 * Common logic to get the current visitor's cart items
@@ -324,7 +324,7 @@ class CartItem extends OrderItem {
 	 * @return type
 	 */
 	
-	public function fetch($Session, $deep = FALSE) {
+	public function fetch($cartId, $deep = FALSE) {
 		return $this->load($Session, FALSE, $deep);
 	}
 	
