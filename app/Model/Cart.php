@@ -12,6 +12,8 @@ class Cart extends Order {
 
 	public $useTable = 'orders';
 	
+	public $Session;
+	
 	/**
 	 * Base name for cart data cache
 	 * 
@@ -100,56 +102,67 @@ class Cart extends Order {
 	);
 	
 	/**
-	 * Does the user have a Cart?
+	 * Does the visitor/user have a Cart?
 	 * 
-	 * @param Session $Session
 	 * @return boolean
 	 */
-	public function cartExists(Session $Session) {
-		$cart = $this->find('first', array('conditions' => $this->cartConditions($Session)));
+	public function cartExists() {
+		$cart = $this->find('first', array('conditions' => $this->cartConditions(), 'contain' => FALSE));
 		return !empty($cart);
 	}
 
 	/**
-	 * How many items are in the user's cart? may be zero
+	 * How many items are in the visitor/user's cart? may be zero
 	 * 
-	 * @param Session $Session
 	 * @return int
 	 */
-	public function count(SessionComponent $Session) {
-		return $this->field('Cart.order_item_count', $this->cartConditions($Session));
-	}
-	
-	public function cartId(SessionComponent $Session) {
-		return $this->field('Cart.id', $this->cartConditions($Session));
+	public function count() {
+		return $this->field('Cart.order_item_count', $this->cartConditions());
 	}
 	
 	/**
-	 * Create a new anonymous or user Cart record and return the id
+	 * Return the id of the visitor/user's cart
+	 * 
+	 * @return null|string
+	 */
+	public function cartId() {
+		return $this->field('Cart.id', $this->cartConditions());
+	}
+	
+	/**
+	 * Retrieve the visitor/user's cart or create one
 	 * 
 	 * @param SessionComponent $Session
 	 * @return int The id of the new Cart record
 	 */
-	public function newCart(SessionComponent $Session) {
-		$userId = $Session->read('Auth.User.id');
-		$sessionId = $Session->id();
-		if (is_null($userId)) {
-			$this->data = array(
-				'session_id' => $session_id, 
-				'state' => 'Cart'
-			);
-		} else {
-			$this->data = array(
-				'user_id' => $user_id,
-				'phone' => $Session->read('Auth.User.phone'),
-				'email' => $Session->read('Auth.User.email'),
-				'name' => $Session->read('Auth.User.name'),
-				'state' => 'Cart'
-			);
+	public function retrieve() {
+		try {
+			if (!$this->cartExists()) {
+				$userId = $Session->read('Auth.User.id');
+				if (is_null($userId)) {
+					$this->data = array(
+						'session_id' => $Session->id(), 
+						'state' => 'Cart'
+					);
+				} else {
+					$this->data = array(
+						'user_id' => $user_id,
+						'phone' => $Session->read('Auth.User.phone'),
+						'email' => $Session->read('Auth.User.email'),
+						'name' => $Session->read('Auth.User.name'),
+						'state' => 'Cart'
+					);
+				}
+				$this->create($this->data);
+				$this->save();
+			}
+//			$cacheName = $this->cacheName($this->cacheData, $Session);
+			return $this->find('first', array('conditions' => $this->cartConditions(), 'contain' => array('CartItem')));
+		} catch (Exception $exc) {
+			echo $exc->getFile() . ' Line: ' . $exc->getLine();
+			echo $exc->getMessage();
+			echo $exc->getTraceAsString();
 		}
-		$this->create($this->data);
-		$this->save();
-		return $this->id;
 	}
 	
 	/**
@@ -158,163 +171,132 @@ class Cart extends Order {
 	 * @param SessionComponent $Session
 	 * @return array The conditions that will find the user's cart if it exists
 	 */
-	private function cartConditions(SessionComponent $Session) {
-		$userId = $Session->read('Auth.User.id');
-		$sessionId = $Session->id();
+	private function cartConditions() {
+		$userId = $this->Session->read('Auth.User.id');
 		if (is_null($userId)) {
-			$conditions = array('Cart.session_id' => $sessionId);
+			$id_type = 'user_id';
+			$id = $userId;
 		} else {
-			$conditions = array('Cart.user_id' => $userId);
+			$id_type = 'user_id';
+			$id = $this->Session->id();
 		}
-		return $conditions;
+		return array(
+			"Cart.$id_type" => $id, 
+			'OR' => array (
+				'Cart.state' => CART_STATE,
+				'Cart.state' => CHECKOUT_STATE_STATE
+			));
 	}
 
 	/**
 	 * Keep the Cart attached to the User
 	 * 
-	 * As the User navigates the site, the Session id may change 
-	 * and their logged in status may change. Carts may be attached to 
-	 * the Session or the User. This method will keep the proper 
-	 * Cart items associated with the User as the site State changes
+	 * This is only called if:
+	 * Either the session stored in the users cookie does not match the 
+	 * current session, or the user just logged in (which changes the session). 
+	 * Move the cart to the new session or to the user as needed. 
+	 * And if the user had a previous cart, merge with this one. Oh, and 
+	 * handle the fact that any of these presumed carts might not exist.
+	 * 
 	 * https://github.com/dreamingmind/bindery/wiki/Shopping-Cart
 	 * 
-	 * @param object $Session Component or Helper
+	 * @param string $oldSesson The session that is dying and which might contain a cart
 	 */
-	public function maintain($Session, $oldSession) {
+	public function maintain($oldSession) {
 		
-		$userId = $Session->read('Auth.User.id');
-		$cart = $this->load($Session, $oldSession);
-		
-		if (!empty($cart)) {
-//			dmDebug::logVars($items, 'items to transform');
-	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
-			if (is_null($userId)) {
-				$i = Hash::insert($cart, 'Cart.session_id', $Session->id());
-				$cart = Hash::insert($i, 'Cart.user_id', '');
-			} else {
-				$i = Hash::insert($cart, 'Cart.session_id', '');
-				$cart = Hash::insert($i, 'Cart.user_id', $userId);
-			}
-//			dmDebug::logVars($items, 'items to save');
-			$this->saveMany($cart);
+		$userId = $this->Session->read('Auth.User.id');
+		if (!is_null($userId)) {
+			$userCart = $this->fetchCart($userId, 'user_id');
 		}
+		$anonymousCart = $this->fetchCart($oldSession, 'session_id');
+		
+		if (!empty($anonymousCart)) {
+			if (!empty($userCart)) {
+				
+				// move anonymous items onto the user cart
+				Hash::insert($anonymousCart, 'CartItem.{n}.order_id', $cartUser['Cart']['id']);
+				// merge the items into a single array
+				$userCart['CartItem'] = array_merge($anonymousCart['CartItem'], $anonymousCart['CartItem']);
+				// delete the anonymous heaader record now leaving its items behind for later update
+				$this->delete($anonymousCart['id'], FALSE);
+				$cart = $cartUser;
+				
+			} else {
+				// move the existing anonymous cart to the new anonymous session
+				Hash::insert($anonymousCart, 'Cart.id', $this->Session->id());
+				$cart = $anonymousCart;
+			}
+
+			$this->saveAssociated($cart);
+		} else {
+			// there wasn't any cart or there was only a user cart which we just left alone
+		}
+	
 	}
 
 	/**
-	 * Common logic to get the current visitor's cart and items
+	 * example of how caching was done
 	 * 
-	 * this->maintenance puts the old session id from the cookie in 
-	 * session id to get the user's last session otherwise the 
-	 * current session will be the default. A search will also be 
-	 * done for a cart on the user_id (possibly this user just logged 
-	 * back in). All found items will be merged into a single cart 
-	 * and the spare Cart record will be dumped. 
-	 * 
-	 * @param object $Session Component or Helper
-	 * @param string $sessionId The session id if the current session is not wanted
-	 * @param boolean $deep Contain related data or not
-	 * @return array {n}.CartItem.field
 	 */
-	private function load($Session, $sessionId = FALSE, $deep = FALSE) {
+	private function loadx($Session, $sessionId = FALSE, $deep = FALSE) {
 
-		// prepare all the conditional parameters
-		// -----------------------------------------------
-		$userId = $Session->read('Auth.User.id');
-		if (!$sessionId) {
-			$sessionId = $Session->id();
-		}
-		if ($deep) {
-			$contain =  array('User', 'CartItem' => array('Session'));
-			$cacheName = $this->cacheName($this->cacheDeepData, $Session);
-		} else {
-			$contain = array('CartItem');
-			$cacheName = $this->cacheName($this->cacheData, $Session);
-		}
-		// ---------------------------------------------
-		
-		// if the cache is expired do the actual query in two parts.
-		// Its possible the user has been making a cart,  
-		// and now has just logged back in, gaining access to an earlier 
-		// cart they had been accumulating. Every thing must be gathered 
-		// and merged together in a single cart. One Cart record must die.
-		// -----------------------------------------------
 		if (!$cart = Cache::read($cacheName, $this->dataCacheConfig)) {
-			$cartAnon = $this->find('first', array(
-				'conditions' => array(
-					'Cart.session_id' => $sessionId,
-					'Cart.user_id' => ''
-				),
-				'contain' => $contain
-			));
-//		dmDebug::ddd($this->getLastQuery(), 'anon find query for $userId='.$userId);
-
-			$cartUser = array();
-			if (!is_null($userId)) {
-				$cartUser = $this->find('first', array(
-					'conditions' => array(
-						'Cart.user_id' => $userId,
-						'OR' => array('Cart.session_id' => '', 'Cart.session_id IS NULL')
-									),
-					'contain' => $contain
-				));
-//			dmDebug::ddd($this->getLastQuery(), 'user find query for $userId='.$userId);
-			}
-			
-			if (!empty($cartAnon) && !empty($cartUser)) {
-				// move anonymous items onto the user cart
-				Hash::insert($cartAnon, 'CartItem.{n}.order_id', $cartUser['Cart']['id']);
-				// merge the items into a single array
-				$cartUser['CartItem'] = array_merge($cartAnon['CartItem'], $cartUser['CartItem']);
-				// only login will cause this rare event and in that case we'll be in the midst 
-				// of maintenance(). So we can leave the save of CartItems to that method.
-				
-				// delete the anonymous heaader record now leaving its items behind for later update
-				$this->delete($cartAnon['id'], FALSE);
-				$cart = $cartUser;
-			} else {
-				// one of them is empty. don't know which
-				$cart = array_merge($cartAnon, $cartUser);
-			}
 //			dmDebug::ddd($cart, 'cart');
 			if (!empty($cart)) {
 				Cache::write($cacheName, $cart, $this->dataCacheConfig);
 				Cache::write($this->cacheName($this->cacheCount, $Session), count($cart['Cart']['order_item_count']), $this->countCacheConfig);
 			}			
-			// -----------------------------------------------
 		}		
-//		dmDebug::ddd($items, 'items');
-		
 		return $cart;
 	}
 	
 	/**
+	 * Get a cart on a specific key
+	 * 
+	 * @param string $id id key value to search for
+	 * @param string $id_type user_id or session_id (id key to search on)
+	 * @param boolean $deep set containment level
+	 * @return array
+	 */
+	private function fetchCart($id, $id_type = 'user_id', $deep = FALSE) {
+		$conditions =  array(
+			"Cart.$id_type" => $id, 
+			'OR' => array (
+				'Cart.state' => CART_STATE,
+				'Cart.state' => CHECKOUT_STATE
+			));
+		if ($deep) {
+			$contain =  array('User', 'CartItem' => array('Session'));
+			$cacheName = $this->cacheName($this->cacheDeepData);
+		} else {
+			$contain = array('CartItem');
+			$cacheName = $this->cacheName($this->cacheData);
+		}
+		try {
+			$cart = $this->find('first', array('conditions' => $conditions, 'contain' => $contain));
+		} catch (Exception $exc) {
+			echo $exc->getFile() . ' Line: ' . $exc->getLine();
+			echo $exc->getMessage();
+			echo $exc->getTraceAsString();
+		}
+		return $cart;
+	}
+
+	/**
 	 * Add the correct key values to the cache name
 	 * 
-	 * During afterSave, neither the Session nor ansufficient data array 
-	 * may be present. It this happens, try using fetchItem to beef up 
-	 * $this->data and get this back on track.
-	 * 
 	 * @param string $name One of the cache-name properties
-	 * @param object|array $keySource Component or Helper | data array
 	 */
-	private function cacheName($name, $keySource) {
-		if (is_object($keySource)){
+	private function cacheName($name) {
 			
-			$userId = $keySource->read('Auth.User.id');
-			
-			if (is_null($userId)) {
-				$name =  "$name.S{$keySource->id()}";
-			} else {
-				$name =  "$name.U{$userId}";
-			}
+		$userId = $this->Session->read('Auth.User.id');
+
+		if (is_null($userId)) {
+			$name =  "$name.S{$this->Session->id()}";
 		} else {
-			
-			if (empty($keySource['CartItem']['CartItem.user_id'])) {
-					$name =  "$name.S{$keySource['CartItem']['CartItem.session_id']}";
-			} else {
-				$name =  "$name.U{$keySource['CartItem']['CartItem.user_id']}";
-			}
+			$name =  "$name.U{$userId}";
 		}
+
 		return $name;
 	}
 }

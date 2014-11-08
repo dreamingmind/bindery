@@ -52,9 +52,10 @@ class PurchasesComponent extends Component {
 	 */
 	public function startup(Controller $controller) {
 		$this->Biscuit = new Biscuit($controller);
+		$this->Cart->Session = $this->Session;
 		if ($this->Biscuit->cookiesAllowed()) {
 			if ($this->Biscuit->storedSessionId() != NULL && !$this->Biscuit->sameSession()) {
-				$this->Cart->maintain($this->Session, $this->Biscuit->storedSessionId());
+				$this->Cart->maintain($this->Biscuit->storedSessionId());
 				$this->Biscuit->saveSessionId();
 			}
 		}
@@ -160,7 +161,7 @@ class PurchasesComponent extends Component {
 	 * When a User logs in, move their Cart from the Session to thier User id
 	 */
 	public function login() {
-		$this->maintain($this->Session, $this->Biscuit->storedSessionId());
+		$this->maintain($this->Biscuit->storedSessionId());
 		$this->Biscuit->saveSessionId();
 	}
 

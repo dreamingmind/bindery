@@ -240,5 +240,13 @@ CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
 define ('NEWLINE', "\n");
 define ('TAB', "\t");
 
+/**
+ * Cart Model Constants
+ */
+define ('CART_STATE', 'cart');
+define ('COMPLETE_STATE', 'complete');
+define ('SHIPPING_STATE', 'shipping');
+define ('CHECKOUT_STATE', 'checkout');
+
 App::uses('dmDebug', 'Lib');
 App::uses('QBModel', 'Lib/QBUtilities');
