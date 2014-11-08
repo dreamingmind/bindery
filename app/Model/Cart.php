@@ -2,8 +2,15 @@
 App::uses('AppModel', 'Model');
 App::uses('Order', 'Model');
 /**
- * Order Model
- *
+ * Cart Model manages orders table records to act as cart header records
+ * 
+ * Some external process must send the Session in. 
+ * PurchasesComponent can do this job.
+ * 
+ * Provides access to cart existance, count, id, and the cart itself 
+ * as well as manintain attachement of the cart to the visitor/user. 
+ * 
+ * @todo Write cache usage patterns
  * @property User $User
  * @property Collection $Collection
  * @property OrderItem $OrderItem
@@ -12,6 +19,14 @@ class Cart extends Order {
 
 	public $useTable = 'orders';
 	
+	/**
+	 * Session component
+	 * 
+	 * Must be sent in by some controller or component since models can't 
+	 * normal access this class. PurchasesComponent->startup() is doing the job.
+	 *
+	 * @var object SessionComponent
+	 */
 	public $Session;
 	
 	/**
@@ -24,36 +39,11 @@ class Cart extends Order {
 	private $cacheData = 'cart';
 	
 	/**
-	 * Base name for cart and associated data cache
-	 * 
-	 * Will have a key value appended to make it specific to a single cart
-	 *
-	 * @var string 
-	 */
-	private $cacheDeepData = 'cart-assoc';
-	
-	/**
-	 * Base name for cart's item-count cache
-	 * 
-	 * Will have a key value appended to make it specific to a single cart
-	 *
-	 * @var string 
-	 */
-	private $cacheCount = 'cart-count';
-
-	/**
 	 * Name of the Cache config responsible for cart data storage
 	 *
 	 * @var string 
 	 */
 	private $dataCacheConfig = 'cart';
-
-	/**
-	 * Name of the Cache config responsible for cart item-coun storage
-	 *
-	 * @var string 
-	 */
-	private $countCacheConfig = 'cart-count';
 
 /**
  * Validation rules
@@ -71,7 +61,7 @@ class Cart extends Order {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
+		'Customer' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
@@ -157,7 +147,14 @@ class Cart extends Order {
 				$this->save();
 			}
 //			$cacheName = $this->cacheName($this->cacheData, $Session);
-			return $this->find('first', array('conditions' => $this->cartConditions(), 'contain' => array('CartItem')));
+			return $this->find('first', array(
+				'conditions' => $this->cartConditions(), 
+				'contain' => array(
+					'CartItem' => array(
+						'Supplement' => array(
+							'fields' => array('Supplements.id', 'Supplements.order_item_id', 'Supplements.type', 'Supplements.data')
+						)
+					))));
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();
@@ -166,7 +163,7 @@ class Cart extends Order {
 	}
 	
 	/**
-	 * Looking at current session, decide whether to look for Cart on session_id or user_id
+	 * Looking at current session, create the conditions array to look for Cart on the right key
 	 * 
 	 * @param SessionComponent $Session
 	 * @return array The conditions that will find the user's cart if it exists
@@ -194,7 +191,7 @@ class Cart extends Order {
 	 * This is only called if:
 	 * Either the session stored in the users cookie does not match the 
 	 * current session, or the user just logged in (which changes the session). 
-	 * Move the cart to the new session or to the user as needed. 
+	 * Move the old cart to the new session or to the user as needed. 
 	 * And if the user had a previous cart, merge with this one. Oh, and 
 	 * handle the fact that any of these presumed carts might not exist.
 	 * 
@@ -240,40 +237,37 @@ class Cart extends Order {
 	 */
 	private function loadx($Session, $sessionId = FALSE, $deep = FALSE) {
 
-		if (!$cart = Cache::read($cacheName, $this->dataCacheConfig)) {
-//			dmDebug::ddd($cart, 'cart');
-			if (!empty($cart)) {
-				Cache::write($cacheName, $cart, $this->dataCacheConfig);
-				Cache::write($this->cacheName($this->cacheCount, $Session), count($cart['Cart']['order_item_count']), $this->countCacheConfig);
-			}			
-		}		
-		return $cart;
+//		if (!$cart = Cache::read($cacheName, $this->dataCacheConfig)) {
+////			dmDebug::ddd($cart, 'cart');
+//			if (!empty($cart)) {
+//				Cache::write($cacheName, $cart, $this->dataCacheConfig);
+//				Cache::write($this->cacheName($this->cacheCount, $Session), count($cart['Cart']['order_item_count']), $this->countCacheConfig);
+//			}			
+//		}		
+//		return $cart;
 	}
 	
 	/**
 	 * Get a cart on a specific key
+	 * 
+	 * During maintanance, we can't rely on agorithms to find the current 
+	 * cart key. Instead we go through a pattern that retrieves old carts and 
+	 * migrates them to the current key. This find lets us specify these keys
 	 * 
 	 * @param string $id id key value to search for
 	 * @param string $id_type user_id or session_id (id key to search on)
 	 * @param boolean $deep set containment level
 	 * @return array
 	 */
-	private function fetchCart($id, $id_type = 'user_id', $deep = FALSE) {
+	private function fetchCart($id, $id_type = 'user_id') {
 		$conditions =  array(
 			"Cart.$id_type" => $id, 
 			'OR' => array (
 				'Cart.state' => CART_STATE,
 				'Cart.state' => CHECKOUT_STATE
 			));
-		if ($deep) {
-			$contain =  array('User', 'CartItem' => array('Session'));
-			$cacheName = $this->cacheName($this->cacheDeepData);
-		} else {
-			$contain = array('CartItem');
-			$cacheName = $this->cacheName($this->cacheData);
-		}
 		try {
-			$cart = $this->find('first', array('conditions' => $conditions, 'contain' => $contain));
+			$cart = $this->find('first', array('conditions' => $conditions, 'contain' => array('CartItem')));
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();

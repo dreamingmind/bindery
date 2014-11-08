@@ -53,36 +53,11 @@ class CartItem extends OrderItem {
 	private $cacheData = 'cart';
 	
 	/**
-	 * Base name for cart and associated data cache
-	 * 
-	 * Will have a key value appended to make it specific to a single cart
-	 *
-	 * @var string 
-	 */
-	private $cacheDeepData = 'cart-assoc';
-	
-	/**
-	 * Base name for cart's item-count cache
-	 * 
-	 * Will have a key value appended to make it specific to a single cart
-	 *
-	 * @var string 
-	 */
-	private $cacheCount = 'cart-count';
-
-	/**
 	 * Name of the Cache config responsible for cart data storage
 	 *
 	 * @var string 
 	 */
 	private $dataCacheConfig = 'cart';
-
-	/**
-	 * Name of the Cache config responsible for cart item-coun storage
-	 *
-	 * @var string 
-	 */
-	private $countCacheConfig = 'cart-count';
 
 /**
  * belongsTo associations
@@ -160,8 +135,6 @@ class CartItem extends OrderItem {
 	 */
 	private function clearCache($data) {
 		Cache::delete($this->cacheName($this->cacheData, $data), $this->dataCacheConfig);
-		Cache::delete($this->cacheName($this->cacheDeepData, $data), $this->dataCacheConfig);
-		Cache::delete($this->cacheName($this->cacheCount, $data), $this->countCacheConfig);
 	}
 		
 	/**
@@ -230,7 +203,6 @@ class CartItem extends OrderItem {
 		}
 		if ($deep) {
 			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
-			$cacheName = $this->cacheName($this->cacheDeepData, $Session);
 		} else {
 			$contain = FALSE;
 			$cacheName = $this->cacheName($this->cacheData, $Session);
@@ -263,7 +235,6 @@ class CartItem extends OrderItem {
 			}
 			$items = array_merge($itemsAnon, $itemsUser);
 			Cache::write($cacheName, $items, $this->dataCacheConfig);
-			Cache::write($this->cacheName($this->cacheCount, $Session), count($items), $this->countCacheConfig);
 			// -----------------------------------------------
 		}		
 //		dmDebug::ddd($items, 'items');
@@ -309,7 +280,6 @@ class CartItem extends OrderItem {
 	 * @return int
 	 */
 	public function count($Session) {
-		$cacheName = $this->cacheName($this->cacheCount, $Session);
 		if(!$count = Cache::read($cacheName, $this->dataCacheConfig)){
 			$count = count($this->load($Session));
 		}

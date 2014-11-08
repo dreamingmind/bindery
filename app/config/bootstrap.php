@@ -91,13 +91,6 @@ Cache::config('cart', array(
 	'serialize' => TRUE
 ));
 
-Cache::config('cart-count', array(
-	'engine' => 'File',
-	'group' => array('cart'),
-	'prefix' => 'bindery_',
-	'duration' => '+1 hour',
-));
-
 Cache::config('qb', array(
 	'engine' => 'File',
 	'mask' => 0666,
