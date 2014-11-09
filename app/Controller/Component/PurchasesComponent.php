@@ -139,24 +139,24 @@ class PurchasesComponent extends Component {
 //				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
 				$cart = $this->Cart->retrieve();
 				dmDebug::ddd($this->product->cartEntry($cart['Cart']['id']), 'cart entry array to save');
+				$this->CartItem = ClassRegistry::init('CartItem');
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
 			}
 		}
 		$this->controller->set('new', $this->CartItem->id);
-		$cart = $this->CartItem->find('all', array('conditions' => array($this->CartItem->primaryKey => $cart['Cart']['id'])));
+		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
 		$this->controller->set('cart', $cart);
 	}
 	
 	/**
 	 * Keep the cart associated with the user that created it
 	 * 
-	 * @param object $Session The current Session Component
 	 * @param string $oldSession The last known session link for the cart
 	 */
-	public function maintain($Session, $oldSession) {
-		$this->Cart->maintain($Session, $oldSession);
+	public function maintain($oldSession) {
+		$this->Cart->maintain($oldSession);
 	}
 	
 	/**

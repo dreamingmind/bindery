@@ -126,8 +126,7 @@ class AppModel extends Model {
 	 * @return false|array
 	 */
 	public function readIdCache($id) {
-		$hash = implode('/', $conditions);
-		$cacheKey = "{$this->dataCache}.$hash";
+		$cacheKey = "{$this->dataCache}.$id";
 		$this->cachedData = Cache::read($cacheKey, $this->dataCacheConfig);
 		return $this->cachedData;
 	}
@@ -142,8 +141,7 @@ class AppModel extends Model {
 	 * @param type $data
 	 */
 	public function writeIdCache($id, $data) {
-		$hash = implode('/', $conditions);
-		$cacheKey = "{$this->dataCache}.$hash";
+		$cacheKey = "{$this->dataCache}.$id";
 		Cache::write($cacheKey, $data, $this->dataCacheConfig);
 	}
 	
@@ -157,8 +155,7 @@ class AppModel extends Model {
 	 * @param mixed $data
 	 */
 	public function deleteIdCache($id, $data) {
-		$hash = implode('/', $conditions);
-		$cacheKey = "{$this->dataCache}.$hash";
+		$cacheKey = "{$this->dataCache}.$id";
 		Cache::delete($cacheKey, $this->dataCacheConfig);
 	}
 }

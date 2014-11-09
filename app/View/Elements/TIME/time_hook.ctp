@@ -1,3 +1,6 @@
+<?php 
+if (6==9) {
+?>
 <div id='cmdm_time_toggle'></div>
 <iframe id='cmdm_time_frame' src='http://localhost/time/'></iframe>
 
@@ -19,3 +22,6 @@ function cmdm_time_toggle() {document.getElementById("cmdm_time_toggle").onclick
 cmdm_time_toggle();
 //]]>
 </script>
+<?php 
+}
+?>

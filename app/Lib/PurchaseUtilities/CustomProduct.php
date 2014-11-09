@@ -102,7 +102,7 @@ class CustomProduct extends PurchasedProduct {
 //		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
 		$cart = array('CartItem' => array(
 				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
-				'cart_id' => $cartId,
+				'order_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
 				'product_name' => $this->data[$this->product]['description'],

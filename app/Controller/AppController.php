@@ -183,6 +183,7 @@ class AppController extends Controller {
         $this->mainNavigation(); //get the account appropriate full, potential menu record set
         $this->splashContent = $this->pullSplash();
         $this->Auth->logoutRedirect = $this->referer('bindery', TRUE);
+		$this->Auth->allow('testMe');
         $this->Email->smtpOptions = array(
             'port' => '465',
             'host' => 'ssl://mail.dreamingmind.com',
@@ -834,6 +835,11 @@ SIG;
 	 */
 	public function newBadge($render = FALSE) {
 		$this->Purchases->newBadge($render);
+	}
+	
+	public function testMe(){
+		dmDebug::ddd($this->Purchases->Cart->retrieve(), 'retrieve');
+		$this->render('/Elements/testMe');
 	}
 	
 }

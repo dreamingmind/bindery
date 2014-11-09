@@ -128,11 +128,15 @@ class Cart extends Order {
 	 */
 	public function retrieve() {
 		$conditions = $this->cartConditions();
+		dmDebug::ddd($conditions, 'conditions');
 		try {
-			if ($this->readConditionsCache($this->cartId())) {
+			if ($this->readIdCache($this->cartId())) {
+				dmDebug::ddd($this->cachedData, 'cached data internal');
 				return $this->cachedData;
 			}
+				dmDebug::ddd($this->cachedData, 'cached data external');
 			if (!$this->cartExists()) {
+				
 				$userId = $this->Session->read('Auth.User.id');
 				if (is_null($userId)) {
 					$this->data = array(
@@ -166,6 +170,7 @@ class Cart extends Order {
 					))));
 //			debug($cart);
 			$this->writeIdCache($cart['Cart']['id'], $cart);
+			return $cart;
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();
