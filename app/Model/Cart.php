@@ -36,7 +36,7 @@ class Cart extends Order {
 	 *
 	 * @var string 
 	 */
-	private $cacheData = 'cart';
+	private $dataCache = 'cart';
 	
 	/**
 	 * Name of the Cache config responsible for cart data storage
@@ -126,7 +126,11 @@ class Cart extends Order {
 	 * @return int The id of the new Cart record
 	 */
 	public function retrieve() {
+		$conditions = $this->cartConditions();
 		try {
+			if ($this->readConditionsCache($this->cartId())) {
+				return $this->cachedData;
+			}
 			if (!$this->cartExists()) {
 				$userId = $Session->read('Auth.User.id');
 				if (is_null($userId)) {
@@ -147,7 +151,7 @@ class Cart extends Order {
 				$this->save();
 			}
 //			$cacheName = $this->cacheName($this->cacheData, $Session);
-			return $this->find('first', array(
+			$cart = $this->find('first', array(
 				'conditions' => $this->cartConditions(), 
 				'contain' => array(
 					'CartItem' => array(
@@ -155,6 +159,7 @@ class Cart extends Order {
 							'fields' => array('Supplements.id', 'Supplements.order_item_id', 'Supplements.type', 'Supplements.data')
 						)
 					))));
+			$this->writeIdCache($cart['Cart']['id'], $cart);
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();
