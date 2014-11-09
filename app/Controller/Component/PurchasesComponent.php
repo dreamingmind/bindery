@@ -137,14 +137,16 @@ class PurchasesComponent extends Component {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
 //				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
-				$cartId = $this->Cart->newCart($this->Session);
-				$this->CartItem->saveAssociated($this->product->cartEntry($cartId));
+				$cart = $this->Cart->retrieve();
+				dmDebug::ddd($this->product->cartEntry($cart['Cart']['id']), 'cart entry array to save');
+				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
 			}
 		}
 		$this->controller->set('new', $this->CartItem->id);
-		$this->controller->set('cart', $this->CartItem->fetch($cartId, TRUE));
+		$cart = $this->CartItem->find('all', array('conditions' => array($this->CartItem->primaryKey => $cart['Cart']['id'])));
+		$this->controller->set('cart', $cart);
 	}
 	
 	/**

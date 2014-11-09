@@ -50,14 +50,14 @@ class CartItem extends OrderItem {
 	 *
 	 * @var string 
 	 */
-	private $cacheData = 'cart';
+	protected $cacheData = 'cart';
 	
 	/**
 	 * Name of the Cache config responsible for cart data storage
 	 *
 	 * @var string 
 	 */
-	private $dataCacheConfig = 'cart';
+	protected $dataCacheConfig = 'cart';
 
 /**
  * belongsTo associations
@@ -109,7 +109,7 @@ class CartItem extends OrderItem {
 	 */
 	public function afterSave($created) {
 		parent::afterSave($created);
-		$this->clearCache($this->data);
+		$this->deleteIdCache($this->Cart->cartId(), $this->dataCacheConfig);
 	}
 	
 	/**
@@ -119,209 +119,21 @@ class CartItem extends OrderItem {
 	 */
 	public function beforeDelete($cascade = true) {
 		parent::beforeDelete($cascade);
-		$tmp = $this->find('first', array(
-			'conditions' => array(
-				'CartItem.id' => $this->id
-			),
-			'fields' => array('CartItem.user_id', 'CartItem.session_id')
-		));
-		$this->clearCache($tmp);
+		$this->deleteIdCache($this->Cart->cartId(), $this->dataCacheConfig);
 	}
 	
 	/**
-	 * Clear all cart caches
+	 * Get the indicated cart item
 	 * 
-	 * @param array $data
-	 */
-	private function clearCache($data) {
-		Cache::delete($this->cacheName($this->cacheData, $data), $this->dataCacheConfig);
-	}
-		
-	/**
-	 * Does the logged in or anonomous user have a cart 
-	 * 
-	 * @param $Session Component or Helper
-	 * @return boolean
-	 */
-	public function cartExists($Session) {
-		if (empty($this->count($Session))) {
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-	
-	/**
-	 * Keep the Cart attached to the User
-	 * 
-	 * As the User navigates the site, the Session id may change 
-	 * and their logged in status may change. Carts may be attached to 
-	 * the Session or the User. This method will keep the proper 
-	 * Cart items associated with the User as the site State changes
-	 * https://github.com/dreamingmind/bindery/wiki/Shopping-Cart
-	 * 
-	 * @param object $Session Component or Helper
-	 */
-//	public function maintain($Session, $oldSession) {
-//		
-//		$userId = $Session->read('Auth.User.id');
-//		$items = $this->load($Session, $oldSession);
-//		
-//		if (!empty($items)) {
-////			dmDebug::logVars($items, 'items to transform');
-//	//		dmDebug::logVars($this->getLastQuery(), 'Cart->maintain find query for $userId='.$userId);
-//			if (is_null($userId)) {
-//				$i = Hash::insert($items, '{n}.CartItem.session_id', $Session->id());
-//				$items = Hash::insert($i, '{n}.CartItem.user_id', '');
-//			} else {
-//				$i = Hash::insert($items, '{n}.CartItem.session_id', '');
-//				$items = Hash::insert($i, '{n}.CartItem.user_id', $userId);
-//			}
-////			dmDebug::logVars($items, 'items to save');
-//			$this->saveMany($items);
-//		}
-//	}
-	
-	/**
-	 * Common logic to get the current visitor's cart items
-	 * 
-	 * this->maintenance puts the old session id from the cookie in 
-	 * session id to get the user's last session
-	 * 
-	 * @param object $Session Component or Helper
-	 * @param string $sessionId The session id if the current session is not wanted
-	 * @param boolean $deep Contain related data or not
-	 * @return array {n}.CartItem.field
-	 */
-	private function load($Session, $sessionId = FALSE, $deep = FALSE) {
-
-		// prepare all the conditional parameters
-		// -----------------------------------------------
-		$userId = $Session->read('Auth.User.id');
-		if (!$sessionId) {
-			$sessionId = $Session->id();
-		}
-		if ($deep) {
-			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
-		} else {
-			$contain = FALSE;
-			$cacheName = $this->cacheName($this->cacheData, $Session);
-		}
-		// ---------------------------------------------
-		
-		// do the actual query in two parts
-		// if necessary due to expired cache
-		// -----------------------------------------------
-		if (!$items = Cache::read($cacheName, $this->dataCacheConfig)) {
-			$itemsAnon = $this->find('all', array(
-				'conditions' => array(
-					'CartItem.session_id' => $sessionId,
-					'CartItem.user_id' => ''
-				),
-				'contain' => $contain
-			));
-//		dmDebug::ddd($this->getLastQuery(), 'anon find query for $userId='.$userId);
-
-			$itemsUser = array();
-			if (!is_null($userId)) {
-				$itemsUser = $this->find('all', array(
-					'conditions' => array(
-						'CartItem.user_id' => $userId,
-						'OR' => array('CartItem.session_id' => '', 'CartItem.session_id IS NULL')
-									),
-					'contain' => $contain
-				));
-//			dmDebug::ddd($this->getLastQuery(), 'user find query for $userId='.$userId);
-			}
-			$items = array_merge($itemsAnon, $itemsUser);
-			Cache::write($cacheName, $items, $this->dataCacheConfig);
-			// -----------------------------------------------
-		}		
-//		dmDebug::ddd($items, 'items');
-		
-		return $items;
-	}
-	
-	/**
-	 * Add the correct key values to the cache name
-	 * 
-	 * During afterSave, neither the Session nor ansufficient data array 
-	 * may be present. It this happens, try using fetchItem to beef up 
-	 * $this->data and get this back on track.
-	 * 
-	 * @param string $name One of the cache-name properties
-	 * @param object|array $keySource Component or Helper | data array
-	 */
-	private function cacheName($name, $keySource) {
-		if (is_object($keySource)){
-			
-			$userId = $keySource->read('Auth.User.id');
-			
-			if (is_null($userId)) {
-				$name =  "$name.S{$keySource->id()}";
-			} else {
-				$name =  "$name.U{$userId}";
-			}
-		} else {
-			
-			if (empty($keySource['CartItem']['CartItem.user_id'])) {
-					$name =  "$name.S{$keySource['CartItem']['CartItem.session_id']}";
-			} else {
-				$name =  "$name.U{$keySource['CartItem']['CartItem.user_id']}";
-			}
-		}
-		return $name;
-	}
-
-	/**
-	 * Fetch the count of items in the cart
-	 * 
-	 * @param object $Session
-	 * @return int
-	 */
-	public function count($Session) {
-		if(!$count = Cache::read($cacheName, $this->dataCacheConfig)){
-			$count = count($this->load($Session));
-		}
-		return $count;
-	}
-	
-	/**
-	 * Get the data for the cart belonging to this Session
-	 * 
-	 * @param object $Session Component or Helper
-	 * @param boolean $deep Contain associated data or not
-	 * @return type
-	 */
-	
-	public function fetch($cartId, $deep = FALSE) {
-		return $this->load($Session, FALSE, $deep);
-	}
-	
-	/**
-	 * Retrieve a single item (don't cache)
-	 * 
-	 * Among other uses, this can help make afterSave cache destruction 
-	 * operate properly. It's easy to not have the Session available after a 
-	 * save, and possibly, not even sufficient data to identify which 
-	 * caches to clear. Getting this full record can fix this problem.
-	 * 
-	 * @param string $id
-	 * @param boolean $deep
+	 * @param string $id id of the item to retrieve
 	 * @return array
 	 */
-	public function fetchItem($id, $deep = FALSE) {
-		if ($deep) {
-			$contain = array_keys(array_merge($this->belongsTo, $this->hasMany));
-		} else {
-			$contain = FALSE;
+	public function retrieve($id) {
+		try {
+			return $this->find('all', array('conditions' => array($this->primaryKey => $id)));
+		} catch (Exception $exc) {
+			echo $exc->getTraceAsString();
 		}
-		return $this->find('first', array(
-			'conditions' => array(
-				'CartItem.id' => $id
-			),
-			'contain' => $contain
-		));
 	}
 
 	/**

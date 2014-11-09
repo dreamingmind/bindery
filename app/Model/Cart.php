@@ -36,14 +36,14 @@ class Cart extends Order {
 	 *
 	 * @var string 
 	 */
-	private $dataCache = 'cart';
+	protected $dataCache = 'cart';
 	
 	/**
 	 * Name of the Cache config responsible for cart data storage
 	 *
 	 * @var string 
 	 */
-	private $dataCacheConfig = 'cart';
+	protected $dataCacheConfig = 'cart';
 
 /**
  * Validation rules
@@ -98,6 +98,7 @@ class Cart extends Order {
 	 */
 	public function cartExists() {
 		$cart = $this->find('first', array('conditions' => $this->cartConditions(), 'contain' => FALSE));
+		dmDebug::ddd($cart, 'cart exists?');
 		return !empty($cart);
 	}
 
@@ -132,24 +133,28 @@ class Cart extends Order {
 				return $this->cachedData;
 			}
 			if (!$this->cartExists()) {
-				$userId = $Session->read('Auth.User.id');
+				$userId = $this->Session->read('Auth.User.id');
 				if (is_null($userId)) {
 					$this->data = array(
-						'session_id' => $Session->id(), 
+						'session_id' => $this->Session->id(), 
 						'state' => 'Cart'
 					);
 				} else {
 					$this->data = array(
 						'user_id' => $user_id,
-						'phone' => $Session->read('Auth.User.phone'),
-						'email' => $Session->read('Auth.User.email'),
-						'name' => $Session->read('Auth.User.name'),
+						'phone' => $this->Session->read('Auth.User.phone'),
+						'email' => $this->Session->read('Auth.User.email'),
+						'name' => $this->Session->read('Auth.User.name'),
 						'state' => 'Cart'
 					);
 				}
 				$this->create($this->data);
-				$this->save();
+//				dmDebug::ddd($this->data, 'this data just saved');
+				$this->save($this->data);
+//				dmDebug::ddd($this->validationErrors, 'errors');
 			}
+//			dmDebug::ddd($this->Session->id(), 'session id');
+			
 //			$cacheName = $this->cacheName($this->cacheData, $Session);
 			$cart = $this->find('first', array(
 				'conditions' => $this->cartConditions(), 
@@ -159,6 +164,7 @@ class Cart extends Order {
 							'fields' => array('Supplements.id', 'Supplements.order_item_id', 'Supplements.type', 'Supplements.data')
 						)
 					))));
+//			debug($cart);
 			$this->writeIdCache($cart['Cart']['id'], $cart);
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
@@ -175,18 +181,18 @@ class Cart extends Order {
 	 */
 	private function cartConditions() {
 		$userId = $this->Session->read('Auth.User.id');
-		if (is_null($userId)) {
+		if (!$userId == NULL) {
 			$id_type = 'user_id';
 			$id = $userId;
 		} else {
-			$id_type = 'user_id';
+			$id_type = 'session_id';
 			$id = $this->Session->id();
 		}
 		return array(
 			"Cart.$id_type" => $id, 
 			'OR' => array (
-				'Cart.state' => CART_STATE,
-				'Cart.state' => CHECKOUT_STATE_STATE
+				array('Cart.state' => CART_STATE),
+				array('Cart.state' => CHECKOUT_STATE)
 			));
 	}
 
@@ -237,22 +243,6 @@ class Cart extends Order {
 	}
 
 	/**
-	 * example of how caching was done
-	 * 
-	 */
-	private function loadx($Session, $sessionId = FALSE, $deep = FALSE) {
-
-//		if (!$cart = Cache::read($cacheName, $this->dataCacheConfig)) {
-////			dmDebug::ddd($cart, 'cart');
-//			if (!empty($cart)) {
-//				Cache::write($cacheName, $cart, $this->dataCacheConfig);
-//				Cache::write($this->cacheName($this->cacheCount, $Session), count($cart['Cart']['order_item_count']), $this->countCacheConfig);
-//			}			
-//		}		
-//		return $cart;
-	}
-	
-	/**
 	 * Get a cart on a specific key
 	 * 
 	 * During maintanance, we can't rely on agorithms to find the current 
@@ -279,23 +269,5 @@ class Cart extends Order {
 			echo $exc->getTraceAsString();
 		}
 		return $cart;
-	}
-
-	/**
-	 * Add the correct key values to the cache name
-	 * 
-	 * @param string $name One of the cache-name properties
-	 */
-	private function cacheName($name) {
-			
-		$userId = $this->Session->read('Auth.User.id');
-
-		if (is_null($userId)) {
-			$name =  "$name.S{$this->Session->id()}";
-		} else {
-			$name =  "$name.U{$userId}";
-		}
-
-		return $name;
 	}
 }

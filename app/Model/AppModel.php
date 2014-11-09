@@ -41,14 +41,30 @@ class AppModel extends Model {
 	/**
 	 * Base name for cart data cache
 	 * 
-	 * Will have a key value appended to make it specific to a single cart
+	 * Will have a key value appended to make it specific to a cache
+	 * 
+	 * typically this will be a model alias and will be coordinated with 
+	 * many other bits of data that make up the cache. Path and group in 
+	 * the config, as well as the config name will make most sense if 
+	 * organized around a common string like the model alias
+	 * 
+	 * example config for a dataCache set to 'cart':
+	 * Cache::config('cart', array(
+	 *	'engine' => 'File',
+	 *	'mask' => 0666,
+	 *	'group' => array('cart'),
+	 *	'path' => CACHE . 'cart' . DS,
+	 *	'prefix' => 'bindery_',
+	 *	'duration' => '+1 hour',
+	 *	'serialize' => TRUE
+	 * ));
 	 *
 	 * @var string 
 	 */
 	protected $dataCache;
 	
 	/**
-	 * Name of the Cache config responsible for cart data storage
+	 * Name of the Cache config responsible for caches using $this->dataCache in thier name
 	 *
 	 * @var string 
 	 */
@@ -61,18 +77,6 @@ class AppModel extends Model {
 	 */
 	protected $cachedData;
 
-
-
-
-
-
-//    function __construct($id = false, $table = null, $ds = null) {
-//        if ($_SERVER['HTTP_HOST'] != 'localhost' ) {
-//            $this->useDbConfig = 'hosted';
-//        }
-//        parent::__construct($id, $table, $ds);
-//    }
-	
 	/** 
 	 * Debugging aid to show the last query
 	 * 
@@ -143,5 +147,19 @@ class AppModel extends Model {
 		Cache::write($cacheKey, $data, $this->dataCacheConfig);
 	}
 	
+	/**
+	 * Delete a cache named for the record id
+	 * 
+	 * eg: if dataCache = 'cart' we'll get a name like 
+	 * bindery_cart.354 (bindery_ comes from cache config)
+	 * 
+	 * @param string $id
+	 * @param mixed $data
+	 */
+	public function deleteIdCache($id, $data) {
+		$hash = implode('/', $conditions);
+		$cacheKey = "{$this->dataCache}.$hash";
+		Cache::delete($cacheKey, $this->dataCacheConfig);
+	}
 }
 ?>
