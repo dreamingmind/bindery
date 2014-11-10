@@ -234,13 +234,13 @@ function continueShopping(e) {
  */
 function checkout(e){
 	e.preventDefault();
-	location.assign(webroot + 'cart_items/checkout');
+	location.assign(webroot + 'carts/checkout');
 }
 
 function pay(e){
 	var method = $(e.currentTarget).attr('method');
 	if (method == 'paypal') {
-		location.assign(webroot + 'cart_items/pay/paypal');
+		location.assign(webroot + 'carts/pay/paypal');
 //		$.ajax({
 //			type: "GET",
 //			dataType: "HTML",

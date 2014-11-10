@@ -145,7 +145,8 @@ class PurchasesComponent extends Component {
 			}
 		}
 		$this->controller->set('new', $this->CartItem->id);
-		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
+		$cart = $this->Cart->retrieve();
+//		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
 		$this->controller->set('cart', $cart);
 	}
 	

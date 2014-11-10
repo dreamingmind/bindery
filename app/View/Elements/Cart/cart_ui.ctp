@@ -18,19 +18,18 @@
 
 $new = isset($new) ? $new : FALSE;
 $cartSubtotal = 0;
-//dmDebug::ddd($cart, 'cart');
-foreach ($cart as $item) {
+foreach ($cart['CartItem'] as $item) {
 
-	$cartSubtotal += $item['CartItem']['total'];
-	$isNewItem = $item['CartItem']['id'] == $new;
+	$cartSubtotal += $item['total'];
+	$isNewItem = $item['id'] == $new;
 	
 	// get the helper that specializes in processing this kind of product
-	$helper = $this->Helpers->load("{$item['CartItem']['type']}Product");
+	$helper = $this->Helpers->load("{$item['type']}Product");
 	
 	if ($isNewItem || $cartClass === 'cart_checkout') {
 		$this->start('new');
 			echo $this->element('Cart/item_detail', array(
-				'item' => $item, 
+				'item' => array('CartItem' => $item, 'Supplement' => $item['Supplement']), 
 				'isNewItem' => $isNewItem, 
 				'helper' => $helper,
 				'Html' => $this->Html));
@@ -38,7 +37,7 @@ foreach ($cart as $item) {
 	} else {
 		$this->append('existing');
 			echo $this->element('Cart/item_summary', array(
-				'item' => $item, 
+				'item' => array('CartItem' => $item, 'Supplement' => $item['Supplement']), 
 				'helper' => $helper,
 				'Html' => $this->Html));
 		$this->end();

@@ -838,7 +838,10 @@ SIG;
 	}
 	
 	public function testMe(){
-		dmDebug::ddd($this->Purchases->Cart->retrieve(), 'retrieve');
+		$str = 'a:2:{s:4:"Cart";a:18:{s:2:"id";s:2:"42";s:7:"created";s:19:"2014-11-09 17:58:05";s:8:"modified";s:19:"2014-11-09 17:58:05";s:6:"number";s:9:"1411-AAFM";s:7:"user_id";s:3:"258";s:10:"session_id";N;s:7:"ship_id";N;s:7:"bill_id";N;s:14:"transaction_id";s:0:"";s:15:"tracking_number";N;s:7:"carrier";s:4:"USPS";s:6:"method";s:7:"Prioity";s:5:"state";s:4:"Cart";s:14:"invoice_number";s:0:"";s:5:"phone";s:12:"510 537 9711";s:5:"email";s:23:"ddrake@dreamingmind.com";s:13:"collection_id";N;s:16:"order_item_count";N;}s:8:"CartItem";a:0:{}}
+';
+		debug(unserialize($str));
+//		dmDebug::ddd($this->Purchases->Cart->retrieve(), 'retrieve');
 		$this->render('/Elements/testMe');
 	}
 	

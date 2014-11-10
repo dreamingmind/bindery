@@ -147,7 +147,7 @@ class Cart extends Order {
 					);
 				} else {
 					$this->data = array(
-						'user_id' => $user_id,
+						'user_id' => $userId,
 						'phone' => $this->Session->read('Auth.User.phone'),
 						'email' => $this->Session->read('Auth.User.email'),
 						'name' => $this->Session->read('Auth.User.name'),
@@ -167,10 +167,10 @@ class Cart extends Order {
 				'contain' => array(
 					'CartItem' => array(
 						'Supplement' => array(
-							'fields' => array('Supplements.id', 'Supplements.order_item_id', 'Supplements.type', 'Supplements.data')
+							'fields' => array('Supplement.id', 'Supplement.order_item_id', 'Supplement.type', 'Supplement.data')
 						)
 					))));
-//			debug($cart);
+			debug($cart);
 			$this->writeIdCache($cart['Cart']['id'], $cart);
 			return $cart;
 		} catch (Exception $exc) {
