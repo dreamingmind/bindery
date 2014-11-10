@@ -172,7 +172,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function removeItemTool($item) {
-		return $this->Html->link('Remove', "delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
+		return $this->Html->link('Remove', "/cart_item/delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
 	}
 	
 	/**

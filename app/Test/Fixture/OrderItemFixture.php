@@ -22,7 +22,7 @@ class OrderItemFixture extends CakeTestFixture {
 		'quantity' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'how many are being ordered'),
 		'type' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'comment' => 'type names the helper and product utility to use for this entry', 'charset' => 'latin1'),
 		'product_code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'comment' => 'product code for the unit (ignoring option codes)', 'charset' => 'latin1'),
-		'option_summary' => array('type' => 'string', 'null' => true, 'length' => 512, 'collate' => 'latin1_swedish_ci', 'comment' => 'details to differentiate similar or identical design_names', 'charset' => 'latin1'),
+		'option_summary' => array('type' => 'string', 'null' => true, 'length' => 512, 'collate' => 'latin1_swedish_ci', 'comment' => 'details to differentiate similar or identical product_names', 'charset' => 'latin1'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(

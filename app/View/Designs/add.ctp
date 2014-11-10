@@ -4,7 +4,7 @@
  		<legend><?php echo __('Add Design'); ?></legend>
 	<?php
 		echo $this->Form->input('user_id');
-		echo $this->Form->input('design_name');
+		echo $this->Form->input('product_name');
 		echo $this->Form->input('data');
 		echo $this->Form->input('supplement_id');
 	?>

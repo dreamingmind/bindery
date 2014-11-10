@@ -6,7 +6,7 @@
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
-			<th><?php echo $this->Paginator->sort('design_name');?></th>
+			<th><?php echo $this->Paginator->sort('product_name');?></th>
 			<th><?php echo $this->Paginator->sort('data');?></th>
 			<th><?php echo $this->Paginator->sort('supplement_id');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
@@ -26,7 +26,7 @@
 		<td>
 			<?php echo $this->Html->link($design['User']['username'], array('controller' => 'users', 'action' => 'view', $design['User']['id'])); ?>
 		</td>
-		<td><?php echo $design['Design']['design_name']; ?>&nbsp;</td>
+		<td><?php echo $design['Design']['product_name']; ?>&nbsp;</td>
 		<td><?php echo $design['Design']['data']; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($design['Supplement']['id'], array('controller' => 'supplements', 'action' => 'view', $design['Supplement']['id'])); ?>

@@ -16,7 +16,7 @@ class CartFixture extends CakeTestFixture {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'session_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'design_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+		'product_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'data' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'supplement_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -37,7 +37,7 @@ class CartFixture extends CakeTestFixture {
 			'modified' => '2014-09-30 13:09:58',
 			'user_id' => 1,
 			'session_id' => 'Lorem ipsum dolor sit amet',
-			'design_name' => 'Lorem ipsum dolor sit amet',
+			'product_name' => 'Lorem ipsum dolor sit amet',
 			'data' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'supplement_id' => 1
 		),

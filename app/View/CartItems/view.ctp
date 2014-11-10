@@ -28,7 +28,7 @@
 		</dd>
 		<dt><?php echo __('Design Name'); ?></dt>
 		<dd>
-			<?php echo h($cart['CartItem']['design_name']); ?>
+			<?php echo h($cart['CartItem']['product_name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Data'); ?></dt>

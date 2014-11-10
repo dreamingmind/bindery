@@ -86,7 +86,7 @@ function itemDetailToggle(e) {
 
 	wrapper.find('.item_text').html('');
 	wrapper.find('.item_text')
-			.append(toggleData[id]['design_name'][fetch])
+			.append(toggleData[id]['product_name'][fetch])
 			.append(toggleData[id]['blurb'][fetch])
 			.append(toggleData[id]['options'][fetch]);
 	

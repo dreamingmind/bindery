@@ -7,7 +7,7 @@
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('session_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('design_name'); ?></th>
+			<th><?php echo $this->Paginator->sort('product_name'); ?></th>
 			<th><?php echo $this->Html->para('toggle', 'data', array('id' => 'dataColumn')); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -22,7 +22,7 @@
 		<td>
 			<?php echo h($cart['CartItem']['session_id']); ?>
 		</td>
-		<td><?php echo h($cart['CartItem']['design_name']); ?>&nbsp;</td>
+		<td><?php echo h($cart['CartItem']['product_name']); ?>&nbsp;</td>
 		<td><?php echo $this->Html->para('dataColumn hide', h($cart['CartItem']['data'])); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $cart['CartItem']['id'])); ?>

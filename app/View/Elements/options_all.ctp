@@ -55,7 +55,7 @@
 	echo $this->Form->input("$productCategory.total", array('type' => 'hidden', 'value' => 0));
 	
     if (isset($usergroupid) && $usergroupid < 3){
-        echo $this->element('design_name', array('fieldsetOptions' => array(
+        echo $this->element('product_name', array('fieldsetOptions' => array(
             'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
     }
     echo $this->element('email', array('fieldsetOptions' => array(

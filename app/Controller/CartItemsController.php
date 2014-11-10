@@ -71,7 +71,7 @@ class CartItemsController extends AppController {
 //				'user_id' => $this->Auth->user('id'),
 //				'session_id' => ($this->Auth->user('id') == NULL) ? $this->Session->id() : NULL,
 //				'data' => serialize($this->request->data),
-//				'design_name' => $this->request->data[$key]['description'],
+//				'product_name' => $this->request->data[$key]['description'],
 //				'price' => rand(100, 300)
 //			)
 //		);

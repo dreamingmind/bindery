@@ -10,7 +10,7 @@
 			'empty' => 'Pick a user'
 		));
 		echo $this->Form->input('session_id', array('type' => 'text'));
-		echo $this->Form->input('design_name');
+		echo $this->Form->input('product_name');
 		echo $this->Form->input('data');
 	?>
 	</fieldset>
