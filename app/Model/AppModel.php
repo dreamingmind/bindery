@@ -156,7 +156,8 @@ class AppModel extends Model {
 	 */
 	public function deleteIdCache($id, $data) {
 		$cacheKey = "{$this->dataCache}.$id";
-		Cache::delete($cacheKey, $this->dataCacheConfig);
+		dmDebug::ddd($cacheKey, 'key');
+		debug(Cache::delete($cacheKey, $this->dataCacheConfig));
 	}
 }
 ?>

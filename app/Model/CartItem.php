@@ -50,7 +50,7 @@ class CartItem extends OrderItem {
 	 *
 	 * @var string 
 	 */
-	protected $cacheData = 'cart';
+	protected $dataCache = 'cart';
 	
 	/**
 	 * Name of the Cache config responsible for cart data storage

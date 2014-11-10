@@ -91,6 +91,12 @@ class Cart extends Order {
 		)
 	);
 	
+	public function afterSave($created) {
+		parent::afterSave($created);
+		$this->deleteIdCache($this->cartId(), $this->dataCacheConfig);
+	}
+
+
 	/**
 	 * Does the visitor/user have a Cart?
 	 * 
