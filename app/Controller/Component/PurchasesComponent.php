@@ -138,7 +138,6 @@ class PurchasesComponent extends Component {
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
 //				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
 				$cart = $this->Cart->retrieve();
-				dmDebug::ddd($this->product->cartEntry($cart['Cart']['id']), 'cart entry array to save');
 				$this->CartItem = ClassRegistry::init('CartItem');
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {
