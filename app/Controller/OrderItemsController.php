@@ -44,6 +44,7 @@ class OrderItemsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			dmDebug::ddd($this->request->data, 'trd');
 			$this->OrderItem->create();
 			if ($this->OrderItem->save($this->request->data)) {
 				$this->Session->setFlash(__('The order item has been saved'));

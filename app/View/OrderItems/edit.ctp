@@ -4,11 +4,11 @@
 		<legend><?php echo __('Edit Order Item'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('order_id');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('collection_id');
-		echo $this->Form->input('content_id');
-		echo $this->Form->input('image_id');
+		echo $this->Form->input('order_id', array('empty' => 'Select'));
+		echo $this->Form->input('user_id', array('empty' => 'Select'));
+		echo $this->Form->input('collection_id', array('empty' => 'Select'));
+		echo $this->Form->input('content_id', array('empty' => 'Select'));
+		echo $this->Form->input('image_id', array('empty' => 'Select'));
 		echo $this->Form->input('product_name');
 		echo $this->Form->input('price');
 		echo $this->Form->input('quantity');

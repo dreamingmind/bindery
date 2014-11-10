@@ -6,9 +6,9 @@
 		echo $this->Form->input('number');
 		echo $this->Form->input('user_id', array('empty' => 'Select'));
 		echo $this->Form->input('session_id', array('type' => 'text'));
-		echo $this->Form->input('ship_id');
-		echo $this->Form->input('bill_id');
-		echo $this->Form->input('transaction_id');
+		echo $this->Form->input('ship_id', array('type' => 'tedt'));
+		echo $this->Form->input('bill_id', array('type' => 'tedt'));
+		echo $this->Form->input('transaction_id', array('type' => 'tedt'));
 		echo $this->Form->input('tracking_number');
 		echo $this->Form->input('carrier');
 		echo $this->Form->input('method');

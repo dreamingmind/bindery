@@ -98,7 +98,6 @@ class Cart extends Order {
 	 */
 	public function cartExists() {
 		$cart = $this->find('first', array('conditions' => $this->cartConditions(), 'contain' => FALSE));
-		dmDebug::ddd($cart, 'cart exists?');
 		return !empty($cart);
 	}
 
@@ -128,13 +127,10 @@ class Cart extends Order {
 	 */
 	public function retrieve() {
 		$conditions = $this->cartConditions();
-		dmDebug::ddd($conditions, 'conditions');
 		try {
 			if ($this->readIdCache($this->cartId())) {
-				dmDebug::ddd($this->cachedData, 'cached data internal');
 				return $this->cachedData;
 			}
-				dmDebug::ddd($this->cachedData, 'cached data external');
 			if (!$this->cartExists()) {
 				
 				$userId = $this->Session->read('Auth.User.id');

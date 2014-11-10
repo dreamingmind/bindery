@@ -75,6 +75,7 @@ class CartItem extends OrderItem {
 		'Cart' => array(
 			'className' => 'Cart',
 			'foreignKey' => 'order_id',
+			'counterCache' => 'order_item_count',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
