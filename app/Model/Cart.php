@@ -229,12 +229,12 @@ class Cart extends Order {
 			if (!empty($userCart)) {
 				
 				// move anonymous items onto the user cart
-				Hash::insert($anonymousCart, 'CartItem.{n}.order_id', $cartUser['Cart']['id']);
+				Hash::insert($anonymousCart, 'CartItem.{n}.order_id', $userCart['Cart']['id']);
 				// merge the items into a single array
 				$userCart['CartItem'] = array_merge($anonymousCart['CartItem'], $anonymousCart['CartItem']);
 				// delete the anonymous heaader record now leaving its items behind for later update
-				$this->delete($anonymousCart['id'], FALSE);
-				$cart = $cartUser;
+				$this->delete($anonymousCart['Cart']['id'], FALSE);
+				$cart = $userCart;
 				
 			} else {
 				// move the existing anonymous cart to the new anonymous session
@@ -265,11 +265,13 @@ class Cart extends Order {
 		$conditions =  array(
 			"Cart.$id_type" => $id, 
 			'OR' => array (
-				'Cart.state' => CART_STATE,
-				'Cart.state' => CHECKOUT_STATE
+				array('Cart.state' => CART_STATE),
+				array('Cart.state' => CHECKOUT_STATE)
 			));
+			dmDebug::logVars($conditions, 'conditions');
 		try {
 			$cart = $this->find('first', array('conditions' => $conditions, 'contain' => array('CartItem')));
+			dmDebug::logVars($this->getLastQuery(), 'query');
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();

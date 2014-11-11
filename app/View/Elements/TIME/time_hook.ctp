@@ -1,5 +1,5 @@
 <?php 
-if (6==9) {
+//if (6==9) {
 ?>
 <div id='cmdm_time_toggle'></div>
 <iframe id='cmdm_time_frame' src='http://localhost/time/'></iframe>
@@ -23,5 +23,5 @@ cmdm_time_toggle();
 //]]>
 </script>
 <?php 
-}
+//}
 ?>
