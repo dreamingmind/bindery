@@ -158,7 +158,7 @@ class CartItemsController extends AppController {
 				$this->set('itemTotal', $this->CartItem->itemTotal($id));
 				$this->set('cartSubtotal', $this->CartItem->cartSubtotal());
 			} else {
-				$this->Session->setFlash(__('The change could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The change could not be saved. Please, try again.'), 'f_error');
 			}
 		}
 		$this->render('update_cart');

@@ -97,14 +97,15 @@ function itemDetailToggle(e) {
 
 function updateQuantity(e) {
 	
+	var qtyInput = $(e.currentTarget);
 	// validate numeric quantity and watch for ZERO
-	var qty = $(e.currentTarget).val();
-	var id = $(e.currentTarget).attr('id').match(/\d*/)[0];
+	var qty = qtyInput.val();
+	var id = qtyInput.attr('id').match(/\d*/)[0];
 	
 	// insist on numbers
 	if (qty.match(/[^0-9]/)) {
 		alert('You can only set quantity to a positive number');
-		$(e.currentTarget).val(1);
+		qtyInput.val(1);
 		
 	// on ZERO, confirm the desire to remove the item
 	} else if ( qty == '0') {
@@ -112,7 +113,7 @@ function updateQuantity(e) {
 		if (response) {
 			$('div#cart_item-'+id).find('a.tool.remove').trigger('click');
 		} else {
-			$(e.currentTarget).val(1);
+			qtyInput.val(1);
 		}
 		
 	// on a good, numeric input, do the ajax to update the item
@@ -125,17 +126,28 @@ function updateQuantity(e) {
 			dataType: "HTML",
 			url: webroot+'cart_items/update_cart/' + id + '/' + qty,
 			success: function(data) {
-			// get rid of any remaining flash messages. multiples don't work right
-			$('div.flash').remove();
-			
-			// update the item total
-			var newItemTotal = $(data).find('span#item_total-'+id).html();
-			$(itemTotal).html(newItemTotal);
-			
-			// update the cart subtotal
-			var newSubtotal = $(data).find('p > span.cart_subtotal').html();
-			$(subtotal).html(newSubtotal);
-			
+				// remove old flash messages
+				$('div.flash.message').remove();
+
+				if ($(data).find('div.flash.message').length === 0) {
+					// get rid of any remaining flash messages. multiples don't work right
+					$('div.flash').remove();
+					
+					// update the item total
+					var newItemTotal = $(data).find('span#item_total-' + id).html();
+					$(itemTotal).html(newItemTotal);
+					
+					// update the cart subtotal
+					var newSubtotal = $(data).find('p > span.cart_subtotal').html();
+					$(subtotal).html(newSubtotal);
+					
+					// record the new 'old' value
+					qtyInput.attr('old_val', qty);
+				} else {
+					qtyInput.parents('div[id*="cart_item-"]').append($(data).find('div.flash.message'));
+					bindHandlers('div.flash.message');
+					qtyInput.val(qtyInput.attr('old_val'));
+				}	
 			// the flash messages aren't being rendered or handled here. not such a good thing =======================================================fix me
 			},
 		error: function(xhr, status, error) {
