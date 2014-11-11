@@ -170,7 +170,6 @@ class Cart extends Order {
 							'fields' => array('Supplement.id', 'Supplement.order_item_id', 'Supplement.type', 'Supplement.data')
 						)
 					))));
-			debug($cart);
 			$this->writeIdCache($cart['Cart']['id'], $cart);
 			return $cart;
 		} catch (Exception $exc) {
