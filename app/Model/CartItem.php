@@ -131,7 +131,7 @@ class CartItem extends OrderItem {
 	 */
 	public function retrieve($id) {
 		try {
-			return $this->find('all', array('conditions' => array($this->primaryKey => $id)));
+			return $this->find('first', array('conditions' => array('CartItem.id' => $id)));
 		} catch (Exception $exc) {
 			echo $exc->getTraceAsString();
 		}
@@ -163,13 +163,14 @@ class CartItem extends OrderItem {
 	 * @param object $Session
 	 * @return float
 	 */
-	public function cartSubtotal($Session) {
-		$this->data = $this->load($Session);
-		$subtotal = 0;
-		foreach ($this->data as $item) {
-			$subtotal += $item['CartItem']['total'];
-		}
-		return $subtotal;
+	public function cartSubtotal() {
+		$this->data = $this->find('all', array(
+			'conditions' => array('order_id' => $this->Cart->cartId()),
+			'fields' => array(
+				'SUM(price * quantity) AS subtotal'
+			),
+			'contain' => FALSE));
+		return $this->data[0][0]['subtotal'];
 	}
 	
 	/**

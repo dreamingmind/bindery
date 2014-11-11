@@ -150,13 +150,13 @@ class CartItemsController extends AppController {
 		}
 		$this->layout = 'ajax';
 		if ($this->request->is('post') || $this->request->is('put')) {
-			$this->CartItem->data = $this->CartItem->fetchItem($id);
-			$this->CartItem->data['Cart']['quantity'] = $qty;
+			$this->CartItem->data = $this->CartItem->retrieve($id);
+			$this->CartItem->data['CartItem']['quantity'] = $qty;
 			
 			if ($this->CartItem->save($this->CartItem->data)) {
 				// needs to return the item subtotal and the cart subtotal
 				$this->set('itemTotal', $this->CartItem->itemTotal($id));
-				$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
+				$this->set('cartSubtotal', $this->CartItem->cartSubtotal());
 			} else {
 				$this->Session->setFlash(__('The change could not be saved. Please, try again.'));
 			}

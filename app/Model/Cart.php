@@ -267,15 +267,20 @@ class Cart extends Order {
 				array('Cart.state' => CART_STATE),
 				array('Cart.state' => CHECKOUT_STATE)
 			));
-			dmDebug::logVars($conditions, 'conditions');
 		try {
 			$cart = $this->find('first', array('conditions' => $conditions, 'contain' => array('CartItem')));
-			dmDebug::logVars($this->getLastQuery(), 'query');
 		} catch (Exception $exc) {
 			echo $exc->getFile() . ' Line: ' . $exc->getLine();
 			echo $exc->getMessage();
 			echo $exc->getTraceAsString();
 		}
 		return $cart;
+	}
+	
+	public function cartSubtotal($id = NULL) {
+		if (is_null($id)) {
+			$id = $this->cartId();
+		}
+		return $this->CartItem->cartSubtotal;
 	}
 }
