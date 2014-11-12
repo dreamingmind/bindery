@@ -41,27 +41,43 @@ class CartsController extends AppController {
 	}
 	
 	public function pay($method) {
+		$Payment = ClassRegistry::init('Payment');
+		
+		$subtotal = $this->Cart->cartSubtotal();
+		$tax = $this->Cart->tax();
+		$shipping = $this->Cart->shipping();
+		$summary = $this->Cart->summary();
+		
 		switch ($method) {
 			case 'paypal':
 				$data = array(
 					'transaction' => array(
 						'amount' => array(
-							'total'    => '400',
-							'currency' => 'USD'//,
-//							'details'  => array(
-//								'subtotal' => '',
-//								'tax'      => '',
-//								'shipping' => ''
-//							)
+							'total'    => $shipping + $tax + $subtotal,
+							'currency' => 'USD',
+							'details'  => array(
+								'subtotal' => $subtotal,
+								'tax'      => $tax,
+								'shipping' => $shipping
+							)
 						),
-						'description' => 'This is the total for your cart'
+						'description' => $summary
 					),
 					'return_urls' => array( // We must set these for Paypal payments, they are required fields
 						'cancel_url' => 'http://localhost/bindery2.0/carts/cancel',
 						'return_url' => 'http://localhost/bindery2.0/carts/complete'
 					)
 				);
+				dmDebug::logVars($data, 'data');
 				$response = $this->Paypal->createPaypalPayment($data, 'sale');
+				
+				$Payment->save(array( 'Payment' => array(
+					'order_id' => $this->Cart->cartId(),
+					'type' => $response->status,
+					'data' => json_encode($response)
+				)));
+				
+				$this->Cart->state($response->status);
 //				debug($response);die;
 //object(stdClass) {
 //	id => 'PAY-6L8318935M590390UKRK375I'
@@ -125,6 +141,7 @@ class CartsController extends AppController {
 	}
 	
 	public function complete() {
+		$Payment = ClassRegistry::init('Payment');
 //		dmDebug::ddd($this->request->data, 'response');
 //		dmDebug::ddd($this->request, 'request');
 		$data = array(
@@ -132,7 +149,16 @@ class CartsController extends AppController {
 			'id' => $this->request->query['PayerID'],
 			'token' => $this->request->query['token']
 		);
-		debug($this->Paypal->executePaypalPayment($data));
+		$response = $this->Paypal->executePaypalPayment($data);
+
+		$Payment->save(array( 'Payment' => array(
+			'order_id' => $this->Cart->cartId(),
+			'type' => $response->status,
+			'data' => json_encode($response)
+		)));
+
+		$id = $response->transaction->sale->id;
+		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
 //		query => array(
 //		'paymentId' => 'PAY-3VD75761JB929982RKRK3IVQ',
 //		'token' => 'EC-3KV968207T8081018',

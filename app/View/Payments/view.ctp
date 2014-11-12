@@ -22,9 +22,9 @@
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Data'); ?></dt>
-		<dd>
-			<?php echo h($payment['Payment']['data']); ?>
-			&nbsp;
+		<dd><pre>
+			<?php echo print_r(json_decode($payment['Payment']['data'])); ?>
+			&nbsp;</pre>
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
 		<dd>

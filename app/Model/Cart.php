@@ -286,6 +286,28 @@ class Cart extends Order {
 		if (is_null($id)) {
 			$id = $this->cartId();
 		}
-		return $this->CartItem->cartSubtotal;
+		return $this->CartItem->cartSubtotal($id);
+	}
+	
+	public function tax() {
+		return '0.00';
+	}
+	
+	public function shipping() {
+		return '0.00';
+	}
+	
+	public function summary() {
+		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
+		return "The total for the {$this->count()} items on your cart is $tot";
+		
+	}
+	
+	public function state($state) {
+		$this->data = array('Cart' => array(
+			'Cart.id' => $this->cartId(),
+			'Cart.state' => $state
+		));
+		$this->save($this->data);
 	}
 }
