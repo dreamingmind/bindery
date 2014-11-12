@@ -68,7 +68,6 @@ class CartsController extends AppController {
 						'return_url' => 'http://localhost/bindery2.0/carts/complete'
 					)
 				);
-				dmDebug::logVars($data, 'data');
 				$response = $this->Paypal->createPaypalPayment($data, 'sale');
 				
 				$Payment->save(array( 'Payment' => array(
