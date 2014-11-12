@@ -88,6 +88,11 @@ class Cart extends Order {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'Payment' => array (
+			'className' => 'Payment',
+			'foreignKey' => 'order_id',
+			'dependent' => true,
 		)
 	);
 	
