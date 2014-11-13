@@ -67,6 +67,19 @@ class Cart extends Order {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Shipping' => array(
+			'className' => 'AddressModule.Address',
+			'foreignKey' => 'ship_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),'Billing' => array(
+			'className' => 'AddressModule.Address',
+			'foreignKey' => 'bill_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 

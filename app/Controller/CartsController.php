@@ -140,24 +140,30 @@ class CartsController extends AppController {
 	}
 	
 	public function complete() {
-		$Payment = ClassRegistry::init('Payment');
-//		dmDebug::ddd($this->request->data, 'response');
-//		dmDebug::ddd($this->request, 'request');
-		$data = array(
-			'payment_id' => $this->request->query['paymentId'],
-			'id' => $this->request->query['PayerID'],
-			'token' => $this->request->query['token']
-		);
-		$response = $this->Paypal->executePaypalPayment($data);
+		
+		$this->scripts[] = 'order_addresses';
 
-		$Payment->save(array( 'Payment' => array(
-			'order_id' => $this->Cart->cartId(),
-			'type' => $response->status,
-			'data' => json_encode($response)
-		)));
-
-		$id = $response->transaction->sale->id;
-		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
+		$this->request->data = $this->Cart->find('first', array('conditions' => array('Cart.id' => 42)));
+//		$Payment = ClassRegistry::init('Payment');
+////		dmDebug::ddd($this->request->data, 'response');
+////		dmDebug::ddd($this->request, 'request');
+//		$data = array(
+//			'payment_id' => $this->request->query['paymentId'],
+//			'id' => $this->request->query['PayerID'],
+//			'token' => $this->request->query['token']
+//		);
+//		$response = $this->Paypal->executePaypalPayment($data);
+//
+//		$Payment->save(array( 'Payment' => array(
+//			'order_id' => $this->Cart->cartId(),
+//			'type' => $response->status,
+//			'data' => json_encode($response)
+//		)));
+//
+//		$id = $response->transaction->sale->id;
+//		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
+		
+		
 //		query => array(
 //		'paymentId' => 'PAY-3VD75761JB929982RKRK3IVQ',
 //		'token' => 'EC-3KV968207T8081018',
@@ -214,6 +220,6 @@ class CartsController extends AppController {
 		//		code => false
 		//	}
 		//}
-		die;
+//		die;
 	}
 }
