@@ -2,9 +2,11 @@
  * Make Shipping address the same as the Billing address
  */
 function sameShipping() {
+	// Shipping won't show if its the same as billing
 	$('fieldset.Shipping').addClass('hide');
 	$('fieldset.Billing').find('input').each(function() {
 		var id = $(this).attr('id');
+		// don't synch the record id!
 		if (id != 'BillingId') {
 			var val = $(this).val();
 			var target = id.replace('Billing', 'Shipping');
