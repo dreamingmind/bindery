@@ -161,7 +161,7 @@ class CartsController extends AppController {
 		)));
 
 		$id = $response->transaction->sale->id;
-		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
+//		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
 		
 		
 //		query => array(
