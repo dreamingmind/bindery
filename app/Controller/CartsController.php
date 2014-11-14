@@ -7,6 +7,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('Paypal', 'Paypal.Lib');
 
 /**
  * CakePHP Cart
@@ -24,6 +25,15 @@ class CartsController extends AppController {
 	public function index($id) {
 		
 	}
+    
+    public function setupPaypalClassic() {
+        $this->Paypal = new Paypal(array(
+            'sandboxMode' => true,
+            'nvpUsername' => 'ddrake-facilitator_api1.dreamingmind.com',
+            'nvpPassword' => '1373758950',
+            'nvpSignature' => 'ANrIbMXUo-yfF9kuWKgOWz14dWXXAVBcsQbD2taAL.Oggcvgh8C7SfR1'
+        ));
+    }
 
 	/**
 	 * Transfer to the first 'checkout' process page
@@ -41,189 +51,140 @@ class CartsController extends AppController {
 	}
 	
 	public function pay($method) {
-		$Payment = ClassRegistry::init('Payment');
+        $this->setupPaypalClassic();
 		
 		$subtotal = $this->Cart->cartSubtotal();
 		$tax = $this->Cart->tax();
 		$shipping = $this->Cart->shipping();
 		$summary = $this->Cart->summary();
 		
-		switch ($method) {
-			case 'paypal':
-				$data = array(
-					'transaction' => array(
-						'amount' => array(
-							'total'    => $shipping + $tax + $subtotal,
-							'currency' => 'USD',
-							'details'  => array(
-								'subtotal' => $subtotal,
-								'tax'      => $tax,
-								'shipping' => $shipping
-							)
-						),
-						'description' => $summary
-					),
-					'return_urls' => array( // We must set these for Paypal payments, they are required fields
-						'cancel_url' => 'http://localhost/bindery2.0/carts/cancel',
-						'return_url' => 'http://localhost/bindery2.0/carts/complete'
-					)
-				);
-				$response = $this->Paypal->createPaypalPayment($data, 'sale');
-				
-				$Payment->save(array( 'Payment' => array(
-					'order_id' => $this->Cart->cartId(),
-					'type' => $response->status,
-					'data' => json_encode($response)
-				)));
-				
-				$this->Cart->state($response->status);
-//				debug($response);die;
-//object(stdClass) {
-//	id => 'PAY-6L8318935M590390UKRK375I'
-//	status => 'created'
-//	created => '2014-11-01 22:24:05'
-//	modified => '2014-11-01 22:24:05'
-//	payment_method => 'paypal'
-//	type => 'sale'
-//	payer => object(stdClass) {
-//		billing_address => object(stdClass) {
-//			line1 => ''
-//			line2 => ''
-//			city => ''
-//			country_code => ''
-//			postal_code => ''
-//			state => ''
-//		}
-//		credit_card => object(stdClass) {
-//			number => ''
-//			type => ''
-//			expire_month => ''
-//			expire_year => ''
-//			first_name => ''
-//			last_name => ''
-//		}
-//		id => null
-//		email => null
-//	}
-//	approval_url => 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-5CX17020FE758673D'
-//	transaction => object(stdClass) {
-//		amount => object(stdClass) {
-//			total => '400.00'
-//			currency => 'USD'
-//			details => object(stdClass) {
-//				subtotal => '400.00'
-//			}
-//		}
-//		description => 'This is the total for your cart'
-//		sale => object(stdClass) {
-//			id => ''
-//			parent_id => ''
-//		}
-//		authorization => object(stdClass) {
-//			id => ''
-//			created => ''
-//		}
-//	}
-//	error => object(stdClass) {
-//		code => false
-//	}
-//}				
-				if ($response->status === 'created') {
-					$this->paymentId = $response->id;
-					//$response->approval_url
-//					$HTTP = new HttpSocket();
-					$this->redirect($response->approval_url);
-					exit();
-				} else {
-					exit();
-				}
-		}
+        $order = array(
+            'description' => $summary,
+            'currency' => 'USD',
+            'return' => 'http://localhost' . $this->request->webroot . 'carts/complete',
+            'cancel' => 'http://localhost' . $this->request->webroot . 'carts/checkout',
+            'items' => array(
+                0 => array(
+                    'name' => 'Blue shoes',
+                    'description' => 'A pair of really great blue shoes',
+                    'tax' => 2.00,
+                    'subtotal' => 8.00,
+                    'qty' => 1,
+                ),
+                1 => array(
+                    'name' => 'Red trousers',
+                    'description' => 'Tight pair of red pants, look good with a hat.',
+                    'tax' => 1.50,
+                    'subtotal' => 6.00,
+                    'qty' => 3,
+                ),
+            )
+        );
+         try {
+            $this->redirect($this->token = $this->Paypal->setExpressCheckout($order));
+        } catch (Exception $e) {
+            dmDebug::ddd($e->getMessage(), 'error');
+            die;
+        }
 	}
 	
-	public function complete() {
-		
-		
+	/**
+     * array(
+            'TOKEN' => 'EC-9S3688317D1605549',
+            'BILLINGAGREEMENTACCEPTEDSTATUS' => '0',
+            'CHECKOUTSTATUS' => 'PaymentActionNotInitiated',
+            'TIMESTAMP' => '2014-11-14T01:05:56Z',
+            'CORRELATIONID' => 'c88df0792dbc6',
+            'ACK' => 'Success',
+            'VERSION' => '104.0',
+            'BUILD' => '13630372',
+            'EMAIL' => 'janespratt@dreamingmind.com',
+            'PAYERID' => 'E53U4PCQSMGWS',
+            'PAYERSTATUS' => 'verified',
+            'FIRSTNAME' => 'Jane',
+            'LASTNAME' => 'Spratt',
+            'COUNTRYCODE' => 'US',
+            'SHIPTONAME' => 'Jane Spratt',
+            'SHIPTOSTREET' => '1 Main St',
+            'SHIPTOCITY' => 'San Jose',
+            'SHIPTOSTATE' => 'CA',
+            'SHIPTOZIP' => '95131',
+            'SHIPTOCOUNTRYCODE' => 'US',
+            'SHIPTOCOUNTRYNAME' => 'United States',
+            'ADDRESSSTATUS' => 'Confirmed',
+            'CURRENCYCODE' => 'USD',
+            'AMT' => '32.50',
+            'ITEMAMT' => '26.00',
+            'SHIPPINGAMT' => '0.00',
+            'HANDLINGAMT' => '0.00',
+            'TAXAMT' => '6.50',
+            'DESC' => 'The total for the 1 items on your cart is 0',
+            'INSURANCEAMT' => '0.00',
+            'SHIPDISCAMT' => '0.00',
+            'L_NAME0' => 'Blue shoes',
+            'L_NAME1' => 'Red trousers',
+            'L_QTY0' => '1',
+            'L_QTY1' => '3',
+            'L_TAXAMT0' => '2.00',
+            'L_TAXAMT1' => '1.50',
+            'L_AMT0' => '8.00',
+            'L_AMT1' => '6.00',
+            'L_DESC0' => 'A pair of really great blue shoes',
+            'L_DESC1' => 'Tight pair of red pants, look good with a hat.',
+            'L_ITEMWEIGHTVALUE0' => '   0.00000',
+            'L_ITEMWEIGHTVALUE1' => '   0.00000',
+            'L_ITEMLENGTHVALUE0' => '   0.00000',
+            'L_ITEMLENGTHVALUE1' => '   0.00000',
+            'L_ITEMWIDTHVALUE0' => '   0.00000',
+            'L_ITEMWIDTHVALUE1' => '   0.00000',
+            'L_ITEMHEIGHTVALUE0' => '   0.00000',
+            'L_ITEMHEIGHTVALUE1' => '   0.00000',
+            'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
+            'PAYMENTREQUEST_0_AMT' => '32.50',
+            'PAYMENTREQUEST_0_ITEMAMT' => '26.00',
+            'PAYMENTREQUEST_0_SHIPPINGAMT' => '0.00',
+            'PAYMENTREQUEST_0_HANDLINGAMT' => '0.00',
+            'PAYMENTREQUEST_0_TAXAMT' => '6.50',
+            'PAYMENTREQUEST_0_DESC' => 'The total for the 1 items on your cart is 0',
+            'PAYMENTREQUEST_0_INSURANCEAMT' => '0.00',
+            'PAYMENTREQUEST_0_SHIPDISCAMT' => '0.00',
+            'PAYMENTREQUEST_0_INSURANCEOPTIONOFFERED' => 'false',
+            'PAYMENTREQUEST_0_SHIPTONAME' => 'Jane Spratt',
+            'PAYMENTREQUEST_0_SHIPTOSTREET' => '1 Main St',
+            'PAYMENTREQUEST_0_SHIPTOCITY' => 'San Jose',
+            'PAYMENTREQUEST_0_SHIPTOSTATE' => 'CA',
+            'PAYMENTREQUEST_0_SHIPTOZIP' => '95131',
+            'PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE' => 'US',
+            'PAYMENTREQUEST_0_SHIPTOCOUNTRYNAME' => 'United States',
+            'PAYMENTREQUEST_0_ADDRESSSTATUS' => 'Confirmed',
+            'PAYMENTREQUEST_0_ADDRESSNORMALIZATIONSTATUS' => 'None',
+            'L_PAYMENTREQUEST_0_NAME0' => 'Blue shoes',
+            'L_PAYMENTREQUEST_0_NAME1' => 'Red trousers',
+            'L_PAYMENTREQUEST_0_QTY0' => '1',
+            'L_PAYMENTREQUEST_0_QTY1' => '3',
+            'L_PAYMENTREQUEST_0_TAXAMT0' => '2.00',
+            'L_PAYMENTREQUEST_0_TAXAMT1' => '1.50',
+            'L_PAYMENTREQUEST_0_AMT0' => '8.00',
+            'L_PAYMENTREQUEST_0_AMT1' => '6.00',
+            'L_PAYMENTREQUEST_0_DESC0' => 'A pair of really great blue shoes',
+            'L_PAYMENTREQUEST_0_DESC1' => 'Tight pair of red pants, look good with a hat.',
+            'L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE0' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE1' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMLENGTHVALUE0' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMLENGTHVALUE1' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMWIDTHVALUE0' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMWIDTHVALUE1' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMHEIGHTVALUE0' => '   0.00000',
+            'L_PAYMENTREQUEST_0_ITEMHEIGHTVALUE1' => '   0.00000',
+            'PAYMENTREQUESTINFO_0_ERRORCODE' => '0'
+        )
+     */
+    public function complete() {
+        $this->setupPaypalClassic();
 		$this->scripts[] = 'order_addresses';
-		
-		debug($this->Paypal->lookupPaypalPaymentResource($this->paymentId));die;
-
-//		$this->request->data = $this->Cart->find('first', array('conditions' => array('Cart.id' => 42)));
-//		$Payment = ClassRegistry::init('Payment');
-////		dmDebug::ddd($this->request->data, 'response');
-////		dmDebug::ddd($this->request, 'request');
-//		$data = array(
-//			'payment_id' => $this->request->query['paymentId'],
-//			'id' => $this->request->query['PayerID'],
-//			'token' => $this->request->query['token']
-//		);
-//		$response = $this->Paypal->executePaypalPayment($data);
-//
-//		$Payment->save(array( 'Payment' => array(
-//			'order_id' => $this->Cart->cartId(),
-//			'type' => $response->status,
-//			'data' => json_encode($response)
-//		)));
-//
-//		$id = $response->transaction->sale->id;
-//		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
-		
-		
-//		query => array(
-//		'paymentId' => 'PAY-3VD75761JB929982RKRK3IVQ',
-//		'token' => 'EC-3KV968207T8081018',
-//		'PayerID' => 'E53U4PCQSMGWS'
-//		)
-		
-//		object(stdClass) {
-		//	id => 'PAY-4JT180622J636930CKRK3W5Q'
-		//	status => 'approved'
-		//	created => '2014-11-01 22:04:54'
-		//	modified => '2014-11-01 22:05:33'
-		//	payment_method => 'paypal'
-		//	type => 'sale'
-		//	payer => object(stdClass) {
-		//		billing_address => object(stdClass) {
-		//			line1 => ''
-		//			line2 => ''
-		//			city => ''
-		//			country_code => ''
-		//			postal_code => ''
-		//			state => ''
-		//		}
-		//		credit_card => object(stdClass) {
-		//			number => ''
-		//			type => ''
-		//			expire_month => ''
-		//			expire_year => ''
-		//			first_name => ''
-		//			last_name => ''
-		//		}
-		//		id => null
-		//		email => 'janespratt@dreamingmind.com'
-		//	}
-		//	approval_url => ''
-		//	transaction => object(stdClass) {
-		//		amount => object(stdClass) {
-		//			total => '400.00'
-		//			currency => 'USD'
-		//			details => object(stdClass) {
-		//				subtotal => '400.00'
-		//			}
-		//		}
-		//		description => 'This is the total for your cart'
-		//		sale => object(stdClass) {
-		//			id => '5FJ53383391210626'
-		//			parent_id => 'PAY-4JT180622J636930CKRK3W5Q'
-		//		}
-		//		authorization => object(stdClass) {
-		//			id => ''
-		//			created => ''
-		//		}
-		//	}
-		//	error => object(stdClass) {
-		//		code => false
-		//	}
-		//}
-//		die;
+		debug($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
+        
+        
+        die;
 	}
 }
