@@ -14,7 +14,7 @@ class CartItemsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow();
 	}
-
+	
 /**
  * index method
  *

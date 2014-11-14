@@ -187,4 +187,28 @@ class CartItem extends OrderItem {
 			'total' => $total
 		));
 	}
+	
+	/**
+	 * Convert Items into an item array for paypal express checkout
+	 * 
+	 * @return array
+	 */
+	public function paypalClassicNvp() {
+		$cartId = $this->Cart->cartId();
+		$items = $this->find('all', array(
+			'conditions' => array('CartItem.order_id' => $cartId),
+			'contain' => false,
+		));
+		$nvp = array();
+		foreach ($items as $item) {
+			$nvp[] = array(
+				'name' => $item['CartItem']['product_name'],
+//				'description' => $item['CartItem']['product_name'],
+//				'tax' => $this->someTaxCalculator(),
+				'subtotal' => $item['CartItem']['price'],
+				'qty' => $item['CartItem']['quantity']
+			);
+		}
+		return $nvp;
+	}
 }

@@ -51,6 +51,7 @@ class CartsController extends AppController {
 	}
 	
 	public function pay($method) {
+		$CartItem = ClassRegistry::init('CartItem');
         $this->setupPaypalClassic();
 		
 		$subtotal = $this->Cart->cartSubtotal();
@@ -63,22 +64,7 @@ class CartsController extends AppController {
             'currency' => 'USD',
             'return' => 'http://localhost' . $this->request->webroot . 'carts/complete',
             'cancel' => 'http://localhost' . $this->request->webroot . 'carts/checkout',
-            'items' => array(
-                0 => array(
-                    'name' => 'Blue shoes',
-                    'description' => 'A pair of really great blue shoes',
-                    'tax' => 2.00,
-                    'subtotal' => 8.00,
-                    'qty' => 1,
-                ),
-                1 => array(
-                    'name' => 'Red trousers',
-                    'description' => 'Tight pair of red pants, look good with a hat.',
-                    'tax' => 1.50,
-                    'subtotal' => 6.00,
-                    'qty' => 3,
-                ),
-            )
+			'items' => $CartItem->paypalClassicNvp()
         );
          try {
             $this->redirect($this->token = $this->Paypal->setExpressCheckout($order));

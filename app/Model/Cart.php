@@ -311,8 +311,9 @@ class Cart extends Order {
 	}
 	
 	public function summary() {
-		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
-		return "The total for the {$this->count()} items on your cart is $tot";
+//		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
+		$i = $this->count() === 1 ? 'item' : 'items';
+		return "{$this->count()} $i in your cart.";
 		
 	}
 	
