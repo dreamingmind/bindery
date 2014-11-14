@@ -129,6 +129,7 @@ class CartsController extends AppController {
 //	}
 //}				
 				if ($response->status === 'created') {
+					$this->paymentId = $response->id;
 					//$response->approval_url
 //					$HTTP = new HttpSocket();
 					$this->redirect($response->approval_url);
@@ -141,26 +142,29 @@ class CartsController extends AppController {
 	
 	public function complete() {
 		
+		
 		$this->scripts[] = 'order_addresses';
+		
+		debug($this->Paypal->lookupPaypalPaymentResource($this->paymentId));die;
 
-		$this->request->data = $this->Cart->find('first', array('conditions' => array('Cart.id' => 42)));
-		$Payment = ClassRegistry::init('Payment');
-//		dmDebug::ddd($this->request->data, 'response');
-//		dmDebug::ddd($this->request, 'request');
-		$data = array(
-			'payment_id' => $this->request->query['paymentId'],
-			'id' => $this->request->query['PayerID'],
-			'token' => $this->request->query['token']
-		);
-		$response = $this->Paypal->executePaypalPayment($data);
-
-		$Payment->save(array( 'Payment' => array(
-			'order_id' => $this->Cart->cartId(),
-			'type' => $response->status,
-			'data' => json_encode($response)
-		)));
-
-		$id = $response->transaction->sale->id;
+//		$this->request->data = $this->Cart->find('first', array('conditions' => array('Cart.id' => 42)));
+//		$Payment = ClassRegistry::init('Payment');
+////		dmDebug::ddd($this->request->data, 'response');
+////		dmDebug::ddd($this->request, 'request');
+//		$data = array(
+//			'payment_id' => $this->request->query['paymentId'],
+//			'id' => $this->request->query['PayerID'],
+//			'token' => $this->request->query['token']
+//		);
+//		$response = $this->Paypal->executePaypalPayment($data);
+//
+//		$Payment->save(array( 'Payment' => array(
+//			'order_id' => $this->Cart->cartId(),
+//			'type' => $response->status,
+//			'data' => json_encode($response)
+//		)));
+//
+//		$id = $response->transaction->sale->id;
 //		dmDebug::ddd('https://api.sandbox.paypal.com/v1/payments/orders/'. $id, 'url');
 		
 		
