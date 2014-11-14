@@ -164,7 +164,7 @@ class Cart extends Order {
 						'state' => 'Cart'
 					);
 				} else {
-					$this->data = $this->makeUserCartData($array());
+					$this->data = $this->makeUserCartData(array());
 					$this->data['state'] = 'Cart';
 				}
 				$this->create($this->data);
@@ -192,14 +192,52 @@ class Cart extends Order {
 		}
 	}
 	
+	/**
+	 * Set all known user data point in a new or evolving Cart record
+	 * 
+	 * If a new Cart is made for a logged in User, or an anonymous 
+	 * user logs in with a cart, many pieces of User data become 
+	 * available for the Cart record. Move them in, including default 
+	 * Billing and Shipping addresses if they exist. Then return the 
+	 * array for inclusion with other cart data and eventual save.
+	 * 
+	 * Address records are save here if they get created. Links go in the data
+	 * 
+	 * @param array $data The Cart data with fields at the first level
+	 * @return array The Cart data with fields at the first level
+	 */
 	private function makeUserCartData($data){
-			$data['user_id'] = $this->Session->read('Auth.User.id');
-			$data['phone'] = $this->Session->read('Auth.User.phone');
-			$data['email'] = $this->Session->read('Auth.User.email');
-			$data['name'] = $this->Session->read('Auth.User.first_name') . ' ' . $this->Session->read('Auth.User.last_name');
-			$data['ship_id'] = $this->Session->read('Auth.User.ship_id');
-			$data['bill_id'] = $this->Session->read('Auth.User.bill_id');
-			return $data;
+		$userId = $this->Session->read('Auth.User.id');
+		$data['user_id'] = $userId;
+		$data['phone'] = $this->Session->read('Auth.User.phone');
+		$data['email'] = $this->Session->read('Auth.User.email');
+		$data['name'] = $this->Session->read('Auth.User.first_name') . ' ' . $this->Session->read('Auth.User.last_name');
+		if ($data['name'] === ' ') {
+			$data['name'] = $this->Session->read('Auth.User.username');
+		}
+		$data['ship_id'] = $this->Session->read('Auth.User.ship_id');
+		$data['bill_id'] = $this->Session->read('Auth.User.bill_id');
+
+		$Address = ClassRegistry::init('AddressModule.Address');
+
+		if (!is_null($id = $this->Session->read('Auth.User.ship_id'))) {
+			if (!empty($Address->duplicate($id))) {
+				$addressId = $Address->data['Address']['id'];
+				$data['ship_id'] = $addressId;
+				$Address->link($addressId, 'User', $userId);
+				$Address->type($addressId, 'shipping');
+			}
+
+		}
+		if (!is_null($id = $this->Session->read('Auth.User.bill_id'))) {
+			if (!empty($Address->duplicate($id))) {
+				$addressId = $Address->data['Address']['id'];
+				$data['bill_id'] = $addressId;
+				$Address->link($addressId, 'User', $userId);
+				$Address->type($addressId, 'billing');
+			}
+		}
+		return $data;
 	}
 			
 

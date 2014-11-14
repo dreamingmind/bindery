@@ -837,11 +837,13 @@ SIG;
 		$this->Purchases->newBadge($render);
 	}
 	
-	public function testMe($id, $qty){
-		$this->CartItem->itemTotal($id);
-		$this->CartItem->cartSubtotal($id);
-		
-		$this->render('/Elements/testMe');
+	public function testMe(){
+		$u = $this->User->find('first', array('conditions' => array('User.id' => 258)));
+		dmDebug::ddd($u, 'find');
+//		$r = $this->User->read(array_keys($this->User->getColumnTypes()), '258');
+		$this->User->recursive = -1;
+		$r = $this->User->read(NULL, '258');
+		dmDebug::ddd($r, 'read');
 	}
 	
 }
