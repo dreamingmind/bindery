@@ -164,13 +164,8 @@ class Cart extends Order {
 						'state' => 'Cart'
 					);
 				} else {
-					$this->data = array(
-						'user_id' => $userId,
-						'phone' => $this->Session->read('Auth.User.phone'),
-						'email' => $this->Session->read('Auth.User.email'),
-						'name' => $this->Session->read('Auth.User.name'),
-						'state' => 'Cart'
-					);
+					$this->data = $this->makeUserCartData($array());
+					$this->data['state'] = 'Cart';
 				}
 				$this->create($this->data);
 //				dmDebug::ddd($this->data, 'this data just saved');
@@ -197,6 +192,17 @@ class Cart extends Order {
 		}
 	}
 	
+	private function makeUserCartData($data){
+			$data['user_id'] = $this->Session->read('Auth.User.id');
+			$data['phone'] = $this->Session->read('Auth.User.phone');
+			$data['email'] = $this->Session->read('Auth.User.email');
+			$data['name'] = $this->Session->read('Auth.User.first_name') . ' ' . $this->Session->read('Auth.User.last_name');
+			$data['ship_id'] = $this->Session->read('Auth.User.ship_id');
+			$data['bill_id'] = $this->Session->read('Auth.User.bill_id');
+			return $data;
+	}
+			
+
 	/**
 	 * Looking at current session, create the conditions array to look for Cart on the right key
 	 * 
@@ -244,6 +250,7 @@ class Cart extends Order {
 		
 		if (!empty($anonymousCart)) {
 			if (!empty($userCart)) {
+			// both anon cart and user cart exist
 				
 				// move anonymous items onto the user cart
 				Hash::insert($anonymousCart, 'CartItem.{n}.order_id', $userCart['Cart']['id']);
@@ -253,12 +260,24 @@ class Cart extends Order {
 				$this->delete($anonymousCart['Cart']['id'], FALSE);
 				$cart = $userCart;
 				
+			} elseif (!is_null($userId)) {
+			// anon cart, no user cart, but now logged in
+				$this->data = $anonymousCart; // id of the cart to modify
+				$this->data['Cart'] = $this->makeUserCartData($this->data['Cart']); // add all the new user data
+				$this->data['Cart']['session_id'] = NULL; // unhook from session
+				$this->data = Hash::insert($this->data, 'CartItem.{n}.user_id', $userId);
+				
+				$cart = $this->data;
+				
 			} else {
+			// anon cart needs to move to new anon session
+
 				// move the existing anonymous cart to the new anonymous session
 				Hash::insert($anonymousCart, 'Cart.id', $this->Session->id());
 				$cart = $anonymousCart;
 			}
 
+			// new cart record created rather than move of anon cart to user
 			$this->saveAssociated($cart);
 		} else {
 			// there wasn't any cart or there was only a user cart which we just left alone
