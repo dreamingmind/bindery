@@ -2,7 +2,7 @@
 App::uses('QBModel', 'Lib/QBUtilities');
 
 $name = 'Options:59.2'; // PEN LOOP
-$item = QBModel::InvItem('NAME', $name);
+$item = QBModel::InvItem('name', $name);
 
 /* @var $this ViewCC */
 $options = array(
@@ -20,14 +20,14 @@ $parameters = array(
 	// legend is controlling the input 'class' and this class is part of the 
 	// selector that is making this a cost option. Break this and the pricing 
 	// for this option breaks. Must be Pen Loop
-    'legend' => (isset($legend)) ? $legend : $item['INVITEM']['DESC'],
+    'legend' => (isset($legend)) ? $legend : $item['invitem']['desc'],
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
         $name => array(
-			'label' => $item['INVITEM']['DESC'],
-            'price' => $item['INVITEM']['PRICE'],
+			'label' => $item['invitem']['desc'],
+            'price' => $item['invitem']['price'],
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',

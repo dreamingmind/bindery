@@ -51,7 +51,7 @@ class QBModel {
 		$l = $like ? '1' : '0';
 		
 		if (! $result = Cache::read("{$f}_{$v}_{$l}", 'qb')) {
-			$db = self::init('INVITEM');
+			$db = self::init('invitem');
 			if (!$like) {
 				$result = $db->find('first', array('conditions' => array($field => $val)));
 			} else {
@@ -76,8 +76,8 @@ class QBModel {
 	public static function priceList($code = FALSE) {
 		
 		if (!$prices = Cache::read('qbPrices', 'qb')) {
-			$db = self::init('INVITEM');
-			$prices = $db->find('list', array('fields' => array('NAME', 'PRICE')));
+			$db = self::init('invitem');
+			$prices = $db->find('list', array('fields' => array('name', 'price')));
 			Cache::write('qbPrices', $prices, 'qb');
 		}
 		if ($code) {

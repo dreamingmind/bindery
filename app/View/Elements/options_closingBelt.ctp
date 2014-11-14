@@ -1,7 +1,7 @@
 <?php
 
 $name = 'Options:63'; // CLOSING BELT
-$item = QBModel::InvItem('NAME', $name);
+$item = QBModel::InvItem('name', $name);
 
 
 /* @var $this ViewCC */
@@ -20,14 +20,14 @@ $parameters = array(
 	// legend is controlling the input class and this class is part of the 
 	// selector that making this a cost option. Break this and the pricing 
 	// for this option breaks. Must be Closing Belt
-    'legend' => (isset($legend)) ? $legend : $item['INVITEM']['DESC'],
+    'legend' => (isset($legend)) ? $legend : $item['invitem']['desc'],
     'prefix' => (isset($prefix)) ? $prefix : false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
         $name => array(
-			'label' => $item['INVITEM']['DESC'], 
-            'price' => $item['INVITEM']['PRICE'], // 16
+			'label' => $item['invitem']['desc'], 
+            'price' => $item['invitem']['price'], // 16
             'type' => 'radio',
             'options' => array('0' => 'No', '1' => 'Yes'),
             'default' => '0',

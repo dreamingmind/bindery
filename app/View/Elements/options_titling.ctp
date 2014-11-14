@@ -1,7 +1,7 @@
 <?php
 
 $name = 'Options:17'; // CLOSING BELT
-$item = QBModel::InvItem('NAME', $name);
+$item = QBModel::InvItem('name', $name);
 
 /**
  */
@@ -32,8 +32,8 @@ $parameters = array(
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
         $name => array(
-			'label' => $item['INVITEM']['DESC'],
-            'price' => $item['INVITEM']['PRICE'], // $15
+			'label' => $item['invitem']['desc'],
+            'price' => $item['invitem']['price'], // $15
             'type' => 'radio',
             'options' => array(
                 '0' => 'No',
