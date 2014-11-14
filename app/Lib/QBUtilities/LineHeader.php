@@ -22,10 +22,18 @@ class LineHeader extends LineAbstract {
 	public function execute() {
 		$this->loadModel($this->alias());
 		$this->Model->db->deleteAll(array(1=>1));
-		$this->Model->headers = $this->data();
+		$this->Model->headers = $this->lowerCaseData();
 		$this->Model->dataQC = new DataQC($this->Model->db->_schema);
 	}
 	
+	private function lowerCaseData() {
+		foreach($this->data as $index => $field) {
+			$this->data[$index] = strtolower($field);
+		}
+		return $this->data;
+	}
+
+
 	/**
 	 * Return the Model/Table alias recorded in this line
 	 * 
@@ -35,7 +43,7 @@ class LineHeader extends LineAbstract {
 		if(!isset($this->alias)){
 			$this->parseLine();
 		}
-		return str_replace('!', '', $this->alias);
+		return strtolower(str_replace('!', '', $this->alias));
 	}
 	
 	/**

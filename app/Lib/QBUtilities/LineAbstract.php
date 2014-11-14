@@ -62,7 +62,7 @@ abstract class LineAbstract {
 	 *
 	 * @var array
 	 */
-	protected $skip = array('HDR', 'BUD', 'INVITEM', 'EMP', 'ENDGRP', 'TRNS', 'SPL', 'TODO', 'VEHICLE', 'SALESREP');
+	protected $skip = array('hdr', 'bud', 'invitem', 'emp', 'endgrp', 'trns', 'spl', 'todo', 'vehicle', 'salesrep');
 	
 	
 	/**
@@ -95,7 +95,7 @@ abstract class LineAbstract {
 	 */
 	public function skip() {
 		if(in_array($this->alias(), $this->skip)){
-			if($this->alias() == 'INVITEM' && count($this->data()) > 15){
+			if($this->alias() == 'invitem' && count($this->data()) > 15){
 				return FALSE;
 			}
 			return TRUE;
@@ -127,7 +127,7 @@ abstract class LineAbstract {
 	 */
 	protected function parseLine() {
 		$this->data = explode("\t", $this->line);
-		$this->alias = array_shift($this->data);
+		$this->alias = strtolower(array_shift($this->data));
 	}
 }
 
