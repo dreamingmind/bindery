@@ -55,7 +55,8 @@ and checkout page view of the cart
 -->
 <?php
 
-if (!$this->Cart->contactPresent($cart['Cart'])) {
+if (!$this->Cart->contactPresent($cart['Cart']) && $cartClass === 'cart_checkout') {
+// this, only on checkout and if contact info is incomplete
 	$this->request->data = $cart;
 	$this->request->data('Cart.first_name', $this->Session->read('Auth.User.first_name'))
 			->data('Cart.last_name', $this->Session->read('Auth.User.last_name'));
@@ -64,11 +65,12 @@ if (!$this->Cart->contactPresent($cart['Cart'])) {
 
 	echo $this->element('Cart/contact_input', array('cart' => $cart));
 } else {
+// this, in pallet or on checkout only if contact info is complete
 	$maskState = '';
 }
 
 echo $this->Html->div(NULL, NULL, array('id' => $cartClass, 'title' => 'Supply the required contact information to proceed.'));
-	echo $this->Html->div('mask' . $maskState, '');
+	echo $this->Html->div('mask' . $maskState, ''); // this will dim the cart if contact info is incomplete
 
 	echo $this->fetch('new');
 	echo $this->fetch('existing');

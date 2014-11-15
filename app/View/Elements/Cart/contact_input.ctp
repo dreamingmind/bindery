@@ -17,5 +17,6 @@ echo $this->Form->create('Cart', array('action' => 'contacts'));
 	?>
 	</fieldset>
 <?php
-	echo $this->Form->end('Submit', array('bind' => 'click.submitContacts'));
+	echo $this->Form->input('Submit', array('bind' => 'click.submitContacts', 'type' => 'submit', 'label' => FALSE));
+	echo $this->Form->end();
 ?>

@@ -39,6 +39,37 @@ function addToCart(e) {
 	})
 }
 
+function submitContacts(e) {
+	e.preventDefault();
+	var result = true;
+	$('#CartContactsForm').find('input').each(function(e) {
+		result = result && ($(this).val().length > 0);
+	})
+	if (result) {
+		$.ajax({
+			type: "POST",
+			dataType: "HTML",
+			data: $('#CartContactsForm').serialize(),
+			url: webroot + 'carts/save_contacts',
+			success: function (data) {
+				var error = data.match(/error/) !== null;
+				if (error) {
+					$('#CartContactsForm > fieldset').after(data);
+				} else {
+					$('#CartContactsForm').replaceWith(data);
+					$('div.mask').removeClass('cover');
+				}
+			},
+			error: function (data) {
+				alert('There was a problem contacting the server. Please try again.')
+			}
+		})
+
+	} else {
+		alert('Please provide all 4 pieces of information.');
+	}
+}
+
 /**
  * Render a new cart badge and update the page
  * 

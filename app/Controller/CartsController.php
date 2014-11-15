@@ -173,4 +173,32 @@ class CartsController extends AppController {
         
         die;
 	}
+	
+	public function save_contacts() {
+//		array(
+//	'Cart' => array(
+//		'first_name' => 'Jane',
+//		'last_name' => 'Spratt',
+//		'email' => 'janespratt@dreamingmind.com',
+//		'phone' => '510 415 9987',
+//		'Register' => '1'
+//	)
+//)
+//		debug($this->request->data);
+		$this->request->data('Cart.name', $this->request->data('Cart.first_name') . ' ' . $this->request->data('Cart.last_name'))
+				->data('Cart.id', $this->Cart->cartId());
+		
+		if ($this->Cart->save($this->request->data)) {
+			// clear the cache
+			if ($this->request->data('Cart.Register') === '1') {
+				$this->Session->setFlash('Check your email for the message to confirm your registration.', 'f_success');
+			} else {
+				$this->Session->setFlash('Thank you. Please proceed.', 'f_success');
+			}
+		} else {
+			$this->Session->setFlash('There was a problem saving your contact information. Please try again.', 'f_error');
+		}
+		$this->layout = 'ajax';
+		$this->render('/Ajax/flashOut');
+	}
 }
