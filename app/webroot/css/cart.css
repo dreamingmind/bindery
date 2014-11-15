@@ -160,4 +160,48 @@ div[id*=cart_] > div > p.tools {
     content: "$ ";
 }
 
+fieldset#required_contact div.input.checkbox, fieldset#required_contact p {
+    margin-left: 20%;
+}
 
+fieldset#required_contact p {
+	padding: 5px 0 10px 2%;
+	color: #a32;
+	font-size: 90%
+}
+
+div#cart_checkout {
+    position: relative;
+}
+
+div.cover {
+    background-color: white;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+h2.checkout {
+    background: none repeat scroll 0 0 #374426;
+    color: white;
+    font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
+    font-size: 160%;
+    padding: 0.3em 0.3em 0.4em 0.4em;
+}
+
+form#CartContactsForm {
+    margin: 0;
+    width: 100%;
+} 
+
+form#CartContactsForm {
+    margin: 0;
+    width: 100%;
+}
+
+fieldset legend {
+	color: #062619;
+}

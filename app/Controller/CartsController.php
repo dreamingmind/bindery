@@ -15,7 +15,7 @@ App::uses('Paypal', 'Paypal.Lib');
  */
 class CartsController extends AppController {
 	
-	public $helpers = array('PurchasedProduct');
+	public $helpers = array('PurchasedProduct', 'Cart');
 
 	public function beforeFilter() {
 		parent::beforeFilter();

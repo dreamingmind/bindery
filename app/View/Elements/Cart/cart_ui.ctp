@@ -17,6 +17,8 @@
 // if you decide to follow these element calls.  
 
 $new = isset($new) ? $new : FALSE;
+//dmDebug::ddd($cart['Cart'], 'cart data');
+
 $cartSubtotal = 0;
 foreach ($cart['CartItem'] as $item) {
 
@@ -52,13 +54,27 @@ and checkout page view of the cart
 ==============================================
 -->
 <?php
-echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
+
+if (!$this->Cart->contactPresent($cart['Cart'])) {
+	$this->request->data = $cart;
+	$this->request->data('Cart.first_name', $this->Session->read('Auth.User.first_name'))
+			->data('Cart.last_name', $this->Session->read('Auth.User.last_name'));
+	$maskState = ' cover';
+	//dmDebug::ddd($this->request->data, 'trd');
+
+	echo $this->element('Cart/contact_input', array('cart' => $cart));
+} else {
+	$maskState = '';
+}
+
+echo $this->Html->div(NULL, NULL, array('id' => $cartClass, 'title' => 'Supply the required contact information to proceed.'));
+	echo $this->Html->div('mask' . $maskState, '');
 
 	echo $this->fetch('new');
 	echo $this->fetch('existing');
 	if (count($cart) > 0) {
 		echo $this->element('Cart/cart_summary', array('cartSubtotal' => $cartSubtotal));
-		echo $this->element('Cart/button_block', array('cartClass' => $cartClass));
+		echo $this->element('Cart/button_block', array('cartClass' => $cartClass, 'cart' => $cart));
 	}
 	
 // This section places the json object on the page which supports
