@@ -9,10 +9,12 @@ echo $this->Form->create('Cart', array('action' => 'contacts'));
 		echo $this->Form->input('Cart.last_name');
 		echo $this->Form->input('Cart.email');
 		echo $this->Form->input('Cart.phone');
+		// this shold only show for anon users ===========================================================================
 		echo $this->Form->input('Register', array(
-			'label' => 'Please remember me (you\'ll get a password via email).', 
+			'label' => 'Future feature. [Please register me with Dreaming Mind.]', 
 			'checked' => FALSE, 
 			'type' => 'checkbox',
+			'disabled' => TRUE,
 			'bind' => 'click.registration_request'));
 	?>
 	</fieldset>

@@ -62,7 +62,7 @@ class Cart extends Order {
  */
 	public $belongsTo = array(
 		'Customer' => array(
-			'className' => 'User',
+			'className' => 'Customer',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',

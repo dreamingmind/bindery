@@ -22,9 +22,18 @@ class CartsController extends AppController {
 		$this->Auth->allow();
 	}
 
-	public function index($id) {
-		
+	public function index() {
+		$this->redirect(array('controller' => 'orders', 'action' => 'index'));
 	}
+	public function view($id) {
+		$this->redirect(array('controller' => 'orders', 'action' => 'view', $id));
+	}
+//	public function index($id) {
+//		$this->redirect(array('controller' => 'orders', 'action' => 'index', 'pass' => $id));
+//	}
+//	public function index($id) {
+//		$this->redirect(array('controller' => 'orders', 'action' => 'index', 'pass' => $id));
+//	}
     
     public function setupPaypalClassic() {
         $this->Paypal = new Paypal(array(
@@ -174,23 +183,29 @@ class CartsController extends AppController {
         die;
 	}
 	
+	/**
+	 * Forced collection of contact info for shopping carts
+	 */
 	public function save_contacts() {
-//		array(
-//	'Cart' => array(
-//		'first_name' => 'Jane',
-//		'last_name' => 'Spratt',
-//		'email' => 'janespratt@dreamingmind.com',
-//		'phone' => '510 415 9987',
-//		'Register' => '1'
-//	)
-//)
-//		debug($this->request->data);
+
 		$this->request->data('Cart.name', $this->request->data('Cart.first_name') . ' ' . $this->request->data('Cart.last_name'))
 				->data('Cart.id', $this->Cart->cartId());
-		
-		if ($this->Cart->save($this->request->data)) {
-			// clear the cache
+		// if this is a logged in user, we'll update their account with this info too
+		// possibly some is different, but we're going to assume new is best.
+		if ($this->Auth->user('id')) {
+			$this->request->data('Cart.user_id', $this->Auth->user('id'))
+				->data('Customer.id', $this->Auth->user('id'))
+				->data('Customer.registration_date', $this->Auth->user('registration_date'))
+				->data('Customer.first_name', $this->request->data('Cart.first_name'))
+				->data('Customer.last_name', $this->request->data('Cart.last_name'))
+				->data('Customer.phone', $this->request->data('Cart.phone'))
+				->data('Customer.email', $this->request->data('Cart.email'));
+		}
+				
+		if ($this->Cart->saveAssociated($this->request->data)) {
 			if ($this->request->data('Cart.Register') === '1') {
+				
+				// I'm disabling this for now. Turn the input back on and write some code to do this.
 				$this->Session->setFlash('Check your email for the message to confirm your registration.', 'f_success');
 			} else {
 				$this->Session->setFlash('Thank you. Please proceed.', 'f_success');
