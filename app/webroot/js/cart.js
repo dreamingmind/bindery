@@ -280,10 +280,14 @@ function checkout(e){
 	location.assign(webroot + 'carts/checkout');
 }
 
-function pay(e){
+function pay_check(e) {
+	location.assign(webroot + 'carts/checkout_address');
+}
+
+function pay_express(e){
 	var method = $(e.currentTarget).attr('method');
 	if (method == 'paypal') {
-		location.assign(webroot + 'carts/pay/paypal');
+		location.assign(webroot + 'carts/express');
 //		$.ajax({
 //			type: "GET",
 //			dataType: "HTML",

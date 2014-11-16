@@ -14,8 +14,8 @@ if (isset($referer)) {
 			<button bind="click.checkout">Checkout</button>
 			<?php
 		} else {
-			echo "<button method='check' bind='click.pay'>Pay by check</button>";
-			echo "<button method='paypal' bind='click.pay'>PayPal</button>";
+			echo "<button method='check' bind='click.pay_check'>Pay by check</button>";
+			echo "<button method='paypal' bind='click.pay_express'>PayPal</button>";
 		}
 		?>
 	</div>

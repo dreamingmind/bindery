@@ -46,6 +46,17 @@ class CartsController extends AppController {
 
 	/**
 	 * Transfer to the first 'checkout' process page
+	 * 
+	 * This is the first page presentation where registered/anon users 
+	 * see all the full summaries of their cart items. They can cange item 
+	 * quantities or remove items from their cart.
+	 * 
+	 * In the future, registered users will also be able to 
+	 * send items to their wish list
+	 * 
+	 * Choosing a payment option will advance the checkout process. 
+	 * By Check (this->checkout_address()) and 
+	 * PayPal (this->express()) are the current choices
 	 */
 	public function checkout() {
 		$this->layout = 'noThumbnailPage';
@@ -59,7 +70,15 @@ class CartsController extends AppController {
 		$this->set('referer', $this->referer());
 	}
 	
-	public function pay($method) {
+	/**
+	 * Paypal Express Checkout
+	 * 
+	 * Set the vars needed for the nvp package and use the 
+	 * Paypal plugin to set up the checkout. On success redirect
+	 * 
+	 * There is no detection of failed setup yet ===============================================******************************!!!!!!!!!!!!!!!!!!!!!!no error trap
+	 */
+	public function express() {
 		$CartItem = ClassRegistry::init('CartItem');
         $this->setupPaypalClassic();
 		
@@ -84,6 +103,9 @@ class CartsController extends AppController {
 	}
 	
 	/**
+	 * Paypal response after return from what... doExpressCheckout? setExpress? 
+	 * I think it's the setExpress redirect response.
+	 * 
      * array(
             'TOKEN' => 'EC-9S3688317D1605549',
             'BILLINGAGREEMENTACCEPTEDSTATUS' => '0',
@@ -174,13 +196,34 @@ class CartsController extends AppController {
             'PAYMENTREQUESTINFO_0_ERRORCODE' => '0'
         )
      */
+	/**
+	 * The final confirmation of the order after all data collection
+	 * 
+	 * This is it. Pull the trigger. 
+	 * There will need to be a switch here to control the next destination. 
+	 * If we are here from the pay-by-check path, then we'll go directly to 
+	 * the Thanks page and will have to handle email notifications. 
+	 * If we're here from the setExpress return, then the next step will be 
+	 * doExpress and we'll go on to the Thanks page after successful response.
+	 * 
+	 */
     public function complete() {
-        $this->setupPaypalClassic();
+		$this->request->data = $this->Cart->retrieve();
+//      $this->setupPaypalClassic();
+//		debug($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
+//      die;
+	}
+	
+	/**
+	 * Gather contact and shipping information for pay-by-check customers.
+	 * 
+	 * This is the full edit page for the cart. But 
+	 */
+	public function checkout_address() {
+		$this->layout = 'noThumbnailPage';
+		$this->set('contentDivIdAttr', 'checkout');
 		$this->scripts[] = 'order_addresses';
-		debug($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
-        
-        
-        die;
+		$this->request->data = $this->Cart->retrieve();		
 	}
 	
 	/**

@@ -1,33 +1,33 @@
 /**
  * Make Shipping address the same as the Billing address
  */
-function sameShipping() {
+function sameBilling() {
 	// Shipping won't show if its the same as billing
-	$('fieldset.Shipping').addClass('hide');
-	$('fieldset.Billing').find('input').each(function() {
+	$('fieldset.Billing').addClass('hide');
+	$('fieldset.Shipping').find('input').each(function() {
 		var id = $(this).attr('id');
 		// don't synch the record id!
-		if (id != 'BillingId') {
+		if (id != 'ShippingId') {
 			var val = $(this).val();
-			var target = id.replace('Billing', 'Shipping');
+			var target = id.replace('Shipping', 'Billing');
 			// memorize shipping address values in case we want to restore them
-			$('fieldset.Shipping').data(target, $('#' + target).val());
-			// and set shipping to match billing 
+			$('fieldset.Billing').data(target, $('#' + target).val());
+			// and set billing to match shipping 
 			$('#' + target).val(val);
 		}		
 	})
 }
 
 /**
- * Make Shipping address different than Billing address
+ * Make Billing address different than Shipping address
  */
-function differentShipping() {
-	$('fieldset.Shipping').removeClass('hide');
-	$('fieldset.Shipping').find('input').each(function() {
+function differentBilling() {
+	$('fieldset.Billing').removeClass('hide');
+	$('fieldset.Billing').find('input').each(function() {
 		var id = $(this).attr('id');
-		if (id != 'ShippingId') {
-			// restore the original Shipping values
-			$('#' + id).val($('fieldset.Shipping').data(id));
+		if (id != 'BillingId') {
+			// restore the original Billing values
+			$('#' + id).val($('fieldset.Billing').data(id));
 		}		
 	})
 }
@@ -35,24 +35,24 @@ function differentShipping() {
 /**
  * Change address behaviors based on 'same' setting
  */
-function set_shipping() {
+function set_billing() {
 	if ($('#CartSame').prop('checked')) {
-		sameShipping();
+		sameBilling();
 	} else {
-		differentShipping();
+		differentBilling();
 	}
 }
 
 /**
- * Sync Billing vals to Shipping vals if 'same' is requested
+ * Sync Shipping vals to Billing vals if 'same' is requested
  */
-function initBilling() {
-	$('fieldset.Billing').find('input').each(function() {
+function initShipping() {
+	$('fieldset.Shipping').find('input').each(function() {
 		$(this).on('change', function(e) {
 			if ($('#CartSame').prop('checked')) {
 				var self = $(e.currentTarget);
 				var id = $(self).attr('id');
-				var target = id.replace('Billing', 'Shipping');
+				var target = id.replace('Shipping', 'Billing');
 				$('#' + target).val($(self).val());
 			}
 		})
@@ -61,7 +61,7 @@ function initBilling() {
 
 $(document).ready(function() {
 	// start out with the addresses the same
-	sameShipping();
-	// make billing synch to shipping if 'same' is requested
-	initBilling();
+	sameBilling();
+	// make shipping synch to billing if 'same' is requested
+	initShipping();
 })

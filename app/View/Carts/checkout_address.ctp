@@ -12,6 +12,7 @@ echo $this->Form->create('Cart');
 	}
 	
 echo $this->Form->end('Submit');
+echo $this->element('Cart/cart_ui', array('cart' => $this->request->data, 'cartClass' => 'cart_checkout'));
 ?>
 </div>
 	<script type="text/javascript">
