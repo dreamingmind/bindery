@@ -17,6 +17,8 @@ class CartsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct', 'Cart');
 
+	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();

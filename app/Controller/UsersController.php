@@ -21,8 +21,9 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $components = array('UserRecordForm', 'Email');
+	var $components = array('UserRecordForm', 'Email', 'Security');
 	var $tempPassword = null;
+	public $secure = array('login', 'register', 'forgot');
 
 //        var $first = array('empty');
 //        var $second = array('empty');
@@ -31,8 +32,8 @@ class UsersController extends AppController {
 		$this->Auth->allow('logout', 'register', 'forgot', 'refreshHash');
 		parent::beforeFilter();
 		$this->css[] = 'login';
-	}
-
+    }
+	
 	function beforeRender() {
 		parent::beforeRender();
 	}

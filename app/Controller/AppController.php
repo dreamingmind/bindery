@@ -117,6 +117,8 @@ class AppController extends Controller {
      * @var integer $firstYear The first year of archive Content/Image data for Advanced Search
      */
     var $firstYear = 2012;
+	
+	public $secure = array();
 
     /**
      * @var array $month Selection list of months for Advanced Search
@@ -169,6 +171,11 @@ class AppController extends Controller {
     var $scripts = '';
 	
     function beforeFilter() {
+        if (in_array($this->params->action, $this->secure) && !$this->request->is('ssl')) {
+			$this->redirect($this->force());
+//        } elseif (!in_array($this->params->action, $this->secure) && $this->request->is('ssl') && !strstr($this->referer(), 'users/login')) {
+//			$this->redirect($this->unforce());
+		}
 		parent::beforeFilter();
 		
 		$this->layout = 'noThumbnailPage';
@@ -213,6 +220,13 @@ class AppController extends Controller {
 //    echo $html->css('new4.css');
 //    echo $html->css('advanced-search');
 //    echo $html->css('search_links');
+    }
+	function force() {
+		$this->redirect('https://' . env('SERVER_NAME') . $this->here);
+	}
+ 
+    function unforce() {
+		$this->redirect('http://'. env('SERVER_NAME') . $this->here);
     }
 
 	function beforeRender() {
