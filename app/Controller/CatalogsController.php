@@ -127,41 +127,44 @@ class CatalogsController extends AppController {
     
     /**
      * Save product specs for later and add product to shopping cart
+	 * 
+	 * This is assumed to be deprecated ========================================================= !!!!!!!!!!!!!!!!!!!!!!!!!! deprecated?
      * 
      * Return an HTML fragemnt. This was an AJAX call
      */
-    function order($dat = 'my data'){
-//		dmDebug::ddd($this->request->data, 'trd');
-//		dmDebug::logVars($dat, 'provided argument');
-        $this->layout = 'ajax';
-        $product = $this->request->data; //pick off the pertinent array elements here
-//        $this->SpecdProducts->memorizeSpecs($product);
-//        $result = $this->addToCart($product);
-        $result = true;
-        if (isset($this->request->data)) {
-            $data = array(
-                'Design' => array(
-                    'data' => serialize($this->request->data)
-                )
-            );
-            if ($this->Design->save($data)) {
-                $message = 'Success';
-            } else {
-                $message = 'Failure';
-            }
-//            debug($message);
-            //prepare SUCCESS return message
-            $this->set('data', $this->request->data);
-            $result = $this->addToCart();
-            $websitecode = $result['WEBSITECODE'];
-            $emaillink = $result['EMAILLINK'];
-            $this->set('emaillink', $emaillink);
-//            $this->redirect($emaillink, );
-        } else {
-            //prepare FAILURE return message
-            $this->set('data', $this->request->data);
-        }
-    }
+//    function order($dat = 'my data'){
+////		dmDebug::ddd($this->request->data, 'trd');
+////		dmDebug::logVars($dat, 'provided argument');
+//        $this->layout = 'ajax';
+//        $product = $this->request->data; //pick off the pertinent array elements here
+////        $this->SpecdProducts->memorizeSpecs($product);
+////        $result = $this->addToCart($product);
+//        $result = true;
+//        if (isset($this->request->data)) {
+//			// this is the only use of $this->Design and is assumed to be deprecated
+////            $data = array(
+////                'Design' => array(
+////                    'data' => serialize($this->request->data)
+////                )
+////            );
+////            if ($this->Design->save($data)) {
+////                $message = 'Success';
+////            } else {
+////                $message = 'Failure';
+////            }
+////            debug($message);
+//            //prepare SUCCESS return message
+//            $this->set('data', $this->request->data);
+//            $result = $this->Purchases->add();
+//            $websitecode = $result['WEBSITECODE'];
+//            $emaillink = $result['EMAILLINK'];
+//            $this->set('emaillink', $emaillink);
+////            $this->redirect($emaillink, );
+//        } else {
+//            //prepare FAILURE return message
+//            $this->set('data', $this->request->data);
+//        }
+//    }
 
 	/**
 	 * Collect option lists for product specification
