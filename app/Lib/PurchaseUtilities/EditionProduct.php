@@ -18,12 +18,58 @@
  */
 class EditionProduct extends PurchasedProduct {
 	
+	/**
+	 * Calculate the price of a single unit of the product
+	 * 
+	 * The price is stored in qb.invitem
+	 * 
+	 * @return float
+	 */
 	protected function calculatePrice() {
+		if (!isset($this->data['Edition']['item'])) {
+			
+		}
+		$this->lookup(); // set the lookup properties
+		// the product field contains the code of the chosen product
+		$price = $this->qbCodePrices[ strtoupper($this->data['Edition']['item']) ];
 		
+		return $price;
+		
+		// no other price bits to cherry pick at this time
+		
+//		dmDebug::ddd($this->data, 'the data to calculate a price from');
 	}
 
+	/**
+	 * Prepare data for save to cart
+	 * 
+	 * For Edition Products, the array of data describing the option 
+	 * choices and details is stored as serialized Supplement data. 
+	 * 
+	 * @param string $cartId ID of the Cart header record which links this new CartItem
+	 * @return array The data to save
+	 */
 	public function cartEntry($cartId) {
-		
+//		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
+		$cart = array('CartItem' => array(
+				'id' => (isset($this->data['Edition']['id'])) ? $this->data['Edition']['id'] : '',
+				'order_id' => $cartId,
+				'type' => $this->type,
+				'user_id' => ($this->userId) ? $this->userId : NULL,
+				'blurb' => $this->data['Edition']['blurb'],
+				'product_name' => $this->data['Edition']['name'],
+				'price' => $this->calculatePrice(),
+				'quantity' => isset($this->data['Edition']['quantity']) ? $this->data['Edition']['quantity'] : 1
+			),
+			'Supplement' => array(
+				array(
+					'type' => 'POST',
+					'data' => serialize($this->data)
+				)				
+			)
+		);
+//		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
+		return $cart;
 	}
 
 	public function editEntry($id) {
