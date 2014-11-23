@@ -853,13 +853,14 @@ SIG;
 	
 	public function testMe(){
 		$c = $this->Cart->read(NULL, '72');
-		dmDebug::ddd($c, 'cart');
+//		dmDebug::ddd($c, 'cart');
 //		$u = $this->User->find('first', array('conditions' => array('User.id' => 258)));
 //		dmDebug::ddd($u, 'find');
 ////		$r = $this->User->read(array_keys($this->User->getColumnTypes()), '258');
 //		$this->User->recursive = -1;
 //		$r = $this->User->read(NULL, '258');
 //		dmDebug::ddd($r, 'read');
+		$this->render('/Ajax/testMe');
 	}
 	
 }
