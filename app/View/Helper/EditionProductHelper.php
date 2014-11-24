@@ -33,6 +33,30 @@ class EditionProductHelper extends PurchasedProductHelper {
 	}
 	
 	/**
+	 * Blurb creation method
+	 * 
+	 * Editions have the blurb stored in the Supplement record
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
+	public function blurb($item, $mode) {
+		$edition = unserialize($item['Supplement']);
+		$blurb = $edition['Edition']['blurb'];
+		$summary = $this->Html->para(NULL, String::truncate($blurb, 40), array('class' => 'blurb'));
+		$full = $this->Html->para(NULL, $blurb, array('class' => 'blurb'));
+		$this->storeToggleData($item, 'blurb', $summary, $full);
+		
+		if ($mode === 'item_summary') {
+			$text = $summary;
+		} else {
+			$text = $full;
+		}
+		return $text;
+	}
+	
+	/**
 	 * If there are any, output all the edition BUY buttons
 	 * 
 	 * @param array $editions Edition button records

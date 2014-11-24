@@ -30,6 +30,9 @@ class PurchasedProductFactory {
 	} elseif (isset($data['cmd'])) {
 		$product = 'InventoryProduct';
 		
+	} elseif (isset($data['Edition'])) {
+		$product = 'EditionProduct';
+		
 	} elseif ('workshop' === TRUE) {
 		$product = 'WorkshopProduct';
 		

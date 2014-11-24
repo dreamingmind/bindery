@@ -31,17 +31,42 @@ class CustomProductHelper extends PurchasedProductHelper {
 	}
 	
 	/**
-	 * STUB METHOD FOR TESTING ************************************************************************************** Custom might not have 'blurb'. certainly not this!
+	 * Store the design name text variants and return the currently required version
+	 * 
+	 * Overrides PurchaseProductHelper version
+	 * 
+	 * @param array $item
+	 * @param string $mode
+	 * @return string
+	 */
+	public function designName($item, $mode) {
+		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
+		$name = trim($match[1], ' -');
+		$summary = $this->Html->tag('h1', String::truncate($name, 40), array('class' => 'product_name'));
+		$full = $this->Html->tag('h1', $name, array('class' => 'product_name'));
+		$this->storeToggleData($item, 'product_name', $summary, $full);
+		
+		if ($mode === 'item_summary') {
+			$text = $summary;
+		} else {
+			$text = $full;
+		}
+		return $text;
+	}
+
+	/**
+	 * Extract blurb from the Custom product_name sent from the page
 	 * 
 	 * @param array $item
 	 * @param string $mode
 	 * @return type
 	 */
 	public function blurb($item, $mode) {
-		$text = 'This is a sample burb. I don\'t think custom items will have blurbs, but they must have an implementation of the function';
-		
-		$summary = $this->Html->para(NULL, String::truncate($text, 40), array('class' => 'blurb'));
-		$full = $this->Html->para(NULL, $text, array('class' => 'blurb'));
+		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
+		$name = trim($match[2], ' -');
+
+		$summary = $this->Html->para(NULL, String::truncate($name, 40), array('class' => 'blurb'));
+		$full = $this->Html->para(NULL, $name, array('class' => 'blurb'));
 		$this->storeToggleData($item, 'blurb', $summary, $full);
 		
 		if ($mode === 'item_summary') {

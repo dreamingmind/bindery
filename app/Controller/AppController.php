@@ -852,6 +852,13 @@ SIG;
 	}
 	
 	public function testMe(){
+		$line = 'Journal - Size 5.5 x 8.5 - Pages 256 - Quarter Bound - Ruled Pages';
+		debug($line);
+		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $line, $match);
+		debug($match);
+		debug(trim($match[1], ' -'));
+		debug(trim($match[2], ' -'));
+		die;
 		$c = $this->Cart->read(NULL, '72');
 //		dmDebug::ddd($c, 'cart');
 //		$u = $this->User->find('first', array('conditions' => array('User.id' => 258)));
