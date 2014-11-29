@@ -189,7 +189,7 @@ class AppController extends Controller {
         $this->initAccount(); //set all properties describing the logged in user (or not)
         $this->mainNavigation(); //get the account appropriate full, potential menu record set
         $this->splashContent = $this->pullSplash();
-        $this->Auth->logoutRedirect = $this->referer('bindery', TRUE);
+        $this->Auth->logoutRedirect = $this->referer('', TRUE);
 		$this->Auth->allow('testMe');
         $this->Email->smtpOptions = array(
             'port' => '465',
