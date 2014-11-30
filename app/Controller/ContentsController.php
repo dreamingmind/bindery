@@ -1,6 +1,8 @@
 <?php
 
 App::uses('Sanitize', 'Utility');
+App::uses('EditionProductHelper', 'Helper');
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  *
@@ -41,6 +43,7 @@ class ContentsController extends AppController {
 
     var $name = 'Contents';
     var $uses = array('Content', 'Catalog');
+	public $helpers = array('PurchasedProduct', 'EditionProduct');
 
     /**
      * @var string $layout The default layout for content has the thumbnail strip at the top
@@ -811,6 +814,8 @@ class ContentsController extends AppController {
      */
     function art() {
         $this->css[] = 'art';
+//		$this->helpers[] = 'EditionProduct';
+
 
 //        // get the pname
 //        // and expand the url to full nest-length if necessary
@@ -1050,7 +1055,8 @@ class ContentsController extends AppController {
                             'fields' => array('Collection.id', 'Collection.category_id', 'Collection.slug', 'Collection.heading'),
                             'Category' => array(
                                 'fields' => array('Category.id', 'Category.name', 'Category.supplement_list')
-                            )
+                            ),
+							'Edition'
                         ),
                         'Supplement' => array(
                             'fields' => array(

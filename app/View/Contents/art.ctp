@@ -1,5 +1,7 @@
 <?php
 echo $this->Html->css('search_links');
+echo $this->Html->css('art_purchase');
+echo $this->Html->script('art_purchase');
 //debug($collection);
 //debug($artedition);
 //$path = 'images/thumb/x75y56/';

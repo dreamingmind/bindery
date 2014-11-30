@@ -3,29 +3,19 @@
     echo $this->Html->image(
             'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
             array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
-    //<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
+    //		<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
+//	debug($record);
+	// for admins
     echo $this->Html->changeCollection($this->viewVars, $record['Content']['slug'], $record['ContentCollection'][0]['collection_id']);
-//    debug($record);
+	// now output any purchase buttons in a purchase div
+	
+	echo $this->element('edition_purchase_buttons'); // works from $record
     ?>
-<!--    <style media="screen" type="text/css">
-        
-        #detail {
-            position: relative;
-        }
-        #proseblock {
-            /*position: absolute;*/
-            z-index: 3;
-            top: <?php // echo $record['Supplement']['top_val'] ?>px;
-            left: <?php // echo $record['Supplement']['left_val'] ?>px;
-            width: <?php // echo $record['Supplement']['width_val'] ?>px;
-            height: <?php // echo $record['Supplement']['height_val'] ?>px;
-        }
-        
-    </style>-->
+
     <div id="proseblock" >
     <h2 id="exhibitTitle"><?php echo $record['Content']['heading'] ?></h2>
     <div id="exhibitContent"><?php echo $this->Markdown->transform($record['Content']['content']) ?></div>
-    </div>
+    </div> <!-- end #proseblock -->
 <?php
 //    if(!empty($details)){
 //        $message = (count($details) > 1) 

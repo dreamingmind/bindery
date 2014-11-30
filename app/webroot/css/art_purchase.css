@@ -1,0 +1,29 @@
+div.submit > * {
+     display: inline;
+     font-size: 85%;
+     margin: 0px 3px;
+}
+div.submit {
+    display: none;
+}
+div.submit > button {
+	cursor: pointer;
+}
+div.submit p {
+	cursor: auto; 
+}
+div#purchase {
+    background-color: white;
+    font-size: 80%;
+    margin-top: -21px;
+    opacity: 0.8;
+    padding: 2px 6px;
+    position: absolute;
+    right: 0;
+	text-align: right;
+	border: thin dotted #ccc;
+	cursor: pointer;
+}
+div#purchase:hover div.submit {
+    display: block;
+}

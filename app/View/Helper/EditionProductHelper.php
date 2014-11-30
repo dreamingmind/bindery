@@ -1,4 +1,7 @@
 <?php
+
+App::uses('PurchasedProductHelper', 'Helper');
+
 /**
  * EditionProductHelper
  * 
@@ -10,7 +13,7 @@
  */
 class EditionProductHelper extends PurchasedProductHelper {
 
-	public $helpers = array();
+//	public $helpers = array();
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -59,13 +62,14 @@ class EditionProductHelper extends PurchasedProductHelper {
 	/**
 	 * If there are any, output all the edition BUY buttons
 	 * 
+	 * ALL CALLS TO THIS METHOD HAVE BEEN DISABLED ========================================*******!!!!!!!!!!
+	 * 
 	 * @param array $editions Edition button records
 	 */
-	public function editionButtons($editions) {
-		if (!empty($editions)) {
-			foreach ($editions as $edition) {
-				echo $this->Form->button('edition purchase button');
-			}
+	public function editionButton($edition) {
+		if ($edition['available']) {
+			
+			echo $this->Form->button('edition purchase button');
 		}
 	}
 
