@@ -14,16 +14,16 @@ echo $this->Html->script('art_purchase');
 //$details = array();
 //echo $this->Html->image('transparent.png', array('id'=>'noThumbTransparent'));
 ?>
-<div id="collectionIntro">
+<!--<div id="collectionIntro">-->
     <?php
-    $showToggle = $this->Html->tag('span','',array('class'=>'show'));
-    echo $this->Html->tag('h1',$collection['Collection']['heading'] . $showToggle, array(
-        'class' => 'related',
-        'collection' => $collection['Collection']['id']
-    ));
-    echo $this->Markdown->transform($collection['Collection']['text']);
+//    $showToggle = $this->Html->tag('span','',array('class'=>'show'));
+//    echo $this->Html->tag('h1',$collection['Collection']['heading'] . $showToggle, array(
+//        'class' => 'related',
+//        'collection' => $collection['Collection']['id']
+//    ));
+//    echo $this->Markdown->transform($collection['Collection']['text']);
     ?>
- </div>
+ <!--</div>-->
 <?php
 if(!empty($record)){
    // found exhibits so show the beauty shot and filmstrip (also detail links)

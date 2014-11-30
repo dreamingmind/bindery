@@ -18,6 +18,7 @@ $this->end();
 					}
 					echo $this->Form->create("Edition-$productCount");
 					$qb = QBModel::InvItem('name', $edition['item']);
+					$qb = (empty($qb)) ? array('invitem' => array('price' => 'inquire')) : $qb;
 					echo $this->Form->input("Edition.$productCount.content", array('value' => serialize($edition), 'type' => 'hidden'));
 					echo '<div class="submit">';
 					$price = CakeNumber::currency($qb['invitem']['price'], 'USD', array('places' => 0));
