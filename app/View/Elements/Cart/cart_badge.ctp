@@ -16,7 +16,7 @@ if ($purchaseCount > 0) {
 
 echo $this->Html->div(
 		'badge',
-		$this->Html->image('cart')
+		$this->Html->image('cart.png')
 		. $this->Html->para(NULL, 
 				$this->Html->tag('span', $purchaseCount, array('class' => 'count'))
 				. ' ' 
