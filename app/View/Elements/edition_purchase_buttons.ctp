@@ -9,8 +9,8 @@ $this->end();
 	if (isset($record['ContentCollection'])) {
 		foreach ($record['ContentCollection'] as $collection) {
 			if (isset($collection['Collection']['Edition']) && !empty($collection['Collection']['Edition'])) {
-				
 				$edition = $collection['Collection']['Edition'];
+				
 				$this->append('art_purchase_tools');
 					$productCount++;
 					if ($edition['available'] > '0') {
@@ -23,13 +23,14 @@ $this->end();
 					echo '<div class="submit">';
 					$price = CakeNumber::currency($qb['invitem']['price'], 'USD', array('places' => 0));
 					echo $this->Html->para('', "{$edition['name']} - $price", array('title' => $edition['blurb']));
-					echo $this->Form->button(($purchaseCount > 0) ? 'Add to cart' : 'Order now', array('type' => 'submit', 'class' => 'submit'));
+					echo $this->Form->button(($purchaseCount > 0) ? 'Add to cart' : 'Order now', array('type' => 'submit', 'class' => 'submit', 'bind' => 'click.buyEdition'));
 					echo '</div>';
 //					debug($edition);
 //					debug($qb['invitem']['price']);
 //					echo $this->EditionProduct->editionButton($edition);
 					echo $this->Form->end();						
 				$this->end();
+				
 			}
 		}
 	}
@@ -37,6 +38,10 @@ $this->end();
 	<div id="purchase">
 		<p>Purchase</p>
 		<?php
-		echo $this->fetch('art_purchase_tools');
+		if ($availableCount) {
+			echo $this->fetch('art_purchase_tools');
+		} else {
+			echo $this->Html->para('', 'Sold Out');
+		}
 		?>
 	</div>
