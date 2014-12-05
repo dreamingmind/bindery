@@ -41,7 +41,7 @@
     </script>
 </head>
 <!-- BODY --><body>
-<?php echo $this->element('TIME/time_hook'); ?>
+<?php // echo $this->element('TIME/time_hook'); ?>
 <div id="pgMask"></div>
     <?php // debug($this->request->params);die; ?>
 <div id="fixedNav">

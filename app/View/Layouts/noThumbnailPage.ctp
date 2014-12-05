@@ -67,7 +67,7 @@
     </script>
 </head>
 <!-- BODY --><body>
-<?php echo $this->element('TIME/time_hook'); ?>
+<?php // echo $this->element('TIME/time_hook'); ?>
 <div id="pgMask"></div>
 <div id="NTfixedNav">
 <div id="absNav">
