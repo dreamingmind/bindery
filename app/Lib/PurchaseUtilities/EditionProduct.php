@@ -31,7 +31,7 @@ class EditionProduct extends PurchasedProduct {
 		}
 		$this->lookup(); // set the lookup properties
 		// the product field contains the code of the chosen product
-		$price = $this->qbCodePrices[ strtoupper($this->data['Edition']['item']) ];
+		$price = $this->qbPrices[$this->data['Edition']['item']];
 		
 		return $price;
 		
@@ -50,7 +50,7 @@ class EditionProduct extends PurchasedProduct {
 	 * @return array The data to save
 	 */
 	public function cartEntry($cartId) {
-//		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
+		$this->data['Edition'] = unserialize($this->data['Edition'][1]['content']);
 		$cart = array('CartItem' => array(
 				'id' => (isset($this->data['Edition']['id'])) ? $this->data['Edition']['id'] : '',
 				'order_id' => $cartId,
@@ -68,7 +68,7 @@ class EditionProduct extends PurchasedProduct {
 				)				
 			)
 		);
-//		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
+		dmDebug::ddd($cart, 'cart');die;
 		return $cart;
 	}
 

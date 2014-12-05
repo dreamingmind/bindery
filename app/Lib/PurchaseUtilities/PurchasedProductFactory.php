@@ -4,6 +4,7 @@ App::uses('InventoryProduct', 'Lib/PurchaseUtilities');
 App::uses('WorkshopProduct', 'Lib/PurchaseUtilities');
 App::uses('PurchasedProduct', 'Lib/PurchaseUtilities');
 App::uses('VariationProduct', 'Lib/PurchaseUtilities');
+App::uses('EditionProduct', 'Lib/PurchaseUtilities');
 
 /*
  * To change this template, choose Tools | Templates

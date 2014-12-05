@@ -136,7 +136,6 @@ class PurchasesComponent extends Component {
 			try {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
-//				dmDebug::ddd($this->product->cartEntry(), 'cart entry');die;
 				$cart = $this->Cart->retrieve();
 				$this->CartItem = ClassRegistry::init('CartItem');
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
