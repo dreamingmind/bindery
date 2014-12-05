@@ -210,11 +210,11 @@ CakeLog::config('varlog', array(
 	'types' => array('varlog'),
 	'file' => 'varlog'
 ));
-//CakeLog::config('snapshot', array(
-//'engine' => 'FileLog',
-//'types' => array('snapshot'),
-//'file' => 'Inventory/snapshot/snapshot'.date('.Y.m')
-//));
+CakeLog::config('cart', array(
+'engine' => 'FileLog',
+'types' => array('cart'),
+'file' => 'Cart/cart'.date('.Y.m')
+));
 //CakeLog::config('robotIO', array(
 //'engine' => 'FileLog',
 //'types' => array('robotIO'),
