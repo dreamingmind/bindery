@@ -45,7 +45,8 @@ class EditionProductHelper extends PurchasedProductHelper {
 	 * @return string
 	 */
 	public function blurb($item, $mode) {
-		$edition = unserialize($item['Supplement']);
+        dmDebug::ddd($item, 'item');
+		$edition = unserialize($item['Supplement'][0]['data']);
 		$blurb = $edition['Edition']['blurb'];
 		$summary = $this->Html->para(NULL, String::truncate($blurb, 40), array('class' => 'blurb'));
 		$full = $this->Html->para(NULL, $blurb, array('class' => 'blurb'));

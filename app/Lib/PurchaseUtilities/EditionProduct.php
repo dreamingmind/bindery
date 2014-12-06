@@ -68,7 +68,7 @@ class EditionProduct extends PurchasedProduct {
 				)				
 			)
 		);
-		dmDebug::ddd($cart, 'cart');die;
+//		dmDebug::ddd($cart, 'cart');die;
 		return $cart;
 	}
 
