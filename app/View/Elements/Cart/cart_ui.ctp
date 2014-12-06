@@ -28,7 +28,7 @@ if (isset($cart['CartItem'])) {
 
 
 		// get the helper that specializes in processing this kind of product
-		$helper = $this->Helpers->load("{$item['type']}Product");
+		$helper = $this->Helpers->load("PurchasedProduct");
 
 
 		if ($isNewItem || $cartClass === 'cart_checkout') {

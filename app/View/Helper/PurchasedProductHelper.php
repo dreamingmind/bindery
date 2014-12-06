@@ -65,6 +65,7 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	protected function storeToggleData($item, $group, $summary, $full) {
 		$this->toggleData[$item['CartItem']['id']][$group] = array('summary' => $summary, 'full' => $full);
+		dmDebug::logVars($this->toggleData, 'accumulating toggle data');
 	}
 
 
@@ -82,8 +83,9 @@ class PurchasedProductHelper extends AppHelper {
 //		$summary = $full = '';
 //		$this->storeToggleData($item, 'blurb', $summary, $full);
 //		return '';
-		$summary = $this->Html->tag('h1', String::truncate($item['CartItem']['blurb'], 40), array('class' => 'blurb'));
-		$full = $this->Html->tag('h1', $item['CartItem']['blurb'], array('class' => 'blurb'));
+		$summary = $this->Html->div('blurb', '<p>'.String::truncate($item['CartItem']['blurb'], 40).'</p>');
+//		$full = $this->Html->tag('h1', $item['CartItem']['blurb'], array('class' => 'blurb'));
+		$full = $this->Html->div('blurb', $this->Markdown->transform($item['CartItem']['blurb']));
 		$this->storeToggleData($item, 'blurb', $summary, $full);
 		
 		if ($mode === 'item_summary') {
@@ -105,12 +107,10 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function optionList($item, $mode) {
-		dmDebug::ddd($item, 'item');
-//		$summary = $full = '';
-//		$this->storeToggleData($item, 'options', $summary, $full);
-//		return '';
-		$summary = $this->Html->tag('h1', String::truncate($item['CartItem']['options'], 40), array('class' => 'options'));
-		$full = $this->Html->tag('h1', $item['CartItem']['options'], array('class' => 'options'));
+//		dmDebug::ddd($item, 'item');
+		$summary = $this->Html->div('options', '<p>'.String::truncate($item['CartItem']['options'], 40).'</p>');
+//		$full = $this->Html->tag('h1', $item['CartItem']['options'], array('class' => 'options'));
+		$full = $this->Html->div('options', $this->Markdown->transform($item['CartItem']['options']));
 		$this->storeToggleData($item, 'options', $summary, $full);
 		
 		if ($mode === 'item_summary') {
@@ -216,4 +216,26 @@ class PurchasedProductHelper extends AppHelper {
 //";
 //	}
 
+	/**
+	 * Provide the edit-request tool for a custom product
+	 * 
+	 * ==============================================================================================
+	 * This has been moved from CustomProductHelper during the elimination of concrete helpers
+	 * when CartItem blurb and options fields were created.
+	 * It's not clear how this should be handled now. And a weird pattern of enstantiating the helper 
+	 * is in use now in cart_ui.ctp. That should be chased up to the controller as usual.
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
+//	public function editItemTool($item) {
+//		$supplement = unserialize($item['Supplement'][0]['data']);
+//		return $this->Html->link('Edit', array(
+//			'controller' => 'catalogs',
+//			'action' => 'editProduct',
+//			$supplement['specs_key']
+//			),
+//			array('class' => 'tool')
+//		);
+//	}
 }

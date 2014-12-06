@@ -207,7 +207,7 @@ class CustomProduct extends PurchasedProduct {
 	}
 	
 	private function optionPair($name, $value, $default = '') {
-		if ($value) {
+		if ($value && $value != '-1') {
 			$name = ucfirst($name);
 			return "- $name: $value\n";
 		} else {
@@ -216,7 +216,7 @@ class CustomProduct extends PurchasedProduct {
 	}
 	
 	private function optionNamed($name, $value, $default = '') {
-		if ($value) {
+		if ($value && $value != '-1') {
 			return "- $name\n";
 		} else {
 			return $default;
