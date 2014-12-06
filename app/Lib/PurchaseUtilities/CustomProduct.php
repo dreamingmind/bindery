@@ -145,12 +145,22 @@ class CustomProduct extends PurchasedProduct {
 		return $blurb;
 	}
 	
+	/**
+	 * Compile custom product form inputs into a markdown list
+	 * 
+	 * Some fields are filtered out, some are renamed, others are grouped. 
+	 * It all happens here! When the work is done, the string can be output 
+	 * as Markdown to get UL/LI html or as an echo to get hyphen delimited data
+	 * 
+	 * @return string
+	 */
 	private function options() {
 //		dmDebug::ddd($this->data[$this->product], '$this->data[$this->product]');
 		$options = '';
 		
 		foreach ($this->data[$this->product] as $name => $value) {
 			switch ($name) {
+				// heres a list of inputs we don't process into output lines
 				case 'product':
 				case 'description':
 				case 'sum':
@@ -161,9 +171,12 @@ class CustomProduct extends PurchasedProduct {
 				case 'uniqueliner':
 					continue;
 					break;
+				
 				case 'Options:63':
 					$options .= $this->optionNamed('Closing belt', $value);					
 					break;
+				
+				// these two get merged into a single line
 				case 'Options:59.2':
 					$options .= $this->optionNamed('Pen loop', $value);					
 					break;
@@ -171,6 +184,7 @@ class CustomProduct extends PurchasedProduct {
 					$dia = $value == '0' ? '' : ": $value diameter";
 					$options = str_replace('Pen loop', "Pen loop$dia", $options);
 					
+				// this will be the parent fro the following two
 				case 'Options:17':
 					$options .= $this->optionNamed('Titling requested', $value);					
 					break;
@@ -178,21 +192,21 @@ class CustomProduct extends PurchasedProduct {
 				// these two are child LIs of Option:17 
 				case 'foil-color':
 					if ($this->data[$this->product]['Options:17']) {
-						$options .= $this->optionPair('Foil color', $value, 'Foil color unspecified');
+						$options .= '    ' . $this->optionPair('Foil color', $value, 'Foil color: discuss');
 					}
 					break;
 				case 'title_text':
 					if ($this->data[$this->product]['Options:17']) {
-						$options .= $this->optionPair('Title text', $value, 'Title text unspecified');
+						$options .= '    ' . $this->optionPair('Title text', $value, 'Title text: discuss');
 					}
 					break;
 					
 				// these all cascade into a lookup of the actual cloth color
-				case 'liners': // only show if they are unique, not the cloth cover
+				case 'liners': // only show if they are unique (not the same as the cover cloth)
 					if (!$this->data[$this->product]['uniqueliner']) {
 						continue;
 					}
-				case 'liner': 
+				case 'liner': // only show if there is no other indication of cloth or liner material (a full leather product in other words)
 					if ($name === 'liner' && ($this->data[$this->product]['uniqueliner'] || $this->data[$this->product]['cloth'])) {
 						continue;
 					}
@@ -204,7 +218,7 @@ class CustomProduct extends PurchasedProduct {
 					$options .= $this->optionPair($name, $Material->realName($value));
 					break;
 				
-				
+				// everything else is a normal 'name: value' pair
 				default:
 					$options .= $this->optionPair($name, $value);
 					break;
@@ -233,7 +247,7 @@ class CustomProduct extends PurchasedProduct {
 			$name = ucfirst($name);
 			return "- $name: $value\n";
 		} else {
-			return $default;
+			return ($default === '') ? '' : "- $default\n";
 		}
 	}
 	
@@ -241,7 +255,7 @@ class CustomProduct extends PurchasedProduct {
 		if ($value && $value != '-1') {
 			return "- $name\n";
 		} else {
-			return $default;
+			return ($default === '') ? '' : "- $default\n";
 		}
 	}
 }

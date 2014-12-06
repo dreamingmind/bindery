@@ -17,6 +17,10 @@ div#cart_pallet {
 		margin: 0;
 	}
 	
+	
+	/*
+		cart detail blurb and options markdown
+	*/
 	div[id*="cart_"] > div.item_text > div.blurb, 
 	div[id*="cart_"] > div.item_text > div.options, 
 	div[id*="cart_"] > div.item_text > div.options ul {
@@ -27,7 +31,14 @@ div#cart_pallet {
 		padding: 0;
 }
 	
-	div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
+	/*
+		nested options lists in cart details
+	*/
+	div[id*="cart_"] > div.item_text > div.options li > ul {
+		margin: 0 0 0 1em;
+	}
+
+div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 		border-bottom: #b89b5c thin solid;
 		margin-bottom: 0.5em;
 		padding-bottom: 1.5em;
