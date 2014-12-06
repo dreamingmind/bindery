@@ -16,6 +16,7 @@ $parameters = array(
             'type' => 'select',
             'options' => array(
                 '-1' => 'Select page count',
+				'discuss' => 'Not sure',
                 '128' => '128 pages',
                 '192' => '192 pages',
                 '256' => '256 pages',

@@ -67,7 +67,7 @@ class CustomProduct extends PurchasedProduct {
 		$quantity = isset($this->data[$this->product]['quantity']) ? $this->data[$this->product]['quantity'] : 1;
 		
 		// the product field contains the code of the chosen product
-		$price = $this->qbCodePrices[ strtoupper($this->data[$this->product]['product']) ];
+		$price = $this->qbCodePrices[ $this->data[$this->product]['product'] ];
 		
 		// options are yes/no radio buttons and the node is the full NAME from qb
 		foreach ($this->data[$this->product] as $name => $choice)  {
@@ -231,23 +231,16 @@ class CustomProduct extends PurchasedProduct {
 			}
 		}
 		return $options;
-		
-//		'leather' => 'bluelthr',
-//		'cloth' => 'forestgreen',
-//		'Options:63' => '1',
-//		'endpaper' => 'mohblk',
-//		'ruling' => '-1',
-//		'pages' => '-1',
-//		'Options:59.2' => '',
-//		'diameter' => '0',
-//		'Options:17' => '',
-//		'foil-color' => '',
-//		'title_text' => '',
-//		'instructions' => '',
-//		'endpapers' => '0'	
-				
 	}
 	
+	/**
+	 * Generate a Name: Value option pair
+	 * 
+	 * @param string $name
+	 * @param string $value
+	 * @param string $default
+	 * @return string
+	 */
 	private function optionPair($name, $value, $default = '') {
 		if ($value && $value != '-1') {
 			$name = ucfirst($name);
@@ -257,6 +250,14 @@ class CustomProduct extends PurchasedProduct {
 		}
 	}
 	
+	/**
+	 * Generate a Named option without a value
+	 * 
+	 * @param string $name
+	 * @param string $value
+	 * @param string $default
+	 * @return string
+	 */
 	private function optionNamed($name, $value, $default = '') {
 		if ($value && $value != '-1') {
 			return "- $name\n";
