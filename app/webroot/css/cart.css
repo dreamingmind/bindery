@@ -29,13 +29,18 @@ div#cart_pallet {
 		margin: 4px 0;
 		background: none;
 		padding: 0;
-}
+	}
 	
 	/*
 		nested options lists in cart details
 	*/
-	div[id*="cart_"] > div.item_text > div.options li > ul {
+	div[id*="cart_"] > div.item_text > div.options ul {
 		margin: 0 0 0 1em;
+	}
+	div[id*="cart_"] > div.item_text > div.options li {
+		list-style: outside;
+		font-size: 12px;
+		opacity: .9;
 	}
 
 div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
