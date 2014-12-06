@@ -171,6 +171,7 @@ class AppController extends Controller {
     var $scripts = '';
 	
     function beforeFilter() {
+
         if (in_array($this->params->action, $this->secure) && !$this->request->is('ssl')) {
 			$this->redirect($this->force());
 //        } elseif (!in_array($this->params->action, $this->secure) && $this->request->is('ssl') && !strstr($this->referer(), 'users/login')) {
@@ -210,7 +211,7 @@ class AppController extends Controller {
 		$this->css[] = 'cart';
 
         $this->scripts = array('jquery-1.10.0', 'jquery.fix.clone', 'app', 'cart', 'jquery-ui.min');
-		
+
 //        $this->set('imagePath', 
 //"\r//app_controller beforeFilter\r
 //var imagePath = '". str_replace($_SERVER['DOCUMENT_ROOT'], '', IMAGES) ."';\r

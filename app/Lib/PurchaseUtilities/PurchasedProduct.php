@@ -1,9 +1,5 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+App::uses('Material', 'Model');
 
 /**
  * PurchasedProduct is the base class for the all product variants

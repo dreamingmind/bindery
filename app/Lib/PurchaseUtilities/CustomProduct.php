@@ -158,6 +158,7 @@ class CustomProduct extends PurchasedProduct {
 				case 'name':
 				case 'email':
 				case 'quantity':
+				case 'uniqueliner':
 					continue;
 					break;
 				case 'Options:63':
@@ -171,8 +172,10 @@ class CustomProduct extends PurchasedProduct {
 					$options = str_replace('Pen loop', "Pen loop$dia", $options);
 					
 				case 'Options:17':
-					$options .= $this->optionNamed('Titling', $value);					
+					$options .= $this->optionNamed('Titling requested', $value);					
 					break;
+				
+				// these two are child LIs of Option:17 
 				case 'foil-color':
 					if ($this->data[$this->product]['Options:17']) {
 						$options .= $this->optionPair('Foil color', $value, 'Foil color unspecified');
@@ -183,6 +186,25 @@ class CustomProduct extends PurchasedProduct {
 						$options .= $this->optionPair('Title text', $value, 'Title text unspecified');
 					}
 					break;
+					
+				// these all cascade into a lookup of the actual cloth color
+				case 'liners': // only show if they are unique, not the cloth cover
+					if (!$this->data[$this->product]['uniqueliner']) {
+						continue;
+					}
+				case 'liner': 
+					if ($name === 'liner' && ($this->data[$this->product]['uniqueliner'] || $this->data[$this->product]['cloth'])) {
+						continue;
+					}
+				case 'leather':
+				case 'cloth':
+				case 'endpaper':
+				case 'endpapers':
+					$Material = ClassRegistry::init('Material');
+					$options .= $this->optionPair($name, $Material->realName($value));
+					break;
+				
+				
 				default:
 					$options .= $this->optionPair($name, $value);
 					break;

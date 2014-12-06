@@ -157,5 +157,9 @@ class Material extends AppModel {
             }
             return $data;
         }
+		
+		public function realName($code) {
+			return $this->field('title', array('file_name' => $code));
+		}
 }
 ?>
