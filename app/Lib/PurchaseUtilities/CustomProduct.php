@@ -146,11 +146,20 @@ class CustomProduct extends PurchasedProduct {
 	}
 	
 	private function options() {
-//		dmDebug::ddd($this->data, '$this->data');
+//		dmDebug::ddd($this->data[$this->product], '$this->data[$this->product]');
 		$options = '';
 		
 		foreach ($this->data[$this->product] as $name => $value) {
 			switch ($name) {
+				case 'product':
+				case 'description':
+				case 'sum':
+				case 'total':
+				case 'name':
+				case 'email':
+				case 'quantity':
+					continue;
+					break;
 				case 'Options:63':
 					$options .= $this->optionNamed('Closing belt', $value);					
 					break;
@@ -178,8 +187,8 @@ class CustomProduct extends PurchasedProduct {
 					$options .= $this->optionPair($name, $value);
 					break;
 			}
-			return $options;
 		}
+		return $options;
 		
 //		'leather' => 'bluelthr',
 //		'cloth' => 'forestgreen',

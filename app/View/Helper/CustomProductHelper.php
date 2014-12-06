@@ -84,25 +84,25 @@ class CustomProductHelper extends PurchasedProductHelper {
 	 * @param string $mode
 	 * @return string
 	 */
-	public function optionList($item, $mode) {
-		$options = array(
-			'closing belt',
-			'pen loop',
-			'title: "SAS" gold, front lower right',
-			'Please give me a call if there is any problem getting the baby-shit green leather.'
-		);
-
-		$summary = $this->Html->para(NULL, String::truncate(implode(' • ', $options), 40), array('class' => 'options'));
-		$full = $this->Html->nestedList($options, array('class' => 'options'));
-		$this->storeToggleData($item, 'options', $summary, $full);
-		
-		if ($mode === 'item_summary') {
-			$text = $summary;
-		} else {
-			$text = $full;
-		}
-		return $text;
-	}
+//	public function optionList($item, $mode) {
+//		$options = array(
+//			'closing belt',
+//			'pen loop',
+//			'title: "SAS" gold, front lower right',
+//			'Please give me a call if there is any problem getting the baby-shit green leather.'
+//		);
+//
+//		$summary = $this->Html->para(NULL, String::truncate(implode(' • ', $options), 40), array('class' => 'options'));
+//		$full = $this->Html->nestedList($options, array('class' => 'options'));
+//		$this->storeToggleData($item, 'options', $summary, $full);
+//		
+//		if ($mode === 'item_summary') {
+//			$text = $summary;
+//		} else {
+//			$text = $full;
+//		}
+//		return $text;
+//	}
 	
 	/**
 	 * Provide the edit-request tool for a custom product

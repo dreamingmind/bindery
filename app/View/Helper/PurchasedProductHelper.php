@@ -105,10 +105,21 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function optionList($item, $mode) {
-		$summary = $full = '';
+		dmDebug::ddd($item, 'item');
+//		$summary = $full = '';
+//		$this->storeToggleData($item, 'options', $summary, $full);
+//		return '';
+		$summary = $this->Html->tag('h1', String::truncate($item['CartItem']['options'], 40), array('class' => 'options'));
+		$full = $this->Html->tag('h1', $item['CartItem']['options'], array('class' => 'options'));
 		$this->storeToggleData($item, 'options', $summary, $full);
-		return '';
-	}
+		
+		if ($mode === 'item_summary') {
+			$text = $summary;
+		} else {
+			$text = $full;
+		}
+		return $text;
+}
 	
 	/**
 	 * Create the tool that initiates collapse/expand feature of cart item_text nodes
