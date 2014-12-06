@@ -159,6 +159,13 @@ class CustomProduct extends PurchasedProduct {
 		$options = '';
 		
 		foreach ($this->data[$this->product] as $name => $value) {
+			// reusable journal body fields are included on journal pages I think. 
+			// This may not be right, but this hack takes care of the field overlap for now. 
+			// It also prevents the need to write special 'name' handlers for these options. 
+			$name = str_replace('reusable_', '', $name);
+			
+//			dmDebug::ddd($name, 'name');
+//			dmDebug::ddd($value, 'value');
 			switch ($name) {
 				// heres a list of inputs we don't process into output lines
 				case 'product':
@@ -213,7 +220,6 @@ class CustomProduct extends PurchasedProduct {
 				case 'leather':
 				case 'cloth':
 				case 'endpaper':
-				case 'endpapers':
 					$Material = ClassRegistry::init('Material');
 					$options .= $this->optionPair($name, $Material->realName($value));
 					break;

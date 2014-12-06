@@ -12,10 +12,11 @@ $parameters = array(
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber' => (isset($linkNumber)) ? $linkNumber : false,
     'fields' => array(
-        'pages' => array(
+        'reusable_pages' => array(
             'type' => 'select',
             'options' => array(
                 '-1' => 'Select page count',
+				'discuss' => 'Not sure',
                 '128' => '128 pages',
                 '192' => '192 pages',
                 '256' => '256 pages',
@@ -26,25 +27,25 @@ $parameters = array(
 //                'setList' => 'bookbody'
             )
         ),
-        'ruling' => array(
+        'reusable_ruling' => array(
             'type'=> 'select',
             'options'=> array(
-                '-1' => 'Select ruling',
+                '' => 'Select ruling',
                 'blank' => 'Blank',
-                '14l' => '1/4" rule (normal)',
-                '14g' => '1/4" grid (normal)',
-                '15l' => '1/5" rule (narrow)',
-                '15g' => '1/5" grid (narrow)',
-                '532l' => '5/32" rule (wide)',
-                '532g' => '5/32" grid (wide)',
-                'Other' => 'See my special instructions'
+                '1/4 rule' => '1/4" rule (normal)',
+                '1/4 grid' => '1/4" grid (normal)',
+                '1/5 rule' => '1/5" rule (narrow)',
+                '1/5 grid' => '1/5" grid (narrow)',
+                '5/32 rule' => '5/32" rule (wide)',
+                '5/32 grid' => '5/32" grid (wide)',
+                'Other ruling' => 'Other ruling'
 //            ),
 //            'div' => array(
 //                'option' => 'slave-'.$productCategory,
 //                'setList' => 'bookbody'
             )
         ),
-        'endpapers' => array(
+        'reusable_endpaper' => array(
             'type' => 'select',
             'options' => $endpaperOptions,
             'material' => 'endpaper' //this target diagram div background image
