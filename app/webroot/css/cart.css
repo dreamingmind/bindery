@@ -17,6 +17,16 @@ div#cart_pallet {
 		margin: 0;
 	}
 	
+	div[id*="cart_"] > div.item_text > div.blurb, 
+	div[id*="cart_"] > div.item_text > div.options, 
+	div[id*="cart_"] > div.item_text > div.options ul {
+		color: #094351;
+		font-size: 14px;
+		margin: 4px 0;
+		background: none;
+		padding: 0;
+}
+	
 	div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 		border-bottom: #b89b5c thin solid;
 		margin-bottom: 0.5em;
@@ -31,8 +41,9 @@ div#cart_pallet {
 	div[id*=cart_] > div > div.item_text > h1 {
 		background-color: transparent;
 		border: medium none;
-		font-size: 14px;
+		font-size: 16px;
 		font-variant: normal;
+		font-weight: bold;
 		color:#062619;
 /*		margin: 0;
 		padding: 0;*/

@@ -65,7 +65,6 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	protected function storeToggleData($item, $group, $summary, $full) {
 		$this->toggleData[$item['CartItem']['id']][$group] = array('summary' => $summary, 'full' => $full);
-		dmDebug::logVars($this->toggleData, 'accumulating toggle data');
 	}
 
 
