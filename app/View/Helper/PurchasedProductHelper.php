@@ -79,9 +79,19 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function blurb($item, $mode) {
-		$summary = $full = '';
+//		$summary = $full = '';
+//		$this->storeToggleData($item, 'blurb', $summary, $full);
+//		return '';
+		$summary = $this->Html->tag('h1', String::truncate($item['CartItem']['blurb'], 40), array('class' => 'blurb'));
+		$full = $this->Html->tag('h1', $item['CartItem']['blurb'], array('class' => 'blurb'));
 		$this->storeToggleData($item, 'blurb', $summary, $full);
-		return '';
+		
+		if ($mode === 'item_summary') {
+			$text = $summary;
+		} else {
+			$text = $full;
+		}
+		return $text;
 	}
 	
 	/**

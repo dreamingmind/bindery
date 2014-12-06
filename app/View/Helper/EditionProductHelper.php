@@ -44,21 +44,21 @@ class EditionProductHelper extends PurchasedProductHelper {
 	 * @param string $mode
 	 * @return string
 	 */
-	public function blurb($item, $mode) {
-        dmDebug::ddd($item, 'item');
-		$edition = unserialize($item['Supplement'][0]['data']);
-		$blurb = $edition['Edition']['blurb'];
-		$summary = $this->Html->para(NULL, String::truncate($blurb, 40), array('class' => 'blurb'));
-		$full = $this->Html->para(NULL, $blurb, array('class' => 'blurb'));
-		$this->storeToggleData($item, 'blurb', $summary, $full);
-		
-		if ($mode === 'item_summary') {
-			$text = $summary;
-		} else {
-			$text = $full;
-		}
-		return $text;
-	}
+//	public function blurb($item, $mode) {
+//        dmDebug::ddd($item, 'item');
+//		$edition = unserialize($item['Supplement'][0]['data']);
+//		$blurb = $edition['Edition']['blurb'];
+//		$summary = $this->Html->para(NULL, String::truncate($blurb, 40), array('class' => 'blurb'));
+//		$full = $this->Html->para(NULL, $blurb, array('class' => 'blurb'));
+//		$this->storeToggleData($item, 'blurb', $summary, $full);
+//		
+//		if ($mode === 'item_summary') {
+//			$text = $summary;
+//		} else {
+//			$text = $full;
+//		}
+//		return $text;
+//	}
 	
 	/**
 	 * If there are any, output all the edition BUY buttons

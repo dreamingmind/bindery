@@ -39,20 +39,20 @@ class CustomProductHelper extends PurchasedProductHelper {
 	 * @param string $mode
 	 * @return string
 	 */
-	public function designName($item, $mode) {
-		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
-		$name = trim($match[1], ' -');
-		$summary = $this->Html->tag('h1', String::truncate($name, 40), array('class' => 'product_name'));
-		$full = $this->Html->tag('h1', $name, array('class' => 'product_name'));
-		$this->storeToggleData($item, 'product_name', $summary, $full);
-		
-		if ($mode === 'item_summary') {
-			$text = $summary;
-		} else {
-			$text = $full;
-		}
-		return $text;
-	}
+//	public function designName($item, $mode) {
+//		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
+//		$name = trim($match[1], ' -');
+//		$summary = $this->Html->tag('h1', String::truncate($name, 40), array('class' => 'product_name'));
+//		$full = $this->Html->tag('h1', $name, array('class' => 'product_name'));
+//		$this->storeToggleData($item, 'product_name', $summary, $full);
+//		
+//		if ($mode === 'item_summary') {
+//			$text = $summary;
+//		} else {
+//			$text = $full;
+//		}
+//		return $text;
+//	}
 
 	/**
 	 * Extract blurb from the Custom product_name sent from the page
@@ -61,21 +61,21 @@ class CustomProductHelper extends PurchasedProductHelper {
 	 * @param string $mode
 	 * @return type
 	 */
-	public function blurb($item, $mode) {
-		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
-		$name = trim($match[2], ' -');
-
-		$summary = $this->Html->para(NULL, String::truncate($name, 40), array('class' => 'blurb'));
-		$full = $this->Html->para(NULL, $name, array('class' => 'blurb'));
-		$this->storeToggleData($item, 'blurb', $summary, $full);
-		
-		if ($mode === 'item_summary') {
-			$text = $summary;
-		} else {
-			$text = $full;
-		}
-		return $text;
-	}
+//	public function blurb($item, $mode) {
+//		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $item['CartItem']['product_name'], $match);
+//		$name = trim($match[2], ' -');
+//
+//		$summary = $this->Html->para(NULL, String::truncate($name, 40), array('class' => 'blurb'));
+//		$full = $this->Html->para(NULL, $name, array('class' => 'blurb'));
+//		$this->storeToggleData($item, 'blurb', $summary, $full);
+//		
+//		if ($mode === 'item_summary') {
+//			$text = $summary;
+//		} else {
+//			$text = $full;
+//		}
+//		return $text;
+//	}
 	
 	/**
 	 * STUB METHOD FOR TESTING ************************************************************************************** ================================= not this!

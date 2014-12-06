@@ -105,7 +105,9 @@ class CustomProduct extends PurchasedProduct {
 				'order_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
-				'product_name' => $this->data[$this->product]['description'],
+				'product_name' => $this->name(),
+				'blurb' => $this->blurb(),
+				'options' => $this->options(),
 				'price' => $this->calculatePrice(),
 				'quantity' => $this->data[$this->product]['quantity']
 			),
@@ -129,6 +131,87 @@ class CustomProduct extends PurchasedProduct {
 
 	public function editEntry($id) {
 		
+	}
+	
+	private function name() {
+		$name = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $this->data[$this->product]['description'], $match);
+		$name = trim($match[1], ' -');
+		return $name;
+	}
+	
+	private function blurb() {
+		$blurb = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $this->data[$this->product]['description'], $match);
+		$blurb = trim($match[2], ' -');
+		return $blurb;
+	}
+	
+	private function options() {
+//		dmDebug::ddd($this->data, '$this->data');
+		$options = '';
+		
+		foreach ($this->data[$this->product] as $name => $value) {
+			switch ($name) {
+				case 'Options:63':
+					$options .= $this->optionNamed('Closing belt', $value);					
+					break;
+				case 'Options:59.2':
+					$options .= $this->optionNamed('Pen loop', $value);					
+					break;
+				case 'diameter':
+					$dia = $value == '0' ? '' : ": $value diameter";
+					$options = str_replace('Pen loop', "Pen loop$dia", $options);
+					
+				case 'Options:17':
+					$options .= $this->optionNamed('Titling', $value);					
+					break;
+				case 'foil-color':
+					if ($this->data[$this->product]['Options:17']) {
+						$options .= $this->optionPair('Foil color', $value, 'Foil color unspecified');
+					}
+					break;
+				case 'title_text':
+					if ($this->data[$this->product]['Options:17']) {
+						$options .= $this->optionPair('Title text', $value, 'Title text unspecified');
+					}
+					break;
+				default:
+					$options .= $this->optionPair($name, $value);
+					break;
+			}
+			return $options;
+		}
+		
+//		'leather' => 'bluelthr',
+//		'cloth' => 'forestgreen',
+//		'Options:63' => '1',
+//		'endpaper' => 'mohblk',
+//		'ruling' => '-1',
+//		'pages' => '-1',
+//		'Options:59.2' => '',
+//		'diameter' => '0',
+//		'Options:17' => '',
+//		'foil-color' => '',
+//		'title_text' => '',
+//		'instructions' => '',
+//		'endpapers' => '0'	
+				
+	}
+	
+	private function optionPair($name, $value, $default = '') {
+		if ($value) {
+			$name = ucfirst($name);
+			return "- $name: $value\n";
+		} else {
+			return $default;
+		}
+	}
+	
+	private function optionNamed($name, $value, $default = '') {
+		if ($value) {
+			return "- $name\n";
+		} else {
+			return $default;
+		}
 	}
 }
 
