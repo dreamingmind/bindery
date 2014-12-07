@@ -237,3 +237,7 @@ span.alert {
 	color: firebrick;
 	font-weight: bold;
 }
+
+#cart_badge > img {
+    width: 20px;
+}
