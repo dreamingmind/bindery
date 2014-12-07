@@ -61,13 +61,16 @@ class CustomProduct extends PurchasedProduct {
 		if (!isset($this->data[$this->product]) || !isset($this->data[$this->product]['product'])) {
 			
 		}
-		$this->lookup(); // set the lookup properties
 		
 		// how many of this item was ordered
 		$quantity = isset($this->data[$this->product]['quantity']) ? $this->data[$this->product]['quantity'] : 1;
 		
 		// the product field contains the code of the chosen product
-		$price = $this->qbCodePrices[ $this->data[$this->product]['product'] ];
+		$price = $this->lookupPrice( $this->data[$this->product]['product'] );
+		if ($price < 1) {
+			return $price; // price wasn't found 0 will translate to 'To Quote'
+		}
+//		$price = $this->qbCodePrices[ $this->data[$this->product]['product'] ];
 		
 		// options are yes/no radio buttons and the node is the full NAME from qb
 		foreach ($this->data[$this->product] as $name => $choice)  {
@@ -142,6 +145,9 @@ class CustomProduct extends PurchasedProduct {
 	private function blurb() {
 		$blurb = preg_match('/([a-zA-Z ]+ -){1}(.+)/', $this->data[$this->product]['description'], $match);
 		$blurb = trim($match[2], ' -');
+		if ($this->calculatePrice() == '0') {
+			$blurb = "<span class=\"alert\">REQUIRES QUOTE</span>, price incomplete. $blurb";
+		}
 		return $blurb;
 	}
 	

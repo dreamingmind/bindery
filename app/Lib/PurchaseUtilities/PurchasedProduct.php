@@ -138,6 +138,26 @@ abstract class PurchasedProduct {
 			$this->qbCodePrices = QBModel::priceList(TRUE);
 		}
 	}
+	
+	/**
+	 * Given a qb item code or path, return the item price
+	 * 
+	 * Assume a full item path first. If not found, try a code only 
+	 * lookup. If that's not found, return 0
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	protected function lookupPrice($key) {
+		$this->lookup();
+		if (isset($this->qbPrices[$key])) {
+			return $this->qbPrices[$key];
+		} elseif (isset($this->qbCodePrices[$key])) {
+			return $this->qbCodePrices[$key];
+		} else {
+			return '0';
+		}
+	}
 
 }
 

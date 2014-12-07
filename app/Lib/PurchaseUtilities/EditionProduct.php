@@ -27,11 +27,10 @@ class EditionProduct extends PurchasedProduct {
 	 */
 	protected function calculatePrice() {
 		if (!isset($this->data['Edition']['item'])) {
-			
+			$this->data['Edition']['item'] = 'unknown';
 		}
-		$this->lookup(); // set the lookup properties
 		// the product field contains the code of the chosen product
-		$price = $this->qbPrices[$this->data['Edition']['item']];
+		$price = $this->lookupPrice($this->data['Edition']['item']);
 		
 		return $price;
 		
@@ -56,7 +55,7 @@ class EditionProduct extends PurchasedProduct {
 				'order_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
-				'blurb' => $this->data['Edition']['blurb'],
+				'blurb' => $this->blurb(),
 				'product_name' => $this->data['Edition']['name'],
 				'price' => $this->calculatePrice(),
 				'quantity' => isset($this->data['Edition']['quantity']) ? $this->data['Edition']['quantity'] : 1
@@ -70,6 +69,11 @@ class EditionProduct extends PurchasedProduct {
 		);
 //		dmDebug::ddd($cart, 'cart');die;
 		return $cart;
+	}
+
+	private function blurb() {
+		$blurb = ($this->calculatePrice() == '0') ? '<span class="alert">PRICE TO BE DETERMINED</span>, listed price is incorrect. ' : '';
+		return $blurb . $this->data['Edition']['blurb'];
 	}
 
 	public function editEntry($id) {

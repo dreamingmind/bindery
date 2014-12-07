@@ -232,3 +232,8 @@ form#CartContactsForm {
 fieldset legend {
 	color: #062619;
 }
+
+span.alert {
+	color: firebrick;
+	font-weight: bold;
+}
