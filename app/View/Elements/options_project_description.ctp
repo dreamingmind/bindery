@@ -20,10 +20,12 @@ $parameters = array(
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
+		'project_name',
+		'time_frame',
+		'budget' => array('placeholder' => 'optional'),
         'project_description' => array(
             'type' => 'textarea',
-            'rows' => 10,
-            'label' => false
+            'rows' => 10
         )
     )
 );
