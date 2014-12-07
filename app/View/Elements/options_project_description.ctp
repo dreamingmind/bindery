@@ -26,9 +26,18 @@ $parameters = array(
         'project_description' => array(
             'type' => 'textarea',
             'rows' => 10
-        )
+        ),
+		'product_type' => array('type' => 'hidden')
     )
 );
+
+// if the product_type (which controls which concrete product utility gets used) 
+// isn't set, then we make sure it's set to trigger the default utility for these products
+if (!$parameters['record']) {
+	$parameters['record'] = array($parameters['model'] => array('product_type' => 'description'));
+} elseif (!isset($parameters['record'][$parameters['model']]['product_type'])) {
+	$parameters['record'][$parameters['model']]['product_type'] = 'description';
+}
 
 echo $this->Fieldset->fieldset($parameters);
 ?>
