@@ -102,23 +102,27 @@ class CatalogsController extends AppController {
         
         // get the table data for pname
         $tableSet = ($this->Catalog->Collection->getPriceTable($product));
-        // get the select lists for the options
-        $leatherOptions =  $this->Material->leatherOptionList();
-        $clothOptions =  $this->Material->clothOptionList();
-        $endpaperOptions =  $this->Material->endpaperOptionList();
-        $endpaperOptions =  $this->Material->clothOptionList();
-        // get data listing core options for the various product categories
-        $setlists =  $this->Catalog->getAllProductCategoryOptions();
-        // tell the view what diagram scaffolds to include
-        $diagramMap = $this->Catalog->ProductDiagrams();
-        
-        // prepare javascript for the page
-        $caveat = 'var caveat = ' . json_encode($this->caveat);
-        $catalog = 'var catalog = ' . json_encode($this->Catalog->getcatalogMap($tableSet));
-        $diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($product));
-        $pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
-        $js = "$catalog\r$diagramData\r$pagePricing\r$caveat";
-        
+		if (empty($tableSet['Catalog'])) {
+			$tableSet['Catalog'] = array();
+			$leatherOptions = $clothOptions = $endpaperOptions = $setlists = $diagramMap = $costOptions = $js = '';
+		} else {
+			// get the select lists for the options
+			$leatherOptions =  $this->Material->leatherOptionList();
+			$clothOptions =  $this->Material->clothOptionList();
+			$endpaperOptions =  $this->Material->endpaperOptionList();
+			$endpaperOptions =  $this->Material->clothOptionList();
+			// get data listing core options for the various product categories
+			$setlists =  $this->Catalog->getAllProductCategoryOptions();
+			// tell the view what diagram scaffolds to include
+			$diagramMap = $this->Catalog->ProductDiagrams();
+
+			// prepare javascript for the page
+			$caveat = 'var caveat = ' . json_encode($this->caveat);
+			$catalog = 'var catalog = ' . json_encode($this->Catalog->getcatalogMap($tableSet));
+			$diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($product));
+			$pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
+			$js = "$catalog\r$diagramData\r$pagePricing\r$caveat";
+		}
 
         $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',
                 'diagramMap', 'costOptions', 'js'));

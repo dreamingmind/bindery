@@ -171,7 +171,7 @@ class Collection extends AppModel {
 		 * This pulls the product grid data and goes through several 
 		 * transformation processes to prepare it for output.
 		 * 
-		 * Amoung the transformations is replacement of price data with 
+		 * Among the transformations is replacement of price data with 
 		 * current quickbook pricing for the products
 		 * 
 		 * The data is cached.
@@ -228,7 +228,9 @@ class Collection extends AppModel {
 					)
 						)
 				);
-
+				if (empty($result[0]['Catalog'])) {
+					return $result;
+				}
 
 				$result[0]['Catalog'] = $this->substituteQbPrices($result[0]['Catalog']);
 

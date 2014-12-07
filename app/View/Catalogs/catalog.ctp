@@ -22,6 +22,9 @@ echo $this->Html->wrapScriptBlock($js);
     </form>
 <?php
     }
+	if (empty($tableSet['Catalog'])) {
+		debug($tableSet);
+	}
 ?>
 <!--    <table>
         <tr>
