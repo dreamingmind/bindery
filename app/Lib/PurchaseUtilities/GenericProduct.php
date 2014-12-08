@@ -43,9 +43,7 @@ class GenericProduct extends PurchasedProduct {
 	 * @param type $cartId
 	 */
 	public function cartEntry($cartId) {
-		
-//		$this->data['Edition'] = unserialize($this->data['Edition'][1]['content']);
-		$cart = array('CartItem' => array(
+				$cart = array('CartItem' => array(
 				'id' => (isset($this->fields['id'])) ? $this->fields['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
@@ -80,6 +78,9 @@ class GenericProduct extends PurchasedProduct {
 		
 	}
 	
+	/**
+	 * Break down the input data for simpler access
+	 */
 	private function decomposeData() {
 		$p = array_keys($this->data);
 		$this->key = $p[0];
@@ -87,26 +88,24 @@ class GenericProduct extends PurchasedProduct {
 		$this->fields = $this->data[$this->key];
 	}
 
-	/** array(
-			'personal-publishing' => array(
-				'name' => '',
-				'email' => '',
-				'project_name' => 'my totally custom project',
-				'quantity' => '3',
-				'time_frame' => '2nd week of January 2015',
-				'budget' => '$600',
-				'project_description' => 'This is the lengthy description of the project',
-				'id' => ''
-			),
-			'generic' => 'generic'
-		)
-	 * @param type $cartId
+	/**
+	 * Construct the product name display value
+	 * 
+	 * @return string
 	 */
 	private function name() {
 		$name = ($this->fields['project_name'] != '') ? "{$this->fields['project_name']} ($this->productName)" : $this->productName;
 		return $name;
 	}
 	
+	/**
+	 * Construct the blurb dispaly value
+	 * 
+	 * A markdown string announcing the need for a quote 
+	 * and the time frame and budget if provided
+	 * 
+	 * @return string
+	 */
 	private function blurb() {
 		$blurb = array(
 			"<span class=\"alert\">REQUIRES QUOTE</span>\n",

@@ -150,6 +150,9 @@ abstract class PurchasedProduct {
 	 */
 	protected function lookupPrice($key) {
 		$this->lookup();
+//		dmDebug::ddd($key, 'key');
+//		dmDebug::ddd($this->qbPrices[$key], 'prices element');
+//		dmDebug::ddd($this->qbCodePrices[$key], 'code element');
 		if (isset($this->qbPrices[$key])) {
 			return $this->qbPrices[$key];
 		} elseif (isset($this->qbCodePrices[$key])) {

@@ -66,7 +66,8 @@ class CustomProduct extends PurchasedProduct {
 		$quantity = isset($this->data[$this->product]['quantity']) ? $this->data[$this->product]['quantity'] : 1;
 		
 		// the product field contains the code of the chosen product
-		$price = $this->lookupPrice( $this->data[$this->product]['product'] );
+		$price = $this->lookupPrice(strtoupper($this->data[$this->product]['product']) ); // these are 'code only' but were lowercased in the ui. won't match that way
+//		dmDebug::ddd($this->data[$this->product]['product'], 'lookup product');
 		if ($price < 1) {
 			return $price; // price wasn't found 0 will translate to 'To Quote'
 		}
