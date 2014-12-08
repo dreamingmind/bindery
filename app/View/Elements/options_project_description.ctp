@@ -20,13 +20,15 @@ $parameters = array(
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
-		'project_name',
-		'time_frame',
+		'project_name' => array('placeholder' => 'optional'),
+		'quantity',
+		'time_frame' => array('placeholder' => 'optional'),
 		'budget' => array('placeholder' => 'optional'),
         'project_description' => array(
             'type' => 'textarea',
             'rows' => 10
-        )
+        ),
+		'id' => array('type' => 'hidden'),
     )
 );
 

@@ -34,10 +34,12 @@ div#cart_pallet {
 	/*
 		nested options lists in cart details
 	*/
-	div[id*="cart_"] > div.item_text > div.options ul {
+	div[id*="cart_"] > div.item_text > div.options ul,
+	div[id*="cart_"] > div.item_text > div.blurb ul{
 		margin: 0 0 0 1em;
 	}
-	div[id*="cart_"] > div.item_text > div.options li {
+	div[id*="cart_"] > div.item_text > div.options li,
+	div[id*="cart_"] > div.item_text > div.blurb li{
 		list-style: outside;
 		font-size: 12px;
 		opacity: .9;

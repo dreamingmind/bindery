@@ -5,6 +5,7 @@ App::uses('WorkshopProduct', 'Lib/PurchaseUtilities');
 App::uses('PurchasedProduct', 'Lib/PurchaseUtilities');
 App::uses('VariationProduct', 'Lib/PurchaseUtilities');
 App::uses('EditionProduct', 'Lib/PurchaseUtilities');
+App::uses('GenericProduct', 'Lib/PurchaseUtilities');
 
 /*
  * To change this template, choose Tools | Templates
@@ -35,7 +36,6 @@ class PurchasedProductFactory {
 		$product = 'EditionProduct';
 		
 	} elseif (isset($data['generic'])) {
-		dmDebug::ddd($data, 'generic product!');
 		$product = 'GenericProduct';
 		
 	} elseif ('workshop' === TRUE) {
