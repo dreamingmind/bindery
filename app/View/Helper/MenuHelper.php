@@ -32,7 +32,7 @@ class MenuHelper extends AppHelper {
             ////$data is passed in as a reference. any changes to it here will be seen by the calling code in the array
             $this->menuArray = $data;
             $this->liveNodes = $liveNodes;
-            $this->getNavigationMenu(0, $this->route);
+            $this->getNavigationMenu(0, $this->route, '');
 
             /*
              * Now set the individual LI class attributes to show open and active submenus
@@ -73,9 +73,9 @@ class MenuHelper extends AppHelper {
             }
         }
 
-        function getNavigationMenu($key, $route) {
+        function getNavigationMenu($key, $route, $class) {
 
-            $this->menuHTML .= "\n<ul>\n";
+            $this->menuHTML .= ($class == '') ? "\n<ul>\n" : "\n<ul class=\"$class\">\n";
             if (is_array($this->menuArray[$key])) {
                 foreach($this->menuArray[$key] as $levelKey => $entry) {
                     $this->getMenuLine($levelKey, $entry, $route);
@@ -105,7 +105,7 @@ class MenuHelper extends AppHelper {
                 $this->menuHTML .= $link;
                 // This will drill down to a deeper nest if it exists
                 if(array_key_exists($key, $this->menuArray)) {
-                    $this->getNavigationMenu($key, $route . "/" . $entry['Navline']['route']);
+                    $this->getNavigationMenu($key, $route . "/" . $entry['Navline']['route'], '');
                 }
 
             } else {
@@ -113,7 +113,7 @@ class MenuHelper extends AppHelper {
                     $this->menuHTML .= $link;
 					// This will drill down to a deeper nest if it exists
 					if(array_key_exists($key, $this->menuArray)) {
-						$this->getNavigationMenu($key, $route . "/" . $entry['Navline']['route']);
+						$this->getNavigationMenu($key, $route . "/" . $entry['Navline']['route'], 'pop');
 					}
             }
 

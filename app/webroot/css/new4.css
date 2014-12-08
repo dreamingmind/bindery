@@ -392,8 +392,19 @@ sublist ul li a {
 	div#navBar li.open > ul, div#navBar li.active > ul {
 		display: block;
 	}
-	div#navBar li:hover > ul {
+	div#navBar li {
+		position: relative;
+	}
+	div#navBar li:hover > ul.pop, ul.pop:hover {
 		display: block;
+		position: absolute;
+		width: 170px;
+		left: 171px;
+		top: -10px;
+		background-color: white;
+		padding: 10px;
+		border: thin dotted #ccc;
+		z-index: 5000;
 	}
 
 
