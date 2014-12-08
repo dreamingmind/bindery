@@ -111,6 +111,10 @@ class MenuHelper extends AppHelper {
             } else {
                     $this->menuHTML .= $this->Html->tag('li', null, array('class' => 'menu', 'id' => $id));
                     $this->menuHTML .= $link;
+					// This will drill down to a deeper nest if it exists
+					if(array_key_exists($key, $this->menuArray)) {
+						$this->getNavigationMenu($key, $route . "/" . $entry['Navline']['route']);
+					}
             }
 
             $this->menuHTML .= "</li>\n";

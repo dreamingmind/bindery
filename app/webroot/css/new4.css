@@ -381,6 +381,21 @@ sublist ul li a {
 	text-decoration:inherit;
 	border-right:solid #802A19 .5em;
 }
+	/* CASCADE OPEN ON SCREEN ADJUSTMENTS */
+	
+	div#navBar ul {
+		display: none;
+	}
+	div#navBar > ul {
+		display: block;
+	}
+	div#navBar li.open > ul, div#navBar li.active > ul {
+		display: block;
+	}
+	div#navBar li:hover > ul {
+		display: block;
+	}
+
 
 
 /*===============================
