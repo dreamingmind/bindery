@@ -873,9 +873,9 @@ $(document).ready(function(){
         // roll up the tables to start
         // and put some instructions in their toggle bar
         $('*[id*="Toggle"].toggle').each(function(){
-            $('.'+$(this).attr('id')).toggle(function(){
-                
-            });
+//            $('.'+$(this).attr('id')).toggle(function(){
+//                
+//            });
             $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
             $(this).bind('click', function(){
                 if($(this).children('span.instruction').html() == ' (Click to expand)'){
