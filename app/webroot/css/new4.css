@@ -403,7 +403,7 @@ sublist ul li a {
 		top: -10px;
 		background-color: white;
 		padding: 10px;
-		border: thin dotted #ccc;
+		border: thick solid #ccc;
 		z-index: 5000;
 	}
 

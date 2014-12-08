@@ -64,7 +64,7 @@ class Collection extends AppModel {
 		)
 	);
         
-        var $hasOne = array('Edition');
+//        var $hasOne = array('Edition');
 
 	var $hasMany = array(
 		'ContentCollection' => array(
@@ -79,8 +79,8 @@ class Collection extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-                    ),
-                'Catalog' => array(
+		),
+		'Catalog' => array(
 			'className' => 'Catalog',
 			'foreignKey' => 'collection_id',
 			'dependent' => false,
@@ -92,7 +92,13 @@ class Collection extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-                    )                );
+		),
+		'Edition' => array(
+			'className' => 'Edition',
+			'foreignKey' => 'collection_id',
+			'dependent' => false,
+		)
+	);
 
         var $actsAs = array('Sluggable'=>array(
             'label'=>'heading',
