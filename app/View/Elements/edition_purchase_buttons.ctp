@@ -23,7 +23,7 @@ $this->end();
 					echo '<div class="submit">';
 					$price = CakeNumber::currency($qb['invitem']['price'], 'USD', array('places' => 0));
 					echo $this->Html->para('', "{$edition['name']} - $price", array('title' => $edition['blurb']));
-					echo $this->Form->button(($purchaseCount > 0) ? 'Add to cart' : 'Order now', array('type' => 'submit', 'class' => 'submit', 'bind' => 'click.addToCart'));
+					echo $this->element('Cart/product_purchase_button');
 					echo '</div>';
 //					debug($edition);
 //					debug($qb['invitem']['price']);

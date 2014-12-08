@@ -34,6 +34,10 @@ class PurchasedProductFactory {
 	} elseif (isset($data['Edition'])) {
 		$product = 'EditionProduct';
 		
+	} elseif (isset($data['generic'])) {
+		dmDebug::ddd($data, 'generic product!');
+		$product = 'GenericProduct';
+		
 	} elseif ('workshop' === TRUE) {
 		$product = 'WorkshopProduct';
 		
