@@ -15,6 +15,24 @@ class dmDebug extends Object{
 	public static $trace = '';
 	public static $caller = '';
 	
+	private static $allowedUsernames = array(
+		'jason@curlymedia.com',
+		'ddrake@dreamingmind.com',
+		'dreamingmind',
+		'jason@eastbaytechservice.com',
+		'matt@eastbaytechservice.com'
+	);
+
+	/**
+	 * Test: allow timekeeping, debugging and other dev-only modules
+	 * 
+	 * @param string $username
+	 * @return boolean
+	 */
+	public static function developer($username) {
+		return in_array($username, self::$allowedUsernames);
+	}
+
 	/**
  * Log output for debugging
  * 
