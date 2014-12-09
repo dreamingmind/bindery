@@ -81,7 +81,7 @@ class CartItem extends OrderItem {
 			'order' => ''
 		)
 	);
-	public $hasMany = array(
+	public $hasOne = array(
 		'Supplement' => array(
 			'className' => 'Supplement',
 			'foreignKey' => 'order_item_id',

@@ -140,6 +140,8 @@ class CartItemsController extends AppController {
 	/**
 	 * Ajax process to change the quantity for a cart item
 	 * 
+	 * ================================================================== DEPRICATED. MOVING TO updateQty()
+	 * 
 	 * @param string $id
 	 * @param string $qty
 	 * @throws NotFoundException

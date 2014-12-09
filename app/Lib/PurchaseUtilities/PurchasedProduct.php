@@ -15,10 +15,29 @@ abstract class PurchasedProduct {
 	/**
 	 * The form data submitted during the purchase of something
 	 * 
+	 * This is the submitted data for a new cart item request 
+	 * and the unserialized Supplement record later when we 
+	 * have a CartItem record (
+	 * 
 	 * @var array
 	 */
 	protected $data;
 	
+	/**
+	 * The CartItem record field-level indexed
+	 * 
+	 * The ['CartItem'] index level will be stripped off
+	 * 
+	 * @var array
+	 */
+	protected $item;
+	
+	/**
+	 * Id of the Supplement record attached to this->item
+	 * 
+	 * @var string
+	 */
+	protected $supplementId;
 	/**
 	 * The type of Product purchased
 	 * 
@@ -39,7 +58,13 @@ abstract class PurchasedProduct {
 	 */
 	protected $Session;
 
-
+	/**
+	 * Supplement Model
+	 * 
+	 * @var object
+	 */
+	protected $Supplement;
+	
 	/**
 	 * The current logged in User from the Session
 	 *
@@ -80,17 +105,44 @@ abstract class PurchasedProduct {
 	 */
 	public function __construct($Session, $data) {
 		$this->type = str_replace('Product', '', get_class($this));
-		$this->data = $data;
 		$this->Session = $Session;;
 		$this->userId = $this->Session->read('Auth.User.id');
 		if (!$this->userId) {
 			$this->sessionId = $this->Session->id();
 		}
+		// If we have an existing cart item, we'll need to expand the Supplement data
+		if (isset($data['CartItem'])) {
+			$this->Supplement = ClassRegistry::init('Supplement');
+			$s = $this->Supplement->record_fromCartItem($id);
+			
+			$this->supplementId = (isset($s['Supplement']['id'])) ? $s['Supplement']['id'] : FALSE;
+			$this->data = (isset($s['Supplement']['data'])) ? unserialize($s['Supplement']['data']) : array();
+			$this->item = $data['CartItem'];
+			
+		// otherwise, this is a new request and we just have the form describing the ordered product
+		} else {
+			$this->data = $data;
+			$this->item = array();
+			$this->supplementId = FALSE;
+		}
+		
 //		debug($this->type, 'type');
 //		debug($this->data, 'data');
 //		debug($this->userId, 'userId');
 //		debug($this->sessionId, 'sessionId');
 	}
+
+//	/**
+//	 * Tentative // 
+//	 * May be better as an interface that be implemented. 
+//	 * Then, for any given app, you could implement as many payment interfaces as you supported
+//	 * 
+//	 * When submitting a cart to paypal, some standard chunk of data will be needed. 
+//	 * This could be the way to get that chunk.
+//	 * 
+//	 * @param int $index Paypal cart items get numbered. this is the number
+//	 */
+//	abstract public function paypalCartUploadNode($index);
 
 	/**
 	 * Given form data from the user, generate a trustworthy price for the item
@@ -101,18 +153,6 @@ abstract class PurchasedProduct {
 	 * @return float The calculated price
 	 */
 	abstract protected function calculatePrice();
-
-	/**
-	 * Tentative // 
-	 * May be better as an interface that be implemented. 
-	 * Then, for any given app, you could implement as many payment interfaces as you supported
-	 * 
-	 * When submitting a cart to paypal, some standard chunk of data will be needed. 
-	 * This could be the way to get that chunk.
-	 * 
-	 * @param int $index Paypal cart items get numbered. this is the number
-	 */
-	abstract public function paypalCartUploadNode($index);
 	
 	/**
 	 * Prepare data for saving in the Cart Model
@@ -122,8 +162,19 @@ abstract class PurchasedProduct {
 	 */
 	abstract public function cartEntry($cartId);
 	
+	/**
+	 * Take the user to a page where they can re-specify the project details
+	 * 
+	 * @param string $id CartItem record id
+	 */
 	abstract public function editEntry($id);
 	
+	/**
+	 * Allow user to change the ordered quantity for a cart item
+	 * 
+	 * @param string $id CartItem record id
+	 * @param string $qty New quantity for the cart item
+	 */
 	abstract public function updateQuantity($id, $qty);
 
 	/**

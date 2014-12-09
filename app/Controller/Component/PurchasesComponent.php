@@ -150,6 +150,24 @@ class PurchasesComponent extends Component {
 	}
 	
 	/**
+	 * Change a CartItem [and Supplement] quantity value
+	 * 
+	 * @param string $id
+	 * @param int $qty
+	 */
+	public function updateQuantity($id, $qty) {
+		// js front-loads all the zero qty and empty cart processes. Ignore those here
+		// 
+		$this->CartItem = ClassRegistry::init('CartItem');
+		$cartItem = $this->CartItem->retrieve($id);
+		// read the cart record
+		// manufacture the concrete handler
+		// call handler's qty change method to construct data array
+		// call CartItem to save the data
+	}
+
+
+	/**
 	 * Keep the cart associated with the user that created it
 	 * 
 	 * @param string $oldSession The last known session link for the cart

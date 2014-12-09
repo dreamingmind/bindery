@@ -52,5 +52,27 @@ class Supplement extends AppModel {
                 'foreignKey' => 'content_collection_id',
             )
 	);
+	
+	/**
+	 * Given a CartItem id, find the id of the attached Supplement
+	 * 
+	 * @param string $id A cart item id
+	 * @return string|False The supplement id or False if none
+	 */
+	public function id_fromCartItem($id) {
+		return $this->field('id', array('cart_item_id' => $id));
+	}
+	
+	/**
+	 * Given a CartItem id, find the attached Supplement
+	 * 
+	 * @param string $id A cart item id
+	 * @return array The supplement array or empty array
+	 */
+	public function record_fromCartItem($id) {
+		return $this->find('first', array('conditions' => array('cart_item_id' => $id)));
+	}
+	
+	
 }
 ?>

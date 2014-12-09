@@ -26,7 +26,12 @@ class PurchasedProductFactory {
 	// 
 	// Put its name into $validator
 	
-	if (isset($data['specs_key'])) {
+	// this first one handles cases where the CartItem record already exists
+	if (isset($data['CartItem']['type'])) {
+		$product = $data['Cart']['type'].'Product';
+		
+	// all the others handle the submission of a request for a new cart item
+	} elseif (isset($data['specs_key'])) {
 		$product = 'CustomProduct';
 		
 	} elseif (isset($data['cmd'])) {
