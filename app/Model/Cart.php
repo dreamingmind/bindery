@@ -183,6 +183,12 @@ class Cart extends Order {
 							'fields' => array('Supplement.id', 'Supplement.order_item_id', 'Supplement.type', 'Supplement.data')
 						)
 					))));
+			
+			foreach ($cart['CartItem'] as $index => $item) {
+				if (isset($cart['CartItem'][$index]['Supplement']['data'])) {
+					$cart['CartItem'][$index]['Supplement']['data'] = unserialize($cart['CartItem'][$index]['Supplement']['data']);
+				}
+			}
 			$this->writeIdCache($cart['Cart']['id'], $cart);
 			return $cart;
 		} catch (Exception $exc) {

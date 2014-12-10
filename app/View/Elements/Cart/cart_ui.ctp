@@ -21,20 +21,20 @@ $new = isset($new) ? $new : FALSE;
 
 $cartSubtotal = 0;
 if (isset($cart['CartItem'])) {
-	foreach ($cart['CartItem'] as $item) {
+	foreach ($cart['CartItem'] as $index => $item) {
 
 		$cartSubtotal += $item['total'];
 		$isNewItem = $item['id'] == $new;
 
 
 		// get the helper that specializes in processing this kind of product
-		$helper = $this->Helpers->load("PurchasedProduct");
+		$helper = $this->Helpers->load("{$item['type']}Product");
 
 
 		if ($isNewItem || $cartClass === 'cart_checkout') {
 			$this->start('new');
 			echo $this->element('Cart/item_detail', array(
-				'item' => array('CartItem' => $item, 'Supplement' => $item['Supplement']),
+				'item' => array('CartItem' => $item),
 
 				'isNewItem' => $isNewItem,
 
@@ -44,7 +44,7 @@ if (isset($cart['CartItem'])) {
 		} else {
 			$this->append('existing');
 			echo $this->element('Cart/item_summary', array(
-				'item' => array('CartItem' => $item, 'Supplement' => $item['Supplement']),
+				'item' => array('CartItem' => $item),
 
 				'helper' => $helper,
 				'Html' => $this->Html));

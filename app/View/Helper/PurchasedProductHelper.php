@@ -203,8 +203,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function editItemTool($item) {
-		dmDebug::ddd($item, 'item');
-		return ' • ' . $this->Html->link('Edit', "/cart_item/delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
+		return '';
 	}
 	
 //	public function cartSubtotal($subtotal) {

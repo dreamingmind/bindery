@@ -11,7 +11,7 @@ App::uses('PurchasedProductHelper', 'Helper');
  * 
  * @author dondrake
  */
-class EditionProductHelper extends PurchasedProductHelper {
+class GenericProductHelper extends PurchasedProductHelper {
 
 //	public $helpers = array();
 
@@ -35,6 +35,11 @@ class EditionProductHelper extends PurchasedProductHelper {
 		
 	}
 	
+	public function editItemTool($item) {
+		$p = array_keys($item['CartItem']['Supplement']['data']);
+		$product = $p[0];
+		return ' • ' . $this->Html->link('Edit', "/products/$product/purchase", array('class' => 'tool'));
+	}
 	/**
 	 * Blurb creation method
 	 * 
@@ -58,20 +63,6 @@ class EditionProductHelper extends PurchasedProductHelper {
 //			$text = $full;
 //		}
 //		return $text;
-//	}
-	
-	/**
-	 * If there are any, output all the edition BUY buttons
-	 * 
-	 * ALL CALLS TO THIS METHOD HAVE BEEN DISABLED ========================================*******!!!!!!!!!!
-	 * 
-	 * @param array $editions Edition button records
-	 */
-//	public function editionButton($edition) {
-//		if ($edition['available']) {
-//			
-//			echo $this->Form->button('edition purchase button');
-//		}
 //	}
 
 }
