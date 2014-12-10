@@ -138,24 +138,19 @@ class CartItemsController extends AppController {
 	}
 	
 	/**
-	 * Ajax process to change the quantity for a cart item
-	 * 
-	 * ================================================================== DEPRICATED. MOVING TO updateQty()
+	 * Ajax process to change the quantity for a cart item [and its supplement]
 	 * 
 	 * @param string $id
 	 * @param string $qty
 	 * @throws NotFoundException
 	 */
-	public function update_cart($id = NULL, $qty = NULL) {
+	public function updateQuantity($id = NULL, $qty = NULL) {
 		if (!$this->CartItem->exists($id)) {
 			throw new NotFoundException(__('Invalid cart'));
 		}
 		$this->layout = 'ajax';
 		if ($this->request->is('post') || $this->request->is('put')) {
-			$this->CartItem->data = $this->CartItem->retrieve($id);
-			$this->CartItem->data['CartItem']['quantity'] = $qty;
-			
-			if ($this->CartItem->save($this->CartItem->data)) {
+			if ($this->Purchases->updateQuantity($id, $qty)) {
 				// needs to return the item subtotal and the cart subtotal
 				$this->set('itemTotal', $this->CartItem->itemTotal($id));
 				$this->set('cartSubtotal', $this->CartItem->cartSubtotal());
@@ -172,9 +167,6 @@ class CartItemsController extends AppController {
 	 * 
 	 * This seems flaky since it just loops over to PurchasesComponent->add() ============================================================= Sort me out!
 	 */
-//	public function addToCart() {
-//		parent::addToCart();
-//	}
 	
 	public function cancel() {
 		dmDebug::ddd($this->request->data, 'response');
@@ -192,5 +184,5 @@ class CartItemsController extends AppController {
 	public function addToCart() {
 		$this->Purchases->add();
 	}
-
+	
 }

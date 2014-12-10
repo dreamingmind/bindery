@@ -70,7 +70,7 @@ class Supplement extends AppModel {
 	 * @return array The supplement array or empty array
 	 */
 	public function record_fromCartItem($id) {
-		return $this->find('first', array('conditions' => array('cart_item_id' => $id)));
+		return $this->find('first', array('conditions' => array('order_item_id' => $id)));
 	}
 	
 	

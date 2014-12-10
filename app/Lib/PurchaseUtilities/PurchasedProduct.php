@@ -104,6 +104,7 @@ abstract class PurchasedProduct {
 	 * @param type $data
 	 */
 	public function __construct($Session, $data) {
+//		dmDebug::ddd($data, 'data');die;
 		$this->type = str_replace('Product', '', get_class($this));
 		$this->Session = $Session;;
 		$this->userId = $this->Session->read('Auth.User.id');
@@ -113,7 +114,7 @@ abstract class PurchasedProduct {
 		// If we have an existing cart item, we'll need to expand the Supplement data
 		if (isset($data['CartItem'])) {
 			$this->Supplement = ClassRegistry::init('Supplement');
-			$s = $this->Supplement->record_fromCartItem($id);
+			$s = $this->Supplement->record_fromCartItem($data['CartItem']['id']);
 			
 			$this->supplementId = (isset($s['Supplement']['id'])) ? $s['Supplement']['id'] : FALSE;
 			$this->data = (isset($s['Supplement']['data'])) ? unserialize($s['Supplement']['data']) : array();

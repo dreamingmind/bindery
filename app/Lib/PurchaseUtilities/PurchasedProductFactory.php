@@ -28,7 +28,7 @@ class PurchasedProductFactory {
 	
 	// this first one handles cases where the CartItem record already exists
 	if (isset($data['CartItem']['type'])) {
-		$product = $data['Cart']['type'].'Product';
+		$product = $data['CartItem']['type'].'Product';
 		
 	// all the others handle the submission of a request for a new cart item
 	} elseif (isset($data['specs_key'])) {

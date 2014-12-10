@@ -155,7 +155,7 @@ function updateQuantity(e) {
 		$.ajax({
 			type: "PUT",
 			dataType: "HTML",
-			url: webroot+'cart_items/update_cart/' + id + '/' + qty,
+			url: webroot+'cart_items/updateQuantity/' + id + '/' + qty,
 			success: function(data) {
 				// remove old flash messages
 				$('div.flash.message').remove();

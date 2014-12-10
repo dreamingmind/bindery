@@ -27,8 +27,7 @@ $parameters = array(
         'project_description' => array(
             'type' => 'textarea',
             'rows' => 10
-        ),
-		'id' => array('type' => 'hidden'),
+        )
     )
 );
 

@@ -128,21 +128,18 @@ class CustomProduct extends PurchasedProduct {
 	 * Record a simple quantity change in a cart record
 	 */
 	public function updateQuantity($id, $qty) {
-		dmDebug::ddd($this->data, 'this data');
-		dmDebug::ddd($this->product, 'product');
-		die;
-		$Supplement = ClassRegistry::init('Supplement');
-		$CartItem = ClassRegistry::init('CartItem');
-		
-		$sup_id = $Supplement->record_fromCartItem($id);
-		
-		$data = array('CartItem' => array(
-			'id' => $id,
-			'quantity' => $qty,
+		$this->data[$this->product]['quantity'] = $qty;
+		$cart = array(
+			'CartItem' => array(
+				'id' => $id,
+				'quantity' => $qty
+			),
 			'Supplement' => array(
-				
+				'id' => $this->supplementId,
+				'data' => serialize($this->data)
 			)
-		));
+		);
+		return $cart;
 	}
 
 	public function editEntry($id) {
@@ -285,5 +282,4 @@ class CustomProduct extends PurchasedProduct {
 		}
 	}
 }
-
 ?>

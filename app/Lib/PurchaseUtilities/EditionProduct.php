@@ -78,12 +78,21 @@ class EditionProduct extends PurchasedProduct {
 		
 	}
 
-	public function paypalCartUploadNode($index) {
-		
-	}
+//	public function paypalCartUploadNode($index) {
+//		
+//	}
 
+	/**
+	 * Record a simple quantity change in a cart record
+	 */
 	public function updateQuantity($id, $qty) {
-		
+		$cart = array(
+			'CartItem' => array(
+				'id' => $id,
+				'quantity' => $qty
+			)
+		);
+		return $cart;
 	}
 
 }

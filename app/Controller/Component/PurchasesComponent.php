@@ -150,7 +150,7 @@ class PurchasesComponent extends Component {
 	}
 	
 	/**
-	 * Change a CartItem [and Supplement] quantity value
+	 * Change a CartItem [and Supplement] quantity values
 	 * 
 	 * @param string $id
 	 * @param int $qty
@@ -158,12 +158,15 @@ class PurchasesComponent extends Component {
 	public function updateQuantity($id, $qty) {
 		// js front-loads all the zero qty and empty cart processes. Ignore those here
 		// 
-		$this->CartItem = ClassRegistry::init('CartItem');
-		$cartItem = $this->CartItem->retrieve($id);
-		// read the cart record
-		// manufacture the concrete handler
-		// call handler's qty change method to construct data array
-		// call CartItem to save the data
+		try {
+			$this->CartItem = ClassRegistry::init('CartItem');
+			$cartItem = $this->CartItem->retrieve($id);
+			$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
+			$item = $this->product->updateQuantity($id, $qty);
+			return $this->CartItem->saveAssociated($item);
+		} catch (Exception $exc) {
+			echo $exc->getTraceAsString();
+		}
 	}
 
 

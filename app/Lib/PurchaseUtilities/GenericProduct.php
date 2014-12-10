@@ -13,13 +13,15 @@
  */
 class GenericProduct extends PurchasedProduct {
 	
-	protected $key;
-	protected $fields;
+	protected $product;
+	
 	protected $productName;
 	
 	public function __construct($Session, $data) {
 		parent::__construct($Session, $data);
-		$this->decomposeData();
+		$p = array_keys($this->data);
+		$this->product = $p[0];
+		$this->productName = ucwords(str_replace('-', ' ', $this->product));
 	}
 
 		protected function calculatePrice() {
@@ -44,15 +46,15 @@ class GenericProduct extends PurchasedProduct {
 	 */
 	public function cartEntry($cartId) {
 				$cart = array('CartItem' => array(
-				'id' => (isset($this->fields['id'])) ? $this->fields['id'] : '',
+				'id' => (isset($this['id'])) ? $this->fields['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,
 				'blurb' => $this->blurb(),
 				'product_name' => $this->name(),
-				'options' => $this->fields['project_description'],
+				'options' => $this->data[$this->product]['project_description'],
 				'price' => $this->calculatePrice(),
-				'quantity' => intval($this->fields['quantity']) < 1 ? 1 : $this->fields['quantity']
+				'quantity' => intval($this->data[$this->product]['quantity']) < 1 ? 1 : $this->data[$this->product]['quantity']
 			),
 			'Supplement' => array(
 				'type' => 'POST',
@@ -68,31 +70,35 @@ class GenericProduct extends PurchasedProduct {
 		
 	}
 
-	public function paypalCartUploadNode($index) {
-		
-	}
+//	public function paypalCartUploadNode($index) {
+//		
+//	}
 
+	/**
+	 * Record a simple quantity change in a cart record
+	 */
 	public function updateQuantity($id, $qty) {
-		
+		$this->data[$this->product]['quantity'] = $qty;
+		$cart = array(
+			'CartItem' => array(
+				'id' => $id,
+				'quantity' => $qty
+			),
+			'Supplement' => array(
+				'id' => $this->supplementId,
+				'data' => serialize($this->data)
+			)
+		);
+		return $cart;
 	}
 	
-	/**
-	 * Break down the input data for simpler access
-	 */
-	private function decomposeData() {
-		$p = array_keys($this->data);
-		$this->key = $p[0];
-		$this->productName = ucwords(str_replace('-', ' ', $this->key));
-		$this->fields = $this->data[$this->key];
-	}
-
 	/**
 	 * Construct the product name display value
 	 * 
 	 * @return string
 	 */
 	private function name() {
-		$name = ($this->fields['project_name'] != '') ? "{$this->fields['project_name']} ($this->productName)" : $this->productName;
+		$name = ($this->data[$this->product]['project_name'] != '') ? "{$this->data[$this->product]['project_name']} ($this->productName)" : $this->productName;
 		return $name;
 	}
 	
@@ -107,8 +113,8 @@ class GenericProduct extends PurchasedProduct {
 	private function blurb() {
 		$blurb = array(
 			"<span class=\"alert\">REQUIRES QUOTE</span>\n",
-			($this->fields['time_frame'] != '') ? '- Time frame: ' . $this->fields['time_frame'] : '',
-			($this->fields['budget'] != '') ? '- Budget: ' . $this->fields['budget'] : ''
+			($this->data[$this->product]['time_frame'] != '') ? '- Time frame: ' . $this->data[$this->product]['time_frame'] : '',
+			($this->data[$this->product]['budget'] != '') ? '- Budget: ' . $this->data[$this->product]['budget'] : ''
 		);
 		return trim(implode("\n", $blurb), "\n");
 	}
