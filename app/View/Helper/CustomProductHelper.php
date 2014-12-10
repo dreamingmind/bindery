@@ -112,7 +112,7 @@ class CustomProductHelper extends PurchasedProductHelper {
 	 */
 	public function editItemTool($item) {
 //		$supplement = unserialize($item['CartItem']['Supplement']['data']);
-		return ' • ' . $this->Html->link('Edit', "/products/{$item['CartItem']['Supplement']['data']['specs_key']}/purchase", array('class' => 'tool'));
+		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
 	}
 	
 

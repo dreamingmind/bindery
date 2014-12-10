@@ -29,6 +29,7 @@
     echo $this->Html->div($productCategory . 'Toggle options', null);
     echo $this->Html->caveatDiv($productCategory, $caveat['materials']);
     $model = $productCategory;
+	echo $this->Form->input('edit_path', array('type' => 'hidden', 'value' => $this->request->url));
 	
 	echo $this->element('Cart/add_to_cart');
 //	echo $this->Form->button('Add to cart', array('class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order'));

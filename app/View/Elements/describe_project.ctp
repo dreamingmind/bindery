@@ -16,6 +16,7 @@ echo $this->Form->create($model);
 echo $this->element('email', array('model' => $model));
 echo $this->element('options_project_description', array('legend' => $legend, 'record' => $record, 'model' => $model));
 echo $this->Form->input('generic', array('type' => 'hidden', 'value' => 'generic', 'name' => 'data[generic]'));
+echo $this->Form->input('edit_path', array('type' => 'hidden', 'value' => $this->request->url, 'name' => 'data[edit_path]'));
 echo $this->element('Cart/product_purchase_button');
 echo $this->Form->end();
 //echo $this->element('options_page_count');

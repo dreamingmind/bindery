@@ -36,9 +36,9 @@ class GenericProductHelper extends PurchasedProductHelper {
 	}
 	
 	public function editItemTool($item) {
-		$p = array_keys($item['CartItem']['Supplement']['data']);
-		$product = $p[0];
-		return ' • ' . $this->Html->link('Edit', "/products/$product/purchase", array('class' => 'tool'));
+//		$p = array_keys($item['CartItem']['Supplement']['data']);
+//		$product = $p[0];
+		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
 	}
 	/**
 	 * Blurb creation method
