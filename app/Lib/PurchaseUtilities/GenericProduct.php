@@ -55,10 +55,8 @@ class GenericProduct extends PurchasedProduct {
 				'quantity' => intval($this->fields['quantity']) < 1 ? 1 : $this->fields['quantity']
 			),
 			'Supplement' => array(
-				array(
-					'type' => 'POST',
-					'data' => serialize($this->data)
-				)				
+				'type' => 'POST',
+				'data' => serialize($this->data)
 			)
 		);
 //		dmDebug::ddd($this->data, 'this data');

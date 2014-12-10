@@ -61,10 +61,8 @@ class EditionProduct extends PurchasedProduct {
 				'quantity' => isset($this->data['Edition']['quantity']) ? $this->data['Edition']['quantity'] : 1
 			),
 			'Supplement' => array(
-				array(
-					'type' => 'POST',
-					'data' => serialize($this->data)
-				)				
+				'type' => 'POST',
+				'data' => serialize($this->data)
 			)
 		);
 //		dmDebug::ddd($cart, 'cart');die;

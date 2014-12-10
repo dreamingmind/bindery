@@ -57,10 +57,8 @@ class InventoryProduct extends PurchasedProduct {
 				'quantity' => 1 // ******!!!!!!!!!!!********* PSUEDO CODE ! ! ! DO NOT USE ******!!!!!!!!!!!***************!!!!!!!!!!!***************!!!!!!!!!!!*********
 			),
 			'Supplement' => array(
-				array(
-					'type' => 'CMD-CART',
-					'data' => serialize($this->data)
-				)				
+				'type' => 'POST',
+				'data' => serialize($this->data)
 			)
 		);
 		return $cart;

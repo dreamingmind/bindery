@@ -116,10 +116,8 @@ class CustomProduct extends PurchasedProduct {
 				'quantity' => $this->data[$this->product]['quantity']
 			),
 			'Supplement' => array(
-				array(
-					'type' => 'POST',
-					'data' => serialize($this->data)
-				)				
+				'type' => 'POST',
+				'data' => serialize($this->data)
 			)
 		);
 //		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
