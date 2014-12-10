@@ -46,7 +46,7 @@ class GenericProduct extends PurchasedProduct {
 	 */
 	public function cartEntry($cartId) {
 				$cart = array('CartItem' => array(
-				'id' => (isset($this['id'])) ? $this->fields['id'] : '',
+				'id' => (isset($this->data[$this->product]['id'])) ? $this->data[$this->product]['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
 				'user_id' => ($this->userId) ? $this->userId : NULL,

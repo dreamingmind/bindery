@@ -12,6 +12,10 @@ div#cart_pallet {
 	z-index: 6000;
 }
 
+	div.item_text {
+		width: 71%;
+	}
+	
 	div[id*=cart_] * {
 		padding: 0;
 		margin: 0;
@@ -49,12 +53,13 @@ div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 		border-bottom: #b89b5c thin solid;
 		margin-bottom: 0.5em;
 		padding-bottom: 1.5em;
-	}
+		min-height: 77px;
+}
 	
-		div[id*="cart_"] > div.item_detail .line_total {
+/*		div[id*="cart_"] > div.item_detail .line_total {
 			border-left: thin solid #4e7373;
 			padding: 0.5em;
-		}
+		}*/
 
 	div[id*=cart_] > div > div.item_text > h1 {
 		background-color: transparent;
@@ -101,11 +106,26 @@ div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 		/* display settings for children */
 	}
 	
-		div[id*=cart_] > div.item_detail > * {
+div.item_text {
+    display: inline-block;
+    width: 80%;
+}
+
+.item_tools p {
+    margin: 4px 0;
+    text-align: right;
+}
+div.item_tools {
+    border-top: thin solid #b89b5c;
+    margin-top: 2px;
+    padding-top: 0;
+}
+
+/*		div[id*=cart_] > div.item_detail > * {
 			display: block;
-		}
+		}*/
 		
-		div[id*=cart_] > div.item_detail > div.item_tools {
+/*		div[id*=cart_] > div.item_detail > div.item_tools {
 			height: 25px;
 		}
 		
@@ -119,30 +139,34 @@ div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 
 				div[id*=cart_] > div.item_detail > div.item_tools > div.item_price > * {
 					display: inline;
-	}
+	}*/
 
 	div[id*=cart_] > div.item_summary {
 		/* display settings for children */
 	}
 
 		div[id*=cart_] > div.item_summary > div.item_price,
-		div[id*=cart_] > div.item_summary > div.item_text {
+		div[id*=cart_] > div.item_detail > div.item_price {
 			display: inline-block;
 		}
 		
-			div[id*=cart_] > div.item_summary > div.item_tools > * {
+			div[id*=cart_] > div.item_summary > div.item_tools > *,
+			div[id*=cart_] > div.item_detail > div.item_tools > *{
 				display: block;
 			}
 			
-			div[id*=cart_] > div.item_summary > div.item_tools {
+			div[id*=cart_] > div.item_summary > div.item_tools,
+			div[id*=cart_] > div.item_detail > div.item_tools{
 				float: right;
 			}
 
-				div[id*=cart_] > div.item_summary > div.item_tools > div.item_price > * {
+				div[id*=cart_] > div.item_summary > div.item_tools > div.item_price > *,
+				div[id*=cart_] > div.item_detail > div.item_tools > div.item_price > *{
 					display: block;
 				}
 				
-				div[id*="cart_"] > div.item_summary > div.item_tools > a.tool {
+				div[id*="cart_"] > div.item_summary > div.item_tools > a.tool,
+				div[id*="cart_"] > div.item_detail > div.item_tools > a.tool{
 					display: inline-block;
 					float: right;
 					margin-bottom: 3px;

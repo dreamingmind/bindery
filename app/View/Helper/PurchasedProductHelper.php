@@ -195,7 +195,7 @@ class PurchasedProductHelper extends AppHelper {
 	public function removeItemTool($item) {
 		return $this->Html->link('Remove', "/cart_item/delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
 	}
-	
+		
 	/**
 	 * Provide a default implementation of the edit-request tool
 	 * 
@@ -203,7 +203,8 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function editItemTool($item) {
-		return '';
+		dmDebug::ddd($item, 'item');
+		return ' • ' . $this->Html->link('Edit', "/cart_item/delete/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
 	}
 	
 //	public function cartSubtotal($subtotal) {

@@ -11,8 +11,8 @@
 	</div>
 
 	<div class="item_tools">
-		<?php echo $helper->removeItemTool($item); ?> 
-		<?php echo $helper->editItemTool($item); ?> 
+		<p><?php echo $helper->removeItemTool($item) . $helper->editItemTool($item); ?></p>
+		<?php // echo $helper->editItemTool($item); ?> 
 		<?php echo $this->element('Cart/item_price', array('item' => $item, 'helper' => $helper)); ?>
 	</div>
 	 
