@@ -33,7 +33,7 @@ class CustomProductHelper extends AppHelper {
 	/**
 	 * Store the design name text variants and return the currently required version
 	 * 
-	 * Overrides PurchaseProductHelper version
+	 * Overrides PurchasedProductHelper version
 	 * 
 	 * @param array $item
 	 * @param string $mode

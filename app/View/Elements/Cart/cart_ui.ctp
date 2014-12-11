@@ -28,7 +28,7 @@ if (isset($cart['CartItem'])) {
 
 
 		// get the helper that specializes in processing this kind of product
-		$helper = $this->Helpers->load("PurchasedProduct");
+//		$this->PurchasedProduct = $this->Helpers->load("PurchasedProduct");
 
 
 		if ($isNewItem || $cartClass === 'cart_checkout') {
@@ -38,7 +38,7 @@ if (isset($cart['CartItem'])) {
 
 				'isNewItem' => $isNewItem,
 
-				'helper' => $helper,
+//				'helper' => $this->PurchasedProduct,
 				'Html' => $this->Html));
 			$this->end();
 		} else {
@@ -46,7 +46,7 @@ if (isset($cart['CartItem'])) {
 			echo $this->element('Cart/item_summary', array(
 				'item' => array('CartItem' => $item),
 
-				'helper' => $helper,
+//				'helper' => $this->PurchasedProduct,
 				'Html' => $this->Html));
 			$this->end();
 		}
@@ -94,7 +94,7 @@ if (isset($cart['Cart'])) {
 // On the checkout page, add the data to other global variables
 if ($cartClass === 'cart_checkout') {
 	$this->append('jsGlobalVars');
-		echo 'var toggleData = ' . json_encode($helper->toggleData) . ';';
+		echo 'var toggleData = ' . json_encode($this->PurchasedProduct->toggleData) . ';';
 	$this->end();
 } else {
 // The pallet, on the other hand, gets the data embedded right in the html response
@@ -103,7 +103,7 @@ if ($cartClass === 'cart_checkout') {
 <script type=\"text/javascript\">
 	//<![CDATA[
 	// Data pack for expand/collapse of item sections
-	var toggleData = <?php echo json_encode($helper->toggleData) ?>;
+	var toggleData = <?php echo json_encode($this->PurchasedProduct->toggleData) ?>;
 	//]]>
 </script>
 
