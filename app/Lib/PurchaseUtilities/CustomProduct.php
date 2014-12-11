@@ -142,6 +142,10 @@ class CustomProduct extends PurchasedProduct {
 		return $cart;
 	}
 
+	public function product() {
+		return $this->product;
+	}
+
 	public function editEntry($id) {
 		
 	}

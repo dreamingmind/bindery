@@ -65,6 +65,10 @@ class GenericProduct extends PurchasedProduct {
 //		dmDebug::ddd($cart, 'cart');
 		return $cart;
 	}
+	
+	public function product() {
+		return $this->product;
+	}
 
 	public function editEntry($id) {
 		

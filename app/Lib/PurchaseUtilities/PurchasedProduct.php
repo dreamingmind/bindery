@@ -132,6 +132,10 @@ abstract class PurchasedProduct {
 //		debug($this->userId, 'userId');
 //		debug($this->sessionId, 'sessionId');
 	}
+	
+	public function data() {
+		return $this->data;
+	}
 
 //	/**
 //	 * Tentative // 

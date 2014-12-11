@@ -91,7 +91,9 @@ class CatalogsController extends AppController {
     function catalog($product = null) {
 //		dmDebug::ddd($this->request->data, 'trd');
 //		debug($this->request->params);
-		$product = $this->request->params['pname'];
+		if (is_null($product)) {
+			$product = $this->request->params['pname'];
+		}		
 //        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->request->data)){
 //            debug($this->request->data);die;
@@ -128,8 +130,27 @@ class CatalogsController extends AppController {
                 'diagramMap', 'costOptions', 'js'));
 //		debug('catalog');
     }
-    
-    /**
+	
+	/**
+	 * Edit a Custom or Generic product that's been placed in the shopping cart
+	 * 
+	 * These two product groups were ordered from catalogs/catalog page forms 
+	 * so, when editing them we come back to this context to do the job
+	 * 
+	 * @param string $id CartItem id
+	 * @param string $pname the product name that will control catalog()
+	 */
+	public function editCatalogItem($id, $pname) {
+		$this->request->data = $this->Purchases->sourceFormData($id);
+		dmDebug::ddd($this->Purchases->product->product(), 'product');
+		
+//		dmDebug::ddd($cart, 'cart');
+		$this->catalog('portfolios');
+		$this->render('catalog');
+	}
+
+
+	/**
      * Save product specs for later and add product to shopping cart
 	 * 
 	 * This is assumed to be deprecated ========================================================= !!!!!!!!!!!!!!!!!!!!!!!!!! deprecated?

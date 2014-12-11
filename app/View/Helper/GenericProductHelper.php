@@ -38,7 +38,8 @@ class GenericProductHelper extends AppHelper {
 	public function editItemTool($item) {
 //		$p = array_keys($item['CartItem']['Supplement']['data']);
 //		$product = $p[0];
-		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
+//		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
+		return ' • ' . $this->Html->link('Edit', DS.'catalogs/editCatalogItem/'.$item['CartItem']['id'], array('class' => 'tool'));
 	}
 	/**
 	 * Blurb creation method

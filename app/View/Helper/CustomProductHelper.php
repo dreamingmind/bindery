@@ -112,7 +112,8 @@ class CustomProductHelper extends AppHelper {
 	 */
 	public function editItemTool($item) {
 //		$supplement = unserialize($item['CartItem']['Supplement']['data']);
-		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
+//		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
+		return ' • ' . $this->Html->link('Edit', DS.'catalogs/editCatalogItem/'.$item['CartItem']['id'], array('class' => 'tool'));
 	}
 	
 

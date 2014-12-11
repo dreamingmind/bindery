@@ -168,6 +168,18 @@ class PurchasesComponent extends Component {
 			echo $exc->getTraceAsString();
 		}
 	}
+	
+	/**
+	 * Given a CartItem id, return the form data that originally defined the item
+	 * 
+	 * @param string $id CartItem id
+	 */
+	public function sourceFormData($id) {
+		$this->CartItem = ClassRegistry::init('CartItem');
+		$cartItem = $this->CartItem->retrieve($id);
+		$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
+		return $this->product->data();
+	}
 
 
 	/**
