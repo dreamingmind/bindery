@@ -19,21 +19,13 @@ class GenericProductHelper extends AppHelper {
 		parent::__construct($View, $settings);
 	}
 
-	public function beforeRender($viewFile) {
-		
-	}
+	public function beforeRender($viewFile) { }
 
-	public function afterRender($viewFile) {
-		
-	}
+	public function afterRender($viewFile) { }
 
-	public function beforeLayout($viewLayout) {
-		
-	}
+	public function beforeLayout($viewLayout) { }
 
-	public function afterLayout($viewLayout) {
-		
-	}
+	public function afterLayout($viewLayout) { }
 	
 	public function editItemTool($item) {
 //		$p = array_keys($item['CartItem']['Supplement']['data']);
@@ -42,29 +34,4 @@ class GenericProductHelper extends AppHelper {
 		$pname = preg_filter('/products\/|\/purchase/', '', $item['CartItem']['Supplement']['data']['edit_path']);
 		return ' • ' . $this->Html->link('Edit', DS.'catalogs/editCatalogItem/'.$item['CartItem']['id'].DS.$pname, array('class' => 'tool'));
 	}
-	/**
-	 * Blurb creation method
-	 * 
-	 * Editions have the blurb stored in the Supplement record
-	 * 
-	 * @param array $item
-	 * @param string $mode
-	 * @return string
-	 */
-//	public function blurb($item, $mode) {
-//        dmDebug::ddd($item, 'item');
-//		$edition = unserialize($item['Supplement'][0]['data']);
-//		$blurb = $edition['Edition']['blurb'];
-//		$summary = $this->Html->para(NULL, String::truncate($blurb, 40), array('class' => 'blurb'));
-//		$full = $this->Html->para(NULL, $blurb, array('class' => 'blurb'));
-//		$this->storeToggleData($item, 'blurb', $summary, $full);
-//		
-//		if ($mode === 'item_summary') {
-//			$text = $summary;
-//		} else {
-//			$text = $full;
-//		}
-//		return $text;
-//	}
-
 }
