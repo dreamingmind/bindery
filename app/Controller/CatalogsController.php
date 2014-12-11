@@ -142,10 +142,12 @@ class CatalogsController extends AppController {
 	 */
 	public function editCatalogItem($id, $pname) {
 		$this->request->data = $this->Purchases->sourceFormData($id);
-		dmDebug::ddd($this->Purchases->product->product(), 'product');
+//		dmDebug::ddd($this->request->data, 'trd');
+//		dmDebug::ddd($this->Purchases->product->product(), 'product');
+		$this->set('cartProduct', $this->Purchases->product->product());
 		
 //		dmDebug::ddd($cart, 'cart');
-		$this->catalog('portfolios');
+		$this->catalog($pname);
 		$this->render('catalog');
 	}
 
