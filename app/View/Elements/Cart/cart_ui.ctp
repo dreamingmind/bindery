@@ -38,7 +38,6 @@ if (isset($cart['CartItem'])) {
 
 				'isNewItem' => $isNewItem,
 
-//				'helper' => $this->PurchasedProduct,
 				'Html' => $this->Html));
 			$this->end();
 		} else {
@@ -46,7 +45,6 @@ if (isset($cart['CartItem'])) {
 			echo $this->element('Cart/item_summary', array(
 				'item' => array('CartItem' => $item),
 
-//				'helper' => $this->PurchasedProduct,
 				'Html' => $this->Html));
 			$this->end();
 		}
