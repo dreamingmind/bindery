@@ -129,10 +129,10 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function modeToggle($item, $action, $isNewItem = FALSE) {
-		if (!$isNewItem) {
+//		if (!$isNewItem) {
 			return $this->Html->para('tools', 
 				$this->Html->link($action, $item['CartItem']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
-		}
+//		}
 	}
 	
 	/**
@@ -203,7 +203,11 @@ class PurchasedProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function editItemTool($item) {
-		return '';
+		$helper = "{$item['CartItem']['type']}Product";
+//		dmDebug::ddd($helper, 'helper');
+		$concrete = $this->_View->Helpers->load($helper);;
+//		$concrete = $Helpers->load();
+		return $concrete->editItemTool($item);
 	}
 	
 //	public function cartSubtotal($subtotal) {

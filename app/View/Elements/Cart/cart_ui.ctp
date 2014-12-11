@@ -28,7 +28,7 @@ if (isset($cart['CartItem'])) {
 
 
 		// get the helper that specializes in processing this kind of product
-		$helper = $this->Helpers->load("{$item['type']}Product");
+		$helper = $this->Helpers->load("PurchasedProduct");
 
 
 		if ($isNewItem || $cartClass === 'cart_checkout') {
@@ -63,19 +63,19 @@ and checkout page view of the cart
 <?php
 
 if (isset($cart['Cart'])) {
-	if (!$this->Cart->contactPresent($cart['Cart']) && $cartClass === 'cart_checkout') {
-// this, only on checkout and if contact info is incomplete
-		$this->request->data = $cart;
-		$this->request->data('Cart.first_name', $this->Session->read('Auth.User.first_name'))
-				->data('Cart.last_name', $this->Session->read('Auth.User.last_name'));
-		$maskState = ' cover';
-		//dmDebug::ddd($this->request->data, 'trd');
-
-		echo $this->element('Cart/contact_input', array('cart' => $cart));
-	} else {
+//	if (!$this->Cart->contactPresent($cart['Cart']) && $cartClass === 'cart_checkout') {
+//// this, only on checkout and if contact info is incomplete
+//		$this->request->data = $cart;
+//		$this->request->data('Cart.first_name', $this->Session->read('Auth.User.first_name'))
+//				->data('Cart.last_name', $this->Session->read('Auth.User.last_name'));
+//		$maskState = ' cover';
+//		//dmDebug::ddd($this->request->data, 'trd');
+//
+//		echo $this->element('Cart/contact_input', array('cart' => $cart));
+//	} else {
 // this, in pallet or on checkout only if contact info is complete
 		$maskState = '';
-	}
+//	}
 
 	echo $this->Html->div(NULL, NULL, array('id' => $cartClass, 'title' => 'Supply the required contact information to proceed.'));
 	echo $this->Html->div('mask' . $maskState, ''); // this will dim the cart if contact info is incomplete

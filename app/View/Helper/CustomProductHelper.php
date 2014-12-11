@@ -6,7 +6,7 @@ App::uses('PurchasedProductHelper', 'Helper');
  * CakePHP CustomProductHelper
  * @author dondrake
  */
-class CustomProductHelper extends PurchasedProductHelper {
+class CustomProductHelper extends AppHelper {
 
 //	public $helpers = array();
 

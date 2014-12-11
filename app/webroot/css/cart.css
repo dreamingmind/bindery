@@ -12,7 +12,7 @@ div#cart_pallet {
 	z-index: 6000;
 }
 
-	div.item_text {
+	div#cart_pallet div.item_text {
 		width: 71%;
 	}
 	

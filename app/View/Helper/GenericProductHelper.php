@@ -11,7 +11,7 @@ App::uses('PurchasedProductHelper', 'Helper');
  * 
  * @author dondrake
  */
-class GenericProductHelper extends PurchasedProductHelper {
+class GenericProductHelper extends AppHelper {
 
 //	public $helpers = array();
 
