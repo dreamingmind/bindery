@@ -33,7 +33,7 @@ function point(obj, x, y){
     obj['y'] = y;
 }
 /**
- * End eneral purpose Graphic coordinate methods
+ * End general purpose Graphic coordinate methods
  * ======================================================
  */
     
@@ -62,7 +62,70 @@ if (!String.prototype.format) {
  * ======================================================
  */
 
+/**
+ * Sweep the page for bindings indicated by HTML attribute hooks
+ * 
+ * Class any DOM element with event handlers.
+ * Place a 'bind' attribute in the element in need of binding.
+ * bind="focus.revealPic blur.hidePic" would bind two methods
+ * to the object; the method named revealPic would be the focus handler
+ * and hidePic would be the blur handler. All bound handlers
+ * receive the event object as an argument
+ * 
+ * @param {string} target a selector to limit the scope of action
+ * @returns The specified elements will be bound to handlers
+ */
+function bindHandlers(target) {
+    if (typeof(target) == 'undefined') {
+        var targets = $('*[bind*="."]');
+    } else {
+		var targets = $(target).find('*[bind*="."]')
+	}
+	targets.each(function(){
+		var bindings = $(this).attr('bind').split(' ');
+		for (i = 0; i < bindings.length; i++) {
+			var handler = bindings[i].split('.');
+			if (typeof(window[handler[1]]) === 'function') {
+				// handler[0] is the event type
+				// handler[1] is the handler name
+				$(this).off(handler[0]).on(handler[0], window[handler[1]]);
+			}
+		}
+	});
+}
 
+/**
+ * Close flash messages that have the new 'X' button in them
+ * 
+ * ************************************************************************************************ get rid of this badly coupled code ==========
+ * 
+ * @returns {void}
+ */
+function closeFlash() {
+	// This logic should not be here. excess coupling
+	var cartNode = $(this).parent('div').parent('div').attr('id');
+	if (cartCount() == '0' &&  cartNode == 'cart_pallet') {
+		$(this).parent('div').parent('div').remove();
+		$('div#pgMask').removeClass('cover');
+	} else if (cartCount() == '0' &&  cartNode == 'cart_checkout'){
+		var continueButton = $('button#continue').clone(true);
+		$('div#cart_checkout').html('<p>Your cart is empty.</p>').append(continueButton);
+	} else {
+		
+		// this is all that should be here I think
+		$(this).parent('div').remove();
+	}
+}
+
+function cartCount() {
+	return $('#cart_badge span.count').html();
+}
+
+/**
+ * Document ready section =========================================================================
+ * ========================================================================= Document ready section
+ * 
+ */
 $(document).ready(function(){
     $('#flashMessage').delay(6400).fadeOut(3200);
 
@@ -244,7 +307,8 @@ $(document).ready(function(){
 //            displayAddToCartMessage(posting.responseText, formObject.name);
 //        });
         var posting = $.post(url, formObject.serializedClone, function(){
-            location.assign(posting.responseText);
+			alert(posting.responseText);
+//            location.assign(posting.responseText);
 //            displayAddToCartMessage(posting.responseText, formObject.name);
 //        })
 //        .done(function(posting.responseText){
@@ -290,4 +354,5 @@ $(document).ready(function(){
     hideAllSlaveNodes();
     initTogglingSets();
     initAddToCartButtons();
+	bindHandlers();
 })

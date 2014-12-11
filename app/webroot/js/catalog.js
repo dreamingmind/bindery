@@ -562,8 +562,26 @@ function priceSum(product){
     for (var costNode in catalog[product]) {
         price += parseInt(catalog[product][costNode]['price']);
     }
+	var qty = parseInt($('input[name="data['+product+'][quantity]"]').val());
+	var total = qty * price;
+	
+	$('input[name="data['+product+'][sum]"]').val(price);
+	$('input[name="data['+product+'][total]"]').val(total);
+	
     catalog.productNames[product]['sum'] = price;
-    return catalog.productNames[product]['priceSpan'] = '<span class="price">$' + price + '</span><span class="caveat">Estimate</span> ';
+    catalog.productNames[product]['total'] = total;
+	
+    return catalog.productNames[product]['priceSpan'] = '<span class="price">' + total + '</span><span class="caveat">Estimate</span> ';
+}
+
+/**
+ * Quantity change must multiply the price, then render the new price
+ * 
+ * @param {event} e
+ */
+function qtyChange(e) {
+	var product = determineProduct(e.currentTarget);
+	writePricedTitle(product);
 }
 
 /**
@@ -591,6 +609,8 @@ function writePricedTitle(product){
     $(catalog.productNames[product]['titleNode']).html(price + title);
     // write the title to a form input for delivery to the server
     $(catalog.productNames[product]['titleInput']).attr('value', title);
+	// write the new sum to the paypal button
+	
     // Write the current caveats to the page
     writeCaveatSet(product);
 }
@@ -614,13 +634,30 @@ function writeCaveatSet(product){
     }
     var oldlength = ($(catalog.productNames[product]['caveatNode']).html()).length;
     if (caveatOut.length > oldlength) {
-        $('div#caveat').css('background-color', 'orange');
+//        $('div#caveat').css('background-color', 'orange');
+        $('div#caveat').addClass('warn');
+		caveatToggle($('div#caveat'));
     } else if (caveatOut.length < oldlength) {
-        $('div#caveat').css('background-color', 'khaki');
+//        $('div#caveat').css('background-color', 'khaki');
+        $('div#caveat').removeClass('warn');
+		caveatToggle($('div#caveat'));
     }
     $(catalog.productNames[product]['caveatNode']).html(caveatOut);
 }
 
+    /**
+     * Set up the click on a specific node to control the display-toggle of another node
+     * 
+     * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
+     */
+    function caveatToggle(node){
+        $(node).off('click').on('click',function(){
+            $('.'+$(node).attr('id')).toggle(50,function(){
+                // animation complete.
+            });
+        })
+    }
+    
 //function resetCaveatColor(){
 //        $('div#caveat').css('background-color', 'khaki');
 //}
@@ -743,6 +780,46 @@ function productRadioClick(e){
     diagramDiv(productDiagram, productGroup);
 }
 
+/**
+ * Given an option input node, discover which product it belongs to
+ */
+function determineProduct(optionNode){
+	return $(optionNode).parents('form').children('table').attr('id');
+}
+
+/**
+ * Manage quarterbound cover cloth details for products with liners
+ * 
+ * Notebooks and other products that have liners and the option for 
+ * quarterbound usually have matching cover and liner cloth. But I 
+ * have radio buttons to allow them the diverge. This takes special 
+ * handling to be aware of the radio button settings when they are present
+ * 
+ * @param {type} e
+ * @returns {undefined} */
+function linerChange(e) {
+	
+	// This is where I can set a list of products that have the feature
+	var allowed = {'Notebook' : true};
+	
+	var product = determineProduct(e.currentTarget);
+	if (allowed[product]) {
+		var fieldset = $(e.currentTarget).parents('fieldset');
+		var idKey = fieldset.find('legend').attr('id');
+		var f = fieldset.find('input[type="radio"]');
+		if ($(f[0]).prop('checked') == false && $(f[1]).prop('checked') == false) {
+			fieldset.find('input[id~="'+idKey+'-uniqueliner0"]').prop('checked', true);
+			$(f[0]).on('click', function() {
+				$(e.currentTarget).trigger('change');
+			})
+		}		
+		if (fieldset.find('input[type="radio"]').val() == 0) {
+			
+		}
+	}
+	
+}
+
 $(document).ready(function(){
 
     /**
@@ -796,9 +873,9 @@ $(document).ready(function(){
         // roll up the tables to start
         // and put some instructions in their toggle bar
         $('*[id*="Toggle"].toggle').each(function(){
-            $('.'+$(this).attr('id')).toggle(function(){
-                
-            });
+//            $('.'+$(this).attr('id')).toggle(function(){
+//                
+//            });
             $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
             $(this).bind('click', function(){
                 if($(this).children('span.instruction').html() == ' (Click to expand)'){
@@ -878,13 +955,6 @@ $(document).ready(function(){
 //    }
     
     /**
-     * Given an option input node, discover which product it belongs to
-     */
-    function determineProduct(optionNode){
-        return $(optionNode).parents('form').children('table').attr('id');
-    }
-    
-    /**
      * Bind a handler to the caveat asterisk click
      * 
      * It also acts as a standard toggler
@@ -906,11 +976,12 @@ $(document).ready(function(){
                     $(this).bind('change', function(){
                         var material = $(this).attr('material');
                         var product = $(this).parents('fieldset').attr('option').replace('slave-','');
+						var image = ($(this).val() == 0) ? 'transparent.png' : $(this).val() + '.jpg';
                         $(diagram).find('div.'+product+'[material="'+material+'"]')
-                            .css('background','url("'+imagePath+'materials/fullsize/'+$(this).attr('value') + '.jpg")');
+                            .css('background','url("'+imagePath+'materials/fullsize/'+ image + '")');
                         // cover material may be controlling liners too
                         if (material == 'cloth board') {
-                            if (!$(this).parent('div').siblings('.radio').children('*[value="1"]').attr('checked')){
+                            if ($(this).parent('div').siblings('.radio').children('*[value="0"]').prop('checked')){
                                 $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').val($(this).val());
                                 $(this).parent('div').siblings('.select').find('select[material="cloth liners"]').trigger('change');
                             }

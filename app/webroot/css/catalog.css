@@ -204,7 +204,8 @@ div.options fieldset:first-of-type legend {
     width: 100%;
 }*/
 div.options fieldset legend {
-    background: linear-gradient(to bottom, #B3BEAD 0%, #e0e9e7 30%, #FFFFFF 70%) repeat scroll 0 0 transparent;
+    /*background: linear-gradient(to bottom, #B3BEAD 0%, #e0e9e7 30%, #FFFFFF 70%) repeat scroll 0 0 transparent;*/
+    background-color: transparent;
     border-top: thin solid #999999;
     color: #025C0D;
     font-size: 72%;
@@ -212,24 +213,28 @@ div.options fieldset legend {
     margin-top: -3px;
     padding: 3px 4px 3px 12px;
     width: 100%;
-    border-radius: 5px 5px 5px 5px;
+    /*border-radius: 5px 5px 5px 5px;*/
 }
 
 p.optionTitle {
-    background-color: #C0C8C6;
-    border: thin outset buttonshadow;
+    /*background-color: #C0C8C6;*/
+    border-bottom: thin outset buttonshadow;
     font-size: 100%;
     font-weight: bold;
     padding: 12px;
-    width: 96%;
+    width: 95%;
+}
+
+span.price:before {
+	content: '$'
 }
 
 div.options {
     position: relative;
     background: none repeat scroll 0 0 #D0D9D7;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     padding-top: 10px;
-    width: 90%;
+    /*width: 90%;*/
 /*background: #b3bead;  Old browsers */
 background: -moz-linear-gradient(top,  #b3bead 0%, #d0d9d7 60%, #ffffff 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b3bead), color-stop(60%,#d0d9d7), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
@@ -289,11 +294,15 @@ div#caveat {
     border: thin outset buttonshadow;
     border-radius: 5px;
     cursor: pointer;
-    left: -27px;
+    left: -13px;
     margin-right: -33px;
     padding: 12px 5px 10px 25px;
     position: absolute;
     top: -7px;
+}
+div#caveat.warn{
+    background-color: orange;
+    background-position: 2px -25px;
 }
 div#caveat > div.caveatWrapper {
     background: none;
@@ -309,4 +318,10 @@ div.caveatWrapper > p {
 }
 table tr td {
     padding: 5px 3px;
+}
+div.input {
+    margin: 0 0 3px;
+}
+legend.toggle {
+    cursor: pointer;
 }

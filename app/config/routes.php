@@ -37,15 +37,19 @@ Router::connect('/home', array('controller' => 'pages', 'action' => 'display', '
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-Router::connect('/pages/materials', array('controller' => 'materials', 'action' => 'select'));
+//Router::connect('/pages/materials', array('controller' => 'materials', 'action' => 'select'));
 
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display', 'base' => 'pages'));
+
+/* Paypal IPN plugin */
+Router::connect('/paypal_ipn/process', array('plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'process'));
+///* Optional Route, but nice for administration */
+Router::connect('/paypal_ipn/:action/*', array('plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'index'));
 
 $staticPages = array(
     'contact',
     'intern',
     'policies',
-    'gitpull'
 );
 
 $staticList = implode('|', $staticPages);
@@ -59,7 +63,7 @@ Router::connect('/:static', array(
         )
 );
 
-
+/* End Paypal IPN plugin */
 //        Router::connect('/products/ingest_images',
 //                array('controller' => 'products', 'action' => 'ingestImages'));
 //        Router::connect('/products/:pname/gallery/:id/:page',
@@ -102,7 +106,9 @@ Router::connect('/products/:pname/gallery/*', array('controller' => 'contents', 
 
 Router::connect('/products/:pname/newsfeed/*', array('controller' => 'contents', 'action' => 'newsfeed', 'pname' => null));
 
-//Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
+Router::connect('/products/:pname/purchase', array('controller' => 'catalogs', 'action' => 'catalog', 'pname' => null));
+
+Router::connect('/contents/jump/*', array('controller' => 'contents', 'action' => 'jump'));
 
 Router::connect('/products/:pname/*', array('controller' => 'contents', 'action' => 'gallery', 'pname' => null));
 
@@ -121,4 +127,17 @@ Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => '
 //                array('controller'=>':controller', 'action'=>':action'));
 
 Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'home')); //doesn' highlight menu
+
+/**
+ * Load all plugin routes. See the CakePlugin documentation on
+ * how to customize the loading of plugin routes.
+ */
+	CakePlugin::routes();
+
+/**
+ * Load the CakePHP default routes. Only remove this if you do not want to use
+ * the built-in default routes.
+ */
+	require CAKE . 'Config' . DS . 'routes.php';
+	
 ?>

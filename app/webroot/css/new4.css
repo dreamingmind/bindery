@@ -1,6 +1,9 @@
 @charset "UTF-8";
 /* CSS Document */
 
+.hide {
+    display: none;
+}
 #fixedNav {
 	margin: 0px auto 0px auto;
 	padding: 5px 0px 0px 25px;
@@ -31,7 +34,7 @@ img#topTransparent, img.missing {
     height: 150px;
 }
 img#NTtopTransparent, img.missing {
-    height: 50px; /*for no thumbnail version*/
+    height: 73px; /*for no thumbnail version*/
 }
 
 @media (max-height: 700px) {
@@ -53,11 +56,12 @@ img#NTtopTransparent, img.missing {
 input.siteSearchInput {
     width: 162px;
 }
-input.siteSearchButton {
+input.siteSearchButton, img.siteSearchButton {
     float: right;
     width: 21px;
     margin-right: -10px;
     margin-left: 0px;
+    cursor: pointer;
 }
 .inputBox {
 	font-size: 10px;
@@ -99,7 +103,7 @@ button.supplement_list {
 Dispatch Content
 Dispatch entries, links and clickers
 ===============================*/
-#scrolling {
+#scrolling, #checkout {
 /*	padding-top: 150px;*/
 	padding-left: 260px;
 	width: 660px;
@@ -377,6 +381,32 @@ sublist ul li a {
 	text-decoration:inherit;
 	border-right:solid #802A19 .5em;
 }
+	/* CASCADE OPEN ON SCREEN ADJUSTMENTS */
+	
+	div#navBar ul {
+		display: none;
+	}
+	div#navBar > ul {
+		display: block;
+	}
+	div#navBar li.open > ul, div#navBar li.active > ul {
+		display: block;
+	}
+	div#navBar li {
+		position: relative;
+	}
+	div#navBar li:hover > ul.pop, ul.pop:hover {
+		display: block;
+		position: absolute;
+		width: 170px;
+		left: 171px;
+		top: -10px;
+		background-color: white;
+		padding: 10px;
+		border: thick solid #ccc;
+		z-index: 5000;
+	}
+
 
 
 /*===============================
@@ -697,4 +727,19 @@ input[id*='ImageTreatment'], input[id*='ImageMasterTreatment'] {
     color: red;
     font-size: 70%;
     padding-left: 7px;
+}
+div#pgMask {
+    background-color: #faf9f6;
+    height: 0;
+    left: 0;
+    opacity: 0.65;
+    position: fixed;
+    top: 0;
+    width: 0;
+    z-index: 5000;
+}
+
+div#pgMask.cover {
+	width: 2000px;
+	height: 10000px;
 }

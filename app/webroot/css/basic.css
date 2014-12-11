@@ -584,3 +584,15 @@ div.code-coverage-results span.result-ok {
 div.code-coverage-results span.result-good {
 	color: #0a0;
 }
+
+/* flash messages */
+
+.flash.message, div#cart_pallet .flash.message {
+    font-size: 16px;
+    padding: 1em;
+	margin-bottom: 5px;
+}
+
+#successMessage, div#cart_pallet #successMessage {
+    background-color: green;
+}
