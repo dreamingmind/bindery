@@ -141,11 +141,24 @@ class CatalogsController extends AppController {
 	 * @param string $pname the product name that will control catalog()
 	 */
 	public function editCatalogItem($id, $pname) {
+		
+		$this->viewClass = 'CartEditView';
+		
 		$this->request->data = $this->Purchases->sourceFormData($id);
 		$this->set('cartProduct', $this->Purchases->product->product());
 		
 		$this->catalog($pname);
 		$this->render('catalog');
+	}
+
+	protected function _getViewObject() {
+		if ($this->request->action != 'editCatalogItem') {
+			return parent::_getViewObject();
+		} else {
+			$viewClass = $this->viewClass;
+			App::uses($viewClass, 'View');
+			return new $viewClass($this);
+		}
 	}
 
 

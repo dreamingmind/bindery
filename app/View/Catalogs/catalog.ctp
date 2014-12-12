@@ -1,4 +1,12 @@
 <?php
+/**
+ * Render forms for Custom and Generic product ordering and cart item editing
+ * 
+ * When we're in EDITING mode, a new View Class is swapped in. This class overrides 
+ * the element() method. In this way I can modify the rendering of all the elements 
+ * on the page, populating them with the user's pre-existing data and doing other 
+ * tasks as appropriate.
+ */
 echo $this->Html->para('', 'It\'s not easy to price truely custom work without some discussion. However, choose from the '.count($tableSet['Catalog']).' product categories below and I\'ll give it a try.');
 
 echo $this->Html->wrapScriptBlock($js);
@@ -8,7 +16,7 @@ echo $this->Html->wrapScriptBlock($js);
 // ===================================================
     foreach ($tableSet['Catalog'] as $productCategory => $product) {
 //		dmDebug::ddd($productCategory, 'productCategory');
-		if ($this->request->action === 'editCatalogItem' && $productCategory != $cartProduct) {
+		if (is_a($this, 'CartEditView') && $productCategory != $cartProduct) {
 			continue;
 		}
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));

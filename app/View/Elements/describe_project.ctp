@@ -1,4 +1,8 @@
 <?php
+if (is_a($this, 'CartEditView')) {
+	$p = array_keys($this->request->data);
+	$this->request->params['pname'] = $p[0];
+}
 $product = ucwords(str_replace('-', ' ', $this->request->params['pname']));
 $legend = $product . ' Project Description';
 $model = $this->request->params['pname'];
