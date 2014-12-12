@@ -26,7 +26,8 @@ class CatalogsController extends AppController {
         parent::beforeFilter();
         $this->Auth->allow(array(
             'catalog',
-            'order'
+            'order',
+			'editCatalogItem'
         ));
         $this->css[] = 'catalog';
         $this->css[] = 'materials';

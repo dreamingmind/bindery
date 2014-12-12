@@ -439,18 +439,17 @@ SIG;
     function isAuthorized() {
         $id = $this->Account->findByUsername($this->username, array('fields' => 'id'));
         //debug ($this->record);
+		
         if ($this->record['Group']['name'] == 'Administrator') {
             //$this->set('authed','Auth logic: Administrator');
             return true;
-        } elseif ($this->params['action'] == 'logout' ||
-                $this->params['action'] == 'login' ||
-                $this->params['action'] == 'register') {
-            //$this->set('authed','Auth logic: logout/login/register');
+			
+		} elseif (in_array($this->params['action'], array('logout', 'login', 'register'))) {
             return true;
+			
         } elseif ($this->Acl->check($this->Auth->user(), $this->params['controller'] . '/' . $this->params['action'])) {
-            //if ($this->Acl->check('dreamingmind', $this->params['controller'])) {
-            //$this->set('authed','Auth logic: authedLevel/params');
             return true;
+			
         } elseif ($this->Acl->check(
                         $this->usergroup . "/" . $this->username . "::" . $this->userid, "UserRecord/" . $this->username . "::" . $this->userid)) { // this same/same comparison is not good
             //$id = $this->User->id;
