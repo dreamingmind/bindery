@@ -88,6 +88,10 @@ class CatalogsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
+	/**
+	 * 
+	 * @param type $product
+	 */
     function catalog($product = null) {
 //		dmDebug::ddd($this->request->data, 'trd');
 //		debug($this->request->params);
@@ -142,7 +146,7 @@ class CatalogsController extends AppController {
 	 */
 	public function editCatalogItem($id, $pname) {
 		
-		$this->viewClass = 'CartEditView';
+		$this->viewClassOverride('CartEditView');
 		
 		$this->request->data = $this->Purchases->sourceFormData($id);
 		$this->set('cartProduct', $this->Purchases->product->product());
@@ -150,17 +154,6 @@ class CatalogsController extends AppController {
 		$this->catalog($pname);
 		$this->render('catalog');
 	}
-
-	protected function _getViewObject() {
-		if ($this->request->action != 'editCatalogItem') {
-			return parent::_getViewObject();
-		} else {
-			$viewClass = $this->viewClass;
-			App::uses($viewClass, 'View');
-			return new $viewClass($this);
-		}
-	}
-
 
 	/**
      * Save product specs for later and add product to shopping cart

@@ -78,7 +78,14 @@ class AppController extends Controller {
     var $record = array();
     var $css = array();
 
-    /**
+	/**
+	 * Flag to indicate the controller wants to run a different View class
+	 *
+	 * @var boolean
+	 */
+	protected $viewClassOverride;
+	
+	/**
      * @var array company display strings
      */
     var $company = '';
@@ -852,6 +859,37 @@ SIG;
 		$this->Purchases->newBadge($render);
 	}
 	
+	/**
+	 * Override the Controller's View Class instantiation
+	 * 
+	 * Any Controller method can set $this->viewClassOverride to true, 
+	 * then set $this->viewClass to the name of a new View Class. 
+	 * Then, when rendering begins, the new class will be used instead 
+	 * of the normal View. 
+	 * 
+	 * @return viewClass
+	 */
+	protected function _getViewObject() {
+		if ($this->viewClassOverride) {
+			$viewClass = $this->viewClass;
+			App::uses($viewClass, 'View');
+			return new $viewClass($this);
+		} else {
+			return parent::_getViewObject();
+		}
+	}
+	
+	/**
+	 * Set up conditions that will swap in a different view class at render time
+	 * 
+	 * @param string $className Name of the alternative View class to use
+	 */
+	protected function viewClassOverride($className) {
+		$this->viewClassOverride = TRUE;
+		$this->viewClass = $className;
+	}
+
+
 	public function testMe(){
 		$line = 'Journal - Size 5.5 x 8.5 - Pages 256 - Quarter Bound - Ruled Pages';
 		debug($line);
