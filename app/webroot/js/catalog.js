@@ -770,6 +770,7 @@ function setRadioStyleCaveat(product, option, caveat){
 function productRadioClick(e){
     var radioObject = e.currentTarget;
     var product = $(radioObject).parents('table').attr('id');
+	$('#'+product+'Code').val($(radioObject).val());
     
     // write the catalog object entries
     recordOptionState(product, 'product', radioObject);
@@ -876,8 +877,8 @@ $(document).ready(function(){
 //            $('.'+$(this).attr('id')).toggle(function(){
 //                
 //            });
-            $(this).html($(this).html() + '<span class="instruction"> (Click to expand)</span>');
-            $(this).bind('click', function(){
+            $(this).html($(this).html() + '<span class="instruction"> (Click to collapse)<span class="normal">Choose an item below to see design options.</span>').css('height', '40px');
+            $(this).on('click', function(){
                 if($(this).children('span.instruction').html() == ' (Click to expand)'){
                     $(this).children('span.instruction').html(' (Click to collapse)<span class="normal">Choose an item below to see design options.</span>')
                     $(this).css('height', '40px');

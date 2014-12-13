@@ -46,7 +46,11 @@ class CustomProduct extends PurchasedProduct {
 	public function __construct($Session, $data) {
 		parent::__construct($Session, $data);
 		$this->product = $this->data['specs_key'];
-//		debug($this->product, 'product');
+		
+		// radio buttons in the product grids were no reliably sending thier data in 
+		// with the other form data. So, the radio click now sets the 'code' node 
+		// and we move the value to it's proper home when the form is submitted. HACK.
+		$this->data[$this->product]['product'] = $this->data[$this->product]['code'];
 	}
 	
 	/**

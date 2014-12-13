@@ -20,6 +20,13 @@ echo $this->Html->wrapScriptBlock($js);
 			continue;
 		}
         echo $this->Form->create(false, array('id' => 'orderform'.$productCategory, 'url' => array('controller' => 'catalogs', 'action' => 'order')));
+		
+		// radio buttons in the product grids were not reliably sending thier data in 
+		// with the other form data. So, the radio click now sets the 'code' node 
+		// and we move the value to it's proper home when the form is submitted. HACK.
+		// The move is done in CustomProduct utitlity construct()
+		echo $this->Form->input("$productCategory.code", array('type'=>'hidden'));
+		
         $setList = $setlists[$productCategory];
         $this->set(compact('setList', 'productCategory', 'product'));
         echo $this->element('product_table', array($product, $productCategory, $setList));
