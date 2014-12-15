@@ -1,12 +1,13 @@
 <?php
+App::uses('CartHelper', 'View/Helper');
 
 /**
- * CakePHP Cart
+ * CakePHP CartEditEntryHelper
  * @author dondrake
  */
-class CartHelper extends AppHelper {
+class CartEditEntryHelper extends CartHelper {
 	
-	public $alias = 'Base class';
+	public $alias = 'EditCart';
 
 	public $helpers = array();
 
@@ -28,13 +29,6 @@ class CartHelper extends AppHelper {
 
 	public function afterLayout($viewLayout) {
 		parent::afterLayout($viewLayout);
-	}
-	
-	public function contactPresent($cart) {
-		$email = preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $cart['email']);
-		$phone = preg_match('/[\d+]/', $cart['phone']);
-		$name = preg_match("/[a-zA-Z]+/", $cart['name']);
-		return $email && $phone && $name;
 	}
 
 }

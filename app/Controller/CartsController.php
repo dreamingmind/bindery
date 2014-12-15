@@ -15,7 +15,7 @@ App::uses('Paypal', 'Paypal.Lib');
  */
 class CartsController extends AppController {
 	
-	public $helpers = array('PurchasedProduct', 'Cart');
+	public $helpers = array('PurchasedProduct', 'Cart' => array('className' => 'CartNewEntry'));
 
 	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
 	

@@ -146,6 +146,7 @@ class CatalogsController extends AppController {
 	 * @param string $pname the product name that will control catalog()
 	 */
 	public function editCatalogItem($id, $pname) {
+		$this->helpers['Cart'] = array('className' => 'CartEditEntry');
 		
 		$this->viewClassOverride('CartEditView');
 		
