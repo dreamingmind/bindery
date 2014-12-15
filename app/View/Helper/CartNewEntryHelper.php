@@ -41,4 +41,8 @@ class CartNewEntryHelper extends CartHelper {
 		return '';
 	}
 	
+	public function submitItemButtonBehavior() {
+		return 'click.addToCart';
+	}
+	
 }

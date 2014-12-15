@@ -149,6 +149,28 @@ class PurchasesComponent extends Component {
 		$this->controller->set('cart', $cart);
 	}
 	
+	public function updateItem() {
+		dmDebug::ddd($this->controller->request->data, 'trd');
+		if ($this->controller->request->is('POST')) {
+			$this->controller->layout = 'ajax';
+			try {
+				// the factory will make the proper concrete product after examining t->c->r->data
+				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
+				$cart = $this->Cart->retrieve();
+				$this->CartItem = ClassRegistry::init('CartItem');
+				dmDebug::ddd($this->product->cartEntry($cart['Cart']['id']), 'save array');
+				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+		}
+		$this->controller->set('new', $this->CartItem->id);
+		$cart = $this->Cart->retrieve();
+//		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
+		$this->controller->set('cart', $cart);
+	}
+
+
 	/**
 	 * Change a CartItem [and Supplement] quantity values
 	 * 

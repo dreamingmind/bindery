@@ -39,6 +39,25 @@ function addToCart(e) {
 	})
 }
 
+function saveChangesToCart(e) {
+	e.preventDefault();
+	var postData = $(e.currentTarget).parents('form').serialize();
+
+	$.ajax({
+		type: "POST",
+		dataType: "HTML",
+		data: postData,
+		url: webroot+'cart_items/updateCart',
+		success: function (data) {
+			
+		},
+		error: function (data) {
+			
+		}
+	})
+
+}
+
 function submitContacts(e) {
 	e.preventDefault();
 	var result = true;

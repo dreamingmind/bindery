@@ -204,9 +204,7 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	public function editItemTool($item) {
 		$helper = "{$item['CartItem']['type']}Product";
-//		dmDebug::ddd($helper, 'helper');
 		$concrete = $this->_View->Helpers->load($helper);;
-//		$concrete = $Helpers->load();
 		return $concrete->editItemTool($item);
 	}
 	

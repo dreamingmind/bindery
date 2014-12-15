@@ -38,5 +38,7 @@ abstract class CartHelper extends AppHelper {
 	abstract public function cartItemIdInput();
 	
 	abstract public function submitItemButtonLabel($itemCount = NULL);
+	
+	abstract public function submitItemButtonBehavior();
 
 }

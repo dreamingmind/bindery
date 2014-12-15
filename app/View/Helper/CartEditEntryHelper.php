@@ -36,4 +36,9 @@ class CartEditEntryHelper extends CartHelper {
 	public function submitItemButtonLabel($itemCount = NULL) {
 		return 'Save Changes';
 	}
+	
+	public function submitItemButtonBehavior() {
+		return 'click.saveChangesToCart';
+	}
+	
 }

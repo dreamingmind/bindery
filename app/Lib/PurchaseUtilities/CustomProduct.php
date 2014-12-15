@@ -192,6 +192,7 @@ class CustomProduct extends PurchasedProduct {
 //			dmDebug::ddd($value, 'value');
 			switch ($name) {
 				// heres a list of inputs we don't process into output lines
+				case 'code':
 				case 'product':
 				case 'description':
 				case 'sum':
