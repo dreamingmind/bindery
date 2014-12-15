@@ -151,7 +151,9 @@ class CatalogsController extends AppController {
 		$this->viewClassOverride('CartEditView');
 		
 		$this->request->data = $this->Purchases->sourceFormData($id);
+		$this->request->data['CartItem']['id'] = $id;
 		$this->set('cartProduct', $this->Purchases->product->product());
+		
 		
 		$this->catalog($pname);
 		$this->render('catalog');

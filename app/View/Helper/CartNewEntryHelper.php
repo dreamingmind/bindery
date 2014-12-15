@@ -7,8 +7,6 @@ App::uses('CartHelper', 'View/Helper');
  */
 class CartNewEntryHelper extends CartHelper {
 	
-	public $alias = 'NewCart';
-
 	public $helpers = array();
 
 	public function __construct(View $View, $settings = array()) {
@@ -31,4 +29,16 @@ class CartNewEntryHelper extends CartHelper {
 		parent::afterLayout($viewLayout);
 	}
 
+	public function submitItemButtonLabel($itemCount = NULL) {
+		if ($itemCount < 1) {
+			return 'Order Now';
+		} else {
+			return 'Add to cart';
+		}
+	}
+
+	public function cartItemIdInput() {
+		return '';
+	}
+	
 }

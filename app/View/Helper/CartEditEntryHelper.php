@@ -7,9 +7,7 @@ App::uses('CartHelper', 'View/Helper');
  */
 class CartEditEntryHelper extends CartHelper {
 	
-	public $alias = 'EditCart';
-
-	public $helpers = array();
+	public $helpers = array('Form');
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -30,5 +28,12 @@ class CartEditEntryHelper extends CartHelper {
 	public function afterLayout($viewLayout) {
 		parent::afterLayout($viewLayout);
 	}
+	
+	public function cartItemIdInput() {
+		return "\n" . $this->Form->input('CartItem.id', array('type' => 'hidden')) . "\n";
+	}
 
+	public function submitItemButtonLabel($itemCount = NULL) {
+		return 'Save Changes';
+	}
 }

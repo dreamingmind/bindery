@@ -61,6 +61,7 @@
     }
     echo $this->element('email', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('email' => $useremail))));
+    echo $this->Cart->cartItemIdInput(); // concrete helpers decide
     echo $this->element('options_quantity', array('fieldsetOptions' => array(
         'option' => 'slave-' . $productCategory, 'setlist' => 'order'),'model' => $model,'record' => array($model => array('quantity' => 1))));//
     echo $this->element('options_quarterbound', array($leatherOptions, $clothOptions, $endpaperOptions, 'fieldsetOptions' => array(

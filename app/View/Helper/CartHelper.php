@@ -4,10 +4,8 @@
  * CakePHP Cart
  * @author dondrake
  */
-class CartHelper extends AppHelper {
+abstract class CartHelper extends AppHelper {
 	
-	public $alias = 'Base class';
-
 	public $helpers = array();
 
 	public function __construct(View $View, $settings = array()) {
@@ -36,5 +34,9 @@ class CartHelper extends AppHelper {
 		$name = preg_match("/[a-zA-Z]+/", $cart['name']);
 		return $email && $phone && $name;
 	}
+	
+	abstract public function cartItemIdInput();
+	
+	abstract public function submitItemButtonLabel($itemCount = NULL);
 
 }

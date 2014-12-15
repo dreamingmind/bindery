@@ -1,10 +1,6 @@
 <?php 
     echo $this->Form->button(
-			'Add To Cart', 
-//			array(),
-//			array('type' => 'addtocart', 'amount' => '15.00', 'item_name' => $productCategory), 
+			$this->Cart->submitItemButtonLabel($purchaseCount), // concrete helper will provide the correct label
 			array('type' => 'submit', 'class' => 'orderButton', 'option' => 'slave-' . $productCategory, 'setlist' => 'order', 'bind' => 'click.addToCart', 'div' => FALSE)
 		);
 ?>
-<!--<input type="button" value="Add To Cart" bind="click.addToCart" setlist="order" option="slave-Reusable_Journal" class="orderButton" style="display: block;">
-<button type="submit" setlist="order" option="slave-Reusable_Journal" class="orderButton" style="display: block;">Add to cart</button>-->
