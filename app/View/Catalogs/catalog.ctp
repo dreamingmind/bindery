@@ -7,7 +7,11 @@
  * on the page, populating them with the user's pre-existing data and doing other 
  * tasks as appropriate.
  */
-echo $this->Html->para('', 'It\'s not easy to price truely custom work without some discussion. However, choose from the '.count($tableSet['Catalog']).' product categories below and I\'ll give it a try.');
+if (is_a($this, 'CartEditView')) {
+	echo $this->Html->tag('h3', 'Edit your item and return it to your cart', array('id' => 'cart_edit'));
+} elseif (is_a($this, 'View')) {
+	echo $this->Html->tag('h3', 'Prices provided are estimates. Price confirmation will follow.', array('id' => 'new_product'));
+}
 
 echo $this->Html->wrapScriptBlock($js);
 //dmDebug::ddd($cartProduct, 'cartProduct');

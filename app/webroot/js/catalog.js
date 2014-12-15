@@ -520,7 +520,11 @@ function storeCatalogHandles(){
 function renderProduct(product) {
     var list = catalog.productNames;
     if (list.live[product]) {
-        $(list[product]['toggle']).trigger('click');
+		// When edition cart items we don't want the section to close
+		// This may not need to be done at all anymore because of presentation changes I've chosen
+//		if ($('h3#cart_edit').length == 0) {
+//			$(list[product]['toggle']).trigger('click');
+//		}
         $(list.live[product]).trigger('click');
         var selects = $(list[product]['options']).find('select').filter(':visible');
         for (var select in selects) {
@@ -890,6 +894,16 @@ $(document).ready(function(){
         });
     }
 
+	function initEditForm() {
+		var els = $('form[id*="orderform"] *:visible');
+		if (els.length == '1'){
+			var id = $(els).attr('id');
+			$(els).removeClass('toggle').off('click');
+			$('.'+ id).removeClass(id).css('display', 'block');
+//			els.trigger('click').trigger('click');
+		}
+	}
+
     /**
      * bind the handler to product matrix radio buttons
      */
@@ -997,17 +1011,19 @@ $(document).ready(function(){
         
     }
      
-    initCheckboxes();
+//    initCheckboxes();
     initTableToggleHooks();
-//    initProductSelections();
-    initTableReveal();
+	if ($('h3#new_product').length == 1) {
+		initTableReveal();
+	}
     initProductRadios();
     initMaterialImages();
     initClosingBeltRadio();
     initTitlingRadio();
     initPenloopRadio();
     initCaveatClick();
-//    $('div#caveat').bind('click','resetCaveatColor');
-//    initBookbodySelects();
     establishAppropriatePageState();
+//	if ($('h3#cart_edit').length == 1) {
+//		initEditForm();
+//	}
 })
