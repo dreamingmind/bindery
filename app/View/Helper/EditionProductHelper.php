@@ -1,6 +1,6 @@
 <?php
 
-App::uses('PurchasedProductHelper', 'Helper');
+App::uses('PurchasedProductHelper', 'View/Helper');
 
 /**
  * EditionProductHelper

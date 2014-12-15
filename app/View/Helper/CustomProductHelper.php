@@ -1,12 +1,12 @@
 <?php
 
-App::uses('PurchasedProductHelper', 'Helper');
+App::uses('PurchasedProductHelper', 'View/Helper');
 
 /**
  * CakePHP CustomProductHelper
  * @author dondrake
  */
-class CustomProductHelper extends AppHelper {
+class CustomProductHelper extends PurchasedProductHelper {
 
 //	public $helpers = array();
 

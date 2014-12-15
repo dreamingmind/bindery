@@ -1,6 +1,6 @@
 <?php
 
-App::uses('PurchasedProductHelper', 'Helper');
+App::uses('PurchasedProductHelper', 'View/Helper');
 
 /**
  * EditionProductHelper
@@ -11,7 +11,7 @@ App::uses('PurchasedProductHelper', 'Helper');
  * 
  * @author dondrake
  */
-class GenericProductHelper extends AppHelper {
+class GenericProductHelper extends PurchasedProductHelper {
 
 //	public $helpers = array();
 
