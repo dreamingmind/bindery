@@ -6,9 +6,9 @@
  * Currently, the tools focus on Cart rending tasks. But it seems likely these would 
  * expand to do button rendering for the various prodcuts too.
  * 
- * Cart records carry a `type` field which is used to instantiate a concrete Product Helper. 
- * This base class comes along for the ride, supplying common code and default implementations 
- * for methods that aren't needed in the concrete classes.
+ * Cart records carry a `type` field which is used to instantiate a concrete helpers 
+ * for various specific product types. These helpers will be composed in as tools here 
+ * and we can call for special result variants (like cart edit links). 
  * 
  * CakePHP PurchasedProductHelper
  * @author dondrake

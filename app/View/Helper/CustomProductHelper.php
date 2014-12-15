@@ -1,27 +1,18 @@
 <?php
 
-App::uses('PurchasedProductHelper', 'View/Helper');
-
 /**
  * CakePHP CustomProductHelper
+ * 
+ * This helper is composed into PurchasedProductHelper to output components specific to CustomProdcuts.
+ * 
  * @author dondrake
  */
-class CustomProductHelper extends PurchasedProductHelper {
-
-//	public $helpers = array();
+class CustomProductHelper extends AppHelper {
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
 	}
 
-	public function beforeRender($viewFile) { }
-
-	public function afterRender($viewFile) { }
-
-	public function beforeLayout($viewLayout) { }
-
-	public function afterLayout($viewLayout) { }
-	
 	/**
 	 * Provide the edit-request tool for a custom product
 	 * 
@@ -29,8 +20,6 @@ class CustomProductHelper extends PurchasedProductHelper {
 	 * @return string
 	 */
 	public function editItemTool($item) {
-//		$supplement = unserialize($item['CartItem']['Supplement']['data']);
-//		return ' • ' . $this->Html->link('Edit', DS.$item['CartItem']['Supplement']['data']['edit_path'], array('class' => 'tool'));
 		$pname = preg_filter('/products\/|\/purchase/', '', $item['CartItem']['Supplement']['data']['edit_path']);
 		return ' • ' . $this->Html->link('Edit', DS.'catalogs/editCatalogItem/'.$item['CartItem']['id'].DS.$pname, array('class' => 'tool'));
 	}
