@@ -14,4 +14,7 @@ class EditionProductHelper extends AppHelper {
 		parent::__construct($View, $settings);
 	}
 
+	public function editItemTool() {
+		return '';
+	}
 }
