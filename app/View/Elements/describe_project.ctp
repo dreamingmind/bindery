@@ -18,9 +18,10 @@ echo $this->Html->tag('h2', $product, array('class' => 'checkout'));
 
 echo $this->Form->create($model);
 echo $this->element('email', array('model' => $model));
+echo $this->Cart->cartItemIdInput(); // concrete helpers decides what the CartItem id is (NULL or something)
 echo $this->element('options_project_description', array('legend' => $legend, 'record' => $record, 'model' => $model));
 echo $this->Form->input('generic', array('type' => 'hidden', 'value' => 'generic', 'name' => 'data[generic]'));
-echo $this->Form->input('edit_path', array('type' => 'hidden', 'value' => $this->request->url, 'name' => 'data[edit_path]'));
+echo $this->Form->input('edit_path', array('type' => 'hidden', 'value' => $product_group, 'name' => 'data[edit_path]'));
 echo $this->element('Cart/product_purchase_button');
 echo $this->Form->end();
 //echo $this->element('options_page_count');

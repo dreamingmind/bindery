@@ -29,7 +29,6 @@
     echo $this->Html->div($productCategory . 'Toggle options', null);
     echo $this->Html->caveatDiv($productCategory, $caveat['materials']);
     $model = $productCategory;
-	dmDebug::ddd($product_group, 'product_group');
 	echo $this->Form->input('edit_path', array('type' => 'hidden', 'value' => $product_group));
 	
 	echo $this->element('Cart/add_to_cart');

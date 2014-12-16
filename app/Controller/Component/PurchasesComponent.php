@@ -153,7 +153,7 @@ class PurchasesComponent extends Component {
 	 * Handle a cart item after the specs have been edited
 	 */
 	public function updateItem() {
-//		dmDebug::ddd($this->controller->request->data, 'trd');
+//		dmDebug::ddd($this->controller->request->data, 'trd');die;
 		if ($this->controller->request->is('POST')) {
 			$this->controller->layout = 'ajax';
 			try {
