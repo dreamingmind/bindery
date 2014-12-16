@@ -101,16 +101,34 @@ abstract class PurchasedProduct {
 	/**
 	 * Set properties for the concrete classes
 	 * 
+	 * Construct is suffering growing pains.
+	 * First phase it recieved one data array,  the newly submitted specifications 
+	 * for a product. There is no CartItem record, Supplement record or IDs for eiter
+	 * Second phase, I needed to construct from the CartItem record and its Supplement 
+	 * record, but the raw data array seen in First phase didn't exist.
+	 * Third phase, arrive after an edit process. Now we have the spec'd data array again 
+	 * and also have CartItem, Supplement and their IDs. This third case is not accounted 
+	 * for in construct at all. It's finessed in the PurchasesComponent->updateItem().
+	 * 
+	 * ======== I've REM'd all references to these for testing. Looks ok so far =====================
+	 * Also, I'm not sure Session is needed anymore! It's used in two places to aid in 
+	 * maintaing cart ownership. Possibly there is a better way to handle this? Because 
+	 * Cart ownership is a Cart record need and this class has to do with CartItem handling?
+	 * 
+	 * So work needs to be done here.
+	 * __construct($mode, $data) would let me create three different constructor variants.
+	 * 
+	 * 
 	 * @param type $data
 	 */
 	public function __construct($Session, $data) {
 //		dmDebug::ddd($data, 'data');die;
 		$this->type = str_replace('Product', '', get_class($this));
-		$this->Session = $Session;;
-		$this->userId = $this->Session->read('Auth.User.id');
-		if (!$this->userId) {
-			$this->sessionId = $this->Session->id();
-		}
+//		$this->Session = $Session;
+//		$this->userId = $this->Session->read('Auth.User.id');
+//		if (!$this->userId) {
+//			$this->sessionId = $this->Session->id();
+//		}
 		// If we have an existing cart item, we'll need to expand the Supplement data
 		if (isset($data['CartItem'])) {
 			$this->Supplement = ClassRegistry::init('Supplement');
@@ -133,6 +151,14 @@ abstract class PurchasedProduct {
 //		debug($this->sessionId, 'sessionId');
 	}
 	
+	/**
+	 * Set and/or return the data property (current product specification array)
+	 * 
+	 * If the constructor is fixed, setting should be removed
+	 * 
+	 * @param array $data
+	 * @return array
+	 */
 	public function data($data = FALSE) {
 		if ($data) {
 			$this->data = $data;
@@ -140,6 +166,11 @@ abstract class PurchasedProduct {
 		return $this->data;
 	}
 	
+	/**
+	 * Return the item property (CartItem record data)
+	 * 
+	 * @return array
+	 */
 	public function item() {
 		return $this->item;
 	}
