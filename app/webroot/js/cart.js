@@ -23,9 +23,9 @@ function addToCart(e) {
 		data: postData,
 		url: webroot+'cart_items/addToCart',
 		success: function(data) {
-			$(e.currentTarget).after(data);
+			$('body').append(data);
+			$('div#cart_pallet').center().draggable();
 			cartBadge();
-			$('div#cart_pallet').draggable();
 			bindHandlers('div#cart_pallet');
 			$('div#pgMask').addClass('cover').on('click', function(e) {
 				$('button#continue').trigger('click');
@@ -49,9 +49,9 @@ function saveChangesToCart(e) {
 		data: postData,
 		url: webroot+'cart_items/updateCart',
 		success: function (data) {
-			$(e.currentTarget).after(data);
+			$('body').append(data);
+			$('div#cart_pallet').center().draggable();
 			cartBadge();
-			$('div#cart_pallet').draggable();
 			bindHandlers('div#cart_pallet');
 			$('div#pgMask').addClass('cover').on('click', function(e) {
 				$('button#continue').trigger('click');

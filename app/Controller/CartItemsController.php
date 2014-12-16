@@ -188,6 +188,7 @@ class CartItemsController extends AppController {
 	public function updateCart() {
 //		dmDebug::ddd($this->request->data, 'trd');
 		$this->Purchases->updateItem();
+		$this->render('add_to_cart');
 	}
 	
 }
