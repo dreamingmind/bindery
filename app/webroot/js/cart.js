@@ -49,10 +49,18 @@ function saveChangesToCart(e) {
 		data: postData,
 		url: webroot+'cart_items/updateCart',
 		success: function (data) {
+			$(e.currentTarget).after(data);
+			cartBadge();
+			$('div#cart_pallet').draggable();
+			bindHandlers('div#cart_pallet');
+			$('div#pgMask').addClass('cover').on('click', function(e) {
+				$('button#continue').trigger('click');
+			});
 			
 		},
 		error: function (data) {
-			
+			// ********************************************************************************************* This looks like stub code!
+			alert('AJAX ERROR\n' + data);
 		}
 	})
 

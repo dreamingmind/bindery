@@ -120,6 +120,7 @@ class CustomProduct extends PurchasedProduct {
 				'quantity' => $this->data[$this->product]['quantity']
 			),
 			'Supplement' => array(
+				'id' => isset($this->supplementId) ? $this->supplementId : NULL,
 				'type' => 'POST',
 				'data' => serialize($this->data)
 			)
@@ -187,6 +188,7 @@ class CustomProduct extends PurchasedProduct {
 			// This may not be right, but this hack takes care of the field overlap for now. 
 			// It also prevents the need to write special 'name' handlers for these options. 
 			$name = str_replace('reusable_', '', $name);
+//			dmDebug::ddd("do $name => $value", 'loop');
 			
 //			dmDebug::ddd($name, 'name');
 //			dmDebug::ddd($value, 'value');
@@ -267,6 +269,7 @@ class CustomProduct extends PurchasedProduct {
 	 * @return string
 	 */
 	private function optionPair($name, $value, $default = '') {
+//		dmDebug::ddd($value, $name . ' pair');
 		if ($value && $value != '-1') {
 			$name = ucfirst($name);
 			return "- $name: $value\n";
@@ -284,6 +287,7 @@ class CustomProduct extends PurchasedProduct {
 	 * @return string
 	 */
 	private function optionNamed($name, $value, $default = '') {
+//		dmDebug::ddd($value, $name . ' named');
 		if ($value && $value != '-1') {
 			return "- $name\n";
 		} else {

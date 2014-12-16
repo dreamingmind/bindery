@@ -133,8 +133,15 @@ abstract class PurchasedProduct {
 //		debug($this->sessionId, 'sessionId');
 	}
 	
-	public function data() {
+	public function data($data = FALSE) {
+		if ($data) {
+			$this->data = $data;
+		}
 		return $this->data;
+	}
+	
+	public function item() {
+		return $this->item;
 	}
 
 //	/**
