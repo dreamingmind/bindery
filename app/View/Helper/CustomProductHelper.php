@@ -20,7 +20,8 @@ class CustomProductHelper extends AppHelper {
 	 * @return string
 	 */
 	public function editItemTool($item) {
-		$pname = preg_filter('/products\/|\/purchase/', '', $item['CartItem']['Supplement']['data']['edit_path']);
+//		$pname = preg_filter('/products\/|\/purchase/', '', $item['CartItem']['Supplement']['data']['edit_path']);
+		$pname = $item['CartItem']['Supplement']['data']['edit_path'];
 		return ' • ' . $this->Html->link('Edit', DS.'catalogs/editCatalogItem/'.$item['CartItem']['id'].DS.$pname, array('class' => 'tool'));
 	}
 	

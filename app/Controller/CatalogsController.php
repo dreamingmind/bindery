@@ -91,13 +91,13 @@ class CatalogsController extends AppController {
 
 	/**
 	 * 
-	 * @param type $product
+	 * @param type $product_group
 	 */
-    function catalog($product = null) {
+    function catalog($product_group = null) {
 //		dmDebug::ddd($this->request->data, 'trd');
 //		debug($this->request->params);
-		if (is_null($product)) {
-			$product = $this->request->params['pname'];
+		if (is_null($product_group)) {
+			$product_group = $this->request->params['pname'];
 		}		
 //        debug($this->Catalog->getPrintingPrices());die;
         if(isset($this->request->data)){
@@ -108,7 +108,7 @@ class CatalogsController extends AppController {
         $this->scripts[] = 'product_diagram';
         
         // get the table data for pname
-        $tableSet = ($this->Catalog->Collection->getPriceTable($product));
+        $tableSet = ($this->Catalog->Collection->getPriceTable($product_group));
 		if (empty($tableSet['Catalog'])) {
 			$tableSet['Catalog'] = array();
 			$leatherOptions = $clothOptions = $endpaperOptions = $setlists = $diagramMap = $costOptions = $js = '';
@@ -126,13 +126,13 @@ class CatalogsController extends AppController {
 			// prepare javascript for the page
 			$caveat = 'var caveat = ' . json_encode($this->caveat);
 			$catalog = 'var catalog = ' . json_encode($this->Catalog->getcatalogMap($tableSet));
-			$diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($product));
+			$diagramData = 'var diagramData = ' . json_encode($this->Catalog->getDiagramData($product_group));
 			$pagePricing = 'var pagePricing = ' . json_encode($this->Catalog->getPrintingPrices());
 			$js = "$catalog\r$diagramData\r$pagePricing\r$caveat";
 		}
 
         $this->set(compact('tableSet', 'leatherOptions', 'clothOptions', 'endpaperOptions', 'setlists',
-                'diagramMap', 'costOptions', 'js'));
+                'product_group', 'diagramMap', 'costOptions', 'js'));
 //		debug('catalog');
     }
 	
@@ -145,7 +145,7 @@ class CatalogsController extends AppController {
 	 * @param string $id CartItem id
 	 * @param string $pname the product name that will control catalog()
 	 */
-	public function editCatalogItem($id, $pname) {
+	public function editCatalogItem($id, $product_group) {
 		$this->helpers['Cart'] = array('className' => 'CartEditEntry');
 		
 		$this->viewClassOverride('CartEditView');
@@ -155,7 +155,7 @@ class CatalogsController extends AppController {
 		$this->set('cartProduct', $this->Purchases->product->product());
 		
 		
-		$this->catalog($pname);
+		$this->catalog($product_group);
 		$this->render('catalog');
 	}
 
