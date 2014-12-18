@@ -814,6 +814,7 @@ class ContentsController extends AppController {
      */
     function art() {
         $this->css[] = 'art';
+		$this->layout = 'thumbnailPage';
 //		$this->helpers[] = 'EditionProduct';
 
 
