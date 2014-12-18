@@ -1,6 +1,12 @@
 /*
 CART PALLET - the floating representation of the shopping cart that appears on BUY clicks
 */
+div[id*="cart_"] p.contact {
+    border-bottom: 2px solid #b89b5c;
+    margin-bottom: 9px;
+    padding-bottom: 8px;
+}
+
 div#cart_pallet {
 /*    background-color: white;*/
     background-color: #dcdacf;
