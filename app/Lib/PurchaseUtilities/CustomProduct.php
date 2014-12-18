@@ -123,7 +123,8 @@ class CustomProduct extends PurchasedProduct {
 				'id' => isset($this->supplementId) ? $this->supplementId : NULL,
 				'type' => 'POST',
 				'data' => serialize($this->data)
-			)
+			),
+			'Cart' => isset($this->data['Cart']) ? $this->data['Cart'] : array()
 		);
 //		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
 		return $cart;

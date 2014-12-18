@@ -20,8 +20,10 @@ $parameters = array(
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
     'fields'=>array(
+		'id' => array('type' => 'hidden'),
         'name',
-        'email'
+        'email',
+		'phone'
         )
 );
 

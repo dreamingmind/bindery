@@ -198,6 +198,15 @@ class Cart extends Order {
 		}
 	}
 	
+	public function getContactData() {
+		return $this->find('first', array(
+			'fields' => array('id', 'name', 'email', 'phone'),
+			'conditions' => $this->cartConditions(),
+			'contain' => FALSE
+		));
+	}
+
+
 	/**
 	 * Set all known user data point in a new or evolving Cart record
 	 * 

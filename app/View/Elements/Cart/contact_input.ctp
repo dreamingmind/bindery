@@ -6,8 +6,7 @@
 			<legend><?php echo __('Contact Information'); ?></legend>
 			<p><strong>** </strong>I might have question when completing your work. I'll need the following contact information before taking your order.</p>
 	<?php
-			echo $this->Form->input('Cart.first_name');
-			echo $this->Form->input('Cart.last_name');
+			echo $this->Form->input('Cart.name');
 			echo $this->Form->input('Cart.email');
 			echo $this->Form->input('Cart.phone');
 			// this shold only show for anon users ===========================================================================

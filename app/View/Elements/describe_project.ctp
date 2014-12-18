@@ -17,7 +17,7 @@ $record = false;
 echo $this->Html->tag('h2', $product, array('class' => 'checkout'));
 
 echo $this->Form->create($model);
-echo $this->element('email', array('model' => $model));
+echo $this->element('email', array('model' => 'Cart','record' => $cartContact));
 echo $this->Cart->cartItemIdInput(); // concrete helpers decides what the CartItem id is (NULL or something)
 echo $this->element('options_project_description', array('legend' => $legend, 'record' => $record, 'model' => $model));
 echo $this->Form->input('generic', array('type' => 'hidden', 'value' => 'generic', 'name' => 'data[generic]'));

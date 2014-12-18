@@ -52,7 +52,7 @@ class CartEditView extends View {
 	 * @return string
 	 */
 	public function element($name, $data = array(), $options = array()) {
-		if ($this->inner) {
+		if ($this->inner && $name != 'email') {
 			$data['record'] = $this->request->data;
 		}
 		if ($name === 'options_all' || $name === 'describe_project') {

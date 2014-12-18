@@ -59,7 +59,9 @@ class GenericProduct extends PurchasedProduct {
 			'Supplement' => array(
 				'type' => 'POST',
 				'data' => serialize($this->data)
-			)
+			),
+			'Cart' => isset($this->data['Cart']) ? $this->data['Cart'] : array()
+
 		);
 //		dmDebug::ddd($this->data, 'this data');
 //		dmDebug::ddd($cart, 'cart');

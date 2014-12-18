@@ -62,13 +62,16 @@ class PurchasesComponent extends Component {
 	}
 
 	/**
+	 * Always set cart related values to the View
+	 * 
 	 * Sets the count of cart items for the view at $purchaseCount
+	 * Sets contact info to $cartContact array
 	 * 
 	 * @param Controller $controller
 	 */
 	public function beforeRender(Controller $controller) {
 		$controller->set('purchaseCount', $this->itemCount());
-
+		$controller->set('cartContact', $this->cartContact());
 	}
 
 	public function shutDown(Controller $controller) {
@@ -98,6 +101,14 @@ class PurchasesComponent extends Component {
 		}
 	}
 
+	public function cartContact() {
+		if ($this->Cart->cartExists()) {
+			$contact = $this->Cart->getContactData();
+		} else {
+			$contact = array();
+		}
+		return $contact;
+	}
 
 	/**
 	 * Return the count of items in the cart
