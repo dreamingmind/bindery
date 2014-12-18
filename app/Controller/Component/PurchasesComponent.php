@@ -61,6 +61,11 @@ class PurchasesComponent extends Component {
 		}
 	}
 
+	/**
+	 * Sets the count of cart items for the view at $purchaseCount
+	 * 
+	 * @param Controller $controller
+	 */
 	public function beforeRender(Controller $controller) {
 		$controller->set('purchaseCount', $this->itemCount());
 
