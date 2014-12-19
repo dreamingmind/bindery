@@ -25,7 +25,7 @@ class GalNavHelper extends HtmlHelper {
                     'liClass' => '', 
                     'number' => $count, 
                     'url' => array('id'=>$record['Dispatch']['id']),
-                    'imgUrl' => DS.'bindery'.DS.'img'.DS.'images'.DS.'thumb'.DS.'x75y56'.DS.$record['Dispatch']['image'],
+                    'imgUrl' => DS.'bindery2.0'.DS.'img'.DS.'images'.DS.'thumb'.DS.'x75y56'.DS.$record['Dispatch']['image'],
                     'alt' => $record['Dispatch']['alt']
                 )
             );

@@ -699,9 +699,9 @@ div.content fieldset > div {
     background-color: none;
 }
 .input.select > label, label[for*="ImageHeading"], label {
-    display: inline-block;
+    /*display: inline-block;*/
     margin-right: 5px;
-    text-align: right;
+    /*text-align: right;*/
     width: 20%;
 }
 .input.select > select, #ImageHeading, input {

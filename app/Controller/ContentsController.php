@@ -424,12 +424,12 @@ class ContentsController extends AppController {
                 $index = $image['Content']['Image']['id'];
                 $alt = ($image['Content']['alt'] == '') ? $image['Content']['Image']['alt'] : $image['Content']['alt'];
                 $caption = ($image['Content']['content'] == '') ? '' : '&lt;caption&gt;' . $image['Content']['content'] . "&lt;/caption&gt;\r";
-                $title = (empty($image['Content']['title'])) ? $image['Content']['Image']['title'] : $image['Content']['title'];
+                $title = (empty($image['Content']['content'])) ? $image['Content']['Image']['alt'] : $image['Content']['content'];
 
-                $iiLinks .=
+				$iiLinks .=
                         "<br />![" . $alt
                         . "][$index]<br />" . $caption
-                        . '<br />[' . $index . ']: ' . $image['Content']['Image']['img_file'] . ' ' . $title . "<br />";
+                        . '<br />[' . $index . ']: ' . $image['Content']['Image']['img_file'] . ' "' . $title . '"<br />';
 //                $inlineImages[$index]['image'] = $image['Content']['Image']['img_file'];
             }
         }
