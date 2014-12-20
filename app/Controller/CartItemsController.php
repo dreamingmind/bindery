@@ -120,6 +120,7 @@ class CartItemsController extends AppController {
 			throw new NotFoundException(__('Cart Item does not exist'));
 		}
 		$this->request->onlyAllow('post', 'delete');
+
 		$this->CartItem->unbindModel(array('belongsTo' => array('User')));
 		if ($this->CartItem->delete()) {
 			$this->Session->setFlash(__('The item was removed from your cart.'), 'f_success');
@@ -129,6 +130,7 @@ class CartItemsController extends AppController {
 		}
 		if ($this->request->is('ajax')) {
 			$this->layout = 'ajax';
+			$this->Purchases->verifyCartVolume();
 			$this->newBadge();
 			$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
 			$this->render("/Ajax/cart_remove_result");

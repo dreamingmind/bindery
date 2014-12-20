@@ -128,7 +128,15 @@ class PurchasesComponent extends Component {
 		return $this->Cart->cartExists($this->Session);
 	}
 	
-	
+	public function verifyCartVolume() {
+		if ($this->itemCount() == '0') {
+			$this->Cart->delete($this->Cart->cartId());
+		}
+	}
+
+
+
+
 	/**
 	 * Delete an item
 	 * 
