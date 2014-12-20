@@ -47,9 +47,27 @@ class Image extends AppModel {
                 'className' => 'Content',
                 'foreignKey' => 'image_id'
             ));
+	
+	public $hasAndBelongsToMany = array(
+        'PreSpecd' =>
+            array(
+                'className' => 'PreSpecd',
+                'joinTable' => 'images_order_items',
+                'foreignKey' => 'image_id',
+                'associationForeignKey' => 'order_item_id',
+                'unique' => true,
+                'conditions' => '',
+                'fields' => '',
+                'order' => '',
+                'limit' => '',
+                'offset' => '',
+                'finderQuery' => '',
+                'with' => 'ImageOrderItem'
+            )
+    );
 
-			public $allTitles = array();
-			public $recentTitles = array();
+	public $allTitles = array();
+	public $recentTitles = array();
 			/*
      * Modified version of Meio Upload Behavior
      * The modification changes the directory structure,

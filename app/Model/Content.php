@@ -65,6 +65,24 @@ class Content extends AppModel {
 
     );    
 
+	public $hasAndBelongsToMany = array(
+        'PreSpecd' =>
+            array(
+                'className' => 'PreSpecd',
+                'joinTable' => 'contents_order_items',
+                'foreignKey' => 'content_id',
+                'associationForeignKey' => 'order_item_id',
+                'unique' => true,
+                'conditions' => '',
+                'fields' => '',
+                'order' => '',
+                'limit' => '',
+                'offset' => '',
+                'finderQuery' => '',
+                'with' => 'ContentOrderItem'
+            )
+    );
+	
     var $actsAs = array('Sluggable'=>array(
         'label'=>'heading',
         'overwrite'=>true,
