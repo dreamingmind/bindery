@@ -19,8 +19,8 @@ class GenericProduct extends PurchasedProduct {
 	
 	public function __construct($Session, $data) {
 		parent::__construct($Session, $data);
-		$p = array_keys($this->data);
-		$this->product = $p[0];
+//		$p = array_keys($this->data);
+		$this->product = $this->data['edit_path'];
 		$this->productName = ucwords(str_replace('-', ' ', $this->product));
 	}
 

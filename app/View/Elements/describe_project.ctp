@@ -1,11 +1,12 @@
 <?php
 if (is_a($this, 'CartEditView')) {
-	$p = array_keys($this->request->data);
-	$this->request->params['pname'] = $p[0];
+//	$p = array_keys($this->request->data);
+	$this->request->params['pname'] = $product_group = $cartProduct;
+	
 }
-$product = ucwords(str_replace('-', ' ', $this->request->params['pname']));
+$product = ucwords(str_replace('-', ' ', $product_group));
 $legend = $product . ' Project Description';
-$model = $this->request->params['pname'];
+$model = $product_group;
 $record = false;
 //$record = array($model => array(
 //	'project_name' => 'my totally custom project',

@@ -77,7 +77,7 @@ if (isset($cart['Cart'])) {
 
 	echo $this->Html->div(NULL, NULL, array('id' => $cartClass, 'title' => 'Supply the required contact information to proceed.'));
 	echo $this->Html->div('mask' . $maskState, ''); // this will dim the cart if contact info is incomplete
-	echo $this->Html->para('contact', $cart['Cart']['name'] . '<br />' . $cart['Cart']['email'] . ' • ' . $cart['Cart']['phone']);
+	echo $this->Html->para('contact', $cart['Cart']['name'] . ' • ' . $cart['Cart']['email']);
 }
 
 	echo $this->fetch('new');

@@ -154,7 +154,6 @@ class CatalogsController extends AppController {
 		$this->request->data['CartItem']['id'] = $id;
 		$this->set('cartProduct', $this->Purchases->product->product());
 		
-		
 		$this->catalog($product_group);
 		$this->render('catalog');
 	}

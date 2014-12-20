@@ -13,7 +13,7 @@ $fields = 0;
 $allCount = -1;
 if (isset($record['Cart'])) {
 	foreach($record['Cart'] as $f) {
-		$allcount = count($record['Cart']);
+		$allCount = count($record['Cart']);
 		$fields += ($f != '' && !is_null($f)) ? 1 : 0;
 	}
 }
@@ -23,7 +23,7 @@ $parameters = array(
     'post_fields' => (isset($post_fields))?$post_fields:'',
     'display'=> (isset($display))? $display : ($fields == $allCount) ? 'hide' : 'show',
     'record'=> (isset($record))?$record:false,
-    'legend'=> (isset($legend))?$legend: ($fields == $allCount) ? $record['Cart']['name'] . '<br />' . $record['Cart']['email'] . '<br />' . $record['Cart']['phone'] :'Contact',
+    'legend'=> (isset($legend))?$legend: ($fields == $allCount) ? $record['Cart']['name'] . ' • ' . $record['Cart']['email'] :'Contact',
     'prefix'=> (isset($prefix))?$prefix:false,
     'model' => (isset($model)) ? $model : 'Option',
     'linkNumber'=> (isset($linkNumber))?$linkNumber:false,
