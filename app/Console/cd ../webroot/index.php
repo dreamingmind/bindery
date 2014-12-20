@@ -50,7 +50,7 @@
  *
  */
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		define('CAKE_CORE_INCLUDE_PATH',  DS . 'Library' . DS . 'WebServer' . DS . 'Documents' . DS . 'bindery');
+		define('CAKE_CORE_INCLUDE_PATH',  DS . 'Library' . DS . 'WebServer' . DS . 'Documents' . DS . 'bindery2.0');
 	}
 
 /**
