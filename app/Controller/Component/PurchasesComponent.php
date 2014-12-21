@@ -22,6 +22,10 @@ class PurchasesComponent extends Component {
 	public $product;
 	
 	public $controller;
+	
+	private $cartModel = 'Cart';
+	
+	private $cartItemModel = 'CartItem';
 
 	/**
 	 * Load the Cart Model and memorize the controller
@@ -142,9 +146,8 @@ class PurchasesComponent extends Component {
 	 * 
 	 * @param string $id
 	 */
-	public function remove($id) {
-//		$CartItem = ClassRegistry::init('CartItem');
-		$this->controller->delete($id);
+	public function remove($id, $delete = 'delete') {
+		$this->controller->$delete($id);
 		$this->verifyCartVolume();
 		$this->newBadge();
 	}
@@ -164,7 +167,8 @@ class PurchasesComponent extends Component {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
 				$cart = $this->Cart->retrieve();
-				$this->CartItem = ClassRegistry::init('CartItem');
+				dmDebug::ddd($cart, 'new cart');
+				$this->CartItem = ClassRegistry::init($this->cartItemModel);
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
@@ -172,7 +176,6 @@ class PurchasesComponent extends Component {
 		}
 		$this->controller->set('new', $this->CartItem->id);
 		$cart = $this->Cart->retrieve();
-//		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
 		$this->controller->set('cart', $cart);
 	}
 	
@@ -190,7 +193,7 @@ class PurchasesComponent extends Component {
 				// inject the new data (there are some problems handling all the constuct variations)
 				$this->product->data($this->controller->request->data);
 				$cart = $this->Cart->retrieve();
-				$this->CartItem = ClassRegistry::init('CartItem');
+				$this->CartItem = ClassRegistry::init($this->cartItemModel);
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {
 				echo $exc->getTraceAsString();
@@ -198,7 +201,6 @@ class PurchasesComponent extends Component {
 		}
 		$this->controller->set('new', $this->CartItem->id);
 		$cart = $this->Cart->retrieve();
-//		$cart = $this->CartItem->find('all', array('conditions' => array('CartItem.order_id' => $cart['Cart']['id'])));
 		$this->controller->set('cart', $cart);
 	}
 
@@ -213,7 +215,7 @@ class PurchasesComponent extends Component {
 		// js front-loads all the zero qty and empty cart processes. Ignore those here
 		// 
 		try {
-			$this->CartItem = ClassRegistry::init('CartItem');
+			$this->CartItem = ClassRegistry::init($this->cartItemModel);
 			$cartItem = $this->CartItem->retrieve($id);
 			$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
 			$item = $this->product->updateQuantity($id, $qty);
@@ -229,7 +231,7 @@ class PurchasesComponent extends Component {
 	 * @param string $id CartItem id
 	 */
 	public function sourceFormData($id) {
-		$this->CartItem = ClassRegistry::init('CartItem');
+		$this->CartItem = ClassRegistry::init($this->cartItemModel);
 		$cartItem = $this->CartItem->retrieve($id);
 		$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
 		return $this->product->data();
