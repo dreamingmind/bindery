@@ -233,14 +233,14 @@ function updateQuantity(e) {
  */
 function removeItem(e) {
 	e.preventDefault();
-	var id = $(e.currentTarget).attr('href').match(/delete\/(\d*)/)[1];
+	var id = $(e.currentTarget).attr('href').match(/remove\/(\d*)/)[1];
 	var cartBadge = $('#cart_badge');
 	var subtotal = $('div.cart_summary > p > span.cart_subtotal')
 	
 	$.ajax({
 		type: "DELETE",
 		dataType: "HTML",
-		url: webroot + 'cart_items/delete/' + id,
+		url: webroot + 'cart_items/remove/' + id,
 		success: function(data) {
 			// get rid of any remaining flash messages. multiples don't work right
 			$('div.flash').remove();

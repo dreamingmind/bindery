@@ -142,8 +142,11 @@ class PurchasesComponent extends Component {
 	 * 
 	 * @param string $id
 	 */
-	public function delete($id) {
-		$this->CartItem->delete($id);
+	public function remove($id) {
+//		$CartItem = ClassRegistry::init('CartItem');
+		$this->controller->delete($id);
+		$this->verifyCartVolume();
+		$this->newBadge();
 	}
 
 

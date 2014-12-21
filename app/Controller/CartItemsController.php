@@ -128,17 +128,33 @@ class CartItemsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The item was not removed from cart. Please try again.'), 'f_error');
 		}
+		// cart_item/remove calls from cart_ui go to the Purchases component 
+		// which calls here for the actual record deletion. Always an ajax sequence
 		if ($this->request->is('ajax')) {
-			$this->layout = 'ajax';
-			$this->Purchases->verifyCartVolume();
-			$this->newBadge();
-			$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
-			$this->render("/Ajax/cart_remove_result");
+			return;
+		// but regular CRUD does its usual redirect
 		} else {
 			$this->redirect(array('action' => 'index'));
 		}
 	}
 	
+	/**
+	 * Handle an ajax call to remove a cart item
+	 * 
+	 * Delegate the process to the Purchases Component and 
+	 * when it's done, render the result
+	 * 
+	 * @param string $id
+	 */
+	public function remove($id) {
+		$this->Purchases->remove($id);
+		
+		$this->set('cartSubtotal', $CartItem->cartSubtotal($this->controller->Session));
+		$this->layout = 'ajax';
+		$this->render("/Ajax/cart_remove_result");
+	}
+
+
 	/**
 	 * Ajax process to change the quantity for a cart item [and its supplement]
 	 * 
