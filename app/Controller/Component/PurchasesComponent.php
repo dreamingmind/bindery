@@ -142,7 +142,7 @@ class PurchasesComponent extends Component {
 
 
 	/**
-	 * Delete an item
+	 * Remove a cart item and possibly a cart
 	 * 
 	 * @param string $id
 	 */
@@ -167,7 +167,6 @@ class PurchasesComponent extends Component {
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
 				$cart = $this->Cart->retrieve();
-				dmDebug::ddd($cart, 'new cart');
 				$this->CartItem = ClassRegistry::init($this->cartItemModel);
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
 			} catch (Exception $exc) {

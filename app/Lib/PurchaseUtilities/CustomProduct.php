@@ -126,6 +126,7 @@ class CustomProduct extends PurchasedProduct {
 			),
 			'Cart' => isset($this->data['Cart']) ? $this->data['Cart'] : array()
 		);
+		$cart['Cart']['id'] = $cartId;
 //		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
 		return $cart;
 	}

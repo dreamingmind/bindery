@@ -63,6 +63,7 @@ class GenericProduct extends PurchasedProduct {
 			'Cart' => isset($this->data['Cart']) ? $this->data['Cart'] : array()
 
 		);
+		$cart['Cart']['id'] = $cartId;
 //		dmDebug::ddd($this->data, 'this data');
 //		dmDebug::ddd($cart, 'cart');
 		return $cart;
