@@ -208,6 +208,22 @@ class PurchasedProductHelper extends AppHelper {
 		return $concrete->editItemTool($item);
 	}
 	
+	/**
+	 * Intelligently assemble 'Name • Contact' display line from cart data
+	 * 
+	 * @param array $cart Cart record
+	 * @return string
+	 */
+	public function cartContactHeader($cart) {
+		$cartOwner = ($cart['Cart']['name'] != '') ? $cart['Cart']['name'] : 'Anonymous';
+		$cartOwnerContact = (($cart['Cart']['email'] != '')) 
+			? " • {$cart['Cart']['email']}" 
+			: ((($cart['Cart']['phone'] != '')) 
+				? " • {$cart['Cart']['phone']}"
+				: '');
+		return $this->Html->para('contact', $cartOwner . $cartOwnerContact);
+}
+
 //	public function cartSubtotal($subtotal) {
 //		echo "
 //	<p>
