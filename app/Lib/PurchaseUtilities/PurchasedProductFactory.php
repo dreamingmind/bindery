@@ -7,19 +7,18 @@ App::uses('VariationProduct', 'Lib/PurchaseUtilities');
 App::uses('EditionProduct', 'Lib/PurchaseUtilities');
 App::uses('GenericProduct', 'Lib/PurchaseUtilities');
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of PriceValidatorFactory
+ * Description of PurchasedProductFactory
+ * 
+ * Given an array of data, examine it to determine which kind 
+ * of product it represents. Return the concrete PurchasedProduct 
+ * utility class to handle the unique array struct for the product type
  *
  * @author dondrake
  */
 class PurchasedProductFactory {
 	
-	public static function makeProduct($Session, $data) {
+	public static function makeProduct($data) {
 	
 	// this assumes the data provides clues that are used in this 
 	// method to decide which validator should be created.
@@ -56,7 +55,7 @@ class PurchasedProductFactory {
 		throw new BadRequestException('Could not determine which product utility class to use.');
 	}
 	
-	 return new $product($Session, $data);
+	 return new $product($data);
 	/**
 	 * I could check to see if an instance already exists and return that one
 	 * but since I'm making them with the data-to-validate as a parameter, I'm planning 

@@ -162,10 +162,9 @@ class PurchasesComponent extends Component {
 	 */
 	public function add() {
 		if ($this->controller->request->is('POST')) {
-			$this->controller->layout = 'ajax';
 			try {
 				// the factory will make the proper concrete product after examining t->c->r->data
-				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
+				$this->product = PurchasedProductFactory::makeProduct($this->controller->request->data);
 				$cart = $this->Cart->retrieve();
 				$this->CartItem = ClassRegistry::init($this->cartItemModel);
 				$this->CartItem->saveAssociated($this->product->cartEntry($cart['Cart']['id']));
@@ -173,6 +172,7 @@ class PurchasesComponent extends Component {
 				echo $exc->getTraceAsString();
 			}
 		}
+		$this->controller->layout = 'ajax';
 		$this->controller->set('new', $this->CartItem->id);
 		$cart = $this->Cart->retrieve();
 		$this->controller->set('cart', $cart);
@@ -184,11 +184,9 @@ class PurchasesComponent extends Component {
 	public function updateItem() {
 //		dmDebug::ddd($this->controller->request->data, 'trd');die;
 		if ($this->controller->request->is('POST')) {
-			$this->controller->layout = 'ajax';
 			try {
 				// the factory will make the proper concrete product after examining t->c->r->data
-				
-				$this->product = PurchasedProductFactory::makeProduct($this->Session, $this->controller->request->data);
+				$this->product = PurchasedProductFactory::makeProduct($this->controller->request->data);
 				// inject the new data (there are some problems handling all the constuct variations)
 				$this->product->data($this->controller->request->data);
 				$cart = $this->Cart->retrieve();
@@ -198,6 +196,7 @@ class PurchasesComponent extends Component {
 				echo $exc->getTraceAsString();
 			}
 		}
+		$this->controller->layout = 'ajax';
 		$this->controller->set('new', $this->CartItem->id);
 		$cart = $this->Cart->retrieve();
 		$this->controller->set('cart', $cart);
@@ -216,7 +215,7 @@ class PurchasesComponent extends Component {
 		try {
 			$this->CartItem = ClassRegistry::init($this->cartItemModel);
 			$cartItem = $this->CartItem->retrieve($id);
-			$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
+			$this->product = PurchasedProductFactory::makeProduct($cartItem);
 			$item = $this->product->updateQuantity($id, $qty);
 			return $this->CartItem->saveAssociated($item);
 		} catch (Exception $exc) {
@@ -232,7 +231,7 @@ class PurchasesComponent extends Component {
 	public function sourceFormData($id) {
 		$this->CartItem = ClassRegistry::init($this->cartItemModel);
 		$cartItem = $this->CartItem->retrieve($id);
-		$this->product = PurchasedProductFactory::makeProduct($this->Session, $cartItem);
+		$this->product = PurchasedProductFactory::makeProduct($cartItem);
 		return $this->product->data();
 	}
 
