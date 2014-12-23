@@ -152,7 +152,7 @@ class AppHelper extends Helper {
      * @return type
      */
     function accountTool_($userdata) {
-        $tool = "<p>";
+        $tool = "\n<p>";
         if (isset($userdata) && $userdata != 0) {
             $tool .= $userdata['username'] . " | ";
             $tool .= $this->Html->link('Log Out', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'logout'));
@@ -161,7 +161,7 @@ class AppHelper extends Helper {
             $tool .= ' | ';
             $tool .= $this->Html->link('Register', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'register'));
         }
-        return $tool;
+        return $tool . "</p>\n";
     }
 
     /**

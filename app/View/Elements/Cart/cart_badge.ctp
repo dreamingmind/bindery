@@ -14,8 +14,8 @@ if ($purchaseCount > 0) {
 	$checkout = '';
 }
 
-	echo $this->Html->div('badge', NULL, array('id' => 'cart_badge'));
-	echo $this->Html->image('cart.png');
+	echo $this->Html->div('badge', NULL, array('id' => 'cart_badge')) . "\n\t";
+	echo $this->Html->image('cart.png') . "\n\t";
 	if (!empty($checkout)) {
 		echo $this->Html->para(NULL, 
 			$this->Html->tag('span', $purchaseCount, array('class' => 'count'))
@@ -26,5 +26,5 @@ if ($purchaseCount > 0) {
 	} else {
 		echo $this->Html->para(NULL, $this->Html->tag('span', 'Cart empty', array('class' => 'count')));
 	}
-	echo '</div>';
+	echo "\n</div>\n";
 ?>

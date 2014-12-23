@@ -49,10 +49,8 @@
         <?php echo $this->Html->image('bench-marks-814-150-transparent.png', array('alt'=>"Don Drake's Bench Marks blog banner")); ?>
         <div id="headerTools">
             <div id="accountTool">
-                <p>
-                    <?php  echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
-                </p>
-			<?php echo $this->element('Cart/cart_badge'); ?>
+				<?php  echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
+				<?php echo $this->element('Cart/cart_badge'); ?>
             </div>
         <menu class='zoom'>
             <?php echo (isset($userdata['group_id']) && $userdata['group_id']==1)?'<a class="sequence_tool">Order</a> ':''; ?>
