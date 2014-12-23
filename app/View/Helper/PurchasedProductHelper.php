@@ -164,11 +164,15 @@ class PurchasedProductHelper extends AppHelper {
 	 * Create the price display-chip for a cart item
 	 * 
 	 * Price is the cost of one unit, without accounting for quantity ordered
+	 * The $price object travels all the way back to cart_ui and is 
+	 * used to make decisions about what buttons to put on the interface
 	 * 
 	 * @param array $item
+	 * @param stdObj $prices track whether any items have a zero price
 	 * @return string
 	 */
-	public function itemPrice($item) {
+	public function itemPrice($item, $prices) {
+		$prices->zeroItem = $prices->zeroItem || ($item['CartItem']['price'] == '0');
 		return $this->Html->tag('span', $item['CartItem']['price'], array('class' => 'price'));
 	}
 
