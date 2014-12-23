@@ -5,6 +5,7 @@ if (isset($referer)) {
 	$href = "href='$referer'";
 }
 ?>
+
 <div class="button_block">
 	<button id="continue" <?php echo $href; ?> bind="click.continueShopping">Continue Shopping</button>
 	<div class="proceed">

@@ -43,10 +43,8 @@
   <?php echo $this->Html->image('dmboldlogo_.png', array('alt'=>'Dreaming Mind Bindery logo')); ?>
   <div id="headerTools">
   	<div id="accountTool">
-            <p>
-            <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
-            </p>
-			<?php echo $this->element('Cart/cart_badge'); ?>
+		<?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
+		<?php echo $this->element('Cart/cart_badge'); ?>
   	</div>
       <?php echo $this->element('image_grid_nav');
  ?>
