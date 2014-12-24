@@ -52,7 +52,6 @@ if (isset($cart['CartItem'])) {
 		}
 	}
 }
-dmDebug::ddd($prices, 'prices');
 ?>
 <!-- 
 ==============================================
