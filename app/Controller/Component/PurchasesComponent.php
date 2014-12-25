@@ -17,7 +17,7 @@ class PurchasesComponent extends Component {
 
 	public $Biscuit;
 
-	public $components = array('Session');
+	public $components = array('Session', 'CartLog');
 	
 	public $product;
 	
@@ -138,9 +138,6 @@ class PurchasesComponent extends Component {
 		}
 	}
 
-
-
-
 	/**
 	 * Remove a cart item and possibly a cart
 	 * 
@@ -151,7 +148,6 @@ class PurchasesComponent extends Component {
 		$this->verifyCartVolume();
 		$this->newBadge();
 	}
-
 
 	/**
 	 * Add another item to the shopping cart
@@ -202,7 +198,6 @@ class PurchasesComponent extends Component {
 		$this->controller->set('cart', $cart);
 	}
 
-
 	/**
 	 * Change a CartItem [and Supplement] quantity values
 	 * 
@@ -234,7 +229,6 @@ class PurchasesComponent extends Component {
 		$this->product = PurchasedProductFactory::makeProduct($cartItem);
 		return $this->product->data();
 	}
-
 
 	/**
 	 * Keep the cart associated with the user that created it

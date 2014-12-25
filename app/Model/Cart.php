@@ -205,6 +205,10 @@ class Cart extends Order {
 			'contain' => FALSE
 		));
 	}
+	
+	public function getCartNumber() {
+		return $this->field('number', $this->cartConditions());
+	}
 
 
 	/**
