@@ -1,12 +1,15 @@
 <?php
-App::uses('AppController', 'Controller');
+App::uses('CheckoutController', 'Controller');
 App::uses('Paypal', 'Paypal.Lib');
 
 /**
- * CakePHP Cart
+ * CakePHP CheckoutExpressController
+ * 
+ * Handle the PayPal Express Checkout process
+ * 
  * @author dondrake
  */
-class CartsController extends AppController {
+class CheckoutExpressController extends CheckoutController {
 	
 	public $helpers = array('PurchasedProduct', 'Cart' => array('className' => 'CartNewEntry'));
 
