@@ -304,7 +304,7 @@ function continueShopping(e) {
  */
 function checkout(e){
 	e.preventDefault();
-	location.assign(webroot + 'carts/checkout');
+	location.assign(webroot + 'checkout');
 }
 
 function pay_check(e) {

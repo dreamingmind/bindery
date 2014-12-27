@@ -11,11 +11,15 @@ App::uses('Checkout', 'Lib');
  */
 class CheckoutController extends AppController implements Checkout {
 
-	public $helpers = array('PurchasedProduct', 'Cart');
+	public $helpers = array('PurchasedProduct', 'Cart' => array('className' => 'cartNewEntry'));
 
 	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
 	
 	public $components = array();
+	
+	public $uses = array('Cart');
+	
+	public $layout = 'checkout';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -36,7 +40,7 @@ class CheckoutController extends AppController implements Checkout {
 	 * By Check (this->checkout_address()) and 
 	 * PayPal (this->express()) are the current choices
 	 */
-	public function checkout() {
+	public function index() {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
 		if ($this->Cart->cartExists()) {
@@ -46,6 +50,8 @@ class CheckoutController extends AppController implements Checkout {
 		}
 		$this->set('cart', $cart);
 		$this->set('referer', $this->referer());
+		$this->layout = 'checkout'; 
+		$this->render('/Carts/checkout');
 	}
 	
 	public function address() {

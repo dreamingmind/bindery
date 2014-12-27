@@ -9,7 +9,7 @@ if ($purchaseCount == 1) {
 }
 
 if ($purchaseCount > 0) {
-	$checkout = ' | ' . $this->Html->tag('span', $this->Html->link('Checkout', '/carts/checkout/'), array('class' => 'tool'));
+	$checkout = ' | ' . $this->Html->tag('span', $this->Html->link('Checkout', array('controller' => 'checkout')), array('class' => 'tool'));
 } else {
 	$checkout = '';
 }

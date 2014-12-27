@@ -10,7 +10,7 @@
  */
 interface Checkout {
 	
-	public function checkout();
+	public function index();
 	
 	public function address();
 	

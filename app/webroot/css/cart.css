@@ -272,4 +272,15 @@ span.alert {
 
 #cart_badge > img {
     width: 20px;
+	margin-bottom: -7px;
+}
+
+div.badge {
+    display: inline-block;
+}
+#accountTool > p {
+    display: inline-block;
+}
+#cart_badge > p {
+    display: inline-block;
 }

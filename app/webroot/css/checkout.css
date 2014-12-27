@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body{
+	width: 920px;
+}
+a {
+    color: #003d4c;
+    font-weight: bold;
+    text-decoration: none;
+}
+#NTfixedNav {
+    background-color: #fff;
+    border-bottom: 2px solid #b89b5c;
+    width: 100%;
+	padding: 10px;}
+#headerTools {
+    font-size: 10px;
+    left: 300px;
+    padding: 0 35px 0 0;
+    position: absolute;
+    text-align: right;
+    top: 5px;
+    width: 600px;
+}
+#accountTool, #jumpBox {
+    clear: both;
+    padding-top: 5px;
+}
+div.badge {
+    display: inline-block;
+}
+#accountTool > p {
+    display: inline-block;
+}
+#cart_badge > img {
+    margin-bottom: -7px;
+    width: 20px;
+}
+#cart_badge > p {
+    display: inline-block;
+}

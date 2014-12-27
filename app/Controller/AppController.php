@@ -179,6 +179,8 @@ class AppController extends Controller {
     
     var $scripts = '';
 	
+	public 	$layout = 'noThumbnailPage';
+	
     function beforeFilter() {
 
         if (in_array($this->params->action, $this->secure) && !$this->request->is('ssl')) {
@@ -188,7 +190,6 @@ class AppController extends Controller {
 		}
 		parent::beforeFilter();
 		
-		$this->layout = 'noThumbnailPage';
 
 		// These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array
@@ -214,7 +215,9 @@ class AppController extends Controller {
         $this->css = array('basic', 'advanced-search', 'search_links');
         if ($this->params['action'] == 'blog') {
             $this->css[] = 'blog';
-        } else {
+        } elseif (is_a($this, 'CheckoutController')) {
+			$this->css[] = 'checkout';
+		} else {
             $this->css[] = 'new4';
         }
 		$this->css[] = 'cart';
