@@ -107,7 +107,9 @@ class CustomProduct extends PurchasedProduct {
 	 * @return array The data to save
 	 */
 	public function cartEntry($cartId) {
-//		dmDebug::ddd($this->data[$this->product]['total'], 'orig tot');
+		
+		$package = $this->packageLookup($this->data[$this->product]['product']);
+		
 		$cart = array('CartItem' => array(
 				'id' => (isset($this->item['id'])) ? $this->item['id'] : '',
 				'order_id' => $cartId,
@@ -117,7 +119,11 @@ class CustomProduct extends PurchasedProduct {
 				'blurb' => $this->blurb(),
 				'options' => $this->options(),
 				'price' => $this->calculatePrice(),
-				'quantity' => $this->data[$this->product]['quantity']
+				'quantity' => $this->data[$this->product]['quantity'],
+				'length' => $package['Catalog']['length'],
+				'width' => $package['Catalog']['width'],
+				'depth' => $package['Catalog']['depth'],
+				'weight' => $package['Catalog']['weight']
 			),
 			'Supplement' => array(
 				'id' => isset($this->supplementId) ? $this->supplementId : NULL,
@@ -129,6 +135,29 @@ class CustomProduct extends PurchasedProduct {
 		$cart['Cart']['id'] = $cartId;
 //		dmDebug::ddd($cart['CartItem']['price'], 'fin price');
 		return $cart;
+	}
+	
+	private function packageLookup($code) {
+		$Catalog = ClassRegistry::init('Catalog');
+		$package = $Catalog->find('first', array(
+			'fields' => array(
+				'large_package',
+				'package_thickness AS depth',
+				'package_weight AS weight'
+			),
+			'conditions' => array('product_code' => $code)
+		));
+		
+		if ($package['Catalog']['large_package']) {
+			$package['Catalog']['length'] = '14';
+			$package['Catalog']['width'] = '14';
+		} else {
+			$package['Catalog']['length'] = '9';
+			$package['Catalog']['width'] = '11';
+		}
+		
+		unset($package['Catalog']['large_package']);
+		return $package;		
 	}
 
 	/**

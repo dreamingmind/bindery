@@ -235,6 +235,7 @@ Configure::write('usps.call', 'http://production.shippingapis.com/ShippingAPI.dl
 Configure::write('usps.ZipOrigination', '94552');
 Configure::write('usps.Service', 'PRIORITY');
 Configure::write('usps.Container', 'RECTANGULAR');
+Configure::write('usps.Size', 'REGULAR');
 
 
 /*
