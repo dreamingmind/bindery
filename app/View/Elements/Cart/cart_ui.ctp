@@ -56,15 +56,16 @@ if (isset($cart['CartItem'])) {
 <!-- 
 ==============================================
 This is the shopping cart output for both
-on-page pallet view of the cart
-and checkout page view of the cart
+the on-page pallet view of the cart
+and thecheckout page view of the cart
 ==============================================
 -->
 <?php
 
 if (isset($cart['Cart'])) {
 	echo "<!-- open the div -->\n";
-	echo $this->Html->div(NULL, NULL, array('id' => $cartClass, 'title' => 'Supply the required contact information to proceed.'));
+	echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
+	echo $this->Html->tag('h3', 'Items in your cart', array('class' => 'checkout'));
 	echo $this->PurchasedProduct->cartContactHeader($cart);
 }
 

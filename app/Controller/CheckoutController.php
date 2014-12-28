@@ -18,9 +18,7 @@ class CheckoutController extends AppController implements Checkout {
 	public $components = array();
 	
 	public $uses = array('Cart');
-	
-	public $layout = 'checkout';
-	
+		
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
@@ -51,7 +49,6 @@ class CheckoutController extends AppController implements Checkout {
 		$this->set('cart', $cart);
 		$this->set('referer', $this->referer());
 		$this->layout = 'checkout'; 
-		$this->render('/Carts/checkout');
 	}
 	
 	public function address() {
