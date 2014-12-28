@@ -63,6 +63,8 @@ class CartsController extends AppController {
 		} else {
 			$cart = array();
 		}
+		$Usps = ClassRegistry::init('Usps');
+		$this->set('shipping', $Usps->estimate($cart));
 		$this->set('cart', $cart);
 		$this->set('referer', $this->referer());
 	}
