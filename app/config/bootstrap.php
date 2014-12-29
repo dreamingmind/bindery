@@ -228,14 +228,17 @@ CakeLog::config('cart', array(
 
 CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
 
-Configure::write('usps.user', '872DREAM7410');
+Configure::write('usps.RateV4Request.@USERID', '872DREAM7410');
+Configure::write('usps.RateV4Request.Revision', NULL);
 Configure::write('usps.pass', '992UL84JC016');
 Configure::write('usps.test', 'https://stg-secure.shippingapis.com/ShippingApi.dll');
 Configure::write('usps.call', 'http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=');
+Configure::write('usps.RateV4Request.Package.@ID', '1ST');
 Configure::write('usps.ZipOrigination', '94552');
-Configure::write('usps.ZipDestination', '93704');
+Configure::write('usps.ZipNear', '94552');
+Configure::write('usps.ZipFar', '03901');
 Configure::write('usps.Service', 'PRIORITY');
-Configure::write('usps.Container', 'RECTANGULAR');
+Configure::write('usps.Container', NULL);
 Configure::write('usps.Size', 'REGULAR');
 
 
