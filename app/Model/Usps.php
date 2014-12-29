@@ -13,7 +13,7 @@ class Usps {
 		$ounces = 0;
 		$default = Configure::read('usps');
 		dmDebug::ddd($default, 'config defaults');
-		$package = array(
+		$package = $default + array(
 			'Length' => 0,
 			'Width' => 0,
 			'Height' => 0,
@@ -27,15 +27,16 @@ class Usps {
 			$package['Length'] = $package['Length'] < $item['length'] ? $item['length'] : $package['Length'];
 			$package['Width'] = $package['Width'] < $item['width'] ? $item['width'] : $package['Width'];
 			$package['Height'] += $item['height'];
-			$ounces += $item['width'];
+			$ounces += $item['weight'];
 		}
 		if ($package['Length'] > 12 || $package['Width'] > 12 || $package['Height'] > 12) {
-			$package['Size'] = 'Large';
+			$package['Size'] = 'LARGE';
 		} else {
 			unset($package['Width'], $package['Height'], $package['Length']);
 		}
-		$package['Ounces'] = $ounces % 16;
-		$package['Pounds'] = intval($ounces/16);
+		$package['Ounces'] = strval($ounces % 16);
+		$package['Pounds'] = strval(intval($ounces/16));
+		$package['Height'] = strval($package['Height']);
 		dmDebug::ddd($package, 'package');
 	}
 	/*

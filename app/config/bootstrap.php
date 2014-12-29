@@ -233,6 +233,7 @@ Configure::write('usps.pass', '992UL84JC016');
 Configure::write('usps.test', 'https://stg-secure.shippingapis.com/ShippingApi.dll');
 Configure::write('usps.call', 'http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=');
 Configure::write('usps.ZipOrigination', '94552');
+Configure::write('usps.ZipDestination', '93704');
 Configure::write('usps.Service', 'PRIORITY');
 Configure::write('usps.Container', 'RECTANGULAR');
 Configure::write('usps.Size', 'REGULAR');
