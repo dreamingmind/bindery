@@ -124,7 +124,7 @@ function submitContacts(e) {
  */
 function itemDetailToggle(e) {
 	e.preventDefault();
-	var id = $(e.currentTarget).attr('href').match(/cart.*\/(\d*)/)[1];
+	var id = $(e.currentTarget).attr('href').match(/[checkout|cart].*\/(\d*)/)[1];
 	var mode = $(e.currentTarget).html();
 	var wrapper = $('#cart_item-' + id);
 	
