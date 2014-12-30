@@ -64,17 +64,17 @@ and thecheckout page view of the cart
 
 if (isset($cart['Cart'])) {
 	echo "<!-- open the div -->\n";
-	echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
+//	echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
 	echo $this->Html->tag('h3', 'Items in your cart', array('class' => 'checkout'));
 	echo $this->PurchasedProduct->cartContactHeader($cart);
 }
 
 	echo $this->fetch('new');
 	echo $this->fetch('existing');
-	if (count($cart) > 0) {
-		echo $this->element('Cart/cart_summary', array('cartSubtotal' => $prices->subtotal));
-		echo $this->element('Cart/button_block', array('cartClass' => $cartClass, 'cart' => $cart));
-	}
+//	if (count($cart) > 0) {
+//		echo $this->element('Cart/cart_summary', array('cartSubtotal' => $prices->subtotal));
+//		echo $this->element('Cart/button_block', array('cartClass' => $cartClass, 'cart' => $cart));
+//	}
 	
 // This section places the json object on the page which supports
 // detail toggling of cart itmes. Pallet and view require different handling.
@@ -98,7 +98,7 @@ if ($cartClass === 'cart_checkout') {
 <?php
 }
 if (isset($cart['Cart'])) {
-echo "</div>\n";
+//echo "</div>\n";
 }
 ?>
 <!-- 
