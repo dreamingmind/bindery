@@ -66,7 +66,7 @@ if (isset($cart['Cart'])) {
 	echo "<!-- open the div -->\n";
 //	echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
 	echo $this->Html->tag('h3', 'Items in your cart', array('class' => 'checkout'));
-	echo $this->PurchasedProduct->cartContactHeader($cart);
+//	echo $this->PurchasedProduct->cartContactHeader($cart);
 }
 
 	echo $this->fetch('new');

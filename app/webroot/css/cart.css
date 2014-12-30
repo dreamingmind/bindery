@@ -7,6 +7,11 @@ div[id*="cart_"] p.contact {
     padding-bottom: 8px;
 }
 
+div#cart_checkout {
+	width: 400px;
+	padding: 0.6em 2em 2em;
+}
+
 div#cart_pallet {
 /*    background-color: white;*/
     background-color: #dcdacf;
