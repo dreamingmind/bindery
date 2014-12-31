@@ -21,7 +21,7 @@ $this->end();
 	<?php 
 		echo $this->element('email');
 		echo $this->element('AddressModule.simple_address_input', array('alias' => 'Shipping'));
-		echo $this->Form->input('Same', array('label' => 'Billing same as Shipping', 'checked' => TRUE, 'type' => 'checkbox', 'bind' => 'change.set_billing')) . '<br />';
+		echo $this->Form->input('Same', array('label' => 'Billing same as Shipping', 'checked' => TRUE, 'type' => 'checkbox', 'bind' => 'change.set_billing', 'id' => 'CartSame')) . '<br />';
 		echo $this->element('AddressModule.simple_address_input', array('alias' => 'Billing')); 
 		if (!is_null($this->Session->read('Auth.User.id'))) {
 			echo $this->Form->input('Update', array('label' => 'Update my account with these addresses', 'checked' => FALSE, 'type' => 'checkbox'));

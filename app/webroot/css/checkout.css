@@ -63,3 +63,6 @@ h2.checkout {
 	font-weight: normal;
 	color: #f6f6f6;
 }
+.hide {
+	display: none;
+}
