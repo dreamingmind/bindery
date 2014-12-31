@@ -8,6 +8,7 @@
 $cartClass = 'cart_checkout';
 
 $this->append('scripts');
+echo $this->Html->script('checkout');
 echo $this->Html->script('order_addresses');
 $this->end();
 
@@ -19,6 +20,8 @@ $this->end();
 <div id="required_data">
 	<h3 class="entry">Provide Contact and Address Information</h3>
 	<?php 
+	echo $this->Form->create('Cart');
+	
 		echo $this->element('email');
 		echo $this->element('AddressModule.simple_address_input', array('alias' => 'Shipping'));
 		echo $this->Form->input('Same', array('label' => 'Billing same as Shipping', 'checked' => TRUE, 'type' => 'checkbox', 'bind' => 'change.set_billing', 'id' => 'CartSame')) . '<br />';

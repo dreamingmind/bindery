@@ -21,7 +21,7 @@ if (isset($record['Cart'])) {
 // to reduce the preceived pressure on the user
 if ($this->request->controller == 'checkout') {
 	$prompt_require = '(required)';
-	$prompt_optional = '(optional)';	
+	$prompt_optional = '(optional)';
 } else  {
 	$prompt_require = $prompt_optional = '';
 }

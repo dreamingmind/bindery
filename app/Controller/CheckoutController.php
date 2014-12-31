@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('Checkout', 'Lib');
+App::uses('AddressModule.Address', 'Model');
 
 /**
  * CakePHP CheckoutController
@@ -39,22 +40,64 @@ class CheckoutController extends AppController implements Checkout {
 	 * PayPal (this->express()) are the current choices
 	 */
 	public function index() {
-		$this->layout = 'noThumbnailPage';
-		$this->set('contentDivIdAttr', 'checkout');
-		if ($this->Cart->cartExists()) {
-			$cart = $this->Cart->retrieve();
-		} else {
-			$cart = array();
+		if (!$this->request->is('get')) {
+			$this->layout = 'checkout'; 
+			$this->address();
 		}
-		$Usps = ClassRegistry::init('Usps');
-		$this->set('shipping', $Usps->estimate($cart));
-		$this->set('cart', $cart);
-		$this->set('referer', $this->referer());
-		$this->layout = 'checkout'; 
+			if ($this->Cart->cartExists()) {
+				$cart = $this->Cart->retrieve();
+			} else {
+				$cart = array();
+			}
+
+			// setting data for the view is a bit messy
+			$this->request->data = $cart; // not used yet
+
+			// for the fieldset helper (Element/email.ctp)
+			$this->set('model', 'Cart');
+			$this->set('record', $cart);
+			$this->set('fieldsetOptions', array('class' => 'contact'));
+
+			// for the rest of the view
+			$this->set('cart', $cart);
+			$this->set('referer', $this->referer());
+			$this->set('contentDivIdAttr', 'checkout');
+			$this->layout = 'checkout'; 
+		
 	}
 	
 	public function address() {
+		dmDebug::ddd($this->request->data, 'trd');
+		try {
+			$Address = ClassRegistry::init('AddressModule.Address');
+			
+			$Address->create();
+			$Address->save($this->request->data['Shipping']);
+			$shipId = $Address->id;
+			dmDebug::ddd($shipId, 'ship id');
+			
+			$Address->create();
+			$Address->save($this->request->data['Billing']);
+			$billId = $Address->id;
+			dmDebug::ddd($billId, 'bill id');
+			
+			$this->request->data('Cart.ship_id', $shipId)
+					->data('Cart.bill_id', $billId);
+			$Cart = ClassRegistry::init('Cart');
+			$Cart->save($this->request->data['Cart']);
+			
+		} catch (Exception $exc) {
+			echo $exc->getTraceAsString();
+		}
+
+		$cart = $this->Cart->retrieve();
 		
+		// testing code to get shipping estimate
+		$Usps = ClassRegistry::init('Usps');
+		$this->set('shipping', $Usps->estimate($cart));
+
+		dmDebug::ddd($cart, 'trd');
+		$this->render('address');
 	}
 	
 	public function method() {
