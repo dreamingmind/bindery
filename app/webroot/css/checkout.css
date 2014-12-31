@@ -41,3 +41,25 @@ div.badge {
 #cart_badge > p {
     display: inline-block;
 }
+div#required_data {
+    /*background-color: red;*/
+    float: right;
+    padding-top: 1em;
+    width: 450px;
+}
+
+div#required_data label {
+    padding-bottom: 5px;
+    padding-top: 7px;
+}
+h3.entry {
+	color:firebrick;
+}
+h2.checkout > img {
+    padding: 0 12px;
+    width: 50px;
+}
+h2.checkout {
+	font-weight: normal;
+	color: #f6f6f6;
+}

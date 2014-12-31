@@ -62,7 +62,9 @@ class Usps {
 		$xml = Xml::fromArray($x);
 		$call = $default['call'].$xml->asXML();
 		
-		dmDebug::ddd($call, 'xml');
+		return $call;
+		
+//		dmDebug::ddd($call, 'xml');
 	}
 	
 	/*

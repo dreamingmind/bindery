@@ -119,7 +119,7 @@ div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 	
 div.item_text {
     display: inline-block;
-    width: 80%;
+    width: 75%;
 }
 
 .item_tools p {
@@ -250,10 +250,11 @@ div.cover {
 
 h2.checkout {
     background: none repeat scroll 0 0 #374426;
-    color: white;
+    /*color: white;*/
     font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
-    font-size: 160%;
+    font-size: 110%;
     padding: 0.3em 0.3em 0.4em 0.4em;
+    text-align: center;
 }
 
 form#CartContactsForm {
