@@ -182,7 +182,10 @@ class Cart extends Order {
 						'Supplement' => array(
 							'fields' => array('Supplement.id', 'Supplement.order_item_id', 'Supplement.type', 'Supplement.data')
 						)
-					))));
+					),
+					'Shipping',
+					'Billing'
+				)));
 			
 			foreach ($cart['CartItem'] as $index => $item) {
 				if (isset($cart['CartItem'][$index]['Supplement']['data'])) {

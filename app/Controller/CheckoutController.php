@@ -67,19 +67,23 @@ class CheckoutController extends AppController implements Checkout {
 	}
 	
 	public function address() {
-		dmDebug::ddd($this->request->data, 'trd');
+
+		$this->request->data('Shipping.foreign_table', 'Cart')
+				->data('Shipping.foreign_key', $this->request->data['Cart']['id'])
+				->data('Shipping.type', 'shipping')
+				->data('Billing.foreign_table', 'Cart')
+				->data('Billing.foreign_key', $this->request->data['Cart']['id'])
+				->data('Billing.type', 'billing');
 		try {
 			$Address = ClassRegistry::init('AddressModule.Address');
 			
 			$Address->create();
 			$Address->save($this->request->data['Shipping']);
 			$shipId = $Address->id;
-			dmDebug::ddd($shipId, 'ship id');
 			
 			$Address->create();
 			$Address->save($this->request->data['Billing']);
 			$billId = $Address->id;
-			dmDebug::ddd($billId, 'bill id');
 			
 			$this->request->data('Cart.ship_id', $shipId)
 					->data('Cart.bill_id', $billId);
@@ -96,7 +100,6 @@ class CheckoutController extends AppController implements Checkout {
 		$Usps = ClassRegistry::init('Usps');
 		$this->set('shipping', $Usps->estimate($cart));
 
-		dmDebug::ddd($cart, 'trd');
 		$this->render('address');
 	}
 	
