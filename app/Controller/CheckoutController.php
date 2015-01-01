@@ -66,6 +66,14 @@ class CheckoutController extends AppController implements Checkout {
 		
 	}
 	
+	/**
+	 * Handle data submission from checkout/index
+	 * 
+	 * Save sumbitted contact info, addresses and link everything together. 
+	 * Then pull the shipping cost. If everything goes well, redirect to 
+	 * the method page. Otherwise, return and let the index page re-render 
+	 * with appropriate error messaging.
+	 */
 	public function address() {
 
 		$this->request->data('Shipping.foreign_table', 'Cart')
@@ -75,6 +83,8 @@ class CheckoutController extends AppController implements Checkout {
 				->data('Billing.foreign_key', $this->request->data['Cart']['id'])
 				->data('Billing.type', 'billing');
 		try {
+//			$this->Session->setFlash('This is an error message', 'f_error');
+//			return;
 			$Address = ClassRegistry::init('AddressModule.Address');
 			
 			$Address->create();
@@ -87,24 +97,38 @@ class CheckoutController extends AppController implements Checkout {
 			
 			$this->request->data('Cart.ship_id', $shipId)
 					->data('Cart.bill_id', $billId);
-			$Cart = ClassRegistry::init('Cart');
-			$Cart->save($this->request->data['Cart']);
+			$this->Cart->save($this->request->data['Cart']);
 			
 		} catch (Exception $exc) {
 			echo $exc->getTraceAsString();
 		}
 
+		$this->redirect('method');
+	}
+	
+	public function method() {
+		
 		$cart = $this->Cart->retrieve();
 		
 		// testing code to get shipping estimate
 		$Usps = ClassRegistry::init('Usps');
 		$this->set('shipping', $Usps->estimate($cart));
 
-		$this->render('address');
-	}
-	
-	public function method() {
+		// setting data for the view is a bit messy
+		$this->request->data = $cart; // not used yet
+
+		// for the fieldset helper (Element/email.ctp)
+		$this->set('model', 'Cart');
+		$this->set('record', $cart);
+		$this->set('fieldsetOptions', array('class' => 'contact'));
+
+		// for the rest of the view
+		$this->set('cart', $cart);
+		$this->set('referer', $this->referer());
+		$this->set('contentDivIdAttr', 'checkout');
+		$this->layout = 'checkout'; 
 		
+		$this->render('method');
 	}
 	
 	public function confirm() {
