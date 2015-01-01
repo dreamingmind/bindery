@@ -170,7 +170,7 @@ class Cart extends Order {
 				$this->create($this->data);
 //				dmDebug::ddd($this->data, 'this data just saved');
 				$this->save($this->data);
-//				dmDebug::ddd($this->validationErrors, 'errors');
+//				dmDebug::ddd($this->validationErrors, 'errors');die;
 			}
 //			dmDebug::ddd($this->Session->id(), 'session id');
 			
@@ -240,6 +240,7 @@ class Cart extends Order {
 		$data['ship_id'] = $this->Session->read('Auth.User.ship_id');
 		$data['bill_id'] = $this->Session->read('Auth.User.bill_id');
 
+//		dmDebug::ddd($data, 'auth user contacts');
 		$Address = ClassRegistry::init('AddressModule.Address');
 
 		if (!is_null($id = $this->Session->read('Auth.User.ship_id'))) {
@@ -259,6 +260,7 @@ class Cart extends Order {
 				$Address->type($addressId, 'billing');
 			}
 		}
+//		dmDebug::ddd($data, 'on the way out');die;
 		return $data;
 	}
 			

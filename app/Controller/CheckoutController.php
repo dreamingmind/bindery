@@ -16,7 +16,7 @@ class CheckoutController extends AppController implements Checkout {
 
 	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
 	
-	public $components = array();
+	public $components = array('Checkout');
 	
 	public $uses = array('Cart');
 		
@@ -41,28 +41,29 @@ class CheckoutController extends AppController implements Checkout {
 	 */
 	public function index() {
 		if (!$this->request->is('get')) {
-			$this->layout = 'checkout'; 
 			$this->address();
+			// handle possible return from address due to data problems
 		}
-			if ($this->Cart->cartExists()) {
-				$cart = $this->Cart->retrieve();
-			} else {
-				$cart = array();
-			}
+		
+		if ($this->Cart->cartExists()) {
+			$cart = $this->Cart->retrieve();
+		} else {
+			$this->Checkout->noCartRedirect();
+		}
 
-			// setting data for the view is a bit messy
-			$this->request->data = $cart; // not used yet
+		// setting data for the view is a bit messy
+		$this->request->data = $cart; // not used yet
 
-			// for the fieldset helper (Element/email.ctp)
-			$this->set('model', 'Cart');
-			$this->set('record', $cart);
-			$this->set('fieldsetOptions', array('class' => 'contact'));
+		// for the fieldset helper (Element/email.ctp)
+		$this->set('model', 'Cart');
+		$this->set('record', $cart);
+		$this->set('fieldsetOptions', array('class' => 'contact'));
 
-			// for the rest of the view
-			$this->set('cart', $cart);
-			$this->set('referer', $this->referer());
-			$this->set('contentDivIdAttr', 'checkout');
-			$this->layout = 'checkout'; 
+		// for the rest of the view
+		$this->set('cart', $cart);
+		$this->set('referer', $this->referer());
+		$this->set('contentDivIdAttr', 'checkout');
+		$this->layout = 'checkout'; 
 		
 	}
 	
@@ -75,6 +76,7 @@ class CheckoutController extends AppController implements Checkout {
 	 * with appropriate error messaging.
 	 */
 	public function address() {
+		$this->layout = 'checkout'; 
 
 		$this->request->data('Shipping.foreign_table', 'Cart')
 				->data('Shipping.foreign_key', $this->request->data['Cart']['id'])
@@ -99,6 +101,9 @@ class CheckoutController extends AppController implements Checkout {
 					->data('Cart.bill_id', $billId);
 			$this->Cart->save($this->request->data['Cart']);
 			
+			// need to detect problems and return to checkout in those cases
+			// like bad state? or bad zip?
+			
 		} catch (Exception $exc) {
 			echo $exc->getTraceAsString();
 		}
@@ -108,7 +113,11 @@ class CheckoutController extends AppController implements Checkout {
 	
 	public function method() {
 		
-		$cart = $this->Cart->retrieve();
+		if ($this->Cart->cartExists()) {
+			$cart = $this->Cart->retrieve();
+		} else {
+			$this->Checkout->noCartRedirect();
+		}
 		
 		// testing code to get shipping estimate
 		$Usps = ClassRegistry::init('Usps');
@@ -202,5 +211,4 @@ class CheckoutController extends AppController implements Checkout {
 		$this->layout = 'ajax';
 		$this->render('/Ajax/flashOut');
 	}
-
 }

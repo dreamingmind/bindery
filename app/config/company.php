@@ -35,5 +35,6 @@
         $config['company.jabber'] = 'dreamingmind.8';
         $config['company.firstName'] = 'Don';
         $config['company.lastName'] = 'Drake';
+        $config['company.fullName'] = 'Don Drake';
 
 ?>
