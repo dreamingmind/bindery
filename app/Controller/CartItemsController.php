@@ -149,7 +149,12 @@ class CartItemsController extends AppController {
 	public function remove($id) {
 		$this->Purchases->remove($id);
 		
-		$this->set('cartSubtotal', $CartItem->cartSubtotal($this->controller->Session));
+		if (!$this->Purchases->exists()) {
+			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
+			$this->set('cartSubtotal', '0');
+		} else {
+			$this->set('cartSubtotal', $CartItem->cartSubtotal($this->controller->Session));
+		}
 		$this->layout = 'ajax';
 		$this->render("/Ajax/cart_remove_result");
 	}

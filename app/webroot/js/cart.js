@@ -256,6 +256,7 @@ function removeItem(e) {
 			// success/failure messages get placed differently in the DOM
 			var was = data.match(/was removed/);
 			var was_not = data.match(/was not removed/);
+			var empty = data.match(/Your cart is empty./);
 			if (was == 'was removed') {
 				$('div#cart_item-'+id).replaceWith($(data).find('div.flash'));
 				if (cartCount() == '0') {
@@ -265,6 +266,15 @@ function removeItem(e) {
 			} else if (was_not == 'was not removed') {
 				$('div#cart_item-'+id).prepend($(data).find('div.flash'));
 				bindHandlers('div#cart_item-'+id);
+			} else if (empty == 'Your cart is empty.') {
+				// swap out all content for this flash message
+				if ($('#cart_pallet').length > 0 ) {
+					var continueButton = $('#continue').clone(true);
+					$('#cart_pallet').html($(data).find('div#emptyMessage'));
+					$('#cart_pallet').append(continueButton);
+				} else if ($('#checkout').length > 0 ) {
+					$('#checkout').html($(data).find('div#emptyMessage'));
+				}
 			}
 		},
 		error: function(xhr, status, error) {
