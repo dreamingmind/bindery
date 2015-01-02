@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('OrderItemsController', 'Controller');
+App::uses('HttpSocket', 'Network/Http');
 /**
  * Carts Controller
  *
@@ -10,7 +11,7 @@ class CartItemsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct');
 	
-	public $components = array('Checkout');
+	public $components = array('Checkout', 'Email');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -149,6 +150,9 @@ class CartItemsController extends AppController {
 	 * @param string $id
 	 */
 	public function remove($id) {
+		$Http = new HttpSocket(array('controller' => 'cart_items', 'action' => 'removalNotification', $id));
+		$Http->get();
+//		$this->removalNotification($id);
 		$this->Purchases->remove($id);
 		
 		if (!$this->Purchases->exists()) {
@@ -161,9 +165,26 @@ class CartItemsController extends AppController {
 		$this->layout = 'ajax';
 		$this->render("/Ajax/cart_remove_result");
 	}
+	
+	private function removalNotification($id) {
+		$item = $this->CartItem->retrieve($id);
+//		$Email = new CakeEmail();
+//		$Email->from(array('cart_activity@dreamingmind.com' => 'Cart Activity'))
+//			->to('cart_activity@dreamingmind.com')
+//			->subject('Cart Item Removal')
+//			->send(dmDebug::ddd($item, 'This item has been removed'));
+		$Email = new CakeEmail();
+		$Email->config('gmail')
+				->emailFormat('html')
+				->from(array('ampfg@ampprinting.com' => 'Cart Activity'))
+				->to('cart_activity@dreamingmind.com')
+				->subject('Cart Item Removal')
+				->viewVars(array('out' => dmDebug::ddd($item, 'This item has been removed')))
+				->send();
+		return;
+	}
 
-
-	/**
+		/**
 	 * Ajax process to change the quantity for a cart item [and its supplement]
 	 * 
 	 * @param string $id

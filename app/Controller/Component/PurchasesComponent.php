@@ -105,9 +105,24 @@ class PurchasesComponent extends Component {
 		}
 	}
 
+	/**
+	 * Set contact info for customer contact element (email.ctp) in purchase forms
+	 * 
+	 * There may be contact info in the cart record 
+	 * or if not, the user may be logged in and have the info recorded there, 
+	 * otherwise we don't know this data and use an empty array
+	 * 
+	 * @return array
+	 */
 	public function cartContact() {
 		if ($this->Cart->cartExists()) {
 			$contact = $this->Cart->getContactData();
+		} elseif ($this->controller->Auth->user()) {
+			$contact = array('Cart' => array(
+				'name' => $this->controller->Auth->user('first_name') . ' ' . $this->controller->Auth->user('last_name'),
+				'email' => $this->controller->Auth->user('email'),
+				'phone' => $this->controller->Auth->user('phone')
+			));
 		} else {
 			$contact = array();
 		}
