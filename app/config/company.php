@@ -36,5 +36,6 @@
         $config['company.firstName'] = 'Don';
         $config['company.lastName'] = 'Drake';
         $config['company.fullName'] = 'Don Drake';
+		$config['company.tech_email'] = 'technician@dreamingmind.com';
 
 ?>
