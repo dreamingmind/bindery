@@ -12,7 +12,7 @@ a {
 }
 #NTfixedNav {
     background-color: #fff;
-    border-bottom: 2px solid #b89b5c;
+    /*border-bottom: 2px solid #b89b5c;*/
     width: 100%;
 	padding: 10px;}
 #headerTools {
@@ -66,3 +66,6 @@ h2.checkout {
 .hide {
 	display: none;
 }
+/*#NTfixedNav {
+    padding-right: 0;
+}*/

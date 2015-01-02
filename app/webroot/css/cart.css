@@ -290,3 +290,12 @@ div.badge {
 #cart_badge > p {
     display: inline-block;
 }
+#emptyMessage a {
+     color: gold;
+     text-decoration: underline;
+}
+
+#emptyMessage {
+     background-color: grey;
+     padding: 7em;
+}

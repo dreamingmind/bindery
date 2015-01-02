@@ -9,6 +9,8 @@ App::uses('OrderItemsController', 'Controller');
 class CartItemsController extends AppController {
 	
 	public $helpers = array('PurchasedProduct');
+	
+	public $components = array('Checkout');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -150,6 +152,7 @@ class CartItemsController extends AppController {
 		$this->Purchases->remove($id);
 		
 		if (!$this->Purchases->exists()) {
+			$this->set('url', $this->Checkout->lastItemRedirect());
 			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
 			$this->set('cartSubtotal', '0');
 		} else {

@@ -35,19 +35,29 @@ class CheckoutComponent extends Component {
 		
 	}
 	
-	public function noCartRedirect(){
-		
+	public function doNoCartRedirect(){
+		$this->controller->redirect($this->calculateCartRedirect(array('controller' => 'pages', 'action' => 'empty_cart')));
+	}
+	
+	public function calculateCartRedirect($defaultUrl) {
 		$referer = $this->controller->referer();
 		$l = strrpos($referer, $this->controller->request->webroot) + strlen($this->controller->request->webroot);
 		$url = substr($referer, $l, strlen($referer) - $l);
 		$referer = Router::parse($url);
 		
 		$this->controller->Session->setFlash('Your cart is empty');
-		if (in_array($referer['controller'], $this->noRedirect)) { //if redirecet is to somewhere non-cartish
-			$this->controller->redirect(array('controller' => 'pages', 'action' => 'empty_cart'));
+		//if redirecet is to somewhere non-cartish
+		if (in_array($referer['controller'], $this->noRedirect)) { 
+			return $defaultUrl;
+			
+		// if redirect is to ok-to-browse page
 		} else {
-			$this->controller->redirect($this->controller->referer());
+			return $this->controller->referer();
 		}
+	}
+	
+	public function lastItemRedirect() {
+		return $this->calculateCartRedirect(array('controller' => 'products'));
 	}
 
 }

@@ -48,7 +48,7 @@ class CheckoutController extends AppController implements Checkout {
 		if ($this->Cart->cartExists()) {
 			$cart = $this->Cart->retrieve();
 		} else {
-			$this->Checkout->noCartRedirect();
+			$this->Checkout->doNoCartRedirect();
 		}
 
 		// setting data for the view is a bit messy
@@ -116,7 +116,7 @@ class CheckoutController extends AppController implements Checkout {
 		if ($this->Cart->cartExists()) {
 			$cart = $this->Cart->retrieve();
 		} else {
-			$this->Checkout->noCartRedirect();
+			$this->Checkout->doNoCartRedirect();
 		}
 		
 		// testing code to get shipping estimate
