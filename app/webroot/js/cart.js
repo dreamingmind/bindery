@@ -272,6 +272,7 @@ function removeItem(e) {
 					var continueButton = $('#continue').clone(true);
 					$('#cart_pallet').html($(data).find('div#emptyMessage'));
 					$('#cart_pallet').append(continueButton);
+					$('#continue').addClass('hide');
 				} else if ($('#checkout').length > 0 ) {
 					$('#checkout').html($(data).find('div#emptyMessage'));
 				}
