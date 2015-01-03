@@ -5,4 +5,5 @@
 //		echo $this->PurchasedProduct->cartSubtotal($cartSubtotal);
 		echo $this->Session->flash();
 	?>
+	<p id="url"><?php echo $message_url; ?> </p>
 </div>

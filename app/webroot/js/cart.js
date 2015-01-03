@@ -277,6 +277,21 @@ function removeItem(e) {
 					$('#checkout').html($(data).find('div#emptyMessage'));
 				}
 			}
+			if (was == 'was removed' || empty == 'Your cart is empty.') {
+				var url = $(data).find('#url').html();
+				$.ajax({
+					type: "GET",
+					dataType: "HTML",
+					url: url,
+					success: function (data) {
+						
+					},
+					error: function (data) {
+						
+					}
+				})
+
+			}
 		},
 		error: function(xhr, status, error) {
 			var exception = xhr.responseText.match(/Invalid cart/);

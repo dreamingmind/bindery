@@ -18,7 +18,13 @@ class CartItemsController extends AppController {
 		$this->Auth->allow();
 	}
 	
-/**
+	public function afterFilter() {
+		parent::afterFilter();
+//		$this->removalNotification();
+
+	}
+
+		/**
  * index method
  *
  * @return void
@@ -150,9 +156,15 @@ class CartItemsController extends AppController {
 	 * @param string $id
 	 */
 	public function remove($id) {
-		$Http = new HttpSocket(array('controller' => 'cart_items', 'action' => 'removalNotification', $id));
-		$Http->get();
+//		dmDebug::ddd($_SERVER, 'server');die;
+				
+		$Http = new HttpSocket();
+		$message_url = 'http://' . $_SERVER['HTTP_HOST'] . Router::url(array('controller' => 'cart_items', 'action' => 'removalNotification', $id));
+//		dmDebug::ddd('http://' . $_SERVER['HTTP_HOST'] . Router::url(array('controller' => 'cart_items', 'action' => 'removalNotification', $id)), 'match');
 //		$this->removalNotification($id);
+		$this->set('message_url', Router::url(array('controller' => 'cart_items', 'action' => 'removalNotification', $id)));
+		dmDebug::logVars($message_url, '$message_url');
+		
 		$this->Purchases->remove($id);
 		
 		if (!$this->Purchases->exists()) {
@@ -160,28 +172,67 @@ class CartItemsController extends AppController {
 			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
 			$this->set('cartSubtotal', '0');
 		} else {
-			$this->set('cartSubtotal', $CartItem->cartSubtotal($this->controller->Session));
+			$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
 		}
 		$this->layout = 'ajax';
 		$this->render("/Ajax/cart_remove_result");
 	}
 	
-	private function removalNotification($id) {
-		$item = $this->CartItem->retrieve($id);
-//		$Email = new CakeEmail();
-//		$Email->from(array('cart_activity@dreamingmind.com' => 'Cart Activity'))
-//			->to('cart_activity@dreamingmind.com')
-//			->subject('Cart Item Removal')
-//			->send(dmDebug::ddd($item, 'This item has been removed'));
+	public function removalNotification($id) {
+		$this->layout = 'ajax';
+		$this->autoRender = FALSE;
+		$this->removed = array ( 
+			'CartItem' => array ( 
+				'id' => '983', 
+				'order_id' => '212', 
+				'product_name' => 'Photo Albums', 
+				'price' => '0', 
+				'quantity' => '1', 
+				'type' => 'Generic', 
+				'option_summary' => '', 
+				'created' => '2015-01-02 19:10:09', 
+				'modified' => '2015-01-02 19:10:09', 
+				'blurb' => '<span class="alert">REQUIRES QUOTE</span>', 
+				'options' => '', 
+				'length' => '8', 
+				'width' => '10', 
+				'height' => '1', 
+				'weight' => '16', 
+				'total' => '0'), 
+			'User' => array ( 
+				'id' => NULL, 
+				'email' => NULL), 
+			'Cart' => array ( 
+				'id' => '212', 
+				'created' => '2015-01-02 19:10:09', 
+				'modified' => '2015-01-02 19:10:09', 
+				'number' => '1501-AAWG', 
+				'user_id' => NULL, 
+				'session_id' => 'ud9usecdf8ga3rjgjta7758rv1', 
+				'carrier' => 'USPS', 
+				'method' => 'Prioity', 
+				'state' => 'Cart', 
+				'invoice_number' => '', 
+				'name' => '', 
+				'phone' => '', 
+				'email' => '', 
+				'collection_id' => NULL, 
+				'order_item_count' => '1', 
+			)
+		);
+//		$item = $this->CartItem->retrieve($id);
+		$out = '';
+		foreach ($this->removed as $key => $array) {
+			$out .= $key . '--' . implode(' :: ', $array);
+		}
+
 		$Email = new CakeEmail();
 		$Email->config('gmail')
 				->emailFormat('html')
 				->from(array('ampfg@ampprinting.com' => 'Cart Activity'))
 				->to('cart_activity@dreamingmind.com')
-				->subject('Cart Item Removal')
-				->viewVars(array('out' => dmDebug::ddd($item, 'This item has been removed')))
-				->send();
-		return;
+				->subject('Cart Item Removal');
+		$Email->send($out);
 	}
 
 		/**
