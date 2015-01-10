@@ -114,7 +114,7 @@ class CustomProduct extends PurchasedProduct {
 				'id' => (isset($this->item['id'])) ? $this->item['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
-				'user_id' => ($this->userId) ? $this->userId : NULL,
+				'user_id' => ($this->user_id != '') ? $this->user_id : NULL,
 				'product_name' => $this->name(),
 				'blurb' => $this->blurb(),
 				'options' => $this->options(),

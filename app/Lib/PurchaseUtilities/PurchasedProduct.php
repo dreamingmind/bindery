@@ -66,11 +66,18 @@ abstract class PurchasedProduct {
 	protected $Supplement;
 	
 	/**
+	 * The current cart
+	 *
+	 * @var array
+	 */
+	protected $cart;
+
+	/**
 	 * The current logged in User from the Session
 	 *
 	 * @var string|boolean A User id or FALSE
 	 */
-	protected $userId = FALSE;
+	protected $user_id = FALSE;
 	
 	/**
 	 * The current Session id if there is no logged in user
@@ -140,6 +147,11 @@ abstract class PurchasedProduct {
 			$this->item = array();
 			$this->supplementId = FALSE;
 		}
+		
+		// either way, we'll bring the cart in for the user_id and possibly othe things
+		$this->cart = ClassRegistry::init('Cart')->retrieve();
+		$this->user_id = $this->cart['Cart']['user_id'];
+		
 		
 //		debug($this->type, 'type');
 //		debug($this->data, 'data');

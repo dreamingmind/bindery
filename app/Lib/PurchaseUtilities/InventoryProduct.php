@@ -50,7 +50,7 @@ class InventoryProduct extends PurchasedProduct {
 	public function cartEntry($cartId) {
 		$cart = array('CartItem' => array(
 				'type' => $this->type,
-				'user_id' => ($this->userId) ? $this->userId : '',
+				'user_id' => ($this->user_id) ? $this->user_id : '',
 				'cart_id' => $cartId,
 				'product_name' => $this->data['item_number'] . ' - ' . $this->data['item_name'],
 				'price' => $this->calculatePrice(),

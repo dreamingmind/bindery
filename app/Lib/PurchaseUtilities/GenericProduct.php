@@ -49,7 +49,7 @@ class GenericProduct extends PurchasedProduct {
 				'id' => (isset($this->item['id'])) ? $this->item['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
-				'user_id' => ($this->userId) ? $this->userId : NULL,
+				'user_id' => ($this->user_id) ? $this->user_id : NULL,
 				'blurb' => $this->blurb(),
 				'product_name' => $this->name(),
 				'options' => $this->data[$this->product]['project_description'],

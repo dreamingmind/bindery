@@ -54,7 +54,7 @@ class EditionProduct extends PurchasedProduct {
 				'id' => (isset($this->data['Edition']['id'])) ? $this->data['Edition']['id'] : '',
 				'order_id' => $cartId,
 				'type' => $this->type,
-				'user_id' => ($this->userId) ? $this->userId : NULL,
+				'user_id' => ($this->user_id) ? $this->user_id : NULL,
 				'blurb' => $this->blurb(),
 				'product_name' => $this->data['Edition']['name'],
 				'price' => $this->calculatePrice(),
