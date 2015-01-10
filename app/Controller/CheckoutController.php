@@ -32,6 +32,11 @@ class CheckoutController extends AppController implements Checkout {
 	 * see all the full summaries of their cart items. They can cange item 
 	 * quantities or remove items from their cart.
 	 * 
+	 * The page also shows contact and address forms which must be filled out. 
+	 * Submitting the form comes back here where the form-save process is 
+	 * delegated to address which will redirect to the next step or return 
+	 * here for page re-render as appropriate.
+	 * 
 	 * In the future, registered users will also be able to 
 	 * send items to their wish list
 	 * 

@@ -1,7 +1,23 @@
 $(document).ready(function(){
+	
+//	if ($('fieldset.Shipping, fieldset.Billing, input#CartSame').length === 3) {
+//		establishCartSameValue();
+//	};
 //	capturePaypal();
 })
 
+
+//function establishCartSameValue() {
+//	var check = true;
+//	$('fieldset.Shipping input').each(function() {
+//		var bill = $(this).attr('id').replace('Shipping', '#Billing');
+//		if (bill != '#BillingId') {
+//			check = check && ($(this).val() === $(bill).val())
+//		}		
+//	})
+//	$('input#CartSame').prop('checked', check);
+//	setBilling();
+//}
 /**
  * Add any product to the shopping cart
  * 

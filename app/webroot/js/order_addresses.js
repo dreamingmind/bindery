@@ -4,6 +4,7 @@
 function sameBilling() {
 	// Shipping won't show if its the same as billing
 	$('fieldset.Billing').addClass('hide');
+	
 	$('fieldset.Shipping').find('input').each(function() {
 		var id = $(this).attr('id');
 		// don't synch the record id!
@@ -59,9 +60,27 @@ function initShipping() {
 	})
 }
 
-$(document).ready(function() {
+function establishCartSameValue() {
+	var check = true;
+	$('fieldset.Shipping input').each(function() {
+		var bill = $(this).attr('id').replace('Shipping', '#Billing');
+		if (bill != '#BillingId') {
+			check = check && ($(this).val() === $(bill).val())
+		}		
+	})
+	$('input#CartSame').prop('checked', check);
+	if (check) {
+		setBilling();
+	}
+}
 	// start out with the addresses the same
-	sameBilling();
+$(document).ready(function() {
+
+	if ($('fieldset.Shipping, fieldset.Billing, input#CartSame').length === 3) {
+		establishCartSameValue();
+	};
+	
+//	sameBilling();
 	// make shipping synch to billing if 'same' is requested
 	initShipping();
 })
