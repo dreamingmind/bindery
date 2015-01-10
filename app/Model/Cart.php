@@ -127,6 +127,10 @@ class Cart extends Order {
 		$this->deleteIdCache($this->cartId(), $this->dataCacheConfig);
 	}
 
+	public function afterDelete() {
+		parent::afterDelete();
+		$this->deleteIdCache($this->cartId(), $this->dataCacheConfig);
+	}
 
 	/**
 	 * Does the visitor/user have a Cart?
