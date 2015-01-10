@@ -26,6 +26,8 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('Controller', 'Controller');
+App::uses('Logger', 'Lib/Trait');
+
 /**
  * Short description for class.
  *
@@ -37,7 +39,9 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    var $components = array(
+	use Logger;
+
+	var $components = array(
 		'Cookie',
 		'DebugKit.Toolbar',
         'Acl' => array(

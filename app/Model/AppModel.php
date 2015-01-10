@@ -1,5 +1,6 @@
 <?php
 /* SVN FILE: $Id$ */
+App::uses('Logger', 'Lib/Trait');
 
 /**
  * Application model for Cake.
@@ -36,7 +37,9 @@
  */
 class AppModel extends Model {
 	
-    var $actsAs = Array('Containable');
+	use Logger;
+
+	var $actsAs = Array('Containable');
 	
 	/**
 	 * Base name for cart data cache

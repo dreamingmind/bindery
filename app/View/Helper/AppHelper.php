@@ -24,6 +24,8 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('Helper', 'View');
+App::uses('Logger', 'Lib/Trait');
+
 /**
  * This is a placeholder class.
  * Create the same file in app/app_helper.php
@@ -35,6 +37,8 @@ App::uses('Helper', 'View');
  * @subpackage    bindery.Output
  */
 class AppHelper extends Helper {
+	
+	use Logger;
 
     var $helpers = array ('Html','Time', 'Session', 'Form', 'Text', 'Markdown');
 

@@ -1,0 +1,63 @@
+<?php
+/**
+ * Description of Logger
+ *
+ * @author dondrake
+ */
+Trait Logger {
+	
+	public $removeCartItemMessage = "\n-- Item removed from cart\n%s\n-----------------------END----------------------------\n\n";
+	public $retractLastMessage = "\n!! There was a problem completing the process (%s).\n-----------------------END----------------------------\n\n";
+	
+	public $placeArtMessage = "++ %s, numbers %s were stored in %s.";
+	
+	public $guardMessage = "Guard violation in %s line %s\n\t%s\n%s\n-----------------------END----------------------------\n\n";
+
+	/**
+	 * log a arguement guard violation
+	 * 
+	 * @param string $method
+	 * @param string $line
+	 * @param string $message
+	 * @param string $trace
+	 */
+	public function guardError($method, $line, $message, $trace) {
+		$this->log(sprintf($this->guardMessage, $method, $line, $message, $trace), 'guard_error');
+	}
+
+	/**
+	 * Log a location change of location for a number artwork
+	 * 
+	 * @param string $action remove or place
+	 * @param string $edition_numbers
+	 * @param string $item_name
+	 * @param string $location
+	 * @param string $user
+	 */
+	public function artWarehouse($item_name, $edition_numbers, $location, $method) {
+		if ($method == 'remove') {
+			$format = $this->removeArtMessage;
+		} else {
+			$format = $this->placeArtMessage;
+		}
+		$this->log(sprintf($format, $item_name, $edition_numbers, $location), 'track_artwork');
+	}
+	
+	public function logArtworkWarehouseRetraction() {
+		$this->log('!! The database process supporting the previous log line failed.', 'track_artwork');
+	}
+	
+	/**
+	 * 
+	 * @param array $cart_item 
+	 */
+	public function logRemoveCartItem($cart_item) {
+		$message = var_export($cart_item, TRUE);
+		$this->log(sprintf($this->removeCartItemMessage, $message), 'cart_activity');
+	}
+	
+	public function logRetractLastMessage($process_name, $log_name) {
+		$this->log('There was a problem completing the process');
+	}
+	
+}

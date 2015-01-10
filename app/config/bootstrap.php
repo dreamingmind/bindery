@@ -215,6 +215,11 @@ CakeLog::config('cart', array(
 'types' => array('cart'),
 'file' => 'Cart/cart'.date('.Y.m')
 ));
+CakeLog::config('cart_activity', array(
+'engine' => 'FileLog',
+'types' => array('cart_activity'),
+'file' => 'cart/cart_activity'.date('.Y')
+));
 //CakeLog::config('robotIO', array(
 //'engine' => 'FileLog',
 //'types' => array('robotIO'),
