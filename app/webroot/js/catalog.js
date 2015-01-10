@@ -498,18 +498,16 @@ function establishAppropriatePageState(){
  */
 function storeCatalogHandles(){
 //    var count = 0;
-	if (!typeof(product) == 'undefined') {
-		for (var product in catalog.productNames) {
-			// store handles for one product
-			catalog.productNames[product]['toggle'] = $('p#' + product + 'Toggle');
-			catalog.productNames[product]['table'] = $('table#' + product);
-			catalog.productNames[product]['productRadios'] = $('table#' + product).find('input[type="radio"]');
-			catalog.productNames[product]['options'] = $('div.options.' + product + 'Toggle');
-			catalog.productNames[product]['titleNode'] = $(catalog.productNames[product]['options']).find('p.optionTitle');
-			catalog.productNames[product]['titleInput'] = $(catalog.productNames[product]['options']).find('input[id*="Description"]');
-			catalog.productNames[product]['caveatNode'] = $(catalog.productNames[product]['options']).find('div.caveatWrapper');
-		}
-	}	
+	for (var product in catalog.productNames) {
+		// store handles for one product
+		catalog.productNames[product]['toggle'] = $('p#' + product + 'Toggle');
+		catalog.productNames[product]['table'] = $('table#' + product);
+		catalog.productNames[product]['productRadios'] = $('table#' + product).find('input[type="radio"]');
+		catalog.productNames[product]['options'] = $('div.options.' + product + 'Toggle');
+		catalog.productNames[product]['titleNode'] = $(catalog.productNames[product]['options']).find('p.optionTitle');
+		catalog.productNames[product]['titleInput'] = $(catalog.productNames[product]['options']).find('input[id*="Description"]');
+		catalog.productNames[product]['caveatNode'] = $(catalog.productNames[product]['options']).find('div.caveatWrapper');
+	}
 }
 
 /**
