@@ -106,6 +106,19 @@ class Cart extends Order {
 			'className' => 'Payment',
 			'foreignKey' => 'order_id',
 			'dependent' => true,
+		),
+		'Address' => array(
+			'className' => 'Address',
+			'foreignKey' => 'foreign_key',
+			'dependent' => true,
+			'conditions' => "foreign_table = 'Cart' OR foreign_table = 'Checkout'",
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 		)
 	);
 	
@@ -247,7 +260,7 @@ class Cart extends Order {
 			if (!empty($Address->duplicate($id))) {
 				$addressId = $Address->data['Address']['id'];
 				$data['ship_id'] = $addressId;
-				$Address->link($addressId, 'User', $userId);
+				$Address->link($addressId, 'Cart', $userId);
 				$Address->type($addressId, 'shipping');
 			}
 
@@ -256,7 +269,7 @@ class Cart extends Order {
 			if (!empty($Address->duplicate($id))) {
 				$addressId = $Address->data['Address']['id'];
 				$data['bill_id'] = $addressId;
-				$Address->link($addressId, 'User', $userId);
+				$Address->link($addressId, 'Cart', $userId);
 				$Address->type($addressId, 'billing');
 			}
 		}
