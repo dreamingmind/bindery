@@ -128,10 +128,12 @@ class CartItemsController extends AppController {
 			throw new NotFoundException(__('Cart Item does not exist'));
 		}
 		$this->request->onlyAllow('post', 'delete');
+		$cart_item = $this->CartItem->retrieve($id); // data to log the event
 
 		$this->CartItem->unbindModel(array('belongsTo' => array('User')));
 		if ($this->CartItem->delete()) {
 			$this->Session->setFlash(__('The item was removed from your cart.'), 'f_success');
+			$this->logRemoveCartItem($cart_item);
 //			$this->redirect(array('action' => 'index'));
 		} else {
 			$this->Session->setFlash(__('The item was not removed from cart. Please try again.'), 'f_error');
