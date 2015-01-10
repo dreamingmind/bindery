@@ -128,7 +128,10 @@ abstract class PurchasedProduct {
 	 * 
 	 * @param type $data
 	 */
-	public function __construct($data) {
+	public function __construct($data, $cart) {
+		$this->cart = $cart;
+		$this->user_id = $this->cart['Cart']['user_id'];
+		
 //		dmDebug::ddd($data, 'data');die;
 		$this->type = str_replace('Product', '', get_class($this));
 
@@ -147,11 +150,6 @@ abstract class PurchasedProduct {
 			$this->item = array();
 			$this->supplementId = FALSE;
 		}
-		
-		// either way, we'll bring the cart in for the user_id and possibly othe things
-		$this->cart = ClassRegistry::init('Cart')->retrieve();
-		$this->user_id = $this->cart['Cart']['user_id'];
-		
 		
 //		debug($this->type, 'type');
 //		debug($this->data, 'data');

@@ -43,8 +43,8 @@ class CustomProduct extends PurchasedProduct {
 	 * @param object $Session The current Session Component
 	 * @param array $data The data posted in the 'Add to cart' request
 	 */
-	public function __construct($data) {
-		parent::__construct($data);
+	public function __construct($data, $cart) {
+		parent::__construct($data, $cart);
 		$this->product = $this->data['specs_key'];
 		
 		// radio buttons in the product grids were no reliably sending thier data in 

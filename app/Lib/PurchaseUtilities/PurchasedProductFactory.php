@@ -18,7 +18,7 @@ App::uses('GenericProduct', 'Lib/PurchaseUtilities');
  */
 class PurchasedProductFactory {
 	
-	public static function makeProduct($data) {
+	public static function makeProduct($item, $cart) {
 	
 	// this assumes the data provides clues that are used in this 
 	// method to decide which validator should be created.
@@ -26,20 +26,20 @@ class PurchasedProductFactory {
 	// Put its name into $validator
 	
 	// this first one handles cases where the CartItem record already exists
-	if (isset($data['CartItem']['type'])) {
-		$product = $data['CartItem']['type'].'Product';
+	if (isset($item['CartItem']['type'])) {
+		$product = $item['CartItem']['type'].'Product';
 		
 	// all the others handle the submission of a request for a new cart item
-	} elseif (isset($data['specs_key'])) {
+	} elseif (isset($item['specs_key'])) {
 		$product = 'CustomProduct';
 		
-	} elseif (isset($data['cmd'])) {
+	} elseif (isset($item['cmd'])) {
 		$product = 'InventoryProduct';
 		
-	} elseif (isset($data['Edition'])) {
+	} elseif (isset($item['Edition'])) {
 		$product = 'EditionProduct';
 		
-	} elseif (isset($data['generic'])) {
+	} elseif (isset($item['generic'])) {
 		$product = 'GenericProduct';
 		
 	} elseif ('workshop' === TRUE) {
@@ -55,7 +55,7 @@ class PurchasedProductFactory {
 		throw new BadRequestException('Could not determine which product utility class to use.');
 	}
 	
-	 return new $product($data);
+	 return new $product($item, $cart);
 	/**
 	 * I could check to see if an instance already exists and return that one
 	 * but since I'm making them with the data-to-validate as a parameter, I'm planning 

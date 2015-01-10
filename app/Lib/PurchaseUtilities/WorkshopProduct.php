@@ -11,8 +11,8 @@
  */
 class WorkshopProduct extends PurchasedProduct {
 	
-	public function __construct($data) {
-		parent::__construct($data);
+	public function __construct($data, $cart) {
+		parent::__construct($data, $cart);
 	}
 	
 	public function calculatePrice() {
