@@ -73,7 +73,15 @@ class AccountsController extends AppController {
             // read the user's record
 //            $this->request->data = $this->User->read(null, $this->Auth->user('id'));
             $this->User->contain('OptinUser.Optin.label');
-            $this->request->data = $this->User->find('first', array('conditions'=>'User.id='.$this->Auth->user('id'), 'recursive'=>2));
+            $this->request->data = $this->User->find('first', array(
+				'conditions'=> array(
+					'User.id' => $this->Auth->user('id')
+				), 
+				'contain' => array(
+					'Optin',
+					'WishList'
+				)));
+			dmDebug::ddd($this->request->data, 'trd');
             $this->request->data['User']['password'] = 'Encrypted for security';
 	}
 

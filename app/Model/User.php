@@ -96,7 +96,13 @@ class User extends AppModel {
                 'order' => ''
             )
 	);
-        var $hasMany = 'OptinUser';
+	var $hasMany = array(
+			'OptinUser',
+		'WishList' => array(
+			'className' => 'OrderItem',
+			'foreignKey' => 'user_id',
+			'conditions' => "WishList.state = 'Wish'"
+		));
         
     /**
      * @var string $username Username of the logged in user

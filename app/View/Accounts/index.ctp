@@ -6,7 +6,10 @@
 $record = "";
 
 foreach ($fields as $field) {
-    $record .= $this->Html->tableCells(array($field[0], $this->request->data['User'][$field[1]]));
+//	dmDebug::ddd($field, 'fields');
+	if (isset($this->request->data['User'][$field[1]])) {
+		$record .= $this->Html->tableCells(array($field[0], $this->request->data['User'][$field[1]]));
+	}	
 }
 $this->Html->output("<table>\n$record</table>\n");
 

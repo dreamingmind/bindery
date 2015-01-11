@@ -22,5 +22,12 @@
 class Account extends AppModel {
     var $name = 'Account';
     var $useTable = 'users';
+	var $hasMany = array(
+		'OptinUser',
+		'WishList' => array(
+			'className' => 'OrderItem',
+			'foreignKey' => 'user_id',
+			'conditions' => "WishList.state = 'Wish'"
+		));
 }
 ?>
