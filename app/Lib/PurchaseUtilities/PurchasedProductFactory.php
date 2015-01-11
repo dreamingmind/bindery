@@ -6,6 +6,7 @@ App::uses('PurchasedProduct', 'Lib/PurchaseUtilities');
 App::uses('VariationProduct', 'Lib/PurchaseUtilities');
 App::uses('EditionProduct', 'Lib/PurchaseUtilities');
 App::uses('GenericProduct', 'Lib/PurchaseUtilities');
+App::uses('WishListProduct', 'Lib/PurchaseUtilities');
 
 /**
  * Description of PurchasedProductFactory
@@ -51,7 +52,11 @@ class PurchasedProductFactory {
 	} elseif ('variation' === TRUE) {
 		$product = 'VariationProduct';
 		
+	} elseif (isset($item['WishList'])) {
+		$product = 'WishListProduct';
+		
 	} else {
+		dmDebug::ddd($item, 'item');
 		throw new BadRequestException('Could not determine which product utility class to use.');
 	}
 	
