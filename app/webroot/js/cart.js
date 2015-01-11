@@ -238,6 +238,24 @@ function updateQuantity(e) {
 //	alert(id);
 }
 
+function wishItem(e) {
+	e.preventDefault();
+	var id = $(e.currentTarget).attr('href').match(/wish\/(\d*)/)[1];
+	$.ajax({
+		type: "POST",
+		dataType: "HTML",
+		data: '',
+		url: webroot + 'cart_items/wish/' + id,
+		success: function (data) {
+			
+		},
+		error: function (data) {
+			
+		}
+	})
+
+}
+
 /**
  * Remove specified cart items and refresh the screen
  * 

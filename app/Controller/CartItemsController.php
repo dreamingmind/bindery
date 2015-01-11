@@ -148,6 +148,26 @@ class CartItemsController extends AppController {
 		}
 	}
 	
+	public function wish($id) {
+		
+		if (!$this->Purchases->exists()) {
+			$this->set('url', $this->Checkout->lastItemRedirect());
+			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
+			$this->set('cartSubtotal', '0');
+			
+		} else {
+			if ($this->CartItem->wish($id)) {
+				$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
+				$this->Session->setFlash(__('The item was sent to your wish list.'), 'f_success');
+				$this->Purchases->wish($id);
+			} else {
+				$this->Session->setFlash(__('The process was not succesful. Please try again.'), 'f_error');
+			}
+		}
+		$this->layout = 'ajax';
+		$this->render("/Ajax/cart_remove_result");
+	}
+	
 	/**
 	 * Handle an ajax call to remove a cart item
 	 * 

@@ -163,6 +163,11 @@ class PurchasesComponent extends Component {
 		$this->verifyCartVolume();
 		$this->newBadge();
 	}
+	
+	public function wish() {
+		$this->verifyCartVolume();
+		$this->newBadge();
+	}
 
 	/**
 	 * Add another item to the shopping cart

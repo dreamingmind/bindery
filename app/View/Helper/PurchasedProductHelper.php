@@ -131,7 +131,7 @@ class PurchasedProductHelper extends AppHelper {
 	public function modeToggle($item, $action, $isNewItem = FALSE) {
 //		if (!$isNewItem) {
 			return $this->Html->para('tools', 
-				$this->Html->link($action, $item['CartItem']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
+				$this->wishListTool($item) . $this->Html->link($action, $item['CartItem']['id'], array('class' => 'tool toggleDetail', 'bind' => 'click.itemDetailToggle')));
 //		}
 	}
 	
@@ -199,6 +199,20 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	public function removeItemTool($item) {
 		return $this->Html->link('Remove', "/cart_item/remove/{$item['CartItem']['id']}", array('class' => 'tool remove', 'bind' => 'click.removeItem'));
+	}
+		
+	/**
+	 * Create the remove tool for a cart item
+	 * 
+	 * Does it's work through an ajax call
+	 * 
+	 * @param array $item
+	 * @return string
+	 */
+	public function wishListTool($item) {
+		return ($this->Session->read('Auth.User.id') 
+				? $this->Html->link('Save To Wish List', "/cart_item/to_wish/{$item['CartItem']['id']}", array('class' => 'tool wish', 'bind' => 'click.wishItem')) . ' • ' 
+				: '');
 	}
 		
 	/**

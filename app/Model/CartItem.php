@@ -188,6 +188,21 @@ class CartItem extends OrderItem {
 		));
 	}
 	
+	public function wish($id, $cart = false) {
+		if ($cart) {
+			// place wish item on cart here
+		} else {
+			return $this->save(array(
+				'CartItem' => array(
+					'id' => $id,
+					'order_id' => NULL,
+					'state' => 'Wish'
+				)
+			));
+		}
+	}
+
+
 	/**
 	 * Convert Items into an item array for paypal express checkout
 	 * 
