@@ -2,7 +2,10 @@
 
 <div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['CartItem']['id']}" ?>">
 	
-	<?php // echo $this->PurchasedProduct->modeToggle($item, 'Collapse', $isNewItem); ?> 
+	<?php
+		echo $this->Html->link('Add to cart', "/cart_item/wish/{$item['CartItem']['id']}", array('class' => 'tool wish', 'bind' => 'click.wishItem'))
+// echo $this->PurchasedProduct->modeToggle($item, 'Collapse', $isNewItem); 
+	?> 
 	
 	<div class="item_text">
 		<?php echo $this->PurchasedProduct->designName($item, $class); ?> 

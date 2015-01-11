@@ -211,7 +211,7 @@ class PurchasedProductHelper extends AppHelper {
 	 */
 	public function wishListTool($item) {
 		return ($this->Session->read('Auth.User.id') 
-				? $this->Html->link('Save To Wish List', "/cart_item/to_wish/{$item['CartItem']['id']}", array('class' => 'tool wish', 'bind' => 'click.wishItem')) . ' • ' 
+				? $this->Html->link('Save To Wish List', "/cart_item/wish/{$item['CartItem']['id']}", array('class' => 'tool wish', 'bind' => 'click.wishItem')) . ' • ' 
 				: '');
 	}
 		
