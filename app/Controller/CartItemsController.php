@@ -148,6 +148,11 @@ class CartItemsController extends AppController {
 		}
 	}
 	
+	/**
+	 * Send an item to the user's wish list
+	 * 
+	 * @param string $id
+	 */
 	public function wish($id) {
 		
 		if (!$this->Purchases->exists()) {
