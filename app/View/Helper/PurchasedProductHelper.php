@@ -155,7 +155,8 @@ class PurchasedProductHelper extends AppHelper {
 					'bind' => 'change.updateQuantity',
 					'value' => $item['CartItem']['quantity'],
 					'cart_item_id' => $item['CartItem']['id'],
-					'old_val' => $item['CartItem']['quantity']
+					'old_val' => $item['CartItem']['quantity'],
+					'before' => '<span id="check" style="opacity: 0; color: green;">✓ </span>'
 				)
 			);
 	}

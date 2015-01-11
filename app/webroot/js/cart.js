@@ -200,6 +200,7 @@ function updateQuantity(e) {
 			dataType: "HTML",
 			url: webroot+'cart_items/updateQuantity/' + id + '/' + qty,
 			success: function(data) {
+				qtyInput.siblings('#check').animate({opacity: 1,}, 100 ).delay(5000).animate({opacity: 0}, 1200);
 				// remove old flash messages
 				$('div.flash.message').remove();
 

@@ -236,6 +236,7 @@ fieldset#required_contact p {
 
 div#cart_checkout {
     position: relative;
+	float: left;
 }
 
 div.cover {
