@@ -15,7 +15,8 @@ $this->Html->output("<table>\n$record</table>\n");
 
 ?>
 </div>
-<div class="actions">
+<!--<div class="actions">-->
+<div>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit'), array('action' => 'edit'));?></li>
 	</ul>
@@ -28,6 +29,10 @@ $this->Html->output("<table>\n$record</table>\n");
         ?>
     </ul>
     <p><?php echo $this->Html->link(__('Change these options'), array('action'=>'opt_in')); ?></p>
+<?php
+	foreach($this->request->data['WishList'] as $wish) {
+		echo $this->element('Cart/wishlist', array('item' => array('CartItem' => $wish)));
+	}
+?>
 </div>
-
 
