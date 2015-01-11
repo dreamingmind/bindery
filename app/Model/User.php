@@ -97,7 +97,7 @@ class User extends AppModel {
             )
 	);
 	var $hasMany = array(
-			'OptinUser',
+		'OptinUser',
 		'WishList' => array(
 			'className' => 'OrderItem',
 			'foreignKey' => 'user_id',

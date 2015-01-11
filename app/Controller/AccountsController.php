@@ -78,10 +78,10 @@ class AccountsController extends AppController {
 					'User.id' => $this->Auth->user('id')
 				), 
 				'contain' => array(
-					'Optin',
+					'OptinUser',
 					'WishList'
 				)));
-			dmDebug::ddd($this->request->data, 'trd');
+				dmDebug::ddd($this->request->data, 'trd');
             $this->request->data['User']['password'] = 'Encrypted for security';
 	}
 
