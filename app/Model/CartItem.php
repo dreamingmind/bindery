@@ -188,18 +188,29 @@ class CartItem extends OrderItem {
 		));
 	}
 	
-	public function wish($id, $cart = false) {
-		if ($cart) {
-			// place wish item on cart here
-		} else {
-			return $this->save(array(
-				'CartItem' => array(
-					'id' => $id,
-					'order_id' => NULL,
-					'state' => 'Wish'
-				)
-			));
-		}
+	/**
+	 * Move a cart item to the user's wish list
+	 * 
+	 * The 
+	 * 
+	 * @param string $id
+	 * @return boolean
+	 */
+	public function wish($id) {
+		$this->id = $id;
+		$item_type = $this->field('type');
+		return $this->saveAssociated(array(
+			'CartItem' => array(
+				'id' => $id,
+				'order_id' => NULL,
+				'state' => 'Wish',
+				'type' => 'WishList'
+			),
+			'Supplement' => array(
+				'type' => 'product_type',
+				'data' => $item_type
+			)
+		));
 	}
 
 

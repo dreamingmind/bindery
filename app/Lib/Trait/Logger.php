@@ -12,6 +12,8 @@ Trait Logger {
 	public $placeArtMessage = "++ %s, numbers %s were stored in %s.";
 	
 	public $guardMessage = "Guard violation in %s line %s\n\t%s\n%s\n-----------------------END----------------------------\n\n";
+	
+	public $typeMemoMessage = "\n!! The TypeMemo failed to delete and prevented the user from move their wish list item to their cart\n%s\n-----------------------END----------------------------\n\n";
 
 	/**
 	 * log a arguement guard violation
@@ -54,6 +56,11 @@ Trait Logger {
 	public function logRemoveCartItem($cart_item) {
 		$message = var_export($cart_item, TRUE);
 		$this->log(sprintf($this->removeCartItemMessage, $message), 'cart_activity');
+	}
+	
+	public function logTypeMemoDeletionFailure($data) {
+		$message = var_export($cart_item, TRUE);
+		$this->log(sprintf($this->typeMemoMessage, $message), 'cart_activity');
 	}
 	
 	public function logRetractLastMessage($process_name, $log_name) {

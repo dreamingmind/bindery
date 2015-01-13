@@ -1,9 +1,29 @@
-<?php $class = 'item_detail'; ?>
+<?php
+$class = 'item_detail';
+$item_id = $item['CartItem']['id'];
+?>
 
-<div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item['CartItem']['id']}" ?>">
+<div class="<?php echo $class; ?>" id="<?php echo "cart_item-{$item_id}" ?>">
 	
 	<?php
-		echo $this->Html->link('Add to cart', "/cart_item/wish/{$item['CartItem']['id']}", array('class' => 'tool wish', 'bind' => 'click.wishItem'))
+		echo $this->Form->create('WishList', array(
+			'id' => "WishListForm_$item_id"
+		));
+		echo $this->Form->input('id', array(
+			'type' => 'hidden',
+			'value' => $item_id
+		));
+		echo $this->Form->input('TypeMemo.id', array(
+			'type' => 'hidden',
+			'value' => $item['CartItem']['TypeMemo']['id']
+		));
+		echo $this->Form->input('TypeMemo.type', array(
+			'type' => 'hidden',
+			'value' => $item['CartItem']['TypeMemo']['data']
+		));
+//		echo $this->Html->link('Add to cart', "/cart_item/wish/{$item_id}", array('class' => 'tool wish', 'bind' => 'click.addToCart'));
+		echo $this->Form->button($this->Cart->submitItemButtonLabel($purchaseCount), array('class' => 'tool wish', 'bind' => 'click.addToCart'));
+		echo $this->Form->end();
 // echo $this->PurchasedProduct->modeToggle($item, 'Collapse', $isNewItem); 
 	?> 
 	

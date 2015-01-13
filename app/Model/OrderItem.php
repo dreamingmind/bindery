@@ -96,4 +96,15 @@ class OrderItem extends AppModel {
 			'order' => ''
 		)
 	);
+	public $hasOne = array(
+		'TypeMemo' => array(
+			'className' => 'Supplement',
+			'foreignKey' => 'order_item_id',
+			'dependent' => TRUE,
+			'conditions' => "type = 'product_type'",
+			'fields' => array('id', 'data'),
+			'order' => ''
+		)
+	);
+
 }

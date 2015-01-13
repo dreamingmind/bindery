@@ -79,7 +79,9 @@ class AccountsController extends AppController {
 				), 
 				'contain' => array(
 					'OptinUser',
-					'WishList'
+					'WishList' => array(
+						'TypeMemo'
+					)
 				)));
             $this->request->data['User']['password'] = 'Encrypted for security';
 	}

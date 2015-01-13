@@ -119,7 +119,7 @@ div[id*=cart_] > div.item_detail, div[id*=cart_] > div.item_summary {
 	
 div.item_text {
     display: inline-block;
-    width: 75%;
+    width: 74%;
 }
 
 .item_tools p {
