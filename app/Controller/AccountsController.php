@@ -81,7 +81,6 @@ class AccountsController extends AppController {
 					'OptinUser',
 					'WishList'
 				)));
-				dmDebug::ddd($this->request->data, 'trd');
             $this->request->data['User']['password'] = 'Encrypted for security';
 	}
 
