@@ -51,6 +51,13 @@ function addToCart(e) {
 		error: function(data) {
 			// ********************************************************************************************* This looks like stub code!
 			alert('AJAX ERROR\n' + data);
+//			function(xhr, status, error) {
+//				var exception = xhr.responseText.match(/Invalid cart/);
+//				if (exception == 'Invalid cart') {
+//					$('div#cart_item-'+id).html('<p>The item was not found in your cart.</p><p>Try refreshing your page to get things sorted out.</p>');
+//				}
+//				bindHandlers('div#cart_item-'+id);
+//			}
 		}
 	})
 }
@@ -243,11 +250,11 @@ function wishItem(e) {
 	var id = $(e.currentTarget).attr('href').match(/wish\/(\d*)/)[1];
 	$.ajax({
 		type: "POST",
-		dataType: "HTML",
+		dataType: "JSON",
 		data: '',
 		url: webroot + 'cart_items/wish/' + id,
 		success: function (data) {
-			
+			removalSuccess(data, id);
 		},
 		error: function (data) {
 			
@@ -274,59 +281,10 @@ function removeItem(e) {
 	
 	$.ajax({
 		type: "DELETE",
-		dataType: "HTML",
+		dataType: "JSON",
 		url: webroot + 'cart_items/remove/' + id,
 		success: function(data) {
-			// get rid of any remaining flash messages. multiples don't work right
-			$('div.flash').remove();
-			
-			// update the badge
-			var newBadge = $(data).find('#cart_badge');
-			$(cartBadge).replaceWith(newBadge);
-			
-			// update the cart subtotal
-			var newSubtotal = $(data).find('p > span.cart_subtotal').html();
-			$(subtotal).html(newSubtotal);
-			
-			// success/failure messages get placed differently in the DOM
-			var was = data.match(/was removed/);
-			var was_not = data.match(/was not removed/);
-			var empty = data.match(/Your cart is empty./);
-			if (was == 'was removed') {
-				$('div#cart_item-'+id).replaceWith($(data).find('div.flash'));
-				if (cartCount() == '0') {
-					$('#successMessage span').html('Your cart is empty.');
-				}
-				bindHandlers('#successMessage');
-			} else if (was_not == 'was not removed') {
-				$('div#cart_item-'+id).prepend($(data).find('div.flash'));
-				bindHandlers('div#cart_item-'+id);
-			} else if (empty == 'Your cart is empty.') {
-				// swap out all content for this flash message
-				if ($('#cart_pallet').length > 0 ) {
-					var continueButton = $('#continue').clone(true);
-					$('#cart_pallet').html($(data).find('div#emptyMessage'));
-					$('#cart_pallet').append(continueButton);
-					$('#continue').addClass('hide');
-				} else if ($('#checkout').length > 0 ) {
-					$('#checkout').html($(data).find('div#emptyMessage'));
-				}
-			}
-			if (was == 'was removed' || empty == 'Your cart is empty.') {
-				var url = $(data).find('#url').html();
-				$.ajax({
-					type: "GET",
-					dataType: "HTML",
-					url: url,
-					success: function (data) {
-						
-					},
-					error: function (data) {
-						
-					}
-				})
-
-			}
+			removalSuccess(data, id);
 		},
 		error: function(xhr, status, error) {
 			var exception = xhr.responseText.match(/Invalid cart/);
@@ -338,6 +296,61 @@ function removeItem(e) {
 	})
 
 }
+
+	function removalSuccess(data, id) {
+		var cartBadge = $('#cart_badge');
+		var subtotal = $('div.cart_summary > p > span.cart_subtotal')
+	
+		// get rid of any remaining flash messages. multiples don't work right
+		$('div.flash').remove();
+
+		// update the badge
+//			var newBadge = $(data).find('#cart_badge');
+		$(cartBadge).replaceWith(data.cart_badge);
+
+		// update the cart subtotal
+//			var newSubtotal = $(data).find('p > span.cart_subtotal').html();
+		$(subtotal).html(data.cart_subtotal);
+
+		// success/failure messages get placed differently in the DOM
+		if (data.result === 'success') {
+			$('div#cart_item-' + id).replaceWith(data.flash);
+//				if (cartCount() == '0') {
+//					$('#successMessage span').html('Your cart is empty.');
+//				}
+			bindHandlers('#successMessage');
+
+		} else if (data.result === 'failure') {
+			$('div#cart_item-' + id).prepend(data.flash);
+			bindHandlers('div#cart_item-' + id);
+
+		} else if (data.result === 'empty') {
+			// swap out all content for this flash message
+			if ($('#cart_pallet').length > 0) {
+				var continueButton = $('#continue').clone(true);
+				$('#cart_pallet').html(data.flash);
+				$('#cart_pallet').append(continueButton);
+				$('#continue').addClass('hide');
+			} else if ($('#checkout').length > 0) {
+				$('#checkout').html(data.flash);
+			}
+		}
+		if (was == 'was removed' || empty == 'Your cart is empty.') {
+//				var url = $(data).find('#url').html();
+//				$.ajax({
+//					type: "GET",
+//					dataType: "HTML",
+//					url: url,
+//					success: function (data) {
+//						
+//					},
+//					error: function (data) {
+//						
+//					}
+//				})
+
+		}
+	}			
 
 /**
  * Dismiss the shopping cart

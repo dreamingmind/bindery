@@ -133,10 +133,14 @@ class CartItemsController extends AppController {
 		$this->CartItem->unbindModel(array('belongsTo' => array('User')));
 		if ($this->CartItem->delete()) {
 			$this->Session->setFlash(__('The item was removed from your cart.'), 'f_success');
+			$this->set('result', $this->Purchases->itemCount() > 0 ? 'success' : 'empty');
 			$this->logRemoveCartItem($cart_item);
 //			$this->redirect(array('action' => 'index'));
+			
 		} else {
 			$this->Session->setFlash(__('The item was not removed from cart. Please try again.'), 'f_error');
+			$this->set('result', 'failure');
+
 		}
 		// cart_item/remove calls from cart_ui go to the Purchases component 
 		// which calls here for the actual record deletion. Always an ajax sequence
@@ -155,19 +159,20 @@ class CartItemsController extends AppController {
 	 */
 	public function wish($id) {
 		
+		if ($this->CartItem->wish($id)) {
+			$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
+			$this->Session->setFlash(__('The item was sent to your wish list.'), 'f_success');
+			$this->set('result', $this->Purchases->itemCount() > 0 ? 'success' : 'empty');
+			$this->Purchases->wish($id);
+		} else {
+			$this->Session->setFlash(__('The process was not succesful. Please try again.'), 'f_error');
+			$this->set('result', 'failure');
+		}
 		if (!$this->Purchases->exists()) {
 			$this->set('url', $this->Checkout->lastItemRedirect());
-			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
+			$this->Session->setFlash('The item was sent to your wish list. Your cart is empty.', 'f_emptyCart');
 			$this->set('cartSubtotal', '0');
 			
-		} else {
-			if ($this->CartItem->wish($id)) {
-				$this->set('cartSubtotal', $this->CartItem->cartSubtotal($this->Session));
-				$this->Session->setFlash(__('The item was sent to your wish list.'), 'f_success');
-				$this->Purchases->wish($id);
-			} else {
-				$this->Session->setFlash(__('The process was not succesful. Please try again.'), 'f_error');
-			}
 		}
 		$this->layout = 'ajax';
 		$this->render("/Ajax/cart_remove_result");
