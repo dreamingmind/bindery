@@ -22,7 +22,7 @@ $item_id = $item['CartItem']['id'];
 			'value' => $item['CartItem']['TypeMemo']['data']
 		));
 //		echo $this->Html->link('Add to cart', "/cart_item/wish/{$item_id}", array('class' => 'tool wish', 'bind' => 'click.addToCart'));
-		echo $this->Form->button($this->Cart->submitItemButtonLabel($purchaseCount), array('class' => 'tool wish', 'bind' => 'click.addToCart'));
+		echo $this->Form->button($this->Cart->submitItemButtonLabel($purchaseCount), array('class' => 'tool wish', 'bind' => 'click.addWishToCart'));
 		echo $this->Form->end();
 // echo $this->PurchasedProduct->modeToggle($item, 'Collapse', $isNewItem); 
 	?> 

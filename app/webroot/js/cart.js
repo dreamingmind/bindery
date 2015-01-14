@@ -46,7 +46,11 @@ function addToCart(e) {
 			$('div#pgMask').addClass('cover').on('click', function(e) {
 				$('button#continue').trigger('click');
 			});
-			
+			if ($.wish) {
+				$($.wish).remove();
+				$.wish = false;
+			}
+				
 		},
 		error: function(data) {
 			// ********************************************************************************************* This looks like stub code!
@@ -60,6 +64,11 @@ function addToCart(e) {
 //			}
 		}
 	})
+}
+
+function addWishToCart(e) {
+	$.wish = '#cart_item-' + $(e.currentTarget).parents('form').attr('id').match(/\d+/)[0];
+	addToCart(e);
 }
 
 function saveChangesToCart(e) {
