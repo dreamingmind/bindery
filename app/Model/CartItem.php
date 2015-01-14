@@ -86,7 +86,7 @@ class CartItem extends OrderItem {
 			'className' => 'Supplement',
 			'foreignKey' => 'order_item_id',
 			'dependent' => TRUE,
-			'conditions' => '',
+			'conditions' => 'Supplement.type = \'POST\'',
 			'fields' => '',
 			'order' => ''
 		)
