@@ -101,6 +101,8 @@ if (isset($cart['Cart'])) {
 //echo "</div>\n";
 }
 ?>
+<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">
+<img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
 <!-- 
 ==============================================
 Shopping cart complete
