@@ -10,4 +10,3 @@ app/Plugin/Upload
 app/Plugin/Markdown
 app/Plugin/Paypal
 app/Plugin/PayPalSource
-app/Plugin/AddressModule copy
