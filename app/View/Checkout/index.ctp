@@ -1,3 +1,4 @@
+<!-- View/Checkout/index.ctp -->
 <?php
 /**
  * This assembles the cart ui as a floating pallet for on-page review 
@@ -23,8 +24,10 @@ $this->end();
 	echo $this->Form->create('Cart');
 	
 		echo $this->element('email');
+		echo $this->element('AddressModule.simple_address_review', array('alias' => 'Shipping', 'address' => $this->request->data('Shipping')));
 		echo $this->element('AddressModule.simple_address_input', array('alias' => 'Shipping'));
 		echo $this->Form->input('Same', array('label' => 'Billing same as Shipping', 'checked' => TRUE, 'type' => 'checkbox', 'bind' => 'change.set_billing', 'id' => 'CartSame')) . '<br />';
+		echo $this->element('AddressModule.simple_address_review', array('alias' => 'Billing', 'address' => $this->request->data('Billing'))); 
 		echo $this->element('AddressModule.simple_address_input', array('alias' => 'Billing')); 
 		if (!is_null($this->Session->read('Auth.User.id'))) {
 			echo $this->Form->input('Update', array('label' => 'Update my account with these addresses', 'checked' => FALSE, 'type' => 'checkbox'));
@@ -42,3 +45,4 @@ if (count($cart) == 0) {
 }
 ?>
 </div>
+<!-- END View/Checkout/index.ctp END -->
