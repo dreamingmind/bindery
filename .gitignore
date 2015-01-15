@@ -1,10 +1,13 @@
 app/webroot/img/images/*.*
 app/webroot/img/images/*
 app/tmp/
-app/Plugin/
 app/Config/
 nbproject
 app/webroot/img/materials
 lib/Cake/Cache/.DS_Store
 .DS_Store
 app/Plugin/Upload
+app/Plugin/Markdown
+app/Plugin/Paypal
+app/Plugin/PayPalSource
+app/Plugin/AddressModule copy
