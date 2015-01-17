@@ -23,6 +23,8 @@ $this->end();
 <div id="required_data">
 	<h3 class="entry">Choose a payment method</h3>
 	<?php 
+	echo $this->element('AddressModule.simple_address_review_dynamic', array('alias' => 'Billing', 'address' => $this->request->data('Billing')));
+	echo $this->element('AddressModule.simple_address_review_dynamic', array('alias' => 'Shipping', 'address' => $this->request->data('Shipping')));
 //	echo $this->Form->create('Cart');
 //	
 //		echo $this->element('email');

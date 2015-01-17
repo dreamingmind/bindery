@@ -53,14 +53,14 @@ if($merged_supplements){
                 $tempParams['record']['id']=$merged_supplements['Stored--id'][$key];
             }
             $tempParams['linkNumber'] = $count++;
-            $parameters['post_fields'] .= oneInput($form_helper, $tempParams);
+            $parameters['post_fields'] .= oneInput($this->form, $tempParams);
         }
     }
     
 } else {
     $tempParams['linkNumber'] = 0;
     $tempParams['record'] = array('type'=>'','data'=>'');
-    $parameters['post_fields'] = oneInput($form_helper, $tempParams);
+    $parameters['post_fields'] = oneInput($$this->form, $tempParams);
 }
 
 $parameters['prefix'] = $parameters['record'] = $parameters['linkNumber'] = false;
@@ -151,7 +151,7 @@ echo $this->Fieldset->fieldset($parameters);
         $id_attr = preg_replace(array('/\[/','/\]/'),'', $name);
         $storage = (isset($params['record']['id']))?'STORED - ':'DEFAULT - ';
         
-        $i1 = $this->Form->input($storage . 'Supplement Value',array(
+        $i1 = $form->input($storage . 'Supplement Value',array(
             'name'=>$name.'[type]',
             'class'=>'supplement_list ' . $id_attr,
             'id'=>false,
@@ -159,7 +159,7 @@ echo $this->Fieldset->fieldset($parameters);
             'value'=>$params['record']['type']
             ))
         .'&nbsp;=>&nbsp;'.
-        $this->Form->input('supplement_list',array(
+        $form->input('supplement_list',array(
             'name'=> $name.'[data]',
             'class'=>'supplement_list live_update',
             'id'=>$id_attr,
@@ -167,7 +167,7 @@ echo $this->Fieldset->fieldset($parameters);
             'label'=>false,
             'value'=>$params['record']['data']
             ))
-        .$this->Form->input('supplement_list',array(
+        .$form->input('supplement_list',array(
             'name'=> $name.'[content_collection_id]',
             'type'=>'hidden',
             'class'=>false,
@@ -178,7 +178,7 @@ echo $this->Fieldset->fieldset($parameters);
                 ?$params['content_collection_id']
                 :''
             ))
-        .$this->Form->input('supplement_list',array(
+        .$form->input('supplement_list',array(
             'name'=> $name.'[id]',
             'type'=>'hidden',
             'class'=>false,

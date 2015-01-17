@@ -4,7 +4,7 @@ echo '<DIV class="formContent">';
     echo $this->Session->flash();
     echo $this->Html->div('', $this->element('supplementForm_dataFields',array(
         'data'=>$packet[0],
-        'form_helper'=>$form,
+        'form_helper'=>$this->Form,
         'prefix'=>array('ContentCollection','0'),
         'supplement_defaults' => $packet[0]['ContentCollection'][0]['Collection']['Category']['supplement_list'],
         'supplements' => $packet[0]['ContentCollection'][0]['Supplement'],

@@ -29,7 +29,9 @@
     echo $this->Html->css($css);
     
     echo $this->Html->script($scripts);
-	echo $this->Html->script('AddressModule.address_module');
+	
+	echo $this->element('AddressModule.address_module_resources');
+
 	echo $this->fetch('scripts');
     echo $scripts_for_layout;
     ?>
