@@ -51,7 +51,7 @@ class CheckoutController extends AppController implements Checkout {
 		}
 		
 		if ($this->Cart->cartExists()) {
-			$cart = $this->Cart->retrieve();
+			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$this->Checkout->doNoCartRedirect();
 		}
@@ -119,7 +119,7 @@ class CheckoutController extends AppController implements Checkout {
 	public function method() {
 		
 		if ($this->Cart->cartExists()) {
-			$cart = $this->Cart->retrieve();
+			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$this->Checkout->doNoCartRedirect();
 		}
@@ -168,7 +168,7 @@ class CheckoutController extends AppController implements Checkout {
         $this->setupPaypalClassic();
 		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
 		$this->Paypal->doExpressCheckoutPayment();
-		$this->request->data = $this->Cart->retrieve();
+		$this->request->data = $this->Purchases->retrieveCart();
 	}
 	
 	/**
@@ -180,7 +180,7 @@ class CheckoutController extends AppController implements Checkout {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
 		$this->scripts[] = 'order_addresses';
-		$this->request->data = $this->Cart->retrieve();		
+		$this->request->data = $this->Purchases->retrieveCart();		
 	}
 	
 	/**

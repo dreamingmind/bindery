@@ -59,7 +59,7 @@ class CartsController extends AppController {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
 		if ($this->Cart->cartExists()) {
-			$cart = $this->Cart->retrieve();
+			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$cart = array();
 		}
@@ -109,7 +109,7 @@ class CartsController extends AppController {
 			$this->log(json_encode($response), 'cart');
 
 
-			$this->request->data = $this->Cart->retrieve();
+			$this->request->data = $this->Purchases->retrieveCart();
 			$shipAddress = array('Address' => array(
 					'id' => $this->request->data['Cart']['ship_id'] == '' ? NULL : $this->request->data['Cart']['ship_id'],
 					'name1' => $response['SHIPTONAME'],
@@ -162,7 +162,7 @@ class CartsController extends AppController {
         $this->setupPaypalClassic();
 		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
 		$this->Paypal->doExpressCheckoutPayment();
-		$this->request->data = $this->Cart->retrieve();
+		$this->request->data = $this->Purchases->retrieveCart();
 	}
 	
 	/**
@@ -265,7 +265,7 @@ class CartsController extends AppController {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
 		$this->scripts[] = 'order_addresses';
-		$this->request->data = $this->Cart->retrieve();		
+		$this->request->data = $this->Purchases->retrieveCart();		
 	}
 	
 	/**

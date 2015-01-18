@@ -137,6 +137,15 @@ class PurchasesComponent extends Component {
 	public function itemCount() {
 		return $this->Cart->count($this->Session);
 	}
+	
+	/**
+	 * Get the current cart and its items
+	 * 
+	 * @return type
+	 */
+	public function retrieveCart() {
+		return $this->Cart->retrieve();
+	}
 		
 	/**
 	 * Does the logged in or anonomous user have a cart 
@@ -144,7 +153,7 @@ class PurchasesComponent extends Component {
 	 * @return boolean
 	 */
 	public function exists() {
-		return $this->Cart->cartExists($this->Session);
+		return $this->Cart->cartExists();
 	}
 	
 	public function verifyCartVolume() {
@@ -179,7 +188,7 @@ class PurchasesComponent extends Component {
 	public function add() {
 		if ($this->controller->request->is('POST')) {
 			try {
-				$cart = $this->Cart->retrieve();
+				$cart = $this->retrieveCart();
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->controller->request->data, $cart);
 				$this->CartItem = ClassRegistry::init($this->cartItemModel);
@@ -190,7 +199,7 @@ class PurchasesComponent extends Component {
 		}
 		$this->controller->layout = 'ajax';
 		$this->controller->set('new', $this->CartItem->id);
-		$cart = $this->Cart->retrieve();
+		$cart = $this->retrieveCart();
 		$this->controller->set('cart', $cart);
 	}
 	
@@ -201,7 +210,7 @@ class PurchasesComponent extends Component {
 //		dmDebug::ddd($this->controller->request->data, 'trd');die;
 		if ($this->controller->request->is('POST')) {
 			try {
-				$cart = $this->Cart->retrieve();
+				$cart = $this->retrieveCart();
 				// the factory will make the proper concrete product after examining t->c->r->data
 				$this->product = PurchasedProductFactory::makeProduct($this->controller->request->data, $cart);
 				// inject the new data (there are some problems handling all the constuct variations)
@@ -214,7 +223,7 @@ class PurchasesComponent extends Component {
 		}
 		$this->controller->layout = 'ajax';
 		$this->controller->set('new', $this->CartItem->id);
-		$cart = $this->Cart->retrieve();
+		$cart = $this->retrieveCart();
 		$this->controller->set('cart', $cart);
 	}
 
@@ -230,7 +239,7 @@ class PurchasesComponent extends Component {
 		try {
 			$this->CartItem = ClassRegistry::init($this->cartItemModel);
 			$cartItem = $this->CartItem->retrieve($id);
-			$this->product = PurchasedProductFactory::makeProduct($cartItem, $this->Cart->retrieve());
+			$this->product = PurchasedProductFactory::makeProduct($cartItem, $this->retrieveCart());
 			$item = $this->product->updateQuantity($id, $qty);
 			return $this->CartItem->saveAssociated($item);
 		} catch (Exception $exc) {
@@ -246,7 +255,7 @@ class PurchasesComponent extends Component {
 	public function sourceFormData($id) {
 		$this->CartItem = ClassRegistry::init($this->cartItemModel);
 		$cartItem = $this->CartItem->retrieve($id);
-		$this->product = PurchasedProductFactory::makeProduct($cartItem, $this->Cart->retrieve());
+		$this->product = PurchasedProductFactory::makeProduct($cartItem, $this->retrieveCart());
 		return $this->product->data();
 	}
 
