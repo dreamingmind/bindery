@@ -50,7 +50,7 @@ class CheckoutController extends AppController implements Checkout {
 			// handle possible return from address due to data problems
 		}
 		
-		if ($this->Cart->cartExists()) {
+		if ($this->Purchases->cartExists()) {
 			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$this->Checkout->doNoCartRedirect();
@@ -118,7 +118,7 @@ class CheckoutController extends AppController implements Checkout {
 	
 	public function method() {
 		
-		if ($this->Cart->cartExists()) {
+		if ($this->Purchases->cartExists()) {
 			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$this->Checkout->doNoCartRedirect();

@@ -58,7 +58,7 @@ class CartsController extends AppController {
 	public function checkout() {
 		$this->layout = 'noThumbnailPage';
 		$this->set('contentDivIdAttr', 'checkout');
-		if ($this->Cart->cartExists()) {
+		if ($this->Purchases->cartExists()) {
 			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$cart = array();

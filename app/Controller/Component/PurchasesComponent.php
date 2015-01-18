@@ -115,7 +115,7 @@ class PurchasesComponent extends Component {
 	 * @return array
 	 */
 	public function cartContact() {
-		if ($this->Cart->cartExists()) {
+		if ($this->cartExists()) {
 			$contact = $this->Cart->getContactData();
 		} elseif ($this->controller->Auth->user()) {
 			$contact = array('Cart' => array(
@@ -135,7 +135,7 @@ class PurchasesComponent extends Component {
 	 * @return int
 	 */
 	public function itemCount() {
-		return $this->Cart->count($this->Session);
+		return $this->Cart->count();
 	}
 	
 	/**
@@ -152,7 +152,7 @@ class PurchasesComponent extends Component {
 	 * 
 	 * @return boolean
 	 */
-	public function exists() {
+	public function cartExists() {
 		return $this->Cart->cartExists();
 	}
 	

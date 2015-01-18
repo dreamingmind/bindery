@@ -168,7 +168,7 @@ class CartItemsController extends AppController {
 			$this->Session->setFlash(__('The process was not succesful. Please try again.'), 'f_error');
 			$this->set('result', 'failure');
 		}
-		if (!$this->Purchases->exists()) {
+		if (!$this->Purchases->cartExists()) {
 			$this->set('url', $this->Checkout->lastItemRedirect());
 			$this->Session->setFlash('The item was sent to your wish list. Your cart is empty.', 'f_emptyCart');
 			$this->set('cartSubtotal', '0');
@@ -189,7 +189,7 @@ class CartItemsController extends AppController {
 	public function remove($id) {
 		$this->Purchases->remove($id);
 		
-		if (!$this->Purchases->exists()) {
+		if (!$this->Purchases->cartExists()) {
 			$this->set('url', $this->Checkout->lastItemRedirect());
 			$this->Session->setFlash('Your cart is empty.', 'f_emptyCart');
 			$this->set('cartSubtotal', '0');
