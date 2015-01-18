@@ -1,5 +1,6 @@
 <?php
 App::uses('Biscuit', 'Lib');	
+App::uses('CartToolKit', 'Lib');	
 App::uses('PurchasedProductFactory', 'Lib/PurchaseUtilities');
 
 /**
@@ -144,7 +145,9 @@ class PurchasesComponent extends Component {
 	 * @return type
 	 */
 	public function retrieveCart() {
-		return $this->Cart->retrieve();
+		$cart = $this->Cart->retrieve();
+		$kit = $cart['toolKit'] = new CartToolKit($cart);
+		return $cart;
 	}
 		
 	/**
