@@ -8,15 +8,30 @@
  *
  * @author dondrake
  */
-interface Checkout {
+interface CheckoutInterface {
 	
+	/**
+	 * The initial landing page for a checkout process
+	 */
 	public function index();
 	
+	/**
+	 * Collect or process address information for the order
+	 */
 	public function address();
 	
+	/**
+	 * Negotiate a payment with the user
+	 */
 	public function method();
 	
+	/**
+	 * Final oportunity for the user to review and confirm the order details
+	 */
 	public function confirm();
 
+	/**
+	 * The record of the completed order
+	 */
 	public function recipt();
 }

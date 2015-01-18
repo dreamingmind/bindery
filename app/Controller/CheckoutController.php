@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-App::uses('Checkout', 'Lib');
+App::uses('CheckoutInterface', 'Lib');
 App::uses('AddressModule.Address', 'Model');
 
 /**
@@ -10,7 +10,7 @@ App::uses('AddressModule.Address', 'Model');
  * 
  * @author dondrake
  */
-class CheckoutController extends AppController implements Checkout {
+class CheckoutController extends AppController implements CheckoutInterface {
 
 	public $helpers = array('PurchasedProduct', 'Cart' => array('className' => 'cartNewEntry'));
 
