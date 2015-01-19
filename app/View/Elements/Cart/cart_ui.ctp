@@ -3,18 +3,11 @@
 // At this point we have:
 // $new = the id of the just added cart item (goes to FALSE if checkout process request)
 // $cart = the array of all cart items and their linked data
-// $cartClass = cart_pallet or cart_checkout, this value is set by the calling view
-//		cart_pallet is the overlay div that results when clicking a purchase button
-//		cart_checkout is the first page of the checkout process where you review 
-//			the cart and choose a payment method
 
 // First the items are processed to assemble all the item entries. 
 // Detail and Summary fetch-blocks are assembled without direct output.
 // A json object of toggleData is assembled by sub-processes and this 
 // data will support the expand/collapse feature of these item blocks. 
-
-// The blocks contain many child elements, so prepare to drill down 
-// if you decide to follow these element calls.  
 
 $new = isset($new) ? $new : FALSE;
 
@@ -52,59 +45,44 @@ if (isset($cart['CartItem'])) {
 		}
 	}
 }
+$count_statement = "{$cart['toolkit']->itemCount()} item" . (($cart['toolkit']->itemCount() == 1) ? '' : 's');
 ?>
 <!-- 
 ==============================================
-This is the shopping cart output for both
+This is the shopping cart item output for both
 the on-page pallet view of the cart
-and thecheckout page view of the cart
+and the checkout page view of the cart
 ==============================================
 -->
 <?php
-
 if (isset($cart['Cart'])) {
-	echo "<!-- open the div -->\n";
-//	echo $this->Html->div(NULL, NULL, array('id' => $cartClass));
-	echo $this->Html->tag('h3', 'Items in your cart', array('class' => 'checkout'));
-//	echo $this->PurchasedProduct->cartContactHeader($cart);
+	echo "<!-- output the shopping cart item list -->\n";
+	echo $this->Html->tag('h3', "The $count_statement in your cart", array('class' => 'checkout'));
 }
-
 	echo $this->fetch('new');
 	echo $this->fetch('existing');
-//	if (count($cart) > 0) {
-//		echo $this->element('Cart/cart_summary', array('cartSubtotal' => $prices->subtotal));
-//		echo $this->element('Cart/button_block', array('cartClass' => $cartClass, 'cart' => $cart));
-//	}
 	
 // This section places the json object on the page which supports
 // detail toggling of cart itmes. Pallet and view require different handling.
-
+//
 // On the checkout page, add the data to other global variables
-if ($cartClass === 'cart_checkout') {
+if ($cartClass === 'cart_checkout') :
 	$this->append('jsGlobalVars');
 		echo 'var toggleData = ' . json_encode($this->PurchasedProduct->toggleData) . ';';
 	$this->end();
-} else {
+else :
 // The pallet, on the other hand, gets the data embedded right in the html response
 ?>
-
 <script type=\"text/javascript\">
 	//<![CDATA[
 	// Data pack for expand/collapse of item sections
 	var toggleData = <?php echo json_encode($this->PurchasedProduct->toggleData) ?>;
 	//]]>
 </script>
+<?php endif ?>
 
-<?php
-}
-if (isset($cart['Cart'])) {
-//echo "</div>\n";
-}
-?>
-<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">
-<img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
 <!-- 
 ==============================================
-Shopping cart complete
+Shopping cart item list complete
 ==============================================
 -->
