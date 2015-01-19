@@ -10,6 +10,6 @@ $cartClass = 'cart_pallet';
 <div id="cart_pallet">
 <?php
 echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));
-echo $this->element('Cart/button_block', array('cartClass' => $cartClass, 'cart' => $cart));
+echo $this->element('Cart/cart_pallet_button_block', array('cartClass' => $cartClass, 'cart' => $cart));
 ?>
 </div>
