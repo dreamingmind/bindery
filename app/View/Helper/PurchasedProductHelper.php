@@ -49,6 +49,51 @@ class PurchasedProductHelper extends AppHelper {
 	}
 	
 	/**
+	 * Return the HTML for the specified button
+	 * 
+	 * Generate the buttons required for cart and checkout processes
+	 * checkout, express (paypal), creditcard, check, quote, continue
+	 * 
+	 * @param string $type 
+	 * @param object $toolkit The CartToolKit
+	 */
+	public function checkoutButton($type, CartToolKit $toolkit) {
+		switch ($type) {
+			case 'checkout':
+				return $this->Form->button('Checkout', array(
+					'id' => 'continue',
+					'bind' => 'click.continueShopping',
+					'href' => $href
+				));
+				//<button id="continue" <?php echo $href;  bind="click.continueShopping">Continue Shopping</button>
+				break;
+			case 'express' : // && !$toolkit->mustQuote():
+				echo !$toolkit->mustQuote() ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
+				break;
+			case 'creditcard' :// && !$toolkit->mustQuote():
+				echo !$toolkit->mustQuote() ? "<button>Credit Card</button>" : '';
+				break;
+			case 'check' :// && !$toolkit->mustQuote():
+				echo !$toolkit->mustQuote() ? "<button>Pay by Check</button>" : '';
+				break;
+			case 'quote' :
+				echo !$toolkit->mustPay() ? "<button>Recieve a Quote</button>" : '';
+				break;
+			case 'continue':
+				return $this->Form->button('Continue Shopping', array(
+					'id' => 'continue',
+					'bind' => 'click.continueShopping',
+					'href' => ''//$href
+				));
+				break;
+
+			default:
+				break;
+		}
+	}
+
+
+	/**
 	 * Save expand/collapse item-text data for assembly into a json package
 	 * 
 	 * On a cart page, each item has a text section which displays 
