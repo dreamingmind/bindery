@@ -146,7 +146,7 @@ class PurchasesComponent extends Component {
 	 */
 	public function retrieveCart() {
 		$cart = $this->Cart->retrieve();
-		$kit = $cart['toolKit'] = new CartToolKit($cart);
+		$cart['toolkit'] = new CartToolKit($cart);
 		return $cart;
 	}
 		
