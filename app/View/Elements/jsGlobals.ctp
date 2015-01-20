@@ -8,7 +8,7 @@
 	
 	echo "var webroot = '{$this->request->webroot}';\r";
 	echo "var action = '{$this->request->params['action']}/';\r";
-	echo "var controller = '{$this->request->params['action']}/';\r";
+	echo "var controller = '{$this->request->params['controller']}/';\r";
 	echo "var imagePath = '{$this->request->webroot}app/webroot/img/';\r";	
 	
 	echo "\r//]]>

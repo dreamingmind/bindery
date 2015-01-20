@@ -371,7 +371,7 @@ function removeItem(e) {
  * @returns {void}
  */
 function continueShopping(e) {
-	if (action == 'checkout/') {
+	if (controller == 'checkout/') {
 		location.assign($(e.currentTarget).attr('href'));
 	} else {
 		$('#pgMask').removeClass('cover').off('click');
