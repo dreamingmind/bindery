@@ -7,9 +7,9 @@
 		<?php echo $this->PurchasedProduct->optionList($item, $class); ?> 		
 	</td>
 	<td>
-			<?php echo $this->PurchasedProduct->itemQuantity($item); ?> 
+			<?php echo $this->PurchasedProduct->itemQuantitySummary($item); ?> 
 			at 
-			<?php echo $this->PurchasedProduct->itemPrice($item, $prices); ?> 
+			<?php echo $this->PurchasedProduct->itemPrice($item); ?> 
 	</td>
 	<td>
 			$<?php echo $this->PurchasedProduct->itemTotal($item); ?> 

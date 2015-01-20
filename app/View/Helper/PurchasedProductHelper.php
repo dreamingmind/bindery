@@ -231,6 +231,17 @@ class PurchasedProductHelper extends AppHelper {
 	}
 	
 	/**
+	 * Create a display-only qty-at-price string for item receipt/confirmation display
+	 * 
+	 * @param array $item
+	 * @return string 
+	 */
+	public function itemQuantitySummary($item) {
+		return $this->Html->tag('span', $item['CartItem']['quantity'], array('class' => 'quantity'));
+	}
+
+
+	/**
 	 * Create the price display-chip for a cart item
 	 * 
 	 * Price is the cost of one unit, without accounting for quantity ordered
@@ -241,8 +252,8 @@ class PurchasedProductHelper extends AppHelper {
 	 * @param stdObj $prices track whether any items have a zero price
 	 * @return string
 	 */
-	public function itemPrice($item, $prices) {
-		$prices->zeroItem = $prices->zeroItem || ($item['CartItem']['price'] == '0');
+	public function itemPrice($item, $prices = false) {
+//		$prices->zeroItem = $prices->zeroItem || ($item['CartItem']['price'] == '0');
 		return $this->Html->tag('span', $item['CartItem']['price'], array('class' => 'price'));
 	}
 
