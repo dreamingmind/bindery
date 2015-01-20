@@ -60,38 +60,62 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutButton($type, CartToolKit $toolkit) {
 		switch ($type) {
 			case 'checkout':
-				return $this->Form->button('Checkout', array(
-					'id' => 'continue',
-					'bind' => 'click.continueShopping',
-					'href' => $href
-				));
-				//<button id="continue" <?php echo $href;  bind="click.continueShopping">Continue Shopping</button>
+				if (!$toolkit->mustQuote()) {
+					return $this->Form->button('Checkout', array(
+								'class' => 'checkout',
+								'bind' => 'click.checkout'
+					)) . "\n";
+				} else {
+					return '';
+				}
 				break;
 			case 'express' : // && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
+				echo !$toolkit->mustQuote() // ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
+					? '<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">' . "\n"
+					: '' ;
+				// <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
 				break;
 			case 'creditcard' :// && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() ? "<button>Credit Card</button>" : '';
+				echo !$toolkit->mustQuote() ? "<button>Credit Card</button>\n" : '';
 				break;
 			case 'check' :// && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() ? "<button>Pay by Check</button>" : '';
+				echo !$toolkit->mustQuote() ? "<button>Pay by Check</button>\n" : '';
 				break;
 			case 'quote' :
-				echo !$toolkit->mustPay() ? "<button>Recieve a Quote</button>" : '';
+				echo !$toolkit->mustPay() ? "<button>Recieve a Quote</button>\n" : '';
 				break;
 			case 'continue':
-				return $this->Form->button('Continue Shopping', array(
-					'id' => 'continue',
-					'bind' => 'click.continueShopping',
-					'href' => ''//$href
-				));
+				return $this->checkoutContinueButton($toolkit);
 				break;
-
 			default:
 				break;
 		}
 	}
 
+	/**
+	 * Make a 'Continue Shopping' button for cart UIs
+	 * 
+	 * Will attempt to send the user back to their last viewed page 
+	 * prior to starting the checkout process. If this can't be done, 
+	 * will route to the main product page. cart.js actually handles 
+	 * the navigation because sometimes we're in a floating pallet view.
+	 * 
+	 * @param CartToolKit $toolkit
+	 * @return string
+	 */
+	public function functionName(CartToolKit $toolkit) {
+		if (stristr('/checkout', $this->request->referer())) {
+			$href = Router::url(array('controller' => 'contents', 'action' => 'products'));
+		} else {
+			$href = $this->request->referer();
+		}
+		//dmDebug::ddd($this->request->referer(), 'referer');
+		return $this->Form->button('Continue Shopping', array(
+				'id' => 'continue',
+				'bind' => 'click.continueShopping',
+				'href' => $href
+			)) . "\n";
+	}				
 
 	/**
 	 * Save expand/collapse item-text data for assembly into a json package
