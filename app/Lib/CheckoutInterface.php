@@ -33,5 +33,5 @@ interface CheckoutInterface {
 	/**
 	 * The record of the completed order
 	 */
-	public function recipt();
+	public function receipt();
 }

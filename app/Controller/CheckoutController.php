@@ -124,6 +124,10 @@ class CheckoutController extends AppController implements CheckoutInterface {
 			$this->Checkout->doNoCartRedirect();
 		}
 		
+		// On the way into the Method page, we need to 
+		// show the user the shipping estimate and 
+		// sales tax, all of which can now be caluculated.
+		// 
 		// testing code to get shipping estimate
 		$Usps = ClassRegistry::init('Usps');
 		$this->set('shipping', $Usps->estimate($cart));
@@ -149,8 +153,9 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		
 	}
 	
-	public function recipt() {
-		
+	public function receipt() {
+		$this->layout = 'checkout'; 
+		$this->set('cart', $this->Purchases->retrieveCart());
 	}
 
 	/**
