@@ -8,3 +8,4 @@
 		?>
 	</tbody>
 </table>
+<?php echo $this->element('Cart/cart_summary'); ?>

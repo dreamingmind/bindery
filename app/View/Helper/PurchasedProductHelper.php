@@ -103,7 +103,7 @@ class PurchasedProductHelper extends AppHelper {
 	 * @param CartToolKit $toolkit
 	 * @return string
 	 */
-	public function functionName(CartToolKit $toolkit) {
+	public function checkoutContinueButton(CartToolKit $toolkit) {
 		if (stristr('/checkout', $this->request->referer())) {
 			$href = Router::url(array('controller' => 'contents', 'action' => 'products'));
 		} else {

@@ -38,5 +38,6 @@
         $config['company.fullName'] = 'Don Drake';
 		$config['company.tech_email'] = 'technician@dreamingmind.com';
 		$config['company.order_email'] = 'cart_activity@dreamingmind.com';
+		$config['company.tax_rate'] = .09;
 
 ?>

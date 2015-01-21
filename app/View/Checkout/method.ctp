@@ -42,6 +42,7 @@ $this->end();
 <div id="cart_checkout">
 <?php
 echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));
+echo $this->element('Cart/cart_summary');
 echo $this->element('Cart/method_button_block');
 if (count($cart) == 0) {
 	echo $this->Html->para(NULL, 'Your cart is empty.');

@@ -22,6 +22,12 @@ class CartToolKit {
 	 */
 	private $items;
 	
+	private $shipping;
+	
+	private $billing;
+	
+	private $subtotal = 0;
+
 	/**
 	 * Cart items that don't have a price
 	 * 
@@ -45,16 +51,21 @@ class CartToolKit {
 	 * @param array $cart From CartModel::retrieve()
 	 */
 	public function loadCart($cart) {
-		$this->cart = $this->items = $this->zeroItems = $this->nonZeroItems = $this->unknownItems = array();
+		$this->cart = $this->items = $this->zeroItems = $this->nonZeroItems = $this->unknownItems = $this->billing = $this->shipping = array();
+		$this->subtotal = 0;
+		
 		
 		$this->cart = $cart['Cart'];
 		$this->items = $cart['CartItem'];
+		$this->billing = $cart['Billing'];
+		$this->shipping = $cart['Shipping'];
 		
 		foreach ($this->items as $item) {
 			if (floatval($item['price']) == 0) {
 				$this->zeroItems[] = $item;
 			} elseif (floatval($item['price']) > 0) {
 				$this->nonZeroItems[] = $item;
+				$this->subtotal += $item['price'] * $item['quantity'];
 			} else {
 				$this->unknownItems[] = $item;
 			}
@@ -101,6 +112,53 @@ class CartToolKit {
 	 */
 	public function mustQuote() {
 		return empty($this->nonZeroItems);
+	}
+	
+	/**
+	 * Is CA tax required on this order?
+	 * 
+	 * @return boolean
+	 */
+	public function mustTax() {
+		return strpos('ca', strtolower(trim($this->shipping['state']))) === 0;
+	}
+	
+	/**
+	 * Return a span containing the tax amount and title attr
+	 * 
+	 * @return string
+	 */
+	public function taxSpan() {
+		$format = '<span class="amt" title="%s">%s</span>';
+		
+		$tax = $this->taxAmount();
+		
+		if ($this->mustTax()) {
+			$title = 'California sales tax';
+		} else {
+			$title = 'Exempt, out of state';
+		}
+			return sprintf($format, $title, $tax);
+	}
+	
+	/**
+	 * Return the tax amount or '-TBD-'
+	 * 
+	 * @return int|string
+	 */
+	public function taxAmount() {
+		if ($this->mustTax()) {
+			return $this->subtotal * .09;
+		}
+		return 0;
+	}
+	
+	public function subtotal() {
+		return $this->subtotal;
+	}
+	
+	public function shippingEstimate() {
+		return 12;
 	}
 	
 }
