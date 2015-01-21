@@ -75,6 +75,9 @@ class PurchasedProductHelper extends AppHelper {
 					: '' ;
 				// <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
 				break;
+			case 'confirm' :// && !$toolkit->mustQuote():
+				echo "<button>Confirm</button>\n";
+				break;
 			case 'creditcard' :// && !$toolkit->mustQuote():
 				echo !$toolkit->mustQuote() ? "<button>Credit Card</button>\n" : '';
 				break;

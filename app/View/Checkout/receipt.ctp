@@ -26,4 +26,9 @@
 		?>
 	</tbody>
 </table>
-<?php echo $this->element('Cart/cart_summary'); ?>
+<?php 
+echo $this->element('Cart/cart_summary'); 
+if ($this->request->action == 'confirm') {
+	echo $this->element('Cart/confirm_button_block');
+}
+?>

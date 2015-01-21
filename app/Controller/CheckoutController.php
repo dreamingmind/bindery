@@ -15,7 +15,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 
 	public $helpers = array('PurchasedProduct', 'Cart' => array('className' => 'cartNewEntry'));
 
-	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
+	public $secure = array('checkout', 'checkout_address', 'complete', 'method', 'receipt', 'express', 'save_contacts', 'setupPaypalClassic');
 	
 	public $components = array('Checkout');
 	
@@ -117,6 +117,13 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->redirect('method');
 	}
 	
+	/**
+	 * Send the major cart render-logic objects to the view
+	 * 
+	 * This includes $cart which has the cart, items and addresses 
+	 * bundled into a toolkit class and $shipping which is a 
+	 * model class that contains $cart again and does USPS cost calcs
+	 */
 	protected function prepareCartObjects() {
 		if ($this->Purchases->cartExists()) {
 			$cart = $this->Purchases->retrieveCart();
@@ -126,10 +133,21 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->set('cart', $cart);
 		$this->set('shipping', new Usps($cart));
 	}
-		
+	
+	/**
+	 * The page to decide on and specify details of the payment method
+	 * 
+	 * This has an editable cart-item list and editable addresses 
+	 * but all this information is presumably complete and correct
+	 */
 	public function method() {
 		
 		$this->prepareCartObjects();
+		if (empty($this->request->data)) {
+			// getting here with the back button leaves trd empty
+			$this->request->data('Shipping', $this->viewVars['cart']['toolkit']->address('shipping'))
+					->data('Billing', $this->viewVars['cart']['toolkit']->address('shipping'));
+		}
 		// for the fieldset helper (Element/email.ctp)
 		$this->set('model', 'Cart');
 		$this->set('fieldsetOptions', array('class' => 'contact'));
@@ -142,12 +160,22 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->render('method');
 	}
 	
+	/**
+	 * Final non-editable display before committing to the purchase
+	 */
 	public function confirm() {
-		
+		$this->layout = 'checkout'; 
+		$this->prepareCartObjects();
+		$this->render('receipt');
 	}
 	
+	/**
+	 * Thank you and receipt view wich reintroduces navigation
+	 */
 	public function receipt() {
-		$this->layout = 'checkout'; 
+//		$this->layout = 'noThumbnailPage'; 
+		$this->css[] = 'new4';
+//		dmDebug::ddd($this->viewVars['css'], 'css');
 		$this->prepareCartObjects();
 	}
 

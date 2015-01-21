@@ -1,5 +1,5 @@
 <?php 
-dmDebug::ddd($shipping, 'ship quote');
+//dmDebug::ddd($shipping, 'ship quote');
 ?>
 <?php
 /**
