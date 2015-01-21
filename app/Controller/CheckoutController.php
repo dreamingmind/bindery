@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 App::uses('CheckoutInterface', 'Lib');
 App::uses('AddressModule.Address', 'Model');
+App::uses('Usps', 'Model');
 
 /**
  * CakePHP CheckoutController
@@ -116,34 +117,26 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->redirect('method');
 	}
 	
-	public function method() {
-		
+	protected function prepareCartObjects() {
 		if ($this->Purchases->cartExists()) {
 			$cart = $this->Purchases->retrieveCart();
 		} else {
 			$this->Checkout->doNoCartRedirect();
 		}
+		$this->set('cart', $cart);
+		$this->set('shipping', new Usps($cart));
+	}
 		
-		// On the way into the Method page, we need to 
-		// show the user the shipping estimate and 
-		// sales tax, all of which can now be caluculated.
-		// 
-		// testing code to get shipping estimate
-		$Usps = ClassRegistry::init('Usps');
-		$this->set('shipping', $Usps->estimate($cart));
-
-		// setting data for the view is a bit messy
-		$this->request->data = $cart; // not used yet
-
+	public function method() {
+		
+		$this->prepareCartObjects();
 		// for the fieldset helper (Element/email.ctp)
 		$this->set('model', 'Cart');
-		$this->set('record', $cart);
 		$this->set('fieldsetOptions', array('class' => 'contact'));
 
 		// for the rest of the view
-		$this->set('cart', $cart);
-		$this->set('referer', $this->referer());
-		$this->set('contentDivIdAttr', 'checkout');
+		$this->set('referer', $this->referer()); // take care of elsewhere? 
+		$this->set('contentDivIdAttr', 'checkout'); // what is this for?
 		$this->layout = 'checkout'; 
 		
 		$this->render('method');
@@ -155,7 +148,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 	
 	public function receipt() {
 		$this->layout = 'checkout'; 
-		$this->set('cart', $this->Purchases->retrieveCart());
+		$this->prepareCartObjects();
 	}
 
 	/**

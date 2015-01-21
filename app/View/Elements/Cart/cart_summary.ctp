@@ -1,7 +1,6 @@
 <!--
 The summary section for a Cart display
 -->
-<?php // debug($cartSubtotal); ?>
 <div class="cart_summary">
 	<p>
 		<span class='label'>Subtotal:</span>
@@ -16,11 +15,13 @@ The summary section for a Cart display
 		?>
 	</p>
 	<p>
-		<span class="label">Shipping:</span>
-		<span class="amt" title="To be determined"><?php echo $cart['toolkit']->shippingEstimate(); ?></span>
+		<span class="label"><?php echo "{$shipping->provider()} {$shipping->service()}"; ?></span>
+		<?php 
+			echo sprintf('<span class="amt" title="%s">%s</span>', $shipping->service(), $shipping->rate());
+		?>
 	</p>
 	<p>
 		<span class='label'>Total:</span>
-		<span class='amt cart_total'><?php echo $cart['toolkit']->subtotal() + $cart['toolkit']->taxAmount() + $cart['toolkit']->shippingEstimate(); ?></span>
+		<span class='amt cart_total'><?php echo $cart['toolkit']->subtotal() + $cart['toolkit']->taxAmount() + $shipping->rate(); ?></span>
 	</p>
 </div>

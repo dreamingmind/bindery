@@ -27,6 +27,8 @@ class CartToolKit {
 	private $billing;
 	
 	private $subtotal = 0;
+	
+	private $taxRate;
 
 	/**
 	 * Cart items that don't have a price
@@ -43,6 +45,7 @@ class CartToolKit {
 	
 	public function __construct($cart) {
 		$this->loadCart($cart);
+		$this->taxRate = Configure::read('company.tax_rate');
 	}
 	
 	/**
@@ -128,18 +131,18 @@ class CartToolKit {
 	 * 
 	 * @return string
 	 */
-	public function taxSpan() {
-		$format = '<span class="amt" title="%s">%s</span>';
-		
-		$tax = $this->taxAmount();
-		
-		if ($this->mustTax()) {
-			$title = 'California sales tax';
-		} else {
-			$title = 'Exempt, out of state';
-		}
-			return sprintf($format, $title, $tax);
-	}
+//	public function taxSpan() {
+//		$format = '<span class="amt" title="%s">%s</span>';
+//		
+//		$tax = $this->taxAmount();
+//		
+//		if ($this->mustTax()) {
+//			$title = 'California sales tax';
+//		} else {
+//			$title = 'Exempt, out of state';
+//		}
+//			return sprintf($format, $title, $tax);
+//	}
 	
 	/**
 	 * Return the tax amount or '-TBD-'
@@ -148,7 +151,7 @@ class CartToolKit {
 	 */
 	public function taxAmount() {
 		if ($this->mustTax()) {
-			return $this->subtotal * .09;
+			return $this->subtotal * $this->taxRate;
 		}
 		return 0;
 	}
@@ -160,7 +163,14 @@ class CartToolKit {
 	public function shippingEstimate() {
 		return 12;
 	}
+
+	public function shippingZipCode() {
+		return $this->shipping['postal_code'];
+	}
 	
+	public function items() {
+		return $this->items;
+	}
 }
 
 // This iterator filters all items who's price != 0
