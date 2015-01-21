@@ -87,6 +87,10 @@ class CartToolKit {
 		return count($this->nonZeroItems);
 	}
 	
+	public function address($type) {
+		return $this->$type;
+	}
+	
 	/**
 	 * All items are priced so some form of payment is required
 	 * 

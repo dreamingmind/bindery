@@ -77,6 +77,10 @@ class Usps {
 			'Height' => 0
 		);
 		
+		// I'm not sure where this code should be. Maybe cart should return this from a function? 
+		// Or this class should get the items array and manage this stuff directly? 
+		// This way seems overyly coupled
+		// 
 		// Look for the largest dimensions and accum hieght and weight
 		foreach ($this->cart->items() as $item) {
 			$package['Length'] = $package['Length'] < $item['length'] ? $item['length'] : $package['Length'];
