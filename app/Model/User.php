@@ -102,7 +102,7 @@ class User extends AppModel {
 			'className' => 'OrderItem',
 			'foreignKey' => 'user_id',
 			'conditions' => "WishList.state = 'Wish'"
-		));
+			));
         
     /**
      * @var string $username Username of the logged in user
@@ -153,7 +153,7 @@ class User extends AppModel {
      */
     var $validate_hash = false;
 
-        /**
+	/**
          * A way to pass in the data for the logged in user
          * 
          * The controllers knows a lot of info about the logged in user that

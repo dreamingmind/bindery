@@ -68,7 +68,8 @@ class CartItem extends OrderItem {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
+			'counterCache' => 'wish_item_count',
+			'counterScope' => "CartItem.state='Wish'", // this is the one that made it work for send-to-wishlist
 			'fields' => '',
 			'order' => ''
 		),
@@ -111,6 +112,9 @@ class CartItem extends OrderItem {
 	public function afterSave($created) {
 		parent::afterSave($created);
 		$this->deleteIdCache($this->Cart->cartId(), $this->dataCacheConfig);
+		$this->unbindModel(array('hasOne' => array('Supplement')));
+		$this->updateCounterCache();
+
 	}
 	
 	/**

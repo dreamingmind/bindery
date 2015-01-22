@@ -140,6 +140,17 @@ class PurchasesComponent extends Component {
 	}
 	
 	/**
+	 * Return the count of wish list items for the user
+	 * 
+	 * @return int
+	 */
+	public function wishCount() {
+		$wishCount = (!is_null($this->Auth->user('wish_item_count')) ? $this->Auth->user('wish_item_count') : FALSE);
+		$this->controller->set('wishCount', $wishCount);
+		return $wishCount;
+	}
+	
+	/**
 	 * Get the current cart and its items
 	 * 
 	 * @return type
