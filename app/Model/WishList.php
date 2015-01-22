@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 App::uses('AppModel', 'Model');
 
 /**
@@ -14,6 +7,17 @@ App::uses('AppModel', 'Model');
  */
 class WishList extends AppModel {
 	
+//	public $belongsTo = array(
+//		'User' => array(
+//			'className' => 'User',
+//			'foreignKey' => 'user_id',
+////			'counterCache' => 'wish_item_count',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => ''
+//		)
+//	);
+
 	public $useTable = 'cart_items';
 	
 }
