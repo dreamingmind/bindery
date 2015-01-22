@@ -174,6 +174,7 @@ class CartItemsController extends AppController {
 			$this->set('cartSubtotal', '0');
 			
 		}
+		$this->set('cart', $this->Purchases->retrieveCart()); // why is this render using cart_subtotal? That's the only resaon this is being called
 		$this->layout = 'ajax';
 		$this->render("/Ajax/cart_remove_result");
 	}
