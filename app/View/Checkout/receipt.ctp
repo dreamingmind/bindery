@@ -1,4 +1,11 @@
-<table>
+<?php
+$this->append('css');
+//echo $this->Html->script('checkout');
+echo $this->Html->css('AddressModule.address_module');
+$this->end();
+?>
+
+<table class="addresses">
 	<tbody>
 		<tr>
 			<td>
