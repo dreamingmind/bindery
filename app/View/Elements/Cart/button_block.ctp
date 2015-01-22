@@ -7,10 +7,10 @@ if (isset($referer)) {
 ?>
 
 <div class="button_block">
-	<button id="continue" <?php echo $href; ?> bind="click.continueShopping">Continue Shopping</button>
+	<!--<button id="continue" <?php // echo $href; ?> bind="click.continueShopping">Continue Shopping</button>-->
 	<div class="proceed">
 		<?php
-		if ($cartClass === 'cart_pallet') {
+		if (isset($cartClass) && $cartClass === 'cart_pallet') {
 			?>
 			<button bind="click.checkout">Checkout</button>
 			<?php
@@ -25,24 +25,32 @@ if (isset($referer)) {
 		// ===============================================================
 		// abstract and format this crap
 		// ===============================================================
-			if ($prices->subtotal == '0') {
-				echo $this->Html->para('alert', 'Submit your cart for a quote.');
-				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
-
-			} else if ($prices->zeroItem) {
+			// Submit for quote
+//			if ($prices->subtotal == '0') {
+//				echo $this->Html->para('alert', 'Submit your cart for a quote.');
+//				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
+//
+//			// partial price
+//			} else if ($prices->zeroItem) {
+			if ($cart['toolkit']->includesQuote()) {
 				echo $this->Html->para('alert', 'Once or more item in your cart requires a quote. You can pay the cart amount as a deposit or wait the the quote is complete.');
-				echo "<button method='check' bind='click.pay_check'>Pay by check</button>";
-				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
-				echo "<button method='paypal' bind='click.pay_express'>Credit Card</button>";
-				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
-				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
-			} else {
-				echo "<button method='check' bind='click.pay_check'>Pay by check</button>";
-				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
-				echo "<button method='paypal' bind='click.pay_express'>Credit Card</button>";
-				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
-				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
 			}
+				echo $this->PurchasedProduct->checkoutButton('check', $cart['toolkit']);
+				echo $this->PurchasedProduct->checkoutButton('express', $cart['toolkit']);
+				echo $this->PurchasedProduct->checkoutButton('creditcard', $cart['toolkit']);
+				echo $this->PurchasedProduct->checkoutButton('quote', $cart['toolkit']);
+				echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']);
+//				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>Credit Card</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
+//			} else {
+//				echo "<button method='check' bind='click.pay_check'>Pay by check</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>Credit Card</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>Submit for Quote</button>";
+//				echo "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>";
+//			}
 		}
 		?>
 	</div>
