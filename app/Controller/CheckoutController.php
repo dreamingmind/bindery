@@ -175,6 +175,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 	public function receipt() {
 //		$this->layout = 'noThumbnailPage'; 
 		$this->css[] = 'new4';
+		$this->css[] = 'receipt';
 //		dmDebug::ddd($this->viewVars['css'], 'css');
 		$this->prepareCartObjects();
 	}

@@ -1,0 +1,184 @@
+/*
+CART PALLET - the floating representation of the shopping cart that appears on BUY clicks
+*/
+div#cart_checkout {
+	width: 400px;
+	padding: 0.6em 2em 2em;
+}
+
+div#cart_pallet {
+/*    background-color: white;*/
+    background-color: #dcdacf;
+    color: #72673a;
+    border: thin solid #062619;
+    position: absolute;
+    width: 400px;
+    padding: 1em 3em 3em;
+	z-index: 6000;
+}
+
+	div#cart_pallet div.item_text {
+		width: 71%;
+	}
+	
+	
+	/*
+		cart detail blurb and options markdown
+	*/
+	table td > div.blurb, 
+	table td > div.options, 
+	table td > div.options ul, td > p.qty {
+		color: #094351;
+		font-size: 14px;
+		margin: 4px 0;
+		background: none;
+		padding: 0;
+	}
+	
+	#scrolling table td > h1.product_name, .total {
+		background: none;
+		border: none;
+		font-variant: normal;
+		font-weight: bold;
+		color: #062619;
+		font-size: 16px;
+	}
+	
+	.total, .amt, .cart_summary > p > span.amt.cart_total {
+		font-size: 120%;
+	}
+	
+	.cart_summary > p > span.amt.cart_total {
+		padding-top: 2px;		
+	}
+	
+.cart_summary > p > span.amt.cart_total {
+    font-size: 120%;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+/*	.cart_summary > p > span.amt.cart_total {
+		
+	}*/
+	/*
+		nested options lists in cart details
+	*/
+	table td > div.options ul,
+	table td > div.blurb ul{
+		margin: 0 0 0 1em;
+	}
+	table td > div.options li,
+	table td > div.blurb li{
+		list-style: outside;
+		font-size: 12px;
+		opacity: .9;
+	}
+
+.cart_summary > p > span.label {
+    width: 78%;
+}
+.cart_summary > p > span.amt {
+    width: 20%;
+}
+.cart_summary > p > span {
+    display: inline-block;
+    font-size: 14px;
+    text-align: right;
+}
+.cart_summary > p > span.amt:before {
+    content: "$ ";
+}
+
+span.price:before {
+	content: '$';
+}
+
+fieldset#required_contact div.input.checkbox, fieldset#required_contact p {
+    margin-left: 20%;
+}
+
+fieldset#required_contact p {
+	padding: 5px 0 10px 2%;
+	color: #a32;
+	font-size: 90%
+}
+
+div#cart_checkout {
+    position: relative;
+	float: left;
+}
+
+div.cover {
+    background-color: white;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+h2.checkout {
+    background: none repeat scroll 0 0 #374426;
+    /*color: white;*/
+    font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
+    font-size: 110%;
+    padding: 0.3em 0.3em 0.4em 0.4em;
+    text-align: center;
+}
+
+form#CartContactsForm {
+    margin: 0;
+    width: 100%;
+} 
+
+form#CartContactsForm {
+    margin: 0;
+    width: 100%;
+}
+
+fieldset legend {
+	color: #062619;
+}
+
+span.alert {
+	color: firebrick;
+	font-weight: bold;
+}
+
+#cart_badge > img {
+    width: 20px;
+	margin-bottom: -7px;
+}
+
+div.badge {
+    display: inline-block;
+}
+#accountTool > p {
+    display: inline-block;
+}
+#cart_badge > p {
+    display: inline-block;
+}
+#emptyMessage a {
+     color: gold;
+     text-decoration: underline;
+}
+
+#emptyMessage {
+     background-color: grey;
+     padding: 7em;
+}
+
+/* WRAPPER TABLE WIDTHS */
+table > tbody > tr > td:nth-child(1) {
+    width: 30%;
+}
+table > tbody > tr > td:nth-child(2) {
+    width: 45%;
+}
+table > tbody > tr > td:nth-child(3) {
+    width: 20%;
+	text-align: right;
+}

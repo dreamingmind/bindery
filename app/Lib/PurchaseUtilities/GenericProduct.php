@@ -105,7 +105,7 @@ class GenericProduct extends PurchasedProduct {
 	 * @return string
 	 */
 	private function name() {
-		$name = ($this->data[$this->product]['project_name'] != '') ? "{$this->data[$this->product]['project_name']} ($this->productName)" : $this->productName;
+		$name = ($this->data[$this->product]['project_name'] != '') ? "{$this->data[$this->product]['project_name']}<br />($this->productName)" : $this->productName;
 		return $name;
 	}
 	

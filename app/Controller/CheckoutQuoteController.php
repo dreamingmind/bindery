@@ -10,8 +10,6 @@ App::uses('CheckoutController', 'Controller');
  */
 class CheckoutQuoteController extends CheckoutController {
 
-	public function index($id) {
-		
-	}
+	
 
 }
