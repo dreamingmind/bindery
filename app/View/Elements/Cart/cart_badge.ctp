@@ -1,6 +1,8 @@
 <?php 
 
 // PurchasesComponent beforeRender takes care of getting the data this needs
+// $purchaseCount
+// $wishCount
 
 if ($purchaseCount == 1) {
 	$label = 'item';
@@ -9,7 +11,7 @@ if ($purchaseCount == 1) {
 }
 
 if ($purchaseCount > 0) {
-	$checkout = ' | ' . $this->Html->tag('span', $this->Html->link('Checkout', array('controller' => 'checkout')), array('class' => 'tool'));
+	$checkout = ' | ' . $this->Html->tag('span', $this->Html->link('Checkout', array('controller' => 'checkout', 'action' => 'index')), array('class' => 'tool'));
 } else {
 	$checkout = '';
 }
