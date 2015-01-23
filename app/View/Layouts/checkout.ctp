@@ -26,7 +26,7 @@
     <?php
     echo $this->Html->meta('icon');
 
-    echo $this->Html->css($css);
+	echo $this->Html->css($css);
     
     echo $this->Html->script($scripts);
 	
@@ -46,10 +46,9 @@
 <div id="absNav">
   <?php echo $this->Html->image('dmboldlogo_.png', array('alt'=>'Dreaming Mind Bindery logo')); ?>
   <div id="headerTools">
-  	<div id="accountTool">
-            <?php echo $this->Html->accountTool_($userdata); // creates DIV id=accountTool ?>
-			<?php echo $this->element('Cart/cart_badge'); ?>
-  	</div>
+        <div id="accountTool">
+			<?php echo $this->element('account_tools'); ?>
+		</div>
   </div>
 </div> <!-- end of absNav -->
 </div> <!-- end of fixedNav -->

@@ -216,7 +216,7 @@ class AppController extends Controller {
 //        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
         //debug();
         // Time to see if this user can see the requested page
-        $this->css = array('basic', 'advanced-search', 'search_links');
+        $this->css = array('basic', 'advanced-search', 'search_links', 'account_tools');
         if ($this->params['action'] == 'blog') {
             $this->css[] = 'blog';
         } elseif (is_a($this, 'CheckoutController')) {

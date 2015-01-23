@@ -1,0 +1,22 @@
+/* 
+    Created on : Jan 22, 2015, 6:02:54 PM
+    Author     : dondrake
+*/
+/*==========================
+  ACCOUNT TOOLS SECTION
+==========================*/
+
+div.badge {
+    display: inline-block;
+}
+#accountTool > p, #cart_badge > p, #wish_badge > p {
+    display: inline-block;
+}
+#wish_badge > img {
+	height: 20px;
+	margin-bottom: -5px;
+}
+/*==========================
+  END Account tools
+==========================*/
+
