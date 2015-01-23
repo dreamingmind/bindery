@@ -85,13 +85,29 @@ class PurchasedProductHelper extends AppHelper {
 				echo !$toolkit->mustQuote() ? "<button>Pay by Check</button>\n" : '';
 				break;
 			case 'quote' :
-				echo !$toolkit->mustPay() ? "<button>Recieve a Quote</button>\n" : '';
+				$this->checkoutQuoteButton($toolkit);
 				break;
 			case 'continue':
 				return $this->checkoutContinueButton($toolkit);
 				break;
 			default:
 				break;
+		}
+	}
+	
+	public function checkoutQuoteButton($toolkit) {
+		if (!$toolkit->mustPay()) {
+			if (stristr($this->request->controller, 'checkout')) {
+				echo $this->Form->button('Recieve a Quote', array('href' => '/checkout_quote', 'type' => 'submit', 'form' => 'CartIndexForm'));
+			} else {
+				echo $this->Form->button('Recieve a Quote', array('href' => '/checkout_quote'));
+			}
+		}
+	}
+	
+	public function submitAddressAction($toolkit) {
+		if (!$toolkit->mustPay()) {
+			return'/checkout_quote';
 		}
 	}
 

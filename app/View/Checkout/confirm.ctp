@@ -4,7 +4,7 @@ $this->append('css');
 echo $this->Html->css('AddressModule.address_module');
 $this->end();
 ?>
-<h1>Receipt</h1>
+
 <table class="addresses">
 	<tbody>
 		<tr>

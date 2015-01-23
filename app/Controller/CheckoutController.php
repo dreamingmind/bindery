@@ -166,7 +166,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 	public function confirm() {
 		$this->layout = 'checkout'; 
 		$this->prepareCartObjects();
-		$this->render('receipt');
+//		return $this->render('receipt');
 	}
 	
 	/**

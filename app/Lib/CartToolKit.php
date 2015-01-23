@@ -127,7 +127,7 @@ class CartToolKit {
 	 * @return boolean
 	 */
 	public function mustTax() {
-		return strpos('ca', strtolower(trim($this->shipping['state']))) === 0;
+		return strpos(strtolower(trim($this->shipping['state'])), 'ca') === 0;
 	}
 	
 	/**

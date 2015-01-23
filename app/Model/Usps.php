@@ -38,6 +38,21 @@ class Usps {
 	private $estimate;
 
 
+	/**
+	 * 
+	 * example of an error return
+	 * array(
+	 * 'Error' => array(
+	 *		'Number' => '-2147219099',
+	 *	 	'Source' => 'clsRateV4:UnpackRateNode',
+	 *	 	'Description' => 'Missing value for ZipDestination.',
+	 *	 	'HelpFile' => '',
+	 *	 	'HelpContext' => ''
+	 *	 )
+	 * )
+	 * 
+	 * @param array|object $cart
+	 */
 	public function __construct($cart) {
 //		$this->cart = $cart;
 		$this->cart = $cart['toolkit'];
@@ -45,7 +60,7 @@ class Usps {
 	}
 	
 	public function service(){
-	return html_entity_decode($this->estimate['RateV4Response']['Package']['Postage']['MailService']);
+		return html_entity_decode($this->estimate['RateV4Response']['Package']['Postage']['MailService']);
 	}
 	
 	public function rate(){
