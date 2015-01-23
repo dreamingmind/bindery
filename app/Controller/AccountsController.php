@@ -297,5 +297,17 @@ class AccountsController extends AppController {
 //
 //        }
 
+		function wish_list() {
+            $this->request->data = $this->User->find('first', array(
+				'conditions'=> array(
+					'User.id' => $this->Auth->user('id')
+				), 
+				'contain' => array(
+					'OptinUser',
+					'WishList' => array(
+						'TypeMemo'
+					)
+				)));
+		}
 }
 ?>

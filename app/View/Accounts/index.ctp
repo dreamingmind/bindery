@@ -30,9 +30,7 @@ $this->Html->output("<table>\n$record</table>\n");
     </ul>
     <p><?php echo $this->Html->link(__('Change these options'), array('action'=>'opt_in')); ?></p>
 <?php
-	foreach($this->request->data['WishList'] as $wish) {
-		echo $this->element('Cart/wishlist', array('item' => array('CartItem' => $wish)));
-	}
+	echo $this->element('Accounts/wish_list');
 ?>
 </div>
 

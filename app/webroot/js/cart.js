@@ -308,6 +308,7 @@ function removeItem(e) {
 
 	function removalSuccess(data, id) {
 		var cartBadge = $('#cart_badge');
+		var wishBadge = $('#wish_badge');
 		var subtotal = $('div.cart_summary > p > span.cart_subtotal')
 	
 		// get rid of any remaining flash messages. multiples don't work right
@@ -316,6 +317,7 @@ function removeItem(e) {
 		// update the badge
 //			var newBadge = $(data).find('#cart_badge');
 		$(cartBadge).replaceWith(data.cart_badge);
+		$(wishBadge).replaceWith(data.wish_badge);
 
 		// update the cart subtotal
 //			var newSubtotal = $(data).find('p > span.cart_subtotal').html();

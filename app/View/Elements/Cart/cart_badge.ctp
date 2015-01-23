@@ -1,31 +1,27 @@
 <?php 
 // PurchasesComponent beforeRender takes care of getting the data this needs
 // $purchaseCount
-// $wishCount
 
-if ($purchaseCount == 1) {
-	$label = 'item';
+if (!empty($purchaseCount > 0)) {
+	// make <image><number>item(s) link line
+	
+	$itemCount = $this->Html->tag('span', ' ' .$purchaseCount, array('class' => 'count'))
+		. ' ' . $this->Html->tag('span', (($purchaseCount == 1) ? 'item' : 'items'), array('class' => 'label'));
+	
+	$checkout = $this->Html->link(
+		$this->Html->image('cart.png', array('alt' => 'cart icon')) . ' ' . $itemCount,
+		array('controller' => 'checkout', 'action' => 'index'), 
+		array('escape' => FALSE, 'title' => 'Checkout')
+	);
+	
 } else {
-	$label = 'items';
+	// make cart empty label
+	$checkout = $this->Html->para(NULL, $this->Html->tag('span', ' Cart empty', array('class' => 'count')));
 }
 
-if ($purchaseCount > 0) {
-	$checkout = ' | ' . $this->Html->tag('span', $this->Html->link('Checkout', array('controller' => 'checkout', 'action' => 'index')), array('class' => 'tool'));
-} else {
-	$checkout = '';
-}
-
-	echo $this->Html->div('badge', NULL, array('id' => 'cart_badge')) . "\n\t";
-	echo $this->Html->image('cart.png') . "\n\t";
-	if (!empty($checkout)) {
-		echo $this->Html->para(NULL, 
-			$this->Html->tag('span', $purchaseCount, array('class' => 'count'))
-			. ' '
-			. $this->Html->tag('span', $label, array('class' => 'label'))
-			. $checkout
-		);
-	} else {
-		echo $this->Html->para(NULL, $this->Html->tag('span', 'Cart empty', array('class' => 'count')));
-	}
-	echo "\n</div>\n";
 ?>
+<!-- Elements/Cart/cart_badge.ctp -->
+	<div class="badge" id="cart_badge">
+		<p> |&nbsp;<?php echo $checkout; ?> </p>
+	</div>
+<!-- END Elements/Cart/cart_badge.ctp END -->

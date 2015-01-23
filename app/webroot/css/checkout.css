@@ -28,19 +28,7 @@ a {
     clear: both;
     padding-top: 5px;
 }
-div.badge {
-    display: inline-block;
-}
-#accountTool > p {
-    display: inline-block;
-}
-#cart_badge > img {
-    margin-bottom: -7px;
-    width: 20px;
-}
-#cart_badge > p {
-    display: inline-block;
-}
+
 div#required_data {
     /*background-color: red;*/
     float: right;
