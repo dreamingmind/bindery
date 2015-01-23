@@ -108,6 +108,25 @@ class PurchasesComponent extends Component {
 	}
 
 	/**
+	 * Ajax return of new cart badge
+	 * 
+	 * Call to any controller will get here through an appController pass through. 
+	 * Many other cart ajax processes will call here to get the count set but will 
+	 * handle rendering of the badge in their own element.
+	 * 
+	 * @param boolean render final render or set up for later render
+	 */
+	public function newWishBadge($render = false) {
+		$this->controller->layout = 'ajax';
+		$this->controller->set('wishCount', $this->wishCount());
+		if ($render) {
+			$this->controller->render('/Elements/Cart/wish_badge');
+		} else {
+			return;
+		}
+	}
+
+	/**
 	 * Set contact info for customer contact element (email.ctp) in purchase forms
 	 * 
 	 * There may be contact info in the cart record 

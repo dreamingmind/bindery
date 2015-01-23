@@ -868,6 +868,17 @@ SIG;
 	}
 	
 	/**
+	 * Ajax return of new cart badge
+	 * 
+	 * Call to any controller will use this pass through. 
+	 * 
+	 * @param boolean $finish final render or set up for later render
+	 */
+	public function newWishBadge($render = FALSE) {
+		$this->Purchases->newWishBadge($render);
+	}
+	
+	/**
 	 * Override the Controller's View Class instantiation
 	 * 
 	 * Any Controller method can set $this->viewClassOverride to true, 

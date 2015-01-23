@@ -42,6 +42,7 @@ function addToCart(e) {
 			$('body').append(data);
 			$('div#cart_pallet').center().draggable();
 			cartBadge();
+			wishBadge();
 			bindHandlers('div#cart_pallet');
 			$('div#pgMask').addClass('cover').on('click', function(e) {
 				$('button#continue').trigger('click');
@@ -141,6 +142,26 @@ function submitContacts(e) {
 		url: webroot+'cart_items/newBadge/TRUE',
 		success: function(data) {
 			$('#cart_badge').replaceWith(data);
+		},
+		error: function(data) {
+			alert('AJAX ERROR\n' + data);
+		}
+	})
+	 
+ }
+
+/**
+ * Render a new cart badge and update the page
+ * 
+ * @returns {voic}
+ */
+ function wishBadge() {
+	$.ajax({
+		type: "GET",
+		dataType: "HTML",
+		url: webroot+'cart_items/newWishBadge/TRUE',
+		success: function(data) {
+			$('#wish_badge').replaceWith(data);
 		},
 		error: function(data) {
 			alert('AJAX ERROR\n' + data);
