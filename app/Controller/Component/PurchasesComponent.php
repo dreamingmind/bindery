@@ -95,6 +95,8 @@ class PurchasesComponent extends Component {
 	 * Many other cart ajax processes will call here to get the count set but will 
 	 * handle rendering of the badge in their own element.
 	 * 
+	 * The set() call may be unnecessary because that is done in beforeRender()
+	 * 
 	 * @param boolean render final render or set up for later render
 	 */
 	public function newBadge($render = false) {
@@ -108,11 +110,13 @@ class PurchasesComponent extends Component {
 	}
 
 	/**
-	 * Ajax return of new cart badge
+	 * Ajax return of new wish badge
 	 * 
 	 * Call to any controller will get here through an appController pass through. 
 	 * Many other cart ajax processes will call here to get the count set but will 
 	 * handle rendering of the badge in their own element.
+	 * 
+	 * The set() call may be unnecessary because that is done in beforeRender()
 	 * 
 	 * @param boolean render final render or set up for later render
 	 */
