@@ -15,9 +15,12 @@ class CustomerEmailComponent extends Component {
 	public $components = array();
 	
 	public $controller;
+	
+	public $Email;
 
 	public function initialize(Controller $controller) {
 		$this->controller = $controller;
+		$this->Email = new CakeEmail();
 	}
 
 	public function startup(Controller $controller) {
@@ -41,9 +44,39 @@ class CustomerEmailComponent extends Component {
 	 * 
 	 * @return boolean success/failure
 	 */
-	public function quoteRequest() {
+	public function quoteRequest($cart) {
+		$toolkit = $cart['toolkit'];
 		// log the quote request
 		debug('emailing the quote');
+		$this->Email
+				->subject("{$this->controller->company['businessName']} Quote Request")
+				->template('/Checkout/receipt_email', 'default')
+				->helpers(array('Markdown.Markdown', 'PurchasedProduct'))
+				->emailFormat('html')
+				->viewVars(array(
+					'cart' => $cart,
+					'shipping' => new Usps($cart),
+					'acknowledgeMessage' => "A quote request from {$toolkit->customerName()} at {$toolkit->email()}"
+					));
+
+		$this->Email
+				->config('default')
+				->from(array($this->controller->company['tech_email'] => $this->controller->company['bindery']))
+				->to($this->controller->company['order_email'])
+//				->cc($toolkit->email())
+//				->replyTo($this->controller->company['email'])
+				->send()
+				;
+		$this->Email
+				->config('default')
+				->from(array($this->controller->company['tech_email'] => $this->controller->company['bindery']))
+//				->to($this->controller->company['order_email'])
+				->subject("Your Quote Request to {$this->controller->company['businessName']}")
+				->to($toolkit->email())
+				->replyTo($this->controller->company['email'])
+				->viewVars(array('acknowledgeMessage' => "Thank you for your interest. Your quote has been sent to the bindery for review."))
+				->send()
+				;
 		return TRUE;
 	}
 

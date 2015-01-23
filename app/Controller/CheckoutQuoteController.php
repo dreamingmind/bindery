@@ -27,7 +27,7 @@ class CheckoutQuoteController extends CheckoutController {
 	public function receipt() {
 		parent::receipt();
 		$this->set('acknowledgeMessage', 'Thank your for your interest. I\'ll prepare your quote and contact you.');
-		if ($this->CustomerEmail->quoteRequest()) {
+		if ($this->CustomerEmail->quoteRequest($this->Purchases->retrieveCart())) {
 			$this->Purchases->outToQuote();
 		}
 		$this->render('/Checkout/receipt');

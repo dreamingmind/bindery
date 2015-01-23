@@ -175,6 +175,14 @@ class CartToolKit {
 	public function items() {
 		return $this->items;
 	}
+	
+	public function email() {
+		return $this->cart['email'];
+	}
+	
+	public function customerName() {
+		return $this->cart['name'];
+	}
 }
 
 // This iterator filters all items who's price != 0

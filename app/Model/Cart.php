@@ -301,8 +301,7 @@ class Cart extends Order {
 			"Cart.$id_type" => $id, 
 			'OR' => array (
 				array('Cart.state' => CART_STATE),
-				array('Cart.state' => CHECKOUT_STATE),
-				array('Cart.state' => QUOTE_STATE)
+				array('Cart.state' => CHECKOUT_STATE)
 			));
 	}
 

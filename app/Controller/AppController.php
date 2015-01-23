@@ -27,6 +27,7 @@
  */
 App::uses('Controller', 'Controller');
 App::uses('Logger', 'Lib/Trait');
+App::uses('CakeEmail', 'Network/Email');
 
 /**
  * Short description for class.
@@ -74,7 +75,6 @@ class AppController extends Controller {
         ),
 		'Markdown.Markdown',
         'Session',
-        'Email',
 		'Purchases'
     );
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 
@@ -206,13 +206,6 @@ class AppController extends Controller {
         $this->splashContent = $this->pullSplash();
         $this->Auth->logoutRedirect = $this->referer('', TRUE);
 		$this->Auth->allow('testMe');
-        $this->Email->smtpOptions = array(
-            'port' => '465',
-            'host' => 'ssl://mail.dreamingmind.com',
-            'username' => 'ddrake@dreamingmind.com',
-            'password' => 'hU_9d+4F'
-        );
-        $this->Email->delivery = 'smtp';
 //        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
         //debug();
         // Time to see if this user can see the requested page
