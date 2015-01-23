@@ -1,5 +1,5 @@
 <?php 
-
+echo $this->element('Cart/wish_badge');
 // PurchasesComponent beforeRender takes care of getting the data this needs
 // $purchaseCount
 // $wishCount

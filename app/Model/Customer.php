@@ -25,4 +25,8 @@ class Customer extends AppModel {
 //		),
 //	);
 		
+	public function wishCount($id) {
+		$this->id = $id;
+		return $this->field('wish_item_count');
+	}
 }

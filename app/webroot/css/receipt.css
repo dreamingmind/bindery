@@ -161,6 +161,8 @@ div.badge {
 #cart_badge > p {
     display: inline-block;
 }
+
+
 #emptyMessage a {
      color: gold;
      text-decoration: underline;

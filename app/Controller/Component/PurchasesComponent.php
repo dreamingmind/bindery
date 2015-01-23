@@ -76,6 +76,7 @@ class PurchasesComponent extends Component {
 	 */
 	public function beforeRender(Controller $controller) {
 		$controller->set('purchaseCount', $this->itemCount());
+		$controller->set('wishCount', $this->wishCount());
 		$controller->set('cartContact', $this->cartContact());
 	}
 
@@ -145,9 +146,10 @@ class PurchasesComponent extends Component {
 	 * @return int
 	 */
 	public function wishCount() {
-		$wishCount = (!is_null($this->Auth->user('wish_item_count')) ? $this->Auth->user('wish_item_count') : FALSE);
-		$this->controller->set('wishCount', $wishCount);
-		return $wishCount;
+		if (!is_null($this->controller->Auth->user('id'))) {
+			return ClassRegistry::init('Customer')->wishCount($this->controller->Auth->user('id'));
+		}
+		return FALSE;
 	}
 	
 	/**

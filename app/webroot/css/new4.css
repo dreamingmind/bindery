@@ -743,3 +743,21 @@ div#pgMask.cover {
 	width: 2000px;
 	height: 10000px;
 }
+
+/*==========================
+  ACCOUNT TOOLS SECTION
+==========================*/
+
+div.badge {
+    display: inline-block;
+}
+#accountTool > p, #cart_badge > p, #wish_badge > p {
+    display: inline-block;
+}
+#wish_badge > img {
+	height: 20px;
+	margin-bottom: -5px;
+}
+/*==========================
+  END Account tools
+==========================*/
