@@ -1,6 +1,6 @@
-<?php if ($wishCount > 0) : ?>
 <!-- Elements/Cart/wish_badge.ctp -->
 	<div id="wish_badge" class="badge">
+<?php if ($wishCount > 0) : ?>
 		<p> | 
 			<?php 
 			echo $this->Html->link(
@@ -10,6 +10,6 @@
 			);
 			?>
 		</p>
-	</div>
 <?php endif ?>
+	</div>
 <!-- END Elements/Cart/wish_badge.ctp END -->
