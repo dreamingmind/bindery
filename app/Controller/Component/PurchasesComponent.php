@@ -315,4 +315,10 @@ class PurchasesComponent extends Component {
 		$this->Biscuit->saveSessionId();
 	}
 
+	/**
+	 * Move the cart to the Quote state
+	 */
+	public function outToQuote() {
+		$this->Cart->state('Quote');
+	}
 }

@@ -17,7 +17,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 
 	public $secure = array('checkout', 'checkout_address', 'complete', 'method', 'receipt', 'express', 'save_contacts', 'setupPaypalClassic');
 	
-	public $components = array('Checkout');
+	public $components = array('Checkout', 'CustomerEmail');
 	
 	public $uses = array('Cart');
 		
@@ -178,6 +178,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->css[] = 'receipt';
 //		dmDebug::ddd($this->viewVars['css'], 'css');
 		$this->prepareCartObjects();
+		$this->set('acknowledgeMessage', 'Thank you for your order.');
 	}
 
 	/**

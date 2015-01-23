@@ -277,10 +277,11 @@ define ('TAB', "\t");
 /**
  * Cart Model Constants
  */
-define ('CART_STATE', 'cart');
-define ('COMPLETE_STATE', 'complete');
-define ('SHIPPING_STATE', 'shipping');
-define ('CHECKOUT_STATE', 'checkout');
+define ('CART_STATE', 'Cart');
+define ('COMPLETE_STATE', 'Complete');
+define ('SHIPPING_STATE', 'Shipping');
+define ('CHECKOUT_STATE', 'Checkout');
+define ('QUOTE_STATE', 'Quote');
 
 App::uses('dmDebug', 'Lib');
 App::uses('QBModel', 'Lib/QBUtilities');

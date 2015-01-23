@@ -98,9 +98,9 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutQuoteButton($toolkit) {
 		if (!$toolkit->mustPay()) {
 			if (stristr($this->request->controller, 'checkout')) {
-				echo $this->Form->button('Recieve a Quote', array('href' => '/checkout_quote', 'type' => 'submit', 'form' => 'CartIndexForm'));
+				echo $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm'));
 			} else {
-				echo $this->Form->button('Recieve a Quote', array('href' => '/checkout_quote'));
+				echo $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink'));
 			}
 		}
 	}

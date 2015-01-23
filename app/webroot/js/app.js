@@ -46,6 +46,16 @@ function point(obj, x, y){
     obj['x'] = x;
     obj['y'] = y;
 }
+
+/**
+ * For a button that has an href attr, make click act like clicking a link
+ * 
+ * @param {type} e
+ * @returns {undefined}
+ */
+function buttonLink(e) {
+	location.assign(webroot + e.currentTarget.getAttribute('href'));
+}
 /**
  * End general purpose Graphic coordinate methods
  * ======================================================

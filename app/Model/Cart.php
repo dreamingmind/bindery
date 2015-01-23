@@ -301,7 +301,8 @@ class Cart extends Order {
 			"Cart.$id_type" => $id, 
 			'OR' => array (
 				array('Cart.state' => CART_STATE),
-				array('Cart.state' => CHECKOUT_STATE)
+				array('Cart.state' => CHECKOUT_STATE),
+				array('Cart.state' => QUOTE_STATE)
 			));
 	}
 
@@ -417,9 +418,10 @@ class Cart extends Order {
 	
 	public function state($state) {
 		$this->data = array('Cart' => array(
-			'Cart.id' => $this->cartId(),
-			'Cart.state' => $state
+			'id' => $this->cartId(),
+			'state' => $state
 		));
+		dmDebug::ddd($this->data, 'data');
 		$this->save($this->data);
 	}
 }
