@@ -180,6 +180,10 @@ class CartToolKit {
 		return $this->cart['email'];
 	}
 	
+	public function phone() {
+		return $this->cart['phone'];
+	}
+	
 	public function customerName() {
 		return $this->cart['name'];
 	}

@@ -349,8 +349,7 @@ class AppController extends Controller {
         Configure::load('company');
         $this->company = Configure::read('company');
         $this->company['workshopSignature'] =
-                <<< SIG
-
+<<< SIG
 {$this->company['firstName']} {$this->company['lastName']}
 {$this->company['businessName']}
 {$this->company['slogan']}
@@ -362,20 +361,17 @@ class AppController extends Controller {
 SIG;
 
         $this->company['fullSignature'] =
-                <<< SIG
-
+<<< SIG
 {$this->company['firstName']} {$this->company['lastName']}
 {$this->company['businessName']}
 {$this->company['slogan']}
 
 {$this->company['phone']}
 {$this->company['email']}
-
 {$this->company['siteURL']}
 SIG;
         $this->company['linkBlock'] =
-                <<< SIG
-
+<<< SIG
 {$this->company['siteURL']}
 {$this->company['blogURL']}
 {$this->company['productURL']}
