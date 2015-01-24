@@ -372,6 +372,11 @@ SIG;
 {$this->company['email']}
 
 {$this->company['siteURL']}
+SIG;
+        $this->company['linkBlock'] =
+                <<< SIG
+
+{$this->company['siteURL']}
 {$this->company['blogURL']}
 {$this->company['productURL']}
 {$this->company['workshopURL']}

@@ -98,7 +98,7 @@
 </div> <!-- end of fixedNav -->
 <?php $idAttr = isset($contentDivIdAttr) ? $contentDivIdAttr : 'scrolling'; ?>
         <!-- CONTENT DIV --><div id="<?php echo $idAttr; ?>">
-    <?php echo $this->Html->image('transparent.png', array('id'=>'NTtopTransparent')); ?>
+    <?php echo $this->Html->image('transparent.png', array('id'=>'NTtopTransparent', 'style' => 'height: 100px;')); ?>
             <?php //if (isset($productExhibits) || $this->request->params['action'] == 'gallery') {
                 //echo $this->GalNav->productPageLinks();
 

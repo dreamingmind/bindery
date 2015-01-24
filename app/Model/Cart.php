@@ -420,7 +420,6 @@ class Cart extends Order {
 			'id' => $this->cartId(),
 			'state' => $state
 		));
-		dmDebug::ddd($this->data, 'data');
 		$this->save($this->data);
 	}
 }

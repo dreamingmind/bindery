@@ -18,7 +18,7 @@ table.addresses p.label {
     margin-top: 19px;
 }
 .cart_summary span.amt {
-    width: 22%;
+    width: 17%;
 }
 .cart_summary p > span {
     display: inline-block;
@@ -56,7 +56,7 @@ td {
     width: 100%;
 }
 span.label {
-    width: 66%;
+    width: 78%;
 }
 
 </style>
@@ -68,7 +68,9 @@ $this->append('css');
 echo $this->Html->css('AddressModule.address_module');
 $this->end();
 ?>
-<h1><?php echo $acknowledgeMessage ?></h1>
+	
+<?php echo $this->element($acknowledgeMessage) ?>
+	
 <table class="addresses">
 	<tbody>
 		<tr>
@@ -97,10 +99,13 @@ $this->end();
 		?>
 	</tbody>
 </table>
+	
 <?php 
 echo $this->element('Cart/cart_summary'); 
-if ($this->request->action == 'confirm') {
-	echo $this->element('Cart/confirm_button_block');
-}
 ?>
+<br />
+<?php echo date('r', time()); ?>
+<hr />
+<pre><?php echo $company['linkBlock']; ?></pre>	
+<hr />
 </section>
