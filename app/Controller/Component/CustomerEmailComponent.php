@@ -49,6 +49,7 @@ class CustomerEmailComponent extends Component {
 		
 		// log the quote request
 		
+		// Set up the basics for Quote Request emails
 		$this->Email
 				->subject("{$this->controller->company['businessName']} Quote Request")
 				->template('/Checkout/receipt_email', 'default')
@@ -59,17 +60,17 @@ class CustomerEmailComponent extends Component {
 					'shipping' => new Usps($cart),
 					));
 				
+		// Finalize and send the bindery notification of a quote request
 		$this->quoteAcknowledgement('bindery', $toolkit);
-
 		$this->Email
 				->config('default')
 				->from(array($this->controller->company['tech_email'] => $this->controller->company['bindery']))
 				->to($this->controller->company['order_email'])
 				->send()
 				;
-				
+		
+		// Finalize and send the customer acknowledgement of a quote request
 		$this->quoteAcknowledgement('customer', $toolkit);
-
 		$this->Email
 				->config('default')
 				->from(array($this->controller->company['tech_email'] => $this->controller->company['bindery']))
@@ -78,9 +79,18 @@ class CustomerEmailComponent extends Component {
 				->replyTo($this->controller->company['email'])
 				->send()
 				;
+				
 		return TRUE;
 	}
 	
+	/**
+	 * Set the acknowledgement elements for quote emails
+	 * 
+	 * And pass in any variables required for they're rendering
+	 * 
+	 * @param string $type
+	 * @param type $toolkit
+	 */
 	private function quoteAcknowledgement($type, $toolkit) {
 		if ($type === 'bindery') {
 			$this->Email
