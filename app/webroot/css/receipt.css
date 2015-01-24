@@ -191,3 +191,33 @@ table.addresses > tbody > tr > td:nth-child(1) {
 table.addresses > tbody > tr > td:nth-child(2) {
     width: 50%;
 }
+
+#detail > h1 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #d4c6aa;
+    border-color: -moz-use-text-color -moz-use-text-color #094351;
+    border-image: none;
+    border-style: none none solid;
+    border-width: medium;
+    color: #374426;
+    font-size: 136%;
+    font-variant: normal;
+    padding: 1em;
+    text-align: center;
+    width: 100%;
+}
+#detail address.address_review > p.label {
+    color: #062619;
+    font-size: 112%;
+    font-style: normal;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 9px;
+    padding: 8px 0 4px;
+}
+#detail .cart_summary > p:last-of-type {
+    padding-bottom: 5em;
+}

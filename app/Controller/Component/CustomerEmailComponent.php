@@ -40,7 +40,7 @@ class CustomerEmailComponent extends Component {
 	}
 	
 	/**
-	 * Email quote request to me and cc to customer
+	 * Email quote request to me and to customer
 	 * 
 	 * @return boolean success/failure
 	 */

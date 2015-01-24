@@ -218,6 +218,11 @@ class Cart extends Order {
 		}
 	}
 	
+	/**
+	 * Read the contact info for the cart
+	 * 
+	 * @return array
+	 */
 	public function getContactData() {
 		return $this->find('first', array(
 			'fields' => array('id', 'name', 'email', 'phone'),
@@ -226,6 +231,11 @@ class Cart extends Order {
 		));
 	}
 	
+	/**
+	 * Read the cart number (later to be the order number)
+	 * 
+	 * @return string
+	 */
 	public function getCartNumber() {
 		return $this->field('number', $this->cartConditions());
 	}
@@ -415,6 +425,11 @@ class Cart extends Order {
 		
 	}
 	
+	/**
+	 * Set the state on an active cart item
+	 * 
+	 * @param string $state
+	 */
 	public function state($state) {
 		$this->data = array('Cart' => array(
 			'id' => $this->cartId(),
