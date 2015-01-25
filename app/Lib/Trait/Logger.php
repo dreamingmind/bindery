@@ -6,6 +6,9 @@
  */
 Trait Logger {
 	
+	public $quoteAttemptMessage = "\n** Prepared to request a quote for %s for %s items (%s) in cart %s.\n-----------------------END----------------------------\n";
+	public $quoteSuccessMessage = "\n++ Quote request for %s successfully sent.\n-----------------------END----------------------------\n\n";
+	
 	public $removeCartItemMessage = "\n-- Item removed from cart\n%s\n-----------------------END----------------------------\n\n";
 	public $retractLastMessage = "\n!! There was a problem completing the process (%s).\n-----------------------END----------------------------\n\n";
 	
@@ -15,6 +18,26 @@ Trait Logger {
 	
 	public $typeMemoMessage = "\n!! The TypeMemo failed to delete and prevented the user from move their wish list item to their cart\n%s\n-----------------------END----------------------------\n\n";
 
+	/**
+	 * Log a Quote Acknowledgement email
+	 * 
+	 * @param string $mode attempt or success
+	 * @param array $cart Standard cart array and tool object
+	 */
+	public function logQuoteEmail($mode, $cart) {
+		$toolkit = $cart['toolkit'];
+		if ($mode == 'Attempt') {
+			$this->log(sprintf($this->{"quote{$mode}Message"}, 
+							$toolkit->customerName(), 
+							$toolkit->itemCount(), 
+							$toolkit->itemInList(), 
+							$toolkit->cartId()), 
+					'order_email');
+		} else {
+			$this->log(sprintf($this->{"quote{$mode}Message"}, $toolkit->customerName()), 'order_email');
+		}
+	}
+	
 	/**
 	 * log a arguement guard violation
 	 * 

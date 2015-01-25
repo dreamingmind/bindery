@@ -187,6 +187,18 @@ class CartToolKit {
 	public function customerName() {
 		return $this->cart['name'];
 	}
+	
+	public function cartId() {
+		return $this->cart['id'];
+	}
+	
+	public function itemInList() {
+		$list = array();
+		foreach ($this->items as $item) {
+			$list[] = $item['id'];
+		}
+		return implode(', ', $list);
+	}
 }
 
 // This iterator filters all items who's price != 0

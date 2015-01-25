@@ -37,10 +37,16 @@ class CheckoutQuoteController extends CheckoutController {
 		try {
 			if ($this->CustomerEmail->quoteRequest($this->Purchases->retrieveCart())) {
 				$this->Purchases->outToQuote();
+			} else {
+				// this is the capture point for a failed acknowledgement email
+				$this->redirect($this->referer());
 			}
 		} catch (Exception $exc) {
-			dmDebug::ddd($exc, 'exception');
-			$this->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Please try again.', 'f_error');
+			// this is the capture point for a failed state change on the cart record
+			$this->Session->setFlash(
+					'<p>Notification has been sent.</p>'
+					. '<p>There was a problem clearing your cart, so all the items are still there.</p>'
+					. '<p>There is no reason to resubmit your request.</p>', 'f_error');
 		}
 
 		$this->render('/Checkout/receipt');

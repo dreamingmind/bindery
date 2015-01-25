@@ -215,6 +215,11 @@ CakeLog::config('cart', array(
 'types' => array('cart'),
 'file' => 'Cart/cart'.date('.Y.m')
 ));
+CakeLog::config('order_email', array(
+'engine' => 'FileLog',
+'types' => array('order_email'),
+'file' => 'Cart/email'.date('.Y.m')
+));
 CakeLog::config('cart_activity', array(
 'engine' => 'FileLog',
 'types' => array('cart_activity'),

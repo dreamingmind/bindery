@@ -23,6 +23,7 @@ class CustomerEmailComponent extends Component {
 		$this->Email = new CakeEmail();
 	}
 
+// <editor-fold defaultstate="collapsed" desc="CALLBACKS">
 	public function startup(Controller $controller) {
 		
 	}
@@ -38,7 +39,9 @@ class CustomerEmailComponent extends Component {
 	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
 		
 	}
-	
+
+	// </editor-fold>
+
 	/**
 	 * Email quote request to me and to customer
 	 * 
@@ -47,6 +50,7 @@ class CustomerEmailComponent extends Component {
 	public function quoteRequest($cart) {
 		
 		// log the quote request
+		$this->controller->logQuoteEmail('Attempt', $cart);
 		
 		// set up the common values and body elements for a checkout acknowledgement email
 		$this->configOrderReceipt($cart);
@@ -73,9 +77,12 @@ class CustomerEmailComponent extends Component {
 					))
 					->send()
 			;
+
+			$this->controller->logQuoteEmail('Success', $cart);
+			
 		} catch (Exception $exc) {
-			echo $exc->getTraceAsString();
-			echo $exc->getMessage();
+			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Please try again.', 'f_error');
+			return FALSE;
 		}
 		return TRUE;
 	}
