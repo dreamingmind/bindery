@@ -60,7 +60,7 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutButton($type, CartToolKit $toolkit) {
 		switch ($type) {
 			case 'checkout':
-				if (!$toolkit->includesQuote()) {
+				if ($toolkit->mustPay()) {
 					return $this->Form->button('Checkout', array(
 								'class' => 'checkout',
 								'bind' => 'click.checkout'
@@ -70,7 +70,7 @@ class PurchasedProductHelper extends AppHelper {
 				}
 				break;
 			case 'express' : // && !$toolkit->mustQuote():
-				echo !$toolkit->includesQuote() // ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
+				echo $toolkit->mustPay() // ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
 					? '<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">' . "\n"
 					: '' ;
 				// <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
