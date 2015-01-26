@@ -87,6 +87,9 @@ class PurchasedProductHelper extends AppHelper {
 			case 'quote' :
 				$this->checkoutQuoteButton($toolkit);
 				break;
+			case 'back_edit' :
+				echo "<button bind=\"click.backToEdit\">Back to edit</button>\n";
+				break;
 			case 'continue':
 				return $this->checkoutContinueButton($toolkit);
 				break;
@@ -102,8 +105,9 @@ class PurchasedProductHelper extends AppHelper {
 			} else {
 				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink'));
 			}
+			echo $button . "\n" . $this->Html->tag('aside', 
+					'Once a single item can\'t be priced, your cart will be submitted for quote before arranging for payment.');
 		}
-		echo $button . "\n" . $this->Html->tag('aside', 'Once a single item can\'t be priced, your cart will be submitted for quote before arranging for payment.');
 	}
 	
 	public function submitAddressAction($toolkit) {

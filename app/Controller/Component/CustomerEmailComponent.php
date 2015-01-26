@@ -59,7 +59,7 @@ class CustomerEmailComponent extends Component {
 			// Finalize and send the bindery notification of a quote request
 			$this->Email
 					->subject("{$this->controller->company['businessName']} Quote Request")
-					->to($this->controller->company['order_email'])
+					->to(array($this->controller->company['order_email'] => 'Estimator'))
 					->viewVars(array(
 						'acknowledgeMessage' => 'quote_acknowledgement_bindery'
 
@@ -71,7 +71,8 @@ class CustomerEmailComponent extends Component {
 			// Finalize and send the customer acknowledgement of a quote request
 			$this->Email
 					->subject("Your Quote Request to {$this->controller->company['businessName']}")
-					->to($cart['toolkit']->email())
+					->to(array($cart['toolkit']->email() => $cart['toolkit']->customerName()))
+					->bcc($this->controller->company['email'])
 					->viewVars(array(
 						'acknowledgeMessage' => 'quote_acknowledgement_customer'
 					))

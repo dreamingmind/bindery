@@ -444,3 +444,6 @@ function pay_express(e){
 //		$(this).on('click'.addToCart);
 //	})
 //}
+function backToEdit(e) {
+	window.history.go(-1);
+}

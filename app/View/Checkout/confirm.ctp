@@ -5,9 +5,14 @@ echo $this->Html->css('AddressModule.address_module');
 $this->end();
 ?>
 <h1><?php echo $confirmMessage; ?></h1>
+<?php echo $this->PurchasedProduct->checkoutButton('back_edit', $cart['toolkit']); ?>
 <table class="addresses">
 	<tbody>
 		<tr>
+			<td>
+				<?php 
+				echo $this->element('Cart/contact_review', array('toolkit' => $cart['toolkit']));?>
+			</td>
 			<td>
 				<?php 
 				echo $this->element('AddressModule.simple_address_review', 
