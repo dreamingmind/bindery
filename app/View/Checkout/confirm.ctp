@@ -4,7 +4,7 @@ $this->append('css');
 echo $this->Html->css('AddressModule.address_module');
 $this->end();
 ?>
-
+<h1><?php echo $confirmMessage; ?></h1>
 <table class="addresses">
 	<tbody>
 		<tr>
@@ -35,7 +35,5 @@ $this->end();
 </table>
 <?php 
 echo $this->element('Cart/cart_summary'); 
-if ($this->request->action == 'confirm') {
-	echo $this->element('Cart/confirm_button_block');
-}
+echo $this->element('Cart/confirm_button_block');
 ?>

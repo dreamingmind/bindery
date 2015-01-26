@@ -20,20 +20,22 @@ class CheckoutQuoteController extends CheckoutController {
 	 * 
 	 * That's not true! Fix this so the customer can review their contact info at least.
 	 */
-//	public function confirm() {
-//		parent::confirm();
-//		$this->render('/Checkout/confirm');
-//	}
+	public function confirm() {
+		parent::confirm();
+		$this->set('confirmMessage','Please confirm the accuracy (double check your email address)<br />of this information prior to submitting your cart for quote.');
+		$this->render('/Checkout/confirm');
+	}
 	
 	/**
-	 * The method page is bypassed for quotes. Just send a receipt acknowledgement.
+	 * The method page is bypassed for quotes..
 	 */
 	public function method() {
-		$this->receipt();
+		$this->confirm();
 	}
 	
 	public function receipt() {
 		parent::receipt();
+		$this->set('acknowledgeMessage', 'Thank you for your interest in Dreaming Mind products.<br />Your items have been submitted for quote.');
 		try {
 			if ($this->CustomerEmail->quoteRequest($this->Purchases->retrieveCart())) {
 				$this->Purchases->outToQuote();

@@ -192,6 +192,18 @@ table.addresses > tbody > tr > td:nth-child(2) {
     width: 50%;
 }
 
+#detail address.address_review > p.label {
+    color: #062619;
+    font-size: 112%;
+    font-style: normal;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 9px;
+    padding: 8px 0 4px;
+}
+#detail .cart_summary > p:last-of-type {
+    padding-bottom: 5em;
+}
 #detail > h1 {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -208,16 +220,4 @@ table.addresses > tbody > tr > td:nth-child(2) {
     padding: 1em;
     text-align: center;
     width: 100%;
-}
-#detail address.address_review > p.label {
-    color: #062619;
-    font-size: 112%;
-    font-style: normal;
-    font-weight: bold;
-    margin-bottom: 8px;
-    margin-top: 9px;
-    padding: 8px 0 4px;
-}
-#detail .cart_summary > p:last-of-type {
-    padding-bottom: 5em;
 }

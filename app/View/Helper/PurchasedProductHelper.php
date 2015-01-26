@@ -60,7 +60,7 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutButton($type, CartToolKit $toolkit) {
 		switch ($type) {
 			case 'checkout':
-				if (!$toolkit->mustQuote()) {
+				if (!$toolkit->includesQuote()) {
 					return $this->Form->button('Checkout', array(
 								'class' => 'checkout',
 								'bind' => 'click.checkout'
@@ -70,19 +70,19 @@ class PurchasedProductHelper extends AppHelper {
 				}
 				break;
 			case 'express' : // && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() // ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
+				echo !$toolkit->includesQuote() // ? "<button method='paypal' bind='click.pay_express'>PayPal Express Checkout</button>" : '';
 					? '<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">' . "\n"
 					: '' ;
 				// <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
 				break;
 			case 'confirm' :// && !$toolkit->mustQuote():
-				echo "<button>Confirm</button>\n";
+				echo $this->Form->button('Confirm', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.buttonLink'));
 				break;
 			case 'creditcard' :// && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() ? "<button>Credit Card</button>\n" : '';
+				echo !$toolkit->includesQuote() ? "<button>Credit Card</button>\n" : '';
 				break;
 			case 'check' :// && !$toolkit->mustQuote():
-				echo !$toolkit->mustQuote() ? "<button>Pay by Check</button>\n" : '';
+				echo !$toolkit->includesQuote() ? "<button>Pay by Check</button>\n" : '';
 				break;
 			case 'quote' :
 				$this->checkoutQuoteButton($toolkit);
@@ -98,11 +98,12 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutQuoteButton($toolkit) {
 		if (!$toolkit->mustPay()) {
 			if (stristr($this->request->controller, 'checkout')) {
-				echo $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm'));
+				$button = $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm'));
 			} else {
-				echo $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink'));
+				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink'));
 			}
 		}
+		echo $button . "\n" . $this->Html->tag('aside', 'Once a single item can\'t be priced, your cart will be submitted for quote before arranging for payment.');
 	}
 	
 	public function submitAddressAction($toolkit) {
