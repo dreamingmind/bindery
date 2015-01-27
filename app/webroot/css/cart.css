@@ -300,3 +300,25 @@ div.badge {
      background-color: grey;
      padding: 7em;
 }
+
+asside {
+    color: #72673a;
+	font-size: 10px;
+}
+#detail > h1 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #d4c6aa;
+    border-color: -moz-use-text-color -moz-use-text-color #094351;
+    border-image: none;
+    border-style: none none solid;
+    border-width: medium;
+    color: #374426;
+    font-size: 136%;
+    font-variant: normal;
+    padding: 1em;
+    text-align: center;
+    width: 100%;
+}

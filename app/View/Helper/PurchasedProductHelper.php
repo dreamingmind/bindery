@@ -93,6 +93,9 @@ class PurchasedProductHelper extends AppHelper {
 			case 'continue':
 				return $this->checkoutContinueButton($toolkit);
 				break;
+			case 'methods':
+				return $this->checkoutMethodSelect($toolkit);
+				break;
 			default:
 				break;
 		}
@@ -116,6 +119,18 @@ class PurchasedProductHelper extends AppHelper {
 		}
 	}
 
+	protected function checkoutMethodSelect($toolkit) {
+		$method = array(
+			'check' => 'Check',
+			'credit_card' => 'Credit Card',
+			'paypal' => 'PayPal'
+			);
+		echo $this->Form->input('method', array(
+			'options' => $method,
+			'empty' => 'Select a payment method',
+			'bind' => 'change.methodChoice'
+		));
+	}
 	/**
 	 * Make a 'Continue Shopping' button for cart UIs
 	 * 
