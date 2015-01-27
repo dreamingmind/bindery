@@ -321,4 +321,8 @@ class PurchasesComponent extends Component {
 	public function outToQuote() {
 		$this->Cart->state('Quote');
 	}
+	
+	public function placeOrder($method, CartToolKit $toolkit) {
+		$this->Cart->placeOrder($method, $toolkit);
+	}
 }

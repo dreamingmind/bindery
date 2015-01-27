@@ -447,3 +447,21 @@ function pay_express(e){
 function backToEdit(e) {
 	window.history.go(-1);
 }
+
+function methodChoice(e) {
+	switch($(e.currentTarget).val()) {
+		case 'check':
+			location.assign(webroot + 'checkout_check/confirm')
+			break;
+		case 'quote':
+			location.assign(webroot + 'checkout_quote/confirm')
+			break;
+		case 'credit_card':
+			alert('ajax in a credit form');
+			break;
+		case 'paypal':
+			alert('can we do a paypal payment now?');
+			break;
+	}
+	$(e.currentTarget).val('');
+}

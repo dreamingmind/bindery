@@ -172,8 +172,26 @@ class CartToolKit {
 		return $this->shipping['postal_code'];
 	}
 	
-	public function items() {
-		return $this->items;
+	/**
+	 * Return all of some of the fields for the set of items in the cart
+	 * 
+	 * @param array $fields field keys to filter the return
+	 * @return array
+	 */
+	public function items($fields = array()) {
+		if (empty($fields)) {
+			return $this->items;
+		} else {
+			$i = array();
+			foreach ($this->items as $item) {
+				$i[] = array_intersect_key($item, $fields);
+			}
+			return $i;
+		}
+
+	}
+	public function orderNumber() {
+		return $this->cart['number'];
 	}
 	
 	public function email() {

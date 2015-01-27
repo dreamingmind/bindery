@@ -123,6 +123,7 @@ class PurchasedProductHelper extends AppHelper {
 		$method = array(
 			'check' => 'Check',
 			'credit_card' => 'Credit Card',
+			'quote' => 'Request and quote',
 			'paypal' => 'PayPal'
 			);
 		echo $this->Form->input('method', array(

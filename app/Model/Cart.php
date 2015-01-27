@@ -437,4 +437,28 @@ class Cart extends Order {
 		));
 		$this->save($this->data);
 	}
+	
+	/**
+	 * Move a cart to Ordered state
+	 * 
+	 * @param string $method Payment method or transaction id
+	 * @param CartToolKit $toolkit
+	 */
+	public function placeOrder($method, CartToolKit $toolkit) {
+		$items = $toolkit->items(array(
+			'id' => NULL, 
+			'state' => NULL
+		));
+
+		$this->data = array(
+				'Cart' => array(
+					'id' => $this->cartId(),
+					'state' => 'Order',
+					'transaction_id' => $method
+				),
+				'CartItem' => Hash::insert($items, '{n}.state', 'Order')
+			);
+		
+		$this->saveAssociated($this->data);
+	}
 }

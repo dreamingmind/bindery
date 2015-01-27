@@ -89,6 +89,51 @@ class CustomerEmailComponent extends Component {
 	}
 	
 	/**
+	 * Email order-by-check acknowledgement to me and to customer
+	 * 
+	 * @return boolean success/failure
+	 */
+	public function payByCheck($cart) {
+		
+		// log the quote request
+		$this->controller->logQuoteEmail('Attempt', $cart);
+		
+		// set up the common values and body elements for a checkout acknowledgement email
+		$this->configOrderReceipt($cart);
+		
+		try {
+			// Finalize and send the bindery notification of a quote request
+			$this->Email
+					->subject("{$this->controller->company['businessName']} Order By Check")
+					->to(array($this->controller->company['order_email'] => 'Bench'))
+					->viewVars(array(
+						'acknowledgeMessage' => 'check_acknowledgement_bindery'
+
+					))
+					->send()
+			;
+
+			// Finalize and send the customer acknowledgement of a quote request
+			$this->Email
+					->subject("Your Order #{$cart['toolkit']->orderNumber()} to {$this->controller->company['businessName']}")
+					->to(array($cart['toolkit']->email() => $cart['toolkit']->customerName()))
+					->bcc($this->controller->company['email'])
+					->viewVars(array(
+						'acknowledgeMessage' => 'check_acknowledgement_customer'
+					))
+					->send()
+			;
+
+			$this->controller->logQuoteEmail('Success', $cart);
+			
+		} catch (Exception $exc) {
+			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Please try again.', 'f_error');
+			return FALSE;
+		}
+		return TRUE;
+	}
+	
+	/**
 	 * Set up the basics of an Order Acknowledgement email
 	 * 
 	 * These are the main parts for an email response to any of the checkout processes. 
