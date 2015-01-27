@@ -256,4 +256,6 @@ class CartItemsController extends AppController {
 		$this->render('add_to_cart');
 	}
 	
+	public function testMe() {
+	}
 }
