@@ -16,7 +16,12 @@ $this->end();
 //echo $this->Html->tag('h2', 'Checkout -> Address -> Payment -> Confirm', array('class' => 'checkout'));
 
 ?>
-	<h2 class="checkout">Checkout<img src="/bindery2.0/img/check_now.png" alt="dash"><strong>Address</strong><img src="/bindery2.0/img/check_step.png" alt="dash">Payment<img src="/bindery2.0/img/check_step.png" alt="dash">Confirm</h2>
+	<h2 class="checkout">
+		Checkout
+		<img src="/bindery2.0/img/check_now.png" alt="dash"><strong>Address</strong>
+		<?php if ($cart['toolkit']->mustPay()) { ?><img src="/bindery2.0/img/check_step.png" alt="dash">Payment <?php } ?>
+		<img src="/bindery2.0/img/check_step.png" alt="dash">Confirm
+	</h2>
 
 <div id="required_data">
 	<h3 class="entry">Provide Contact and Address Information</h3>
