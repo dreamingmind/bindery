@@ -93,7 +93,9 @@ class CheckoutExpressController extends CheckoutController {
 //		$order = ClassRegistry::init('CartItem')->paypalClassicNvp();
 		$payer_id = $this->Session->read('express.payer_id');
 		$token = $this->Session->read('express.token');
-		dmDebug::ddd($this->Paypal->doExpressCheckoutPayment($order, $token, $payer_id), 'do exprees checkout');
+		$response = $this->Paypal->doExpressCheckoutPayment($order, $token, $payer_id);
+//		dmDebug::ddd($response, 'do exprees checkout');
+		$this->log(json_encode($response), 'cart');
 		parent::receipt();
 	}
 	
@@ -309,24 +311,24 @@ class CheckoutExpressController extends CheckoutController {
 	 * 
 	 * @return type
 	 */
-	public function paypalClassicNvp() {
-		$cartId = $this->Cart->cartId();
-		$items = $this->find('all', array(
-			'conditions' => array('CartItem.order_id' => $cartId),
-			'contain' => false,
-		));
-		$nvp = array();
-		foreach ($items as $item) {
-			$nvp[] = array(
-				'name' => $item['CartItem']['product_name'],
-//				'description' => $item['CartItem']['product_name'],
-//				'tax' => $this->someTaxCalculator(),
-				'subtotal' => $item['CartItem']['price'],
-				'qty' => $item['CartItem']['quantity']
-			);
-		}
-		return $nvp;
-	}
+//	public function paypalClassicNvp() {
+//		$cartId = $this->Cart->cartId();
+//		$items = $this->find('all', array(
+//			'conditions' => array('CartItem.order_id' => $cartId),
+//			'contain' => false,
+//		));
+//		$nvp = array();
+//		foreach ($items as $item) {
+//			$nvp[] = array(
+//				'name' => $item['CartItem']['product_name'],
+////				'description' => $item['CartItem']['product_name'],
+////				'tax' => $this->someTaxCalculator(),
+//				'subtotal' => $item['CartItem']['price'],
+//				'qty' => $item['CartItem']['quantity']
+//			);
+//		}
+//		return $nvp;
+//	}
 
 	
 	/**

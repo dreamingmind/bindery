@@ -221,7 +221,7 @@ class CartToolKit {
 	 * @return float
 	 */
 	public function itemSubtotal($index) {
-		return $this->item[$index]['price'] * $this->item[$index]['quantity'];
+		return $this->items[$index]['price'] * $this->items[$index]['quantity'];
 	}
 
 		/**

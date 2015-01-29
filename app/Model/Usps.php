@@ -71,7 +71,7 @@ class Usps {
 		return $this->provider;
 	}
 
-	public function estimate($cart) {
+	public function estimate(CartToolKit $cart) {
 		if (empty($cart->items())) {
 			return;
 		}
