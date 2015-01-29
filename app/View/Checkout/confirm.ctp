@@ -7,7 +7,7 @@ $this->end();
 	<h2 class="checkout">
 		Checkout
 		<img src="/bindery2.0/img/check_step.png" alt="dash">Address
-		<?php if ($cart['toolkit']->mustPay()) { ?><img src="/bindery2.0/img/check_step.png" alt="dash">Payment <?php } ?>
+		<?php if ($cart['toolkit']->mustPay() && $this->request->controller != 'checkout_quote') { ?><img src="/bindery2.0/img/check_step.png" alt="dash">Payment <?php } ?>
 		<img src="/bindery2.0/img/check_now.png" alt="dash"><strong>Confirm</strong>
 	</h2>
 

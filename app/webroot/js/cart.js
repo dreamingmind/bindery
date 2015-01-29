@@ -420,7 +420,7 @@ function pay_check(e) {
 function pay_express(e){
 	var method = $(e.currentTarget).attr('method');
 	if (method == 'paypal') {
-		location.assign(webroot + 'carts/express');
+		location.assign(webroot + 'checkout_express/index');
 //		$.ajax({
 //			type: "GET",
 //			dataType: "HTML",

@@ -77,29 +77,29 @@ class CartsController extends AppController {
 	 * 
 	 * There is no detection of failed setup yet ===============================================******************************!!!!!!!!!!!!!!!!!!!!!!no error trap
 	 */
-	public function express() {
-		$CartItem = ClassRegistry::init('CartItem');
-        $this->setupPaypalClassic();
-		
-		$subtotal = $this->Cart->cartSubtotal();
-		$tax = $this->Cart->tax();
-		$shipping = $this->Cart->shipping();
-		$summary = $this->Cart->summary();
-		
-        $order = array(
-            'description' => $summary,
-            'currency' => 'USD',
-            'return' => 'https://localhost' . $this->request->webroot . 'carts/complete',
-            'cancel' => 'https://localhost' . $this->request->webroot . 'carts/checkout',
-			'items' => $CartItem->paypalClassicNvp()
-        );
-         try {
-            $this->redirect($this->token = $this->Paypal->setExpressCheckout($order));
-        } catch (Exception $e) {
-            dmDebug::ddd($e->getMessage(), 'error');
-            die;
-        }
-	}
+//	public function express() {
+//		$CartItem = ClassRegistry::init('CartItem');
+//        $this->setupPaypalClassic();
+//		
+//		$subtotal = $this->Cart->cartSubtotal();
+//		$tax = $this->Cart->tax();
+//		$shipping = $this->Cart->shipping();
+//		$summary = $this->Cart->summary();
+//		
+//        $order = array(
+//            'description' => $summary,
+//            'currency' => 'USD',
+//            'return' => 'https://localhost' . $this->request->webroot . 'carts/complete',
+//            'cancel' => 'https://localhost' . $this->request->webroot . 'carts/checkout',
+//			'items' => $CartItem->paypalClassicNvp()
+//        );
+//         try {
+//            $this->redirect($this->token = $this->Paypal->setExpressCheckout($order));
+//        } catch (Exception $e) {
+//            dmDebug::ddd($e->getMessage(), 'error');
+//            die;
+//        }
+//	}
 	
 	private function parseExpressCheckoutDetails($response) {
 		if ($response['ACK'] === 'Success') {
