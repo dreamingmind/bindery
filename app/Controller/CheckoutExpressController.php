@@ -21,8 +21,18 @@ class CheckoutExpressController extends CheckoutController {
 		parent::beforeFilter();
 		$this->Auth->allow();
 	}
-
+	
 	public function index() {
+		if ($this->request->is('Post') || $this->request->is('Put')) {
+			$this->set_express();
+		} else {
+			parent::index();
+		}
+		
+//		$this->render('/Checkout/index');
+	}
+
+	public function set_express() {
 		$CartItem = ClassRegistry::init('CartItem');
         $this->setupPaypalClassic();
 		
@@ -217,6 +227,11 @@ class CheckoutExpressController extends CheckoutController {
 	 * 
   	 */// </editor-fold>
 	/**
+	 * Process the Express Checkout Deatails returned from Paypal
+	 * 
+	 * Save the response to cart.log
+	 * Construct and save the Shipping Address
+	 * 
 	 * 
 	 * @param array $response Paypal getExpressCheckoutDetails() response
 	 */
@@ -225,7 +240,6 @@ class CheckoutExpressController extends CheckoutController {
 			$this->Session->write('express.token', $response['TOKEN']);
 			$this->Session->write('express.payer_id', $response['PAYERID']);
 			unset($response['TOKEN']);
-			unset($response['CORRELATIONID']);
 			unset($response['PAYERID']);
 			$this->log(json_encode($response), 'cart');
 
@@ -245,6 +259,7 @@ class CheckoutExpressController extends CheckoutController {
 			));
 			$Address = ClassRegistry::init('AddressModule.Address');
 			$Address->save($shipAddress);
+			
 			$this->request->data('Cart.ship_id', $Address->id);
 			$billAddress = array('Address' => array(
 					'id' => $this->request->data['Cart']['bill_id'] == '' ? NULL : $this->request->data['Cart']['bill_id'],
@@ -253,7 +268,7 @@ class CheckoutExpressController extends CheckoutController {
 					'foreign_table' => 'Cart',
 					'type' => 'billing'
 			));
-			$Address->save($shipAddress);
+			$Address->save($billAddress);
 			$this->request->data('Cart.bill_id', $Address->id)
 					->data('Cart.name', $response['FIRSTNAME'] . ' ' . $response['LASTNAME'])
 					->data('Cart.email', $response['EMAIL']);

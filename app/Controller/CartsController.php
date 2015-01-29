@@ -32,14 +32,14 @@ class CartsController extends AppController {
 //		$this->redirect(array('controller' => 'orders', 'action' => 'index', 'pass' => $id));
 //	}
     
-    public function setupPaypalClassic() {
-        $this->Paypal = new Paypal(array(
-            'sandboxMode' => true,
-            'nvpUsername' => 'ddrake-facilitator_api1.dreamingmind.com',
-            'nvpPassword' => '1373758950',
-            'nvpSignature' => 'ANrIbMXUo-yfF9kuWKgOWz14dWXXAVBcsQbD2taAL.Oggcvgh8C7SfR1'
-        ));
-    }
+//    public function setupPaypalClassic() {
+//        $this->Paypal = new Paypal(array(
+//            'sandboxMode' => true,
+//            'nvpUsername' => 'ddrake-facilitator_api1.dreamingmind.com',
+//            'nvpPassword' => '1373758950',
+//            'nvpSignature' => 'ANrIbMXUo-yfF9kuWKgOWz14dWXXAVBcsQbD2taAL.Oggcvgh8C7SfR1'
+//        ));
+//    }
 
 	/**
 	 * Transfer to the first 'checkout' process page
@@ -101,51 +101,51 @@ class CartsController extends AppController {
 //        }
 //	}
 	
-	private function parseExpressCheckoutDetails($response) {
-		if ($response['ACK'] === 'Success') {
-			unset($response['TOKEN']);
-			unset($response['CORRELATIONID']);
-			unset($response['PAYERID']);
-			$this->log(json_encode($response), 'cart');
-
-
-			$this->request->data = $this->Purchases->retrieveCart();
-			$shipAddress = array('Address' => array(
-					'id' => $this->request->data['Cart']['ship_id'] == '' ? NULL : $this->request->data['Cart']['ship_id'],
-					'name1' => $response['SHIPTONAME'],
-					'address1' => $response['SHIPTOSTREET'],
-					'city' => $response['SHIPTOCITY'],
-					'state' => $response['SHIPTOSTATE'],
-					'postal_code' => $response['SHIPTOZIP'],
-					'coutnry' => $response['SHIPTOCOUNTRYCODE'],
-					'foreign_key' => $this->request->data['Cart']['id'],
-					'foreign_table' => 'Cart',
-					'type' => 'shipping'
-			));
-			$Address = ClassRegistry::init('AddressModule.Address');
-			$Address->save($shipAddress);
-			$this->request->data('Cart.ship_id', $Address->id);
-			$billAddress = array('Address' => array(
-					'id' => $this->request->data['Cart']['bill_id'] == '' ? NULL : $this->request->data['Cart']['bill_id'],
-					'name1' => 'On file with PayPal',
-					'foreign_key' => $this->request->data['Cart']['id'],
-					'foreign_table' => 'Cart',
-					'type' => 'billing'
-			));
-			$Address->save($shipAddress);
-			$this->request->data('Cart.bill_id', $Address->id)
-					->data('Cart.name', $response['FIRSTNAME'] . ' ' . $response['LASTNAME'])
-					->data('Cart.email', $response['EMAIL']);
-			$this->Cart->save($this->request->data);
-			
-			// log something here
-			
-		} else {
-			$this->Session->setFlash("Paypal's response was {$response['ACK']}. Please try again.");
-			// log something.
-			// $result['PAYMENTREQUESTINFO_0_ERRORCODE']
-		}
- }
+//	private function parseExpressCheckoutDetails($response) {
+//		if ($response['ACK'] === 'Success') {
+//			unset($response['TOKEN']);
+//			unset($response['CORRELATIONID']);
+//			unset($response['PAYERID']);
+//			$this->log(json_encode($response), 'cart');
+//
+//
+//			$this->request->data = $this->Purchases->retrieveCart();
+//			$shipAddress = array('Address' => array(
+//					'id' => $this->request->data['Cart']['ship_id'] == '' ? NULL : $this->request->data['Cart']['ship_id'],
+//					'name1' => $response['SHIPTONAME'],
+//					'address1' => $response['SHIPTOSTREET'],
+//					'city' => $response['SHIPTOCITY'],
+//					'state' => $response['SHIPTOSTATE'],
+//					'postal_code' => $response['SHIPTOZIP'],
+//					'coutnry' => $response['SHIPTOCOUNTRYCODE'],
+//					'foreign_key' => $this->request->data['Cart']['id'],
+//					'foreign_table' => 'Cart',
+//					'type' => 'shipping'
+//			));
+//			$Address = ClassRegistry::init('AddressModule.Address');
+//			$Address->save($shipAddress);
+//			$this->request->data('Cart.ship_id', $Address->id);
+//			$billAddress = array('Address' => array(
+//					'id' => $this->request->data['Cart']['bill_id'] == '' ? NULL : $this->request->data['Cart']['bill_id'],
+//					'name1' => 'On file with PayPal',
+//					'foreign_key' => $this->request->data['Cart']['id'],
+//					'foreign_table' => 'Cart',
+//					'type' => 'billing'
+//			));
+//			$Address->save($shipAddress);
+//			$this->request->data('Cart.bill_id', $Address->id)
+//					->data('Cart.name', $response['FIRSTNAME'] . ' ' . $response['LASTNAME'])
+//					->data('Cart.email', $response['EMAIL']);
+//			$this->Cart->save($this->request->data);
+//			
+//			// log something here
+//			
+//		} else {
+//			$this->Session->setFlash("Paypal's response was {$response['ACK']}. Please try again.");
+//			// log something.
+//			// $result['PAYMENTREQUESTINFO_0_ERRORCODE']
+//		}
+// }
 	
 	/**
 	 * The final confirmation of the order after all data collection
@@ -158,12 +158,12 @@ class CartsController extends AppController {
 	 * doExpress and we'll go on to the Thanks page after successful response.
 	 * 
 	 */
-    public function complete() {
-        $this->setupPaypalClassic();
-		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
-		$this->Paypal->doExpressCheckoutPayment();
-		$this->request->data = $this->Purchases->retrieveCart();
-	}
+//    public function complete() {
+//        $this->setupPaypalClassic();
+//		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
+//		$this->Paypal->doExpressCheckoutPayment();
+//		$this->request->data = $this->Purchases->retrieveCart();
+//	}
 	
 	/**
 	 * Paypal response after return from getExpressCheckoutDetails 

@@ -72,7 +72,7 @@ class PurchasedProductHelper extends AppHelper {
 			case 'express' : // && !$toolkit->mustQuote():
 				echo $toolkit->mustPay()
 					? '<img '
-					. 'href="checkout_quote" bind="click.buttonLink" '
+					. 'href="checkout_express/set_express" bind="click.buttonLink" '
 					. 'method="paypal" '
 					. 'src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif">'
 //					. 'PayPal Express Checkout'
