@@ -13,14 +13,14 @@ class CartToolKit {
 	 *
 	 * @var array
 	 */
-	private $cart;
+	protected $cart;
 	
 	/**
 	 * The CartItem arrays numerically indexed
 	 *
 	 * @var array
 	 */
-	private $items;
+	protected $items;
 	
 	private $shipping;
 	
@@ -37,6 +37,14 @@ class CartToolKit {
 	 */
 	private $zeroItems;
 	
+	/**
+	 * Index to the current cart item
+	 *
+	 * @var int
+	 */
+	public $itemIndex = 0;
+
+
 	/**
 	 * Cart items that do have a price
 	 * @var array 
@@ -75,18 +83,45 @@ class CartToolKit {
 		}
 	}
 	
+	/**
+	 * The number of items in the Cart
+	 * 
+	 * @return int
+	 */
 	public function itemCount() {
 		return count($this->items);
 	}
 	
+	public function describeItemCount() {
+//		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
+		$i = $this->itemCount() === 1 ? 'item' : 'items';
+		return "{$this->itemCount()} $i in your cart.";
+		
+	}
+	/**
+	 * The number of items in the cart that have price=0
+	 * 
+	 * @return int
+	 */
 	public function zeroCount() {
 		return count($this->zeroItems);
 	}
 	
+	/**
+	 * The number of items in the Cart that have price>0
+	 * 
+	 * @return int
+	 */
 	public function nonZeroCount() {
 		return count($this->nonZeroItems);
 	}
 	
+	/**
+	 * Return the specified address data
+	 * 
+	 * @param string $type shipping|billing
+	 * @return array field names as first index level
+	 */
 	public function address($type) {
 		return $this->$type;
 	}
@@ -149,6 +184,13 @@ class CartToolKit {
 //	}
 	
 	/**
+	 * DEPRECATED - Moved to Usps Model
+	 */
+//	public function shippingEstimate() {
+//		return 12;
+//	}
+	
+	/**
 	 * Return the tax amount or '-TBD-'
 	 * 
 	 * @return int|string
@@ -160,20 +202,67 @@ class CartToolKit {
 		return 0;
 	}
 	
+	/**
+	 * Get the tax for the $index-th item
+	 * 
+	 * @param int $index
+	 */
+	public function itemTax($index) {
+		if ($this->mustTax()) {
+			return $this->itemSubtotal($index) * $this->taxRate;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Get the price*quantity for the $index-th item
+	 * 
+	 * @param int $index
+	 * @return float
+	 */
+	public function itemSubtotal($index) {
+		return $this->item[$index]['price'] * $this->item[$index]['quantity'];
+	}
+
+		/**
+	 * Get the field value for the $index-th item
+	 * 
+	 * @param int $index
+	 * @param string $field
+	 * @return string|NULL
+	 */
+	public function itemValue($field, $index = FALSE) {
+		if (!$index) {
+			$index = $this->itemIndex;
+		}
+
+		if (isset($this->items[$index][$field])) {
+			return $this->items[$index][$field];
+		} else {
+			return NULL;
+		}
+	}
+
+		/**
+	 * Return the sum of the nonZero priced items in the cart
+	 * 
+	 * @return float
+	 */
 	public function subtotal() {
 		return $this->subtotal;
 	}
-	
-	public function shippingEstimate() {
-		return 12;
-	}
 
+	/**
+	 * Return the shipping zip code
+	 * 
+	 * @return string
+	 */
 	public function shippingZipCode() {
 		return $this->shipping['postal_code'];
 	}
 	
 	/**
-	 * Return all of some of the fields for the set of items in the cart
+	 * Return all or some of the fields for the set of items in the cart
 	 * 
 	 * @param array $fields field keys to filter the return
 	 * @return array
@@ -190,26 +279,57 @@ class CartToolKit {
 		}
 
 	}
+	
+	/**
+	 * Return the order number for this cart
+	 * 
+	 * @return string
+	 */
 	public function orderNumber() {
 		return $this->cart['number'];
 	}
 	
+	/**
+	 * Return the cart owner's email address
+	 * 
+	 * @return string
+	 */
 	public function email() {
 		return $this->cart['email'];
 	}
 	
+	/**
+	 * Return the cart owner's phone number
+	 * 
+	 * @return string
+	 */
 	public function phone() {
 		return $this->cart['phone'];
 	}
 	
+	/**
+	 * Return the cart owner's name
+	 * 
+	 * @return string
+	 */
 	public function customerName() {
 		return $this->cart['name'];
 	}
 	
+	/**
+	 * Return the id of the Cart record
+	 * 
+	 * @return string
+	 */
 	public function cartId() {
 		return $this->cart['id'];
 	}
 	
+	/**
+	 * Return a comma delimited in list of cart item IDs
+	 * 
+	 * @return string
+	 */
 	public function itemInList() {
 		$list = array();
 		foreach ($this->items as $item) {
@@ -220,23 +340,23 @@ class CartToolKit {
 }
 
 // This iterator filters all items who's price != 0
-class ZeroFilter extends FilterIterator {
-
-    public function accept() {
-		$item = parent::current();
-        //
-        return $item['price'] == 0;
-    }
-
-}
-
-// This iterator filters all items who's price <= 0
-class NonZeroFilter extends FilterIterator {
-
-    public function accept() {
-		$item = parent::current();
-        //
-        return $item['price'] != 0;
-    }
-
-}
+//class ZeroFilter extends FilterIterator {
+//
+//    public function accept() {
+//		$item = parent::current();
+//        //
+//        return $item['price'] == 0;
+//    }
+//
+//}
+//
+//// This iterator filters all items who's price <= 0
+//class NonZeroFilter extends FilterIterator {
+//
+//    public function accept() {
+//		$item = parent::current();
+//        //
+//        return $item['price'] != 0;
+//    }
+//
+//}

@@ -403,27 +403,39 @@ class Cart extends Order {
 		return $cart;
 	}
 	
-	public function cartSubtotal($id = NULL) {
-		if (is_null($id)) {
-			$id = $this->cartId();
-		}
-		return $this->CartItem->cartSubtotal($id);
-	}
+	/**
+	 * DEPRICATED - use CartToolKit::subtotal();
+	 */
+//	public function cartSubtotal($id = NULL) {
+//		if (is_null($id)) {
+//			$id = $this->cartId();
+//		}
+//		return $this->CartItem->cartSubtotal($id);
+//	}
 	
-	public function tax() {
-		return '0.00';
-	}
+	/**
+	 * DEPRICATED - use CartToolKit::taxAmount();
+	 */
+//	public function tax() {
+//		return '0.00';
+//	}
 	
-	public function shipping() {
-		return '0.00';
-	}
+	/**
+	 * DEPRICATED - use UpsModel::estimate();
+	 */
+//	public function shipping() {
+//		return '0.00';
+//	}
 	
-	public function summary() {
-//		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
-		$i = $this->count() === 1 ? 'item' : 'items';
-		return "{$this->count()} $i in your cart.";
-		
-	}
+	/**
+	 * DEPRICATED - use CartToolKit::describeItemCount();
+	 */
+//	public function summary() {
+////		$tot = $this->tax + $this->shipping() + $this->cartSubtotal();
+//		$i = $this->count() === 1 ? 'item' : 'items';
+//		return "{$this->count()} $i in your cart.";
+//		
+//	}
 	
 	/**
 	 * Set the state on an active cart item

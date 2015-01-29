@@ -1,5 +1,6 @@
 <?php
 App::uses('CheckoutController', 'Controller');
+App::uses('CartToolKitPP', 'Lib');
 App::uses('Paypal', 'Paypal.Lib');
 
 /**
@@ -17,9 +18,17 @@ class CheckoutExpressController extends CheckoutController {
 	
 	public $components = array();
 	
+	/**
+	 * The PayPal version of the CartToolKit
+	 *
+	 * @var object
+	 */
+	public $toolkit;
+		
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
+		
 	}
 	
 	public function index() {
@@ -33,21 +42,16 @@ class CheckoutExpressController extends CheckoutController {
 	}
 
 	public function set_express() {
+		// should this be moved back to properties set in CheckoutController?
+		$cart = $this->Purchases->retrieveCart();
+		$this->toolkit = new CartToolKitPP($cart);
+
 		$CartItem = ClassRegistry::init('CartItem');
-        $this->setupPaypalClassic();
+        $this->setupPaypalClassicCedentials();
+		$order = $this->toolkit->pp_order(
+				'https://localhost' . $this->request->webroot . 'checkout_express/confirm',
+				'https://localhost' . $this->request->webroot . 'checkout_express/checkout');
 		
-		$subtotal = $this->Cart->cartSubtotal();
-		$tax = $this->Cart->tax();
-		$shipping = $this->Cart->shipping();
-		$summary = $this->Cart->summary();
-		
-        $order = array(
-            'description' => $summary,
-            'currency' => 'USD',
-            'return' => 'https://localhost' . $this->request->webroot . 'checkout_express/confirm',
-            'cancel' => 'https://localhost' . $this->request->webroot . 'checkout_express/checkout',
-			'items' => $CartItem->paypalClassicNvp()
-        );
          try {
             $this->redirect($this->token = $this->Paypal->setExpressCheckout($order));
         } catch (Exception $e) {
@@ -62,37 +66,10 @@ class CheckoutExpressController extends CheckoutController {
 	}
 
 	/**
-	 * array(
-	'TOKEN' => 'EC-9SN761957D3943646',
-	'SUCCESSPAGEREDIRECTREQUESTED' => 'false',
-	'TIMESTAMP' => '2015-01-28T00:50:29Z',
-	'CORRELATIONID' => '1647cc08e23de',
-	'ACK' => 'Success',
-	'VERSION' => '104.0',
-	'BUILD' => '15009693',
-	'INSURANCEOPTIONSELECTED' => 'false',
-	'SHIPPINGOPTIONISDEFAULT' => 'false',
-	'PAYMENTINFO_0_TRANSACTIONID' => '6TJ90306BH2028711',
-	'PAYMENTINFO_0_TRANSACTIONTYPE' => 'cart',
-	'PAYMENTINFO_0_PAYMENTTYPE' => 'instant',
-	'PAYMENTINFO_0_ORDERTIME' => '2015-01-28T00:50:28Z',
-	'PAYMENTINFO_0_AMT' => '224.00',
-	'PAYMENTINFO_0_FEEAMT' => '6.80',
-	'PAYMENTINFO_0_TAXAMT' => '0.00',
-	'PAYMENTINFO_0_CURRENCYCODE' => 'USD',
-	'PAYMENTINFO_0_PAYMENTSTATUS' => 'Completed',
-	'PAYMENTINFO_0_PENDINGREASON' => 'None',
-	'PAYMENTINFO_0_REASONCODE' => 'None',
-	'PAYMENTINFO_0_PROTECTIONELIGIBILITY' => 'Eligible',
-	'PAYMENTINFO_0_PROTECTIONELIGIBILITYTYPE' => 'ItemNotReceivedEligible,UnauthorizedPaymentEligible',
-	'PAYMENTINFO_0_SECUREMERCHANTACCOUNTID' => 'HQQ3WZK6B7UBS',
-	'PAYMENTINFO_0_ERRORCODE' => '0',
-	'PAYMENTINFO_0_ACK' => 'Success'
-)
 
 	 */
 	public function confirm() {
-        $this->setupPaypalClassic();
+		$this->setupPaypalClassicCedentials();
 		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
 //		$this->request->data = $this->Purchases->retrieveCart();
 		parent::confirm();
@@ -102,21 +79,16 @@ class CheckoutExpressController extends CheckoutController {
 	}
     
 	public function receipt() {
+		// should this be moved back to properties set in CheckoutController?
+		$cart = $this->Purchases->retrieveCart();
+		$this->toolkit = new CartToolKitPP($cart);
+
 		$CartItem = ClassRegistry::init('CartItem');
-        $this->setupPaypalClassic();
+        $this->setupPaypalClassicCedentials();
+		$order = $this->toolkit->pp_order(
+				'https://localhost' . $this->request->webroot . 'checkout_express/receipt',
+				'https://localhost' . $this->request->webroot . 'checkout_express/cancel');
 		
-		$subtotal = $this->Cart->cartSubtotal();
-		$tax = $this->Cart->tax();
-		$shipping = $this->Cart->shipping();
-		$summary = $this->Cart->summary();
-		
-        $order = array(
-            'description' => $summary,
-            'currency' => 'USD',
-            'return' => 'https://localhost' . $this->request->webroot . 'checkout_express/receipt',
-            'cancel' => 'https://localhost' . $this->request->webroot . 'checkout_express/cancel',
-			'items' => $CartItem->paypalClassicNvp()
-        );
 //        $this->setupPaypalClassic();
 //		$order = ClassRegistry::init('CartItem')->paypalClassicNvp();
 		$payer_id = $this->Session->read('express.payer_id');
@@ -125,7 +97,12 @@ class CheckoutExpressController extends CheckoutController {
 		parent::receipt();
 	}
 	
-    protected function setupPaypalClassic() {
+	/**
+	 * Set endpoint and credentials
+	 * 
+	 * Should be moved to database config?
+	 */
+    protected function setupPaypalClassicCedentials() {
         $this->Paypal = new Paypal(array(
             'sandboxMode' => true,
             'nvpUsername' => 'ddrake-facilitator_api1.dreamingmind.com',
@@ -134,6 +111,37 @@ class CheckoutExpressController extends CheckoutController {
         ));
     }
 	
+// <editor-fold defaultstate="collapsed" desc="doExpressCheckoutPayment() RESPONSE">
+	/**
+	 * array(
+	 * 'TOKEN' => 'EC-9SN761957D3943646',
+	 * 'SUCCESSPAGEREDIRECTREQUESTED' => 'false',
+	 * 'TIMESTAMP' => '2015-01-28T00:50:29Z',
+	 * 'CORRELATIONID' => '1647cc08e23de',
+	 * 'ACK' => 'Success',
+	 * 'VERSION' => '104.0',
+	 * 'BUILD' => '15009693',
+	 * 'INSURANCEOPTIONSELECTED' => 'false',
+	 * 'SHIPPINGOPTIONISDEFAULT' => 'false',
+	 * 'PAYMENTINFO_0_TRANSACTIONID' => '6TJ90306BH2028711',
+	 * 'PAYMENTINFO_0_TRANSACTIONTYPE' => 'cart',
+	 * 'PAYMENTINFO_0_PAYMENTTYPE' => 'instant',
+	 * 'PAYMENTINFO_0_ORDERTIME' => '2015-01-28T00:50:28Z',
+	 * 'PAYMENTINFO_0_AMT' => '224.00',
+	 * 'PAYMENTINFO_0_FEEAMT' => '6.80',
+	 * 'PAYMENTINFO_0_TAXAMT' => '0.00',
+	 * 'PAYMENTINFO_0_CURRENCYCODE' => 'USD',
+	 * 'PAYMENTINFO_0_PAYMENTSTATUS' => 'Completed',
+	 * 'PAYMENTINFO_0_PENDINGREASON' => 'None',
+	 * 'PAYMENTINFO_0_REASONCODE' => 'None',
+	 * 'PAYMENTINFO_0_PROTECTIONELIGIBILITY' => 'Eligible',
+	 * 'PAYMENTINFO_0_PROTECTIONELIGIBILITYTYPE' => 'ItemNotReceivedEligible,UnauthorizedPaymentEligible',
+	 * 'PAYMENTINFO_0_SECUREMERCHANTACCOUNTID' => 'HQQ3WZK6B7UBS',
+	 * 'PAYMENTINFO_0_ERRORCODE' => '0',
+	 * 'PAYMENTINFO_0_ACK' => 'Success'
+	 * )
+	 */// </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="getExpressCheckoutDetails() RESPONSE">
 	/**
 	 * Paypal response after return from getExpressCheckoutDetails 
@@ -295,6 +303,31 @@ class CheckoutExpressController extends CheckoutController {
 		$this->scripts[] = 'order_addresses';
 		$this->request->data = $this->Purchases->retrieveCart();		
 	}
+	
+	/**
+	 * TEMP - HOLD - REWRITE
+	 * 
+	 * @return type
+	 */
+	public function paypalClassicNvp() {
+		$cartId = $this->Cart->cartId();
+		$items = $this->find('all', array(
+			'conditions' => array('CartItem.order_id' => $cartId),
+			'contain' => false,
+		));
+		$nvp = array();
+		foreach ($items as $item) {
+			$nvp[] = array(
+				'name' => $item['CartItem']['product_name'],
+//				'description' => $item['CartItem']['product_name'],
+//				'tax' => $this->someTaxCalculator(),
+				'subtotal' => $item['CartItem']['price'],
+				'qty' => $item['CartItem']['quantity']
+			);
+		}
+		return $nvp;
+	}
+
 	
 	/**
 	 * Forced collection of contact info for shopping carts
