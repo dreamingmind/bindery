@@ -19,6 +19,13 @@ class CheckoutExpressController extends CheckoutController {
 	public $components = array();
 	
 	/**
+	 * The Payment Model
+	 *
+	 * @var Model
+	 */
+	public $Payment;
+	
+	/**
 	 * The PayPal version of the CartToolKit
 	 *
 	 * @var object
@@ -69,8 +76,9 @@ class CheckoutExpressController extends CheckoutController {
 
 	 */
 	public function confirm() {
+		$toolkit = new CartToolKitPP($this->Purchases->retrieveCart());
 		$this->setupPaypalClassicCedentials();
-		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']));
+		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']), $toolkit);
 //		$this->request->data = $this->Purchases->retrieveCart();
 		parent::confirm();
 		$this->set('confirmMessage','Please confirm the accuracy of this information'
@@ -79,24 +87,28 @@ class CheckoutExpressController extends CheckoutController {
 	}
     
 	public function receipt() {
+		
 		// should this be moved back to properties set in CheckoutController?
-		$cart = $this->Purchases->retrieveCart();
-		$this->toolkit = new CartToolKitPP($cart);
+		$this->toolkit = new CartToolKitPP($this->Purchases->retrieveCart());
 
-		$CartItem = ClassRegistry::init('CartItem');
         $this->setupPaypalClassicCedentials();
 		$order = $this->toolkit->pp_order(
 				'https://localhost' . $this->request->webroot . 'checkout_express/receipt',
 				'https://localhost' . $this->request->webroot . 'checkout_express/cancel');
 		
-//        $this->setupPaypalClassic();
-//		$order = ClassRegistry::init('CartItem')->paypalClassicNvp();
 		$payer_id = $this->Session->read('express.payer_id');
 		$token = $this->Session->read('express.token');
 		$response = $this->Paypal->doExpressCheckoutPayment($order, $token, $payer_id);
-//		dmDebug::ddd($response, 'do exprees checkout');
-		$this->log(json_encode($response), 'cart');
+
+		ClassRegistry::init('Payment')->orderEvent(
+			$this->toolkit->cartId(),
+			$this->toolkit->userId(),
+			'doExpressCheckout',
+			json_encode($response)
+		);
+		
 		parent::receipt();
+		$this->render('/Checkout/receipt');
 	}
 	
 	/**
@@ -239,44 +251,53 @@ class CheckoutExpressController extends CheckoutController {
 	/**
 	 * Process the Express Checkout Deatails returned from Paypal
 	 * 
+	 * Decompose this mess ==================================================================================
+	 * 
 	 * Save the response to cart.log
 	 * Construct and save the Shipping Address
 	 * 
 	 * 
 	 * @param array $response Paypal getExpressCheckoutDetails() response
 	 */
-	private function parseExpressCheckoutDetails($response) {
+	private function parseExpressCheckoutDetails($response, $toolkit) {
 		if ($response['ACK'] === 'Success') {
 			$this->Session->write('express.token', $response['TOKEN']);
 			$this->Session->write('express.payer_id', $response['PAYERID']);
-			unset($response['TOKEN']);
-			unset($response['PAYERID']);
-			$this->log(json_encode($response), 'cart');
+//			unset($response['TOKEN']);
+//			unset($response['PAYERID']);
+			
+//			$this->log(json_encode($response), 'cart');
+			ClassRegistry::init('Payment')->orderEvent(
+				$toolkit->cartId(),
+				$toolkit->userId(),
+				'setExpressCheckout',
+				json_encode($response)
+			);
 
 
 			$this->request->data = $this->Purchases->retrieveCart();
 			$shipAddress = array('Address' => array(
-					'id' => $this->request->data['Cart']['ship_id'] == '' ? NULL : $this->request->data['Cart']['ship_id'],
-					'name1' => $response['SHIPTONAME'],
-					'address1' => $response['SHIPTOSTREET'],
-					'city' => $response['SHIPTOCITY'],
-					'state' => $response['SHIPTOSTATE'],
-					'postal_code' => $response['SHIPTOZIP'],
-					'coutnry' => $response['SHIPTOCOUNTRYCODE'],
-					'foreign_key' => $this->request->data['Cart']['id'],
-					'foreign_table' => 'Cart',
-					'type' => 'shipping'
+				'id' => $this->request->data['Cart']['ship_id'] == '' ? NULL : $this->request->data['Cart']['ship_id'],
+				'name1' => $response['SHIPTONAME'],
+				'address1' => $response['SHIPTOSTREET'],
+				'city' => $response['SHIPTOCITY'],
+				'state' => $response['SHIPTOSTATE'],
+				'postal_code' => $response['SHIPTOZIP'],
+				'coutnry' => $response['SHIPTOCOUNTRYCODE'],
+				'foreign_key' => $this->request->data['Cart']['id'],
+				'foreign_table' => 'Cart',
+				'type' => 'shipping'
 			));
 			$Address = ClassRegistry::init('AddressModule.Address');
 			$Address->save($shipAddress);
 			
 			$this->request->data('Cart.ship_id', $Address->id);
 			$billAddress = array('Address' => array(
-					'id' => $this->request->data['Cart']['bill_id'] == '' ? NULL : $this->request->data['Cart']['bill_id'],
-					'name1' => 'On file with PayPal',
-					'foreign_key' => $this->request->data['Cart']['id'],
-					'foreign_table' => 'Cart',
-					'type' => 'billing'
+				'id' => $this->request->data['Cart']['bill_id'] == '' ? NULL : $this->request->data['Cart']['bill_id'],
+				'name1' => 'On file with PayPal',
+				'foreign_key' => $this->request->data['Cart']['id'],
+				'foreign_table' => 'Cart',
+				'type' => 'billing'
 			));
 			$Address->save($billAddress);
 			$this->request->data('Cart.bill_id', $Address->id)

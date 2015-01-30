@@ -326,6 +326,15 @@ class CartToolKit {
 	}
 	
 	/**
+	 * Return the id of the User that owns the Cart (even if anon, return '')
+	 * 
+	 * @return string
+	 */
+	public function userId() {
+		return $this->cart['user_id'];
+	}
+	
+	/**
 	 * Return a comma delimited in list of cart item IDs
 	 * 
 	 * @return string
