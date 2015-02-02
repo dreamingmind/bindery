@@ -28,7 +28,7 @@ $this->end();
 <!-- The left-hand, previous data review/edit section -->
 <div id="cart_checkout">
 <?php
-echo $this->element('Cart/contact_review');
+echo $this->element('Cart/contact_review_dynamic');
 echo $this->element('AddressModule.simple_address_review_dynamic', array('alias' => 'Billing', 'address' => $this->request->data('Billing')));
 echo $this->element('AddressModule.simple_address_review_dynamic', array('alias' => 'Shipping', 'address' => $this->request->data('Shipping')));
 echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));
