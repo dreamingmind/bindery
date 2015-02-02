@@ -6,10 +6,10 @@
 		<p class="phone"><?php echo $toolkit->phone(); ?></p>
 		<fieldset class="edit_contact hide">
 			<?php 
-				echo $this->Form->input('name', array('value' => $toolkit->customerName()));
-				echo $this->Form->input('email', array('value' => $toolkit->email()));
+				echo $this->Form->input('name', array('value' => $toolkit->customerName(), 'required' => 'required'));
+				echo $this->Form->input('email', array('value' => $toolkit->email(), 'required' => 'required'));
 				echo $this->Form->input('phone', array('value' => $toolkit->phone()));
-				echo "\t\n" . $this->Form->button('Submit', array('type' => 'button', 'class' => 'submit')) . "\n";
+				echo "\t\n" . $this->Form->button('Submit', array('type' => 'button', 'class' => 'submit', 'bind' => 'click.dynamic_contact_submit')) . "\n";
 				echo "\t\n" . $this->Form->button('Cancel', array('type' => 'button', 'class' => 'cancel')) . "\n";
 			?>
 		</fieldset>

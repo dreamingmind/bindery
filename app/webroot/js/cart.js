@@ -465,3 +465,29 @@ function methodChoice(e) {
 	}
 	$(e.currentTarget).val('');
 }
+
+/**
+ * Ajax update of contact info during checkout review
+ * 
+ * @param event e
+ * @returns json
+ */
+function dynamic_contact_submit(e) {
+	e.preventDefault();
+	var data_updates = $('fieldset.edit_contact').serialize();
+	$.ajax({
+		type: "POST",
+		dataType: "JSON",
+		data: data_updates,
+		url: webroot + 'carts/update_contact',
+		success: function (data) {
+			$('address.address_review').replaceAll(data.contact_block);
+			bindHandlers();
+			initToggles();
+		},
+		error: function (data) {
+			
+		}
+	})
+
+}

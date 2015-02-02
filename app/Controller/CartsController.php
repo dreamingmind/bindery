@@ -301,4 +301,16 @@ class CartsController extends AppController {
 		$this->layout = 'ajax';
 		$this->render('/Ajax/flashOut');
 	}
+	
+	public function update_contact(){
+		$this->layout = 'ajax';
+
+		if ($this->Cart->save($this->request->data)) {
+			$this->Session->setFlash('Contact information updated', 'f_success');
+		} else {
+			$this->Session->setFlash('Contact information couldn\'t be saved. Please try again,', 'f_success');
+		}
+		$cart = $this->Purchases->retrieveCart();
+		$this->set('toolkit', $cart['toolkit']);
+	}
 }
