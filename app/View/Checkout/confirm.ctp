@@ -1,9 +1,11 @@
 <?php
 $this->append('css');
-//echo $this->Html->script('checkout');
+echo $this->Html->css('receipt');
 echo $this->Html->css('AddressModule.address_module');
 $this->end();
 ?>
+<section class="confirm">
+	
 	<h2 class="checkout">
 		Checkout
 		<img src="/bindery2.0/img/check_step.png" alt="dash">Address
@@ -37,6 +39,11 @@ $this->end();
 </table>
 <table>
 	<tbody>
+	<thead>
+		<tr>
+			<th>Item</th><th>Item Details</th><th>Price</th>
+		</tr>
+	</thead>
 		<?php 
 		foreach ($cart['CartItem'] as $item){
 			$this->set('item', array('CartItem'=>$item));
@@ -48,4 +55,6 @@ $this->end();
 <?php 
 echo $this->element('Cart/cart_summary'); 
 echo $this->element('Cart/confirm_button_block');
+$_
 ?>
+</section>

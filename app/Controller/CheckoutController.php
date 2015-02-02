@@ -153,6 +153,8 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->set('fieldsetOptions', array('class' => 'contact'));
 
 		// for the rest of the view
+		$cart = $this->Purchases->retrieveCart();
+		$this->set('toolkit', $cart['toolkit']);
 		$this->set('referer', $this->referer()); // take care of elsewhere? 
 		$this->set('contentDivIdAttr', 'checkout'); // what is this for?
 		$this->layout = 'checkout'; 

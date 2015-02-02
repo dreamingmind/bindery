@@ -221,3 +221,7 @@ table.addresses > tbody > tr > td:nth-child(2) {
     text-align: center;
     width: 100%;
 }
+
+section.confirm {
+	padding: 1em 1.5em;
+}

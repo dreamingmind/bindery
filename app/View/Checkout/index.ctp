@@ -23,6 +23,7 @@ $this->end();
 		<img src="/bindery2.0/img/check_step.png" alt="dash">Confirm
 	</h2>
 
+<!-- The right-hand, new data input section -->
 <div id="required_data">
 	<h3 class="entry">Provide Contact and Address Information</h3>
 	<?php 
@@ -40,6 +41,8 @@ $this->end();
 
 	?>
 </div>
+
+<!-- The left-hand, previous data review/edit section -->
 <div id="cart_checkout">
 <?php
 echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));

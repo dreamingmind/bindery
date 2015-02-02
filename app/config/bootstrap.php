@@ -195,26 +195,20 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
-//CakeLog::config('status', array(
-//	'engine' => 'FileLog',
-//	'types' => array('status'),
-//	'file' => 'Status/status'.date('.Y.m.W')
-//));
-//CakeLog::config('inventory', array(
-//	'engine' => 'FileLog',
-//	'types' => array('inventory'),
-//	'file' => 'Inventory/inventory/inventory'.date('.Y.m.W')
-//));
+
 CakeLog::config('varlog', array(
 	'engine' => 'FileLog',
 	'types' => array('varlog'),
 	'file' => 'varlog'
 ));
+
+// I think this one has been left behind (1/29/15)
 CakeLog::config('cart', array(
 'engine' => 'FileLog',
 'types' => array('cart'),
 'file' => 'Cart/cart'.date('.Y.m')
 ));
+
 CakeLog::config('order_email', array(
 'engine' => 'FileLog',
 'types' => array('order_email'),
@@ -225,16 +219,6 @@ CakeLog::config('cart_activity', array(
 'types' => array('cart_activity'),
 'file' => 'cart/cart_activity'.date('.Y')
 ));
-//CakeLog::config('robotIO', array(
-//'engine' => 'FileLog',
-//'types' => array('robotIO'),
-//'file' => 'Robot/robotIO'.date('.Y.m')
-//));
-//CakeLog::config('notificationLog', array(
-//'engine' => 'FileLog',
-//'types' => array('notificationLog'),
-//'file' => 'Notification/notification'.date('.Y.m')
-//));
 
 CakePlugin::load(array('Markdown' => array('bootstrap' => true)));
 
