@@ -481,9 +481,9 @@ function dynamic_contact_submit(e) {
 		data: data_updates,
 		url: webroot + 'carts/update_contact',
 		success: function (data) {
-			$('address.address_review').replaceAll(data.contact_block);
+			$('address.contact_review').replaceWith(data.contact_block);
 			bindHandlers();
-			initToggles();
+//			initToggles();
 		},
 		error: function (data) {
 			
