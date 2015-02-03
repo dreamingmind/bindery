@@ -1,0 +1,39 @@
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.ltGrey {
+	background-color: #dcdacf;
+	border: thin solid #98a49a;
+}
+
+.medBlue {
+	background-color: #98a49a;
+	border: thin solid #4e7373;
+}
+
+.blue {
+	background-color: #4e7373;
+	border: thin solid #094351;
+	color: #E1D7C4;
+}
+
+.drkBlue {
+	background-color: #094351;
+	border: thin solid #062619;
+	color: #dcdacf;
+}
+

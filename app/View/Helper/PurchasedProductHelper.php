@@ -62,7 +62,7 @@ class PurchasedProductHelper extends AppHelper {
 			case 'checkout':
 				if ($toolkit->mustPay()) {
 					return $this->Form->button('Checkout', array(
-								'class' => 'checkout',
+								'class' => 'checkout btn',
 								'bind' => 'click.checkout'
 					)) . "\n";
 				} else {
@@ -86,19 +86,19 @@ class PurchasedProductHelper extends AppHelper {
 //					. 'src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif">'
 				break;
 			case 'confirm' :// && !$toolkit->mustQuote():
-				echo $this->Form->button('Confirm', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.buttonLink'));
+				echo $this->Form->button('Confirm', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.buttonLink', 'class' => 'btn blue'));
 				break;
 			case 'creditcard' :// && !$toolkit->mustQuote():
-				echo !$toolkit->includesQuote() ? "<button>Credit Card</button>\n" : '';
+				echo !$toolkit->includesQuote() ? "<button class=\"btn\">Credit Card</button>\n" : '';
 				break;
 			case 'check' :// && !$toolkit->mustQuote():
-				echo !$toolkit->includesQuote() ? "<button>Pay by Check</button>\n" : '';
+				echo !$toolkit->includesQuote() ? "<button class=\"btn\">Pay by Check</button>\n" : '';
 				break;
 			case 'quote' :
 				$this->checkoutQuoteButton($toolkit);
 				break;
 			case 'back_edit' :
-				echo "<button bind=\"click.backToEdit\">Back to edit</button>\n";
+				echo "<button class=\"btn ltGrey\" bind=\"click.backToEdit\">Back to edit</button>\n";
 				break;
 			case 'continue':
 				return $this->checkoutContinueButton($toolkit);
@@ -114,9 +114,9 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutQuoteButton($toolkit) {
 		if (!$toolkit->mustPay()) {
 			if (stristr($this->request->controller, 'checkout')) {
-				$button = $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm'));
+				$button = $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm', 'class' => 'btn'));
 			} else {
-				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink'));
+				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink', 'class' => 'btn'));
 			}
 			echo $button . "\n" . $this->Html->tag('aside', 
 					'Once a single item can\'t be priced, your cart will be submitted for quote before arranging for payment.');
@@ -163,7 +163,8 @@ class PurchasedProductHelper extends AppHelper {
 		return $this->Form->button('Continue Shopping', array(
 				'id' => 'continue',
 				'bind' => 'click.continueShopping',
-				'href' => $href
+				'href' => $href,
+				'class' => 'btn ltGrey'
 			)) . "\n";
 	}				
 

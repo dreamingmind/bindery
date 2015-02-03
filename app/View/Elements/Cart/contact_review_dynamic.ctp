@@ -10,8 +10,8 @@
 				echo $this->Form->input('name', array('value' => $toolkit->customerName(), 'required' => 'required'));
 				echo $this->Form->input('email', array('value' => $toolkit->email(), 'required' => 'required'));
 				echo $this->Form->input('phone', array('value' => $toolkit->phone()));
-				echo "\t\n" . $this->Form->button('Submit', array('type' => 'button', 'class' => 'submit', 'bind' => 'click.dynamic_contact_submit')) . "\n";
-				echo "\t\n" . $this->Form->button('Cancel', array('type' => 'button', 'class' => 'cancel')) . "\n";
+				echo "\t\n" . $this->Form->button('Submit', array('type' => 'button', 'class' => 'submit btn blue', 'bind' => 'click.dynamic_contact_submit')) . "\n";
+				echo "\t\n" . $this->Form->button('Cancel', array('type' => 'button', 'class' => 'cancel btn ltGrey')) . "\n";
 			?>
 		</fieldset>
 	</address>
