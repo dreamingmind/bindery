@@ -55,6 +55,8 @@ $this->end();
 <?php 
 echo $this->element('Cart/cart_summary'); 
 echo $this->element('Cart/confirm_button_block');
-$_
+
+echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']);
+
 ?>
 </section>

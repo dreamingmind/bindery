@@ -24,6 +24,9 @@ $this->end();
 	</h2>
 
 <div id="required_data">
+	
+	<?php echo $this->element('Cart/checkout_button_block'); ?>
+
 	<h3 class="entry">Provide Contact and Address Information</h3>
 	<?php 
 	echo $this->Form->create('Cart');
@@ -44,7 +47,9 @@ $this->end();
 <div id="cart_checkout">
 <?php
 echo $this->element('Cart/cart_ui', array('cartClass' => $cartClass));
-echo $this->element('Cart/checkout_button_block');
+
+echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']);
+
 if (count($cart) == 0) {
 	echo $this->Html->para(NULL, 'Your cart is empty.');
 }

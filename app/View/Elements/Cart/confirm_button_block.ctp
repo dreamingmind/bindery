@@ -1,6 +1,6 @@
 <div class="button_block">
 	
-	<?php echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']); ?>
+	<?php // echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']); ?>
 	
 	<div class="proceed">
 		

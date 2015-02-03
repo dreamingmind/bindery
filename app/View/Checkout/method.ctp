@@ -19,10 +19,14 @@ $this->end();
 
 <!-- The right-hand, new data input section -->
 <div id="required_data">
+	
+	
 	<h3 class="entry">Choose a payment method</h3>
 	<?php 
 		echo $this->element('Cart/method_button_block');
-	?>
+		
+		echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']);
+?>
 </div>
 
 <!-- The left-hand, previous data review/edit section -->
