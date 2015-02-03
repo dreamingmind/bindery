@@ -322,3 +322,13 @@ asside {
     text-align: center;
     width: 100%;
 }
+
+section[id*="dynamic_review_"], address.contact_review {
+    border-bottom: thin solid #b89b5c;
+    padding: 0.5em;
+    position: relative;
+}
+
+section[id*="dynamic_review_"] > div.fieldset {
+	padding-bottom: 1.5em;
+}

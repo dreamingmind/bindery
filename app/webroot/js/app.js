@@ -145,6 +145,19 @@ function cartCount() {
 	return $('#cart_badge span.count').html();
 }
 
+    /**
+     * Set up the click on a node to control the display-toggle of another node
+     * 
+     * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
+     */
+    function initToggles(){
+        $('.toggle').bind('click',function(){
+            $('.'+$(this).attr('id')).toggle(50,function(){
+                // animation complete.
+            });
+        })
+    }
+    
 /**
  * Document ready section =========================================================================
  * ========================================================================= Document ready section
@@ -169,19 +182,6 @@ $(document).ready(function(){
                 $(this).css('color','black').css('font-weight','bold');
             }
         });
-    }
-    
-    /**
-     * Set up the click on a node to control the display-toggle of another node
-     * 
-     * Any <item class=toggle id=unique_name> will toggle <item class=unique_name> on click
-     */
-    function initToggles(){
-        $('.toggle').bind('click',function(){
-            $('.'+$(this).attr('id')).toggle(50,function(){
-                // animation complete.
-            });
-        })
     }
     
     /**
