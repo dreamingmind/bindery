@@ -490,4 +490,9 @@ function dynamic_contact_submit(e) {
 		}
 	})
 
+}	
+
+function review_contact(e) {
+	$(e.currentTarget).parent('fieldset').css('display', 'none');
+	$('div.review_contact').css('display', 'block');
 }
