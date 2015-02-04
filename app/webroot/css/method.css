@@ -1,0 +1,8 @@
+.input > label {
+    margin-bottom: 3px;
+    margin-top: 7px;
+}
+
+select {
+	padding: 6px 12px;
+}

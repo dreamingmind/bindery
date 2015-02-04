@@ -157,6 +157,7 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->set('toolkit', $cart['toolkit']);
 		$this->set('referer', $this->referer()); // take care of elsewhere? 
 		$this->set('contentDivIdAttr', 'checkout'); // what is this for?
+		$this->css[] = 'method';
 		$this->layout = 'checkout'; 
 		
 		$this->render('method');
