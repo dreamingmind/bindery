@@ -3,7 +3,7 @@
 App::uses('CartToolKit', 'Lib');
 App::uses('Usps', 'Model');
 /**
- * Description of CartToolKitPP
+ * CartToolKitPP adds PayPal tools to the standard CartToolKit
  *
  * @author dondrake
  */
@@ -24,10 +24,11 @@ class CartToolKitPP extends CartToolKit{
 	}
 	
 	/**
+	 * Construct an Order NVP compliant array from the current cart
 	 * 
-	 * @param string $return
-	 * @param string $cancel
-	 * @param type $currency
+	 * @param string $return URL return destination for successful Paypal call
+	 * @param string $cancel URL return destination for canceled Paypal call
+	 * @param type $currency Currency type. Defaults to USD
 	 */
 	public function pp_order($return_url, $cancel_url, $currency = 'USD') {
 
@@ -47,13 +48,18 @@ class CartToolKitPP extends CartToolKit{
 		return $order;
 	}
 	
+	/**
+	 * Make Item nodes for an Order NVP compliant array
+	 * 
+	 * @return array
+	 */
 	protected function assembleOrderItems() {
 		$nvp = array();
 		foreach ($this->items as $index => $item) {
 			$this->itemIndex = $index;
 			$nvp[] = array(
 				'name' => $this->itemValue('name'),
-				'description' => $this->itemValue('blurb') . ' - ' . $this->itemValue('options'),
+				'description' => $this->itemValue('blurb'),
 				'tax' => $this->itemTax($index),
 				'subtotal' => $this->itemValue('price'),
 				'qty' => $this->itemValue('quantity')

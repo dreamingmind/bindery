@@ -16,7 +16,7 @@ class CheckoutExpressController extends CheckoutController {
 
 	public $secure = array('checkout', 'checkout_address', 'complete', 'express', 'save_contacts', 'setupPaypalClassic');
 	
-	public $components = array();
+//	public $components = array();
 	
 	/**
 	 * The Payment Model
@@ -78,28 +78,65 @@ class CheckoutExpressController extends CheckoutController {
 	public function confirm() {
 		$toolkit = new CartToolKitPP($this->Purchases->retrieveCart());
 		$this->setupPaypalClassicCedentials();
+		
+		// to set a try-catch around this, the getExpress call 
+		// must be made separately and wrapped in the try. Wrapping 
+		// this compound statement doesn't get the job done.
 		$this->parseExpressCheckoutDetails($this->Paypal->getExpressCheckoutDetails($this->request->query['token']), $toolkit);
-//		$this->request->data = $this->Purchases->retrieveCart();
+
 		parent::confirm();
 		$this->set('confirmMessage','Please confirm the accuracy of this information'
 				. '<br />prior to completing your PayPal payment.');
 		$this->render('/Checkout/confirm');
 	}
     
+	/**
+	 * Make the doPayment confiming call to paypal and show a receipt
+	 * 
+	 * Sets up the Order and Tokens for the call, makes the call, 
+	 * sends confirming email receipt and changes Cart to Order 
+	 * with the trasactionID recorded in the Order record
+	 * 
+	 * @throws Exception
+	 */
 	public function receipt() {
-		
+		//PAYMENTINFO_0_TRANSACTIONID
 		// should this be moved back to properties set in CheckoutController?
-		$this->toolkit = new CartToolKitPP($this->Purchases->retrieveCart());
+		$cart = $this->Purchases->retrieveCart();
+		$this->toolkit = new CartToolKitPP($cart);
+		$cart['toolkit'] = $this->toolkit;
 
         $this->setupPaypalClassicCedentials();
 		$order = $this->toolkit->pp_order(
 				'https://localhost' . $this->request->webroot . 'checkout_express/receipt',
 				'https://localhost' . $this->request->webroot . 'checkout_express/cancel');
 		
+		// these values were written to the session earlier in the checkout sequence
 		$payer_id = $this->Session->read('express.payer_id');
 		$token = $this->Session->read('express.token');
-		$response = $this->Paypal->doExpressCheckoutPayment($order, $token, $payer_id);
+		try {
+			$response = $this->Paypal->doExpressCheckoutPayment($order, $token, $payer_id);
+			if ($response['PAYMENTINFO_0_ACK'] != 'Success' || $response['PAYMENTINFO_0_PAYMENTSTATUS'] != 'Completed') {
+				
+				// Some meaningful code needs to be written here to handle payment problems
+				
+			} 
+		} catch (Exception $exc) {
+			$this->Session->setFlash($exc->getMessage() . ' Could not contact PayPal. Please try again', 'f_error');
+			$this->redirect('/checkout/index');
+		}
 
+		try {
+			if ($this->CustomerEmail->payByPaypalExpress($cart)) {
+				$this->Purchases->placeOrder($response['PAYMENTINFO_0_TRANSACTIONID'], $this->toolkit);
+			} else {
+				// this is the capture point for a failed acknowledgement email
+				$this->redirect($this->referer());
+			}
+		} catch (Exception $ex) {
+			
+		}
+		
 		ClassRegistry::init('Payment')->orderEvent(
 			$this->toolkit->cartId(),
 			$this->toolkit->userId(),
