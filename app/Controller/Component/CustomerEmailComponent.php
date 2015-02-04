@@ -139,7 +139,7 @@ class CustomerEmailComponent extends Component {
 	 * @param array $cart A standard cart array with CartToolKitPP attached instead of the standard toolkit
 	 */
 	public function payByPaypalExpress($cart) {
-		$this->controller->logQuoteEmail('Attempt', $cart);
+		$this->controller->logExpressEmail('Attempt', $cart);
 		
 		// set up the common values and body elements for a checkout acknowledgement email
 		$this->configOrderReceipt($cart);
@@ -167,7 +167,7 @@ class CustomerEmailComponent extends Component {
 					->send()
 			;
 
-			$this->controller->logQuoteEmail('Success', $cart);
+			$this->controller->logExpressEmail('Success', $cart);
 			
 		} catch (Exception $exc) {
 			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Your order should be ok, but you\'ll need to send me an email so I can get the details from my system manually.', 'f_error');

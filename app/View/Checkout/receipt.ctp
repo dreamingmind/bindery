@@ -6,6 +6,7 @@ $this->end();
 ?>
 <h1><?php echo $acknowledgeMessage ?></h1>
 <table class="addresses">
+	<caption>Order Number: <?php echo $cart['toolkit']->orderNumber(); ?></caption>
 	<tbody>
 		<tr>
 			<td>

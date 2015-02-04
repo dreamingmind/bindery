@@ -58,6 +58,12 @@ td {
 span.label {
     width: 78%;
 }
+table caption {
+	text-align: left;
+	font-size: 120%;
+	font-weight: bold;
+	padding: .5em 0;
+}
 
 </style>
 <section>
@@ -72,6 +78,7 @@ $this->end();
 <?php echo $this->element($acknowledgeMessage) ?>
 	
 <table class="addresses">
+	<caption>Order Number: <?php echo $cart['toolkit']->orderNumber(); ?></caption>
 	<tbody>
 		<tr>
 			<td>
