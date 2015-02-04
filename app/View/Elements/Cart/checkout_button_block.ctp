@@ -8,11 +8,8 @@
 		endif;
 		if ($cart['toolkit']->mustPay()) :
 ?>
-		<p>Checkout with Paypal<p>
-<?php
-			echo $this->PurchasedProduct->checkoutButton('express', $cart['toolkit']);
-?>
-		<p><span>OR</span> enter your contact information and choose a checkout method on the next page</p>
+		<p><?php echo $this->PurchasedProduct->checkoutButton('express', $cart['toolkit']); ?> <span class="text">Checkout with Paypal</span><p>
+
 <?php
 		endif;
 		?>

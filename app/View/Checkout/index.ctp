@@ -28,7 +28,12 @@ $this->end();
 	
 	<?php echo $this->element('Cart/checkout_button_block'); ?>
 	
-	<h3 class="entry">Provide Contact and Address Information</h3>
+	<?php if ($cart['toolkit']->mustPay()) :?>
+		<h3 class="entry"><span>OR</span> Provide Address Information</h3>
+	<?php else : ?>
+		<h3 class="entry">Provide Contact and Address Information</h3>
+	<?php endif;?>
+	
 	<?php 
 	echo $this->Form->create('Cart');
 	

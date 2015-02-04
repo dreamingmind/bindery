@@ -75,15 +75,7 @@ class PurchasedProductHelper extends AppHelper {
 					. 'href="checkout_express/set_express" bind="click.buttonLink" '
 					. 'method="paypal" '
 					. 'src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif">'
-//					. 'PayPal Express Checkout'
-//					. '</button>'
-//					? '<img  align="left" style="margin-right:7px;">' . "\n"
 					: '' ;
-				// <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"><span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
-//					? '<img '
-//					. 'href="checkout_quote" bind="click.buttonLink" '
-//					. 'method="paypal" '
-//					. 'src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif">'
 				break;
 			case 'confirm' :// && !$toolkit->mustQuote():
 				echo $this->Form->button('Confirm', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.buttonLink', 'class' => 'btn blue'));

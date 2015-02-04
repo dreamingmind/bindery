@@ -66,4 +66,15 @@ h2.checkout {
 button#continue {
     margin-top: 4em;
 }
-
+span.text {
+    font-size: 90%;
+    padding-left: 1em;
+    vertical-align: top;
+}
+.entry > span {
+    background-color: #ecae0a;
+    border-radius: 10px;
+    color: #062619;
+    display: inline-block;
+    padding: 0.2em 0.4em;
+}
