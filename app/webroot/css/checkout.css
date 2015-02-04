@@ -40,9 +40,14 @@ div#required_data label {
     padding-bottom: 5px;
     padding-top: 7px;
 }
-h3.entry {
-	color:firebrick;
+h3, h3.entry {
+	font-family: 	"lucida grande",​verdana,​helvetica,​arial,​sans-serif;
+    background-color: #374426;
+    color: #e1d7c4;
+    font-size: 143%;
+    padding: 5px 10px;
 }
+
 h2.checkout > img {
     padding: 0 12px;
     width: 50px;
@@ -57,3 +62,8 @@ h2.checkout {
 /*#NTfixedNav {
     padding-right: 0;
 }*/
+
+button#continue {
+    margin-top: 4em;
+}
+
