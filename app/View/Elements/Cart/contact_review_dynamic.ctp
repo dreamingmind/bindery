@@ -7,6 +7,7 @@
 			<p class="phone"><?php echo $toolkit->phone(); ?></p>
 		</div>
 		<fieldset class="edit_contact hide">
+			<legend>Contact Information</legend>
 			<?php 
 				echo $this->Form->input('id', array('value' => $toolkit->cartId(), 'type' => 'hidden'));
 				echo $this->Form->input('name', array('value' => $toolkit->customerName(), 'required' => 'required'));
