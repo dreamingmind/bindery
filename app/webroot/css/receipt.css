@@ -186,10 +186,14 @@ table > tbody > tr > td:nth-child(3) {
 }
 
 table.addresses > tbody > tr > td:nth-child(1) {
-    width: 50%;
+    width: 33%;
 }
 table.addresses > tbody > tr > td:nth-child(2) {
-    width: 50%;
+    width: 33%;
+}
+table.addresses > tbody > tr > td:nth-child(3) {
+    width: 33%;
+	text-align: left;
 }
 
 #detail address.address_review > p.label {

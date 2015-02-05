@@ -319,7 +319,7 @@ class CheckoutExpressController extends CheckoutController {
 				'city' => $response['SHIPTOCITY'],
 				'state' => $response['SHIPTOSTATE'],
 				'postal_code' => $response['SHIPTOZIP'],
-				'coutnry' => $response['SHIPTOCOUNTRYCODE'],
+				'country' => $response['SHIPTOCOUNTRYCODE'],
 				'foreign_key' => $this->request->data['Cart']['id'],
 				'foreign_table' => 'Cart',
 				'type' => 'shipping'
@@ -333,9 +333,11 @@ class CheckoutExpressController extends CheckoutController {
 				'name1' => 'On file with PayPal',
 				'foreign_key' => $this->request->data['Cart']['id'],
 				'foreign_table' => 'Cart',
-				'type' => 'billing'
+				'type' => 'billing',
+				'name2' => '', 'address1' => '', 'address2' => '',
+				'city' => '', 'state' => '', 'postal_code' => '', 'country' => ''
 			));
-			$Address->save($billAddress);
+			$Address->save($billAddress, FALSE);
 			$this->request->data('Cart.bill_id', $Address->id)
 					->data('Cart.name', $response['FIRSTNAME'] . ' ' . $response['LASTNAME'])
 					->data('Cart.email', $response['EMAIL']);
