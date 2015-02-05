@@ -100,6 +100,7 @@ class CheckoutExpressController extends CheckoutController {
 	 * @throws Exception
 	 */
 	public function receipt() {
+		parent::receipt();
 		//PAYMENTINFO_0_TRANSACTIONID
 		// should this be moved back to properties set in CheckoutController?
 		$cart = $this->Purchases->retrieveCart();
@@ -129,14 +130,13 @@ class CheckoutExpressController extends CheckoutController {
 		try {
 			if ($this->CustomerEmail->payByPaypalExpress($cart)) {
 				$this->Purchases->placeOrder($response['PAYMENTINFO_0_TRANSACTIONID'], $this->toolkit);
-			} else {
+			} //else {
 				// this is the capture point for a failed acknowledgement email
-				$this->redirect($this->referer());
-			}
-		} catch (Exception $ex) {
+//				$this->redirect($this->referer());
+//			}
+		} catch (Exception $exc) {
 			
 		}
-		
 		ClassRegistry::init('Payment')->orderEvent(
 			$this->toolkit->cartId(),
 			$this->toolkit->userId(),
@@ -144,7 +144,6 @@ class CheckoutExpressController extends CheckoutController {
 			json_encode($response)
 		);
 		
-		parent::receipt();
 		$this->render('/Checkout/receipt');
 	}
 	
