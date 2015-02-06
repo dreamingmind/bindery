@@ -39,5 +39,10 @@
 		$config['company.tech_email'] = 'technician@dreamingmind.com';
 		$config['company.order_email'] = 'cart_activity@dreamingmind.com';
 		$config['company.tax_rate'] = .09;
+		$config['company.vacation'] = array(
+		array('4/13/15', '4/19/15', 'Spring Break'),
+		array('7/1/15', '7/26/15', 'Summer Break'),
+		array('12/19/15', '1/2/16', 'Winter Break')
+		);
 
 ?>

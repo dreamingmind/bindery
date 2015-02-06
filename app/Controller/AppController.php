@@ -78,7 +78,7 @@ class AppController extends Controller {
 		'Purchases'
     );
     var $helpers = array('Menu', 'Html', 'Form', 'Js', 'Session', 'GalNav', 'Paginator', 
-		'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PurchasedProduct' , 
+		'Fieldset', 'Markdown.Markdown', 'Text', 'Number', 'PurchasedProduct', 'PolicyStatement', 
 		'Cart' => array('className' => 'CartNewEntry'));
     var $uses = array('Navigator', 'User', 'Account');//, 'Cart'
     var $record = array();

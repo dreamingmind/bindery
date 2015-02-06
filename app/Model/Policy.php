@@ -76,5 +76,29 @@ class Policy extends AppModel {
 	public function parents($conditions = array()) {
 		return $this->find('list', array($conditions));
 	}
+	
+	/**
+	 * Return a single policy statement or empty string
+	 * 
+	 * @param string $policy
+	 * @return string
+	 */
+	public function statement($policy) {
+		$statement = $this->field('policy', array('Policy.name' => $policy));
+		if ($statement) {
+			return $statement;
+		} else {
+			return 'fail';
+		}
+	}
+	
+	public function collection($policy) {
+		$collection = $this->find('all', array(
+			'conditions' => array('Policy.name' => $policy),
+			'contain' => 'ChildPolicy'
+//			'recursive' => '2'
+		));
+		return $collection;
+	}
 
 }

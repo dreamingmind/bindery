@@ -27,14 +27,16 @@ if (!$because) {
 <p>
 	Because <?php echo $because; ?> can't be priced on the site, I'll look over your specifications and provide a quote.
 </p>
-<br/>
 <p>
-	Quotes are typically ready within 36 hours.
+	<?php echo $this->PolicyStatement->statement('Quote'); ?>
 </p>
 <p>
-	Please contact me if you have other questions or additional thoughts on your project.
+	Please contact me if you have other questions or additional thoughts on your project.<br />
+	<?php echo $this->PolicyStatement->vacation($company['vacation']); ?>
+	<div class='general_policies'>
+		<?php echo $this->PolicyStatement->collection('General Order')?>
+	</div>
 </p>
-<br />	
 <p>
 	Best regards,
 </p>

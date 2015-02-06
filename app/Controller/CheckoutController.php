@@ -247,4 +247,5 @@ class CheckoutController extends AppController implements CheckoutInterface {
 		$this->layout = 'ajax';
 		$this->render('/Ajax/flashOut');
 	}
+	
 }

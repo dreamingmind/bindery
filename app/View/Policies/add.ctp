@@ -21,6 +21,6 @@
 
 		<li><?php echo $this->Html->link(__('List Policies'), array('action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('List Policies'), array('controller' => 'policies', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Parent Policy'), array('controller' => 'policies', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Parent'), array('controller' => 'policies', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

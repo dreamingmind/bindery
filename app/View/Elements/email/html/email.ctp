@@ -1,7 +1,10 @@
+<style>
+	p {
+		margin-bottom: 5px;
+	}
+	.general_policies {
+		color: #555;
+	}
+</style>
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 ?>

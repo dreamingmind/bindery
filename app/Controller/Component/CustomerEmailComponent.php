@@ -82,6 +82,7 @@ class CustomerEmailComponent extends Component {
 			$this->controller->logQuoteEmail('Success', $cart);
 			
 		} catch (Exception $exc) {
+			dmDebug::ddd($exc->getMessage(), 'message');die;
 			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Please try again.', 'f_error');
 			return FALSE;
 		}
