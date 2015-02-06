@@ -24,14 +24,14 @@ $interest = $because = FALSE;
 <p>
 	Thank you for your order. 
 </p>
-<p>
+<?php echo $this->PolicyStatement->statement('Paying by check')?>
+<!--<p>
 	<span style="color: firebrick;">Action required: </span>I will begin work after I receive your payment by check or a 50% deposit.
-</p>
-<br/>
+</p>-->
 <p>
 	Please contact me if you have other questions or additional thoughts on your project.
 </p>
-<br />	
+<address class="signature">	
 <p>
 	Best regards,
 </p>
@@ -39,5 +39,5 @@ $interest = $because = FALSE;
 <?php echo $company['fullSignature']; ?>
 </pre>
 <br />
-
+</address>
 <h1>Ordered with payment pending by check</h1>

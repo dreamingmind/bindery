@@ -33,10 +33,8 @@ if (!$because) {
 <p>
 	Please contact me if you have other questions or additional thoughts on your project.<br />
 	<?php echo $this->PolicyStatement->vacation($company['vacation']); ?>
-	<div class='general_policies'>
-		<?php echo $this->PolicyStatement->collection('General Order')?>
-	</div>
 </p>
+<address class='signature'>
 <p>
 	Best regards,
 </p>
@@ -44,5 +42,5 @@ if (!$because) {
 <?php echo $company['fullSignature']; ?>
 </pre>
 <br />
-
+</address>
 <h1>Submitted for quotation</h1>

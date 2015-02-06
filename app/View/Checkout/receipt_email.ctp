@@ -64,7 +64,22 @@ table caption {
 	font-weight: bold;
 	padding: .5em 0;
 }
-
+p {
+	margin-bottom: 5px;
+}
+.general_policies {
+	color: #777;
+	margin: 10px 0;
+	padding: 5px 0;
+	border-top: solid medium #ccc;
+	border-bottom: solid medium #ccc;
+}
+address.signature {
+	margin-top: 1.5em;
+	margin-left: 0;
+	padding-left: 0;
+	font-style: normal;
+}
 </style>
 <section>
 	
@@ -76,6 +91,9 @@ $this->end();
 ?>
 	
 <?php echo $this->element($acknowledgeMessage) ?>
+	<div class='general_policies'>
+		<?php echo $this->PolicyStatement->collection('General Order')?>
+	</div>
 	
 <table class="addresses">
 	<caption>Order Number: <?php echo $cart['toolkit']->orderNumber(); ?></caption>

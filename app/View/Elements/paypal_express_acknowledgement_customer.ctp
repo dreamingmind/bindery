@@ -27,11 +27,10 @@ $interest = $because = FALSE;
 <p>
 	You paid with Paypal, so you should receive an email from them confirming your payment.
 </p>
-<br/>
 <p>
 	Please contact me if you have other questions or additional thoughts on your project.
 </p>
-<br />	
+<address class="signature">
 <p>
 	Best regards,
 </p>
@@ -39,5 +38,5 @@ $interest = $because = FALSE;
 <?php echo $company['fullSignature']; ?>
 </pre>
 <br />
-
+</address>
 <h1>Ordered paid through Paypal</h1>
