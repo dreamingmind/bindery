@@ -49,7 +49,7 @@ Router::connect('/paypal_ipn/:action/*', array('plugin' => 'paypal_ipn', 'contro
 $staticPages = array(
     'contact',
     'intern',
-    'policies',
+    //'policies',
 );
 
 $staticList = implode('|', $staticPages);
