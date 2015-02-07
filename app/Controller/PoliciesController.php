@@ -114,7 +114,7 @@ class PoliciesController extends AppController {
 	
 	public function testMe() {
 //		dmDebug::ddd($this->helpers, 'helpers');
-		dmDebug::ddd($this->Policy->statement('Quote'), 'quote');
+		dmDebug::ddd($this->Policy->policyRecord('Quote'), 'quote');
 //		dmDebug::ddd($this->Policy->collection('General Order'), 'general order');
 		dmDebug::ddd($this->company['vacation'], 'vacation');
 	}

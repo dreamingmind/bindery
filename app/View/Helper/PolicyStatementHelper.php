@@ -52,8 +52,15 @@ class PolicyStatementHelper extends AppHelper {
 
 // </editor-fold>
 
+	/**
+	 * Get the policy statement for one policy
+	 * 
+	 * @param string $policy
+	 * @return string
+	 */
 	public function statement($policy){
-		return $this->Policy->statement($policy);
+		$policy_record = $this->Policy->policyRecord($policy);
+		return $this->renderOnePolicy($policy_record);
 	}
 	
 	/**
@@ -77,7 +84,7 @@ class PolicyStatementHelper extends AppHelper {
 	 * @param array $collection The array to parse
 	 * @return string
 	 */
-	public function parseCollection($statements, $collection) {
+	protected function parseCollection($statements, $collection) {
 		
 		if (isset($collection['policy'])) {
 			return $this->renderOnePolicy($collection);
@@ -97,7 +104,7 @@ class PolicyStatementHelper extends AppHelper {
 	 * @param array $policy_record
 	 * @return string
 	 */
-	public function renderOnePolicy($policy_record) {
+	protected function renderOnePolicy($policy_record) {
 		$method = $this->policyLogicHandlerName($policy_record['name']);
 		
 		if (method_exists($this, $method)) {
@@ -127,7 +134,7 @@ class PolicyStatementHelper extends AppHelper {
 	 * @param string $policy_name
 	 * @return string
 	 */
-	public function policyLogicHandlerName($policy_name) {
+	protected function policyLogicHandlerName($policy_name) {
 		return Inflector::slug(Inflector::underscore($policy_name));
 	}
 	
@@ -137,10 +144,10 @@ class PolicyStatementHelper extends AppHelper {
 	 * @param array $policy_record
 	 * @return string
 	 */
-	public function holiday_orders($policy_record) {
+	private function holiday_orders($policy_record) {
 		$month = date('n', time());
 		if ($month == '11' || $month == '12') {
-		return $this->Markdown->transform("\n\nThis shows after Oct 31 and before Jan 2. ". $this->renderThisPolicy($policy_record));
+		return $this->Markdown->transform($this->renderThisPolicy($policy_record));
 		} else {
 			return '';
 		}
@@ -192,9 +199,4 @@ class PolicyStatementHelper extends AppHelper {
 		return "- $name: $start - $end\n";
 	}
 
-
-	public function gylphicon($glyphicon_name) {
-		return $this->Html->tag('i', '', array('class' => "glyphicon glyphicon-$glyphicon_name"));
-	}
-	
 }

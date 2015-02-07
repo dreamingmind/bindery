@@ -46,6 +46,18 @@ if (isset($cart['CartItem'])) {
 	}
 }
 $count_statement = "{$cart['toolkit']->itemCount()} item" . (($cart['toolkit']->itemCount() == 1) ? '' : 's');
+
+$this->start('schedule_notices');
+	$notices = $this->PolicyStatement->vacation($company['vacation']);
+	$notices .= $this->PolicyStatement->statement('Holiday Orders');
+	if (strlen($notices) > 0) :
+	?>
+	<section class='scheduling'>
+		<?php echo $notices; ?>
+	</section>
+	<?php
+	endif;
+$this->end()
 ?>
 <!-- 
 ==============================================
@@ -57,6 +69,10 @@ and the checkout page view of the cart
 <?php
 if (isset($cart['Cart'])) {
 	echo "<!-- output the shopping cart item list -->\n";
+	
+	// Show policies that would effect scheduling
+	echo $this->fetch('schedule_notices');
+	
 	echo $this->Html->tag('h3', "The $count_statement in your cart", array('class' => 'checkout'));
 }
 	echo $this->fetch('new');

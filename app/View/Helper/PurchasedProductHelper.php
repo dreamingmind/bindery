@@ -62,7 +62,7 @@ class PurchasedProductHelper extends AppHelper {
 			case 'checkout':
 				if ($toolkit->mustPay()) {
 					return $this->Form->button('Checkout', array(
-								'class' => 'checkout btn',
+								'class' => 'checkout btn blue',
 								'bind' => 'click.checkout'
 					)) . "\n";
 				} else {
@@ -70,7 +70,7 @@ class PurchasedProductHelper extends AppHelper {
 				}
 				break;
 			case 'express' : // && !$toolkit->mustQuote():
-				echo $toolkit->mustPay()
+				return $toolkit->mustPay()
 					? '<img '
 					. 'href="checkout_express/set_express" bind="click.buttonLink" '
 					. 'method="paypal" '

@@ -73,25 +73,37 @@ class Policy extends AppModel {
 		return $this->display_options;
 	}
 	
+	/**
+	 * Return a select list of id=>name for policies that meet $conditions
+	 * 
+	 * @param array $conditions
+	 * @return array
+	 */
 	public function parents($conditions = array()) {
 		return $this->find('list', array($conditions));
 	}
 	
 	/**
-	 * Return a single policy statement or empty string
+	 * Return a single policy statement record
 	 * 
 	 * @param string $policy
 	 * @return string
 	 */
-	public function statement($policy) {
-		$statement = $this->field('policy', array('Policy.name' => $policy));
-		if ($statement) {
-			return $statement;
+	public function policyRecord($policy) {
+		$policy_record = $this->find('first', array('conditions' => array('Policy.name' => $policy), 'contain' => FALSE));
+		if ($policy_record) {
+			return $policy_record['Policy'];
 		} else {
-			return 'fail';
+			return array();
 		}
 	}
 	
+	/**
+	 * Return a set of policies in a heirarchy
+	 * 
+	 * @param string $policy The name of the parent policy record
+	 * @return array
+	 */
 	public function collection($policy) {
 		$collection = $this->find('all', array(
 			'conditions' => array('Policy.name' => $policy),
