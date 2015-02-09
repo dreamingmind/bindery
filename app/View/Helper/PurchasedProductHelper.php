@@ -106,9 +106,9 @@ class PurchasedProductHelper extends AppHelper {
 	public function checkoutQuoteButton($toolkit) {
 		if (!$toolkit->mustPay()) {
 			if (stristr($this->request->controller, 'checkout')) {
-				$button = $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm', 'class' => 'btn'));
+				$button = $this->Form->button('Recieve a Quote', array('type' => 'submit', 'form' => 'CartIndexForm', 'class' => 'btn blue'));
 			} else {
-				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink', 'class' => 'btn'));
+				$button = $this->Form->button('Recieve a Quote', array('href' => 'checkout_quote', 'bind' => 'click.buttonLink', 'class' => 'btn blue'));
 			}
 			echo $button . "\n" . $this->Html->tag('aside', 
 					'Once a single item can\'t be priced, your cart will be submitted for quote before arranging for payment.');

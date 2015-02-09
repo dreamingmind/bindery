@@ -350,7 +350,7 @@ section[id*="dynamic_review_"] > div.fieldset {
     white-space: nowrap;
 }
 
-section.scheduling {
+section.scheduling, div.proceed > aside {
 	padding: 1em 0;
 	margin: 1em 0;
 	font-size: 85%;
