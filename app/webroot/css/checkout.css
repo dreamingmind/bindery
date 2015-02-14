@@ -86,6 +86,10 @@ div.process_buttons > p {
 	margin: .6em 0;
 	color: #273416;
 }
+.process_buttons {
+    border: thin solid #e1d7c4;
+    padding: 1em;
+}
 span.text {
     font-size: 90%;
     padding-left: 1em;

@@ -469,20 +469,8 @@ function methodChoice(e) {
 
 function creditCardConfirmButton(e) {
 	e.preventDefault();
-	exit();
-	$.ajax({
-		type: "POST",
-		dataType: "JSON",
-		data: '',
-		url: '',
-		success: function (data) {
-			
-		},
-		error: function (data) {
-			
-		}
-	})
-
+	window.open('http://sandbox.paypal.com');
+	location.assign(webroot + 'checkout_credit_card/receipt')
 }
 
 /**

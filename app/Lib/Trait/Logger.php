@@ -6,6 +6,9 @@
  */
 Trait Logger {
 	
+	public $creditCardAttemptMessage = "\n** Prepared to acknowledge credit card Order %s, for %s for %s items (%s) in cart %s.\n-----------------------END----------------------------\n";
+	public $creditCardSuccessMessage = "\n++ Acknowledgement for credit card Order %s request for %s successfully sent.\n-----------------------END----------------------------\n\n";
+	
 	public $quoteAttemptMessage = "\n** Prepared to request Quote %s, for %s for %s items (%s) in cart %s.\n-----------------------END----------------------------\n";
 	public $quoteSuccessMessage = "\n++ Quote %s request for %s successfully sent.\n-----------------------END----------------------------\n\n";
 	
@@ -21,6 +24,27 @@ Trait Logger {
 	
 	public $typeMemoMessage = "\n!! The TypeMemo failed to delete and prevented the user from move their wish list item to their cart\n%s\n-----------------------END----------------------------\n\n";
 
+	/**
+	 * Log a Quote Acknowledgement email
+	 * 
+	 * @param string $mode attempt or success
+	 * @param array $cart Standard cart array and tool object
+	 */
+	public function logCreditCardEmail($mode, $cart) {
+		$toolkit = $cart['toolkit'];
+		if ($mode == 'Attempt') {
+			$this->log(sprintf($this->{"creditCard{$mode}Message"}, 
+							$toolkit->orderNumber(), 
+							$toolkit->customerName(), 
+							$toolkit->itemCount(), 
+							$toolkit->itemInList(), 
+							$toolkit->cartId()), 
+					'order_email');
+		} else {
+			$this->log(sprintf($this->{"creditCard{$mode}Message"}, $toolkit->orderNumber(), $toolkit->customerName()), 'order_email');
+		}
+	}
+	
 	/**
 	 * Log a Quote Acknowledgement email
 	 * 
