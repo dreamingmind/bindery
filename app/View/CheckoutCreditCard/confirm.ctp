@@ -29,10 +29,13 @@ echo $this->element('Cart/confirming_address_table') . NEWLINE;
 echo $this->element('Cart/confirming_item_detail_table') . NEWLINE;
  
 echo $this->element('Cart/cart_summary') . NEWLINE; 
-
-echo $this->element('Cart/confirm_button_block') . NEWLINE;
-
-echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']) . NEWLINE;
-
 ?>
+
+<div class="process_buttons">
+<?php
+echo $this->PurchasedProduct->checkoutButton('continue', $cart['toolkit']) . NEWLINE;
+echo $this->element('Cart/confirm_button_block') . NEWLINE;
+?>
+</div>
+
 </section>

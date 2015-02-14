@@ -206,7 +206,7 @@ table.addresses > tbody > tr > td:nth-child(3) {
     padding: 8px 0 4px;
 }
 #detail .cart_summary > p:last-of-type {
-    padding-bottom: 5em;
+    padding-bottom: 2em;
 }
 #detail > h1 {
     -moz-border-bottom-colors: none;

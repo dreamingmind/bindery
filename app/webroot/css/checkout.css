@@ -64,7 +64,13 @@ h2.checkout {
 }*/
 
 button#continue {
-    margin-top: 4em;
+    /*margin-top: 4em;*/
+}
+div.process_buttons > div.button_block {
+    float: left;
+}
+div.process_buttons > div.button_block > div.proceed > button.btn.blue {
+    margin-right: 10px;
 }
 span.text {
     font-size: 90%;
