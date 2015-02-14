@@ -56,6 +56,16 @@ h2.checkout {
 	font-weight: normal;
 	color: #f6f6f6;
 }
+h1 {
+    background: none repeat scroll 0 0 #fff;
+    color: #812b1c;
+    font-size: 120%;
+	text-align: center;
+	padding: .5em;
+}
+h1 > span {
+	font-variant: small-caps;
+}
 .hide {
 	display: none;
 }
@@ -71,6 +81,10 @@ div.process_buttons > div.button_block {
 }
 div.process_buttons > div.button_block > div.proceed > button.btn.blue {
     margin-right: 10px;
+}
+div.process_buttons > p {
+	margin: .6em 0;
+	color: #273416;
 }
 span.text {
     font-size: 90%;

@@ -467,6 +467,24 @@ function methodChoice(e) {
 	$(e.currentTarget).val('');
 }
 
+function creditCardConfirmButton(e) {
+	e.preventDefault();
+	exit();
+	$.ajax({
+		type: "POST",
+		dataType: "JSON",
+		data: '',
+		url: '',
+		success: function (data) {
+			
+		},
+		error: function (data) {
+			
+		}
+	})
+
+}
+
 /**
  * Ajax update of contact info during checkout review
  * 

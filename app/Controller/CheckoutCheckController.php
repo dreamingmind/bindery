@@ -15,8 +15,7 @@ class CheckoutCheckController extends CheckoutController {
 	 */
 	public function confirm() {
 		parent::confirm();
-		$this->set('confirmMessage','Please confirm the accuracy of this information'
-				. '<br />prior to placing your order.');
+		$this->set('confirmMessage','Review your order then press <span>Confirm</span>.');
 		$this->render('/Checkout/confirm');
 	}
 	

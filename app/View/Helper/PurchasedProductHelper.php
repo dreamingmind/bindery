@@ -81,7 +81,8 @@ class PurchasedProductHelper extends AppHelper {
 				echo $this->Form->button('Confirm', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.buttonLink', 'class' => 'btn blue'));
 				break;
 			case 'creditcard' :// && !$toolkit->mustQuote():
-				echo !$toolkit->includesQuote() ? "<button class=\"btn\">Credit Card</button>\n" : '';
+				echo $this->Form->button('Confirm & Pay', array('href' => "{$this->request->controller}/receipt", 'bind' => 'click.creditCardConfirmButton', 'class' => 'btn blue'));
+//				echo !$toolkit->includesQuote() ? "<button class=\"btn\">Credit Card</button>\n" : '';
 				break;
 			case 'check' :// && !$toolkit->mustQuote():
 				echo !$toolkit->includesQuote() ? "<button class=\"btn\">Pay by Check</button>\n" : '';
