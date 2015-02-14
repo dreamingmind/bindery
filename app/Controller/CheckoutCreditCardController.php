@@ -10,8 +10,14 @@ App::uses('CheckoutController', 'Controller');
  */
 class CheckoutCreditCardController extends CheckoutController {
 
-	public function index($id) {
-		
+	/**
+	 * Confirm details of order by credit card
+	 */
+	public function confirm() {
+		parent::confirm();
+		$this->set('confirmMessage','Please confirm the accuracy of this information'
+				. '<br />prior to placing your order.');
+//		$this->render('/Checkout/confirm');
 	}
 
 }

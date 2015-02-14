@@ -14,8 +14,9 @@ $this->end();
 	</h2>
 
 <h1><?php echo $confirmMessage; ?></h1>
+<?php  echo $this->PolicyStatement->statement('Credit Card'); ?>
 
-<div class='process_buttons>'
+<div class="process_buttons">
 	<?php
 	echo $this->PurchasedProduct->checkoutButton('back_edit', $cart['toolkit']) . NEWLINE;
 	echo $this->element('Cart/confirm_button_block') . NEWLINE;

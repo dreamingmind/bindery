@@ -457,7 +457,8 @@ function methodChoice(e) {
 			location.assign(webroot + 'checkout_quote/confirm')
 			break;
 		case 'credit_card':
-			alert('ajax in a credit form');
+			location.assign(webroot + 'checkout_credit_card/confirm')
+//			alert('ajax in a credit form');
 			break;
 		case 'paypal':
 			alert('can we do a paypal payment now?');
