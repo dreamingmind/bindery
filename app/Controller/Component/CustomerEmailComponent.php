@@ -11,8 +11,6 @@
  * @author dondrake
  */
 class CustomerEmailComponent extends Component {
-
-	public $components = array();
 	
 	public $controller;
 	
@@ -61,7 +59,7 @@ class CustomerEmailComponent extends Component {
 	public function payByCreditCard($cart) {
 		return $this->performParameterizedCheckoutConfirmationEmail($cart, array(
 			'log' => 'logCreditCardEmail',
-			'exception_message' => 'The confirmations email process failed. You\re items are still in cart, but if you complete the Paypal Send process we\ll both get emails regarding the payment. I\'ll manually move your items from the cart to an order.',
+			'exception_message' => 'The confirmation email process failed. You\re items are still in your cart, but if you complete the Paypal Send process we\'ll both get emails regarding the payment. I\'ll manually move your items from the cart to an order.',
 			'bindery_subject' => 'Order by credit card', // gets company name prepended
 			'bindery_template' => 'credit_card_acknowledgement_bindery',
 			'customer_subject' => 'Your Order', // gets " to company name" appended
@@ -75,43 +73,14 @@ class CustomerEmailComponent extends Component {
 	 * @return boolean success/failure
 	 */
 	public function payByCheck($cart) {
-		
-		// log the quote request
-		$this->controller->logQuoteEmail('Attempt', $cart);
-		
-		// set up the common values and body elements for a checkout acknowledgement email
-		$this->configCommonCheckoutEmailValues($cart);
-		
-		try {
-			// Finalize and send the bindery notification of a quote request
-			$this->Email
-					->subject("{$this->controller->company['businessName']} Order By Check")
-					->to(array($this->controller->company['order_email'] => 'Bench'))
-					->viewVars(array(
-						'acknowledgeMessage' => 'check_acknowledgement_bindery'
-
-					))
-					->send()
-			;
-
-			// Finalize and send the customer acknowledgement of a quote request
-			$this->Email
-					->subject("Your Order #{$cart['toolkit']->orderNumber()} to {$this->controller->company['businessName']}")
-					->to(array($cart['toolkit']->email() => $cart['toolkit']->customerName()))
-					->bcc($this->controller->company['email'])
-					->viewVars(array(
-						'acknowledgeMessage' => 'check_acknowledgement_customer'
-					))
-					->send()
-			;
-
-			$this->controller->logQuoteEmail('Success', $cart);
-			
-		} catch (Exception $exc) {
-			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Please try again.', 'f_error');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->performParameterizedCheckoutConfirmationEmail($cart, array(
+			'log' => 'logQuoteEmail',
+			'exception_message' => 'There was a problem sending the acknowledgement email or the email to the bindery. Please try again.',
+			'bindery_subject' => 'Order By Check', // gets company name prepended
+			'bindery_template' => 'check_acknowledgement_bindery',
+			'customer_subject' => "Your Order #{$cart['toolkit']->orderNumber()}", // gets " to company name" appended
+			'customer_template' => 'check_acknowledgement_customer'
+		));
 	}
 	
 	/**
@@ -120,43 +89,15 @@ class CustomerEmailComponent extends Component {
 	 * @param array $cart A standard cart array with CartToolKitPP attached instead of the standard toolkit
 	 */
 	public function payByPaypalExpress($cart) {
-		$this->controller->logExpressEmail('Attempt', $cart);
-		
-		// set up the common values and body elements for a checkout acknowledgement email
-		$this->configCommonCheckoutEmailValues($cart);
-		
-		try {
-			// Finalize and send the bindery notification of a quote request
-			$this->Email
-					->subject("{$this->controller->company['businessName']} Order")
-					->to(array($this->controller->company['order_email'] => 'Bench'))
-					->viewVars(array(
-						'acknowledgeMessage' => 'paypal_express_acknowledgement_bindery'
-
-					))
-					->send()
-			;
-
-			// Finalize and send the customer acknowledgement of a quote request
-			$this->Email
-					->subject("Your Order #{$cart['toolkit']->orderNumber()} to {$this->controller->company['businessName']}")
-					->to(array($cart['toolkit']->email() => $cart['toolkit']->customerName()))
-					->bcc($this->controller->company['email'])
-					->viewVars(array(
-						'acknowledgeMessage' => 'paypal_express_acknowledgement_customer'
-					))
-					->send()
-			;
-
-			$this->controller->logExpressEmail('Success', $cart);
-			
-		} catch (Exception $exc) {
-			$this->controller->Session->setFlash('There was a problem sending the acknowledgement email or the email to the bindery. Your order should be ok, but you\'ll need to send me an email so I can get the details from my system manually.', 'f_error');
-			return FALSE;
-		}
-		return TRUE;
+		return $this->performParameterizedCheckoutConfirmationEmail($cart, array(
+			'log' => 'logExpressEmail',
+			'exception_message' => 'There was a problem sending the acknowledgement email or the email to the bindery. Your order should be ok, but you\'ll need to send me an email so I can get the details from my system manually.',
+			'bindery_subject' => 'Order by Paypal Express', // gets company name prepended
+			'bindery_template' => 'paypal_express_acknowledgement_bindery',
+			'customer_subject' => "Your Order #{$cart['toolkit']->orderNumber()}", // gets " to company name" appended
+			'customer_template' => 'paypal_express_acknowledgement_customer'
+		));
 	}
-
 
 	/**
 	 * Set up the basics of an Order Acknowledgement email
