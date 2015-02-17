@@ -78,7 +78,7 @@ function establishCartSameValue() {
 
 function initContactName() {
 	$('fieldset.contact input[id*="-name"]').on('change', function(e){
-		if ($('#ShippingName1') == '') {
+		if ($('#ShippingName1').val() == '') {
 			$('#ShippingName1').val($(e.currentTarget).val());
 		}
 	})
