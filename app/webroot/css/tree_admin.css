@@ -4,7 +4,7 @@
 }
 #tree_admin div{
 	float: left;
-	width: 400px;
+	width: 300px;
 }
 div#tree_control label.input{
 	width: 20%;
@@ -18,6 +18,7 @@ div#tree_control input.input{
 #tree_view p{
 	margin: 0px ;
 	padding: 2px;
+	font-size: 50%;
 }
 .even{
 	background-color: Cornsilk ;
@@ -31,4 +32,6 @@ div#tree_control input.input{
 }
 #tree_control label{
     font-size: 100%;
+	width: auto;
+	margin-right: 6px;
 }

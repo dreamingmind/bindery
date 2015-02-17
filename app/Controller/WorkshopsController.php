@@ -18,6 +18,9 @@ class WorkshopsController extends AppController {
         parent::beforeRender();
     }
 
+	/**
+	 * This is the 'non-specified' landing page
+	 */
     function upcoming() {
 //        debug($this->request->params);die;
 //            $this->set('result_imagePath');
@@ -113,6 +116,9 @@ class WorkshopsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
+	/**
+	 * This is the 'chosen workshop' landing page
+	 */
     function detail() {
 //        
         $this->layout = 'noThumbnailPage';
