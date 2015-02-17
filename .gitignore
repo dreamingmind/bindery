@@ -1,7 +1,8 @@
 app/webroot/img/images/*.*
 app/webroot/img/images/*
 app/tmp/
-app/Config/
+app/Config/*
+!app/Config/bootstrap.php
 nbproject
 app/webroot/img/materials
 lib/Cake/Cache/.DS_Store
