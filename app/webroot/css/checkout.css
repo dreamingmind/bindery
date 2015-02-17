@@ -63,6 +63,9 @@ h1 {
 	text-align: center;
 	padding: .5em;
 }
+td > h1 {
+	text-align: left;
+}
 h1 > span {
 	font-variant: small-caps;
 }

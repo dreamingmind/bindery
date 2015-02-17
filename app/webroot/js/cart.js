@@ -461,7 +461,8 @@ function methodChoice(e) {
 //			alert('ajax in a credit form');
 			break;
 		case 'paypal':
-			alert('can we do a paypal payment now?');
+			location.assign(webroot + 'checkout_express/set_express')
+//			alert('can we do a paypal payment now?');
 			break;
 	}
 	$(e.currentTarget).val('');
