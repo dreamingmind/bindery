@@ -157,13 +157,13 @@ div.entry{
     width: 830px; 
     position: relative; 
     padding-bottom: 10px; 
-    /*background: url("/bindery/img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 0px 0px transparent;*/
+    /*background: url("../img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 0px 0px transparent;*/
 }
 
 #feature-overlay {
     position: absolute; 
     top: 0px; 
-    background: url("/bindery/img/workshop/feather-mask-left-third.png") repeat scroll 0px 0px transparent; 
+    background: url("../img/workshop/feather-mask-left-third.png") repeat scroll 0px 0px transparent; 
     height: 482px; 
     width: 832px; 
     margin-left: -1px; 
@@ -240,7 +240,7 @@ div#featuredSession {
 }
 
 .fdBackground {
-    /*background: url("/bindery/img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 100px 0px transparent;*/
+    /*background: url("../img/images/thumb/x640y480/musicpads.jpg") no-repeat scroll 100px 0px transparent;*/
     /*border: thin solid;*/
     /*height: 28px;*/
     /*padding-left: 130px;*/
@@ -252,7 +252,7 @@ div#featuredSession {
 }
 .featureCost {
     /*height: 28px;*/
-    /*background: url("/bindery/img/workshop/feather-mask-right-brick.png") repeat scroll -110px 0px transparent;*/ 
+    /*background: url("../img/workshop/feather-mask-right-brick.png") repeat scroll -110px 0px transparent;*/ 
 }
 
 h3.featureCost {

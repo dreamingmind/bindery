@@ -86,7 +86,7 @@ class Workshop extends AppModel {
             'conditions' => array(
                 'Workshop.category_id' => $this->Category->categoryNI['workshop'],
                 'Workshop.publish' => 1,
-                'Workshop.role' => 'workshop' // REM this to see the LANDING records too ========================================!!!!!!!!!!!!!!!!!!
+//                'Workshop.role' => 'workshop' // REM this to see the LANDING records too ========================================!!!!!!!!!!!!!!!!!!
 				// Or, an alternative is to do the same thing as on the entry page. Throw up a Feature and list the rest
 				// I like that plan because making new sections won't require making new content
             ),

@@ -94,7 +94,7 @@ button.supplement_list {
     margin-left: 5px;
 }
 #reference-grid {
-	/*background: url('/bindery/img/exhibit-grid.png') repeat scroll 0 0 transparent;*/
+	/*background: url('../img/exhibit-grid.png') repeat scroll 0 0 transparent;*/
 	position: absolute;
 	width:640px;
 	height:480px;

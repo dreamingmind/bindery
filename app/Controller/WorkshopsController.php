@@ -141,6 +141,7 @@ class WorkshopsController extends AppController {
 //		debug($this->Workshop->workshops_all);
 //		debug($article);
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+//		dmDebug::ddd($this->viewVars['feature'], 'feature');
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('delete', array_shift($article));
         $this->set('article', $article);

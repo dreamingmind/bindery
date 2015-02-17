@@ -593,7 +593,7 @@ class AppHelper extends Helper {
                 // we'll need to know this one value later for prevPage link
                 $previousImageID = $entry['neighbors']['previous'];
             }
-        // <img nopacity="0.2" popacity="0.8" alt="An improve..." src="/bindery/img/images/thumb/x54y54/DSC01242.JPG">
+        // <img nopacity="0.2" popacity="0.8" alt="An improve..." src="../img/images/thumb/x54y54/DSC01242.JPG">
             if (isset($entry['img_file'])) {
                 $image = $this->Html->image(
                     $path . $entry['img_file'], array(
@@ -770,7 +770,7 @@ class AppHelper extends Helper {
      *          <img title="Alligator notebook"     // $img
      *              alt="alt text"
      *              id="im546"
-     *              src="/bindery/img/images/thumb/x160y120/DSC00241.JPG">
+     *              src="../img/images/thumb/x160y120/DSC00241.JPG">
      *      </a>
      *      <p class="aside">On the bench: on 30/11/-1</p>
      *      <a href="/bindery/products/notebooks/newsfeed/id:32">Alligator notebook</a>
@@ -836,7 +836,7 @@ class AppHelper extends Helper {
      *          <img title="Jackson Nichol's Forcado portfolio"
      *              alt="alt text"
      *              id="im917"
-     *              src="/bindery/img/images/thumb/x75y56/DSC01983.JPG">
+     *              src="../img/images/thumb/x75y56/DSC01983.JPG">
      *      </a>
      *      <a href="/bindery/blog/60/forcado-portfolio">Forcado portfolio</a>
      *  </div>
@@ -885,7 +885,7 @@ class AppHelper extends Helper {
      *          <img title="Alligator Notebook"
      *              alt="The cover of an alligator and goatskin notebook ready for top stitching."
      *              id="im549"
-     *              src="/bindery/img/images/thumb/x160y120/DSC00189.JPG">
+     *              src="../img/images/thumb/x160y120/DSC00189.JPG">
      *      </a>
      *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
      *  </div>
@@ -962,7 +962,7 @@ class AppHelper extends Helper {
      *          <img title="Alligator Notebook"
      *              alt="The cover of an alligator and goatskin notebook ready for top stitching."
      *              id="im549"
-     *              src="/bindery/img/images/thumb/x160y120/DSC00189.JPG">
+     *              src="../img/images/thumb/x160y120/DSC00189.JPG">
      *      </a>
      *      <a href="/bindery/blog/58/alligator-notebook">Alligator Notebook</a>
      *  </div>
@@ -1012,7 +1012,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/boxes/gallery/id:574">
      *          <img title="Non-traditional materials for an artist's portfolio"
      *              alt="alt text"
-     *              src="/bindery/img/images/thumb/x160y120/DSC02030x.jpg">
+     *              src="../img/images/thumb/x160y120/DSC02030x.jpg">
      *      </a><p class="aside">Boxes</p>
      *      <a href="/bindery/products/boxes/gallery/id:574">Non-traditional mater ...</a>
      *      <p>The interior of a clamshell box with a book well and a foil ...</p>
@@ -1049,7 +1049,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/art/traveler">
      *          <img title="Traveler"
      *              alt=""
-     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *              src="../img/images/thumb/x160y120/DSCN5050.jpg">
      *      </a>
      *      REMOVED <p class="aside">Notebooks</p>
      *      <a href="/bindery/art/traveler">Traveler</a>
@@ -1083,7 +1083,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/notebooks/gallery/id:310">
      *          <img title="Calendars"
      *              alt=""
-     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *              src="../img/images/thumb/x160y120/DSCN5050.jpg">
      *      </a>
      *      <p class="aside">Notebooks</p>
      *      <a href="/bindery/products/notebooks/gallery/id:310">Calendars</a>
@@ -1117,7 +1117,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/art/traveler">
      *          <img title="Traveler"
      *              alt=""
-     *              src="/bindery/img/images/thumb/x160y120/DSCN5050.jpg">
+     *              src="../img/images/thumb/x160y120/DSCN5050.jpg">
      *      </a>
      *      REMOVED <p class="aside">Notebooks</p>
      *      <a href="/bindery/art/traveler">Traveler</a>
@@ -1150,7 +1150,7 @@ class AppHelper extends Helper {
      *  <div class="linkDiv">
      *      <a href="/bindery/products/45-minute-box/gallery/id:114">
      *          <img title="45 Minute Box" alt="alt text"
-     *              src="/bindery/img/images/thumb/x160y120/DSC01734.JPG">
+     *              src="../img/images/thumb/x160y120/DSC01734.JPG">
      *      </a>
      *      <p class="aside">ID: 384 - 45 Minute Box</p>
      *      <a href="/bindery/products/45-minute-box/gallery/id:114">45 Minute Box</a>
@@ -1186,7 +1186,7 @@ class AppHelper extends Helper {
      *      <a href="/bindery/products/just-facts-ma-39-am-notebook/gallery/id:388">
      *          <img title="Special material option"
      *              alt=""
-     *              src="/bindery/img/images/thumb/x160y120/DSCN4470.jpg">
+     *              src="../img/images/thumb/x160y120/DSCN4470.jpg">
      *      </a>
      *      <p class="aside">ID: 388 - Just-the-Facts-Ma'am Notebook</p>
      *      <a href="/bindery/products/just-facts/gallery/id:388">Just-the-Facts</a>

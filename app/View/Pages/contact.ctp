@@ -4,7 +4,7 @@
     <tr height="235">
       <td width="314" height="235" valign="top" align="left" xpos="0"><p><?php echo $this->Html->image('me.jpg')?></p>
       <p class="style7 style8">On my way back from Oregon after finalizing the purchase of Hugh Stump Fine Binding. </p>
-      <p class="style9">If you want to visit the studio, download this <a href="/bindery/img/DMLocation.pdf">PDF map</a>. </p></td>
+      <p class="style9">If you want to visit the studio, download this <a href="../img/DMLocation.pdf">PDF map</a>. </p></td>
 
       <td width="208" height="235" align="left" xpos="314" content valign="top" csheight="235"><h3 class="style7" add_date="809876141">CONTACT</h3>
           <p class="style7">Dreaming Mind<br>

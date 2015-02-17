@@ -3,7 +3,7 @@
     echo $this->Html->image(
             'images'.DS.'thumb'.DS.'x640y480'.DS.$record['Image']['img_file'],
             array('alt'=>$record['Image']['alt'].' '.$record['Content']['alt']))."\n";
-    //		<img alt="" src="/bindery/img/images/thumb/x640y480/DSCN3920.jpg">
+    //		<img alt="" src="../img/images/thumb/x640y480/DSCN3920.jpg">
 //	debug($record);
 	// for admins
     echo $this->Html->changeCollection($this->viewVars, $record['Content']['slug'], $record['ContentCollection'][0]['collection_id']);

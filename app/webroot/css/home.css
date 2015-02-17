@@ -54,7 +54,7 @@ div#personshot {
     position: relative;
 }
 div.lace {
-    background-image: url("/bindery/img/lace-right-640.png");
+    background-image: url("../img/lace-right-640.png");
     height: 480px;
     left: 577px;
     position: absolute;

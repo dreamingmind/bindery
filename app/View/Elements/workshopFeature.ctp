@@ -69,7 +69,7 @@ echo $this->Html->div('', $this->Html->div('', $featureHtml, array(
             'id' => 'feature-overlay'
         )), array(
     'id' => 'feature-pic',
-    'style' => "background: url('/bindery/img/images/thumb/x640y480/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}') no-repeat scroll 0px 0px transparent;"
+    'style' => "background: url('../img/images/thumb/x640y480/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}') no-repeat scroll 0px 0px transparent;"
         )
 );
 ?>
