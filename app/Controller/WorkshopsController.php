@@ -126,20 +126,23 @@ class WorkshopsController extends AppController {
         //test if pname has content or is a collection
         //If No content
         //Search for 
-        $collection = $this->Workshop->find('first', array(
-            'fields' => array(
-                'Workshop.id'
-            ),
-            'contain' => false,
-            'conditions' => array(
-                'Workshop.slug' => $this->request->params['pname'],
-               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
-            )
-                ));
-//				debug($collection);die;
-        $article = $this->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $this->request->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+//        $collection = $this->Workshop->find('first', array(
+//            'fields' => array(
+//                'Workshop.id'
+//            ),
+//            'contain' => false,
+//            'conditions' => array(
+//                'Workshop.slug' => $this->request->params['pname'],
+//               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
+//            )
+//                ));
+//				debug($collection);//die;
+        $article = $this->Workshop->ContentCollection->findWorkshopTarget(array(
+			'Content.slug' => $this->request->params['pname'], 
+			'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
+		
 //		debug($this->Workshop->workshops_all);
-//		debug($article);
+		debug($article);
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
 //		dmDebug::ddd($this->viewVars['feature'], 'feature');
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
