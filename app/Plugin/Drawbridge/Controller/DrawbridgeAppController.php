@@ -9,10 +9,10 @@
 App::uses('AppController', 'Controller');
 
 /**
- * CakePHP UserAuthAppController
+ * CakePHP DrawbridgeAppController
  * @author jasont
  */
-class UserAuthAppController extends AppController {
+class DrawbridgeAppController extends AppController {
 
     public function index($id) {
         

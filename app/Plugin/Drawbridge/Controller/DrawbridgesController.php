@@ -1,6 +1,6 @@
 <?php
 
-App::uses('UserAuthAppController', 'UserAuth.Controller');
+App::uses('DrawbridgeAppController', 'Drawbridge.Controller');
 
 /**
  * A general class for handling the user registration and login processes
@@ -9,11 +9,11 @@ App::uses('UserAuthAppController', 'UserAuth.Controller');
  * @author jasont
  * 
  * Must configure bootstrap.php with the following keys:
- * UserAuth.RegistrationRedirect containing a redirect url to use after first login
+ * Drawbridge.RegistrationRedirect containing a redirect url to use after first login
  *      formatted to match the Auth->redirect property
  * 
  */
-class UsersController extends UserAuthAppController {
+class DrawbridgesController extends DrawbridgeAppController {
 
     /**
      * Helpers
@@ -43,13 +43,13 @@ class UsersController extends UserAuthAppController {
     /**
      * Register a new user
      * 
-     * Upon success redirect to the UserAuth.RegistrationRedirect url or
+     * Upon success redirect to the Drawbridge.RegistrationRedirect url or
      * to the Auth redirect url
      */
     public function register() {
         if ($this->request->is('POST') || $this->request->is('PUT')) {
             try {
-                $redirect = Configure::read('UserAuth.RegistrationRedirect');
+                $redirect = Configure::read('Drawbridge.RegistrationRedirect');
             } catch (Exception $exc) {
                 $redirect = $this->Auth->redirectUrl();
             }
@@ -120,14 +120,14 @@ class UsersController extends UserAuthAppController {
      * @param type $event_name the name of the event
      * @param type $data the data we wish to send with the event
      */
-    private function _dispatchAuthUserEvent($event_name, $data) {
+    private function _dispatchDrawbridgeEvent($event_name, $data) {
         $event = new CakeEvent($event_name, $this, $data);
         $this->getEventManager()->dispatch($event);
     }
     
     public function testMe() {
         $this->layout = 'ajax';
-        dmDebug::ddd(Configure::read('UserAuth.RegistrationRedirect'), 'registration redirect');
+        dmDebug::ddd(Router::url(Configure::read('Drawbridge.RegistrationRedirect')), 'registration redirect');
         dmDebug::ddd($this->Auth->redirectUrl(), 'Auth redirect URL');
     }
 

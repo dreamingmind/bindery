@@ -160,7 +160,7 @@ Cache::config('catalog', array(
 	CakePlugin::load('PaypalSource');
 	CakePlugin::load('Paypal');
 	CakePlugin::load('AddressModule');
-    CakePlugin::load('UserAuth');
+    CakePlugin::load('Drawbridge');
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
  *
@@ -237,7 +237,7 @@ Configure::write('usps.Service', 'PRIORITY');
 Configure::write('usps.Container', NULL);
 Configure::write('usps.Size', 'REGULAR');
 
-Configure::write('UserAuth.RegistrationRedirect', array('controller' => 'User', 'action' => 'login'));
+Configure::write('Drawbridge.RegistrationRedirect', array('controller' => 'User', 'action' => 'login'));
 
 
 /*
