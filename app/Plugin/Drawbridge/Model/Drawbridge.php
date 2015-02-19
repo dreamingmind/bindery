@@ -11,8 +11,16 @@ class Drawbridge extends DrawbridgeAppModel {
     public $useTable = 'users';
     var $validate = array(
         'username' => array(
-            'rule' => array('email', true),
-            'message' => 'Please supply a valid email address.'
+            'content' => array(
+                'rule' => array('email', true),
+                'message' => 'Please supply a valid email address.'
+            ),
+            'unique' => array(
+                'rule' => 'isUnique',
+                'message' => 'This email address is already a registered user.'
+            )
+//            'rule' => array('email', true),
+//            'message' => 'Please supply a valid email address.'
         ),
         'password' => array(
             'notEmpty' => array(
@@ -50,6 +58,17 @@ class Drawbridge extends DrawbridgeAppModel {
         } catch (Exception $exc) {
             
         }
+    }
+    
+    public function beforeSave($options = array()) {
+        parent::beforeSave($options);
+        if (!empty($this->data[$this->alias]['password'])) {
+            $passwordHasher = new SimplePasswordHasher(array('hashType' => 'sha256'));
+            $this->data[$this->alias]['password'] = $passwordHasher->hash(
+                $this->data[$this->alias]['password']
+            );
+        }
+        return true;
     }
 
     public function comparePasswords($field) {
