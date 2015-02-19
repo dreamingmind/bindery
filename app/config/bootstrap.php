@@ -237,7 +237,7 @@ Configure::write('usps.Service', 'PRIORITY');
 Configure::write('usps.Container', NULL);
 Configure::write('usps.Size', 'REGULAR');
 
-Configure::write('Drawbridge.RegistrationRedirect', array('controller' => 'User', 'action' => 'login'));
+Configure::write('Drawbridge.RegistrationRedirect', array('controller' => 'pages', 'action' => 'home', 'plugin' => NULL));
 Configure::write('Drawbridge.PasswordComplexity', array(
     'alpha' => '*',
     'upper' => '*',
@@ -245,6 +245,7 @@ Configure::write('Drawbridge.PasswordComplexity', array(
     'special' => '*',
     'length' => '2,256'
     ));
+Configure::write('Drawbridge.Model', 'User');
 
 
 /*
