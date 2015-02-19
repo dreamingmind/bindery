@@ -39,6 +39,11 @@ class DrawbridgesController extends DrawbridgeAppController {
         'Cookie',
         'Security',
     );
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow();
+    }
 
     /**
      * Register a new user
@@ -53,11 +58,12 @@ class DrawbridgesController extends DrawbridgeAppController {
             } catch (Exception $exc) {
                 $redirect = $this->Auth->redirectUrl();
             }
-            if ($this->User->registerNewUser()) {
+            $this->Drawbridge->data = $this->request->data;
+            if ($this->Drawbridge->registerNewUser()) {
                 $this->Session->setFlash('Thanks for registering', 'f_success');
                 $this->redirect($redirect);
             } else {
-                $this->redirect('register');
+//                $this->redirect('register');
             }
         }
     }
