@@ -63,9 +63,11 @@ class AppController extends Controller {
                 'controller' => 'pages',
 				'action' => 'home'
             ),
-			'authenticate' => array(
-				'Form'
-			),
+            'authenticate' => array(
+                'Form' => array(
+                    'passwordHasher' => 'Blowfish'
+                )
+            ),
             'loginError' => "This message shows up when the wrong credentials are used",
             'authError' => "Please log in to proceed.",
             'authorize' => 'controller',
