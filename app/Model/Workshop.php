@@ -69,6 +69,12 @@ class Workshop extends AppModel {
      */
     var $workshops_featured = false;
 
+    /**
+     * @var array $workshops_featured contains a member of workshops_all array
+     * which are grouping records; they aren't workshops but are containers for related workshops
+     */
+    var $workshops_landing = false;
+
     function __construct() {
         parent::__construct();
         $this->workshopsAll();
@@ -86,9 +92,10 @@ class Workshop extends AppModel {
             'conditions' => array(
                 'Workshop.category_id' => $this->Category->categoryNI['workshop'],
                 'Workshop.publish' => 1,
-//                'Workshop.role' => 'workshop' // REM this to see the LANDING records too ========================================!!!!!!!!!!!!!!!!!!
-				// Or, an alternative is to do the same thing as on the entry page. Throw up a Feature and list the rest
-				// I like that plan because making new sections won't require making new content
+//				'OR' => array(
+//					'Workshop.role' => 'workshop', // actual workshops
+//					'Workshop.role' => 'landing' // catagorizing records to group workshops by theme (mirrors the nav menu sturcture)
+//				)
             ),
             'order' => 'Workshop.heading',
             'fields' => array('id', 'heading', 'text', 'role', 'category_id', 'slug'),
@@ -157,9 +164,16 @@ class Workshop extends AppModel {
 
     function workshopsSetter() {
         foreach ($this->workshops_temp as $workshop) {
+//			echo "<p>{$workshop['Workshop']['heading']}</p>";
             $this->workshops_all[$workshop['Workshop']['id']] = $workshop;
+			if ($workshop['Workshop']['role'] == 'landing') {
+//				echo "<p>Landing: {$workshop['Workshop']['heading']}</p>";
+				$this->workshops_landing[$workshop['Workshop']['id']] = $this->includeLandingPageChildPointers($workshop);
+				continue;
+			}
 //             for workshops_potential find those sessions with null first days
             if (empty($workshop['Session'])) {
+//				echo "<p>Potential: {$workshop['Workshop']['heading']}</p>";
                 $this->workshops_potential[$workshop['Workshop']['id']] = $workshop;
 //                 if there are no sessions, don't do the session loop
                 continue;
@@ -173,39 +187,62 @@ class Workshop extends AppModel {
                         AND
                         $session['last_day'] >= date('Y-m-d', time()))
                 ) {
+//					echo "<p>Now: {$workshop['Workshop']['heading']}</p>";
                     $this->workshops_now[$workshop['Workshop']['id']] = $workshop;
 //             for workshops_upcoming find those sessions with a first day after today
                 } else if ($session['first_day'] > date('Y-m-d', time())) {
+//					echo "<p>Upcoming: {$workshop['Workshop']['heading']}</p>";
                     $this->workshops_upcoming[$workshop['Workshop']['id']] = $workshop;
 //                     if there is an upcoming session, no need to look for more
                     continue;
                 }
             }
         }
+//		dmDebug::ddd($this->workshops_landing, 'landing');
     }
-
-    function workshopsUpcoming() {
+	
+	/**
+	 * Gather pointers to the workshops in this landing/theme
+	 * 
+	 * Landing pages describe themed groupings of workshops. When scanning all_workshops, 
+	 * if we find a landing record, we will get pointers to the workshops gathered 
+	 * into that theme. These groupings are made in the Navigator/Navline menu 
+	 * setup right now. Bad coupling, but I have no solution yet.
+	 * 
+	 * @param array $workshop The all_workshop data node (contains a ton of stuff, see workshopsAll())
+	 */
+	protected function includeLandingPageChildPointers($workshop) {
+		$themed_group = array_merge($workshop, array('members' => array()));
+		
+		// get a Navigator or Navline model
+		// find our landing page in the table
+		// find the children/descendents(?) 
+		// incorporate the new info in the array
+		return $themed_group;
+	}
+	
+	protected function workshopsUpcoming() {
         if (empty($this->workshops_upcoming)) {
             $this->workshopsAll();
         }
         return $this->workshops_upcoming;
     }
 
-    function workshopsPotential() {
+    protected function workshopsPotential() {
         if (empty($this->workshops_potential)) {
             $this->workshopsAll();
         }
         return $this->workshops_potential;
     }
 
-    function workshopsNow() {
+    protected function workshopsNow() {
         if (empty($this->workshops_now)) {
             $this->workshopsAll();
         }
         return $this->workshops_now;
     }
     /**
-     * returns the best workshop to feature
+     * returns the best workshop to feature and removes it from the master list it came from
      * 
      * We are going to look at the workshops found and determine which
      * is the best choice based upon the following criteria:
@@ -217,21 +254,25 @@ class Workshop extends AppModel {
      * @return array Complete workshop set, with both Collection (workshop itself) and related content, sesssions & dates and source
      */
 
-    function workshopsFeatured($refresh = false) {
+    public function workshopsFeatured($refresh = false) {
         if ($refresh) {
             $this->workshopsAll();
         }
         if ($this->workshops_now) {
+			// leave 'now' set in this case
             $this->workshops_featured = $this->workshops_now;
             $source='workshops_now';
         //  Else, pick off the first upcoming workshop
         } elseif ($this->workshops_upcoming) {
+			// the featured workshop will be removed from 'upcoming' in this case
             $this->workshops_featured = array_slice($this->workshops_upcoming,0,1,true);
             $source='workshops_upcoming';
         //  Else, choose a random potential workshop
         } elseif ($this->workshops_potential) {
+			// we'll need to prevent a dup entry in potential
             $featurekey = array_rand($this->workshops_potential);
             $this->workshops_featured = $this->workshops_potential[$featurekey];
+			unset($this->workshops_potential[$featurekey]);
             $source='workshops_potential';
         } else {
             $this->workshops_featured = false;
@@ -239,6 +280,35 @@ class Workshop extends AppModel {
         $this->workshops_featured['source']=$source;
         return $this->workshops_featured;
     }
+
+	/**
+	 * Remove the featured item from the list of workshops so we don't duplicate showing it
+	 * 
+	 * But is this working right?
+	 * 
+	 */
+//    function removeFeaturedDuplicate() {
+//        if (isset($this->Workshop->workshops_featured['source'])){
+//            $source=$this->Workshop->workshops_featured['source'];
+//            unset($this->Workshop->workshops_featured['source']);
+////            debug(array_keys($this->Workshop->workshops_featured));
+//            $key=array_keys($this->Workshop->workshops_featured);
+////            debug($key[0]);debug($source);
+//            switch ($source){
+//                case "workshops_now":
+//                    unset($this->Workshop->workshops_now[$key[0]]);
+//                break;
+//                case "workshops_potential":                    
+//                    unset($this->Workshop->workshops_potential[$key[0]]);
+//                break;
+//                case "workshops upcoming":
+//                    unset($this->Workshop->workshops_upcoming[$key[0]]);
+//                break;
+//            }
+//        }
+//        
+//    }
+
 
 }
 

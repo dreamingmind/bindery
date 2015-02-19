@@ -19,45 +19,24 @@ class WorkshopsController extends AppController {
     }
 
 	/**
-	 * This is the 'non-specified' landing page
+	 * The generic workshop landing page if no specific workshop was requested
 	 */
     function upcoming() {
 //        debug($this->request->params);die;
 //            $this->set('result_imagePath');
         $this->Workshop->workshopsFeatured();
-        $this->removeFeaturedDuplicate();
+//		dmDebug::ddd($this->Workshop->workshops_featured, 'feature');
+//        $this->removeFeaturedDuplicate();
 //        $key=array_keys($this->Workshop->workshops_featured);
 //        $this->set('feature', $this->Workshop->workshops_featured[$key[0]]);
         $this->set('feature', $this->Workshop->workshops_featured);
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('potential', $this->Workshop->workshops_potential);
         $this->set('now', $this->Workshop->workshops_now);
-        //unset the fetured element from the appropriate returned data
+        //unset the featured element from the appropriate returned data
         $this->layout = 'noThumbnailPage';
     }
     
-    function removeFeaturedDuplicate() {
-        if (isset($this->Workshop->workshops_featured['source'])){
-            $source=$this->Workshop->workshops_featured['source'];
-            unset($this->Workshop->workshops_featured['source']);
-//            debug(array_keys($this->Workshop->workshops_featured));
-            $key=array_keys($this->Workshop->workshops_featured);
-//            debug($key[0]);debug($source);
-            switch ($source){
-                case "workshops_now":
-                    unset($this->Workshop->workshops_now[$key[0]]);
-                break;
-                case "workshops_potential":                    
-                    unset($this->Workshop->workshops_potential[$key[0]]);
-                break;
-                case "workshops upcoming":
-                    unset($this->Workshop->workshops_upcoming[$key[0]]);
-                break;
-            }
-        }
-        
-    }
-
     function index() {
         $this->Workshop->recursive = 0;
         $this->set('workshops', $this->paginate('Workshop'));
@@ -117,7 +96,7 @@ class WorkshopsController extends AppController {
     }
 
 	/**
-	 * This is the 'chosen workshop' landing page
+	 * The landing point for a specific workshop
 	 */
     function detail() {
 //        
@@ -126,25 +105,21 @@ class WorkshopsController extends AppController {
         //test if pname has content or is a collection
         //If No content
         //Search for 
-//        $collection = $this->Workshop->find('first', array(
-//            'fields' => array(
-//                'Workshop.id'
-//            ),
-//            'contain' => false,
-//            'conditions' => array(
-//                'Workshop.slug' => $this->request->params['pname'],
-//               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
-//            )
-//                ));
-//				debug($collection);//die;
-        $article = $this->Workshop->ContentCollection->findWorkshopTarget(array(
-			'Content.slug' => $this->request->params['pname'], 
-			'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
-		
+        $collection = $this->Workshop->find('first', array(
+            'fields' => array(
+                'Workshop.id'
+            ),
+            'contain' => false,
+            'conditions' => array(
+                'Workshop.slug' => $this->request->params['pname'],
+               'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']
+            )
+                ));
+//				debug($collection);die;
+        $article = $this->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $this->request->params['pname'], 'Workshop.category_id' => $this->Workshop->Category->categoryNI['workshop']));
 //		debug($this->Workshop->workshops_all);
-		debug($article);
+//		debug($article);
         $this->set('feature', $this->Workshop->workshops_all[$article[0]['Workshop']['id']]);
-//		dmDebug::ddd($this->viewVars['feature'], 'feature');
         $this->set('upcoming', $this->Workshop->workshops_upcoming);
         $this->set('delete', array_shift($article));
         $this->set('article', $article);
