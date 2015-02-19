@@ -278,6 +278,7 @@ class TreeBehavior extends ModelBehavior {
 		}
 		if ($direct) {
 			$conditions = array($scope, $Model->escapeField($parent) => $id);
+			dmDebug::ddd($conditions, 'conditions');
 			return $Model->find('all', compact('conditions', 'fields', 'order', 'limit', 'page', 'recursive'));
 		}
 

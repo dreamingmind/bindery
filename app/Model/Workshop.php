@@ -213,7 +213,9 @@ class Workshop extends AppModel {
 	 */
 	protected function includeLandingPageChildPointers($workshop) {
 		$themed_group = array_merge($workshop, array('members' => array()));
-		
+		$ThemedWorkshop = ClassRegistry::init('ThemedWorkshop');
+		$children = $ThemedWorkshop->childrenOfTheme($workshop['Workshop']['id']);
+		dmDebug::ddd($children, 'children');die;
 		// get a Navigator or Navline model
 		// find our landing page in the table
 		// find the children/descendents(?) 
