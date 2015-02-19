@@ -1,7 +1,7 @@
 <?php
 
 App::uses('DrawbridgeAppModel', 'Drawbridge.Model');
-
+App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 /**
  * CakePHP Drawbridge
  * @author jasont
@@ -59,13 +59,13 @@ class Drawbridge extends DrawbridgeAppModel {
             
         }
     }
-    
+
     public function beforeSave($options = array()) {
         parent::beforeSave($options);
-        if (!empty($this->data[$this->alias]['password'])) {
-            $passwordHasher = new SimplePasswordHasher(array('hashType' => 'sha256'));
+        if (isset($this->data[$this->alias]['password'])) {
+            $passwordHasher = new BlowfishPasswordHasher();
             $this->data[$this->alias]['password'] = $passwordHasher->hash(
-                $this->data[$this->alias]['password']
+                    $this->data[$this->alias]['password']
             );
         }
         return true;
@@ -79,16 +79,16 @@ class Drawbridge extends DrawbridgeAppModel {
         //extract the password from the supplied validation array element
         $value = array_values($field);
         $password = $value[0];
-        
+
         //check individual regex test for each type of complexity
         $alpha = preg_match("/[a-zA-Z]{$this->passwordComplexity['alpha']}/", $password);
         $upper = preg_match("/[A-Z]{$this->passwordComplexity['upper']}/", $password);
         $digit = preg_match("/[\d]{$this->passwordComplexity['digit']}/", $password);
         $special = preg_match("/[\W]{$this->passwordComplexity['special']}/", $password);
         $length = preg_match("/.{{$this->passwordComplexity['length']}}/", $password);
-        
+
         //if all pass, OK, else assemble validation message
-        if($alpha && $upper && $digit && $special && $length){
+        if ($alpha && $upper && $digit && $special && $length) {
             return true;
         } else {
             $exploded_length = explode(',', $this->passwordComplexity['length']);
@@ -110,7 +110,7 @@ class Drawbridge extends DrawbridgeAppModel {
 
     public function registerNewUser() {
         try {
-            $this->save();
+            return $this->save();
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }

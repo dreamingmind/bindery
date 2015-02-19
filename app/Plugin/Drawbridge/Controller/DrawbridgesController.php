@@ -8,9 +8,15 @@ App::uses('DrawbridgeAppController', 'Drawbridge.Controller');
  * CakePHP User
  * @author jasont
  * 
+ * Plug-in requires:
+ *  Auth Component
+ *  BlowfishPasswordHasher
+ * 
  * Must configure bootstrap.php with the following keys:
  * Drawbridge.RegistrationRedirect containing a redirect url to use after first login
  *      formatted to match the Auth->redirect property
+ * Drawbridge.PasswordComplexity can be used to establish password complexity guidelines
+ * Drawbridge.Model for the model name of the standard User model
  * 
  */
 class DrawbridgesController extends DrawbridgeAppController {
@@ -39,10 +45,12 @@ class DrawbridgesController extends DrawbridgeAppController {
         'Cookie',
         'Security',
     );
-    
+    public $concrete_model = '';
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow();
+        $this->concrete_model = Configure::read('Drawbridge.Model');
     }
 
     /**
@@ -53,27 +61,37 @@ class DrawbridgesController extends DrawbridgeAppController {
      */
     public function register() {
         if ($this->request->is('POST') || $this->request->is('PUT')) {
+            $this->Drawbridge->data = $this->request->data;
+            if (!$this->Drawbridge->registerNewUser()) {
+                $this->redirect('register');
+            }
+            $registered_user_array = array(
+                'id' => $this->Drawbridge->id,
+                'username' => $this->request->data['Drawbridge']['username']
+            );
+            $this->Session->setFlash('Thanks for registering', 'f_success');
+            $this->Auth->login($registered_user_array);
+            $this->_dispatchDrawbridgeEvent('Drawbridge.newRegisteredUser', $this, $registered_user_array);
             try {
-                $redirect = Configure::read('Drawbridge.RegistrationRedirect');
+                $redirect = Router::url(Configure::read('Drawbridge.RegistrationRedirect'));
             } catch (Exception $exc) {
                 $redirect = $this->Auth->redirectUrl();
             }
-            $this->Drawbridge->data = $this->request->data;
-            if ($this->Drawbridge->registerNewUser()) {
-                $this->Session->setFlash('Thanks for registering', 'f_success');
-                $this->redirect($redirect);
-            } else {
-//                $this->redirect('register');
-            }
+            $this->redirect($redirect);
         }
     }
 
     public function login() {
-        
+        if ($this->request->is('post')) {
+            if ($this->Auth->login()) {
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Session->setFlash(__('Invalid username or password, try again'));
+        }
     }
 
     public function logout() {
-        
+        return $this->redirect($this->Auth->logout());
     }
 
     public function forgotPassword() {
@@ -130,7 +148,7 @@ class DrawbridgesController extends DrawbridgeAppController {
         $event = new CakeEvent($event_name, $this, $data);
         $this->getEventManager()->dispatch($event);
     }
-    
+
     public function testMe() {
         $this->layout = 'ajax';
         dmDebug::ddd(Router::url(Configure::read('Drawbridge.RegistrationRedirect')), 'registration redirect');
