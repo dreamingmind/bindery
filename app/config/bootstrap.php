@@ -239,11 +239,11 @@ Configure::write('usps.Size', 'REGULAR');
 
 Configure::write('Drawbridge.RegistrationRedirect', array('controller' => 'User', 'action' => 'login'));
 Configure::write('Drawbridge.PasswordComplexity', array(
-    'alpha' => '+',
-    'upper' => '+',
-    'digit' => '+',
-    'special' => '+',
-    'length' => '8,256'
+    'alpha' => '*',
+    'upper' => '*',
+    'digit' => '*',
+    'special' => '*',
+    'length' => '2,256'
     ));
 
 
