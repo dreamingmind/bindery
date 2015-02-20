@@ -168,7 +168,7 @@ class Workshop extends AppModel {
             $this->workshops_all[$workshop['Workshop']['id']] = $workshop;
 			if ($workshop['Workshop']['role'] == 'landing') {
 //				echo "<p>Landing: {$workshop['Workshop']['heading']}</p>";
-				$this->workshops_landing[$workshop['Workshop']['id']] = $workshop + array('Memebers' => $this->includeLandingPageChildPointers($workshop));
+				$this->workshops_landing[$workshop['Workshop']['id']] = $workshop + $this->includeLandingPageChildPointers($workshop);
 				continue;
 			}
 //             for workshops_potential find those sessions with null first days
@@ -198,7 +198,6 @@ class Workshop extends AppModel {
                 }
             }
         }
-		dmDebug::ddd($this->workshops_landing, 'landing');
     }
 	
 	/**
@@ -208,6 +207,9 @@ class Workshop extends AppModel {
 	 * if we find a landing record, we will get pointers to the workshops gathered 
 	 * into that theme. These groupings are made in the Navigator/Navline menu 
 	 * setup right now. Bad coupling, but I have no solution yet.
+	 * 
+	 * Navigator (here called ThemedWorkshop) can only return a list of slugs of the articles. 
+	 * We'll use those to back into our data set and get the id'd records we need
 	 * 
 	 * @param array $workshop The all_workshop data node (contains a ton of stuff, see workshopsAll())
 	 */
@@ -220,12 +222,8 @@ class Workshop extends AppModel {
 		$themed_group = array();
 		foreach ($children as $child) {
 			$themed_group[] = $ids[$slugs[$child]];
-		}
-		// get a Navigator or Navline model
-		// find our landing page in the table
-		// find the children/descendents(?) 
-		// incorporate the new info in the array
-		return $themed_group;
+			}			
+		return array('Memebers' => $themed_group);
 	}
 	
 	protected function workshopsUpcoming() {
