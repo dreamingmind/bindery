@@ -1,6 +1,7 @@
 <?php
-class Session extends AppModel {
-	var $name = 'Session';
+class WorkshopSession extends AppModel {
+	var $name = 'WorkshopSession';
+	public $useTable = 'sessions';
 	var $validate = array(
 		'title' => array(
 			'notempty' => array(

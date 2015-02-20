@@ -26,7 +26,7 @@ class Date extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-		'Session' => array(
+		'WorkshopSession' => array(
 			'className' => 'Session',
 			'foreignKey' => 'session_id',
 			'conditions' => '',

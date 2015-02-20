@@ -2,7 +2,7 @@
 /* Sessions Test cases generated on: 2012-11-20 10:13:32 : 1353435212*/
 App::import('Controller', 'Sessions');
 
-class TestSessionsController extends SessionsController {
+class TestSessionsController extends WorkshopSessionsController {
 	var $autoRender = false;
 
 	function redirect($url, $status = null, $exit = true) {

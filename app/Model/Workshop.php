@@ -23,8 +23,8 @@ class Workshop extends AppModel {
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     var $hasMany = array(
-        'Session' => array(
-            'className' => 'Session',
+        'WorkshopSession' => array(
+            'className' => 'WorkshopSession',
             'foreignKey' => 'collection_id',
             'dependent' => false,
             'conditions' => '',
@@ -133,15 +133,15 @@ class Workshop extends AppModel {
                         )
                     )
                 ),
-                'Session' => array(
+                'WorkshopSession' => array(
                     'fields' => array(
-                        'Session.id',
-                        'Session.collection_id',
-                        'Session.cost',
-                        'Session.participants',
-                        'Session.first_day',
-                        'Session.last_day',
-                        'Session.registered'
+                        'WorkshopSession.id',
+                        'WorkshopSession.collection_id',
+                        'WorkshopSession.cost',
+                        'WorkshopSession.participants',
+                        'WorkshopSession.first_day',
+                        'WorkshopSession.last_day',
+                        'WorkshopSession.registered'
                     ),
                     'Date' => array(
                         'fields' => array(
@@ -152,7 +152,7 @@ class Workshop extends AppModel {
                         )
                     ),
                     'conditions' => array(
-                        'Session.last_day >= CURDATE()'
+                        'WorkshopSession.last_day >= CURDATE()'
                     )
                 )
             )
@@ -172,7 +172,7 @@ class Workshop extends AppModel {
 				continue;
 			}
 //             for workshops_potential find those sessions with null first days
-            if (empty($workshop['Session'])) {
+            if (empty($workshop['WorkshopSession'])) {
 //				echo "<p>Potential: {$workshop['Workshop']['heading']}</p>";
                 $this->workshops_potential[$workshop['Workshop']['id']] = $workshop;
 //                 if there are no sessions, don't do the session loop
@@ -180,7 +180,7 @@ class Workshop extends AppModel {
             }
 //             for workshops_now find those sessions with a first day of today OR those
 //             sessions with a first day before today and a last day after or equal to today
-            foreach ($workshop['Session'] as $session) {
+            foreach ($workshop['WorkshopSession'] as $session) {
                 if ($session['first_day'] == date('Y-m-d', time())
                         OR
                         ($session['first_day'] < date('Y-m-d', time())
