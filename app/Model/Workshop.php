@@ -168,7 +168,7 @@ class Workshop extends AppModel {
             $this->workshops_all[$workshop['Workshop']['id']] = $workshop;
 			if ($workshop['Workshop']['role'] == 'landing') {
 //				echo "<p>Landing: {$workshop['Workshop']['heading']}</p>";
-				$this->workshops_landing[$workshop['Workshop']['id']] = $this->includeLandingPageChildPointers($workshop);
+				$this->workshops_landing[$workshop['Workshop']['id']] = $workshop + array('Memebers' => $this->includeLandingPageChildPointers($workshop));
 				continue;
 			}
 //             for workshops_potential find those sessions with null first days
@@ -198,7 +198,7 @@ class Workshop extends AppModel {
                 }
             }
         }
-//		dmDebug::ddd($this->workshops_landing, 'landing');
+		dmDebug::ddd($this->workshops_landing, 'landing');
     }
 	
 	/**
@@ -212,10 +212,15 @@ class Workshop extends AppModel {
 	 * @param array $workshop The all_workshop data node (contains a ton of stuff, see workshopsAll())
 	 */
 	protected function includeLandingPageChildPointers($workshop) {
+		$slugs = array_flip(Hash::extract($this->workshops_temp, '{n}.Workshop.slug'));
+		$ids = Hash::extract($this->workshops_temp, '{n}.Workshop.id');
 		$themed_group = array_merge($workshop, array('members' => array()));
 		$ThemedWorkshop = ClassRegistry::init('ThemedWorkshop');
-		$children = $ThemedWorkshop->childrenOfTheme($workshop['Workshop']['id']);
-		dmDebug::ddd($children, 'children');die;
+		$children = $ThemedWorkshop->childrenOfTheme($workshop['Workshop']['slug']);
+		$themed_group = array();
+		foreach ($children as $child) {
+			$themed_group[] = $ids[$slugs[$child]];
+		}
 		// get a Navigator or Navline model
 		// find our landing page in the table
 		// find the children/descendents(?) 
