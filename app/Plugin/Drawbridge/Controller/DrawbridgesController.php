@@ -1,6 +1,7 @@
 <?php
 
 App::uses('DrawbridgeAppController', 'Drawbridge.Controller');
+App::uses('UserEvent', 'Lib/Event');
 
 /**
  * A general class for handling the user registration and login processes
@@ -51,6 +52,7 @@ class DrawbridgesController extends DrawbridgeAppController {
         parent::beforeFilter();
         $this->Auth->allow();
         $this->concrete_model = Configure::read('Drawbridge.Model');
+        CakeEventManager::instance()->attach(new UserEvent());
     }
 
     /**
@@ -70,13 +72,14 @@ class DrawbridgesController extends DrawbridgeAppController {
                 'username' => $this->request->data['Drawbridge']['username']
             );
             $this->Session->setFlash('Thanks for registering', 'f_success');
+            $this->_dispatchDrawbridgeEvent('Drawbridge.newRegisteredUser', $registered_user_array);
             $this->Auth->login($registered_user_array);
-            $this->_dispatchDrawbridgeEvent('Drawbridge.newRegisteredUser', $this, $registered_user_array);
             try {
                 $redirect = Router::url(Configure::read('Drawbridge.RegistrationRedirect'));
             } catch (Exception $exc) {
                 $redirect = $this->Auth->redirectUrl();
             }
+            dmDebug::ddd($redirect, 'redirect');
             $this->redirect($redirect);
         }
     }
