@@ -13,9 +13,8 @@ App::uses('AppController', 'Controller');
  * @author jasont
  */
 class DrawbridgeAppController extends AppController {
-
-    public function index($id) {
-        
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
     }
-
 }

@@ -8,4 +8,12 @@ App::uses('AppModel', 'Model');
  */
 class DrawbridgeAppModel extends AppModel {
     
+    public function __construct($id = false, $table = null, $ds = null) {
+        parent::__construct($id, $table, $ds);
+    }
+    
+    public function beforeSave($options = array()) {
+        parent::beforeSave($options);
+    }
+    
 }
