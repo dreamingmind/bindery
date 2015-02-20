@@ -47,11 +47,25 @@ class DrawbridgesController extends DrawbridgeAppController {
         'Security',
     );
     public $concrete_model = '';
+    
+    /**
+     * This public property is made available to event handlers
+     * 
+     * It should be used to contain any additional data you wish to add to the Auth user
+     * for login.
+     * 
+     * These values will show up in the Auth/User session, often used for access control
+     * and user tracking.
+     * 
+     * @var array 
+     */
+    public $registered_user = array('User');
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow();
         $this->concrete_model = Configure::read('Drawbridge.Model');
+        $this->registered_user = array($this->concrete_model => array());
         CakeEventManager::instance()->attach(new UserEvent());
     }
 
@@ -67,19 +81,22 @@ class DrawbridgesController extends DrawbridgeAppController {
             if (!$this->Drawbridge->registerNewUser()) {
                 $this->redirect('register');
             }
-            $registered_user_array = array(
+            $this->registered_user[$this->concrete_model] = $registered_user_array = array(
                 'id' => $this->Drawbridge->id,
                 'username' => $this->request->data['Drawbridge']['username']
             );
             $this->Session->setFlash('Thanks for registering', 'f_success');
             $this->_dispatchDrawbridgeEvent('Drawbridge.newRegisteredUser', $registered_user_array);
-            $this->Auth->login($registered_user_array);
-            try {
-                $redirect = Router::url(Configure::read('Drawbridge.RegistrationRedirect'));
-            } catch (Exception $exc) {
+            $this->Auth->login($this->registered_user[$this->concrete_model]);
+            if(is_null(Configure::read('Drawbridge.RegistrationRedirect'))){
                 $redirect = $this->Auth->redirectUrl();
+            } else {
+                $redirect = Router::url(Configure::read('Drawbridge.RegistrationRedirect'), true);
             }
-            dmDebug::ddd($redirect, 'redirect');
+            dmDebug::logVars($this->Session->read('Auth.redirect'), 'Session Auth redirect');
+            dmDebug::logVars($this->Auth->loginRedirect, 'this Auth login redirect');
+            dmDebug::logVars($this->Auth->redirectUrl(), 'this auth redirectUrl()');
+            dmDebug::logVars($redirect, 'final redirect');
             $this->redirect($redirect);
         }
     }
