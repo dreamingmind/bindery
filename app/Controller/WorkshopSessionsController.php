@@ -63,10 +63,11 @@ class WorkshopSessionsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-        function edit_session($slug){
+        function edit_sessions($workshop_id){
             $this->layout = 'noThumbnailPage';
             $article = $this->WorkshopSession->Workshop->ContentCollection->findWorkshopTarget(array('Content.slug' => $slug, 'Workshop.category_id' => $this->WorkshopSession->Workshop->Category->categoryNI['workshop']));
             $this->set('feature', $this->WorkshopSession->Workshop->workshops_all[$article[0]['Workshop']['id']]);
+			dmDebug::ddd($article, 'article');
 
     }
 
