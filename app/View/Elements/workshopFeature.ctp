@@ -12,7 +12,6 @@ $workshopPicture = $this->Html->image(
 $workshopContent = $this->Text->truncate($this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']), 550);
 $sessioncount = count($feature['WorkshopSession']);
 //  sprintf slugging
-$dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</span> - %s<span class="%s">%s</span>';
 //    preset $starttimestamp & $endtimestamp for each loop
 //    will use sprintf($dateslug,
 //                      $starttimestamp,
@@ -33,12 +32,18 @@ foreach ($feature['WorkshopSession'] as $wksession) {
             . $this->Number->currency($wksession['cost'], 'USD', $options = array('before' => '$', 'places' => 0));
 //    debug($cost);die;
     $accum[] = $this->Form->button($cost, array('class' => 'register'));
+	
 //      Date loop
+	$dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</span> - %s<span class="%s">%s</span>';
     $durations[$sesnumber] = 0;
     foreach ($wksession['Date'] as $date) {
         $starttimestamp = strtotime($date['date'] . ' ' . $date['start_time']);
         $endtimestamp = strtotime($date['date'] . ' ' . $date['end_time']);
-        $accum[] = sprintf($dateslug, $starttimestamp, date('M d Y, g:i', $starttimestamp), date('a', $starttimestamp), date('A', $starttimestamp), date('g:i', $endtimestamp), date('a', $endtimestamp), date('A', $endtimestamp));
+        $accum[] = sprintf($dateslug, 
+				$starttimestamp, 
+				date('M d Y, g:i', $starttimestamp), date('a', $starttimestamp), 
+				date('A', $starttimestamp), date('g:i', $endtimestamp), 
+				date('a', $endtimestamp), date('A', $endtimestamp));
         $durations[$sesnumber] += $endtimestamp - $starttimestamp;
     }
     $costaccum[] = 'Session ' . $sesnumber . ' is '
@@ -65,6 +70,8 @@ $sessionDiv = $this->Html->div('', $sessions, array('id' => 'featuredSession'));
 $costLine = $this->Html->tag('h3', implode(' // ', $costaccum), array('class' => 'featureCost'));
 
 $featureHtml = $workshopPicture . $workshopTitle . $workshopContent . $costLine . $sessionDiv;
+
+
 echo $this->Html->div('', $this->Html->div('', $featureHtml, array(
             'id' => 'feature-overlay'
         )), array(

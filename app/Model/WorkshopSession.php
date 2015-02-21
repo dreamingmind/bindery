@@ -90,6 +90,43 @@ class WorkshopSession extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	public function expiredSessions($workshop_id) {
+		$expired_sessions = $this->find('all', array(
+			'conditions' => array(
+				'WorkshopSession.collection_id' => $workshop_id,
+				'WorkshopSession.last_day < CURDATE()'
+			),
+			'fields' => array(
+				'WorkshopSession.id',
+				'WorkshopSession.title',
+				'WorkshopSession.collection_id',
+				'WorkshopSession.cost',
+				'WorkshopSession.participants',
+				'WorkshopSession.first_day',
+				'WorkshopSession.last_day',
+				'WorkshopSession.registered'
+			),
+			'contain' => array(
+				'Date' => array(
+					'fields' => array(
+						'Date.session_id',
+						'Date.date',
+						'Date.start_time',
+						'Date.end_time'
+					)
+				)
+			)
+		));
+		return $expired_sessions;
+//		'WorkshopSession' => array(
+//			,
+//			,
+//			'conditions' => array(
+//				'WorkshopSession.last_day >= CURDATE()'
+//			)
+
+	}
 
 }
 ?>

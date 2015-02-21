@@ -136,6 +136,7 @@ class Workshop extends AppModel {
                 'WorkshopSession' => array(
                     'fields' => array(
                         'WorkshopSession.id',
+						'WorkshopSession.title',
                         'WorkshopSession.collection_id',
                         'WorkshopSession.cost',
                         'WorkshopSession.participants',
