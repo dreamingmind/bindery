@@ -2,6 +2,7 @@
 
 App::uses('DrawbridgeAppController', 'Drawbridge.Controller');
 App::uses('UserEvent', 'Lib/Event');
+App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 /**
  * A general class for handling the user registration and login processes
@@ -103,6 +104,8 @@ class DrawbridgesController extends DrawbridgeAppController {
 
     public function login() {
         if ($this->request->is('post')) {
+            $this->testMe();
+            exit();
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirectUrl());
             }
@@ -171,8 +174,20 @@ class DrawbridgesController extends DrawbridgeAppController {
 
     public function testMe() {
         $this->layout = 'ajax';
-        dmDebug::ddd(Router::url(Configure::read('Drawbridge.RegistrationRedirect')), 'registration redirect');
-        dmDebug::ddd($this->Auth->redirectUrl(), 'Auth redirect URL');
+//            $passwordHasher = new BlowfishPasswordHasher();
+//            $pass = $this->request->data['Drawbridge']['password'];
+//            dmDebug::ddd($pass, 'password cleartext');
+//            $this->request->data['Drawbridge']['password'] = $passwordHasher->hash($this->request->data['Drawbridge']['password']);
+//            $pass = $this->request->data['Drawbridge']['password'];
+//            dmDebug::ddd($pass, 'password hash');
+            $p = 'xx';
+            $i=0;
+            while ($i<11){
+                $passwordHasher = new BlowfishPasswordHasher();
+                $out = $passwordHasher->hash($p);
+                echo "<p>$out</p>";
+                $i++;
+            }
     }
 
 }

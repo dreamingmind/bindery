@@ -161,5 +161,9 @@ class AppModel extends Model {
 		$cacheKey = "{$this->dataCache}_$id";
 		Cache::delete($cacheKey, $this->dataCacheConfig);
 	}
+    
+    public function node($ref) {
+        return true;
+    }
 }
 ?>

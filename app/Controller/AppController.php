@@ -48,11 +48,11 @@ class AppController extends Controller {
         'Acl' => array(
         ),
         'Auth' => array(
-            'loginAction' => array(
-                'plugin' => null,
-                'controller' => 'users',
-                'action' => 'login'
-            ),
+//            'loginAction' => array(
+//                'plugin' => null,
+//                'controller' => 'users',
+//                'action' => 'login'
+//            ),
             'logoutRedirect' => array(
                 'plugin' => null,
                 'controller' => 'pages',
@@ -60,20 +60,22 @@ class AppController extends Controller {
             ),
             'loginRedirect' => array(
                 'plugin' => null,
-                'controller' => 'pages',
-				'action' => 'home'
+                'controller' => 'contents',
+				'action' => 'blog'
+//                'controller' => 'pages',
+//				'action' => 'home'
             ),
             'authenticate' => array(
                 'Form' => array(
                     'passwordHasher' => 'Blowfish'
                 )
             ),
-            'loginError' => "This message shows up when the wrong credentials are used",
-            'authError' => "Please log in to proceed.",
-            'authorize' => 'controller',
+//            'loginError' => "This message shows up when the wrong credentials are used",
+//            'authError' => "Please log in to proceed.",
+//            'authorize' => 'controller',
             //'authorize' => 'actions',
             //'authorize' => 'crud',
-            'allowedActions' => array('display', 'newBadge')
+//            'allowedActions' => array('display', 'newBadge')
         ),
 		'Markdown.Markdown',
         'Session',
@@ -206,7 +208,7 @@ class AppController extends Controller {
         $this->initAccount(); //set all properties describing the logged in user (or not)
         $this->mainNavigation(); //get the account appropriate full, potential menu record set
         $this->splashContent = $this->pullSplash();
-        $this->Auth->logoutRedirect = $this->referer('', TRUE);
+//        $this->Auth->logoutRedirect = $this->referer('', TRUE);
 		$this->Auth->allow('testMe');
 //        $this->Auth->loginRedirect = $this->referer('bindery', TRUE);
         //debug();
@@ -443,39 +445,41 @@ SIG;
     }
 
     function isAuthorized() {
-        $id = $this->Account->findByUsername($this->username, array('fields' => 'id'));
-        //debug ($this->record);
-		
-        if ($this->record['Group']['name'] == 'Administrator') {
-            //$this->set('authed','Auth logic: Administrator');
-            return true;
-			
-		} elseif (in_array($this->params['action'], array('logout', 'login', 'register'))) {
-            return true;
-			
-        } elseif ($this->Acl->check($this->Auth->user(), $this->params['controller'] . '/' . $this->params['action'])) {
-            return true;
-			
-        } elseif ($this->Acl->check(
-                        $this->usergroup . "/" . $this->username . "::" . $this->userid, "UserRecord/" . $this->username . "::" . $this->userid)) { // this same/same comparison is not good
-            //$id = $this->User->id;
-//                if () {
-            return true; //check for authorized user to user record
-//                } else {
-//                    //return $this->Session->setFlash("failed user check");
-//                }
-            // possibly a function to do all user account checks
-        } else {
-            debug($this->Auth->user());
-//                $id = $this->Account->findByUsername($this->viewVars['authedUser']['User']['username'],array('fields'=>'id'));
-//                $r = "user/".$this->viewVars['authedUser']['User']['username']."::".$id['Account']['id'];
-//                $c = "UserRecord/".$this->viewVars['authedUser']['User']['username']."::".$this->params['pass'][0];
-//                debug($r);
-//                debug($c);
-//                debug($this->params['pass'][0]);
-//                debug($id);
-            return false;
-        }
+        return true;
+//        $id = $this->Account->findByUsername($this->username, array('fields' => 'id'));
+//        //debug ($this->record);
+//		
+//        if ($this->record['Group']['name'] == 'Administrator') {
+//            //$this->set('authed','Auth logic: Administrator');
+//            return true;
+//			
+//		} elseif (in_array($this->params['action'], array('logout', 'login', 'register'))) {
+//            return true;
+//			
+//        } elseif ($this->Acl->check($this->Auth->user(), $this->params['controller'] . '/' . $this->params['action'])) {
+//            return true;
+//			
+//        } elseif ($this->Acl->check(
+//                        $this->usergroup . "/" . $this->username . "::" . $this->userid, "UserRecord/" . $this->username . "::" . $this->userid)) { // this same/same comparison is not good
+//            //$id = $this->User->id;
+////                if () {
+//            return true; //check for authorized user to user record
+////                } else {
+////                    //return $this->Session->setFlash("failed user check");
+////                }
+//            // possibly a function to do all user account checks
+//        } else {
+//            debug($this->Auth->user());
+//            dmDebug::logVars($this->Auth->user(), 'this auth user');
+////                $id = $this->Account->findByUsername($this->viewVars['authedUser']['User']['username'],array('fields'=>'id'));
+////                $r = "user/".$this->viewVars['authedUser']['User']['username']."::".$id['Account']['id'];
+////                $c = "UserRecord/".$this->viewVars['authedUser']['User']['username']."::".$this->params['pass'][0];
+////                debug($r);
+////                debug($c);
+////                debug($this->params['pass'][0]);
+////                debug($id);
+//            return false;
+//        }
     }
 
     /**

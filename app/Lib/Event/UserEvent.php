@@ -1,6 +1,7 @@
 <?php
 App::uses('CakeEventListener', 'Event');
 App::uses('User', 'Model');
+App::uses('Drawbridge', 'Drawbridge.Model');
 
 /**
  * Description of UserEvent
@@ -16,7 +17,7 @@ class UserEvent implements CakeEventListener {
     }
     
     public function newRegisteredUser($event) {
-        $user = ClassRegistry::init('User');
+        $user = ClassRegistry::init('Drawbridge');
         $event->subject->registered_user = $user->data = array('User' => array(
             'id' => $event->data['id'],
             'username' => $event->data['username'],
@@ -26,9 +27,7 @@ class UserEvent implements CakeEventListener {
             'email' => $event->data['username'],
             'Group' => array('id' => 3)
         ));
-        $user->save($user->data, array(
-            'callbacks' => false
-        ));
+        $user->save($user->data);
         
     }
 

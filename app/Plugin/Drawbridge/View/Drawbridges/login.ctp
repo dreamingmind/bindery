@@ -1,4 +1,5 @@
 <?php
+echo Configure::version();
 echo $this->Form->create();
 echo $this->Form->input('username', array(
     'label' => 'Email'
