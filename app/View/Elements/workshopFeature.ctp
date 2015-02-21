@@ -10,7 +10,7 @@ $workshopTitle = $this->Html->tag('h2', $feature['Workshop']['heading'].$detaill
 $workshopPicture = $this->Html->image(
         "images/thumb/x160y120/{$feature['ContentCollection'][0]['Content']['Image']['img_file']}", array('id' => 'featurePicture'));
 $workshopContent = $this->Text->truncate($this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']), 550);
-$sessioncount = count($feature['Session']);
+$sessioncount = count($feature['WorkshopSession']);
 //  sprintf slugging
 $dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</span> - %s<span class="%s">%s</span>';
 //    preset $starttimestamp & $endtimestamp for each loop
@@ -26,7 +26,7 @@ $dateslug = '<p class="day"><time datetime="%s">%s</time><span class="%s">%s</sp
 $sesnumber = 1;
 $accum = $costaccum = array();
 //  Button loop
-foreach ($feature['Session'] as $wksession) {
+foreach ($feature['WorkshopSession'] as $wksession) {
     $s = ($sessioncount > 1) ? 'Session ' . $sesnumber . ' - ' : '';
     $cost = 'Register: '
             . $s
@@ -54,7 +54,7 @@ foreach ($feature['Session'] as $wksession) {
 //    );
 //Setup the feature inset to show existing sessions, if any, and allow users to request a new date
 $sessions = '';
-if (isset($feature['Session'][0])) {
+if (isset($feature['WorkshopSession'][0])) {
     $sessions = implode('', $accum);
 }
 $sessions .= $this->element('workshop_date_request', array(

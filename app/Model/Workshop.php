@@ -266,24 +266,25 @@ class Workshop extends AppModel {
         if ($this->workshops_now) {
 			// leave 'now' set in this case
             $this->workshops_featured = $this->workshops_now;
-            $source='workshops_now';
+//            $source='workshops_now';
         //  Else, pick off the first upcoming workshop
         } elseif ($this->workshops_upcoming) {
 			// the featured workshop will be removed from 'upcoming' in this case
             $this->workshops_featured = array_slice($this->workshops_upcoming,0,1,true);
-            $source='workshops_upcoming';
+//            $source='workshops_upcoming';
         //  Else, choose a random potential workshop
         } elseif ($this->workshops_potential) {
 			// we'll need to prevent a dup entry in potential
             $featurekey = array_rand($this->workshops_potential);
             $this->workshops_featured = $this->workshops_potential[$featurekey];
 			unset($this->workshops_potential[$featurekey]);
-            $source='workshops_potential';
+//            $source='workshops_potential';
         } else {
             $this->workshops_featured = false;
         }
-        $this->workshops_featured['source']=$source;
-        return $this->workshops_featured;
+//        $this->workshops_featured['source']=$source;
+		$this->workshops_featured = Hash::extract($this->workshops_featured, '{n}');
+        return $this->workshops_featured = $this->workshops_featured[0];
     }
 
 	/**

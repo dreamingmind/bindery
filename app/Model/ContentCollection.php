@@ -469,7 +469,7 @@ class ContentCollection extends AppModel {
     /**
      * Return some batch of Content records sorted by article order
      * 
-     * These are pulled for ContentCollection context so there may be
+     * These are pulled from ContentCollection context so there may be
      * more be a variety of results.
      * $condition can look at 
      *      ContentCollection
