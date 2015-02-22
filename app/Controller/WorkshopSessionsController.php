@@ -1,4 +1,5 @@
 <?php
+
 class WorkshopSessionsController extends AppController {
 
 	var $name = 'WorkshopSessions';
@@ -73,6 +74,10 @@ class WorkshopSessionsController extends AppController {
 		$article = $this->WorkshopSession->Workshop->ContentCollection->findWorkshopTarget(
 				array('Workshop.slug' => $workshop_slug, 'Workshop.category_id' => $this->WorkshopSession->Workshop->Category->categoryNI['workshop']));
 
+		$sessions = $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id'], 'json');
+//		$array_version = $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id'], 'array');
+		
+		$this->set(compact('sessions'));
 		$this->set('feature', $this->WorkshopSession->Workshop->workshops_all[$article[0]['Workshop']['id']]);
 		$this->set('expired_sessions', $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id']));
     }
