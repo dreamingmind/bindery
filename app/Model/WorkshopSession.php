@@ -91,12 +91,15 @@ class WorkshopSession extends AppModel {
 		)
 	);
 	
-	public function expiredSessions($workshop_id) {
-		$expired_sessions = $this->find('all', array(
-			'conditions' => array(
-				'WorkshopSession.collection_id' => $workshop_id,
-				'WorkshopSession.last_day < CURDATE()'
-			),
+	/**
+	 * Find session data according to $conditions
+	 * 
+	 * @param array $conditions
+	 * @return array
+	 */
+	protected function findSessions($conditions) {
+		$sessions = $this->find('all', array(
+			'conditions' => $conditions,
 			'fields' => array(
 				'WorkshopSession.id',
 				'WorkshopSession.title',
@@ -118,14 +121,46 @@ class WorkshopSession extends AppModel {
 				)
 			)
 		));
-		return $expired_sessions;
-//		'WorkshopSession' => array(
-//			,
-//			,
-//			'conditions' => array(
-//				'WorkshopSession.last_day >= CURDATE()'
-//			)
-
+		return sessions;
+	}
+	
+	
+	public function expiredSessions($workshop_id, $result_type = FALSE) {
+		$conditions = array(
+				'WorkshopSession.collection_id' => $workshop_id,
+				'WorkshopSession.last_day < CURDATE()'
+		);
+		$expired_sessions = $this->findSessions($conditions);
+		if (!$result_type) {
+			return $current_sessions;
+		} else {
+			return $this->storageObject($result_type, $expired_sessions);
+		}
+	}
+	
+	public function currentSessions($workshop_id, $result_type = FALSE) {
+		$conditions = array(
+				'WorkshopSession.collection_id' => $workshop_id,
+				'WorkshopSession.last_day >= CURDATE()'
+		);
+		$current_sessions = $this->findSessions($conditions);
+		if (!$result_type) {
+			return $current_sessions;
+		} else {
+			return $this->storageObject($result_type, $current_sessions);
+		}
+	}
+	
+	public function allSessions($workshop_id, $result_type = FALSE) {
+		$conditions = array(
+				'WorkshopSession.collection_id' => $workshop_id
+		);
+		$all_sessions = $this->findSessions($conditions);
+		if (!$result_type) {
+			return $current_sessions;
+		} else {
+			return $this->storageObject($result_type, $all_sessions);
+		}
 	}
 
 }
