@@ -3,6 +3,7 @@ app/webroot/img/images/*
 app/tmp/
 app/Config/*
 !app/Config/bootstrap.php
+!app/Config/routes.php
 nbproject
 app/webroot/img/materials
 lib/Cake/Cache/.DS_Store

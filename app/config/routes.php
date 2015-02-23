@@ -118,6 +118,11 @@ Router::connect('/workshops', array('controller' => 'workshops', 'action' => 'up
 Router::connect('/workshops/edit_session/*', array('controller' => 'workshops', 'action' => 'edit_session'));
 Router::connect('/workshops/*', array('controller' => 'workshops', 'action' => 'detail'));
 
+//Drawbridge Plug-In Routes
+Router::connect('/login', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'login'));
+Router::connect('/register', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'register'));
+Router::connect('/logout', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'logout'));
+
 
 
 //        Router::connect('/admin/:controller',
