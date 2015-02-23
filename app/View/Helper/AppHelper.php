@@ -159,11 +159,11 @@ class AppHelper extends Helper {
         $tool = "\n<p>";
         if (isset($userdata) && $userdata != 0) {
             $tool .= $userdata['username'] . " | ";
-            $tool .= $this->Html->link('Log Out', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'logout'));
+            $tool .= $this->Html->link('Log Out', '/logout');
         } else {
-            $tool .= $this->Html->link('Log In', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'login'));
+            $tool .= $this->Html->link('Log In', '/login');
             $tool .= ' | ';
-            $tool .= $this->Html->link('Register', array('plugin' => null, 'prefix' => null, 'controller' => 'users', 'action' => 'register'));
+            $tool .= $this->Html->link('Register', '/register');
         }
         return $tool . "</p>\n";
     }
