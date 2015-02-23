@@ -84,7 +84,7 @@ class TreeBehavior extends ModelBehavior {
  * @return boolean true on success, false on failure
  * @access public
  */
-	function afterSave(Model $model, $created) {
+	function afterSave(Model $model, $created, $options = array()) {
 		extract($this->settings[$model->alias]);
 		if ($created) {
 			if ((isset($model->data[$model->alias][$parent])) && $model->data[$model->alias][$parent]) {
@@ -138,7 +138,7 @@ class TreeBehavior extends ModelBehavior {
  * @return boolean true to continue, false to abort the save
  * @access public
  */
-	function beforeSave(Model $model) {
+	function beforeSave(Model $model, $options = array()) {
 		extract($this->settings[$model->alias]);
 
 		$this->_addToWhitelist($model, array($left, $right));
