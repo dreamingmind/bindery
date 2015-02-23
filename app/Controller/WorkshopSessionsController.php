@@ -4,6 +4,8 @@ class WorkshopSessionsController extends AppController {
 
 	var $name = 'WorkshopSessions';
 	
+	public $helpers = array('Workshop');
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('edit_sessions');
@@ -74,7 +76,7 @@ class WorkshopSessionsController extends AppController {
 		$article = $this->WorkshopSession->Workshop->ContentCollection->findWorkshopTarget(
 				array('Workshop.slug' => $workshop_slug, 'Workshop.category_id' => $this->WorkshopSession->Workshop->Category->categoryNI['workshop']));
 
-		$sessions = $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id'], 'json');
+		$sessions = $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id'], 'json')->sessions;
 //		$array_version = $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id'], 'array');
 		
 		$this->set(compact('sessions'));

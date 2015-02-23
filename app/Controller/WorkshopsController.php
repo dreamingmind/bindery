@@ -3,8 +3,10 @@
 class WorkshopsController extends AppController {
 
     var $name = 'Workshops';
+	
+	public $helpers = array('Workshop');
 
-    /**
+	/**
      * @var string $result_ImagePath picks the size of image in search result blocks
      */
     function beforeFilter() {

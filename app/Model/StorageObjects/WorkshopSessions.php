@@ -25,12 +25,17 @@ class WorkshopSessions{
 	 *
 	 * @var iterator
 	 */
-	protected $sessions;
+	public $sessions;
 	
 	public function __construct($storage_object) {
 		$this->session_data = $storage_object;
 		$this->sessions = new SessionIterator($this->session_data);
 		
+//		dmDebug::ddd($this->sessions->dates()->one(), 'duration');
+//		dmDebug::ddd($this->sessions->dates()->two(), 'duration');
+//		dmDebug::ddd($this->sessions->dates()->three(), 'duration');
+//		dmDebug::ddd($this->sessions->dates()->four(), 'duration');
+
 		// calling non-iterating methods of the iterator
 //		dmDebug::ddd($this->sessions->dates()->duration(), 'duration');
 //		
@@ -43,12 +48,12 @@ class WorkshopSessions{
 //		dmDebug::ddd($this->sessions->dates, 'sessions iterator');
 		
 		// using the two iterators in loops
-		foreach ($this->sessions as $session) {
-			dmDebug::ddd($session->read(), 'session');
-			foreach ($this->sessions->dates as $date){
-				dmDebug::ddd($date->read(), 'date');
-			}
-		}
+//		foreach ($this->sessions as $session) {
+//			dmDebug::ddd($session->read(), 'session');
+//			foreach ($this->sessions->dates as $date){
+//				dmDebug::ddd($date->read(), 'date');
+//			}
+//		}
 	}
 		
 }
@@ -154,4 +159,38 @@ class DateIterator extends ArrayIterator {
 		return strtotime($date_data->read('date') . ' ' . $date_data->read("{$time_point}_time"));
 	}
 	
+	/**
+	 * Return the date in the form 'Nov 27 2011'
+	 * 
+	 * @param string $time_point 'start' or 'end'
+	 * @return string MAR 13 2015
+	 */
+	public function date($time_point = 'start') {
+		return date('M d Y', $this->seconds($time_point));
+	}
+	
+	/**
+	 * Return am or pm in caps or lower case
+	 * 
+	 * @param string $time_point 'start' or 'end'
+	 * @param boolean $upper
+	 * @return string am/pm or AM/PM
+	 */
+	public function amPm($time_point = 'start', $upper = FALSE) {
+		$am_pm = ($upper) ? 'A' : 'a';
+		return date($am_pm, $this->seconds($time_point));
+	}
+
+	/**
+	 * Return the time (12 hour clock, no leading zeros)
+	 * 
+	 * @param type $time_point
+	 * @return string 3:30
+	 */
+	public function oClock($time_point = 'start') {
+		return date('g:i', $this->seconds($time_point));
+	}
+//	, , 
+//				date('A', $starttimestamp), date('g:i', $endtimestamp), 
+//				date('a', $endtimestamp), date('A', $endtimestamp));
 }
