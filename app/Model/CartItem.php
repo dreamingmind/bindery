@@ -109,8 +109,8 @@ class CartItem extends OrderItem {
 	 * 
 	 * @param boolean $created
 	 */
-	public function afterSave($created) {
-		parent::afterSave($created);
+	public function afterSave($created, $options = array()) {
+		parent::afterSave($created, $options = array());
 		$this->deleteIdCache($this->Cart->cartId(), $this->dataCacheConfig);
 		$this->unbindModel(array('hasOne' => array('Supplement')));
 		$this->updateCounterCache();

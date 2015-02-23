@@ -242,7 +242,7 @@ class MeioUploadBehavior extends ModelBehavior {
  * @return boolean Always true
  * @access public
  */
-	function beforeValidate(Model $model) {
+	function beforeValidate(Model $model, $options = array()) {
 		static $setup = false;
 		if ($setup === false) {
 			foreach ($this->__fields[$model->alias] as $fieldName => $options) {
@@ -260,8 +260,8 @@ class MeioUploadBehavior extends ModelBehavior {
  * @return boolean Whether the upload completed
  * @access public
  */
-	function beforeSave(Model $model) {
-		$result = $this->_uploadFile($model);
+	function beforeSave(Model $model, $options = array()) {
+		$result = $this->_uploadFile($model, $options = array());
 		$allOk = true;
 		foreach ($result as $fieldName => $return) {
 			if ($return['return'] === false) {
@@ -283,7 +283,7 @@ class MeioUploadBehavior extends ModelBehavior {
  * @return void
  * @access public
  */
-	public function afterSave(Model $model, $created) {
+	public function afterSave(Model $model, $created, $options = array()) {
 		$this->_removeListOfFiles();
 	}
 

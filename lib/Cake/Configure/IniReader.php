@@ -2,8 +2,6 @@
 /**
  * IniReader
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -19,6 +17,7 @@
  */
 
 App::uses('Hash', 'Utility');
+App::uses('CakePlugin', 'Core');
 
 /**
  * Ini file configuration engine.
@@ -35,10 +34,10 @@ App::uses('Hash', 'Utility');
  * You can nest properties as deeply as needed using `.`'s. In addition to using `.` you
  * can use standard ini section notation to create nested structures:
  *
- * {{{
+ * ```
  * [section]
  * key = value
- * }}}
+ * ```
  *
  * Once loaded into Configure, the above would be accessed using:
  *
@@ -96,7 +95,6 @@ class IniReader implements ConfigReaderInterface {
  * @return array Parsed configuration values.
  * @throws ConfigureException when files don't exist.
  *  Or when files contain '..' as this could lead to abusive reads.
- * @throws ConfigureException
  */
 	public function read($key) {
 		if (strpos($key, '..') !== false) {
@@ -184,7 +182,7 @@ class IniReader implements ConfigReaderInterface {
 /**
  * Converts a value into the ini equivalent
  *
- * @param mixed $value to export.
+ * @param mixed $val Value to export.
  * @return string String value for ini file.
  */
 	protected function _value($val) {
@@ -221,7 +219,7 @@ class IniReader implements ConfigReaderInterface {
 		}
 
 		if ($plugin) {
-			$file = App::pluginPath($plugin) . 'Config' . DS . $key;
+			$file = CakePlugin::path($plugin) . 'Config' . DS . $key;
 		} else {
 			$file = $this->_path . $key;
 		}

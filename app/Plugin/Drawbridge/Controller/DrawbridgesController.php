@@ -29,9 +29,6 @@ class DrawbridgesController extends DrawbridgeAppController {
      * @var array
      */
     public $helpers = array(
-        'Html',
-        'Form',
-        'Session',
         'Time',
         'Text'
     );
@@ -42,10 +39,10 @@ class DrawbridgesController extends DrawbridgeAppController {
      * @var array
      */
     public $components = array(
-        'Auth',
-        'Session',
-        'Cookie',
         'Security',
+        'Auth' => array(
+            'userModel' => 'Drawbridge'
+        )
     );
     public $concrete_model = '';
     
@@ -94,18 +91,12 @@ class DrawbridgesController extends DrawbridgeAppController {
             } else {
                 $redirect = Router::url(Configure::read('Drawbridge.RegistrationRedirect'), true);
             }
-            dmDebug::logVars($this->Session->read('Auth.redirect'), 'Session Auth redirect');
-            dmDebug::logVars($this->Auth->loginRedirect, 'this Auth login redirect');
-            dmDebug::logVars($this->Auth->redirectUrl(), 'this auth redirectUrl()');
-            dmDebug::logVars($redirect, 'final redirect');
             $this->redirect($redirect);
         }
     }
 
     public function login() {
         if ($this->request->is('post')) {
-            $this->testMe();
-            exit();
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirectUrl());
             }

@@ -5,8 +5,6 @@
  * Provides Exception rendering features. Which allow exceptions to be rendered
  * as HTML pages.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -37,7 +35,7 @@ App::uses('Controller', 'Controller');
  *
  * You can implement application specific exception handling in one of a few ways:
  *
- * - Create a AppController::appError();
+ * - Create an AppController::appError();
  * - Create a subclass of ExceptionRenderer and configure it to be the `Exception.renderer`
  *
  * #### Using AppController::appError();
@@ -89,13 +87,13 @@ class ExceptionRenderer {
  * code error depending on the code used to construct the error.
  *
  * @param Exception $exception Exception
- * @return mixed Return void or value returned by controller's `appError()` function
  */
 	public function __construct(Exception $exception) {
 		$this->controller = $this->_getController($exception);
 
-		if (method_exists($this->controller, 'apperror')) {
-			return $this->controller->appError($exception);
+		if (method_exists($this->controller, 'appError')) {
+			$this->controller->appError($exception);
+			return;
 		}
 		$method = $template = Inflector::variable(str_replace('Exception', '', get_class($exception)));
 		$code = $exception->getCode();
@@ -155,9 +153,20 @@ class ExceptionRenderer {
 			try {
 				$controller = new CakeErrorController($request, $response);
 				$controller->startupProcess();
+				$startup = true;
 			} catch (Exception $e) {
-				if (!empty($controller) && $controller->Components->enabled('RequestHandler')) {
+				$startup = false;
+			}
+			// Retry RequestHandler, as another aspect of startupProcess()
+			// could have failed. Ignore any exceptions out of startup, as
+			// there could be userland input data parsers.
+			if ($startup === false &&
+				!empty($controller) &&
+				$controller->Components->enabled('RequestHandler')
+			) {
+				try {
 					$controller->RequestHandler->startup($controller);
+				} catch (Exception $e) {
 				}
 			}
 		}
@@ -182,7 +191,7 @@ class ExceptionRenderer {
 /**
  * Generic handler for the internal framework errors CakePHP can generate.
  *
- * @param CakeException $error
+ * @param CakeException $error The exception to render.
  * @return void
  */
 	protected function _cakeError(CakeException $error) {
@@ -191,10 +200,11 @@ class ExceptionRenderer {
 		$this->controller->response->statusCode($code);
 		$this->controller->set(array(
 			'code' => $code,
-			'url' => h($url),
 			'name' => h($error->getMessage()),
+			'message' => h($error->getMessage()),
+			'url' => h($url),
 			'error' => $error,
-			'_serialize' => array('code', 'url', 'name')
+			'_serialize' => array('code', 'name', 'message', 'url')
 		));
 		$this->controller->set($error->getAttributes());
 		$this->_outputMessage($this->template);
@@ -203,7 +213,7 @@ class ExceptionRenderer {
 /**
  * Convenience method to display a 400 series page.
  *
- * @param Exception $error
+ * @param Exception $error The exception to render.
  * @return void
  */
 	public function error400($error) {
@@ -215,9 +225,10 @@ class ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->set(array(
 			'name' => h($message),
+			'message' => h($message),
 			'url' => h($url),
 			'error' => $error,
-			'_serialize' => array('name', 'url')
+			'_serialize' => array('name', 'message', 'url')
 		));
 		$this->_outputMessage('error400');
 	}
@@ -225,7 +236,7 @@ class ExceptionRenderer {
 /**
  * Convenience method to display a 500 page.
  *
- * @param Exception $error
+ * @param Exception $error The exception to render.
  * @return void
  */
 	public function error500($error) {
@@ -238,9 +249,10 @@ class ExceptionRenderer {
 		$this->controller->response->statusCode($code);
 		$this->controller->set(array(
 			'name' => h($message),
-			'message' => h($url),
+			'message' => h($message),
+			'url' => h($url),
 			'error' => $error,
-			'_serialize' => array('name', 'message')
+			'_serialize' => array('name', 'message', 'url')
 		));
 		$this->_outputMessage('error500');
 	}
@@ -248,7 +260,7 @@ class ExceptionRenderer {
 /**
  * Convenience method to display a PDOException.
  *
- * @param PDOException $error
+ * @param PDOException $error The exception to render.
  * @return void
  */
 	public function pdoError(PDOException $error) {
@@ -257,10 +269,11 @@ class ExceptionRenderer {
 		$this->controller->response->statusCode($code);
 		$this->controller->set(array(
 			'code' => $code,
-			'url' => h($url),
 			'name' => h($error->getMessage()),
+			'message' => h($error->getMessage()),
+			'url' => h($url),
 			'error' => $error,
-			'_serialize' => array('code', 'url', 'name', 'error')
+			'_serialize' => array('code', 'name', 'message', 'url', 'error')
 		));
 		$this->_outputMessage($this->template);
 	}
@@ -283,6 +296,12 @@ class ExceptionRenderer {
 			} else {
 				$this->_outputMessage('error500');
 			}
+		} catch (MissingPluginException $e) {
+			$attributes = $e->getAttributes();
+			if (isset($attributes['plugin']) && $attributes['plugin'] === $this->controller->plugin) {
+				$this->controller->plugin = null;
+			}
+			$this->_outputMessageSafe('error500');
 		} catch (Exception $e) {
 			$this->_outputMessageSafe('error500');
 		}
@@ -298,7 +317,7 @@ class ExceptionRenderer {
 	protected function _outputMessageSafe($template) {
 		$this->controller->layoutPath = null;
 		$this->controller->subDir = null;
-		$this->controller->viewPath = 'Errors/';
+		$this->controller->viewPath = 'Errors';
 		$this->controller->layout = 'error';
 		$this->controller->helpers = array('Form', 'Html', 'Session');
 

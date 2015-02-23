@@ -50,7 +50,6 @@ class ControllerTestAppController extends Controller {
 	public $components = array('Cookie');
 }
 
-
 /**
  * ControllerPost class
  *
@@ -75,7 +74,7 @@ class ControllerPost extends CakeTestModel {
 /**
  * lastQuery property
  *
- * @var mixed null
+ * @var mixed
  */
 	public $lastQuery = null;
 
@@ -483,8 +482,8 @@ class ControllerTest extends CakeTestCase {
 		$Controller = new Controller($request);
 		$Controller->uses = array('ControllerPost', 'ControllerComment');
 		$Controller->constructClasses();
-		$this->assertTrue(is_a($Controller->ControllerPost, 'ControllerPost'));
-		$this->assertTrue(is_a($Controller->ControllerComment, 'ControllerComment'));
+		$this->assertInstanceOf('ControllerPost', $Controller->ControllerPost);
+		$this->assertInstanceOf('ControllerComment', $Controller->ControllerComment);
 
 		$this->assertEquals('Comment', $Controller->ControllerComment->name);
 
@@ -498,7 +497,7 @@ class ControllerTest extends CakeTestCase {
 		$Controller->constructClasses();
 
 		$this->assertTrue(isset($Controller->TestPluginPost));
-		$this->assertTrue(is_a($Controller->TestPluginPost, 'TestPluginPost'));
+		$this->assertInstanceOf('TestPluginPost', $Controller->TestPluginPost);
 	}
 
 /**
@@ -606,7 +605,6 @@ class ControllerTest extends CakeTestCase {
 
 		$Controller->set('title', 'someTitle');
 		$this->assertSame($Controller->viewVars['title'], 'someTitle');
-		$this->assertTrue(empty($Controller->pageTitle));
 
 		$Controller->viewVars = array();
 		$expected = array('ModelName' => 'name', 'ModelName2' => 'name2');
@@ -1034,6 +1032,30 @@ class ControllerTest extends CakeTestCase {
 	}
 
 /**
+ * Test that the referer is not absolute if it is '/'.
+ *
+ * This avoids the base path being applied twice on string urls.
+ *
+ * @return void
+ */
+	public function testRefererSlash() {
+		$request = $this->getMock('CakeRequest', array('referer'));
+		$request->base = '/base';
+		$request->expects($this->any())
+			->method('referer')
+			->will($this->returnValue('/'));
+		Router::setRequestInfo($request);
+
+		$controller = new Controller($request);
+		$result = $controller->referer('/', true);
+		$this->assertEquals('/', $result);
+
+		$controller = new Controller($request);
+		$result = $controller->referer('/some/path', true);
+		$this->assertEquals('/base/some/path', $result);
+	}
+
+/**
  * testSetAction method
  *
  * @return void
@@ -1322,8 +1344,8 @@ class ControllerTest extends CakeTestCase {
 		$Controller->paginate('ControllerPost');
 		$this->assertSame($Controller->params['paging']['ControllerPost']['page'], 1);
 		$this->assertSame($Controller->params['paging']['ControllerPost']['pageCount'], 3);
-		$this->assertSame($Controller->params['paging']['ControllerPost']['prevPage'], false);
-		$this->assertSame($Controller->params['paging']['ControllerPost']['nextPage'], true);
+		$this->assertFalse($Controller->params['paging']['ControllerPost']['prevPage']);
+		$this->assertTrue($Controller->params['paging']['ControllerPost']['nextPage']);
 	}
 
 /**

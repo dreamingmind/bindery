@@ -15,8 +15,8 @@ public function beforeSave($options = array()) {
 	parent::beforeSave($options);
 }
 
-public function afterSave($created) {
-	parent::afterSave($created);
+public function afterSave($created, $options = array()) {
+	parent::afterSave($created, $options = array());
 	if ($created) {
 		$this->saveField('number', $this->getOrderNumber($this->id));
 	}

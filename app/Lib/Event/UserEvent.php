@@ -17,7 +17,7 @@ class UserEvent implements CakeEventListener {
     }
     
     public function newRegisteredUser($event) {
-        $user = ClassRegistry::init('Drawbridge');
+        $user = ClassRegistry::init('User');
         $event->subject->registered_user = $user->data = array('User' => array(
             'id' => $event->data['id'],
             'username' => $event->data['username'],
@@ -28,7 +28,6 @@ class UserEvent implements CakeEventListener {
             'Group' => array('id' => 3)
         ));
         $user->save($user->data);
-        
     }
 
 }

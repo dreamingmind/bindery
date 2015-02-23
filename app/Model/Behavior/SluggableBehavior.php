@@ -293,8 +293,8 @@ class SluggableBehavior extends ModelBehavior {
 	 * @param object $model Model about to be saved.
 	 * @return boolean true if save should proceed, false otherwise
 	 */
-	public function beforeSave(Model $model) {
-		$return = parent::beforeSave($model);
+	public function beforeSave(Model $model, $options = array()) {
+		$return = parent::beforeSave($model, $options = array());
 		$settings = $this->settings[$model->alias];
 		$fields = (array) $settings['label'];
 

@@ -122,8 +122,8 @@ class Cart extends Order {
 		)
 	);
 	
-	public function afterSave($created) {
-		parent::afterSave($created);
+	public function afterSave($created, $options = array()) {
+		parent::afterSave($created, $options = array());
 		$this->deleteIdCache($this->cartId(), $this->dataCacheConfig);
 	}
 

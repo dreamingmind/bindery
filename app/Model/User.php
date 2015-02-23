@@ -227,7 +227,7 @@ class User extends AppModel {
 	 * @access public
 	 * @return void
 	 */
-	function afterSave($created) {
+	public function afterSave($created, $options = array()) {
             if ($created) {
                 $alias = $this->data['User']['username'].'::'.$this->id;
                 $parent = $this->parentNode();

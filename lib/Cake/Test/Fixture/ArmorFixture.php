@@ -2,8 +2,6 @@
 /**
  * Short description for file.
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -26,18 +24,11 @@
 class ArmorFixture extends CakeTestFixture {
 
 /**
- * name property
- *
- * @var string 'Armor'
- */
-	public $name = 'Armor';
-
-/**
  * Datasource
  *
  * Used for Multi database fixture test
  *
- * @var string 'test2'
+ * @var string
  */
 	public $useDbConfig = 'test2';
 

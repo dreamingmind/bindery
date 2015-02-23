@@ -3,8 +3,6 @@
  * Exceptions file. Contains the various exceptions CakePHP will throw until they are
  * moved into their permanent location.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -36,10 +34,10 @@ class CakeBaseException extends RuntimeException {
 /**
  * Get/set the response header to be used
  *
- * @param string|array $header. An array of header strings or a single header string
- *	- an associative array of "header name" => "header value"
- *	- an array of string headers is also accepted
- * @param string $value. The header value.
+ * @param string|array $header An array of header strings or a single header string
+ *  - an associative array of "header name" => "header value"
+ *  - an array of string headers is also accepted
+ * @param string $value The header value.
  * @return array
  * @see CakeResponse::header()
  */
@@ -380,6 +378,12 @@ class MissingConnectionException extends CakeException {
 
 	protected $_messageTemplate = 'Database connection "%s" is missing, or could not be created.';
 
+/**
+ * Constructor
+ *
+ * @param string|array $message The error message.
+ * @param int $code The error code.
+ */
 	public function __construct($message, $code = 500) {
 		if (is_array($message)) {
 			$message += array('enabled' => true);
@@ -589,10 +593,10 @@ class FatalErrorException extends CakeException {
 /**
  * Constructor
  *
- * @param string $message
- * @param integer $code
- * @param string $file
- * @param integer $line
+ * @param string $message The error message.
+ * @param int $code The error code.
+ * @param string $file The file the error occurred in.
+ * @param int $line The line the error occurred on.
  */
 	public function __construct($message, $code = 500, $file = null, $line = null) {
 		parent::__construct($message, $code);
