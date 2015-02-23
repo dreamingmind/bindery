@@ -30,6 +30,11 @@ class PagesController extends AppController {
  * @access public
  */
 	var $uses = array('Content');
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow();
+    }
 
 /**
  * Displays a view
