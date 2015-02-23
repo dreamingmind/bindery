@@ -91,7 +91,7 @@ class SessionIterator extends ArrayIterator {
 	 * @return mixed StorageObject->data
 	 */
 	public function current() {
-		$this->dates = new DateIterator(parent::current()->read('{n}'));
+		$this->dates = $this->dates();
 		return new ObjectStorageObject(parent::current()->read('{s}'));
 	}
 	
