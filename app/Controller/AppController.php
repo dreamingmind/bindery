@@ -23,11 +23,7 @@ class AppController extends Controller {
         'Acl' => array(
         ),
         'Auth' => array(
-//            'loginAction' => array(
-//                'plugin' => null,
-//                'controller' => 'users',
-//                'action' => 'login'
-//            ),
+            'loginAction' => '/login',
             'logoutRedirect' => array(
                 'plugin' => null,
                 'controller' => 'pages',
@@ -37,20 +33,12 @@ class AppController extends Controller {
                 'plugin' => null,
                 'controller' => 'contents',
 				'action' => 'blog'
-//                'controller' => 'pages',
-//				'action' => 'home'
             ),
             'authenticate' => array(
                 'Form' => array(
                     'passwordHasher' => 'Blowfish'
                 )
-            ),
-//            'loginError' => "This message shows up when the wrong credentials are used",
-//            'authError' => "Please log in to proceed.",
-//            'authorize' => 'controller',
-            //'authorize' => 'actions',
-            //'authorize' => 'crud',
-//            'allowedActions' => array('display', 'newBadge')
+            )
         ),
 		'Markdown.Markdown',
         'Session',

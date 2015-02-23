@@ -20,8 +20,21 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  * Drawbridge.PasswordComplexity can be used to establish password complexity guidelines
  * Drawbridge.Model for the model name of the standard User model
  * 
+ * In routes.php, add
+ * //Drawbridge Plug-In Routes
+    Router::connect('/login', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'login'));
+    Router::connect('/register', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'register'));
+    Router::connect('/logout', array('plugin' => 'Drawbridge', 'controller' => 'drawbridges', 'action' => 'logout'));
+ * 
+ * 
+ * In AuthConfiguration, you must add a loginAction
+ * **'loginAction' => '/login',
+
+ * 
  */
 class DrawbridgesController extends DrawbridgeAppController {
+    
+//    public $uses = array('Drawbridge' => array('useTable' => 'users'));
 
     /**
      * Helpers
@@ -40,9 +53,9 @@ class DrawbridgesController extends DrawbridgeAppController {
      */
     public $components = array(
         'Security',
-        'Auth' => array(
-            'userModel' => 'Drawbridge'
-        )
+//        'Auth' => array(
+//            'userModel' => 'Drawbridge'
+//        )
     );
     public $concrete_model = '';
     
@@ -95,8 +108,29 @@ class DrawbridgesController extends DrawbridgeAppController {
         }
     }
 
+    /**
+     * Login method for drawbridge plug-in
+     * 
+     * THERE IS A BIG DODGE IN THIS CODE**************
+     * **The auth component cannot abstract the table used by the model chosen
+     * **We could, using $this->Auth->authenticate = array('Form' => array('userModel' => 'Drawbridge')
+     * **connect the Auth component to our model.
+     * **The Drawbridge model, however, uses the table specified in the configuration 'Drawbridge.Model'
+     * **and the Auth component does not inspect our model file to determine a table to use
+     * **if we specify the Drawbridge model, it expects a 'drawbridges' table.
+     * **
+     * **SO************
+     * **We set the $this->request->data['Drawbridge'] array index to the specified model name index (Drawbridge.Model, again)
+     * **and unset the Drawbridge index, generated automatically by the login form.
+     * *******************
+     * 
+     * 
+     * @return type
+     */
     public function login() {
         if ($this->request->is('post')) {
+            $this->request->data['User'] = $this->request->data['Drawbridge'];
+            unset($this->request->data['Drawbridge']);
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirectUrl());
             }
@@ -105,6 +139,7 @@ class DrawbridgesController extends DrawbridgeAppController {
     }
 
     public function logout() {
+        dmDebug::logVars($this->Auth->logout(), 'This auth logout');
         return $this->redirect($this->Auth->logout());
     }
 
