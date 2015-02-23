@@ -1,6 +1,7 @@
 <?php
 App::uses('JsonStorageObject', 'Model/StorageObjects');
 App::uses('ArrayStorageObject', 'Model/StorageObjects');
+App::uses('WorkshopSessions', 'Model/StorageObjects');
 
 class WorkshopSession extends AppModel {
 	var $name = 'WorkshopSession';
@@ -257,7 +258,8 @@ class WorkshopSession extends AppModel {
 				return $session_data;
 				break;
 		}
-		return $sessions;
+		return new WorkshopSessions($sessions);
+//		return $sessions;
 	}
 	
 }
