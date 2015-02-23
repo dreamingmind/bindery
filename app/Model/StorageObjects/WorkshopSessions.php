@@ -43,12 +43,12 @@ class WorkshopSessions{
 //		dmDebug::ddd($this->sessions->dates, 'sessions iterator');
 		
 		// using the two iterators in loops
-//		foreach ($this->sessions as $session) {
-//			dmDebug::ddd($session->read(), 'session');
-//			foreach ($this->sessions->dates as $date){
-//				dmDebug::ddd($date->read(), 'date');
-//			}
-//		}
+		foreach ($this->sessions as $session) {
+			dmDebug::ddd($session->read(), 'session');
+			foreach ($this->sessions->dates as $date){
+				dmDebug::ddd($date->read(), 'date');
+			}
+		}
 	}
 		
 }
@@ -110,10 +110,6 @@ class DateIterator extends ArrayIterator {
 		parent::__construct($dates);
 	}
 	
-//	public function current() {
-//		return parent::current();
-//	}
-	
 	/**
 	 * Get the duration of all days for the current session
 	 * 
@@ -134,13 +130,28 @@ class DateIterator extends ArrayIterator {
 	/**
 	 * Calculate the seconds between the start/end times for a single date
 	 * 
-	 * @param StorageObject $date_data
+	 * @param StorageObject $date_data NULL to use current()
 	 * @return int
 	 */
-	protected function timeSpan($date_data) {
-		$starttimestamp = strtotime($date_data->read('date') . ' ' . $date_data->read('start_time'));
-        $endtimestamp = strtotime($date_data->read('date') . ' ' . $date_data->read('end_time'));
-		return $endtimestamp - $starttimestamp;
+	public function timeSpan($date_data = NULL) {
+		if (is_null($date_data)) {
+			$date_data = $this->current();
+		}
+		return $this->seconds('end', $date_data) - $this->seconds('start', $date_data);
+	}
+	
+	/**
+	 * Turn one of the times in the record into a timestamp (unix seconds)
+	 * 
+	 * @param string 'start' or 'end'
+	 * @param StorageObject $date_data NULL to use current()
+	 * @return int
+	 */
+	public function seconds($time_point, $date_data = NULL) {
+		if (is_null($date_data)) {
+			$date_data = $this->current();
+		}
+		return strtotime($date_data->read('date') . ' ' . $date_data->read("{$time_point}_time"));
 	}
 	
 }
