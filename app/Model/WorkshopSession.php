@@ -187,6 +187,7 @@ class WorkshopSession extends AppModel {
 			'contain' => array(
 				'Date' => array(
 					'fields' => array(
+						'Date.id',
 						'Date.session_id',
 						'Date.date',
 						'Date.start_time',

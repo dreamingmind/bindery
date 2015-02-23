@@ -31,17 +31,22 @@ class WorkshopSessions{
 		$this->session_data = $storage_object;
 		$this->sessions = new SessionIterator($this->session_data);
 		
-		dmDebug::ddd($this->sessions->dates()->duration(), 'duration');
-		dmDebug::ddd($this->sessions->dates()->current()->read('session_id'), 'id');
-		dmDebug::ddd($this->sessions->current()->read('title'), 'title');
+		// calling non-iterating methods of the iterator
+//		dmDebug::ddd($this->sessions->dates()->duration(), 'duration');
+//		
+//		// accessing the current iterator element data directly
+//		dmDebug::ddd($this->sessions->dates()->current()->read('id'), 'id');
+//		dmDebug::ddd($this->sessions->current()->read('title'), 'title');
 		
+		// getting the dates iterator on the property
 //		$this->sessions->current();
 //		dmDebug::ddd($this->sessions->dates, 'sessions iterator');
 		
+		// using the two iterators in loops
 //		foreach ($this->sessions as $session) {
-//			dmDebug::ddd($session, 'session');
+//			dmDebug::ddd($session->read(), 'session');
 //			foreach ($this->sessions->dates as $date){
-//				dmDebug::ddd($date, 'date');
+//				dmDebug::ddd($date->read(), 'date');
 //			}
 //		}
 	}
