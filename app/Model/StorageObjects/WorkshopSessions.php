@@ -170,6 +170,18 @@ class DateIterator extends ArrayIterator {
 	}
 	
 	/**
+	 * Return the day of the week as a word 
+	 * 
+	 * @param string $time_point 'start' or 'end'
+	 * $param boolean $long Get three letters or the full word?
+	 * @return string Mon or Monday
+	 */
+	public function day($time_point = 'start', $long = FALSE) {
+		$day = $long ? 'l' : 'D';
+		return date($day, $this->seconds($time_point));
+	}
+	
+	/**
 	 * Return am or pm in caps or lower case
 	 * 
 	 * @param string $time_point 'start' or 'end'

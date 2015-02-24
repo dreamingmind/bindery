@@ -270,3 +270,48 @@ h3.featureCost {
 #featureHeading a {
     color: #CCCCCC;
 }
+
+
+/* ============================================================ */
+/* ============================================================ */
+li.prime {
+    margin-bottom: 1px;
+    padding-left: 46px;
+	padding-bottom: 6px;
+	background: url("../img/li-bk.png") repeat-y transparent;
+	position: relative;
+}
+li.prime > b {
+    color: white;
+    cursor: pointer;
+    font-size: 120%;
+    left: 10px;
+    position: absolute;
+    top: 5px;
+}
+li.prime > p {
+     color: #094351;
+     font-weight: bold;
+     padding-top: 7px;
+}
+
+li.prime > ul > li {
+     color: #777777;
+     font-size: 86%;
+}
+
+span.cost {
+     font-weight: bold;
+}
+
+li.prime > ul > li:first-child {
+     color: #094351;
+     padding: 2px 0px;
+}
+.am, .pm {
+    font-size: 50%;
+    /*font-variant: sub;*/
+}
+span.day {
+    font-weight: bold;
+}

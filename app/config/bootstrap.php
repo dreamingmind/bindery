@@ -262,6 +262,12 @@ Configure::write('usps.Size', 'REGULAR');
  */
 define ('NEWLINE', "\n");
 define ('TAB', "\t");
+function cr($repeat = 1) {
+	return str_pad('', $repeat, NEWLINE);
+}
+function tab($repeat = 1) {
+	return str_pad('', $repeat, TAB);
+}
 
 /**
  * Cart Model Constants
