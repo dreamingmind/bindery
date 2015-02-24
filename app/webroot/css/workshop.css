@@ -315,3 +315,18 @@ li.prime > ul > li:first-child {
 span.day {
     font-weight: bold;
 }
+
+#detail > article > p {
+    font-size: 104%;
+    padding: 5px;
+}
+#detail > article {
+    color: #4e7373;
+    margin: 0 0 19px;
+}
+#detail h2 {
+    margin-bottom: 10px;
+}
+div#detail > article > h2 {
+    margin-bottom: 10px;
+}

@@ -1,17 +1,13 @@
-<?php
-echo $this->Html->css('workshop');
-$t = 1;
-echo tab($t++).'<ul>'.cr();
-while ($sessions->valid()) {
-	echo tab($t++).'<li class="prime">';
-	echo cr().tab($t).$this->Html->para('', $sessions->current()->read('title')).'<b>◉</b>'.cr();
-	echo tab($t++).'<ul>'.cr();
-		echo tab($t).'<li>'.$this->Workshop->sessionSpecs($sessions).'</li>'.cr();
-		while ($sessions->dates->valid()) {
-			echo tab($t).'<li>'.$this->Workshop->dateSlug($sessions->dates).'</li>'.cr();
-			$sessions->dates->next();
-		}
-	echo tab(--$t).'</ul>'.cr().tab(--$t).'</li>'.cr();
-	$sessions->next();
-}
-echo tab(--$t).'</ul>'.cr();
+<!-- WorkshopSessions/edit_sessions.ctp -->
+	<?php
+	echo $this->Html->tag('article', 
+			cr().$this->Html->tag('h2', $feature['Workshop']['heading']).cr()
+			.tab(1).$this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']).cr());
+	
+	echo $this->element('WorkshopSessions/session_form');
+	echo $this->element('WorkshopSessions/calendar');
+
+	echo $this->element('WorkshopSessions/session_list');
+dmDebug::ddd($feature, 'feature');
+?>
+<!-- END WorkshopSessions/edit_sessions.ctp END -->
