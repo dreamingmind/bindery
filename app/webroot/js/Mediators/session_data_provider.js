@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	provider.init();
+	provider.init({blah:'foo',bling:'baz'});
 });
 
 /**
@@ -27,14 +27,19 @@ var provider = {
 	collection_id: false,
 	sessions: false,
 
-	init: function(range, selector){
+//	init: function(range, selector){
+	init: function(config){
+		if (typeof(config) != 'undefined') {
+			provider.configure(config);
+		}
+
 		// identify the context for this data provider
-		if (typeof(range) != 'undefined' && range.match(/all|current|expired/)) {
-			provider.range = range;
-		}
-		if (typeof(selector) != 'undefined') {
-			provider.selector = selector;
-		}
+//		if (typeof(range) != 'undefined' && range.match(/all|current|expired/)) {
+//			provider.range = range;
+//		}
+//		if (typeof(selector) != 'undefined') {
+//			provider.selector = selector;
+//		}
 		// load the json data that supports this service
 		provider.collection_id = $(provider.selector).attr('id').match(/\d+/),
 		$.getJSON( webroot + controller + 'provideSessionJson/' + provider.collection_id, 
@@ -49,9 +54,15 @@ var provider = {
 				.attr('title', 'Click to fill the form with this session template')
 				.attr('id', 'target_session_id-' + session_id)
 				.css('cursor', 'pointer')
-				.on('click', provider.template(e));
+				.on('click', provider.template);
 		});
 	}, // END OF THE init() FUNCITON
+	
+	configure: function(config) {
+		for (var p in config) {
+			provider[p] = config[p];
+		}
+	},
 	
 	template: function(e) {
 		var template_id = $(e.currentTarget).attr('id').match(/\d+/);
