@@ -283,7 +283,7 @@ li.prime {
 }
 li.prime > b {
     color: white;
-    cursor: pointer;
+    /*cursor: pointer;*/
     font-size: 120%;
     left: 10px;
     position: absolute;

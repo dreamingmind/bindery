@@ -23,21 +23,38 @@ $(document).ready(function(){
 var provider = {
 	selector: 'ul[id*="session_data_provider"]',
 	range: 'all',
+	template_trigger: 'li[id*="session_id-"] > b',
 	collection_id: false,
 	sessions: false,
 
 	init: function(range, selector){
+		// identify the context for this data provider
 		if (typeof(range) != 'undefined' && range.match(/all|current|expired/)) {
 			provider.range = range;
 		}
 		if (typeof(selector) != 'undefined') {
 			provider.selector = selector;
 		}
+		// load the json data that supports this service
 		provider.collection_id = $(provider.selector).attr('id').match(/\d+/),
 		$.getJSON( webroot + controller + 'provideSessionJson/' + provider.collection_id, 
 			function( json ) {
 				provider.sessions = json;
 			}
 		);
-	}	
+		// bind the click elements that will send data to a form
+		var click_targets = $(provider.selector).find(provider.template_trigger).each(function(){
+			var session_id = $(this).parent().attr('id').match(/\d+/);
+			$(this)
+				.attr('title', 'Click to fill the form with this session template')
+				.attr('id', 'target_session_id-' + session_id)
+				.css('cursor', 'pointer')
+				.on('click', provider.template(e));
+		});
+	}, // END OF THE init() FUNCITON
+	
+	template: function(e) {
+		var template_id = $(e.currentTarget).attr('id').match(/\d+/);
+		var template_data = provider.sessions[template_id];
+	}
 }
