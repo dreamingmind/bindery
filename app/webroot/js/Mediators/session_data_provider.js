@@ -13,6 +13,12 @@ $(document).ready(function(){
  * 
  * Both init arguments are optional, but if you provide 
  * an alternate selector you must provide range.
+ * <parent id="session_data_provider-xxx"> // xxx is a collection id
+ *		<child-descendent id="session_id-yyy>
+ *			<trigger />
+ *			<grandchild-descendent id="date_id-zzz"></grand-desc>
+ *		</chi-desc>
+ * </parent>
  */
 var provider = {
 	selector: 'ul[id*="session_data_provider"]',

@@ -225,20 +225,18 @@ class WorkshopSession extends AppModel {
 	 */
 	protected function makeStorageObject($result_type, $session_data) {
 		$sessions = array();
-		$index = 0;
 		switch ($result_type) {
 			case 'Json':
 			case 'json':
 			case 'JSON':
 				foreach ($session_data as $session) {
+					$index = $session['WorkshopSession']['id'];
 					$json_string = json_encode($session['WorkshopSession']);
 					$sessions[$index] = new JsonStorageObject($json_string);
-					$date_index = 0;
 					foreach ($session['Date'] as $date) {
+						$date_index = $date['id'];
 						$sessions[$index]->write("$date_index", new JsonStorageObject(json_encode($date)));
-						$date_index++;
 					}
-					$index++;
 				}
 				break;
 			case 'Array':
