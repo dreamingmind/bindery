@@ -8,7 +8,7 @@ class WorkshopSessionsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('edit_sessions');
+		$this->Auth->allow(array('provideSessionJson', 'edit_sessions'));
 	}
 
 	function index() {
@@ -84,6 +84,18 @@ class WorkshopSessionsController extends AppController {
 		$this->set('expired_sessions', $this->WorkshopSession->expiredSessions($article[0]['Workshop']['id']));
     }
 
+	/**
+	 * Send Session data as json to support the session_data_provider.js mediator on the page
+	 * 
+	 * @param string $workshop_id
+	 * @param string $name 'all', 'current', 'expired'
+	 */
+	public function provideSessionJson($workshop_id, $range = 'all') {
+		$this->set('jsonReturn', $this->WorkshopSession->{"{$range}Sessions"}($workshop_id, 'json')->sessionData());
+		$this->layout = 'ajax';
+		$this->render('/Ajax/jsonReturn');
+	}
+	
         
 }
 ?>

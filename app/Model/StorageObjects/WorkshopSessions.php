@@ -55,6 +55,10 @@ class WorkshopSessions{
 //			}
 //		}
 	}
+	
+	public function sessionData(){
+		return $this->session_data;
+	}
 		
 }
 

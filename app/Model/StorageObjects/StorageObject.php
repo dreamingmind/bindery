@@ -14,7 +14,7 @@
  */
 class StorageObject {
 	
-	protected $data;
+	public $data;
 	
 	/**
 	 * csv and tab concretes will need an addHeader() method so the things can be keyed.
