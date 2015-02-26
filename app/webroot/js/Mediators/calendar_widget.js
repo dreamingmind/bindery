@@ -1,3 +1,7 @@
+/**
+ * Place calendar.ctp on a page and this will operate
+ */
+
 $(document).ready(function(){
 	cal.init();
 });
@@ -36,11 +40,12 @@ var cal = {
 			.attr('min', cal.cur_month)
 			.attr('value', cal.cur_month)
 			.attr('max', cal.cur_month+11)
-			.on('change', cal.changeMonth);
+			.on('change', cal.changeMonth)
+			.on('mousemove', cal.changeMonth);
 	},
 	
 	renderCalendar: function(show_month, show_year) {
-		var calendarstr = buildCal(show_month, show_year, "main", "month", "daysofweek", "days", 0);
+		var calendarstr = cal.buildCal(show_month, show_year, "main", "month", "daysofweek", "days", 0);
 		$("#calendar_widget #calendarspace").html(calendarstr);
 		$("#calendar_widget #calendarspace td.days")
 			.css('cursor', 'pointer')
@@ -65,5 +70,30 @@ var cal = {
 		cal.user_month = $(e.currentTarget).val() - (12*wrap);
 		cal.user_year = cal.cur_year + wrap;
 		cal.renderCalendar(cal.user_month, cal.user_year);
+	},
+	
+	buildCal: function(m, y, cM, cH, cDW, cD, brdr){
+		var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+		var dim=[31,0,31,30,31,30,31,31,30,31,30,31];
+
+		var oD = new Date(y, m-1, 1); //DD replaced line to fix date bug when current day is 31st
+		oD.od=oD.getDay()+1; //DD replaced line to fix date bug when current day is 31st
+
+		var todaydate=new Date() //DD added
+		var scanfortoday=(y==todaydate.getFullYear() && m==todaydate.getMonth()+1)? todaydate.getDate() : 0 //DD added
+
+		dim[1]=(((oD.getFullYear()%100!=0)&&(oD.getFullYear()%4==0))||(oD.getFullYear()%400==0))?29:28;
+		var t='<div class="'+cM+'"><table class="'+cM+'" cols="7" cellpadding="0" border="'+brdr+'" cellspacing="0"><tr align="center">';
+		t+='<td id="location_marker" colspan="7" align="center" class="'+cH+'">'+mn[m-1]+' - '+y+'<b id="marker"> ◉</b></td></tr><tr align="center">';
+		for(s=0;s<7;s++)t+='<td class="'+cDW+'">'+"SMTWTFS".substr(s,1)+'</td>';
+		t+='</tr><tr align="center">';
+		for(i=1;i<=42;i++){
+			var x=((i-oD.od>=0)&&(i-oD.od<dim[m-1]))? i-oD.od+1 : '&nbsp;';
+			if (x==scanfortoday) //DD added
+			x='<span id="today">'+x+'</span>' //DD added
+			t+='<td class="'+cD+'">'+x+'</td>';
+			if(((i)%7==0)&&(i<36))t+='</tr><tr align="center">';
+		}
+		return t+='</tr></table></div>';
 	}
 };
