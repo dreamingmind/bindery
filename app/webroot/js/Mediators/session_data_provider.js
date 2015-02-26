@@ -68,4 +68,4 @@ var provider = {
 		var template_id = $(e.currentTarget).attr('id').match(/\d+/);
 		var template_data = provider.sessions[template_id];
 	}
-}
+};

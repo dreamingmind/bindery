@@ -10,7 +10,7 @@ var scanfortoday=(y==todaydate.getFullYear() && m==todaydate.getMonth()+1)? toda
 
 dim[1]=(((oD.getFullYear()%100!=0)&&(oD.getFullYear()%4==0))||(oD.getFullYear()%400==0))?29:28;
 var t='<div class="'+cM+'"><table class="'+cM+'" cols="7" cellpadding="0" border="'+brdr+'" cellspacing="0"><tr align="center">';
-t+='<td colspan="7" align="center" class="'+cH+'">'+mn[m-1]+' - '+y+'</td></tr><tr align="center">';
+t+='<td id="location_marker" colspan="7" align="center" class="'+cH+'">'+mn[m-1]+' - '+y+'<b id="marker"> ◉</b></td></tr><tr align="center">';
 for(s=0;s<7;s++)t+='<td class="'+cDW+'">'+"SMTWTFS".substr(s,1)+'</td>';
 t+='</tr><tr align="center">';
 for(i=1;i<=42;i++){

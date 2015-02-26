@@ -1,6 +1,10 @@
 
-.main {
+form#calendar_widget, .main {
 width:200px;
+padding: 0;
+}
+
+table.main {
 border:1px solid black;
 }
 

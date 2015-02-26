@@ -9,7 +9,6 @@
 			.tab(1).$this->Markdown->transform($feature['ContentCollection'][0]['Content']['content']).cr());
 	
 	echo $this->element('WorkshopSessions/session_form');
-	echo $this->element('WorkshopSessions/calendar');
 
 	echo $this->element('WorkshopSessions/session_list');
 //dmDebug::ddd($feature, 'feature');
