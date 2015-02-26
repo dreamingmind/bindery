@@ -1,0 +1,31 @@
+
+.main {
+width:200px;
+border:1px solid black;
+}
+
+.month {
+background-color:black;
+font:bold 12px verdana;
+color:white;
+}
+
+.daysofweek {
+background-color:gray;
+font:bold 12px verdana;
+color:white;
+}
+
+#calendar_widget .days {
+font-size: 12px;
+font-family:verdana;
+color:black;
+background-color: lightyellow;
+padding: 2px;
+}
+
+#calendar_widget .days #today{
+font-weight: bold;
+color: red;
+}
+
