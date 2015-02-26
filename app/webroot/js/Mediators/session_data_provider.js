@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	provider.init({blah:'foo',bling:'baz'});
+	provider.init();
 });
 
 /**
@@ -33,13 +33,6 @@ var provider = {
 			provider.configure(config);
 		}
 
-		// identify the context for this data provider
-//		if (typeof(range) != 'undefined' && range.match(/all|current|expired/)) {
-//			provider.range = range;
-//		}
-//		if (typeof(selector) != 'undefined') {
-//			provider.selector = selector;
-//		}
 		// load the json data that supports this service
 		provider.collection_id = $(provider.selector).attr('id').match(/\d+/),
 		$.getJSON( webroot + controller + 'provideSessionJson/' + provider.collection_id, 

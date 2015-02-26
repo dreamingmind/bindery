@@ -2,7 +2,7 @@
 $this->start('scripts');
 echo $this->Html->script('bootstrap-datetimepicker');
 echo $this->Html->css('bootstrap-datetimepicker');
-echo $this->Html->css('bootstrap-');
+echo $this->Html->css('bootstrap');
 echo $this->Html->css('bootstrap-theme');
 $this->end();
 ?>

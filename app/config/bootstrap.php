@@ -155,7 +155,7 @@ Cache::config('catalog', array(
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-	CakePlugin::load('DebugKit');
+//	CakePlugin::load('DebugKit');
 	CakePlugin::load('Upload');
 	CakePlugin::load('PaypalSource');
 	CakePlugin::load('Paypal');

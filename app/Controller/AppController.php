@@ -44,7 +44,7 @@ class AppController extends Controller {
 
 	var $components = array(
 		'Cookie',
-		'DebugKit.Toolbar',
+//		'DebugKit.Toolbar',
         'Acl' => array(
         ),
         'Auth' => array(
