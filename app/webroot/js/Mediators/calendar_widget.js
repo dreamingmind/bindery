@@ -20,6 +20,7 @@ var cal = {
 	// month and year indicated by the slider
 	user_month: false,
 	user_year: false,
+	linkedDateField: false,
 	
 	init: function() {
 		cal.intializeCalendar();
@@ -51,13 +52,16 @@ var cal = {
 			.css('cursor', 'pointer')
 			.on('click', function(){
 				var date = new Date(cal.months[cal.user_month]+' '+$(this).html().match(/\d+/)+', '+cal.user_year);
-				alert(date.toDateString());
+				if (cal.linkedDateField){
+					$(cal.linkedDateField).val(date.toDateString());
+				}
 		});
 		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
-		$('.widget').droppable({
+		$('.cal-widget').droppable({
 			drop: function(event, ui){
 				$(this).append($('#calendar_widget'));
 				$('b#marker').css('top', 'auto').css('left', 'auto');
+				cal.linkCalToField(this);
 			}
 		});
 	},
@@ -70,6 +74,13 @@ var cal = {
 		cal.user_month = $(e.currentTarget).val() - (12*wrap);
 		cal.user_year = cal.cur_year + wrap;
 		cal.renderCalendar(cal.user_month, cal.user_year);
+	},
+	
+	linkCalToField: function(container){
+		if (container.tagName == 'TD'){
+			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
+		}
+		
 	},
 	
 	buildCal: function(m, y, cM, cH, cDW, cD, brdr){
