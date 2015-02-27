@@ -7,9 +7,13 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 	), 
 	'WorkshopSession.cost', 
 	'WorkshopSession.participants', 
-	'WorkshopSession.first_day', 
+	'WorkshopSession.first_day' => array(
+		'type' => 'text', 
+		'div' => array('class' => 'cal-widget')), 
 	'WorkshopSession.last_day' => array(
-		'after' => $this->Form->button('Same as first')
+		'type' => 'text',
+		'div' => array('class' => 'cal-widget'),
+		'after' => $this->Form->button('One day')
 	), 
 ));
 ?>
