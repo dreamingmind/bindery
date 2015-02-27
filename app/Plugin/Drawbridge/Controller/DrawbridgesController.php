@@ -8,11 +8,20 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  * A general class for handling the user registration and login processes
  * 
  * CakePHP User
- * @author jasont
+ * @author Jason T - Curly Mind
  * 
  * Plug-in requires:
  *  Auth Component
  *  BlowfishPasswordHasher
+ * 
+ * Database Schema Requirements
+ * A 'users' table, which can be named anything, but must be recorded in bootstrap under
+ *      Drawbridge.Model
+ * In the 'users' table, you must have the following columns (this is a SQL create fraction)
+ *        `password` varchar(255) DEFAULT NULL COMMENT 'password hash',
+ *        `ip` varchar(50) DEFAULT NULL,
+ *        `username` varchar(255) NOT NULL,
+
  * 
  * Must configure bootstrap.php with the following keys:
  * Drawbridge.RegistrationRedirect containing a redirect url to use after first login
@@ -34,7 +43,6 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  */
 class DrawbridgesController extends DrawbridgeAppController {
     
-//    public $uses = array('Drawbridge' => array('useTable' => 'users'));
 
     /**
      * Helpers
@@ -57,8 +65,14 @@ class DrawbridgesController extends DrawbridgeAppController {
 //            'userModel' => 'Drawbridge'
 //        )
     );
-    public $concrete_model = '';
     
+    /**
+     * The Model name of the 'users' model
+     * 
+     * @var string
+     */
+    public $concrete_model = '';
+        
     /**
      * This public property is made available to event handlers
      * 
@@ -70,7 +84,7 @@ class DrawbridgesController extends DrawbridgeAppController {
      * 
      * @var array 
      */
-    public $registered_user = array('User');
+    public $registered_user = array();
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -129,7 +143,7 @@ class DrawbridgesController extends DrawbridgeAppController {
      */
     public function login() {
         if ($this->request->is('post')) {
-            $this->request->data['User'] = $this->request->data['Drawbridge'];
+            $this->request->data[$this->concrete_model] = $this->request->data['Drawbridge'];
             unset($this->request->data['Drawbridge']);
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirectUrl());
@@ -144,9 +158,20 @@ class DrawbridgesController extends DrawbridgeAppController {
     }
 
     public function forgotPassword() {
-        
+        dmDebug::logVars($this->request->data, 'trd');
+        if($this->request->is('post')){
+            dmDebug::logVars($this->request->data, 'trd');
+            $this->registered_user[$this->concrete_model] = $this->request->data['Drawbridge'];
+            try {
+                $this->Drawbridge->checkRegisteredEmail($this->registered_user[$this->concrete_model]['username']);
+                $this->setupUserForPasswordReset();
+                $this->sendPasswordResetEmail();
+            } catch (Exception $exc) {
+                $this->Session->setFlash($exc->message, 'f_error');
+            }
+        }
     }
-
+    
     public function resetPassword($new_password) {
         
     }

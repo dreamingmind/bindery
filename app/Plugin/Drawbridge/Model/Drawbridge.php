@@ -113,5 +113,16 @@ class Drawbridge extends DrawbridgeAppModel {
             echo $exc->getTraceAsString();
         }
     }
-
+    
+    /**
+     * Check if a username exists in the database
+     * 
+     * @param string $username
+     * @return boolean
+     */
+    public function checkRegisteredEmail($username) {
+        if(!$this->find('first', array('conditions' => array('username' => $username)))){
+            throw new NotFoundException('There is no user registered under that username');
+        }
+    }
 }

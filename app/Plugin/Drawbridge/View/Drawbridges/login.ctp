@@ -12,4 +12,6 @@ echo $this->Form->input('username', array(
 echo $this->Form->input('password', array(
     'tabindex' => 2
 ));
+echo $this->Form->button('Forgot Password', array('type' => 'button', 'bind' => 'click.forgotPassword'));
 echo $this->Form->end('Login');
+echo $this->Html->script('Drawbridge.drawbridge');
