@@ -1,6 +1,6 @@
 <?php 
 $this->start('scripts');
-echo $this->Html->script('Mediators/workshop_session');
+echo $this->Html->script('Mediators/date_range');
 $this->end();
 ?>
 
@@ -24,10 +24,10 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 ?>
 <table class='session_dates'>
 	<tbody>
-		<?php echo tab(2).$this->element('WorkshopSessions/date_inputs').cr(); ?>
-		<tr>
+		<?php // echo tab(2).$this->element('WorkshopSessions/date_inputs').cr(); ?>
+		<tr class="control">
 			<td colspan='5'>
-				<?php echo $this->Form->button('New date', array('class' => 'new_date')); ?>
+				<?php echo $this->Form->button('New date', array('class' => 'new', 'type' => 'button')); ?>
 			</td>
 		</tr>
 	</tbody>

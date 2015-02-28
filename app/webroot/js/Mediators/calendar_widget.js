@@ -22,10 +22,51 @@ var cal = {
 	user_year: false,
 	linkedDateField: false,
 	
+	/*
+	 * This is the mediate event-hanler on the document
+	 * 
+	 * initialize elements found in the html fragment
+	 */
+	scan: function(e, fragment){
+	},
+	
 	init: function() {
 		cal.intializeCalendar();
 		$('#calendar_widget input#slide').trigger('change');
+
+		$('.cal-widget').droppable({
+			drop: function(event, ui){
+				$(this).append($('#calendar_widget'));
+				$('b#marker').css('top', 'auto').css('left', 'auto');
+				cal.linkCalToField(this);
+			}
+		});
+
+		$(document).on('mediate', cal.scan);
 //		cal.renderCalendar(cal.cur_month, cal.cur_year);
+	},
+	
+	renderCalendar: function(show_month, show_year) {
+		var calendarstr = cal.buildCal(show_month, show_year, "main", "month", "daysofweek", "days", 0);
+		$("#calendar_widget #calendarspace").html(calendarstr);
+		$("#calendar_widget #calendarspace td.days")
+			.css('cursor', 'pointer')
+			.on('click', function(){
+				var date = new Date(cal.months[cal.user_month]+' '+$(this).html().match(/\d+/)+', '+cal.user_year);
+				if (cal.linkedDateField){
+					$(cal.linkedDateField).val(date.toDateString());
+				}
+		});
+		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
+	},
+	
+		linkCalToField: function(container){
+		if (container.tagName == 'TD'){
+			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
+		} else if (container.tagName == 'DIV') {
+			cal.linkedDateField = $(container).find('input[id$="Day"]');
+		}
+		
 	},
 	
 	/**
@@ -45,27 +86,6 @@ var cal = {
 			.on('mousemove', cal.changeMonth);
 	},
 	
-	renderCalendar: function(show_month, show_year) {
-		var calendarstr = cal.buildCal(show_month, show_year, "main", "month", "daysofweek", "days", 0);
-		$("#calendar_widget #calendarspace").html(calendarstr);
-		$("#calendar_widget #calendarspace td.days")
-			.css('cursor', 'pointer')
-			.on('click', function(){
-				var date = new Date(cal.months[cal.user_month]+' '+$(this).html().match(/\d+/)+', '+cal.user_year);
-				if (cal.linkedDateField){
-					$(cal.linkedDateField).val(date.toDateString());
-				}
-		});
-		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
-		$('.cal-widget').droppable({
-			drop: function(event, ui){
-				$(this).append($('#calendar_widget'));
-				$('b#marker').css('top', 'auto').css('left', 'auto');
-				cal.linkCalToField(this);
-			}
-		});
-	},
-	
 	/**
 	 * Handle a new calendar slider position
 	 */
@@ -74,15 +94,6 @@ var cal = {
 		cal.user_month = $(e.currentTarget).val() - (12*wrap);
 		cal.user_year = cal.cur_year + wrap;
 		cal.renderCalendar(cal.user_month, cal.user_year);
-	},
-	
-	linkCalToField: function(container){
-		if (container.tagName == 'TD'){
-			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
-		} else if (container.tagName == 'DIV') {
-			cal.linkedDateField = $(container).find('input[id$="Day"]');
-		}
-		
 	},
 	
 	buildCal: function(m, y, cM, cH, cDW, cD, brdr){

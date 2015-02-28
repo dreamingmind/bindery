@@ -2,6 +2,7 @@
 	<?php
 	$this->start('scripts');
 	echo $this->Html->script('Mediators/session_data_provider');
+	echo $this->Html->script('Mediators/data_table');
 	$this->end();
 	
 	echo $this->Html->tag('article', 

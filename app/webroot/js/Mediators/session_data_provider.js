@@ -51,6 +51,11 @@ var provider = {
 		});
 	}, // END OF THE init() FUNCITON
 	
+	/**
+	 * Overwrite the default properties with new values
+	 * 
+	 * @param {json object} config the values to substitute for the defaults
+	 */
 	configure: function(config) {
 		for (var p in config) {
 			provider[p] = config[p];
