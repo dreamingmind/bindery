@@ -14,10 +14,10 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 	'WorkshopSession.participants', 
 	'WorkshopSession.first_day' => array(
 		'type' => 'text', 
-		'div' => array('class' => 'cal-widget')), 
+		'class' => 'cal-widget'), 
 	'WorkshopSession.last_day' => array(
 		'type' => 'text',
-		'div' => array('class' => 'cal-widget'),
+		'class' => 'cal-widget',
 		'after' => $this->Form->button('One day', array('class' => 'one_day'))
 	), 
 ));
@@ -26,7 +26,7 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 	<tbody>
 		<?php // echo tab(2).$this->element('WorkshopSessions/date_inputs').cr(); ?>
 		<tr class="control">
-			<td colspan='5'>
+			<td colspan='4'>
 				<?php echo $this->Form->button('New date', array('class' => 'new', 'type' => 'button')); ?>
 			</td>
 		</tr>

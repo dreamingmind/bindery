@@ -4,13 +4,10 @@ $this->end();
 ?>
 <!-- Elements/WorkshopSessions/date_inputs.ctp -->
 		<tr>
-			<td class="cal-widget">
-				
-			</td>
 			<td>
 				<?php 
 				echo $this->Form->input('Date.id');
-				echo $this->Form->input('Date.date', array('type' => 'text')); ?>
+				echo $this->Form->input('Date.date', array('type' => 'text', 'class' => 'cal-widget')); ?>
 				<p id="date_duration"></p>
 			</td>
 			<td>

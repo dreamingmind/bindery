@@ -38,7 +38,13 @@ var dt = {
 	scan: function(){
 	},
 	
-	init: function(){
+	/**
+	 * Configure and initialize the object on page load
+	 */
+	init: function(config){
+		if (typeof(config) != 'undefined') {
+			dt.configure(config);
+		}
 		$(document).on('mediate', dt.scan);
 		dt.rows = row_warehouse;
 		dt.table = $(dt.table_selector);
@@ -53,7 +59,6 @@ var dt = {
 			$(dt.control_row).before(dt.rows.add(dt.row_html_template));
 		}
 	}
-	
 };
 
 /**
@@ -76,5 +81,17 @@ var row_warehouse = {
 		});
 		$(document).trigger('mediate', row_warehouse.stored[last]);
 		return row_warehouse.stored[last];
+	},
+	
+	/**
+	 * Overwrite the default properties with new values
+	 * 
+	 * @param {json object} config the values to substitute for the defaults
+	 */
+	configure: function(config) {
+		for (var p in config) {
+			DateRange[p] = config[p];
+		}
 	}
+
 };

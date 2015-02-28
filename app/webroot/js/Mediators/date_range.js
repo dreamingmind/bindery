@@ -73,7 +73,7 @@ var DateRange = {
 		DateRange.assembleSelectors();
 		DateRange.millisecond_increment = parseInt(DateRange.minute_increment) * 60 * 1000
 		DateRange.fill_time();
-		DateRange.scan(document);
+		DateRange.scan('', document);
 		$(document).on('mediate', DateRange.scan);
 	},
 	

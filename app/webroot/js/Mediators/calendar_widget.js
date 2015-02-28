@@ -28,19 +28,25 @@ var cal = {
 	 * initialize elements found in the html fragment
 	 */
 	scan: function(e, fragment){
-	},
-	
-	init: function() {
-		cal.intializeCalendar();
-		$('#calendar_widget input#slide').trigger('change');
-
-		$('.cal-widget').droppable({
+		$(fragment).find('.cal-widget').parent().droppable({
 			drop: function(event, ui){
 				$(this).append($('#calendar_widget'));
 				$('b#marker').css('top', 'auto').css('left', 'auto');
-				cal.linkCalToField(this);
+				cal.linkedDateField($(this).children('.cal-widget'));
 			}
-		});
+		})
+	},
+	
+	/**
+	 * Configure and initialize the object on page load
+	 */
+	init: function(config){
+		if (typeof(config) != 'undefined') {
+			cal.configure(config);
+		}
+		cal.intializeCalendar();
+		$('#calendar_widget input#slide').trigger('change');
+		cal.scan('', document)
 
 		$(document).on('mediate', cal.scan);
 //		cal.renderCalendar(cal.cur_month, cal.cur_year);
@@ -120,5 +126,17 @@ var cal = {
 			if(((i)%7==0)&&(i<36))t+='</tr><tr align="center">';
 		}
 		return t+='</tr></table></div>';
+	},
+	
+	/**
+	 * Overwrite the default properties with new values
+	 * 
+	 * @param {json object} config the values to substitute for the defaults
+	 */
+	configure: function(config) {
+		for (var p in config) {
+			DateRange[p] = config[p];
+		}
 	}
+
 };
