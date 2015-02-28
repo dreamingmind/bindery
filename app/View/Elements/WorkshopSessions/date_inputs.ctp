@@ -1,7 +1,3 @@
-<?php 
-$this->start('scripts');
-$this->end();
-?>
 <!-- Elements/WorkshopSessions/date_inputs.ctp -->
 		<tr>
 			<td>

@@ -2,6 +2,11 @@
 class DatesController extends AppController {
 
 	var $name = 'Dates';
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('dateRow');
+	}
 
 	function index() {
 		$this->Date->recursive = 0;
@@ -61,6 +66,13 @@ class DatesController extends AppController {
 		}
 		$this->Session->setFlash(__('Date was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	function dateRow() {
+		$this->layout = 'ajax';
+		$response = $this->render('/Elements/WorkshopSessions/date_inputs', 'ajax');
+		$this->set('jsonReturn', array('row' => $response->body()));
+		$this->render('/Ajax/jsonReturn', 'ajax');
 	}
 }
 ?>

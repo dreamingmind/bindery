@@ -1,5 +1,8 @@
 $(document).ready(function(){
-	dt.init();
+	dt.init({
+		new_call: webroot + 'dates/dateRow',
+		call_for_rows: true
+	});
 });
 
 /**
@@ -54,12 +57,45 @@ var dt = {
 	
 	new: function(){
 		if (dt.call_for_rows) {
-			$(dt.control_row).before(dt.rows.add(dt.callForNewRow()));
+			dt.callForNewRow();
+			$(dt.control_row).before(dt.rows.add(dt.row_html_template));
 		} else {
 			$(dt.control_row).before(dt.rows.add(dt.row_html_template));
 		}
+	},
+	
+	callForNewRow: function(){
+		$.ajax({
+			type: "GET",
+			dataType: "JSON",
+			url: dt.new_call,
+			async: false,
+			success: function (data) {
+				dt.row_html_template = data.row;
+			},
+			error: function (jqXHR, status, error ) {
+				
+			}
+		})
+
+	},
+	
+	/**
+	 * Overwrite the default properties with new values
+	 * 
+	 * @param {json object} config the values to substitute for the defaults
+	 */
+	configure: function(config) {
+		for (var p in config) {
+			dt[p] = config[p];
+		}
 	}
+	
 };
+
+// ========================================================================================
+// ========================================================================================
+// ========================================================================================
 
 /**
  * Object to store, access and modify TRs and the data record contained in them
@@ -81,17 +117,6 @@ var row_warehouse = {
 		});
 		$(document).trigger('mediate', row_warehouse.stored[last]);
 		return row_warehouse.stored[last];
-	},
-	
-	/**
-	 * Overwrite the default properties with new values
-	 * 
-	 * @param {json object} config the values to substitute for the defaults
-	 */
-	configure: function(config) {
-		for (var p in config) {
-			DateRange[p] = config[p];
-		}
 	}
 
 };
