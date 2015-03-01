@@ -1,9 +1,10 @@
 $(document).ready(function(){
-	dt.init({
-		new_call: webroot + 'dates/dateRow',
+	DateTable = new dt({new_call: webroot + 'dates/dateRow',
 		call_for_rows: true
 	});
 });
+
+var DateTable = {};
 
 /**
  * Data entry table behavior
@@ -15,63 +16,75 @@ $(document).ready(function(){
  * The data will either be saved continuously as the fields change or the last 
  *		row will have a save/submit tool (class = .submit) that saves all the data
  */
-var dt = {
+function dt(config) {
+	
+//	this.init(config);
+	
 	// behavioral settings
-	field_save: false,
-	call_for_rows: false,
+	this.field_save = false,
+	this.call_for_rows = false,
 	
 	// callpoints
-	new_call: false,
-	remove_call: false,
-	field_save_call: false,
-	submit_call: false,
+	this.new_call = false,
+	this.remove_call = false,
+	this.field_save_call = false,
+	this.submit_call = false,
 	
 	// element selectors
-	table_selector: 'table.session_dates > tbody',
-	control_row_selector: 'tr.control',
-	new_control: 'button.new',
-	submit_control: '.submit',
+	this.table_selector = 'table.session_dates > tbody',
+	this.control_row_selector = 'tr.control',
+	this.new_control = 'button.new',
+	this.submit_control = '.submit',
 	
 	// element reference containers
-	row_html_template: '<tr id="row"><td class="cal-widget ui-droppable"></td><td><input type="hidden" id="DateId" name="data[Date][id]"><div class="input text required"><label for="DateDate">Date</label><input type="text" required="required" id="DateDate" name="data[Date][date]"></div><p id="date_duration"></p></td><td><label for="DateStartTime">Start Time</label><input type="text" id="DateStartTime" name="data[Date][start_time]"><input type="range" value="1" step="1" max="28" min="0" id="date_start_slide"></td><td><label for="DateEndTime">End Time</label><input type="text" id="DateEndTime" name="data[Date][end_time]"><input type="range" value="12" step="1" max="32" min="4" id="date_end_slide"></td><td><button class="remove" type="button">Remove</button></td></tr>',
-	control_row: false,
-	table: false,
-	rows: false,
+	this.row_html_template = false,
+	this.control_row = false,
+	this.table = false,
+	this.rows = false,
 	
-	scan: function(){
+	this.scan = function(){
 	},
 	
 	/**
 	 * Configure and initialize the object on page load
 	 */
-	init: function(config){
+	this.init = function(config){
 		if (typeof(config) != 'undefined') {
-			dt.configure(config);
+			this.configure(config);
 		}
-		$(document).on('mediate', dt.scan);
-		dt.rows = row_warehouse;
-		dt.table = $(dt.table_selector);
-		dt.control_row = $(dt.control_row_selector);
-		$(dt.new_control).on('click', dt.new);
+		$(document).on('mediate', this.scan);
+		this.rows = new record_warehouse('Date');
+		this.table = $(this.table_selector);
+		this.control_row = $(this.control_row_selector);
+		$(this.new_control).on('click',
+		{
+			self: this,
+			call_for_rows: this.call_for_rows,
+			callForNewRow: this.callForNewRow,
+			control_row: this.control_row,
+			rows: this.rows,
+			row_html_template: this.row_html_template
+		}, this.new
+		);
 	},
 	
-	new: function(){
-		if (dt.call_for_rows) {
-			dt.callForNewRow();
-			$(dt.control_row).before(dt.rows.add(dt.row_html_template));
+	this.new = function(e){
+		if (e.data.self.call_for_rows) {
+			e.data.self.callForNewRow(e);
+			$(e.data.self.control_row).before(e.data.self.rows.add(e.data.self.row_html_template));
 		} else {
-			$(dt.control_row).before(dt.rows.add(dt.row_html_template));
+			$(e.data.self.control_row).before(e.data.self.rows.add(e.data.self.row_html_template));
 		}
 	},
 	
-	callForNewRow: function(){
+	this.callForNewRow = function(e){
 		$.ajax({
 			type: "GET",
 			dataType: "JSON",
-			url: dt.new_call,
+			url: e.data.self.new_call,
 			async: false,
 			success: function (data) {
-				dt.row_html_template = data.row;
+				e.data.self.row_html_template = data.row;
 			},
 			error: function (jqXHR, status, error ) {
 				
@@ -85,11 +98,13 @@ var dt = {
 	 * 
 	 * @param {json object} config the values to substitute for the defaults
 	 */
-	configure: function(config) {
+	this.configure = function(config) {
 		for (var p in config) {
-			dt[p] = config[p];
+			this[p] = config[p];
 		}
 	}
+	
+	this.init(config);
 	
 };
 
@@ -100,23 +115,42 @@ var dt = {
 /**
  * Object to store, access and modify TRs and the data record contained in them
  */
-var row_warehouse = {
-	stored: [],
+function record_warehouse (model) {
+	
+	this.model = model;
+	this.html_reference = [];
+	this.fields = [];
+	this.fragment_id = false;
 
-	add: function(row){
-		row_warehouse.stored.push($(row));
-		var last = row_warehouse.stored.length-1;
-		var now = new Date().getTime().toString();
-		row_warehouse.stored[last].attr('id', row_warehouse.stored[last].attr('id')+'-'+now);
+	this.add = function(fragment){
+		
+		this.html_reference.push($(fragment));
+		fragment_id = this.newFragmentId();
+		
+		this.html_reference[ this.lastIndex() ]
+			.attr('id', $(this.html_reference[ this.lastIndex() ]).attr('id')+'-'+fragment_id);
 
-		row_warehouse.stored[last].find('*').each(function(){
-			var id = $(this).attr('id');
-			if (typeof(id) !== 'undefined') {
-				$(this).attr('id', id+'-'+now);
+		$(this.html_reference[ this.lastIndex() ]).find('*').each(function(){
+			if (typeof($(this).attr('id')) !== 'undefined') {
+//				var id = $(this).attr('id');
+				$(this).attr('id', $(this).attr('id')+'-'+fragment_id);
 			}
 		});
-		$(document).trigger('mediate', row_warehouse.stored[last]);
-		return row_warehouse.stored[last];
+		$(document).trigger('mediate', $(this.html_reference[ this.lastIndex() ]));
+		return this.html_reference[ this.lastIndex() ];
+	}
+	
+	this.count = function(){
+		return this.html_reference.length;
+	}
+	
+	this.lastIndex = function(){
+		return this.count()-1;
 	}
 
+	this.newFragmentId = function() {
+		this.fragment_id = new Date().getTime().toString();
+		return this.fragment_id;
+	}
+	
 };
