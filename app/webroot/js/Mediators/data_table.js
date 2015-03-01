@@ -160,24 +160,6 @@ function record_warehouse (model) {
 	}
 	
 	/**
-	 * The number of stored fragment references
-	 * 
-	 * @returns {record_warehouse.html_reference.length}
-	 */
-//	this.count = function(){
-//		return this.html_reference.length;
-//	}
-//	
-//	/**
-//	 * Get the index to the last stored fragrment reference
-//	 * 
-//	 * @returns {number}
-//	 */
-//	this.lastIndex = function(){
-//		return this.count()-1;
-//	}
-	
-	/**
 	 * Return the last stored html fragment
 	 * 
 	 * @returns {Array} 
@@ -202,20 +184,6 @@ function record_warehouse (model) {
 			return false;
 		}
 	}
-
-	/**
-	 * Return the element's id if it exists or false
-	 * 
-	 * @param {html} element
-	 * @returns {String|Boolean}
-	 */
-//	this.nameAttribute = function(element){
-//		if (typeof($(element).attr('name')) !== 'undefined') {
-//			return $(element).attr('name');
-//		} else {
-//			return false;
-//		}
-//	}
 
 	/**
 	 * Return the element's id if it exists or false
@@ -251,9 +219,6 @@ function record_warehouse (model) {
 			$(fragment).attr('id', self.idAttribute(fragment) + '-' + self.fragment_id);
 			field = self.fieldName(fragment);
 			if (field) {
-//				if (typeof (this.fields[this.fragment_id]) == 'undefined') {
-//					this.fields[this.fragment_id] = {};
-//				}
 				self.fields[self.fragment_id][field] = $(fragment);
 			}
 		}
