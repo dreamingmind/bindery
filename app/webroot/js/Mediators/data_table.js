@@ -113,7 +113,16 @@ function dt(config) {
 // ========================================================================================
 
 /**
- * Object to store, access and modify TRs and the data record contained in them
+ * Object to store, access and modify inputs buried in an html fragment
+ * 
+ * WARNING: The fragment must be one node (but it can have descendents) 
+ * and it can't have comments or whitespace before the opening tag 
+ * and it can't be an input of any kind
+ * 
+ * The first tag must have an id (string) 
+ * All the IDs in the fragment will have -xxxxx appended to make them 
+ * unique for the group. xxxxx will be a the date in seconds with microseconds
+ * 
  */
 function record_warehouse (model) {
 	
@@ -122,32 +131,81 @@ function record_warehouse (model) {
 	this.fields = [];
 	this.fragment_id = false;
 
+	/**
+	 * Add a new htlm fragment to the stack
+	 * 
+	 * 
+	 * 
+	 * @param {html} fragment
+	 * @returns {Array} this last inserted element
+	 */
 	this.add = function(fragment){
 		
 		this.html_reference.push($(fragment));
 		fragment_id = this.newFragmentId();
+		idAttribute = this.idAttribute;
 		
-		this.html_reference[ this.lastIndex() ]
-			.attr('id', $(this.html_reference[ this.lastIndex() ]).attr('id')+'-'+fragment_id);
+		// uniquify the wrapper element
+		this.lastReference().attr('id', $(idAttribute(this.lastReference()))+'-'+fragment_id);
 
-		$(this.html_reference[ this.lastIndex() ]).find('*').each(function(){
-			if (typeof($(this).attr('id')) !== 'undefined') {
-//				var id = $(this).attr('id');
-				$(this).attr('id', $(this).attr('id')+'-'+fragment_id);
+		// uniquify all the descendents that have IDs
+		$(this.lastReference()).find('*').each(function(){
+			if (typeof(idAttribute(this))) {
+				$(this).attr('id', idAttribute(this)+'-'+fragment_id);
 			}
 		});
-		$(document).trigger('mediate', $(this.html_reference[ this.lastIndex() ]));
-		return this.html_reference[ this.lastIndex() ];
+		$(document).trigger('mediate', $(this.lastReference()));
+		return this.lastReference();
 	}
 	
+	/**
+	 * The number of stored fragment references
+	 * 
+	 * @returns {record_warehouse.html_reference.length}
+	 */
 	this.count = function(){
 		return this.html_reference.length;
 	}
 	
+	/**
+	 * Get the index to the last stored fragrment reference
+	 * 
+	 * @returns {number}
+	 */
 	this.lastIndex = function(){
 		return this.count()-1;
 	}
+	
+	/**
+	 * Return the last stored html fragment
+	 * 
+	 * @returns {Array} 
+	 */
+	this.lastReference = function() {
+		return this.html_reference[ this.lastIndex() ];
+	}
+	
+	/**
+	 * Return the element's id if it exists or false
+	 * 
+	 * @param {html} element
+	 * @returns {String|Boolean}
+	 */
+	this.idAttribute = function(element){
+		if (typeof($(element).attr('id')) !== 'undefined') {
+			return $(element).attr('id');
+		} else {
+			return false;
+		}
+	}
 
+	/**
+	 * Get the time as seconds with microseconds to use as an element id modifier
+	 * 
+	 * Used to associate sets of related values
+	 * 
+	 * @returns {String}
+	 */
 	this.newFragmentId = function() {
 		this.fragment_id = new Date().getTime().toString();
 		return this.fragment_id;
