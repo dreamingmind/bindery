@@ -127,8 +127,8 @@ function dt(config) {
 function record_warehouse (model) {
 	
 	this.model = model;
-	this.html_reference = [];
-	this.fields = [];
+	this.html_reference = {};
+	this.fields = {};
 	this.fragment_id = false;
 
 	/**
@@ -141,19 +141,20 @@ function record_warehouse (model) {
 	 */
 	this.add = function(fragment){
 		
-		this.html_reference.push($(fragment));
 		fragment_id = this.newFragmentId();
-		idAttribute = this.idAttribute;
-		
+		this.html_reference[fragment_id] = $(fragment);
+		this.fields[fragment_id] = {};
+		self = this;
+		parseFragment = this.parseFragment;
 		// uniquify the wrapper element
-		this.lastReference().attr('id', $(idAttribute(this.lastReference()))+'-'+fragment_id);
+		$(this.lastReference()).attr('id', this.idAttribute(this.lastReference())+'-'+fragment_id);
 
 		// uniquify all the descendents that have IDs
+		// and store references to the fields
 		$(this.lastReference()).find('*').each(function(){
-			if (typeof(idAttribute(this))) {
-				$(this).attr('id', idAttribute(this)+'-'+fragment_id);
-			}
+			self.parseFragment(self, this);
 		});
+		
 		$(document).trigger('mediate', $(this.lastReference()));
 		return this.lastReference();
 	}
@@ -163,18 +164,18 @@ function record_warehouse (model) {
 	 * 
 	 * @returns {record_warehouse.html_reference.length}
 	 */
-	this.count = function(){
-		return this.html_reference.length;
-	}
-	
-	/**
-	 * Get the index to the last stored fragrment reference
-	 * 
-	 * @returns {number}
-	 */
-	this.lastIndex = function(){
-		return this.count()-1;
-	}
+//	this.count = function(){
+//		return this.html_reference.length;
+//	}
+//	
+//	/**
+//	 * Get the index to the last stored fragrment reference
+//	 * 
+//	 * @returns {number}
+//	 */
+//	this.lastIndex = function(){
+//		return this.count()-1;
+//	}
 	
 	/**
 	 * Return the last stored html fragment
@@ -182,7 +183,10 @@ function record_warehouse (model) {
 	 * @returns {Array} 
 	 */
 	this.lastReference = function() {
-		return this.html_reference[ this.lastIndex() ];
+		if (this.fragment_id) {
+			return this.html_reference[this.fragment_id];
+		}
+		return false;
 	}
 	
 	/**
@@ -200,6 +204,37 @@ function record_warehouse (model) {
 	}
 
 	/**
+	 * Return the element's id if it exists or false
+	 * 
+	 * @param {html} element
+	 * @returns {String|Boolean}
+	 */
+//	this.nameAttribute = function(element){
+//		if (typeof($(element).attr('name')) !== 'undefined') {
+//			return $(element).attr('name');
+//		} else {
+//			return false;
+//		}
+//	}
+
+	/**
+	 * Return the element's id if it exists or false
+	 * 
+	 * @param {html} element
+	 * @returns {String|Boolean}
+	 */
+	this.fieldName = function(element){
+		if (typeof($(element).attr('name')) == 'undefined') {
+			return false;
+		}
+		var match = $(element).attr('name').match(/\[([a-z_]*)\]$/);
+		if (match[1] == 'undefined') {
+			return false;
+		}
+		return match[1];
+	}
+
+	/**
 	 * Get the time as seconds with microseconds to use as an element id modifier
 	 * 
 	 * Used to associate sets of related values
@@ -211,4 +246,17 @@ function record_warehouse (model) {
 		return this.fragment_id;
 	}
 	
+	this.parseFragment = function(self, fragment) {
+		if (self.idAttribute(fragment)) {
+			$(fragment).attr('id', self.idAttribute(fragment) + '-' + self.fragment_id);
+			field = self.fieldName(fragment);
+			if (field) {
+//				if (typeof (this.fields[this.fragment_id]) == 'undefined') {
+//					this.fields[this.fragment_id] = {};
+//				}
+				self.fields[self.fragment_id][field] = $(fragment);
+			}
+		}
+	}		
+
 };
