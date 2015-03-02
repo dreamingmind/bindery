@@ -210,7 +210,11 @@ function record_warehouse (model) {
 	 * @returns {String}
 	 */
 	this.newFragmentId = function() {
-		this.fragment_id = new Date().getTime().toString();
+		this.fragment_id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+});
+//		this.fragment_id = new Date().getTime().toString();
 		return this.fragment_id;
 	}
 	
