@@ -11,7 +11,7 @@ function forgotPassword() {
         type: "POST",
         dataType: "HTML",
         data: data,
-        url: 'localhost' + webroot + 'drawbridge/drawbridges/forgotPassword',
+        url: webroot + 'drawbridge/drawbridges/forgotPassword',
         success: function (data) {
             alert('We succeeded');
         },

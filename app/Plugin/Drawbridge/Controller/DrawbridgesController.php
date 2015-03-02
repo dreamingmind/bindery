@@ -158,9 +158,9 @@ class DrawbridgesController extends DrawbridgeAppController {
     }
 
     public function forgotPassword() {
-        dmDebug::logVars($this->request->data, 'trd');
+        dmDebug::logVars($this->request->data, 'entry trd');
         if($this->request->is('post')){
-            dmDebug::logVars($this->request->data, 'trd');
+            dmDebug::logVars($this->request->data, 'is post trd');
             $this->registered_user[$this->concrete_model] = $this->request->data['Drawbridge'];
             try {
                 $this->Drawbridge->checkRegisteredEmail($this->registered_user[$this->concrete_model]['username']);
