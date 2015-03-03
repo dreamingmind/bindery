@@ -89,6 +89,9 @@ class DrawbridgesController extends DrawbridgeAppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow();
+		if($this->request->action == 'forgotPassword'){
+			$this->Security->validatePost = FALSE;
+		}
         $this->concrete_model = Configure::read('Drawbridge.Model');
         $this->registered_user = array($this->concrete_model => array());
         CakeEventManager::instance()->attach(new UserEvent());
@@ -172,7 +175,15 @@ class DrawbridgesController extends DrawbridgeAppController {
         }
     }
     
-    public function resetPassword($new_password) {
+	protected function setupUserForPasswordReset() {
+		
+	}
+	
+	protected function sendPasswordResetEmail() {
+		
+	}
+	
+	public function resetPassword($new_password) {
         
     }
 
