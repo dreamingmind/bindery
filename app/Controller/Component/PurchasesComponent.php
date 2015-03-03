@@ -75,9 +75,15 @@ class PurchasesComponent extends Component {
 	 * @param Controller $controller
 	 */
 	public function beforeRender(Controller $controller) {
-		$controller->set('purchaseCount', $this->itemCount());
-		$controller->set('wishCount', $this->wishCount());
-		$controller->set('cartContact', $this->cartContact());
+		if (is_a($this->Session, 'Session')) {
+			$controller->set('purchaseCount', $this->itemCount());
+			$controller->set('wishCount', $this->wishCount());
+			$controller->set('cartContact', $this->cartContact());
+		} else {
+			$controller->set('purchaseCount', FALSE);
+			$controller->set('wishCount', FALSE);
+			$controller->set('cartContact', array());
+		}
 	}
 
 	public function shutDown(Controller $controller) {
