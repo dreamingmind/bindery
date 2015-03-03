@@ -20,6 +20,7 @@ class AppController extends Controller {
 	var $components = array(
 		'Cookie',
 		'DebugKit.Toolbar',
+		'Security',
         'Acl' => array(
         ),
         'Auth' => array(
@@ -161,6 +162,7 @@ class AppController extends Controller {
 		}
 		parent::beforeFilter();
 		
+		$this->Security->blackHoleCallback = 'blackhole';
 
 		// These things should happen regardless of login or permission
         $this->initCompany(); //set company contact strings in an array
@@ -199,6 +201,18 @@ class AppController extends Controller {
 //    echo $html->css('advanced-search');
 //    echo $html->css('search_links');
     }
+	
+	public function blackhole($type) {
+		$this->Session->setFlash("This request was blackholed for the $type type of error", "f_error");
+		$this->set('result' , FALSE);
+		
+		if ($this->request->is('ajax')) {
+			$this->render('Ajax/blank', 'ajax_return');
+		} else {
+			$this->redirect($this->referer());
+		}
+	}
+	
 	function force() {
 		$this->redirect('https://' . env('SERVER_NAME') . $this->here);
 	}
