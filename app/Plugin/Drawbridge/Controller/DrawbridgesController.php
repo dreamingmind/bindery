@@ -156,17 +156,14 @@ class DrawbridgesController extends DrawbridgeAppController {
     }
 
     public function logout() {
-        dmDebug::logVars($this->Auth->logout(), 'This auth logout');
         return $this->redirect($this->Auth->logout());
     }
 
     public function forgotPassword() {
-        dmDebug::logVars($this->request->data, 'entry trd');
         if($this->request->is('post')){
-            dmDebug::logVars($this->request->data, 'is post trd');
             $this->registered_user[$this->concrete_model] = $this->request->data['Drawbridge'];
             try {
-                $this->Drawbridge->checkRegisteredEmail($this->registered_user[$this->concrete_model]['username']);
+                $this->Drawbridge->checkRegisteredEmail($this);
                 $this->setupUserForPasswordReset();
                 $this->sendPasswordResetEmail();
             } catch (Exception $exc) {
@@ -176,11 +173,57 @@ class DrawbridgesController extends DrawbridgeAppController {
     }
     
 	protected function setupUserForPasswordReset() {
-		
+		$this->registered_user[$this->concrete_model]['token'] = $this->createTokenForPasswordReset();
+		unset($this->registered_user[$this->concrete_model]['password']);
+		$this->{$this->concrete_model}->save($this->registered_user);
+		$this->registered_user[$this->concrete_model]['link'] = $this->createLinkForPasswordReset();
+	}
+	
+	protected function createTokenForPasswordReset() {
+		$base_uuid = String::uuid();
+		$month = dechex(date('m', time()));
+		$day = dechex(date('j', time()));
+		$day = strlen($day) == 1 ? '0' . $day : $day;
+		$base_uuid_with_month = substr_replace($base_uuid, $month, 0,1);
+		return substr_replace($base_uuid_with_month, $day, strlen($base_uuid_with_month)-2,2);
+	}
+	
+	protected function createLinkForPasswordReset() {
+		$url = Router::url(array('controller' => 'Drawbridges', 'action' => 'routeUserToPasswordReset'), true);
+		$url = $url . '/' . $this->registered_user[$this->concrete_model]['token'];
+		dmDebug::ddd($url, 'assembled url');
 	}
 	
 	protected function sendPasswordResetEmail() {
-		
+		$Email = new CakeEmail();
+		$Email->from(array('user_manager@dreamingmind.com' => 'Dreaming Mind Hand Bindery'))
+			->to($this->registered_user[$this->concrete_model]['username'])
+			->subject('Your password reset')
+			->send('My message');
+	}
+	
+	protected function routeUserToPasswordReset($token) {
+		$this->{$this->concrete_model}->checkPasswordResetToken();
+		if (!$this->checkExpirationOfPasswordResetToken($token)){
+			$this->Session->setFlash('This password reset has expired', 'f_error');
+			$this->redirect($this->Auth->logoutRedirect);
+		}
+	}
+	
+	protected function checkExpirationOfPasswordResetToken($token) {
+		$month = hexdec(ltrim($token, 1));
+		$day = hexdec(rtrim($token, 2));
+		if($month == '12' && $day > '29'){
+			$year = year() - (1 * YEAR);
+		} else {
+			$year = year();
+		}
+		$token_date = date('m/d/Y', $month . '/' . $day . '/' . $year);
+		if ($token_date < date('m/d/Y', (time() - 2 * DAY))){
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 	
 	public function resetPassword($new_password) {

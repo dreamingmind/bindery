@@ -120,9 +120,15 @@ class Drawbridge extends DrawbridgeAppModel {
      * @param string $username
      * @return boolean
      */
-    public function checkRegisteredEmail($username) {
-        if(!$this->find('first', array('conditions' => array('username' => $username)))){
+    public function checkRegisteredEmail($controller) {
+        if(!$user = $this->find('first', 
+				array(
+					'conditions' => array(
+						'username' => $controller->registered_user[$controller->concrete_model]['username']
+							)
+					))){
             throw new NotFoundException('There is no user registered under that username');
         }
+		$controller->registered_user[$controller->concrete_model]['id'] = $user['Drawbridge']['id'];
     }
 }
