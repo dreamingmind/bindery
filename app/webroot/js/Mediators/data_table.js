@@ -2,6 +2,7 @@ $(document).ready(function(){
 	DateTable = new dt({new_call: webroot + 'dates/dateRow',
 		call_for_rows: true
 	});
+	t = new CakeTable_v2_6();
 });
 
 var DateTable = {};
@@ -210,7 +211,7 @@ function record_warehouse (model) {
 	 * @returns {String}
 	 */
 	this.newFragmentId = function() {
-		this.fragment_id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		this.fragment_id = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
     return v.toString(16);
 });
@@ -223,9 +224,74 @@ function record_warehouse (model) {
 			$(fragment).attr('id', self.idAttribute(fragment) + '-' + self.fragment_id);
 			field = self.fieldName(fragment);
 			if (field) {
-				self.fields[self.fragment_id][field] = $(fragment);
+				self.fields[self.fragment_id][field] = new Field($(fragment));
 			}
 		}
 	}		
 
 };
+	function Field(node) {
+		this.node = node;
+		var _id = false; // this is a private property
+	}
+	
+	// The id tools need to go on another object since they can be on any node, not just fields
+	// they are not bullet proof. though _id is now private, if the elements id attribute 
+	// gets changed by some other process, it won't be know by this class and we'll 
+	// keep getting back results based on the value whe the class first parsed it
+	Field.prototype = {
+//		_id: false,
+		get name() { return $(this.node).attr('name'); },
+		get value() { return $(this.node).val(); },
+		set value(newValue) { $(this.node).val(newValue); },
+		get fullId() {
+			if (!this._id) { this.parseId(); }
+			return this._id[0];
+		},
+		get baseId() {
+			if (!this._id) { this.parseId(); }
+			return this._id[1];
+		},
+		get uuId() {
+			if (!this._id) { this.parseId(); }
+			return this._id[2];
+		},
+		set uuId(uuid) {
+			this.node.attr('id', this.baseId() + '-' + uuid);
+		},
+		get alias() {
+			return this.name.match(/\[{1}([A-Z]{1}[a-z]+[A-Za-z]*)\]{1}/)[1];
+		},
+		parseId: function() {
+			this._id = $(this.node).attr('id').match(/([\w_]+)-*([a-f0-9]*)/);
+		}
+	}
+	
+	
+
+function CakeTable_v2_6() {
+	
+//	this.table = new this.Table();
+	this.record = new Record();
+//	this.field = new this.Field();
+		
+	function Table(){
+		
+	}
+	function Record(){
+		
+		this.uuid = false;
+		 
+		this.newUuid = function() {
+//			this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			this.uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+				return v.toString(16);
+			});
+		return this.uuid;
+		}
+		
+	}
+	
+
+}
