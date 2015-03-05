@@ -49,7 +49,7 @@ function dt(config) {
 					this.configure(config);
 				}
 				$(document).on('mediate', this.scan);
-				this.rows = new record_warehouse('Date');
+				this.rows = new RecordWarehouse('Date');
 				this.table = $(this.table_selector);
 				this.control_row = $(this.control_row_selector);
 				$(this.new_control).on('click',
@@ -118,7 +118,7 @@ function dt(config) {
  * unique for the group. xxxxx will be a the date in seconds with microseconds
  * 
  */
-function record_warehouse(model) {
+function RecordWarehouse(model) {
 
 	this.model = model;
 	this.html_reference = {};
@@ -144,7 +144,7 @@ function record_warehouse(model) {
 		// uniquify all the descendents that have IDs
 		// and store references to the fields
 		$(this.lastReference()).find('[id]').each(function () {
-			self.parseFragment(self, this);
+			parseFragment.call(DateTable.rows, this);
 		});
 
 		$(document).trigger('mediate', $(this.lastReference()));
@@ -210,12 +210,24 @@ function record_warehouse(model) {
 		return this.fragment_id;
 	}
 
-	this.parseFragment = function (self, fragment) {
-		if (self.idAttribute(fragment)) {
-			$(fragment).attr('id', self.idAttribute(fragment) + '-' + self.fragment_id);
-			field = self.fieldName(fragment);
-			if (field) {
-				self.fields[self.fragment_id][field] = new Field($(fragment));
+	this.parseFragment = function (fragment) {
+		switch (fragment.tagName) {
+			case 'INPUT':
+			case 'SELECT':
+			case 'TEXTAREA':
+				var node = new Field($(fragment));
+			case 'BUTTON':
+			case 'FORM':
+			case 'TR':
+			default :
+				var node = new ManagedNode($(fragment));
+		}
+		node.uuId = this.newFragmentId();
+		if (this.idAttribute(fragment)) {
+			if (Field.isPrototypeOf(node)) {
+				this.fields[node.uuId][node.name] = node;
+			} else {
+				this[node.uuid].push(node);
 			}
 		}
 	}
@@ -223,7 +235,7 @@ function record_warehouse(model) {
 }
 ;
 function Field(node) {
-	NodeId.call(this, node);
+	ManagedNode.call(this, node);
 }
 
 Field.prototype = {
@@ -242,12 +254,12 @@ Field.prototype = {
 	},
 }
 
-function  NodeId(node) {
+function  ManagedNode(node) {
 	this._id = false;
 	this.node = node;
 }
 
-NodeId.prototype = {
+ManagedNode.prototype = {
 	get fullId() {
 		if (!this._id) {
 			this.parseId();
@@ -267,14 +279,14 @@ NodeId.prototype = {
 		return this._id[2];
 	},
 	set uuId(uuid) {
-		this.node.attr('id', this.baseId() + '-' + uuid);
+		this.node.attr('id', this.baseId + '-' + uuid);
 	},
 	parseId: function () {
 		this._id = $(this.node).attr('id').match(/([\w_]+)-*([a-f0-9]*)/);
 	}
 }
 
-Field.prototype = Object.create(NodeId.prototype);
+Field.prototype = Object.create(ManagedNode.prototype);
 
 function Collection () {
 	
