@@ -42,7 +42,7 @@ function PageManager() {
 	this._uuid = false;
 	
 	/**
-	 * Add more ID'd elements to the lookup tables
+	 * Add this ID'd element the ID'd elements inside this node to the lookup tables
 	 * 
 	 * @param {Element} node
 	 */
@@ -54,9 +54,20 @@ function PageManager() {
 		for (var c = 0; c < workset.length; c++) {
 			this.parseFragment(workset[c]);
 		}
-//		$(node).find('[id]').each(function () {
-//			parseFragment.call(PageManager, this);
-//		});
+		this._uuid = false;
+	}
+	
+	/**
+	 * Associate these ID'd elements with a new uuid and add them to the lookup tables
+	 * 
+	 * @param {Element} node_list The collection of elements you want joined
+	 */
+	this.join = function(node_list) {
+		
+		this._uuid = false;
+		for (var c = 0; c < node_list.length; c++) {
+			this.parseFragment(node_list[c]);
+		}
 		this._uuid = false;
 	}
 	
@@ -143,9 +154,6 @@ function PageManager() {
 	 * @param {ManagedNode} node
 	 */
 	this.storeFragment = function(node) {
-//		if (this.fragments[node.uuid] === undefined) {
-//			this.fragments.push(node.uuid);
-//		}				
 		this.fragment[node.uuid] = node;
 	}				
 	
