@@ -44,6 +44,10 @@ function PageManager() {
 	/**
 	 * Add this ID'd element the ID'd elements inside this node to the lookup tables
 	 * 
+	 * This makes the possibly-dangerous assumption that find() will return an ordered 
+	 * node list where we recursively drill to the bottom of each node in turn. If the 
+	 * results are horizontal sibling sets or random, the system will fail.
+	 * 
 	 * @param {Element} node
 	 */
 	this.add = function(node) {
@@ -51,19 +55,18 @@ function PageManager() {
 			this.parseFragment(node);
 		}
 		var workset = $(node).find('[id]');
-		for (var c = 0; c < workset.length; c++) {
-			this.parseFragment(workset[c]);
-		}
-		this._uuid = false;
+		this.join(workset);
 	}
 	
 	/**
 	 * Associate these ID'd elements with a new uuid and add them to the lookup tables
 	 * 
+	 * If you're using join() directly, don't forget:
+	 *		Fieldset or TR tags will trigger new uuid groupings
+	 * 
 	 * @param {Element} node_list The collection of elements you want joined
 	 */
 	this.join = function(node_list) {
-		
 		this._uuid = false;
 		for (var c = 0; c < node_list.length; c++) {
 			this.parseFragment(node_list[c]);
