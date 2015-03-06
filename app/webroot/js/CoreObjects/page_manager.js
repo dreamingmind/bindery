@@ -19,11 +19,26 @@ function PageManager() {
 
 } // END OF PAGE MANAGER CLASS
 
-function Field(node) {
-	ManagedNode.call(this, node);
+function Field() {
+	ManagedNode.call(this);
+//	this._id = false;
+//	this.node = 'node';
 }
 
+Field.prototype = Object.create(ManagedNode.prototype);
+
+
+function viewprop(obj) {
+	for (var prop in obj) {
+		alert('<p class="properties">' + prop + ' : ' + obj[prop] + '</p>');
+	}
+};
+
+viewprop(Field);
+
+
 Field.prototype = {
+	constructor: Field,
 //		_id: false,
 	get name() {
 		return $(this.node).attr('name');
@@ -38,13 +53,15 @@ Field.prototype = {
 		return this.name.match(/\[{1}([A-Z]{1}[a-z]+[A-Za-z]*)\]{1}/)[1];
 	},
 }
+viewprop(Field);
 
-function  ManagedNode(node) {
+function  ManagedNode() {
 	this._id = false;
-	this.node = node;
+	this.node = 'node';
 }
 
 ManagedNode.prototype = {
+	constructor: ManagedNode,
 	get fullId() {
 		if (!this._id) {
 			this.parseId();
@@ -71,5 +88,4 @@ ManagedNode.prototype = {
 	}
 }
 
-Field.prototype = Object.create(ManagedNode.prototype);
 
