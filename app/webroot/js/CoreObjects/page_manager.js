@@ -1,3 +1,38 @@
+/**
+ * PageManager creates cross-indexed lookup tables for elements on the page
+ * 
+ * Through its add() method, PageManager takes in references to 
+ * page elements and parses the elements and possibly thier descendent 
+ * elements into various storage objects for later access.
+ * 
+ * Any ID'd Fieldset or TR will be assumed to contain fields from a 
+ * single db record. These parent nodes (Fieldset or TR) will have a uuid appended to thier 
+ * id attribute and this uuid will become the reference id for the record, 
+ * its fields and any other ID'd descendents in the parent (eg. links or buttons). 
+ * 
+ * CAVEATS:
+ * It's recommended, but not required, that you put ID's on Fieldsets and TRs and use them 
+ * as record containment nodes. When detected, they will trigger the generation of a new uuid 
+ * (thus starting a new record).
+ * If a field is detected in any context and a uuid has not been established, 
+ *		a new one will be made. 
+ * If a field is found in any context after a uuid has been established, 
+ *		that uuid will be assumed to be the record index and the field will be stored accordingly
+ * !! If you don't control the containment of record fields, the lookup tables can return bad results
+ * 
+ * The fields will be stored in three data structures 
+ *		with four different methods of access. 
+ * - field[fieldname][uuid] = Field object  
+ * - record[uuid][fieldname] = Field object
+ * - table[TableAlias]['record'][uuid][fieldname] = Field object
+ * - table[TableAlias]['field'][fieldname][uuid] = Field object
+ * 
+ * ID'd nodes that pass through add() that aren't any variety of input 
+ * will be stored in the fragment object as a ManagedNode object. 
+ * <<< DETAIL WILL BE ADDED HERE >>>
+ * 
+ * @returns {PageManager}
+ */
 function PageManager() {
 	
 	this.table = {};
