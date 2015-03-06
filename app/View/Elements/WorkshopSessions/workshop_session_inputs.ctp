@@ -19,7 +19,8 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 		'type' => 'text',
 		'class' => 'cal-widget',
 		'after' => $this->Form->button('One day', array('class' => 'one_day'))
-	), 
+	),
+	'fieldset' => FALSE
 ));
 ?>
 <table class='session_dates'>
