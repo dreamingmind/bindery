@@ -1,7 +1,9 @@
 function PageManager() {
 	
-	this.fields = {};
-	this.fragments = {};
+	this.table = {};
+	this.record = {};
+	this.field = {};
+	this.fragment = {};
 	this._uuid = false;
 	
 	/**
@@ -78,10 +80,26 @@ function PageManager() {
 	 * @param {Field} node
 	 */
 	this.storeField = function(node) {
-		if (this.fields[node.uuid] === undefined) {
-			this.fields[node.uuid] = {};
+		if (this.field[node.field_name] === undefined) {
+			this.field[node.field_name] = {};
 		}
-		this.fields[node.uuid][node.field_name] = node;
+		this.field[node.field_name][node.uuid] = node;
+		
+		if (this.record[node.uuid] === undefined) {
+			this.record[node.uuid] = {};
+		}
+		this.record[node.uuid][node.field_name] = node;
+		
+		if (this.table[node.alias] === undefined) {
+			this.table[node.alias] = {
+				record: {},
+				field: {}
+			}	
+		}
+		this.table[node.alias].record[node.uuid] = this.record[node.uuid];
+		this.table[node.alias].field[node.field_name] = this.field[node.field_name];
+		
+		
 	}
 	
 	/**
@@ -93,7 +111,7 @@ function PageManager() {
 //		if (this.fragments[node.uuid] === undefined) {
 //			this.fragments.push(node.uuid);
 //		}				
-		this.fragments[node.uuid] = node;
+		this.fragment[node.uuid] = node;
 	}				
 	
 } // END OF PAGE MANAGER CLASS
@@ -108,12 +126,22 @@ PageManager.prototype = {
 	}
 }
 
-
+/**
+ * ManagedNode constructor
+ * 
+ * @param {Element} node
+ * @returns {ManagedNode}
+ */
 function  ManagedNode(node) {
 	this._id = false;
 	this.node = node;
 }
 
+/**
+ * ManagedNode prototype
+ * 
+ * @type prototype
+ */
 ManagedNode.prototype = {
 	constructor: ManagedNode,
 	get fullId() {
@@ -143,10 +171,19 @@ ManagedNode.prototype = {
 	}
 }
 
+/**
+ * Field Constructor
+ * 
+ * @param {Element} node
+ * @returns {Field}
+ */
 function Field(node) {
 	ManagedNode.call(this, node);
 }
 
+/**
+ * Field prototype
+ */
 Field.prototype = Object.create(ManagedNode.prototype, {
 		constructor: {
 			configurable: true,
@@ -166,7 +203,9 @@ Object.defineProperty(Field.prototype, "name", {
 
 Object.defineProperty(Field.prototype, "alias", {
     get: function() {
-		return this.name.match(/\[{1}([A-Z]{1}[a-z]+[A-Za-z]*)\]{1}/)[1];
+		var aliases = this.name.match(/(\[{1}([A-Z]{1}[a-z]+[A-Za-z]*)\]{1})+/);
+		return aliases[aliases.length-1];
+//		return this.name.match(/\[{1}([A-Z]{1}[a-z]+[A-Za-z]*)\]{1}/)[1];
     },
     enumerable: true,
     configurable: true
@@ -191,3 +230,4 @@ Object.defineProperty(Field.prototype, "field_name", {
     configurable: true
 });
 
+//[WorkshopSession][0][Date][id]
