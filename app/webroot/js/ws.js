@@ -2,7 +2,6 @@
 
 $(document).ready(function(){
 	init();	
-	alert(bindery_page.field.length);
 });
 
 var bindery_page = new PageManager();

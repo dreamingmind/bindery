@@ -1,8 +1,8 @@
 function PageManager() {
 	
-	this.fields = [];
-	this.fragments = [];
-	this.uuid
+	this.fields = {};
+	this.fragments = {};
+	this._uuid = false;
 	
 	/**
 	 * Add more ID'd elements to the lookup tables
@@ -10,10 +10,17 @@ function PageManager() {
 	 * @param {Element} node
 	 */
 	this.add = function(node) {
-//		this.field.push(new Field(node));
-		$($(node).wrap('div')).find('[id]').each(function () {
-			parseFragment.call(PageManager.rows, this);
-		});
+		if ($(node).attr('id') !== undefined) {
+			this.parseFragment(node);
+		}
+		var workset = $(node).find('[id]');
+		for (var c = 0; c < workset.length; c++) {
+			this.parseFragment(workset[c]);
+		}
+//		$(node).find('[id]').each(function () {
+//			parseFragment.call(PageManager, this);
+//		});
+		this._uuid = false;
 	}
 	
 	/**
@@ -50,17 +57,17 @@ function PageManager() {
 				break;
 			case 'TR':
 			case 'FIELDSET':
-				this.uuid = this.newUuid();
+				this._uuid = this.newUuid();
 			case 'BUTTON':
 			case 'FORM':
 			default :
 				var node = new ManagedNode($(fragment));
 				break;
 		}
-		node.uuId = this.newUuid();
-		if (Field.isPrototypeOf(node)) {
+		node.uuid = this.uuid;
+		if (node.constructor === Field) {
 			this.storeField(node);
-		} else if (ManagedNode.isPrototypeOf(node)) {
+		} else if (node.constructor === ManagedNode) {
 			this.storeFragment(node);
 		}
 	}
@@ -71,10 +78,10 @@ function PageManager() {
 	 * @param {Field} node
 	 */
 	this.storeField = function(node) {
-		if (this.fields[node.uuId] === 'undefined') {
-			this.fields[node.uuId] = [];
-		}				
-		this.fields[node.uuId][node.name] = node;
+		if (this.fields[node.uuid] === undefined) {
+			this.fields[node.uuid] = {};
+		}
+		this.fields[node.uuid][node.field_name] = node;
 	}
 	
 	/**
@@ -83,18 +90,28 @@ function PageManager() {
 	 * @param {ManagedNode} node
 	 */
 	this.storeFragment = function(node) {
-		if (this.fragments[node.uuId] === 'undefined') {
-			this.fragments[node.uuId] = [];
-		}				
-		this.fragments[node.uuid].push(node);
+//		if (this.fragments[node.uuid] === undefined) {
+//			this.fragments.push(node.uuid);
+//		}				
+		this.fragments[node.uuid] = node;
 	}				
 	
 } // END OF PAGE MANAGER CLASS
 
+PageManager.prototype = {
+	constructor: PageManager,
+	get uuid() {
+		if (!this._uuid) {
+			this._uuid = this.newUuid();
+		}
+		return this._uuid;
+	}
+}
 
-function  ManagedNode() {
+
+function  ManagedNode(node) {
 	this._id = false;
-	this.node = 'node';
+	this.node = node;
 }
 
 ManagedNode.prototype = {
@@ -111,22 +128,23 @@ ManagedNode.prototype = {
 		}
 		return this._id[1];
 	},
-	get uuId() {
+	get uuid() {
 		if (!this._id) {
 			this.parseId();
 		}
 		return this._id[2];
 	},
-	set uuId(uuid) {
+	set uuid(uuid) {
 		this.node.attr('id', this.baseId + '-' + uuid);
+		this.parseId();
 	},
 	parseId: function () {
 		this._id = $(this.node).attr('id').match(/([\w_]+)-*([a-f0-9]*)/);
 	}
 }
 
-function Field() {
-	ManagedNode.call(this);
+function Field(node) {
+	ManagedNode.call(this, node);
 }
 
 Field.prototype = Object.create(ManagedNode.prototype, {
@@ -165,5 +183,11 @@ Object.defineProperty(Field.prototype, "value", {
     configurable: true
 });
 
-
+Object.defineProperty(Field.prototype, "field_name", {
+    get: function() {
+		return this.name.match(/\[([a-z_]*)\]$/)[1]
+    },
+    enumerable: true,
+    configurable: true
+});
 
