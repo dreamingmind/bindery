@@ -8,4 +8,5 @@ function init () {
 	$('fieldset').each(function () {
 		bindery_page.add(this);
 	});
+	bindery_page.add($('table.session_dates'));
 }

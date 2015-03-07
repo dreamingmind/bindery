@@ -8,7 +8,7 @@ $this->end();
 <?php 
 echo $this->Form->inputs(array('WorkshopSession.id', 
 	'WorkshopSession.title' => array(
-		'after' => $this->Form->button('Standard')
+		'after' => $this->Form->button('Standard', array('id' => 'standard_title'))
 	), 
 	'WorkshopSession.cost', 
 	'WorkshopSession.participants', 
@@ -18,7 +18,7 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 	'WorkshopSession.last_day' => array(
 		'type' => 'text',
 		'class' => 'cal-widget',
-		'after' => $this->Form->button('One day', array('class' => 'one_day'))
+		'after' => $this->Form->button('One day', array('id' => 'one_day'))
 	),
 	'fieldset' => FALSE
 ));
@@ -26,9 +26,9 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 <table class='session_dates'>
 	<tbody>
 		<?php // echo tab(2).$this->element('WorkshopSessions/date_inputs').cr(); ?>
-		<tr class="control">
+		<tr id="control">
 			<td colspan='4'>
-				<?php echo $this->Form->button('New date', array('class' => 'new', 'type' => 'button')); ?>
+				<?php echo $this->Form->button('New date', array('id' => 'new', 'type' => 'button')); ?>
 			</td>
 		</tr>
 	</tbody>

@@ -105,6 +105,7 @@ function PageManager() {
 			case 'SELECT':
 			case 'TEXTAREA':
 				var node = new Field($(fragment));
+				$
 				break;
 			case 'TR':
 			case 'FIELDSET':
@@ -116,6 +117,7 @@ function PageManager() {
 				break;
 		}
 		node.uuid = this.uuid;
+		$(fragment).data(node);
 		if (node.constructor === Field) {
 			this.storeField(node);
 		} else if (node.constructor === ManagedNode) {
