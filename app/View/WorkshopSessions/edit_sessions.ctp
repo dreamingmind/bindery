@@ -3,7 +3,8 @@
 	$this->start('scripts');
 	echo $this->Html->script('CoreObjects/page_manager');
 	echo $this->Html->script('ws');
-//	echo $this->Html->script('Mediators/session_data_provider');
+	echo $this->Html->script('Mediators/session_data_provider');
+	
 //	echo $this->Html->script('Mediators/data_table');
 	$this->end();
 	

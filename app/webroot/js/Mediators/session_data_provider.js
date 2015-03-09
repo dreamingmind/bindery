@@ -41,14 +41,14 @@ var provider = {
 			}
 		);
 		// bind the click elements that will send data to a form
-		var click_targets = $(provider.selector).find(provider.template_trigger).each(function(){
-			var session_id = $(this).parent().attr('id').match(/\d+/);
-			$(this)
-				.attr('title', 'Click to fill the form with this session template')
-				.attr('id', 'target_session_id-' + session_id)
-				.css('cursor', 'pointer')
-				.on('click', provider.template);
-		});
+//		var click_targets = $(provider.selector).find(provider.template_trigger).each(function(){
+//			var session_id = $(this).parent().attr('id').match(/\d+/);
+//			$(this)
+//				.attr('title', 'Click to fill the form with this session template')
+//				.attr('id', 'target_session_id-' + session_id)
+//				.css('cursor', 'pointer')
+//				.on('click', provider.template);
+//		});
 	}, // END OF THE init() FUNCITON
 	
 	/**
@@ -62,8 +62,8 @@ var provider = {
 		}
 	},
 	
-	template: function(e) {
-		var template_id = $(e.currentTarget).attr('id').match(/\d+/);
-		var template_data = provider.sessions[template_id];
-	}
+//	template: function(e) {
+//		var template_id = $(e.currentTarget).attr('id').match(/\d+/);
+//		var template_data = provider.sessions[template_id];
+//	}
 };

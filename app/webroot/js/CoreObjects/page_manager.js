@@ -67,7 +67,6 @@ function PageManager() {
 	 * @param {Element} node_list The collection of elements you want joined
 	 */
 	this.join = function(node_list) {
-		this._uuid = false;
 		for (var c = 0; c < node_list.length; c++) {
 			this.parseFragment(node_list[c]);
 		}
@@ -105,7 +104,6 @@ function PageManager() {
 			case 'SELECT':
 			case 'TEXTAREA':
 				var node = new Field($(fragment));
-				$
 				break;
 			case 'TR':
 			case 'FIELDSET':
@@ -116,6 +114,7 @@ function PageManager() {
 				var node = new ManagedNode($(fragment));
 				break;
 		}
+//		alert('the node uuid will be changed from ' + node.uuid + ' to ' + this.uuid);
 		node.uuid = this.uuid;
 		$(fragment).data(node);
 		if (node.constructor === Field) {
@@ -159,7 +158,20 @@ function PageManager() {
 	 * @param {ManagedNode} node
 	 */
 	this.storeFragment = function(node) {
-		this.fragment[node.uuid] = node;
+		this.fragment[node.fullId] = node;
+		
+		if (this.fragment[node.uuid] === undefined) {
+			this.fragment[node.uuid] = {};
+		}
+		this.fragment[node.uuid][node.fullId] = node;
+		
+		if (this.fragment[node.node[0].tagName] === undefined) {
+			this.fragment[node.node[0].tagName] = {};
+		}
+		this.fragment[node.node[0].tagName][node.fullId] = node;
+		
+//		this.fragment[node.uuid] = node;
+//		this.fragment[node.fullId] = node;
 	}				
 	
 } // END OF PAGE MANAGER CLASS
@@ -180,8 +192,8 @@ PageManager.prototype = {
  * @param {Element} node
  * @returns {ManagedNode}
  */
-function  ManagedNode(node) {
-	this._id = false;
+function  ManagedNode(node, key) {
+	this._id = typeof(key) === undefined ? false : key;
 	this.node = node;
 }
 
@@ -225,8 +237,8 @@ ManagedNode.prototype = {
  * @param {Element} node
  * @returns {Field}
  */
-function Field(node) {
-	ManagedNode.call(this, node);
+function Field(node, key) {
+	ManagedNode.call(this, node, key);
 }
 
 /**

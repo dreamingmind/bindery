@@ -1,3 +1,19 @@
+/*
+The goal here is to make a constructor that takes two slider inputs 
+of type Field as arguements and hooks them up to follow these rules.
+
+<< LIST BEHAVIOR RULES HERE >>
+
+This assumes the other 3 nodes required for the behavior could be deduced. 
+They are the two time text inputs and the node that displays duration.
+
+An optional 3rd argument could contain all the configuration values to 
+override the defaul property values. The sliders must be of type Field.
+
+
+
+
+ */
 $(document).ready(function(){
 	DateRange.init({
 		time_min: new Date('2015','2','25','10','00','0'),
