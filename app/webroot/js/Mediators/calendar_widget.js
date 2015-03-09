@@ -29,7 +29,10 @@ var cal = {
 	 */
 	scan: function(e, fragment){
 		$(fragment).find('.cal-widget').parent().droppable({
+			greedy: true,
+			accept: '#marker',
 			drop: function(event, ui){
+				alert('cal drop');
 				$(this).append($('#calendar_widget'));
 				$('b#marker').css('top', 'auto').css('left', 'auto');
 				cal.linkedDateField($(this).children('.cal-widget'));
