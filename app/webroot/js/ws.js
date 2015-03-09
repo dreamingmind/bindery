@@ -22,6 +22,7 @@ function init () {
 	$('li[id*="session_id-"] > b').draggable().css('color', 'firebrick').css('background-color', 'gray').css('cursor', 'pointer');
 	$('fieldset[id*="workshop-"]').droppable({
 		drop: function(event, ui){
+			alert('data drop');
 			newSessionFromTemplate(event, ui);
 		}
 	}).css('background-color', 'yellow')
@@ -31,12 +32,16 @@ function init () {
 function newSessionFromTemplate(event, ui){
 	alert($(event.target).data('fullId'));
 	alert($(ui.draggable).data('fullId'));
-	var template = provider.sessions[$(ui.draggable).data('uuid')];
+	$(ui.draggable).css('top', '5px').css('left', '10px');
+	//provider.sessions[$(ui.draggable).data('uuid')].data
+	//bindery_page.record[$(event.target).data('uuid')]
+	var template = provider.sessions[$(ui.draggable).data('uuid')].data;
 	var destination = bindery_page.record[$(event.target).data('uuid')];
 	p = null;
 	for (p in template) {
 		if (typeof(template[p]) === String) {
-			destination[p] = template[p];
+			destination[p].node.val(template[p]);
+//			destination[p].value = template[p];
 		}
 	}
 	alert(ui);
