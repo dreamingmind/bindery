@@ -143,3 +143,51 @@ var cal = {
 	}
 
 };
+
+DateSpan = function(start, end) {
+	this.start_date = new Date(start);
+	this.end_date = new Date(end);
+//	this.daysInSpan = function() {
+//		if( this.end_date - this.start_date >= this.week) {
+//			return this.days;
+//		} else {
+//			var min = this.start_date.getDay() < this.end_date.getDay() ? this.start_date.getDay() : this.end_date.getDay();
+//			var max = this.start_date.getDay() < this.end_date.getDay() ? this.end_date.getDay() : this.start_date.getDay();
+//			return this.days.slice(min, max);
+//		}
+//	};
+}
+
+//defineProperty(DateSpan.prototype, 'constructor', DateSpan);
+//defineProperty(DateSpan.prototype, 'days', ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+//defineProperty(DateSpan.prototype, 'second', 1000);
+//defineProperty(DateSpan.prototype, 'minute', 60 * this.second);
+//defineProperty(DateSpan.prototype, 'hour', 60 * this.minute);
+//defineProperty(DateSpan.prototype, 'day', 24 * this.hour);
+//defineProperty(DateSpan.prototype, 'week', 7 * this.day);
+DateSpan.prototype = {
+	constructor: DateSpan,
+	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	second: 1000,
+	get minute() {
+			return 60 * this.second;
+		},
+	get hour() {
+			return 60 * this.minute;
+		},
+	get day() {
+			return 24 * this.hour;
+		},
+	get week() {
+			return 7 * this.day;
+		},
+	get daysInSpan() {
+		if( this.end_date - this.start_date >= this.week) {
+			return this.days;
+		} else {
+			var min = this.start_date.getDay() < this.end_date.getDay() ? this.start_date.getDay() : this.end_date.getDay();
+			var max = this.start_date.getDay() < this.end_date.getDay() ? this.end_date.getDay() : this.start_date.getDay();
+			return this.days.slice(min, max);
+		}
+	}
+}

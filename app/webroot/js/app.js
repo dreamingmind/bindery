@@ -86,6 +86,36 @@ if (!String.prototype.format) {
  * ======================================================
  */
 
+var property_config = {
+	enumerable: true,
+	configurable: true,
+	writable: true
+};
+var defineProperty = function(obj, name, value) {
+	property_config.value = value;
+	Object.defineProperties(obj, name, property_config);
+};
+//var obj = {};
+//Object.defineProperties(obj, {
+//    newDataProperty: {
+//        value: 101,
+//        writable: true,
+//        enumerable: true,
+//        configurable: true
+//    },
+//    newAccessorProperty: {
+//        set: function (x) {
+//            document.write("in property set accessor" + newLine);
+//            this.newaccpropvalue = x;
+//        },
+//        get: function () {
+//            document.write("in property get accessor" + newLine);
+//            return this.newaccpropvalue;
+//        },
+//        enumerable: true,
+//        configurable: true
+//    });
+
 /**
  * Sweep the page for bindings indicated by HTML attribute hooks
  * 
