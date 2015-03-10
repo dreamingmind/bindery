@@ -181,7 +181,7 @@ DateSpan.prototype = {
 	get week() {
 			return 7 * this.day;
 		},
-	get daysInSpan() {
+	get days_in_span() {
 		if( this.end_date - this.start_date >= this.week) {
 			return this.days;
 		} else {
@@ -189,5 +189,13 @@ DateSpan.prototype = {
 			var max = this.start_date.getDay() < this.end_date.getDay() ? this.end_date.getDay() : this.start_date.getDay();
 			return this.days.slice(min, max);
 		}
+	},
+	daysInSpan: function() {
+		var day = undefined;
+		var checks = '';
+		for (day in this.days_in_span) {
+			checks += '<input id="day'+day+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+day+'">'+this.days_in_span[day]+'</label>'
+		}
+		return checks;
 	}
 }

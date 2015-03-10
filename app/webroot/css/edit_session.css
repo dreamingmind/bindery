@@ -1,0 +1,13 @@
+div[id*="day_pattern"] > input {
+    text-align: left;
+    width: 2%;
+}
+div[id*="day_pattern"] > input, div[id*="day_pattern"] > label {
+    border: medium none;
+    clear: none;
+    display: inline-block;
+    float: none;
+    margin: 0;
+    text-align: left;
+    width: 5%;
+}

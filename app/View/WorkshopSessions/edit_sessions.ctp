@@ -1,5 +1,9 @@
 <!-- WorkshopSessions/edit_sessions.ctp -->
 	<?php
+	$this->start('css');
+	echo $this->Html->css('edit_session');
+	$this->end();
+	
 	$this->start('scripts');
 	echo $this->Html->script('CoreObjects/page_manager');
 	echo $this->Html->script('ws');
