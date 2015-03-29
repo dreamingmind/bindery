@@ -48,6 +48,9 @@ function PageManager() {
 	 * node list where we recursively drill to the bottom of each node in turn. If the 
 	 * results are horizontal sibling sets or random, the system will fail.
 	 * 
+	 * Inputs that don't have an identifiable alias in their name attribute will crash this
+	 * This means Cake 3 forms are out of the question
+	 * 
 	 * @param {Element} node
 	 */
 	this.add = function(node) {
@@ -57,7 +60,7 @@ function PageManager() {
 		var workset = $(node).find('[id]');
 		this.join(workset);
 		return node;
-	}
+	};
 	
 	/**
 	 * Associate these ID'd elements with a new uuid and add them to the lookup tables
@@ -72,7 +75,7 @@ function PageManager() {
 			this.parseFragment(node_list[c]);
 		}
 		this._uuid = false;
-	}
+	};
 	
 	/**
 	 * Get a uuid variant to use as an element id modifier
@@ -80,10 +83,10 @@ function PageManager() {
 	 */
 	this.newUuid = function () {
 		return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
 			return v.toString(16);
 		});
-	}
+	};
 	
 	/**
 	 * Fold nodes into the lookup structures
@@ -123,7 +126,7 @@ function PageManager() {
 		} else if (node.constructor === ManagedNode) {
 			this.storeFragment(node);
 		}
-	}
+	};
 
 	/**
 	 * Store a Field object in the lookup structure(s)
@@ -145,13 +148,13 @@ function PageManager() {
 			this.table[node.alias] = {
 				record: {},
 				field: {}
-			}	
+			};
 		}
 		this.table[node.alias].record[node.uuid] = this.record[node.uuid];
 		this.table[node.alias].field[node.field_name] = this.field[node.field_name];
 		
 		this.storeFragment(node);
-	}
+	};
 	
 	/**
 	 * Store an ID'd node in the lookup structure(s)
@@ -173,7 +176,7 @@ function PageManager() {
 		
 //		this.fragment[node.uuid] = node;
 //		this.fragment[node.fullId] = node;
-	}				
+	}	;			
 	
 } // END OF PAGE MANAGER CLASS
 
@@ -185,18 +188,19 @@ PageManager.prototype = {
 		}
 		return this._uuid;
 	}
-}
+};
 
 /**
  * ManagedNode constructor
  * 
  * @param {Element} node
+ * @param {string} key
  * @returns {ManagedNode}
  */
 function  ManagedNode(node, key) {
 	this._id = typeof(key) === undefined ? false : key;
 	this.node = node;
-}
+};
 
 /**
  * ManagedNode prototype
@@ -230,12 +234,13 @@ ManagedNode.prototype = {
 	parseId: function () {
 		this._id = $(this.node).attr('id').match(/([\w_]+)-*([a-f0-9]*)/);
 	}
-}
+};
 
 /**
  * Field Constructor
  * 
  * @param {Element} node
+ * @param {string} key
  * @returns {Field}
  */
 function Field(node, key) {
@@ -285,7 +290,7 @@ Object.defineProperty(Field.prototype, "value", {
 
 Object.defineProperty(Field.prototype, "field_name", {
     get: function() {
-		return this.name.match(/\[([a-z_]*)\]$/)[1]
+		return this.name.match(/\[([a-z_]*)\]$/)[1];
     },
     enumerable: true,
     configurable: true

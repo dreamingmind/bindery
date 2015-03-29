@@ -18,6 +18,8 @@ function init () {
 	bindInitiateTemplateUseBehavior();
 	// make a start-date change drag all other dates along
 	bindStartDateChangeBehavior();
+	// make an end-date changes ripple down through the date records
+	bindEndDateChangeBehavior();
 	/* END OF SESSION LISTING DRAG/DROP INITIALIZATION */
 }
 
@@ -67,14 +69,25 @@ function bindInitiateTemplateUseBehavior() {
 			alert('data drop');
 			newSessionFromTemplate(event, ui);
 		}
-	}).css('background-color', 'yellow')
+	}).css('background-color', 'yellow');
 }
 
+/**
+ * Establish start date behaviors
+ * 
+ * Focus:
+ * memorizes the current value
+ * 
+ * Change:
+ * Keep last_day the same interval from first_day
+ * Ripple the date change down through all the date records
+ * 
+ */
 function bindStartDateChangeBehavior() {
 	
 	$('input[id*="FirstDay-"]')
 		.on('focus', function(e) {
-			$(e.currentTarget).data('original_date', new Date($(e.currentTarget).val()))
+			$(e.currentTarget).data('original_date', new Date($(e.currentTarget).val()));
 		})
 		.on('change', function(e) {
 			var current = bindery_page.fragment[$(e.currentTarget).attr('id')];
@@ -87,10 +100,8 @@ function bindStartDateChangeBehavior() {
 			
 			var last_day = bindery_page.record[current.uuid].last_day;
 			last_day.date = new Date((+(new Date(last_day.value))) + delta);
-			//+(new Date()) + (1000 * 60 * 60 * 24 * 7)
 			last_day.value = last_day.date.toDateString();
-//			last_day.value = last_day.date.getFullYear() + '-' + last_day.date.getMonth() + '-' + last_day.date.getDate();
-		})
+		});
 }
 /**
  * Create a new Workshop Session from the template of a previous session

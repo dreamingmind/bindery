@@ -1,5 +1,6 @@
 $(document).ready(function () {
-	DateTable = new dt({new_call: webroot + 'dates/dateRow',
+	DateTable = new dt({
+		new_call: webroot + 'dates/dateRow',
 		call_for_rows: true
 	});
 //	t = new CakeTable_v2_6();
@@ -16,6 +17,8 @@ var DateTable = {};
  *		that will add a new record row to the table.
  * The data will either be saved continuously as the fields change or the last 
  *		row will have a save/submit tool (class = .submit) that saves all the data
+ *		
+ * @param {object} config Override values for default properties
  */
 function dt(config) {
 
@@ -43,9 +46,10 @@ function dt(config) {
 			},
 			/**
 			 * Configure and initialize the object on page load
+			 * @param {object} config Override values for default properties
 			 */
 			this.init = function (config) {
-				if (typeof (config) != 'undefined') {
+				if (typeof (config) !== 'undefined') {
 					this.configure(config);
 				}
 				$(document).on('mediate', this.scan);
@@ -64,11 +68,16 @@ function dt(config) {
 						}, this.new
 						);
 			},
+			// this will need a tool to keep thing is proper order
+			// if it is going to serve as a call point for the new auto-generation behavior using day checkboxes
+			// or possibly that will be a new method somewhere?
 			this.new = function (e) {
 				if (e.data.self.call_for_rows) {
+					// we make an ajax call to get rows
 					e.data.self.callForNewRow(e);
 					$(e.data.self.control_row).before(bindery_page.add(e.data.self.row_html_template));
 				} else {
+					// we have a template to make rows. no ajax needed
 					$(e.data.self.control_row).before(bindery_page.add(e.data.self.row_html_template));
 				}
 			},
@@ -84,7 +93,7 @@ function dt(config) {
 					error: function (jqXHR, status, error) {
 
 					}
-				})
+				});
 
 			},
 			/**
@@ -96,12 +105,11 @@ function dt(config) {
 				for (var p in config) {
 					this[p] = config[p];
 				}
-			}
+			};
 
 	this.init(config);
 
-}
-;
+};
 
 // ========================================================================================
 // ========================================================================================

@@ -36,19 +36,20 @@ var cal = {
 				$('b#marker').css('top', 'auto').css('left', 'auto');
 				cal.linkCalToField(event.target);
 			}
-		})
+		});
 	},
 	
 	/**
 	 * Configure and initialize the object on page load
+	 * @param {object} config Override values for default properties
 	 */
 	init: function(config){
-		if (typeof(config) != 'undefined') {
+		if (typeof(config) !== 'undefined') {
 			cal.configure(config);
 		}
 		cal.intializeCalendar();
 		$('#calendar_widget input#slide').trigger('change');
-		cal.scan('', document)
+		cal.scan('', document);
 
 		$(document).on('mediate', cal.scan);
 //		cal.renderCalendar(cal.cur_month, cal.cur_year);
@@ -70,9 +71,9 @@ var cal = {
 	},
 	
 		linkCalToField: function(container){
-		if (container.tagName == 'TD'){
+		if (container.tagName === 'TD'){
 			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
-		} else if (container.tagName == 'DIV') {
+		} else if (container.tagName === 'DIV') {
 			cal.linkedDateField = $(container).find('input[id*="Day-"]');
 		}
 	},
@@ -96,6 +97,8 @@ var cal = {
 	
 	/**
 	 * Handle a new calendar slider position
+	 *
+	 * @param {event} e
 	 */
 	changeMonth: function(e) {
 		var wrap = ($(e.currentTarget).val()-12)>0 ? 1 : 0;
@@ -111,10 +114,10 @@ var cal = {
 		var oD = new Date(y, m-1, 1); //DD replaced line to fix date bug when current day is 31st
 		oD.od=oD.getDay()+1; //DD replaced line to fix date bug when current day is 31st
 
-		var todaydate=new Date() //DD added
-		var scanfortoday=(y==todaydate.getFullYear() && m==todaydate.getMonth()+1)? todaydate.getDate() : 0 //DD added
+		var todaydate=new Date(); //DD added
+		var scanfortoday=(y===todaydate.getFullYear() && m===todaydate.getMonth()+1)? todaydate.getDate() : 0; //DD added
 
-		dim[1]=(((oD.getFullYear()%100!=0)&&(oD.getFullYear()%4==0))||(oD.getFullYear()%400==0))?29:28;
+		dim[1]=(((oD.getFullYear()%100!==0)&&(oD.getFullYear()%4===0))||(oD.getFullYear()%400===0))?29:28;
 		var t='<div class="'+cM+'"><table class="'+cM+'" cols="7" cellpadding="0" border="'+brdr+'" cellspacing="0"><tr align="center">';
 		t+='<td id="location_marker" colspan="7" align="center" class="'+cH+'">'
 				+mn[m-1]+' - '+y+'<b id="marker"> ◉</b></td></tr><tr align="center">';
@@ -122,10 +125,10 @@ var cal = {
 		t+='</tr><tr align="center">';
 		for(i=1;i<=42;i++){
 			var x=((i-oD.od>=0)&&(i-oD.od<dim[m-1]))? i-oD.od+1 : '&nbsp;';
-			if (x==scanfortoday) //DD added
-			x='<span id="today">'+x+'</span>' //DD added
+			if (x===scanfortoday) //DD added
+			x='<span id="today">'+x+'</span>'; //DD added
 			t+='<td class="'+cD+'">'+x+'</td>';
-			if(((i)%7==0)&&(i<36))t+='</tr><tr align="center">';
+			if(((i)%7===0)&&(i<36))t+='</tr><tr align="center">';
 		}
 		return t+='</tr></table></div>';
 	},
@@ -155,7 +158,7 @@ DateSpan = function(start, end) {
 //			return this.days.slice(min, max);
 //		}
 //	};
-}
+};
 
 //defineProperty(DateSpan.prototype, 'constructor', DateSpan);
 //defineProperty(DateSpan.prototype, 'days', ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
@@ -193,15 +196,15 @@ DateSpan.prototype = {
 		var day = undefined;
 		var checks = '';
 		for (day in this.days_in_span) {
-			checks += '<input id="day'+day+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+day+'">'+this.days_in_span[day]+'</label>'
+			checks += '<input id="day'+day+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+day+'">'+this.days_in_span[day]+'</label>';
 		}
 		return checks;
 	}
-}
+};
 
 BasicDate = function(date) {
 	return date;
-}
+};
 
 BasicDate.prototype = {
 	constructor: BasicDate,
@@ -218,4 +221,4 @@ BasicDate.prototype = {
 		this.date = this.date + delta;
 		return this;
 	}
-}
+};
