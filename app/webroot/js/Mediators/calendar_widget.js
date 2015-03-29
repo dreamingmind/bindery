@@ -32,10 +32,9 @@ var cal = {
 			greedy: true,
 			accept: '#marker',
 			drop: function(event, ui){
-				alert('cal drop');
 				$(this).append($('#calendar_widget'));
 				$('b#marker').css('top', 'auto').css('left', 'auto');
-				cal.linkedDateField($(this).children('.cal-widget'));
+				cal.linkCalToField(event.target);
 			}
 		})
 	},
@@ -63,7 +62,8 @@ var cal = {
 			.on('click', function(){
 				var date = new Date(cal.months[cal.user_month]+' '+$(this).html().match(/\d+/)+', '+cal.user_year);
 				if (cal.linkedDateField){
-					$(cal.linkedDateField).val(date.toDateString());
+					$(cal.linkedDateField).data('original_date', new Date($(cal.linkedDateField).val()));
+					$(cal.linkedDateField).val(date.toDateString()).trigger('change');
 				}
 		});
 		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
@@ -73,9 +73,8 @@ var cal = {
 		if (container.tagName == 'TD'){
 			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
 		} else if (container.tagName == 'DIV') {
-			cal.linkedDateField = $(container).find('input[id$="Day"]');
+			cal.linkedDateField = $(container).find('input[id*="Day-"]');
 		}
-		
 	},
 	
 	/**
@@ -197,5 +196,26 @@ DateSpan.prototype = {
 			checks += '<input id="day'+day+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+day+'">'+this.days_in_span[day]+'</label>'
 		}
 		return checks;
+	}
+}
+
+BasicDate = function(date) {
+	return date;
+}
+
+BasicDate.prototype = {
+	constructor: BasicDate,
+	toString: function() {
+//		switch (type) {
+//			case 'ymd':
+				return this.date.getFullYear() + '-' + this.date.getMonth() + '-' + this.date.getDate();
+//				break;
+//			default:
+//				return this.date.toString();
+//		}
+	},
+	change: function(delta) {
+		this.date = this.date + delta;
+		return this;
 	}
 }

@@ -16,6 +16,8 @@ function init () {
 	manageSessionTemplates();
 	// make behavior that triggers session creation from a template
 	bindInitiateTemplateUseBehavior();
+	// make a start-date change drag all other dates along
+	bindStartDateChangeBehavior();
 	/* END OF SESSION LISTING DRAG/DROP INITIALIZATION */
 }
 
@@ -68,6 +70,28 @@ function bindInitiateTemplateUseBehavior() {
 	}).css('background-color', 'yellow')
 }
 
+function bindStartDateChangeBehavior() {
+	
+	$('input[id*="FirstDay-"]')
+		.on('focus', function(e) {
+			$(e.currentTarget).data('original_date', new Date($(e.currentTarget).val()))
+		})
+		.on('change', function(e) {
+			var current = bindery_page.fragment[$(e.currentTarget).attr('id')];
+			current.date = new Date($(e.currentTarget).val());
+			var original = {'date': $(e.currentTarget).data('original_date')};
+			var delta = current.date - original.date;
+			// this assumes one WorkshopSession record, one set of Date records linked to it, 
+			// and no field-name overlaps with other tables
+			var change_fields = ['last_day', 'date'];
+			
+			var last_day = bindery_page.record[current.uuid].last_day;
+			last_day.date = new Date((+(new Date(last_day.value))) + delta);
+			//+(new Date()) + (1000 * 60 * 60 * 24 * 7)
+			last_day.value = last_day.date.toDateString();
+//			last_day.value = last_day.date.getFullYear() + '-' + last_day.date.getMonth() + '-' + last_day.date.getDate();
+		})
+}
 /**
  * Create a new Workshop Session from the template of a previous session
  * 

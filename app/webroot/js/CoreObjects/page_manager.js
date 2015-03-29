@@ -56,6 +56,7 @@ function PageManager() {
 		}
 		var workset = $(node).find('[id]');
 		this.join(workset);
+		return node;
 	}
 	
 	/**
@@ -149,7 +150,7 @@ function PageManager() {
 		this.table[node.alias].record[node.uuid] = this.record[node.uuid];
 		this.table[node.alias].field[node.field_name] = this.field[node.field_name];
 		
-		
+		this.storeFragment(node);
 	}
 	
 	/**
