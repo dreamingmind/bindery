@@ -116,16 +116,48 @@ function bindStartDateChangeBehavior() {
  * Establish a new checkbox set for the range and let dates regenerate
  */
 function bindEndDateChangeBehavior() {
+	memorizeCheckbookPattern();
 	$('input[id*="LastDay-"]')
 		.on('change', function(e) {
+			memorizeCheckbookPattern();
 			newDayCheckSet(
 				new Date($('input[id*="FirstDay-"]').val()), 
 				new Date($('input[id*="LastDay-"]').val())
 			);
+			setCheckboxesFromMemorizedPattern();
 		});
 }
 
 /**
+ * Memorize the checked days and thier time span
+ * 
+ * Time span will be—for that day—the first date record's times
+ * Old memorized data will persist unless overwritten
+ */
+function memorizeCheckbookPattern() {
+	if (bindery_page.day_checkbox_data === undefined) {
+		bindery_page.day_checkbox_data = {
+			daySun: {}, dayMon: {}, dayTue: {}, dayWed: {},
+			dayThu: {}, dayFri: {}, daySat: {},
+		};
+	}
+	var checks = $('div.day_pattern > input');
+	checks.each(function() {
+		bindery_page.day_checkbox_data[$(this).attr('id')].check_state = $(this).prop('checked');
+	});
+}
+
+/**
+ * Set the day check states from the memorize pattern
+ */
+function setCheckboxesFromMemorizedPattern() {
+	for (var memorized_check in bindery_page.day_checkbox_data) {
+		$('#'+memorized_check).prop('checked', bindery_page.day_checkbox_data[memorized_check].check_state);
+	}
+}
+
+/**
+ * Generate the checkboxes from the current Session start and end date
  * 
  * @param {Date} first_day
  * @param {Date} last_day
@@ -139,6 +171,7 @@ function newDayCheckSet(first_day, last_day) {
 	var new_check_set = dateRange.daysInSpan();
 	$('div.day_pattern').html(new_check_set);
 }
+
 /**
  * Create a new Workshop Session from the template of a previous session
  * 

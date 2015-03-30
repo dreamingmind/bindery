@@ -191,7 +191,7 @@ DateSpan.prototype = {
 		},
 	get days_in_span() {
 		if( this.end_date - this.start_date >= this.week) {
-			return this.days.slice(0, 7);
+			return this.days.slice(this.start_date.getDay(), this.start_date.getDay() + 7);
 		} else {
 			var a = this.start_date.getDay();
 			var b = this.end_date.getDay();
@@ -209,7 +209,7 @@ DateSpan.prototype = {
 		var day = undefined;
 		var checks = '';
 		for (day in this.days_in_span) {
-			checks += '<input id="day'+day+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+day+'">'+this.days_in_span[day]+'</label>';
+			checks += '<input id="day'+this.days_in_span[day]+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+this.days_in_span[day]+'">'+this.days_in_span[day]+'</label>';
 		}
 		return checks;
 	}
