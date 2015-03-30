@@ -33,7 +33,10 @@ function manageWorkshopSessionRecord(){
 	$('fieldset').each(function () {
 		bindery_page.add(this);
 	});
-
+	newDayCheckSet(
+		new Date($('input[id*="FirstDay-"]').val()), 
+		new Date($('input[id*="LastDay-"]').val())
+	);
 }
 
 /**
@@ -79,9 +82,11 @@ function bindInitiateTemplateUseBehavior() {
  * memorizes the current value
  * 
  * Change:
- * Keep last_day the same interval from first_day
- * Ripple the date change down through all the date records
+ * Calc the difference beween original and new date (delta)
+ * Keep last_day the same interval from first_day (+delta)
+ * Ripple the date change down through all the date records (each +delta)
  * 
+ * @todo Possible decomposition of tasks makeDelta and setLastDate
  */
 function bindStartDateChangeBehavior() {
 	
@@ -102,6 +107,37 @@ function bindStartDateChangeBehavior() {
 			last_day.date = new Date((+(new Date(last_day.value))) + delta);
 			last_day.value = last_day.date.toDateString();
 		});
+}
+
+/**
+ * Establish end date behaviors
+ * 
+ * Change:
+ * Establish a new checkbox set for the range and let dates regenerate
+ */
+function bindEndDateChangeBehavior() {
+	$('input[id*="LastDay-"]')
+		.on('change', function(e) {
+			newDayCheckSet(
+				new Date($('input[id*="FirstDay-"]').val()), 
+				new Date($('input[id*="LastDay-"]').val())
+			);
+		});
+}
+
+/**
+ * 
+ * @param {Date} first_day
+ * @param {Date} last_day
+ * @returns {undefined}
+ */
+function newDayCheckSet(first_day, last_day) {
+	if (!first_day instanceof Date || !last_day instanceof Date){
+		return '';
+	}
+	var dateRange = new DateSpan(first_day, last_day);
+	var new_check_set = dateRange.daysInSpan();
+	$('div.day_pattern').html(new_check_set);
 }
 /**
  * Create a new Workshop Session from the template of a previous session

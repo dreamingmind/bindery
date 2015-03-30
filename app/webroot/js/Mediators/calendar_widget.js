@@ -146,9 +146,15 @@ var cal = {
 
 };
 
+/**
+ * 
+ * @param {Date} start
+ * @param {Date} end
+ * @returns {DateSpan}
+ */
 DateSpan = function(start, end) {
-	this.start_date = new Date(start);
-	this.end_date = new Date(end);
+	this.start_date = start;
+	this.end_date = end;
 //	this.daysInSpan = function() {
 //		if( this.end_date - this.start_date >= this.week) {
 //			return this.days;
@@ -169,7 +175,7 @@ DateSpan = function(start, end) {
 //defineProperty(DateSpan.prototype, 'week', 7 * this.day);
 DateSpan.prototype = {
 	constructor: DateSpan,
-	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 	second: 1000,
 	get minute() {
 			return 60 * this.second;
@@ -185,10 +191,17 @@ DateSpan.prototype = {
 		},
 	get days_in_span() {
 		if( this.end_date - this.start_date >= this.week) {
-			return this.days;
+			return this.days.slice(0, 7);
 		} else {
-			var min = this.start_date.getDay() < this.end_date.getDay() ? this.start_date.getDay() : this.end_date.getDay();
-			var max = this.start_date.getDay() < this.end_date.getDay() ? this.end_date.getDay() : this.start_date.getDay();
+			var a = this.start_date.getDay();
+			var b = this.end_date.getDay();
+			if (a <= b ) {
+				var min = a;
+				var max = b+1;
+			} else {
+				min = a;
+				max = 8 + b;
+			}
 			return this.days.slice(min, max);
 		}
 	},

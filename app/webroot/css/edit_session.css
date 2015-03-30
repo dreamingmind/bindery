@@ -1,13 +1,17 @@
-div[id*="day_pattern"] > input {
-    text-align: left;
-    width: 2%;
-}
-div[id*="day_pattern"] > input, div[id*="day_pattern"] > label {
+div.day_pattern > input, div.day_pattern > label {
     border: medium none;
     clear: none;
     display: inline-block;
     float: none;
     margin: 0;
     text-align: left;
-    width: 5%;
+    width: auto;
+}
+div.day_pattern > input {
+    margin: 0 4px 0 30px;
+    text-align: left;
+    width: 2%;
+}
+div.day_pattern > input:first-of-type {
+    margin: 0 4px 0 0;
 }

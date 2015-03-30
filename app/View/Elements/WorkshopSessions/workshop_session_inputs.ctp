@@ -23,6 +23,7 @@ echo $this->Form->inputs(array('WorkshopSession.id',
 	'fieldset' => FALSE
 ));
 echo $this->Form->Html->div(null,'', array('id' => 'day_pattern'));
+echo $this->Html->div('day_pattern');
 //echo $this->Form->select('day_pattern', array('Sun','Mon','Tue','Wed','Thu','Fri','Sat'), array('multiple' => 'checkbox'));
 ?>
 <!-- END Elements/WorkshopSessions/workshop_session_inputs.ctp END -->
