@@ -16,9 +16,9 @@ override the defaul property values. The sliders must be of type Field.
  */
 $(document).ready(function(){
 	DateRange.init({
-		time_min: new Date('2015','2','25','10','00','0'),
-		time_max: new Date('2015','2','25','20','00','0'),
-		minute_increment: 15
+//		time_min: new Date('2015','2','25','10','00','0'),
+//		time_max: new Date('2015','2','25','20','00','0'),
+//		minute_increment: 15
 	});
 });
 

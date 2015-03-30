@@ -71,7 +71,7 @@ var cal = {
 	},
 	
 		linkCalToField: function(container){
-		if (container.tagName === 'TD'){
+		if ($(container).parent()[0].tagName === 'TD'){
 			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
 		} else if (container.tagName === 'DIV') {
 			cal.linkedDateField = $(container).find('input[id*="Day-"]');
