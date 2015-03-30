@@ -126,6 +126,7 @@ function PageManager() {
 		} else if (node.constructor === ManagedNode) {
 			this.storeFragment(node);
 		}
+		$(document).trigger('mediate', $(fragment));
 	};
 
 	/**

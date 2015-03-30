@@ -43,8 +43,8 @@ var DateRange = {
 	minute_increment: 30, // in minutes
 	
 	// these 5 configurable IDs end up with '-xxxxxxxx' appended to make them unique for the record
-	end_slider_id_prefix:		"date_end_slide",
-	start_slider_id_prefix:		"date_start_slide",
+	end_slider_id_prefix:		"DateDateEndSlide",
+	start_slider_id_prefix:		"DateDateStartSlide",
 	end_text_id_prefix:			'DateEndTime',
 	start_text_id_prefix:		'DateStartTime',
 	duration_display_id_prefix: 'date_duration', 
@@ -102,7 +102,7 @@ var DateRange = {
 		slides.each(function(){
 			$(this).attr('max', DateRange.time.length-1)
 				.mousemove(function(e){
-					var u_id = $(e.currentTarget).attr('id').match(/\d+/);
+					var u_id = $(e.currentTarget).attr('id').match(/-([a-f0-9]+)/)[1];
 					var end = $(e.currentTarget).val();
 					$(DateRange.end_text_input+u_id).val(DateRange.time[end]);
 
@@ -120,7 +120,7 @@ var DateRange = {
 		slides.each(function(){
 			$(this).attr('max', DateRange.time.length - 5)
 				.mousemove(function(e){
-					var u_id = $(e.currentTarget).attr('id').match(/\d+/);
+					var u_id = $(e.currentTarget).attr('id').match(/-([a-f0-9]+)/)[1];
 					var start = $(e.currentTarget).val();
 
 					$(DateRange.start_text_input+u_id).val(DateRange.time[start]);

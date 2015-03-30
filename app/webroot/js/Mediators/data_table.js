@@ -75,10 +75,12 @@ function dt(config) {
 				if (e.data.self.call_for_rows) {
 					// we make an ajax call to get rows
 					e.data.self.callForNewRow(e);
-					$(e.data.self.control_row).before(bindery_page.add(e.data.self.row_html_template));
+					var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
+					$(e.data.self.control_row).before(bindery_page.add(row));
 				} else {
 					// we have a template to make rows. no ajax needed
-					$(e.data.self.control_row).before(bindery_page.add(e.data.self.row_html_template));
+					var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
+					$(e.data.self.control_row).before(bindery_page.add(row));
 				}
 			},
 			this.callForNewRow = function (e) {
