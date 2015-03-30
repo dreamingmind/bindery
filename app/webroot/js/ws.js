@@ -148,6 +148,32 @@ function memorizeCheckbookPattern() {
 }
 
 /**
+ * Memorize the start/end times for the first date record for each day of the week
+ * 
+ * Store these values with other day checkbox data so later we can auto 
+ * create date records to fill a span of day and each day of the week will have 
+ * the time span matching this memorized span for that day
+ */
+function memorizeTimePattern() {
+	var set = $('tbody > tr[id*="row-"]');
+	var i;
+	var field_selector_baseline;
+	var day;
+	var day_property;
+	for (var i = set.length - 1; i >= 0; i-- ) {
+		field_selector_baseline = $(set[i]).attr('id');
+		day = new Date($(field_selector_baseline.replace('row', '#DateDate')).val());
+		day_property = 'day'+ DateSpan.prototype.days[day.getDay()];
+
+		bindery_page.day_checkbox_data[day_property].start = 
+				$(field_selector_baseline.replace('row', '#DateDateStartSlide')).val();
+
+		bindery_page.day_checkbox_data[day_property].end = 
+				$(field_selector_baseline.replace('row', '#DateDateEndSlide')).val();
+	}
+}
+
+/**
  * Set the day check states from the memorize pattern
  */
 function setCheckboxesFromMemorizedPattern() {
