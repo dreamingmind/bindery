@@ -38,7 +38,7 @@ function dt(config) {
 			this.new_control = 'button[id*="new"]',
 			this.submit_control = '.submit',
 			// element reference containers
-			this.row_html_template = '<tr id="row"> <td> <input type="hidden" name="data[Date][id]" id="DateId"/><div class="input text required"><label for="DateDate">Date</label><input name="data[Date][date]" class="cal-widget" type="text" id="DateDate" required="required"/></div> <p id="date_duration"></p> </td> <td> <label for="DateStartTime">Start Time</label><input name="data[Date][start_time]" type="text" id="DateStartTime"/><input name="data[Date][date_start_slide]" min="0" max="38" step="1" value="1" type="range" id="DateDateStartSlide"/> <!--<input id="date_start_slide" type="range" min="0" max="38" step="1" value="1" />--> </div> </td> <td> <label for="DateEndTime">End Time</label><input name="data[Date][end_time]" type="text" id="DateEndTime"/><input name="data[Date][date_end_slide]" min="4" max="42" step="1" value="12" type="range" id="DateDateEndSlide"/> <!--<input id="date_end_slide" type="range" min="4" max="42" step="1" value="12" />--> </div> </td> <td> <button type="button" class="remove">Remove</button> </td> </tr>',
+			this.row_html_template = '<tr id="row" class="date_row"> <td> <input type="hidden" name="data[Date][id]" id="DateId"/><div class="input text required"><label for="DateDate">Date</label><input name="data[Date][date]" class="cal-widget" type="text" id="DateDate" required="required"/></div> <p id="date_duration"></p> </td> <td> <label for="DateStartTime">Start Time</label><input name="data[Date][start_time]" type="text" id="DateStartTime"/><input name="data[Date][date_start_slide]" min="0" max="38" step="1" value="1" type="range" id="DateDateStartSlide"/> <!--<input id="date_start_slide" type="range" min="0" max="38" step="1" value="1" />--> </div> </td> <td> <label for="DateEndTime">End Time</label><input name="data[Date][end_time]" type="text" id="DateEndTime"/><input name="data[Date][date_end_slide]" min="4" max="42" step="1" value="12" type="range" id="DateDateEndSlide"/> <!--<input id="date_end_slide" type="range" min="4" max="42" step="1" value="12" />--> </div> </td> <td> <button type="button" class="remove">Remove</button> </td> </tr>',
 			this.control_row = false,
 			this.table = false,
 			this.rows = false,
@@ -64,7 +64,8 @@ function dt(config) {
 							callForNewRow: this.callForNewRow,
 							control_row: this.control_row,
 							rows: this.rows,
-							row_html_template: this.row_html_template
+							row_html_template: this.row_html_template,
+							sortDateRows: this.sortDateRows
 						}, this.new
 						);
 			},
@@ -78,7 +79,15 @@ function dt(config) {
 				}
 				var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
 				$(e.data.self.control_row).before(bindery_page.add(row));
+				
+				// nudge the sliders into intialized state
 				$(row).find('input').trigger('mousemove');
+				
+				$(row).find('input[id*="DateDate-"]').on('change', function() {
+					var d = new Date($(this).val());
+					$(this).data('date', d).attr('class' ,'cal-widget day'+DateSpan.prototype.days[d.getDay()]);
+					e.data.sortDateRows($(this));
+				});
 			},
 			this.callForNewRow = function (e) {
 				$.ajax({
@@ -96,6 +105,35 @@ function dt(config) {
 
 			},
 			/**
+			 * Put the row containing this input into ascending order in the table of rows
+			 * 
+			 * @param {type} date_input
+			 */
+			this.sortDateRows = function (date_input) {
+				var temp_row;
+				var working_row = new DateRow($(date_input).parents('tr')[0]);
+				var rows = $('table.session_dates > tbody > tr.date_row');
+				    
+				if (rows.length > 1) {
+					var sorted = false;
+					var i = 0
+					
+					$(working_row.row).detach();
+					while (i < rows.length){
+						temp_row = new DateRow(rows[i]);
+						if (working_row.uuid !== temp_row.uuid && working_row.date <= temp_row.date ) {
+							$(temp_row.row).before($(working_row.row));
+							sorted = true;
+							i = rows.length + 1;
+						}
+						i++;
+					};
+					if (!sorted) {
+						$('table.session_dates > tbody > tr[id*="control-"]').before($(working_row.row));
+					}
+				}
+			},
+			/**
 			 * Overwrite the default properties with new values
 			 * 
 			 * @param {json object} config the values to substitute for the defaults
@@ -110,6 +148,24 @@ function dt(config) {
 
 };
 
+function DateRow(jquery_tr) {
+	this.row = jquery_tr;
+	this.uuid = false;
+	this.date_input = false;
+	this.start_slider = false;
+	this.end_slider = false;
+	this.date = false; // date object for the input
+	this.day = false;
+	this.init = function () {
+		this.uuid = $(this.row).attr('id').replace('row-', '');
+		this.date_input = $(this.row).find('input[id="DateDate-'+this.uuid+'"]');
+		this.date = this.date_input.data('date');
+		this.day = this.date.getDay();
+		this.start_slider = $(this.row).find('input[id="DateDateStartSlide-'+this.uuid+'"]');
+		this.end_slider = $(this.row).find('input[id="DateDateEndSlide-'+this.uuid+'"]');
+	}
+	this.init();
+}
 // ========================================================================================
 // ========================================================================================
 // ========================================================================================
