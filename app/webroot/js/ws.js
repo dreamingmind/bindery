@@ -106,6 +106,8 @@ function bindStartDateChangeBehavior() {
 			var last_day = bindery_page.record[current.uuid].last_day;
 			last_day.date = new Date((+(new Date(last_day.value))) + delta);
 			last_day.value = last_day.date.toDateString();
+			
+			$('input[id*="LastDay-"]').trigger('change');
 		});
 }
 
@@ -116,17 +118,41 @@ function bindStartDateChangeBehavior() {
  * Establish a new checkbox set for the range and let dates regenerate
  */
 function bindEndDateChangeBehavior() {
-	memorizeCheckbookPattern();
+	memorizeSessionDateTimePattern();
 	$('input[id*="LastDay-"]')
 		.on('change', function(e) {
-			memorizeCheckbookPattern();
+			memorizeSessionDateTimePattern();
 			newDayCheckSet(
 				new Date($('input[id*="FirstDay-"]').val()), 
 				new Date($('input[id*="LastDay-"]').val())
 			);
 			setCheckboxesFromMemorizedPattern();
+			createDatesThroughCheckboxTriggers();
 		});
 }
+
+/**
+ * Make all Session date records based on the know pattern
+ */
+function createDatesThroughCheckboxTriggers() {
+var checks = $('div.day_pattern > input');
+	checks.each(function() {
+		$(this).trigger('change');
+	});
+}
+
+/**
+ * Memorize the day checkboxes and time patterns for the days
+ */
+function memorizeSessionDateTimePattern() {
+	memorizeCheckboxPattern(); // this is the pattern of days of the week for the workshop
+	memorizeTimePattern(); // this is the time span for the first occurance of each day of the week
+}
+
+//function constructSessionDatesFromMemorizedPattern() {
+//	setCheckboxesFromMemorizedPattern();
+//	createDatesWithTimeSpansFromMemorizedPattern()
+//}
 
 /**
  * Memorize the checked days and thier time span
@@ -134,7 +160,7 @@ function bindEndDateChangeBehavior() {
  * Time span will be—for that day—the first date record's times
  * Old memorized data will persist unless overwritten
  */
-function memorizeCheckbookPattern() {
+function memorizeCheckboxPattern() {
 	if (bindery_page.day_checkbox_data === undefined) {
 		bindery_page.day_checkbox_data = {
 			daySun: {}, dayMon: {}, dayTue: {}, dayWed: {},
@@ -145,6 +171,9 @@ function memorizeCheckbookPattern() {
 	checks.each(function() {
 		bindery_page.day_checkbox_data[$(this).attr('id')].check_state = $(this).prop('checked');
 	});
+	
+	// now memorize the time patterns for any existing date records
+	
 }
 
 /**
@@ -178,8 +207,28 @@ function memorizeTimePattern() {
  */
 function setCheckboxesFromMemorizedPattern() {
 	for (var memorized_check in bindery_page.day_checkbox_data) {
-		$('#'+memorized_check).prop('checked', bindery_page.day_checkbox_data[memorized_check].check_state);
+		$('#'+memorized_check).
+			prop('checked', bindery_page.day_checkbox_data[memorized_check].check_state).
+			on('change', makeDatesForDay);
 	}
+}
+
+/**
+ * The change behavior for a Day checkbox
+ * 
+ * Unchecked will remove all Dates for that day
+ * Checked will generate all the Dates on this Day within the Session date range 
+ * and will set the time span if it's know 
+ * 
+ * @param {event} e
+ */
+function makeDatesForDay(e) {
+	
+	removeDatesForDay()
+}
+
+function removeDatesForDay() {
+	
 }
 
 /**

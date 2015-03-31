@@ -74,14 +74,11 @@ function dt(config) {
 			this.new = function (e) {
 				if (e.data.self.call_for_rows) {
 					// we make an ajax call to get rows
-					e.data.self.callForNewRow(e);
-					var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
-					$(e.data.self.control_row).before(bindery_page.add(row));
-				} else {
-					// we have a template to make rows. no ajax needed
-					var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
-					$(e.data.self.control_row).before(bindery_page.add(row));
+					e.data.self.callForNewRow(e); // load a new row from server rather than use a stored template
 				}
+				var row = $(e.data.self.row_html_template)[0]; // make this an element, not a string
+				$(e.data.self.control_row).before(bindery_page.add(row));
+				$(row).find('input').trigger('mousemove');
 			},
 			this.callForNewRow = function (e) {
 				$.ajax({

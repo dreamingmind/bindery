@@ -130,7 +130,7 @@ var DateRange = {
 
 					DateRange.duration(u_id);
 				});
-		})
+		});
 	},
 	
 	/**
