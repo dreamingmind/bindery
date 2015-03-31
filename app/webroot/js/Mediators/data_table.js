@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	DateTable = new dt({
 		new_call: webroot + 'dates/dateRow',
-		call_for_rows: true
+		call_for_rows: false
 	});
 //	t = new CakeTable_v2_6();
 });
@@ -38,7 +38,7 @@ function dt(config) {
 			this.new_control = 'button[id*="new"]',
 			this.submit_control = '.submit',
 			// element reference containers
-			this.row_html_template = false,
+			this.row_html_template = '<tr id="row"> <td> <input type="hidden" name="data[Date][id]" id="DateId"/><div class="input text required"><label for="DateDate">Date</label><input name="data[Date][date]" class="cal-widget" type="text" id="DateDate" required="required"/></div> <p id="date_duration"></p> </td> <td> <label for="DateStartTime">Start Time</label><input name="data[Date][start_time]" type="text" id="DateStartTime"/><input name="data[Date][date_start_slide]" min="0" max="38" step="1" value="1" type="range" id="DateDateStartSlide"/> <!--<input id="date_start_slide" type="range" min="0" max="38" step="1" value="1" />--> </div> </td> <td> <label for="DateEndTime">End Time</label><input name="data[Date][end_time]" type="text" id="DateEndTime"/><input name="data[Date][date_end_slide]" min="4" max="42" step="1" value="12" type="range" id="DateDateEndSlide"/> <!--<input id="date_end_slide" type="range" min="4" max="42" step="1" value="12" />--> </div> </td> <td> <button type="button" class="remove">Remove</button> </td> </tr>',
 			this.control_row = false,
 			this.table = false,
 			this.rows = false,
