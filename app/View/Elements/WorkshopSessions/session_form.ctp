@@ -11,7 +11,9 @@ echo tab($t).$this->Html->tag('fieldset', $this->element('WorkshopSessions/works
 		<?php // echo tab(2).$this->element('WorkshopSessions/date_inputs').cr(); ?>
 		<tr id="control">
 			<td colspan='4'>
-				<?php echo $this->Form->button('New date', array('id' => 'new', 'type' => 'button')); ?>
+				<span>
+				<?php echo $this->Form->button('New date', array('id' => 'new', 'class' => 'cal-widget', 'type' => 'button')); ?>
+				</span>
 			</td>
 		</tr>
 	</tbody>

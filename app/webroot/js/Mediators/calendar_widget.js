@@ -70,8 +70,12 @@ var cal = {
 		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
 	},
 	
-		linkCalToField: function(container){
-		if ($(container).parent()[0].tagName === 'TD'){
+	linkCalToField: function(container){
+		if (container.tagName === 'SPAN') {
+			$(container).children('button').trigger('click');
+			var new_row = bindery_page.fragment[$(bindery_page.last_node).attr('id')];
+			cal.linkedDateField = bindery_page.fragment[new_row.fullId.replace('row', 'DateDate')].node;
+		} else if ($(container).parent()[0].tagName === 'TD'){
 			cal.linkedDateField = $(container).parent().find('input[id*="DateDate"]');
 		} else if (container.tagName === 'DIV') {
 			cal.linkedDateField = $(container).find('input[id*="Day-"]');

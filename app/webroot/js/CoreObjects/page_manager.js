@@ -40,6 +40,7 @@ function PageManager() {
 	this.field = {};
 	this.fragment = {};
 	this._uuid = false;
+	this.last_node = false; // this will make the last fragments sent to add() available quickly
 	
 	/**
 	 * Add this ID'd element the ID'd elements inside this node to the lookup tables
@@ -57,6 +58,7 @@ function PageManager() {
 		if ($(node).attr('id') !== undefined) {
 			this.parseFragment(node);
 		}
+		this.last_node = node; // make the last sent fragment available 
 		var workset = $(node).find('[id]');
 		this.join(workset);
 		return node;
