@@ -239,10 +239,9 @@ DateSpan.prototype = {
 		}
 		
 		// generate the day for each week in the range
+		// adjsuting test for daylight savings time which could prevent inclusion of last day
 		while (date.valueOf() <= this.end_date.valueOf() ||
 				date.valueOf() <= this.end_date.valueOf() - this.hour) {
-//				date.valueOf() <= this.end_date.valueOf() - this.hour || 
-//				date.valueOf() <= this.end_date.valueOf() + this.hour) {
 			
 			days.push(date);
 			date = new Date(date.valueOf() + this.week); 
