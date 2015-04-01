@@ -223,12 +223,26 @@ function setCheckboxesFromMemorizedPattern() {
  * @param {event} e
  */
 function makeDatesForDay(e) {
-	
-	removeDatesForDay()
+	removeDatesForDay($(e.currentTarget).attr('id'));
+	if ($(e.currentTarget).prop('checked')) {
+		alert('now I should make new record rows');
+	}
 }
 
-function removeDatesForDay() {
-	
+/**
+ * Remove all the date rows for a single day of the week
+ * 
+ * @param {string} day_label dayWed, dayFri, etc
+ */
+function removeDatesForDay(day_label) {
+	var date_inputs = $('input.'+day_label);
+	if (date_inputs.length === 0) {
+		return;
+	}
+	var all_rows = bindery_page.fragment.TR;
+	$(date_inputs).each(function(){
+		$(all_rows[ 'row-' + bindery_page.fragment[$(this).attr('id')].uuid ].node).remove();
+	});
 }
 
 /**
@@ -245,6 +259,10 @@ function newDayCheckSet(first_day, last_day) {
 	var dateRange = new DateSpan(first_day, last_day);
 	var new_check_set = dateRange.daysInSpan();
 	$('div.day_pattern').html(new_check_set);
+	$('div.day_pattern input').on('change', makeDatesForDay);
+//	$('div.day_pattern input').on('change', function(){
+////		makeDatesForDay(e);
+//	});
 }
 
 /**
