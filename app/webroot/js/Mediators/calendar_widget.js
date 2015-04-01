@@ -176,6 +176,7 @@ DateSpan = function(start, end) {
 DateSpan.prototype = {
 	constructor: DateSpan,
 	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	day_names: {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6},
 	second: 1000,
 	get minute() {
 			return 60 * this.second;
@@ -212,6 +213,30 @@ DateSpan.prototype = {
 			checks += '<input id="day'+this.days_in_span[day]+'" type="checkbox" value="'+day+'" name="data[day][]"><label for="day'+this.days_in_span[day]+'">'+this.days_in_span[day]+'</label>';
 		}
 		return checks;
+	},
+	/**
+	 * Return date object for every occurance of a day in the range, inclusive
+	 * 
+	 * @param {string} day 0-6 or 3 letter day name
+	 * @returns {Array|Boolean}
+	 */
+	every: function (day) {
+		if (day.match(/\d/) === day) {
+			var target_day = day;
+		} else if (day.match(/mon|tue|wed|thu|fri|sat|sun/i)) {
+			var target_day = this.day_names[day.toLowerCase()];
+		} else {
+			return false;
+		}
+		var days = [];
+		var date = new Date(this.start_date.valueOf());
+		while (date <= this.end_date) {
+			if (date.getDay() === target_day) {
+				days.push(date);
+			}
+			date = new Date(date.valueOf() + this.day);
+		}
+		return days;
 	}
 };
 

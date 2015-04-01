@@ -225,8 +225,20 @@ function setCheckboxesFromMemorizedPattern() {
 function makeDatesForDay(e) {
 	removeDatesForDay($(e.currentTarget).attr('id'));
 	if ($(e.currentTarget).prop('checked')) {
+		if (typeof(Workshop) === 'undefined') {
+			prepareWorkshopTerm();
+		}
+
 		alert('now I should make new record rows');
 	}
+}
+
+function prepareWorkshopTerm() {
+	this.uuid = Object.keys(bindery_page.table.WorkshopSession.field.last_day)[0];
+	this.first_day = bindery_page.table.WorkshopSession.field.first_day[this.uuid];
+	this.last_day = bindery_page.table.WorkshopSession.field.last_day[this.uuid];
+
+	window.WorkshopTerm = new DateSpan(new Date(this.first_day.value), new Date(this.last_day.value))
 }
 
 /**
