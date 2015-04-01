@@ -215,26 +215,37 @@ DateSpan.prototype = {
 		return checks;
 	},
 	/**
-	 * Return date object for every occurance of a day in the range, inclusive
+	 * Return an array of date objects for every occurance of a day in the range, inclusive
 	 * 
-	 * @param {string} day 0-6 or 3 letter day name
+	 * @param {int|string} day 0-6, '0'-'6' or 3 letter day name
 	 * @returns {Array|Boolean}
 	 */
 	every: function (day) {
-		if (day.match(/\d/) === day) {
-			var target_day = day;
+		// adjust the arguement, accepting the three different alternatives
+		if (parseInt(day) >= 0 && parseInt(day) <= 6) {
+			var target_day = parseInt(day);
 		} else if (day.match(/mon|tue|wed|thu|fri|sat|sun/i)) {
 			var target_day = this.day_names[day.toLowerCase()];
 		} else {
 			return false;
 		}
+		
 		var days = [];
 		var date = new Date(this.start_date.valueOf());
-		while (date <= this.end_date) {
-			if (date.getDay() === target_day) {
-				days.push(date);
-			}
+		
+		// get to the proper day of the week
+		while (date.getDay() !== target_day) {
 			date = new Date(date.valueOf() + this.day);
+		}
+		
+		// generate the day for each week in the range
+		while (date.valueOf() <= this.end_date.valueOf() ||
+				date.valueOf() <= this.end_date.valueOf() - this.hour) {
+//				date.valueOf() <= this.end_date.valueOf() - this.hour || 
+//				date.valueOf() <= this.end_date.valueOf() + this.hour) {
+			
+			days.push(date);
+			date = new Date(date.valueOf() + this.week); 
 		}
 		return days;
 	}

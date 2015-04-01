@@ -238,7 +238,7 @@ function prepareWorkshopTerm() {
 	this.first_day = bindery_page.table.WorkshopSession.field.first_day[this.uuid];
 	this.last_day = bindery_page.table.WorkshopSession.field.last_day[this.uuid];
 
-	window.WorkshopTerm = new DateSpan(new Date(this.first_day.value), new Date(this.last_day.value))
+	window.WorkshopTerm = new DateSpan(new Date(this.first_day.value + ' 03:00:00'), new Date(this.last_day.value + ' 03:00:00'))
 }
 
 /**
