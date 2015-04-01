@@ -88,6 +88,9 @@ function dt(config) {
 					$(this).data('date', d).attr('class' ,'cal-widget day'+DateSpan.prototype.days[d.getDay()]);
 					e.data.sortDateRows($(this));
 				});
+				var new_row = bindery_page.fragment[$(bindery_page.last_node).attr('id')];
+				cal.linkedDateField = bindery_page.fragment[new_row.fullId.replace('row', 'DateDate')].node;
+
 			},
 			this.callForNewRow = function (e) {
 				$.ajax({
