@@ -68,6 +68,7 @@ var DateRange = {
 	milisecon_increment: false,
 	// times from min to max by increment
 	time: [],
+	lookup: {},
 	
 	/*
 	 * This is the mediate event-hanler on the document
@@ -148,10 +149,13 @@ var DateRange = {
 	 * Fill time array with all values from min to max by increment
 	 */
 	fill_time: function (){
+		var d;
 		var start = DateRange.time_min.getTime();
 		var end = DateRange.time_max.getTime();
 		for (var i = start; i <= end; i+=DateRange.millisecond_increment) {
-			DateRange.time.push(DateRange.hm(new Date(i)));
+			d = new Date(i)
+			DateRange.time.push(DateRange.hm(d));
+			DateRange.lookup[DateRange.hm(d)] = DateRange.time.length - 1;
 		}
 	},
 	

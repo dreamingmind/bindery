@@ -69,7 +69,7 @@ function bindInitiateTemplateUseBehavior() {
 	$('li[id*="session_id-"] > b').draggable().css('color', 'firebrick').css('background-color', 'gray').css('cursor', 'pointer');
 	$('fieldset[id*="workshop-"]').droppable({
 		drop: function (event, ui) {
-			alert('data drop');
+//			alert('data drop');
 			newSessionFromTemplate(event, ui);
 		}
 	}).css('background-color', 'yellow');
@@ -293,6 +293,9 @@ function newSessionFromTemplate(event, ui){
 	var destination = bindery_page.record[$(event.target).data('uuid')];
 	var date_records = null; // define the pointer here
 	
+	$('tr[id*="row-"]').remove();
+	var new_button = $('button[id*="new-"]');
+	
 	// clone out the workshop session record
 	// clone out the date records
 
@@ -302,13 +305,60 @@ function newSessionFromTemplate(event, ui){
 	p = null;
 	for (p in template) {
 		if (typeof(template[p]) === 'string') {
-//			destination[p].node.val(template[p]);
+//			set a value in the SessionWorkshop record
 			if (destination[p] !== undefined && p !== 'id') {
-				destination[p].value = template[p];
+				if (p.match(/_day/)) {
+					destination[p].value = dateFromSqlDate(template[p]).toDateString();
+				} else {
+					destination[p].value = template[p];
+				}
 			}			
-			alert('p='+p);
-			alert('val='+template[p]);
+		} else {
+			// make a new date row and set that records values
+			var row_template = template[p].data;
+			new_button.trigger('click');
+			
+			// set date
+			var uuid = $(bindery_page.last_node).attr('id').replace('row-', '');
+			bindery_page.fragment['DateDate-'+uuid].value = dateFromSqlDate(row_template['date']).toDateString();
+			
+			// set time sliders
+			var s = DateRange.lookup[hmFromSqlTime(row_template['start_time'])];
+			bindery_page.fragment['DateDateStartSlide-'+uuid].value = s;
+			bindery_page.fragment['DateDateStartSlide-'+uuid].node.trigger('mousemove');
+			var s = DateRange.lookup[hmFromSqlTime(row_template['end_time'])];
+			bindery_page.fragment['DateDateEndSlide-'+uuid].value = s;
+			bindery_page.fragment['DateDateEndSlide-'+uuid].node.trigger('mousemove');
 		}
 	}
-	alert(ui);
+	destination['last_day'].node.trigger('change');
+}
+
+/**
+ * These don't convert reliably without a little help
+ * 
+ * @param {string} date_string yyyy-m-d
+ * @returns {Date}
+ */
+function dateFromSqlDate(date_string) {
+	var d = date_string.split('-');
+	return new Date(d[0], d[1]-1, d[2]);
+}
+
+/**
+ * Change the format of time string
+ * 
+ * @param {string} time_string 24 hour format hh:mm:ss
+ * @returns {String} hh:mm AM/PM
+ */
+function hmFromSqlTime(time_string) {
+	var meridian;
+	var t = time_string.split(':');
+	if (t[0] >= 12) {
+		t[0] = t[0] == 12 ? 12 : t[0] - 12;
+		meridian = ' PM';
+	} else {
+		meridian = ' AM';
+	}
+	return parseInt(t[0])+':'+t[1]+meridian;
 }
