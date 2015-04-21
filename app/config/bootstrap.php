@@ -246,6 +246,10 @@ Configure::write('Drawbridge.PasswordComplexity', array(
     'length' => '2,256'
     ));
 Configure::write('Drawbridge.Model', 'User');
+Configure::write('Drawbridge.Email', array(
+	'from' => 'usermanager@dreamingmind.com',
+	'company' => 'Dreaming Mind'
+));
 
 
 /*
