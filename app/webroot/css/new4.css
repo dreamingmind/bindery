@@ -27,7 +27,7 @@
 	right: auto;
 	height: 50px; /*for no thumbnail version*/
 	background-color:#FFF;
-	width: 100%;
+	width: 97%;
 	z-index: 5;
 }
 img#topTransparent, img.missing {

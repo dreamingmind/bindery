@@ -184,15 +184,17 @@ function memorizeCheckboxPattern() {
  * the time span matching this memorized span for that day
  */
 function memorizeTimePattern() {
-	var set = $('tbody > tr[id*="row-"]');
+	var rows = $('tbody > tr[id*="row-"]');
 	var i;
 	var field_selector_baseline;
 	var day;
 	var day_property;
-	for (var i = set.length - 1; i >= 0; i-- ) {
-		field_selector_baseline = $(set[i]).attr('id');
+	for (var i = rows.length - 1; i >= 0; i-- ) {
+		field_selector_baseline = $(rows[i]).attr('id');
 		day = new Date($(field_selector_baseline.replace('row', '#DateDate')).val());
 		day_property = 'day'+ DateSpan.prototype.days[day.getDay()];
+
+		bindery_page.day_checkbox_data[day_property].check_state = true;
 
 		bindery_page.day_checkbox_data[day_property].start = 
 				$(field_selector_baseline.replace('row', '#DateDateStartSlide')).val();
@@ -329,6 +331,7 @@ function newSessionFromTemplate(event, ui){
 			var s = DateRange.lookup[hmFromSqlTime(row_template['end_time'])];
 			bindery_page.fragment['DateDateEndSlide-'+uuid].value = s;
 			bindery_page.fragment['DateDateEndSlide-'+uuid].node.trigger('mousemove');
+			memorizeSessionDateTimePattern();
 		}
 	}
 	destination['last_day'].node.trigger('change');
