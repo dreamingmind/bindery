@@ -25,7 +25,6 @@ function forgotPassword() {
         error: function (data, result, error) {
             alert('Result: ' + result);
             alert('Error: ' + error);
-            alert('We failed');
         }
     })
 }

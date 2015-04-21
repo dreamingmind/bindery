@@ -49,6 +49,10 @@ class Drawbridge extends DrawbridgeAppModel {
         'special' => '+',
         'length' => '8,256'
     );
+	
+	private $token = '';
+	
+	public $passwordReset = array();
 
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
@@ -131,4 +135,45 @@ class Drawbridge extends DrawbridgeAppModel {
         }
 		$controller->registered_user[$controller->concrete_model]['id'] = $user['Drawbridge']['id'];
     }
+	
+	public function checkPasswordResetToken($token) {
+		$this->token = $token;
+		$this->passwordReset['result'] = FALSE;
+		if ($this->queryDatabaseForPasswordResetToken()) {
+			$this->checkExpirationOfPasswordResetToken();
+		}		
+	}
+	
+	protected function queryDatabaseForPasswordResetToken() {
+		$this->passwordReset['User'] = $this->find('first', array(
+			'conditions' => array(
+				'token' => $this->token
+			)
+		));
+		if($this->passwordReset['User'] == array()){
+			$this->passwordReset['message'] = 'This password reset token is invalid. Please request a new password reset.';
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	protected function checkExpirationOfPasswordResetToken() {
+		$month = hexdec(substr($this->token, 0, 1));
+		$day = hexdec(substr($this->token, -2));
+		if($month == '12' && $day > '29'){
+			$year = date('Y', time() - (1 * YEAR));
+		} else {
+			$year = date('Y', time());
+		}
+		$this->token_date = date('m/d/Y', strtotime($year . '-' . $month . '-' . $day));
+		if ($this->token_date < date('m/d/Y', (time() - 2 * DAY))){
+			$this->passwordReset['User'] = array();
+			$this->passwordReset['message'] = 'This password reset token has expired. Please request a new password reset.';
+		} else {
+			$this->passwordReset['result'] = TRUE;
+		}
+	}
+	
+	
 }

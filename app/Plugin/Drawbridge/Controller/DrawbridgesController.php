@@ -21,13 +21,15 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  *        `password` varchar(255) DEFAULT NULL COMMENT 'password hash',
  *        `ip` varchar(50) DEFAULT NULL,
  *        `username` varchar(255) NOT NULL,
-
+ *        `token` varchar(255) DEFAULT NULL COMMENT 'token for email-based user transactions',
+ *
  * 
  * Must configure bootstrap.php with the following keys:
  * Drawbridge.RegistrationRedirect containing a redirect url to use after first login
  *      formatted to match the Auth->redirect property
  * Drawbridge.PasswordComplexity can be used to establish password complexity guidelines
  * Drawbridge.Model for the model name of the standard User model
+ * Drawbridge.email array with from, 
  * 
  * In routes.php, add
  * //Drawbridge Plug-In Routes
@@ -155,8 +157,13 @@ class DrawbridgesController extends DrawbridgeAppController {
         }
     }
 
-    public function logout() {
-        return $this->redirect($this->Auth->logout());
+    /**
+	 * Route the user to the registered logout page
+	 * 
+	 * @return none
+	 */
+	public function logout() {
+        $this->redirect($this->Auth->logout());
     }
 
     public function forgotPassword() {
@@ -167,7 +174,9 @@ class DrawbridgesController extends DrawbridgeAppController {
                 $this->setupUserForPasswordReset();
                 $this->sendPasswordResetEmail();
             } catch (Exception $exc) {
-                $this->Session->setFlash($exc->message, 'f_error');
+                $this->Session->setFlash($exc->getMessage(), 'f_error');
+				$this->set('exceptionMessage', $exc->getMessage());
+				$this->layout = 'ajax';
             }
         }
     }
@@ -190,42 +199,32 @@ class DrawbridgesController extends DrawbridgeAppController {
 	
 	protected function createLinkForPasswordReset() {
 		$url = Router::url(array('controller' => 'Drawbridges', 'action' => 'routeUserToPasswordReset'), true);
-		$url = $url . '/' . $this->registered_user[$this->concrete_model]['token'];
-		dmDebug::ddd($url, 'assembled url');
+		return $url . '/' . $this->registered_user[$this->concrete_model]['token'];
 	}
 	
 	protected function sendPasswordResetEmail() {
 		$Email = new CakeEmail();
-		$Email->from(array('user_manager@dreamingmind.com' => 'Dreaming Mind Hand Bindery'))
-			->to($this->registered_user[$this->concrete_model]['username'])
-			->subject('Your password reset')
-			->send('My message');
+		$Email->config('default')
+				->emailFormat('html')
+				->from(array(
+					Configure::read('Drawbridge.Email.from') => Configure::read('Drawbridge.Email.company')
+				))
+				->to($this->registered_user[$this->concrete_model]['username'])
+				->subject('Your password reset')
+				->send($this->registered_user[$this->concrete_model]['link']);
 	}
 	
-	protected function routeUserToPasswordReset($token) {
-		$this->{$this->concrete_model}->checkPasswordResetToken();
-		if (!$this->checkExpirationOfPasswordResetToken($token)){
-			$this->Session->setFlash('This password reset has expired', 'f_error');
+	public function routeUserToPasswordReset($token) {
+		$this->Drawbridge->checkPasswordResetToken($token);
+		if (!$this->Drawbridge->passwordReset['result']){
+			$this->Session->setFlash($this->Drawbridge->passwordReset['message'], 'f_error');
 			$this->redirect($this->Auth->logoutRedirect);
 		}
+		dmDebug::ddd($this->Drawbridge->passwordReset, 'password reset array');
+		die;
+		
 	}
-	
-	protected function checkExpirationOfPasswordResetToken($token) {
-		$month = hexdec(ltrim($token, 1));
-		$day = hexdec(rtrim($token, 2));
-		if($month == '12' && $day > '29'){
-			$year = year() - (1 * YEAR);
-		} else {
-			$year = year();
-		}
-		$token_date = date('m/d/Y', $month . '/' . $day . '/' . $year);
-		if ($token_date < date('m/d/Y', (time() - 2 * DAY))){
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-	
+		
 	public function resetPassword($new_password) {
         
     }
