@@ -136,6 +136,13 @@ class Drawbridge extends DrawbridgeAppModel {
 		$controller->registered_user[$controller->concrete_model]['id'] = $user['Drawbridge']['id'];
     }
 	
+	/**
+	 * Use provided token to access and store a user record
+	 * 
+	 * Validate that the token has also not expired through embedded date encoding
+	 * 
+	 * @param string $token the password reset token
+	 */
 	public function checkPasswordResetToken($token) {
 		$this->token = $token;
 		$this->passwordReset['result'] = FALSE;
@@ -144,6 +151,13 @@ class Drawbridge extends DrawbridgeAppModel {
 		}		
 	}
 	
+	/**
+	 * Lookup user based upon password reset token
+	 * 
+	 * Set the passwordReset property to the retreived user
+	 * 
+	 * @return boolean
+	 */
 	protected function queryDatabaseForPasswordResetToken() {
 		$this->passwordReset['User'] = $this->find('first', array(
 			'conditions' => array(
@@ -158,6 +172,10 @@ class Drawbridge extends DrawbridgeAppModel {
 		}
 	}
 
+	/**
+	 * Using the encoded date, check the password reset token for expiration
+	 * 
+	 */
 	protected function checkExpirationOfPasswordResetToken() {
 		$month = hexdec(substr($this->token, 0, 1));
 		$day = hexdec(substr($this->token, -2));
