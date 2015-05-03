@@ -63,9 +63,6 @@ class DrawbridgesController extends DrawbridgeAppController {
      */
     public $components = array(
         'Security',
-//        'Auth' => array(
-//            'userModel' => 'Drawbridge'
-//        )
     );
     
     /**
@@ -166,7 +163,13 @@ class DrawbridgesController extends DrawbridgeAppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function forgotPassword() {
+	/**
+	 * User director forgotten password process
+	 * 
+	 * Driven by user choice, this method controls the entire process
+	 * of setting up a user for an email-based password reset
+	 */
+	public function forgotPassword() {
         if($this->request->is('post')){
             $this->registered_user[$this->concrete_model] = $this->request->data['Drawbridge'];
             try {
@@ -181,6 +184,11 @@ class DrawbridgesController extends DrawbridgeAppController {
         }
     }
     
+	/**
+	 * Setup user for password Reset
+	 * 
+	 * This process sets the environment for resetting a user's password
+	 */
 	protected function setupUserForPasswordReset() {
 		$this->registered_user[$this->concrete_model]['token'] = $this->createTokenForPasswordReset();
 		unset($this->registered_user[$this->concrete_model]['password']);
@@ -188,6 +196,11 @@ class DrawbridgesController extends DrawbridgeAppController {
 		$this->registered_user[$this->concrete_model]['link'] = $this->createLinkForPasswordReset();
 	}
 	
+	/**
+	 * Create the token to validate a user for email-based password reset
+	 * 
+	 * @return string the token
+	 */
 	protected function createTokenForPasswordReset() {
 		$base_uuid = String::uuid();
 		$month = dechex(date('m', time()));
@@ -197,11 +210,20 @@ class DrawbridgesController extends DrawbridgeAppController {
 		return substr_replace($base_uuid_with_month, $day, strlen($base_uuid_with_month)-2,2);
 	}
 	
+	/**
+	 * Create the link for a user to change their password
+	 * 
+	 * @return string the login link with token
+	 */
 	protected function createLinkForPasswordReset() {
 		$url = Router::url(array('controller' => 'Drawbridges', 'action' => 'routeUserToPasswordReset'), true);
 		return $url . '/' . $this->registered_user[$this->concrete_model]['token'];
 	}
 	
+	/**
+	 * Send email with password reset link
+	 * 
+	 */
 	protected function sendPasswordResetEmail() {
 		$Email = new CakeEmail();
 		$Email->config('default')
@@ -214,19 +236,43 @@ class DrawbridgesController extends DrawbridgeAppController {
 				->send($this->registered_user[$this->concrete_model]['link']);
 	}
 	
+	/**
+	 * Incoming gateway for a password reset
+	 * 
+	 * This function is where a user is routed to from the password reset email. It allows
+	 * a user to type in a new password and be redirected to login.
+	 * 
+	 * @param string $token
+	 */
 	public function routeUserToPasswordReset($token) {
 		$this->Drawbridge->checkPasswordResetToken($token);
 		if (!$this->Drawbridge->passwordReset['result']){
 			$this->Session->setFlash($this->Drawbridge->passwordReset['message'], 'f_error');
 			$this->redirect($this->Auth->logoutRedirect);
 		}
+		$this->request->data[$this->concrete_model]['username'] = $this->Drawbridge->passwordReset['User']['Drawbridge']['username'];
+		$result = $this->Auth->login($this->Drawbridge->passwordReset['User']['Drawbridge']);
+		if(!$result){
+			$this->Session->setFlash('Password reset token does not validate', 'f_error');
+			$this->redirect($this->Auth->logoutRedirect);
+		}
+		$this->redirect($this->Auth->redirectUrl());
+		die;
 		dmDebug::ddd($this->Drawbridge->passwordReset, 'password reset array');
 		die;
 		
 	}
 		
-	public function resetPassword($new_password) {
-        
+	public function resetPassword() {
+        if ($this->request->is('post')) {
+            $this->request->data[$this->concrete_model] = $this->request->data['Drawbridge'];
+			$this->{$this->concrete_model}->save($this->request->data);
+            unset($this->request->data['Drawbridge']);
+            if ($this->Auth->login()) {
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Session->setFlash(__('Invalid username or password, try again'));
+        }
     }
 
     public function resetUserPassword($user_id) {
@@ -278,12 +324,6 @@ class DrawbridgesController extends DrawbridgeAppController {
 
     public function testMe() {
         $this->layout = 'ajax';
-//            $passwordHasher = new BlowfishPasswordHasher();
-//            $pass = $this->request->data['Drawbridge']['password'];
-//            dmDebug::ddd($pass, 'password cleartext');
-//            $this->request->data['Drawbridge']['password'] = $passwordHasher->hash($this->request->data['Drawbridge']['password']);
-//            $pass = $this->request->data['Drawbridge']['password'];
-//            dmDebug::ddd($pass, 'password hash');
             $p = 'xx';
             $i=0;
             while ($i<11){
