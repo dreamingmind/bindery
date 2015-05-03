@@ -88,6 +88,7 @@ class DrawbridgesController extends DrawbridgeAppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow();
+		$this->Security->csrfCheck = FALSE;
 		if($this->request->action == 'forgotPassword'){
 			$this->Security->validatePost = FALSE;
 		}
@@ -251,6 +252,8 @@ class DrawbridgesController extends DrawbridgeAppController {
 			$this->redirect($this->Auth->logoutRedirect);
 		}
 		$this->request->data[$this->concrete_model]['username'] = $this->Drawbridge->passwordReset['User']['Drawbridge']['username'];
+		dmDebug::ddd($this->Drawbridge->passwordReset, 'this->drawbridge->passwordReset');
+		die;
 		$result = $this->Auth->login($this->Drawbridge->passwordReset['User']['Drawbridge']);
 		if(!$result){
 			$this->Session->setFlash('Password reset token does not validate', 'f_error');
