@@ -246,22 +246,18 @@ class DrawbridgesController extends DrawbridgeAppController {
 	 * @param string $token
 	 */
 	public function routeUserToPasswordReset($token) {
-		$this->Drawbridge->checkPasswordResetToken($token);
-		if (!$this->Drawbridge->passwordReset['result']){
-			$this->Session->setFlash($this->Drawbridge->passwordReset['message'], 'f_error');
+		$this->Auth->logout();
+		$user = $this->Drawbridge->getUserByToken($token);
+		if ($user == array()){
+			$this->Session->setFlash('Invalid token', 'f_error');
 			$this->redirect($this->Auth->logoutRedirect);
 		}
-		$this->request->data[$this->concrete_model]['username'] = $this->Drawbridge->passwordReset['User']['Drawbridge']['username'];
-		dmDebug::ddd($this->Drawbridge->passwordReset, 'this->drawbridge->passwordReset');
-		die;
-		$result = $this->Auth->login($this->Drawbridge->passwordReset['User']['Drawbridge']);
+		$result = $this->Auth->login($user);
 		if(!$result){
 			$this->Session->setFlash('Password reset token does not validate', 'f_error');
 			$this->redirect($this->Auth->logoutRedirect);
 		}
-		$this->redirect($this->Auth->redirectUrl());
-		die;
-		dmDebug::ddd($this->Drawbridge->passwordReset, 'password reset array');
+		dmDebug::ddd($user, 'password reset array');
 		die;
 		
 	}
