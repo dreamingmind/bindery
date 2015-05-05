@@ -6,6 +6,25 @@ $(document).ready(function(){
 	cal.init();
 });
 
+DateValues = {
+	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	months: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	day_names: {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6},
+	month_names: {Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12},
+	second: 1000,
+	get minute() {
+			return 60 * this.second;
+		},
+	get hour() {
+			return 60 * this.minute;
+		},
+	get day() {
+			return 24 * this.hour;
+		},
+	get week() {
+			return 7 * this.day;
+		}
+};
 // cal widget
 var cal = {
 	months: ['December','January','February','March','April','May','June',
@@ -63,8 +82,10 @@ var cal = {
 			.on('click', function(){
 				var date = new Date(cal.months[cal.user_month]+' '+$(this).html().match(/\d+/)+', '+cal.user_year);
 				if (cal.linkedDateField){
-					$(cal.linkedDateField).data('original_date', new Date($(cal.linkedDateField).val()));
-					$(cal.linkedDateField).val(date.toDateString()).trigger('change');
+					DateTable.set(cal.linkedDateField, date);
+//					$(cal.linkedDateField).data('original_date', new Date($(cal.linkedDateField).val()));
+//					$(cal.linkedDateField).val(date.toDateString()).trigger('change');
+//					DateTable.sortDateRows(cal.linkedDateField);
 				}
 		});
 		$('b#marker').draggable().css('color', 'firebrick').css('cursor', 'pointer');
@@ -159,27 +180,11 @@ var cal = {
 DateSpan = function(start, end) {
 	this.start_date = start;
 	this.end_date = end;
-//	this.daysInSpan = function() {
-//		if( this.end_date - this.start_date >= this.week) {
-//			return this.days;
-//		} else {
-//			var min = this.start_date.getDay() < this.end_date.getDay() ? this.start_date.getDay() : this.end_date.getDay();
-//			var max = this.start_date.getDay() < this.end_date.getDay() ? this.end_date.getDay() : this.start_date.getDay();
-//			return this.days.slice(min, max);
-//		}
-//	};
 };
 
-//defineProperty(DateSpan.prototype, 'constructor', DateSpan);
-//defineProperty(DateSpan.prototype, 'days', ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
-//defineProperty(DateSpan.prototype, 'second', 1000);
-//defineProperty(DateSpan.prototype, 'minute', 60 * this.second);
-//defineProperty(DateSpan.prototype, 'hour', 60 * this.minute);
-//defineProperty(DateSpan.prototype, 'day', 24 * this.hour);
-//defineProperty(DateSpan.prototype, 'week', 7 * this.day);
 DateSpan.prototype = {
 	constructor: DateSpan,
-	days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	days: window.DateValues.days.concat(window.DateValues.days),
 	day_names: {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6},
 	second: 1000,
 	get minute() {

@@ -225,13 +225,29 @@ function setCheckboxesFromMemorizedPattern() {
  * @param {event} e
  */
 function makeDatesForDay(e) {
+	var target_day = $(e.currentTarget).attr('id').replace('day', '');
+	var new_button = $('tr[id*="control-"] button[id*="new-"]');
+	var new_row_dates = [];
+	var new_row_count = 0;
+	var i = 0;
+	
 	removeDatesForDay($(e.currentTarget).attr('id'));
 	if ($(e.currentTarget).prop('checked')) {
 		if (typeof(Workshop) === 'undefined') {
 			prepareWorkshopTerm();
 		}
-
-		alert('now I should make new record rows');
+		var dateRange = new DateSpan(
+			new Date($('input[id*="FirstDay-"]').val()), 
+			new Date($('input[id*="LastDay-"]').val())
+		);
+//		alert('now I should make new record rows');
+		new_row_dates = dateRange.every(target_day);
+		new_row_count = new_row_dates.length;
+		while (i < new_row_count) {
+			new_button.trigger('click');
+			DateTable.set(cal.linkedDateField, new_row_dates[i]);
+			i++;
+		}
 	}
 }
 
@@ -249,6 +265,7 @@ function prepareWorkshopTerm() {
  * @param {string} day_label dayWed, dayFri, etc
  */
 function removeDatesForDay(day_label) {
+//	alert('going to remove rows for '+day_label);
 	var date_inputs = $('input.'+day_label);
 	if (date_inputs.length === 0) {
 		return;

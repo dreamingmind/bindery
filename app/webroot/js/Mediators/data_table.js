@@ -107,6 +107,11 @@ function dt(config) {
 				});
 
 			},
+			this.set = function(date_input, date_object) {
+				$(date_input).data('original_date', new Date($(date_input).val()));
+				$(date_input).val(date_object.toDateString()).trigger('change');
+				this.sortDateRows(date_input);
+			}
 			/**
 			 * Put the row containing this input into ascending order in the table of rows
 			 * 
@@ -116,10 +121,10 @@ function dt(config) {
 				var temp_row;
 				var working_row = new DateRow($(date_input).parents('tr')[0]);
 				var rows = $('table.session_dates > tbody > tr.date_row');
-				    
+				var sorted = false;
+				var i = 0
+    
 				if (rows.length > 1) {
-					var sorted = false;
-					var i = 0
 					
 					$(working_row.row).detach();
 					while (i < rows.length){
