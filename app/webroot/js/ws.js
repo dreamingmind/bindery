@@ -95,19 +95,19 @@ function bindStartDateChangeBehavior() {
 			$(e.currentTarget).data('original_date', new Date($(e.currentTarget).val()));
 		})
 		.on('change', function(e) {
-			var current = bindery_page.fragment[$(e.currentTarget).attr('id')];
-			current.date = new Date($(e.currentTarget).val());
-			var original = {'date': $(e.currentTarget).data('original_date')};
-			var delta = current.date - original.date;
 			// this assumes one WorkshopSession record, one set of Date records linked to it, 
 			// and no field-name overlaps with other tables
-			var change_fields = ['last_day', 'date'];
+			var first_day = $(e.currentTarget);
+			var last_day = bindery_page.record[first_day.data('uuid')].last_day;
+			var delta = 0;
 			
-			var last_day = bindery_page.record[current.uuid].last_day;
-			last_day.date = new Date((+(new Date(last_day.value))) + delta);
+			first_day.data('date', new Date(first_day.val())); // convenience var
+			delta = first_day.data('date') - first_day.data('original_date');
+			
+			last_day.date = new Date((+(new Date(last_day.value))) + delta); // convience var
 			last_day.value = last_day.date.toDateString();
 			
-			$('input[id*="LastDay-"]').trigger('change');
+			last_day.node.trigger('change');
 		});
 }
 
@@ -245,6 +245,7 @@ function makeDatesForDay(e) {
 		new_row_count = new_row_dates.length;
 		while (i < new_row_count) {
 			new_button.trigger('click');
+			
 			DateTable.set(cal.linkedDateField, new_row_dates[i]);
 			i++;
 		}

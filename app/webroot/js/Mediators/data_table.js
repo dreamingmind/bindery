@@ -107,9 +107,25 @@ function dt(config) {
 				});
 
 			},
+			/**
+			 * 
+			 * 
+			 * @param {input} date_input Date input in the row
+			 * @param {object} date_object Date for the row
+			 */
 			this.set = function(date_input, date_object) {
+				var uuid = date_input.data('uuid');
+				var target_day = 'day'+DateSpan.prototype.days[date_object.getDay()];
+				
 				$(date_input).data('original_date', new Date($(date_input).val()));
 				$(date_input).val(date_object.toDateString()).trigger('change');
+				
+//				var s = bindery_page.day_checkbox_data[target_day].start;
+//				bindery_page.fragment['DateDateStartSlide-'+uuid].value = s;
+//				bindery_page.fragment['DateDateStartSlide-'+uuid].node.trigger('mousemove');
+//				var s = bindery_page.day_checkbox_data[target_day].end;
+//				bindery_page.fragment['DateDateEndSlide-'+uuid].value = s;
+//				bindery_page.fragment['DateDateEndSlide-'+uuid].node.trigger('mousemove');
 				this.sortDateRows(date_input);
 			}
 			/**
@@ -157,6 +173,9 @@ function dt(config) {
 };
 
 function DateRow(jquery_tr) {
+	if (jquery_tr === undefined) {
+		return;
+	}
 	this.row = jquery_tr;
 	this.uuid = false;
 	this.date_input = false;
